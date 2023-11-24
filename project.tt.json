@@ -1,0 +1,13 @@
+{
+  "miniprogramRoot": "./",
+  "projectname": "gushiTaro",
+  "description": "古诗文小助手 taro 版本",
+  "appid": "touristappid",
+  "setting": {
+    "urlCheck": true,
+    "es6": false,
+    "postcss": false,
+    "minified": false
+  },
+  "compileType": "miniprogram"
+}

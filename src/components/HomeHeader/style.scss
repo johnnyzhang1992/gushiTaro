@@ -1,0 +1,38 @@
+page {
+	padding: 0;
+}
+.home-header {
+	width: 100%;
+	min-height: 350px;
+	background: url("https://xuegushi.com/static/wx/h_bg.jpg") center center
+		no-repeat;
+	background-size: cover;
+	overflow-x: hidden;
+	position: relative;
+	.header-content {
+		color: #666;
+		padding: 30px 30px;
+	}
+	.date {
+		font-size: 60px;
+	}
+	.date-container {
+		position: absolute;
+		top: 30px;
+		right: 30px;
+		.day, .hour {
+			font-size: 32rpx;
+			writing-mode: vertical-rl;
+			direction: rtl;
+			float: right;
+			letter-spacing: 4px;
+		}
+	}
+	.boat-container {
+		display: inline-block;
+	}
+	.boat {
+		width: 96px;
+		height: 60px;
+	}
+}
