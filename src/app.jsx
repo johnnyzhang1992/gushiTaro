@@ -6,12 +6,42 @@ import Taro, {
 } from "@tarojs/taro";
 import "./app.scss";
 
+import { BaseUrl } from "./const/config";
+
 const App = (props) => {
+	// 用户登录
+	const userLogin = () => {
+		Taro.login({
+			success: (res) => {
+				// this.globalData.code = res.code;
+				// 发送 res.code 到后台换取 openId, sessionKey, unionId
+				Taro.request({
+					url: BaseUrl + "/wxxcx/userInfo",
+					data: {
+						code: res.code,
+					},
+					success: function (result) {
+						if (result.data && !result.data.status) {
+							console.log("-----login---success------");
+							Taro.setStorageSync("user", result.data);
+							Taro.setStorageSync(
+								"wx_token",
+								result.data.wx_token
+							);
+						}
+					},
+				});
+			},
+		});
+	};
 	useLaunch((params) => {
 		console.log("onLaunch", params);
-		Taro.getSystemInfo({
-			success: (res) => console.log(res),
-		}).then((res) => console.log(res));
+		const app = Taro.getApp();
+		console.log(app);
+		Taro.getSystemInfo().then((sysRes) => {
+			Taro.setStorageSync("sys_info", sysRes);
+		});
+		userLogin();
 	});
 	usePageNotFound((res) => {
 		console.log(res);

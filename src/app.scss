@@ -1,5 +1,11 @@
-@import "~taro-ui/dist/style/index.scss";
+// @import "~taro-ui/dist/style/index.scss";
+@import '~taro-ui/dist/style/components/icon.scss';
 page {
 	line-height: 1.6;
-	font-family: -apple-system-font, "Helvetica Neue", sans-serif;
-  }
+	font-family: -apple-system-font, 'Helvetica Neue', sans-serif;
+}
+.divide {
+	height: 16px;
+	width: 100%;
+	background: #efefef;
+}
