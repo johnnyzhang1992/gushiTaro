@@ -3,7 +3,7 @@ import Taro from "@tarojs/taro";
 const user = Taro.getStorageSync("user") || {};
 const wxToken = Taro.getStorageSync("wx_token");
 const basesUrl = "https://xuegushi.com";
-const app = getApp();
+// const app = getApp();
 
 const request = (url, params, method = "GET") => {
 	let data = {

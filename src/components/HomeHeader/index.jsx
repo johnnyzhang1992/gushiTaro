@@ -39,7 +39,7 @@ const HomeHeader = () => {
 
 	useEffect(() => {
 		fetchSentence();
-	}, []);
+	}, [fetchSentence]);
 
 	useEffect(() => {
 		let sysInfo = Taro.getWindowInfo();
