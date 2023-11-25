@@ -1,0 +1,35 @@
+.poemCard {
+	padding: 16px 0;
+	position: relative;
+	border-bottom: 1px solid #d9d9d9;
+	.title {
+		color: #333;
+		font-size: 28px;
+		position: relative;
+		.author {
+			color: #888;
+			font-size: 26px;
+			position: absolute;
+			right: 0;
+			top: 6px;
+			display: inline-block;
+			width: auto;
+		}
+	}
+	.author {
+		font-size: 32px;
+		max-width: 72%;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+	.content {
+		font-size: 28px;
+		color: #888;
+		margin-top: 10px;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		display: block;
+	}
+}

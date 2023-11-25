@@ -3,6 +3,7 @@ export default {
 		"pages/index",
 		"pages/me/index",
 		"pages/search/index",
+		"pages/poem/index"
 	],
 	window: {
 		backgroundTextStyle: "light",
