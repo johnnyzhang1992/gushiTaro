@@ -1,0 +1,40 @@
+.cardItem {
+	width: 25%;
+	color: #333;
+	margin-right: 0;
+	box-sizing: border-box;
+	padding: 20px 10px 0 10px;
+	max-height: 235px;
+	text-align: center;
+	position: relative;
+	display: flex;
+	justify-content: center;
+	&.active:before {
+		background-color: #337ab7;
+	}
+	&:before {
+		content: ' ';
+		position: absolute;
+		left: 50%;
+		top: 0;
+		transform: translateX(-50%);
+		height: 4px;
+		width: 100px;
+		/* border-top: 4rpx solid #f3f3f3; */
+		color: #f3f3f3;
+		background-color: #337ab7;
+	}
+	.name,
+	.profile {
+		/* width:calc(100% - 32px); */
+		/* float: left; */
+		height: 100%;
+		text-align: left;
+		writing-mode: vertical-rl;
+		letter-spacing: 4px;
+	}
+	.profile {
+		font-size: 0.7em;
+		color: #666;
+	}
+}

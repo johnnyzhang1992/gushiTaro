@@ -1,0 +1,35 @@
+.homeNavs {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+.navItem {
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 10px;
+	.navIcon {
+		width: 60px;
+		height: 60px;
+		display: block;
+	}
+	.iconContainer,
+	.navIcon {
+		padding: 12px;
+		border: 1px solid #337ab7;
+		border-radius: 50%;
+		background: #fff;
+	}
+	.iconContainer {
+		display: inline-block;
+	}
+	.navText {
+		color: #999;
+		margin-top: 16px;
+	}
+}
+.navigator-hover {
+	background-color: #fff;
+	color: #337ab7;
+}
