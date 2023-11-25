@@ -3,13 +3,14 @@ import { View, Navigator, Image } from '@tarojs/components';
 import { useNavigationBar } from 'taro-hooks';
 import { AtIcon } from 'taro-ui';
 
-import './index.less';
+import './index.scss';
 
 import HomeHeader from '../components/HomeHeader';
 
 import poemIcon from '../images/icon/poem.png';
 import poetIcon from '../images/icon/poet.png';
 import sentenceIcon from '../images/icon/sentence.png';
+import { HomeCategories, HomeBooks } from '../const/config';
 
 const homeNavs = [
 	{
@@ -51,6 +52,19 @@ const NavItem = (props) => {
 		</Navigator>
 	);
 };
+
+const CardItem = (props) => {
+	const { code, name, profile, type } = props;
+	const handleNavigate = () => {
+		console.log(code, type);
+	};
+	return (
+		<View className='cardItem' onClick={handleNavigate}>
+			<View className='name'>{name}</View>
+			<View className='profile'>{profile}</View>
+		</View>
+	);
+};
 const Index = () => {
 	const { setTitle } = useNavigationBar({ title: '首页 | 古诗文小助手' });
 	setTitle('首页 | 古诗文小助手');
@@ -66,6 +80,25 @@ const Index = () => {
 				))}
 			</View>
 			<View className='divide' />
+			{/* 课本 */}
+			<View className='sectionCard'>
+				<View className='cardTitle'>课本</View>
+				<View className='cardContent'>
+					{HomeCategories.map((item) => (
+						<CardItem type='category' key={item.code} {...item} />
+					))}
+				</View>
+			</View>
+			<View className='divide' />
+			{/* 选集 */}
+			<View className='sectionCard'>
+				<View className='cardTitle'>选集</View>
+				<View className='cardContent'>
+					{HomeBooks.map((item) => (
+						<CardItem type='book' key={item.code} {...item} />
+					))}
+				</View>
+			</View>
 		</View>
 	);
 };

@@ -1,0 +1,105 @@
+page {
+	background-color: white;
+	padding: 14px;
+	box-sizing: border-box;
+	color: #333;
+}
+
+.wrapper {
+	display: flex;
+	flex-direction: column;
+}
+
+.homeNavs {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+.navItem {
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 10px;
+	.navIcon {
+		width: 60px;
+		height: 60px;
+		display: block;
+	}
+	.iconContainer,
+	.navIcon {
+		padding: 12px;
+		border: 1px solid #337ab7;
+		border-radius: 50%;
+		background: #fff;
+	}
+	.iconContainer {
+		display: inline-block;
+	}
+	.navText {
+		color: #999;
+		margin-top: 16px;
+	}
+}
+.navigator-hover {
+	background-color: #fff;
+	color: #337ab7;
+}
+.sectionCard {
+	box-sizing: border-box;
+	padding: 20px 20px;
+	overflow: hidden;
+	.cardTitle {
+		font-size: 36px;
+		color: #4c1f2c;
+		padding-bottom: 12px;
+		margin-bottom: 26px;
+		border-bottom: 1px solid #ddd;
+	}
+}
+.cardContent {
+	width: 100%;
+	margin-top: 10px;
+	display: flex;
+	flex-wrap: wrap;
+}
+.cardItem {
+	width: 25%;
+	color: #333;
+	margin-right: 0;
+	box-sizing: border-box;
+	padding: 20px 10px 0 10px;
+	max-height: 235px;
+	text-align: center;
+	position: relative;
+	display: flex;
+	justify-content: center;
+	&.active:before {
+		background-color: #337ab7;
+	}
+	&:before {
+		content: ' ';
+		position: absolute;
+		left: 50%;
+		top: 0;
+		transform: translateX(-50%);
+		height: 4px;
+		width: 100px;
+		/* border-top: 4rpx solid #f3f3f3; */
+		color: #f3f3f3;
+		background-color: #337ab7;
+	}
+	.name,
+	.profile {
+		/* width:calc(100% - 32px); */
+		/* float: left; */
+		height: 100%;
+		text-align: left;
+		writing-mode: vertical-rl;
+		letter-spacing: 4px;
+	}
+	.profile {
+		font-size: 0.7em;
+		color: #666;
+	}
+}
