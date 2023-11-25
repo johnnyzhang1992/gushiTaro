@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect, useState, useRef } from "react";
-import { View, Text, Image } from "@tarojs/components";
-import Taro from "@tarojs/taro";
-import "./style.scss";
+import React, { useCallback, useEffect, useState, useRef } from 'react';
+import { View, Text, Image } from '@tarojs/components';
+import Taro from '@tarojs/taro';
+import './style.scss';
 
-import Boat from "../../images/boat.png";
-import Utils from "../../utils/util";
-import { fetchRandomSentence } from "../../services/global";
+import Boat from '../../images/boat.png';
+import Utils from '../../utils/util';
+import { fetchRandomSentence } from '../../services/global';
 
 const HomeHeader = () => {
 	const [date] = useState(Utils.formatDateToMb());
@@ -16,7 +16,7 @@ const HomeHeader = () => {
 	const fetchSentence = useCallback(() => {
 		const [year, m, d] = Utils.formatDate(new Date());
 		const currentDate = `${year}/${m}/${d}`;
-		const localSentence = Taro.getStorageSync("home_senetnce");
+		const localSentence = Taro.getStorageSync('home_senetnce');
 		if (localSentence && localSentence.date == currentDate) {
 			setSentence(localSentence.data);
 			return false;
@@ -26,7 +26,7 @@ const HomeHeader = () => {
 				console.log(res);
 				if (res && res.statusCode == 200) {
 					setSentence(res.data[0]);
-					Taro.setStorageSync("home_senetnce", {
+					Taro.setStorageSync('home_senetnce', {
 						date: currentDate,
 						data: res.data[0],
 					});
@@ -44,11 +44,11 @@ const HomeHeader = () => {
 	useEffect(() => {
 		let sysInfo = Taro.getWindowInfo();
 		let winWidth = sysInfo.windowWidth;
-		console.log(winWidth, "width");
+		console.log(winWidth, 'width');
 		timer.current = setInterval(() => {
 			let animation = Taro.createAnimation({
 				duration: 20000,
-				timingFunction: "ease-in-out",
+				timingFunction: 'ease-in-out',
 			});
 			//动画的脚本定义必须每次都重新生成，不能放在循环外
 			animation
@@ -66,14 +66,16 @@ const HomeHeader = () => {
 
 	return (
 		<View className='home-header'>
-			<View className='header-content'>
-				<View>每日一诗</View>
-				<View className='date'>{date[2]}</View>
-				<Text className='senmtence'>{sentence.title || ""}</Text>
-			</View>
-			<View className='date-container'>
-				<View className='day'>{date[0]}</View>
-				<View className='hour'>{date[1]}</View>
+			<View className='container'>
+				<View className='header-content'>
+					<View>每日一诗</View>
+					<View className='date'>{date[2]}</View>
+					<Text className='senmtence'>{sentence.title || ''}</Text>
+				</View>
+				<View className='date-container'>
+					<View className='day'>{date[0]}</View>
+					<View className='hour'>{date[1]}</View>
+				</View>
 			</View>
 			<View animation={animationData} className='boat-container'>
 				<Image className='boat' src={Boat} />

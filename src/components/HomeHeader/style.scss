@@ -9,17 +9,20 @@ page {
 	background-size: cover;
 	overflow-x: hidden;
 	position: relative;
+	.container {
+		display: flex;
+		padding: 30px 30px;
+	}
 	.header-content {
 		color: #666;
-		padding: 30px 30px;
+		flex: 1;
+		padding-right: 20px;
 	}
 	.date {
 		font-size: 60px;
 	}
 	.date-container {
-		position: absolute;
-		top: 30px;
-		right: 30px;
+		width: 100px;
 		.day, .hour {
 			font-size: 32rpx;
 			writing-mode: vertical-rl;

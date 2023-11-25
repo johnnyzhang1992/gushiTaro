@@ -34,10 +34,11 @@ const App = (props) => {
 			},
 		});
 	};
-	useLaunch((params) => {
-		console.log("onLaunch", params);
+	useLaunch((options) => {
+		console.log("onLaunch", options);
+		Taro.setStorageSync('enterPath', options.path)
 		const app = Taro.getApp();
-		console.log(app);
+		console.log('app', app);
 		Taro.getSystemInfo().then((sysRes) => {
 			Taro.setStorageSync("sys_info", sysRes);
 		});
