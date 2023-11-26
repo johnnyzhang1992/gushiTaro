@@ -1,0 +1,18 @@
+.poemCard {
+	padding: 30px;
+	text-align: center;
+	.title {
+		font-size: 40px;
+		color: #333;
+		font-weight: 500;
+	}
+	.author {
+		color: #888;
+		font-size: 28px;
+		margin-top: 10px;
+		.name {
+			color: #337ab7;
+			padding-left: 8px;
+		}
+	}
+}

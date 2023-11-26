@@ -1,4 +1,4 @@
-export const BaseUrl = 'https://xuegushi.com/';
+export const BaseUrl = 'https://xuegushi.com';
 
 export const HomeCategories = [
 	{

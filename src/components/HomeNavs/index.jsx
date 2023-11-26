@@ -1,11 +1,13 @@
 import { View,Navigator, Image } from '@tarojs/components';
-import { AtIcon } from 'taro-ui';
+// import { AtIcon } from 'taro-ui';
 
 import './style.scss';
 
 import poemIcon from '../../images/icon/poem.png';
 import poetIcon from '../../images/icon/poet.png';
+import collectIcon from '../../images/icon/collect_active.png';
 import sentenceIcon from '../../images/icon/sentence.png';
+
 
 const NavItem = (props) => {
 	const { icon, path, type, title, iconType } = props;
@@ -25,7 +27,7 @@ const HomeNavs = () => {
 	const homeNavs = [
 		{
 			icon: poemIcon,
-			path: '/pages/poem/index',
+			path: '/pages/poem/index?from=nav',
 			type: 'poem',
 			title: '诗词文言',
 		},
@@ -42,11 +44,10 @@ const HomeNavs = () => {
 			title: '历朝诗人',
 		},
 		{
-			icon: <AtIcon value='star' size='30' color='#337ab7'></AtIcon>,
+			icon: collectIcon,
 			path: '/pages/me/collect/index',
 			type: 'collect',
 			title: '我的收藏',
-			iconType: 'icon',
 		},
 	];
 	return (

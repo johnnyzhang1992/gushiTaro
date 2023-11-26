@@ -1,11 +1,17 @@
 import { View, Text } from '@tarojs/components';
+import Taro from '@tarojs/taro';
 
 import './style.scss';
 
 const PoemSmallCard = (props) => {
 	const content = props.content.split('。')[0].replaceAll('　', '') + '。';
+	const handleNavigate = () => {
+		Taro.navigateTo({
+			url: '/pages/poem/detail?id=' + props.id,
+		});
+	};
 	return (
-		<View className='poemCard' key={props.id}>
+		<View className='poemCard' key={props.id} onClick={handleNavigate}>
 			<View className='title'>
 				<Text className='name'>{props.title}</Text>
 				<View className='right'>

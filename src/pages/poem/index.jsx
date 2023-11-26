@@ -26,20 +26,22 @@ const Poem = () => {
 		title: '',
 		code: '',
 		profile: '',
-		from: 'home',
+		from: 'home', // home 首页底部筛选 nav 导航
 		inited: false,
 	});
 	const [fetchParams, updateParams] = useState({
 		name: '',
 		from: 'home',
 		inited: false,
-	})
+	});
 	const [pagination, updatePagination] = useState({
 		page: 1,
 		size: 15,
 		total: 0,
 		last_page: 1,
 	});
+
+	// 使用自定义hook 获取诗词分页数据
 	const { data, error, loading } = useFetchList(
 		fetchHomeData,
 		fetchParams,
@@ -55,7 +57,6 @@ const Poem = () => {
 		});
 	}, [data]);
 
-	console.log(data, error, loading);
 	useLoad((options) => {
 		const { type, name, from, code } = options;
 		console.log(type, name, from, options);
@@ -70,7 +71,7 @@ const Poem = () => {
 			name: code,
 			from: 'home',
 			inited: true,
-		})
+		});
 	});
 	useDidShow(() => {
 		console.log('page--show');
@@ -97,23 +98,40 @@ const Poem = () => {
 	});
 	return (
 		<View className='page'>
-			{/* 页面顶部 -- 来自首页 */}
-			<View className='poemTitle'>
-				<View className='title'>
-					<Text>{pageOptions.title}</Text>
+			{/* 页面顶部 -- 来自首页底部筛选 */}
+			{pageOptions.from === 'home' ? (
+				<View className='poemTitle'>
+					<View className='title'>
+						<Text>{pageOptions.title}</Text>
+					</View>
+					<View className='profile'>
+						<Text>{pageOptions.profile}</Text>
+					</View>
 				</View>
-				<View className='profile'>
-					<Text>{pageOptions.profile}</Text>
+			) : (
+				<View className='filter'>
+					<Text>顶部筛选部分</Text>
 				</View>
-			</View>
-			<View className='divide' />
+			)}
 			{/* 顶部筛选 -  */}
+			<View className='divide' />
 			{/* 诗词列表 */}
 			<View className='pageContainer'>
 				{data.list.map((item) => {
 					return <PoemSmallCard {...item} key={item.id} />;
 				})}
 			</View>
+			{loading ? (
+				<View className='loading'>
+					<Text>内容加载中...</Text>
+				</View>
+			) : null}
+			{error ? (
+				<View className='pageError'>
+					<View className='title'>接口请求报错：</View>
+					<Text>{error}</Text>
+				</View>
+			) : null}
 		</View>
 	);
 };
