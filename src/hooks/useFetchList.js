@@ -41,7 +41,7 @@ const useFetchList = (fetchFn, params, pgConfig) => {
 		console.log('---分页数据不同，发起请求：', page, cachePg.page);
 		fetchFn('GET', {
 			...params,
-			...pgConfig,
+			page,
 		})
 			.then((res) => {
 				if (res.data && res.statusCode == 200) {

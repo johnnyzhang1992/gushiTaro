@@ -2,7 +2,15 @@
 @import '~taro-ui/dist/style/components/icon.scss';
 page {
 	line-height: 1.6;
-	font-family: -apple-system-font, 'Helvetica Neue', sans-serif;
+	// font-family: -apple-system-font, 'Helvetica Neue', sans-serif;
+	color: #1a1a1a;
+	// font-size: 36rpx;
+	/* color: #666; */
+	letter-spacing: 0.5px;
+	background: #fff;
+	-webkit-tap-highlight-color: rgba(26, 26, 26, 0);
+	font-family: PingFangSC-Light, PingFang S;
+	padding-bottom: env(safe-area-inset-bottom);
 }
 .divide {
 	height: 16px;

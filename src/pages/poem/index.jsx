@@ -29,6 +29,11 @@ const Poem = () => {
 		from: 'home',
 		inited: false,
 	});
+	const [fetchParams, updateParams] = useState({
+		name: '',
+		from: 'home',
+		inited: false,
+	})
 	const [pagination, updatePagination] = useState({
 		page: 1,
 		size: 15,
@@ -37,7 +42,7 @@ const Poem = () => {
 	});
 	const { data, error, loading } = useFetchList(
 		fetchHomeData,
-		pageOptions,
+		fetchParams,
 		pagination
 	);
 
@@ -61,6 +66,11 @@ const Poem = () => {
 			name: code,
 			inited: true,
 		});
+		updateParams({
+			name: code,
+			from: 'home',
+			inited: true,
+		})
 	});
 	useDidShow(() => {
 		console.log('page--show');
@@ -96,6 +106,7 @@ const Poem = () => {
 					<Text>{pageOptions.profile}</Text>
 				</View>
 			</View>
+			<View className='divide' />
 			{/* 顶部筛选 -  */}
 			{/* 诗词列表 */}
 			<View className='pageContainer'>

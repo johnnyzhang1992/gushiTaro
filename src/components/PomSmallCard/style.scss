@@ -4,29 +4,28 @@
 	border-bottom: 1px solid #d9d9d9;
 	.title {
 		color: #333;
-		font-size: 28px;
+		font-size: 26px;
 		position: relative;
-		.author {
-			color: #888;
-			font-size: 26px;
-			position: absolute;
-			right: 0;
-			top: 6px;
-			display: inline-block;
-			width: auto;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding-right: 14px;
+		.name {
+			font-size: 30px;
+			font-weight: 500;
+			flex: 1;
+		}
+		.author, .dynasty {
+			color: #666;
+		}
+		.dynasty {
+			margin-right: 6px;
 		}
 	}
-	.author {
-		font-size: 32px;
-		max-width: 72%;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-		overflow: hidden;
-	}
+
 	.content {
-		font-size: 28px;
+		font-size: 24px;
 		color: #888;
-		margin-top: 10px;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 		overflow: hidden;
