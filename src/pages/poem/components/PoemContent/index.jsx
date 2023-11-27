@@ -9,7 +9,7 @@ const PoemContent = (props = { xu: '', content: [] }) => {
 		<View className='poemContent'>
 			{xu ? (
 				<View className='xu'>
-					<Text selectable userSelect decode className='text block'>
+					<Text userSelect decode className='text block'>
 						{xu}
 					</Text>
 				</View>
@@ -17,7 +17,7 @@ const PoemContent = (props = { xu: '', content: [] }) => {
 			<View className={`content ${props.type !== '诗' ? 'wyw' : ''}`}>
 				{content.map((item, index) => (
 					<View className='contentItem' key={index}>
-						<Text selectable userSelect decode className='text block'>
+						<Text userSelect decode className='text block'>
 							{item}
 						</Text>
 					</View>

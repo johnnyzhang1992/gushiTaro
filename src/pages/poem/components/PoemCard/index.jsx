@@ -15,18 +15,18 @@ const PoemCard = (props) => {
 		<View className='poemCard'>
 			{/* 标题 */}
 			<View className='title'>
-				<Text selectable userSelect>
+				<Text userSelect>
 					{props.title}
 				</Text>
 			</View>
 			{/* 作者 */}
 			<View className='author' onClick={handleNavigateAuthor}>
 				{props.dynasty ? (
-					<Text selectable userSelect>
+					<Text userSelect>
 						[{props.dynasty}]
 					</Text>
 				) : null}
-				<Text selectable userSelect className='name'>
+				<Text userSelect className='name'>
 					{props.author}
 				</Text>
 			</View>

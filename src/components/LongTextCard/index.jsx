@@ -30,7 +30,7 @@ const LongTextCard = (props) => {
 				}));
 			}
 			content.forEach((item) => {
-				cText += item + '\n';
+				cText += item + '\n \n';
 			});
 			setFullText(cText);
 		} else {
@@ -51,7 +51,7 @@ const LongTextCard = (props) => {
 			{/* 内容展示 */}
 			<View className={`textContainer ${showAll ? 'all' : ''}`}>
 				<View className='longText'>
-					<Text selectable userSelect decode className='text'>
+					<Text userSelect decode className='text'>
 						{showAll ? cacheText : cacheText.substring(0, 100)}
 						{!showAll && cacheText.length > 100 ? '...' : ''}
 					</Text>
@@ -63,7 +63,7 @@ const LongTextCard = (props) => {
 					<View className='title'>{reference.title}</View>
 					{(reference.content || []).map((ref, index) => (
 						<View className='refItem' key={index}>
-							<Text selectable userSelect decode className='text'>
+							<Text userSelect decode className='text'>
 								{ref}
 							</Text>
 						</View>
@@ -72,7 +72,7 @@ const LongTextCard = (props) => {
 			) : null}
 			{/* 操作区 */}
 			<View className='textOperate'>
-				{!showAll ? (
+				{!showAll && cacheText.length > 100 ? (
 					<Button plain size='mini' onClick={handleShow}>
 						阅读全文
 					</Button>
@@ -86,7 +86,7 @@ const LongTextCard = (props) => {
 				onClose={handleClose}
 			>
 				<View className='fullText'>
-					<Text selectable userSelect decode className='text'>
+					<Text userSelect decode className='text'>
 						{fullText}
 					</Text>
 				</View>
