@@ -1,4 +1,5 @@
 import { View } from '@tarojs/components';
+import Taro, { usePullDownRefresh } from '@tarojs/taro';
 
 import './index.scss';
 
@@ -9,7 +10,9 @@ import HomeCard from '../components/HomeCard';
 import { HomeCategories, HomeBooks } from '../const/config';
 
 const Index = () => {
-
+	usePullDownRefresh(() => {
+		Taro.stopPullDownRefresh();
+	});
 	return (
 		<View className='wrapper'>
 			{/* 顶部 - 每日一诗词 */}
@@ -22,7 +25,7 @@ const Index = () => {
 				<View className='cardTitle'>课本</View>
 				<View className='cardContent'>
 					{HomeBooks.map((item) => (
-						<HomeCard type='book' key={item.code} {...item} />
+						<HomeCard key={item.code} {...item} />
 					))}
 				</View>
 			</View>
@@ -32,7 +35,7 @@ const Index = () => {
 				<View className='cardTitle'>选集</View>
 				<View className='cardContent'>
 					{HomeCategories.map((item) => (
-						<HomeCard type='category' key={item.code} {...item} />
+						<HomeCard key={item.code} {...item} />
 					))}
 				</View>
 			</View>

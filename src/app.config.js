@@ -1,9 +1,11 @@
 export default {
 	pages: [
 		'pages/index',
+		'pages/book',
 		'pages/me/index',
 		'pages/search/index',
 		'pages/poet/index',
+		'pages/poet/detail',
 		'pages/poem/index',
 		'pages/poem/detail',
 	],

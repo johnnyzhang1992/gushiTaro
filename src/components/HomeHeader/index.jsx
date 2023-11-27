@@ -70,7 +70,7 @@ const HomeHeader = () => {
 				<View className='header-content'>
 					<View>每日一诗</View>
 					<View className='date'>{date[2]}</View>
-					<Text className='senmtence'>{sentence.title || ''}</Text>
+					<Text className='sentence'>{sentence.title || ''}</Text>
 				</View>
 				<View className='date-container'>
 					<View className='day'>{date[0]}</View>

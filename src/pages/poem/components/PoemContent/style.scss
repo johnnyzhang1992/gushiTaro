@@ -1,6 +1,6 @@
 .poemContent {
 	text-align: left;
-	padding: 40px 30px;
+	padding: 40px 20px;
 	.xu {
 		color: #999;
 		font-size: 32px;
@@ -12,6 +12,13 @@
 		text-align: center;
 		&.wyw {
 			text-align: left;
+			.contentItem {
+				margin-bottom: 20px;
+			}
+			.text.block {
+				display: block;
+				text-align: justify;
+			}
 		}
 		.contentItem {
 			margin-bottom: 12px;

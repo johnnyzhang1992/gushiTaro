@@ -17,6 +17,9 @@ page {
 		color: #666;
 		flex: 1;
 		padding-right: 20px;
+		.sentence {
+			font-size: 30px;
+		}
 	}
 	.date {
 		font-size: 60px;
@@ -24,7 +27,7 @@ page {
 	.date-container {
 		width: 100px;
 		.day, .hour {
-			font-size: 32rpx;
+			font-size: 32px;
 			writing-mode: vertical-rl;
 			direction: rtl;
 			float: right;

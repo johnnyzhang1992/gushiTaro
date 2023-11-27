@@ -7,9 +7,10 @@ const CardItem = (props) => {
 	const { code, name, profile, type } = props;
 	const handleNavigate = () => {
 		console.log(code, type);
-		const baseUrl = '/pages/poem/index?';
+		const path =
+			type && type === 'book' ? '/pages/book?' : '/pages/poem/index?';
 		Taro.navigateTo({
-			url: `${baseUrl}type=${type}&code=${code}&name=${name}&profile=${profile}&from=home`,
+			url: `${path}type=${type}&code=${code}&name=${name}&profile=${profile}&from=home`,
 		});
 	};
 	return (

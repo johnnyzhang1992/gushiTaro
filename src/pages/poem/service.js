@@ -9,6 +9,15 @@ export const fetchHomeData = (method, data) => {
 };
 
 /**
+ * 获取首页列表数据
+ * @param {String} method GET
+ * @param {Object} data {}
+ */
+export const fetchBookData = (method, data) => {
+	return Request(`/wxxcx/getBookData`, data, method);
+};
+
+/**
  * 根据条件获取诗词列表
  * @param {String} method GET
  * @param {Object} data {}
