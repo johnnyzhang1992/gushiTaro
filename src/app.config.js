@@ -1,6 +1,5 @@
 export default {
 	pages: [
-		'pages/poem/detail',
 		'pages/index',
 		'pages/book',
 		'pages/me/index',
@@ -8,7 +7,7 @@ export default {
 		'pages/poet/index',
 		'pages/poet/detail',
 		'pages/poem/index',
-
+		'pages/poem/detail',
 	],
 	window: {
 		backgroundTextStyle: 'light',

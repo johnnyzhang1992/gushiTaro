@@ -110,21 +110,25 @@ const Page = () => {
 				</PoemSection>
 			) : null}
 			{/* 创作背景 */}
-			<PoemSection title='创作背景'>
-				<LongTextCard
-					title='创作背景'
-					showAll={false}
-					text={detail.poem.background || ''}
-				/>
-			</PoemSection>
+			{detail.poem.background ? (
+				<PoemSection title='创作背景'>
+					<LongTextCard
+						title='创作背景'
+						showAll={false}
+						text={detail.poem.background || ''}
+					/>
+				</PoemSection>
+			) : null}
 			{/* 赏析 */}
-			<PoemSection title='赏析'>
-				<LongTextCard
-					title='赏析'
-					showAll={false}
-					text={detail.detail.shangxi || ''}
-				/>
-			</PoemSection>
+			{detail.detail.shangxi && detail.detail.shangxi.content ? (
+				<PoemSection title='赏析'>
+					<LongTextCard
+						title='赏析'
+						showAll={false}
+						text={detail.detail.shangxi || ''}
+					/>
+				</PoemSection>
+			) : null}
 			{/* 操作栏 收藏，音频，复制 */}
 			{/* 统计数据 -- 点赞、收藏人数*/}
 			{/* 注释，译文，摘录，学习计划 -- 半屏 */}
