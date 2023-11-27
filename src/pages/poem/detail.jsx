@@ -16,6 +16,9 @@ import PoemCard from './components/PoemCard';
 import PoemSection from './components/PoemSection';
 import LongTextCard from '../../components/LongTextCard';
 import TagsCard from '../../components/TagsCard';
+import FixBottom from './components/FixBottom';
+
+import './style.scss';
 
 const Page = () => {
 	const { setTitle } = useNavigationBar({ title: '古诗文小助手' });
@@ -23,7 +26,10 @@ const Page = () => {
 		poem: {
 			tagsArr: [],
 		},
-		detail: {},
+		detail: {
+			yi: '',
+			zhu: '',
+		},
 	});
 	const cacheRef = useRef({
 		poemId: 48769,
@@ -132,6 +138,7 @@ const Page = () => {
 			{/* 操作栏 收藏，音频，复制 */}
 			{/* 统计数据 -- 点赞、收藏人数*/}
 			{/* 注释，译文，摘录，学习计划 -- 半屏 */}
+			<FixBottom poem={detail.poem} detail={detail.detail} />
 		</View>
 	);
 };

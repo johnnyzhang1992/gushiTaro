@@ -9,11 +9,11 @@ import './style.scss';
 const LongTextCard = (props) => {
 	const { showAll = false, text, title } = props;
 	const [isOpen, openVisible] = useState(false);
-	const [fullText, setFullText] = useState('');
 	const [reference, setReference] = useState({
 		title: '',
 		content: [],
 	});
+	const limitLength = 88;
 	// 要判断text 的字段类型，纯文本还是对象
 	// 对象结构{ content: [], reference: { title: '', content:[] } }
 	const cacheText = useMemo(() => {
@@ -32,12 +32,8 @@ const LongTextCard = (props) => {
 			content.forEach((item) => {
 				cText += item + '\n \n';
 			});
-			setFullText(cText);
-		} else {
-			cText = text;
-			setFullText(text);
 		}
-		return cText;
+		return cText || text;
 	}, [text]);
 	const handleClose = () => {
 		openVisible(false);
@@ -52,8 +48,8 @@ const LongTextCard = (props) => {
 			<View className={`textContainer ${showAll ? 'all' : ''}`}>
 				<View className='longText'>
 					<Text userSelect decode className='text'>
-						{showAll ? cacheText : cacheText.substring(0, 100)}
-						{!showAll && cacheText.length > 100 ? '...' : ''}
+						{showAll ? cacheText : cacheText.substring(0, limitLength)}
+						{!showAll && cacheText.length > limitLength ? '...' : ''}
 					</Text>
 				</View>
 			</View>
@@ -72,7 +68,7 @@ const LongTextCard = (props) => {
 			) : null}
 			{/* 操作区 */}
 			<View className='textOperate'>
-				{!showAll && cacheText.length > 100 ? (
+				{!showAll && cacheText.length > limitLength ? (
 					<Button plain size='mini' onClick={handleShow}>
 						阅读全文
 					</Button>
@@ -87,7 +83,7 @@ const LongTextCard = (props) => {
 			>
 				<View className='fullText'>
 					<Text userSelect decode className='text'>
-						{fullText}
+						{cacheText}
 					</Text>
 				</View>
 			</AtFloatLayout>
