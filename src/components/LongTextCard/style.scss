@@ -1,0 +1,21 @@
+.fullText {
+	padding-bottom: env(safe-area-inset-bottom);
+}
+.longTextCard {
+	.textContainer {
+		margin-bottom: 20px;
+		.longText {
+			display: block;
+			font-size: 26px;
+		}
+	}
+	.reference {
+		margin: 30px 0;
+		.title {
+			font-size: 28px;
+		}
+		.text {
+			font-size: 24px;
+		}
+	}
+}

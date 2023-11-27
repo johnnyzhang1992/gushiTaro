@@ -13,17 +13,25 @@ import { View } from '@tarojs/components';
 import { fetchPoemDetail } from './service';
 
 import PoemCard from './components/PoemCard';
+import PoemSection from './components/PoemSection';
+import LongTextCard from '../../components/LongTextCard';
+import TagsCard from '../../components/TagsCard';
 
 const Page = () => {
 	const { setTitle } = useNavigationBar({ title: '古诗文小助手' });
-	const [detail, setDetail] = useState({});
+	const [detail, setDetail] = useState({
+		poem: {
+			tagsArr: [],
+		},
+		detail: {},
+	});
 	const cacheRef = useRef({
 		poemId: 48769,
 	});
 
 	const computeData = (data) => {
 		const { poem, detail: poemDetail } = data;
-		let _detail = {...poemDetail};
+		let _detail = { ...poemDetail };
 		if (_detail && _detail.yi) {
 			_detail.yi = JSON.parse(_detail.yi || '{}');
 		}
@@ -38,13 +46,13 @@ const Page = () => {
 		}
 		let _poem = { ...poem };
 		_poem.content = JSON.parse(_poem.content || '{}');
-		_poem.tagsArr = String(_poem.tags).split(',')
+		_poem.tagsArr = String(_poem.tags).split(',');
 		console.log(_poem, _detail);
 		setDetail({
 			...detail,
 			poem: _poem,
 			detail: _detail,
-		})
+		});
 	};
 
 	const fetchDetail = (id) => {
@@ -91,15 +99,37 @@ const Page = () => {
 		console.log('page-unload');
 	});
 
-	return <View className='page'>
-		{/* 诗词内容 */}
-		<PoemCard {...detail.poem} />
-		{/* 操作栏 收藏，播放，复制，加入学习计划 */}
-		{/* 统计数据 -- 点赞、收藏人数*/}
-		{/* 诗词名句 -- 半屏 */}
-		{/* 标签 */}
-		{/* 注释，翻译，赏析，创作背景 -- 半屏 */}
-	</View>;
+	return (
+		<View className='page'>
+			{/* 诗词内容 */}
+			<PoemCard {...detail.poem} />
+			{/* 标签 */}
+			{detail.poem.tagsArr.length > 0 ? (
+				<PoemSection title='分类'>
+					<TagsCard tags={detail.poem.tagsArr || []} />
+				</PoemSection>
+			) : null}
+			{/* 创作背景 */}
+			<PoemSection title='创作背景'>
+				<LongTextCard
+					title='创作背景'
+					showAll={false}
+					text={detail.poem.background || ''}
+				/>
+			</PoemSection>
+			{/* 赏析 */}
+			<PoemSection title='赏析'>
+				<LongTextCard
+					title='赏析'
+					showAll={false}
+					text={detail.detail.shangxi || ''}
+				/>
+			</PoemSection>
+			{/* 操作栏 收藏，音频，复制 */}
+			{/* 统计数据 -- 点赞、收藏人数*/}
+			{/* 注释，译文，摘录，学习计划 -- 半屏 */}
+		</View>
+	);
 };
 
 export default Page;
