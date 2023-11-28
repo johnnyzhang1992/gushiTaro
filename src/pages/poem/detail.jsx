@@ -8,7 +8,7 @@ import Taro, {
 	useReachBottom,
 } from '@tarojs/taro';
 import { useNavigationBar } from 'taro-hooks';
-import { View } from '@tarojs/components';
+import { View, Image } from '@tarojs/components';
 
 import { fetchPoemDetail } from './service';
 
@@ -18,6 +18,8 @@ import LongTextCard from '../../components/LongTextCard';
 import TagsCard from '../../components/TagsCard';
 import FixBottom from './components/FixBottom';
 import AudioCard from '../../components/AudioCard';
+
+import copyPng from '../../images/icon/copy.png';
 
 import './style.scss';
 
@@ -83,6 +85,29 @@ const PoemDetail = () => {
 			});
 	};
 
+	const handlecopy = () => {
+		let poem = detail.poem;
+		let _data =
+			'《' +
+			poem.title +
+			'》' +
+			poem.dynasty +
+			'|' +
+			poem.author +
+			'\n' +
+			poem.text_content;
+		Taro.setClipboardData({
+			data: _data,
+			success: function () {
+				Taro.showToast({
+					title: '诗词复制成功',
+					icon: 'success',
+					duration: 2000,
+				});
+			},
+		});
+	};
+
 	console.log(detail);
 	useLoad((options) => {
 		const { id } = options;
@@ -145,6 +170,9 @@ const PoemDetail = () => {
 				</PoemSection>
 			) : null}
 			{/* 操作栏 收藏，音频，复制 */}
+			<View className='copyContainer' onClick={handlecopy}>
+				<Image src={copyPng} className='copy' />
+			</View>
 			{/* 统计数据 -- 点赞、收藏人数*/}
 			{/* 注释，译文，摘录，学习计划 -- 半屏 */}
 			<FixBottom poem={detail.poem} poemDetail={detail.detail} />

@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { View } from '@tarojs/components';
 import Taro, { useUnload } from '@tarojs/taro';
+import { AtProgress } from 'taro-ui';
 
 import { fetchPoemAudio } from '../../services/global';
+import Utils from '../../utils/util';
 
 import './style.scss';
 
@@ -11,6 +13,14 @@ const AudioCard = (props) => {
 	const [isPlay, updatePlay] = useState(false);
 	const repeatRef = useRef(false);
 	const audioRef = useRef();
+	const timeRef = useRef(null);
+	const [audioTime, updateTime] = useState({
+		current: 0,
+		duration: 0,
+		percent: 0,
+		playTime: '00:00',
+		totalTime: '00:00',
+	});
 
 	const audioInit = (audioSrc) => {
 		Taro.setInnerAudioOption({
@@ -21,6 +31,15 @@ const AudioCard = (props) => {
 		});
 		innerAudioContext.autoplay = false;
 		innerAudioContext.src = audioSrc;
+		innerAudioContext.onCanplay(() => {
+			updateTime({
+				...audioTime,
+				playTime: Utils.formateSeconds(0),
+				totalTime: Utils.formateSeconds(innerAudioContext.duration),
+				current: innerAudioContext.currentTime,
+				duration: innerAudioContext.duration,
+			});
+		});
 		innerAudioContext.onPlay(() => {
 			console.log('开始播放');
 		});
@@ -30,6 +49,14 @@ const AudioCard = (props) => {
 				innerAudioContext.play();
 			} else {
 				updatePlay(false);
+				updateTime((pre) => {
+					return {
+						...pre,
+						current: 0,
+						percent: 0,
+						playTime: Utils.formateSeconds(0),
+					};
+				});
 			}
 		});
 		innerAudioContext.onStop(() => {
@@ -56,7 +83,15 @@ const AudioCard = (props) => {
 		audioRef.current.stop();
 		updatePlay(false);
 		repeatRef.current = false;
-	}
+		updateTime((pre) => {
+			return {
+				...pre,
+				current: 0,
+				percent: 0,
+				playTime: Utils.formateSeconds(0),
+			};
+		});
+	};
 
 	const handleRepeatPlay = () => {
 		audioRef.current.play();
@@ -67,7 +102,7 @@ const AudioCard = (props) => {
 	useUnload(() => {
 		// 关闭音频播放
 		audioRef.current?.stop();
-		audioRef.current?.destroy()
+		audioRef.current?.destroy();
 	});
 
 	useEffect(() => {
@@ -84,12 +119,46 @@ const AudioCard = (props) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [props.id]);
 
+	useEffect(() => {
+		if (isPlay) {
+			timeRef.current = setInterval(() => {
+				const currentTime = audioRef.current.currentTime || 0;
+				const duration = audioRef.current.duration || 0;
+				updateTime((pre) => {
+					return {
+						...pre,
+						current: currentTime,
+						duration: duration,
+						percent: (currentTime / duration) * 100,
+						playTime: Utils.formateSeconds(currentTime),
+						totalTime: Utils.formateSeconds(duration),
+					};
+				});
+			}, 100);
+			return () => {
+				clearInterval(timeRef.current);
+			};
+		} else {
+			clearInterval(timeRef.current);
+		}
+	}, [isPlay]);
+
 	return (
 		<View className='audioCard'>
 			<View className='poem'>
 				<View className='at-icon at-icon-volume-plus icon'></View>
 				<View className='title'>{title}</View>
 				<View className='author'>{author}</View>
+			</View>
+			<View className='progress'>
+				<View className='time pre'>{audioTime.playTime}</View>
+				<AtProgress
+					color='#337ab7'
+					strokeWidth={2}
+					isHidePercent
+					percent={audioTime.percent}
+				/>
+				<View className='time end'>{audioTime.totalTime}</View>
 			</View>
 			<View className='audio'>
 				{isPlay ? (

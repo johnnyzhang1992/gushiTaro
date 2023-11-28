@@ -13,8 +13,8 @@ const formatTime = (date) => {
 	);
 };
 const getDateDiff = (dateStr) => {
-	let getDateTimeStamp = (dateStr) => {
-		return Date.parse(dateStr.replace(/-/gi, "/"));
+	let getDateTimeStamp = (str) => {
+		return Date.parse(str.replace(/-/gi, "/"));
 	};
 	let publishTime = getDateTimeStamp(dateStr) / 1000,
 		d_seconds,
@@ -130,10 +130,23 @@ const excludeSpecial = (s) => {
 	return rs;
 };
 
+const formateSeconds = (seconds) => {
+	let min = 0;
+	let sec = 0;
+	if (seconds > 0) {
+		min = parseInt(seconds / 60);
+		sec = parseInt(seconds % 60);
+	} else {
+		sec = parseInt(seconds);
+	}
+	return `${formatNumber(min)}:${formatNumber(sec)}`
+};
+
 export default {
 	formatTime,
 	getDateDiff,
 	formatDateToMb,
 	formatDate,
 	excludeSpecial,
+	formateSeconds
 };

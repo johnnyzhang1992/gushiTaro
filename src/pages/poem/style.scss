@@ -18,3 +18,18 @@
 .pageContainer {
 	padding: 0 30px;
 }
+.copyContainer {
+	background-color: #337ab7;
+	position: fixed;
+	left: 24px;
+	padding: 16px;
+	border-radius: 100%;
+	bottom: 150px;
+	margin-bottom: env(safe-area-inset-bottom);
+	opacity: 0.9;
+	.copy {
+		width: 44px;
+		height: 44px;
+		display: block;
+	}
+}
