@@ -1,5 +1,5 @@
 import { View, Image, Text } from '@tarojs/components';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import collectSvg from '../../images/svg/collect.svg';
 import collectActiveSvg from '../../images/svg/collect_active.svg';
@@ -66,4 +66,4 @@ const CollectButton = (props) => {
 	);
 };
 
-export default CollectButton;
+export default React.memo(CollectButton);

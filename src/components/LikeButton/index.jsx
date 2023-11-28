@@ -1,5 +1,5 @@
 import { View, Image, Text } from '@tarojs/components';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import likeSvg from '../../images/svg/like.svg';
 import likeActiveSvg from '../../images/svg/like_active.svg';
@@ -66,4 +66,4 @@ const LikeButton = (props) => {
 	);
 };
 
-export default LikeButton;
+export default React.memo(LikeButton);
