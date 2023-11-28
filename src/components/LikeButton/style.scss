@@ -1,0 +1,24 @@
+.likeButton {
+	color: #337ab7;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(51, 122, 183, 0.1);
+	padding: 8px 20px;
+	border-radius: 8px;
+	font-size: 24px;
+	&.active {
+		color: #fff;
+		background-color: #337ab7;
+	}
+	.icon {
+		width: 40px;
+		height: 40px;
+	}
+	.likeText {
+		padding: 0 4px;
+	}
+	.count {
+		padding-left: 4px;
+	}
+}

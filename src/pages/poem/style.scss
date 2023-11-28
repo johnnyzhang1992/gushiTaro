@@ -1,3 +1,6 @@
+.page {
+	margin-bottom: 200px;
+}
 .poemTitle {
 	font-size: 40px;
 	padding: 30px;
@@ -15,25 +18,11 @@
 .pageContainer {
 	padding: 0 30px;
 }
-.fixBottom {
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	padding-bottom: env(safe-area-inset-bottom);
-	background-color: #fff;
-    box-shadow: 0 -2px 6px hsla(0,0%,7%,.1);
-	.bottomTabs {
-		padding: 20px 30px;
-	}
-	.tabItem {
-		padding: 8px 12px;
-	}
-	.flex {
-		display: flex;
-	}
-	.right {
-		flex: 1;
-		justify-content: flex-end;
-	}
+.audioContainer {
+	height: 100px;
+	margin: 30px;
+	background-color: #f5f5f5;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }

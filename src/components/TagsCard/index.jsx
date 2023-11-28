@@ -14,7 +14,7 @@ const TagItem = (props) => {
 
 	return (
 		<View className='tagItem'>
-			<AtTag size='small' type='default' onClick={handleClick}>
+			<AtTag size='small' onClick={handleClick}>
 				{props.tag}
 			</AtTag>
 		</View>

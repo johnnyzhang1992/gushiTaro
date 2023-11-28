@@ -109,6 +109,10 @@ const Page = () => {
 		<View className='page'>
 			{/* 诗词内容 */}
 			<PoemCard {...detail.poem} />
+			{/* 音频播放 */}
+			<View className='audioContainer'>
+				<View>音频区域占位</View>
+			</View>
 			{/* 标签 */}
 			{detail.poem.tagsArr.length > 0 ? (
 				<PoemSection title='分类'>
@@ -138,7 +142,7 @@ const Page = () => {
 			{/* 操作栏 收藏，音频，复制 */}
 			{/* 统计数据 -- 点赞、收藏人数*/}
 			{/* 注释，译文，摘录，学习计划 -- 半屏 */}
-			<FixBottom poem={detail.poem} detail={detail.detail} />
+			<FixBottom poem={detail.poem} poemDetail={detail.detail} />
 		</View>
 	);
 };

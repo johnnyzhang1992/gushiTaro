@@ -3,10 +3,10 @@ import Taro, {
 	useDidHide,
 	usePageNotFound,
 	useDidShow,
-} from "@tarojs/taro";
-import "./app.scss";
+} from '@tarojs/taro';
+import './app.scss';
 
-import { BaseUrl } from "./const/config";
+import { BaseUrl } from './const/config';
 
 const App = (props) => {
 	// 用户登录
@@ -16,18 +16,19 @@ const App = (props) => {
 				// this.globalData.code = res.code;
 				// 发送 res.code 到后台换取 openId, sessionKey, unionId
 				Taro.request({
-					url: BaseUrl + "/wxxcx/userInfo",
+					url: BaseUrl + '/wxxcx/userInfo',
 					data: {
 						code: res.code,
 					},
 					success: function (result) {
 						if (result.data && !result.data.status) {
-							console.log("-----login---success------");
-							Taro.setStorageSync("user", result.data);
+							console.log('-----login---success------');
+							Taro.setStorageSync('user', result.data);
 							Taro.setStorageSync(
-								"wx_token",
+								'wx_token',
 								result.data.wx_token
 							);
+							console.log('wx_token', result.data.wx_token);
 						}
 					},
 				});
@@ -35,26 +36,26 @@ const App = (props) => {
 		});
 	};
 	useLaunch((options) => {
-		console.log("onLaunch", options);
-		Taro.setStorageSync('enterPath', options.path)
+		console.log('onLaunch', options);
+		Taro.setStorageSync('enterPath', options.path);
 		const app = Taro.getApp();
 		console.log('app', app);
 		Taro.getSystemInfo().then((sysRes) => {
-			Taro.setStorageSync("sys_info", sysRes);
+			Taro.setStorageSync('sys_info', sysRes);
 		});
 		userLogin();
 	});
 	usePageNotFound((res) => {
 		console.log(res);
 		Taro.switchTab({
-			url: "pages/index",
+			url: 'pages/index',
 		}); // 如果是 tabbar 页面，请使用 Taro.switchTab
 	});
 	useDidShow(() => {
-		console.log("app--show");
+		console.log('app--show');
 	});
 	useDidHide(() => {
-		console.log("app-hide");
+		console.log('app-hide');
 	});
 	return props.children;
 };

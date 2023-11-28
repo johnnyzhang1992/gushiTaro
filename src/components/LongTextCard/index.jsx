@@ -13,7 +13,7 @@ const LongTextCard = (props) => {
 		title: '',
 		content: [],
 	});
-	const limitLength = 88;
+	const limitLength = 99;
 	// 要判断text 的字段类型，纯文本还是对象
 	// 对象结构{ content: [], reference: { title: '', content:[] } }
 	const cacheText = useMemo(() => {
@@ -30,10 +30,12 @@ const LongTextCard = (props) => {
 				}));
 			}
 			content.forEach((item) => {
-				cText += item + '\n \n';
+				cText += item + '\n';
 			});
+		} else {
+			cText = text;
 		}
-		return cText || text;
+		return cText;
 	}, [text]);
 	const handleClose = () => {
 		openVisible(false);
