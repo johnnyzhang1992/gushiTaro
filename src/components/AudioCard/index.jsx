@@ -144,7 +144,7 @@ const AudioCard = (props) => {
 	}, [isPlay]);
 
 	return (
-		<View className='audioCard'>
+		<View className={`audioCard ${isPlay ? 'sticky' : ''}`}>
 			<View className='poem'>
 				<View className='at-icon at-icon-volume-plus icon'></View>
 				<View className='title'>{title}</View>
