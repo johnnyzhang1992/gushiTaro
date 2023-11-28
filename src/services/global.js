@@ -33,3 +33,12 @@ export const updateUserLike = (method, data) => {
 	console.log(method, data)
 	return Request(`/wxxcx/updateLike`, data, method);
 };
+
+/**
+ * 获取诗词的语音
+ * @param {String} method GET
+ * @param {Object} data { id }
+ */
+export const fetchPoemAudio = (method, data) => {
+	return Request(`/wxxcx/getPoemAudio/${data.id}`, data, method);
+};

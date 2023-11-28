@@ -17,14 +17,17 @@ import PoemSection from './components/PoemSection';
 import LongTextCard from '../../components/LongTextCard';
 import TagsCard from '../../components/TagsCard';
 import FixBottom from './components/FixBottom';
+import AudioCard from '../../components/AudioCard';
 
 import './style.scss';
 
-const Page = () => {
+const PoemDetail = () => {
 	const { setTitle } = useNavigationBar({ title: '古诗文小助手' });
 	const [detail, setDetail] = useState({
 		poem: {
 			tagsArr: [],
+			title: '',
+			author: '',
 		},
 		detail: {
 			yi: '',
@@ -110,9 +113,11 @@ const Page = () => {
 			{/* 诗词内容 */}
 			<PoemCard {...detail.poem} />
 			{/* 音频播放 */}
-			<View className='audioContainer'>
-				<View>音频区域占位</View>
-			</View>
+			<AudioCard
+				id={detail.poem.id}
+				title={detail.poem.title}
+				author={detail.poem.author}
+			/>
 			{/* 标签 */}
 			{detail.poem.tagsArr.length > 0 ? (
 				<PoemSection title='分类'>
@@ -147,4 +152,4 @@ const Page = () => {
 	);
 };
 
-export default Page;
+export default PoemDetail;

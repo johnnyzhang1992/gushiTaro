@@ -1,0 +1,44 @@
+.audioCard {
+	margin: 30px 20px;
+	background-color: #f5f5f5;
+	padding: 20px 30px;
+	border-radius: 10px;
+	.poem {
+		color: #333;
+		font-size: 30px;
+		display: flex;
+		align-items: center;
+		flex: 1;
+		flex-wrap: wrap;
+		.author {
+			color: #8493a5;
+			font-size: 26px;
+			padding-left: 20px;
+		}
+		.icon {
+			font-size: 36px;
+			margin-right: 6px;
+		}
+		// justify-content: space-between;
+	}
+	.audio {
+		margin-top: 12px;
+		display: flex;
+		justify-content: flex-end;
+		.at-icon {
+			font-size: 36px;
+		}
+		.play {
+			display: flex;
+			align-items: center;
+			padding: 6px 20px 6px 6px;
+			border: 1px solid #999;
+			border-radius: 8px;
+			margin-right: 30px;
+		}
+		.text {
+			font-size: 24px;
+			padding-left: 10px;
+		}
+	}
+}
