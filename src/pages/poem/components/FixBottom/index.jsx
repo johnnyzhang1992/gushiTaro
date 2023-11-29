@@ -28,12 +28,10 @@ const FixBottom = (props) => {
 	];
 
 	const handleTabChange = (val) => {
-		console.log(val, 'index');
 		updateType(val);
 	};
 
 	const handleTabClick = (val) => {
-		console.log(val, 'index');
 		updateType(val);
 		showVisible(true);
 	};

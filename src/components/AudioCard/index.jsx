@@ -29,6 +29,7 @@ const AudioCard = (props) => {
 		const innerAudioContext = Taro.createInnerAudioContext({
 			useWebAudioImplement: true,
 		});
+		audioRef.current = innerAudioContext;
 		innerAudioContext.autoplay = false;
 		innerAudioContext.src = audioSrc;
 		innerAudioContext.onCanplay(() => {
@@ -65,8 +66,12 @@ const AudioCard = (props) => {
 		innerAudioContext.onError((result) => {
 			console.log(result.errMsg);
 			console.log(result.errCode);
+			Taro.showToast({
+				title: result.errCode + ':' + result.errMsg,
+				icon: 'none',
+				duration: 2000,
+			});
 		});
-		audioRef.current = innerAudioContext;
 	};
 
 	const handlePlay = () => {

@@ -1,8 +1,6 @@
 import { useState, useRef } from 'react';
 import Taro, {
 	useLoad,
-	useDidHide,
-	useDidShow,
 	useUnload,
 	usePullDownRefresh,
 	useReachBottom,
@@ -40,6 +38,7 @@ const PoemDetail = () => {
 		poemId: 48769,
 	});
 
+	// 处理返回的数据， 特别是json 的解析
 	const computeData = (data) => {
 		const { poem, detail: poemDetail } = data;
 		let _detail = { ...poemDetail };
@@ -58,7 +57,6 @@ const PoemDetail = () => {
 		let _poem = { ...poem };
 		_poem.content = JSON.parse(_poem.content || '{}');
 		_poem.tagsArr = String(_poem.tags).split(',');
-		console.log(_poem, _detail);
 		setDetail({
 			...detail,
 			poem: _poem,
@@ -66,6 +64,7 @@ const PoemDetail = () => {
 		});
 	};
 
+	// 加载详情数据
 	const fetchDetail = (id) => {
 		const { poemId } = cacheRef.current;
 		fetchPoemDetail('GET', {
@@ -85,6 +84,7 @@ const PoemDetail = () => {
 			});
 	};
 
+	// 复制文本
 	const handlecopy = () => {
 		let poem = detail.poem;
 		let _data =
@@ -108,19 +108,13 @@ const PoemDetail = () => {
 		});
 	};
 
-	console.log(detail);
 	useLoad((options) => {
 		const { id } = options;
 		console.log('options', options);
 		cacheRef.current.poemId = id;
 		fetchDetail(id || 48769);
 	});
-	useDidShow(() => {
-		console.log('page--show');
-	});
-	useDidHide(() => {
-		console.log('page-hide');
-	});
+
 	usePullDownRefresh(() => {
 		fetchDetail();
 		console.log('page-pullRefresh');
@@ -169,7 +163,7 @@ const PoemDetail = () => {
 					/>
 				</PoemSection>
 			) : null}
-			{/* 操作栏 收藏，音频，复制 */}
+			{/* 操作栏 复制 */}
 			<View className='copyContainer' onClick={handlecopy}>
 				<Image src={copyPng} className='copy' />
 			</View>
