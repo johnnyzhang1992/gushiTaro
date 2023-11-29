@@ -1,5 +1,6 @@
 import { View, Image, Text } from '@tarojs/components';
 import React, { useState, useEffect } from 'react';
+import Taro from '@tarojs/taro';
 
 import collectSvg from '../../images/svg/collect.svg';
 import collectActiveSvg from '../../images/svg/collect_active.svg';
@@ -31,11 +32,19 @@ const CollectButton = (props) => {
 			id,
 		}).then((res) => {
 			if (res && res.statusCode === 200) {
-				const { status: resStatus, num: resCount } = res.data;
-				setStatus(resStatus);
-				setCount(resCount);
-				if (typeof updateStatus === 'function') {
-					updateStatus(resStatus, resCount);
+				const { status: resStatus, num: resCount, errors, error_code } = res.data;
+				if (!error_code) {
+					setStatus(resStatus);
+					setCount(resCount);
+					if (typeof updateStatus === 'function') {
+						updateStatus(resStatus, resCount);
+					}
+				} else {
+					Taro.showToast({
+						title: errors || '操作失败',
+						icon: 'error',
+						duration: 2000,
+					})
 				}
 			}
 		});

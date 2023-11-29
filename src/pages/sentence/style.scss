@@ -1,0 +1,98 @@
+.page.sentenceDetail {
+	padding: 30px;
+	box-sizing: border-box;
+	min-height: 100vh;
+	background-color: #f5f5f5;
+	.sentence-section {
+		clear: both;
+		overflow: hidden;
+		min-height: 40vh;
+		// margin: 2% 6% 8% 6%;
+		position: relative;
+		border-radius: 12px;
+		background-color: #fff;
+	}
+	.sentence-title {
+		color: #333;
+		width: 100%;
+		font-size: 48px;
+		writing-mode: vertical-rl;
+		padding: 0 30px;
+		box-sizing: border-box;
+	}
+	.sentence-title .text {
+		display: block;
+		letter-spacing: 6px;
+		padding: 60px 0 60px 30px;
+	}
+	.sentence-origin {
+		text-align: right;
+		writing-mode: vertical-lr;
+		font-size: large;
+		position: absolute;
+		left: 20px;
+		bottom: 0;
+		height: 100%;
+		.author {
+			font-size: 32px;
+			letter-spacing: 6px;
+			display: block;
+			text-align: right;
+			padding: 20px 10px;
+			box-sizing: border-box;
+		}
+	}
+	.sentence-content {
+		font-size: 14px;
+		padding: 0 15px;
+	}
+	.sentence-content .normal {
+		color: #888;
+	}
+	.poemCard {
+		padding: 20px 30px;
+		margin-top: 30px;
+		border-radius: 12px;
+		background-color: #fff;
+		.poem-item {
+			color: #888;
+			display: block;
+		}
+		.poem-title {
+			color: #333;
+			font-size: 28px;
+		}
+		.poem-title.title {
+			font-size: 36px;
+			font-weight: 500;
+		}
+		.poem-title.content {
+			font-size: 32px;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			overflow: hidden;
+		}
+		.poem-author {
+			font-size: 26px;
+			padding: 12px 0;
+		}
+	}
+	.fixBottom {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		padding-bottom: env(safe-area-inset-bottom);
+		background-color: #fff;
+		box-shadow: 0 -2px 6px hsla(0, 0%, 7%, 0.1);
+
+		.buttonContainer {
+			display: flex;
+			justify-content: flex-end;
+			padding: 30px 30px;
+		}
+		.btnItem {
+			margin-left: 30px;
+		}
+	}
+}

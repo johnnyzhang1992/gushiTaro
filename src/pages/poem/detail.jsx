@@ -8,7 +8,7 @@ import Taro, {
 	useShareTimeline,
 } from '@tarojs/taro';
 import { useNavigationBar } from 'taro-hooks';
-import { View, Image } from '@tarojs/components';
+import { View, Image, OfficialAccount } from '@tarojs/components';
 
 import { fetchPoemDetail } from './service';
 
@@ -143,9 +143,11 @@ const PoemDetail = () => {
 		};
 	});
 	return (
-		<View className='page'>
+		<View className='page poemDetail'>
 			{/* 诗词内容 */}
 			<PoemCard {...detail.poem} />
+			{/* 公众号 */}
+			<OfficialAccount />
 			{/* 音频播放 */}
 			<AudioCard
 				id={detail.poem.id}

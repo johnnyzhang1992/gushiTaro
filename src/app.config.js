@@ -8,6 +8,8 @@ export default {
 		'pages/poet/detail',
 		'pages/poem/index',
 		'pages/poem/detail',
+		'pages/sentence/index',
+		'pages/sentence/detail',
 	],
 	window: {
 		backgroundTextStyle: 'light',

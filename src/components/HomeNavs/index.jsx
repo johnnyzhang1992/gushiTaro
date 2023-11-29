@@ -32,14 +32,14 @@ const HomeNavs = () => {
 			title: '诗词文言',
 		},
 		{
-			icon: poetIcon,
-			path: '/pages/poet/index',
+			icon: sentenceIcon,
+			path: '/pages/sentence/index',
 			type: 'poet',
 			title: '热门名句',
 		},
 		{
-			icon: sentenceIcon,
-			path: '/pages/sentence/index',
+			icon: poetIcon,
+			path: '/pages/poet/index',
 			type: 'sentence',
 			title: '历朝诗人',
 		},

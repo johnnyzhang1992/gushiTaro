@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
-import { View, Text, Image } from '@tarojs/components';
+import { View, Image, Navigator } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import './style.scss';
 
@@ -70,7 +70,13 @@ const HomeHeader = () => {
 				<View className='header-content'>
 					<View>每日一诗</View>
 					<View className='date'>{date[2]}</View>
-					<Text className='sentence'>{sentence.title || ''}</Text>
+					<Navigator
+						url={`/pages/sentence/detail?id=${sentence.id}`}
+						className='sentence'
+						hoverClass='none'
+					>
+						{sentence.title || ''}
+					</Navigator>
 				</View>
 				<View className='date-container'>
 					<View className='day'>{date[0]}</View>
