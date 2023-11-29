@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 
-	// 自定义 hook 内状态变化和props参数变化都会引起再次执行
+// 自定义 hook 内状态变化和props参数变化都会引起再次执行
 const useFetchList = (fetchFn, params, pgConfig) => {
 	const [data, setData] = useState({
 		list: [],
@@ -28,10 +28,7 @@ const useFetchList = (fetchFn, params, pgConfig) => {
 			return false;
 		}
 		// 当前和缓存分页数据相同，不请求
-		if (
-			page === cachePg.page &&
-			lastPage === cachePg.last_page
-		) {
+		if (page === cachePg.page && lastPage === cachePg.last_page) {
 			return false;
 		}
 		// 更新网络请求状态
@@ -41,21 +38,23 @@ const useFetchList = (fetchFn, params, pgConfig) => {
 		console.log('---分页数据不同，发起请求：', page, cachePg.page);
 		console.log('--listParams:', {
 			...params,
-			page
-		})
+			page,
+		});
 		fetchFn('GET', {
 			...params,
 			page,
 		})
 			.then((res) => {
 				if (res.data && res.statusCode == 200) {
-
+					const { requestType = 'poem' } = params;
 					const {
 						data: poemData,
 						current_page,
 						last_page,
 						total,
-					} = res.data.poems;
+					} = requestType === 'poet'
+						? res.data.poets
+						: res.data.poems;
 					dataRef.current = {
 						...cachePg,
 						page: current_page,
