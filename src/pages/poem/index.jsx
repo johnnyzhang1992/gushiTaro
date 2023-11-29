@@ -6,15 +6,19 @@ import Taro, {
 	useUnload,
 	usePullDownRefresh,
 	useReachBottom,
+	useShareAppMessage,
+	useShareTimeline,
 } from '@tarojs/taro';
 import { useNavigationBar } from 'taro-hooks';
 import { View, Text } from '@tarojs/components';
 
 import PoemSmallCard from '../../components/PomSmallCard';
+import FilterCard from '../../components/FilterCard';
 
 import useFetchList from '../../hooks/useFetchList';
 
-import { fetchHomeData } from './service';
+import { fetchHomeData, fetchPoemData } from './service';
+import { PoemTypes, DynastyArr } from '../../const/config';
 
 import './style.scss';
 
@@ -31,6 +35,7 @@ const Poem = () => {
 	});
 	const [fetchParams, updateParams] = useState({
 		name: '',
+		type: undefined,
 		from: 'home',
 		inited: false,
 	});
@@ -43,10 +48,26 @@ const Poem = () => {
 
 	// 使用自定义hook 获取诗词分页数据
 	const { data, error, loading } = useFetchList(
-		fetchHomeData,
+		fetchParams.name ? fetchHomeData : fetchPoemData,
 		fetchParams,
 		pagination
 	);
+
+	const updateParam = (filterParams) => {
+		console.log('filterParams--更新:', filterParams)
+		updateParams((pre) => {
+			return {
+				...pre,
+				...filterParams,
+			};
+		});
+		updatePagination({
+			page: 1,
+			size: 15,
+			total: 0,
+			last_page: -1,
+		});
+	};
 
 	useEffect(() => {
 		updatePagination((pre) => {
@@ -60,7 +81,7 @@ const Poem = () => {
 	useLoad((options) => {
 		const { type, name, from, code } = options;
 		console.log(type, name, from, options);
-		setTitle(name);
+		setTitle(name || '诗词文言');
 		setOptions({
 			...options,
 			title: name,
@@ -96,6 +117,18 @@ const Poem = () => {
 	useUnload(() => {
 		console.log('page-unload');
 	});
+	useShareAppMessage(() => {
+		return {
+			title: '诗词文言',
+			path: '/pages/poem/index',
+		};
+	});
+	useShareTimeline(() => {
+		return {
+			title: '诗词文言',
+			path: '/pages/poem/index',
+		};
+	});
 	return (
 		<View className='page'>
 			{/* 页面顶部 -- 来自首页底部筛选 */}
@@ -109,8 +142,19 @@ const Poem = () => {
 					</View>
 				</View>
 			) : (
-				<View className='filter'>
-					<Text>顶部筛选部分</Text>
+				<View className='filterContainer'>
+					<FilterCard
+						name='type'
+						title='分类'
+						filters={PoemTypes}
+						updateParams={updateParam}
+					/>
+					<FilterCard
+						name='dynasty'
+						title='朝代'
+						filters={DynastyArr}
+						updateParams={updateParam}
+					/>
 				</View>
 			)}
 			{/* 顶部筛选 -  */}
@@ -118,7 +162,7 @@ const Poem = () => {
 			{/* 诗词列表 */}
 			<View className='pageContainer'>
 				{data.list.map((item) => {
-					return <PoemSmallCard {...item} key={item.id} />;
+					return <PoemSmallCard {...item} key={item.id} showCount />;
 				})}
 			</View>
 			{loading ? (

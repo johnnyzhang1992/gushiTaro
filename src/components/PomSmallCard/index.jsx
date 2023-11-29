@@ -14,12 +14,12 @@ const PoemSmallCard = (props) => {
 		<View className='poemCard' key={props.id} onClick={handleNavigate}>
 			<View className='title'>
 				<Text className='name'>{props.title}</Text>
-				<View className='right'>
-					{props.dynasty ? (
-						<Text className='dynasty'>[{props.dynasty}]</Text>
-					) : null}
-					<Text className='author'>{props.author}</Text>
-				</View>
+			</View>
+			<View className='poet'>
+				{props.dynasty ? (
+					<Text className='dynasty'>{props.dynasty}</Text>
+				) : null}
+				<Text className='author'>{props.author}</Text>
 			</View>
 			<View className='content'>
 				{/* 一句话介绍，第一个句号前 */}
@@ -27,6 +27,12 @@ const PoemSmallCard = (props) => {
 					{content}
 				</Text>
 			</View>
+			{props.showCount ? (
+				<View className='count'>
+					<Text className='num'>喜欢 {props.like_count || 0}</Text>
+					<Text className='num'>收藏 {props.collect_count || 0}</Text>
+				</View>
+			) : null}
 		</View>
 	);
 };

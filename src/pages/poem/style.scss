@@ -1,3 +1,7 @@
+page {
+	padding-left: 0!important;
+	padding-right: 0!important;
+}
 .page {
 	margin-bottom: 200px;
 }
@@ -14,6 +18,14 @@
 		color: #888;
 		font-size: 0.7em;
 	}
+}
+.filterContainer {
+	position: sticky;
+	top: 0;
+	background-color: #fff;
+	opacity: 0.9;
+	padding: 20px 30px;
+	z-index: 99;
 }
 .pageContainer {
 	padding: 0 30px;

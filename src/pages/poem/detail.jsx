@@ -4,6 +4,8 @@ import Taro, {
 	useUnload,
 	usePullDownRefresh,
 	useReachBottom,
+	useShareAppMessage,
+	useShareTimeline,
 } from '@tarojs/taro';
 import { useNavigationBar } from 'taro-hooks';
 import { View, Image } from '@tarojs/components';
@@ -126,7 +128,20 @@ const PoemDetail = () => {
 	useUnload(() => {
 		console.log('page-unload');
 	});
-
+	useShareAppMessage(() => {
+		const { poem } = detail;
+		return {
+			title: poem.title || '诗文详情',
+			path: '/pages/poem/detail?id=' + poem.id,
+		};
+	});
+	useShareTimeline(() => {
+		const { poem } = detail;
+		return {
+			title: poem.title || '诗文详情',
+			path: '/pages/poem/detail?id=' + poem.id,
+		};
+	});
 	return (
 		<View className='page'>
 			{/* 诗词内容 */}

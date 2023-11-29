@@ -1,10 +1,10 @@
 .poemCard {
 	padding: 16px 0;
 	position: relative;
-	border-bottom: 1px solid #d9d9d9;
+	border-bottom: 1px solid #f5f5f5;
 	.title {
 		color: #333;
-		font-size: 26px;
+		font-size: 28px;
 		position: relative;
 		display: flex;
 		justify-content: space-between;
@@ -12,23 +12,50 @@
 		padding-right: 14px;
 		.name {
 			font-size: 32px;
-			font-weight: 500;
+			font-weight: 600;
 			flex: 1;
-		}
-		.author, .dynasty {
-			color: #666;
-		}
-		.dynasty {
-			margin-right: 6px;
 		}
 	}
 
 	.content {
-		font-size: 24px;
-		color: #888;
+		font-size: 30px;
+		color: #65645F;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 		overflow: hidden;
 		display: block;
+	}
+	.poet {
+		.author,
+		.dynasty {
+			color: #999;
+			font-size: 26px;
+		}
+		.dynasty {
+			padding-right: 8px;
+			margin-right: 8px;
+			position: relative;
+			&::after {
+				content: " ";
+				background-color: #999;
+				position: absolute;
+				right: 0;
+				top: 50%;
+				height: 24px;
+				width: 1px;
+				transform: translateY(-50%);
+			}
+		}
+	}
+	.count {
+		font-size: 24px;
+		margin-top: 6px;
+		text-align: right;
+		.num {
+			margin-right: 30px;
+			&:last-child {
+				margin-right: 0;
+			}
+		}
 	}
 }

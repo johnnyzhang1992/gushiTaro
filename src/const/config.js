@@ -1,5 +1,6 @@
 export const BaseUrl = 'https://xuegushi.com';
 
+// 首页标签分类
 export const HomeCategories = [
 	{
 		code: 'tangshi',
@@ -48,6 +49,7 @@ export const HomeCategories = [
 	},
 ];
 
+// 首页课本分类
 export const HomeBooks = [
 	{
 		name: '小学诗词',
@@ -84,4 +86,25 @@ export const HomeBooks = [
 		profile: '孔雀东南飞',
 		type: 'book',
 	},
+];
+
+// 诗词分类
+export const PoemTypes = ['全部', '诗', '词', '曲', '文言文'];
+
+// 朝代列表
+export const DynastyArr = [
+	'全部',
+	'先秦',
+	'两汉',
+	'魏晋',
+	'南北朝',
+	'隋代',
+	'唐代',
+	'五代',
+	'宋代',
+	'金朝',
+	'元代',
+	'明代',
+	'清代',
+	'近代',
 ];

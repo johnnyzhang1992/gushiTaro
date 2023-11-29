@@ -39,6 +39,10 @@ const useFetchList = (fetchFn, params, pgConfig) => {
 		updateLoading(true);
 		dataRef.current.count = cachePg.count + 1;
 		console.log('---分页数据不同，发起请求：', page, cachePg.page);
+		console.log('--listParams:', {
+			...params,
+			page
+		})
 		fetchFn('GET', {
 			...params,
 			page,
