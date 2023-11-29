@@ -77,22 +77,22 @@
 			padding: 12px 0;
 		}
 	}
-	.fixBottom {
-		position: fixed;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		padding-bottom: env(safe-area-inset-bottom);
-		background-color: #fff;
-		box-shadow: 0 -2px 6px hsla(0, 0%, 7%, 0.1);
+}
+.fixBottom {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	padding-bottom: env(safe-area-inset-bottom);
+	background-color: #fff;
+	box-shadow: 0 -2px 6px hsla(0, 0%, 7%, 0.1);
 
-		.buttonContainer {
-			display: flex;
-			justify-content: flex-end;
-			padding: 30px 30px;
-		}
-		.btnItem {
-			margin-left: 30px;
-		}
+	.buttonContainer {
+		display: flex;
+		justify-content: flex-end;
+		padding: 30px 30px;
+	}
+	.btnItem {
+		margin-left: 30px;
 	}
 }

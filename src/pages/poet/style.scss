@@ -1,0 +1,29 @@
+.poetDetail {
+	padding-bottom: 220px;
+}
+.avatarContainer {
+	padding-top: 20px;
+	.avatar {
+		width: 208px;
+		height: 300px;
+		margin: 0 auto;
+		display: block;
+	}
+	.author {
+		font-size: 30px;
+		display: flex;
+		padding: 10px 30px;
+		align-items: center;
+		.name {
+			font-weight: 500;
+		}
+		.dynasty {
+			color: #666;
+			font-size: 26px;
+			margin-left: 20px;
+		}
+	}
+}
+.poetProfile{
+	padding: 20px 30px;
+}

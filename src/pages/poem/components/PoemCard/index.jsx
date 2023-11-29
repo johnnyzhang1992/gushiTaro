@@ -8,7 +8,7 @@ import PoemContent from '../PoemContent';
 const PoemCard = (props) => {
 	const handleNavigateAuthor = () => {
 		Taro.navigateTo({
-			url: '/pages/poet/index?id' + props.author_id,
+			url: '/pages/poet/detail?id' + props.author_id,
 		});
 	};
 	return (

@@ -19,7 +19,7 @@ import { DynastyArr } from '../../const/config';
 
 import './style.scss';
 
-const Page = () => {
+const PoetPage = () => {
 	const { setTitle } = useNavigationBar({ title: '古诗文小助手' });
 	const [fetchParams, updateParams] = useState({
 		dynasty: '全部',
@@ -128,4 +128,4 @@ const Page = () => {
 	);
 };
 
-export default Page;
+export default PoetPage;

@@ -30,7 +30,7 @@ const LongTextCard = (props) => {
 				}));
 			}
 			content.forEach((item) => {
-				cText += item + '\n';
+				cText += item.replaceAll('<strong>', '【').replaceAll('</strong>', '】') + '\n';
 			});
 		} else {
 			cText = text;
