@@ -3,30 +3,32 @@ import Taro from '@tarojs/taro';
 
 import './style.scss';
 
-const PoetCard = (props) => {
+const PoetCard = ({ id, avatar, author_name, dynasty, profile }) => {
 	const handleNavigate = () => {
 		Taro.navigateTo({
-			url: '/pages/poet/detail?id=' + props.id,
+			url: '/pages/poet/detail?id=' + id,
 		});
 	};
 	return (
-		<View className='poetCard' key={props.id} onClick={handleNavigate}>
+		<View className='poetCard' key={id} onClick={handleNavigate}>
 			<View className='avatar'>
 				<Image
 					lazyLoad
 					fadeIn
 					showMenuByLongpress
-					src={props.avatar}
+					src={avatar}
 					className='img'
 				/>
 			</View>
 			<View className='content'>
 				<View className='author'>
-					<Text className='name'>{props.author_name}</Text>
-					<Text className='dynasty'>「{props.dynasty}」</Text>
+					<Text className='name'>{author_name}</Text>
+					{dynasty ? (
+						<Text className='dynasty'>「{dynasty}」</Text>
+					) : null}
 				</View>
 				<View className='profile'>
-					<Text className='text'>{props.profile}</Text>
+					<Text className='text'>{profile}</Text>
 				</View>
 			</View>
 		</View>

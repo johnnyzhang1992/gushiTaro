@@ -5,24 +5,23 @@ import { AtTag } from 'taro-ui';
 
 import './style.scss';
 
-const TagItem = (props) => {
+const TagItem = ({ tag }) => {
 	const handleClick = () => {
 		Taro.navigateTo({
-			url: '/pages/poem/index?type=tag&from=tag&keyWord=' + props.tag,
+			url: '/pages/poem/index?type=tag&from=tag&keyWord=' + tag,
 		});
 	};
 
 	return (
 		<View className='tagItem'>
 			<AtTag size='small' onClick={handleClick}>
-				{props.tag}
+				{tag}
 			</AtTag>
 		</View>
 	);
 };
 
-const TagsCard = (props) => {
-	const { tags = [] } = props;
+const TagsCard = ({ tags = []}) => {
 	return (
 		<View className='tagCard'>
 			{tags.map((tag) => (

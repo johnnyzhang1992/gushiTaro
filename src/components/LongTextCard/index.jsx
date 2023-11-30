@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { View, Text, Button } from '@tarojs/components';
 import { AtFloatLayout } from 'taro-ui';
 
@@ -6,8 +6,7 @@ import './style.scss';
 
 // 长文本卡片渲染
 // 默认渲染四行，多余支持半屏展示；支持全文展示
-const LongTextCard = (props) => {
-	const { showAll = false, text, title } = props;
+const LongTextCard = ({ showAll = false, text, title }) => {
 	const [isOpen, openVisible] = useState(false);
 	const [reference, setReference] = useState({
 		title: '',
@@ -93,4 +92,4 @@ const LongTextCard = (props) => {
 	);
 };
 
-export default LongTextCard;
+export default React.memo(LongTextCard);
