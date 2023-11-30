@@ -27,7 +27,7 @@ const HomeNavs = () => {
 	const homeNavs = [
 		{
 			icon: poemIcon,
-			path: '/pages/poem/index?from=nav',
+			path: '/pages/poem/index',
 			type: 'poem',
 			title: '诗词文言',
 		},

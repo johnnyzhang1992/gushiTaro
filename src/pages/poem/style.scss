@@ -42,4 +42,18 @@
 		padding: 20px 30px;
 		z-index: 99;
 	}
+	.keywordFilter {
+		color: #999;
+		padding: 20px 30px;
+		.key {
+			position: relative;
+			padding-right: 30px;
+			&::after {
+				content: "/";
+				position: absolute;
+				right: 0;
+				padding: 0 6px;
+			}
+		}
+	}
 }

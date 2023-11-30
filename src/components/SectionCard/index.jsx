@@ -1,16 +1,17 @@
-import { View } from '@tarojs/components';
+import { View, Text } from '@tarojs/components';
 
 import './style.scss';
 
-const SectionCard = (props) => {
+const SectionCard = ({ title, extra, children, style = {} }) => {
 	return (
-		<View className='SectionCard'>
-			<View className='title'>{props.title}</View>
-			<View className='content'>
-				{ props.children}
+		<View className='SectionCard' style={style}>
+			<View className='title'>
+				<Text>{title}</Text>
+				{extra ? <View className='extra'>{extra}</View> : null}
 			</View>
+			<View className='content'>{children}</View>
 		</View>
-	)
-}
+	);
+};
 
 export default SectionCard;

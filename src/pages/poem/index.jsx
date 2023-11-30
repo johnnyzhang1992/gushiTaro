@@ -22,7 +22,6 @@ import useFetchList from '../../hooks/useFetchList';
 import { fetchHomeData, fetchPoemData } from './service';
 import { PoemTypes, DynastyArr } from '../../const/config';
 
-
 const Poem = () => {
 	const { setTitle } = useNavigationBar({ title: '古诗文小助手' });
 	const [pageOptions, setOptions] = useState({
@@ -31,8 +30,9 @@ const Poem = () => {
 		title: '',
 		code: '',
 		profile: '',
-		from: 'home', // home 首页底部筛选 nav 导航
+		from: 'home', // home 首页底部筛选 nav 导航 tag
 		inited: false,
+		keyWord: '', // 关键词
 	});
 	const [fetchParams, updateParams] = useState({
 		name: '',
@@ -55,7 +55,7 @@ const Poem = () => {
 	);
 
 	const updateParam = (filterParams) => {
-		console.log('filterParams--更新:', filterParams)
+		console.log('filterParams--更新:', filterParams);
 		updateParams((pre) => {
 			return {
 				...pre,
@@ -80,20 +80,33 @@ const Poem = () => {
 	}, [data]);
 
 	useLoad((options) => {
-		const { type, name, from, code } = options;
+		const { type, name, from, code, keyWord } = options;
 		console.log(type, name, from, options);
-		setTitle(name || '诗词文言');
+		setTitle(name || keyWord || '诗词文言');
 		setOptions({
 			...options,
 			title: name,
 			name: code,
 			inited: true,
 		});
-		updateParams({
-			name: code,
-			from: 'home',
+		let params = {
+			from: from || 'home',
 			inited: true,
-		});
+		};
+		if (type) {
+			if (['tag', 'author'].includes(type)) {
+				params['_type'] = type;
+			} else {
+				params['type'] = type;
+			}
+		}
+		if (keyWord) {
+			params['keyWord'] = keyWord;
+		}
+		if (code) {
+			params['name'] = code;
+		}
+		updateParams(params);
 	});
 	useDidShow(() => {
 		console.log('page--show');
@@ -142,7 +155,9 @@ const Poem = () => {
 						<Text>{pageOptions.profile}</Text>
 					</View>
 				</View>
-			) : (
+			) : null}
+			{/* 默认筛选项 */}
+			{!pageOptions.from ? (
 				<View className='filterContainer'>
 					<FilterCard
 						name='type'
@@ -157,8 +172,26 @@ const Poem = () => {
 						updateParams={updateParam}
 					/>
 				</View>
-			)}
-			{/* 顶部筛选 -  */}
+			) : null}
+			{/* 关键字筛选 */}
+			<View className='keywordFilter'>
+				{fetchParams.type ? (
+					<Text decode className='key'>
+						{fetchParams.type || ''}
+					</Text>
+				) : null}
+				{fetchParams.dynasty ? (
+					<Text decode className='key'>
+						{fetchParams.dynasty || ''}
+					</Text>
+				) : null}
+				{pageOptions.keyWord ? (
+					<Text decode className='key'>
+						{pageOptions.keyWord || ''}
+					</Text>
+				) : null}
+				<Text decode>共 {pagination.total} 条结果</Text>
+			</View>
 			<View className='divide' />
 			{/* 诗词列表 */}
 			<View className='pageContainer'>

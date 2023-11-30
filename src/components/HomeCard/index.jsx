@@ -10,7 +10,7 @@ const CardItem = (props) => {
 		const path =
 			type && type === 'book' ? '/pages/book?' : '/pages/poem/index?';
 		Taro.navigateTo({
-			url: `${path}type=${type}&code=${code}&name=${name}&profile=${profile}&from=home`,
+			url: `${path}code=${code}&name=${name}&profile=${profile}&from=home`,
 		});
 	};
 	return (

@@ -11,7 +11,9 @@ const SentenceCard = (props) => {
 	};
 	return (
 		<View className='sentenceCard' onClick={handleNavigate}>
-			<View className='title'>{props.title}</View>
+			<View className='title'>
+				<Text>{props.title}</Text>
+			</View>
 			<View className='origin'>{props.origin}</View>
 			{props.showCount ? (
 				<View className='count'>

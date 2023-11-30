@@ -1,4 +1,10 @@
-import { View, OfficialAccount, Text, Navigator, Image } from '@tarojs/components';
+import {
+	View,
+	OfficialAccount,
+	Text,
+	Navigator,
+	Image,
+} from '@tarojs/components';
 import { useState, useRef } from 'react';
 import Taro, {
 	useLoad,
@@ -8,8 +14,10 @@ import Taro, {
 } from '@tarojs/taro';
 import { useNavigationBar } from 'taro-hooks';
 
+import SectionCard from '../../components/SectionCard';
 import LikeButton from '../../components/LikeButton';
 import CollectButton from '../../components/CollectButton';
+import TagsCard from '../../components/TagsCard';
 
 import { fetchSentenceDetail } from './service';
 
@@ -35,6 +43,7 @@ const SentenceDetail = () => {
 			like_status: false,
 		},
 	});
+	const [tags, setTags] = useState([]);
 
 	// 拆分词句
 	const splitSentence = (sentence) => {
@@ -64,6 +73,11 @@ const SentenceDetail = () => {
 					},
 				});
 				setTitle(sentence.title);
+				let tagsArr = [sentence.theme, sentence.type];
+				if (poem.tags) {
+					tagsArr = tagsArr.concat(poem.tags.split(','));
+				}
+				setTags([...new Set(tagsArr)]);
 			}
 		});
 	};
@@ -149,6 +163,17 @@ const SentenceDetail = () => {
 					</View>
 				</Navigator>
 			</view>
+			<SectionCard
+				title='标签'
+				style={{
+					backgroundColor: '#fff',
+					marginTop: '20rpx',
+					borderRadius: '6px',
+					padding: '20rpx 30rpx'
+				}}
+			>
+				<TagsCard tags={tags} />
+			</SectionCard>
 			{/* 操作栏 复制 */}
 			<View className='copyContainer' onClick={handlecopy}>
 				<Image src={copyPng} className='copy' />

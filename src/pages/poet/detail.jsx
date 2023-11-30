@@ -13,6 +13,7 @@ import {
 	Text,
 	Swiper,
 	SwiperItem,
+	Navigator
 } from '@tarojs/components';
 
 import { fetchPoetDetail } from './service';
@@ -126,7 +127,18 @@ const PoetDetailPage = () => {
 			</View>
 			<View className='divide'></View>
 			{/* 热门诗词  */}
-			<SectionCard title='热门诗词'>
+			<SectionCard
+				title='热门诗词'
+				extra={
+					<Navigator
+						className='navigator'
+						hoverClass='none'
+						url={`/pages/poem/index?from=poet&type=author&keyWord=${detail.poet.author_name}`}
+					>
+						查看更多
+					</Navigator>
+				}
+			>
 				<Swiper
 					className='hotPoemsSwiper'
 					indicatorColor='#999'
