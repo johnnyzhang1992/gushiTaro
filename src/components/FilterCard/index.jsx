@@ -25,8 +25,10 @@ const FilterItem = (props) => {
 };
 
 const FilterCard = ({ title, name, filters = [], updateParams, initValue }) => {
+	// 选中项：初始默认值或者数组第一项
 	const [activeName, setName] = useState(initValue || filters[0]);
-	console.log('activeName',title, name, initValue, activeName);
+	console.log('activeName', title, name, initValue, activeName);
+	// 默认值会发生变化，若变化则设置新的初始值（activeName 初始赋值只有第一次有效
 	useEffect(() => {
 		setName(initValue);
 	}, [initValue]);

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Taro, {
 	useLoad,
 	usePullDownRefresh,
@@ -50,7 +50,7 @@ const SentencePage = () => {
 		});
 	}, [data]);
 
-	const updateParam = (filterParams) => {
+	const updateParam = useCallback((filterParams) => {
 		console.log('filterParams--更新:', filterParams);
 		updateParams((pre) => {
 			return {
@@ -65,7 +65,7 @@ const SentencePage = () => {
 			last_page: -1,
 		});
 		cacheObj.current.count = cacheObj.current.count + 1;
-	};
+	}, []);
 
 	console.log(data, error, loading);
 	useLoad((options) => {
@@ -110,15 +110,17 @@ const SentencePage = () => {
 	};
 	useShareAppMessage(() => {
 		const queryStr = computeParams();
+		const { theme } = fetchParams;
 		return {
-			title: '名句',
+			title: theme !== '全部' ? `${theme} | 名句` : '名句',
 			path: '/pages/sentence/index?' + queryStr,
 		};
 	});
 	useShareTimeline(() => {
 		const queryStr = computeParams();
+		const { theme } = fetchParams;
 		return {
-			title: '名句',
+			title: theme !== '全部' ? `${theme} - 名句` : '名句',
 			path: '/pages/sentence/index?' + queryStr,
 		};
 	});

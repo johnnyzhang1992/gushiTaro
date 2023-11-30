@@ -1,5 +1,5 @@
 import { View } from '@tarojs/components';
-import { useEffect, useState, useRef } from 'react';
+import React,{ useEffect, useState, useRef } from 'react';
 
 import FilterCard from '../../../../components/FilterCard';
 
@@ -70,4 +70,4 @@ const FilterContainer = ({
 	);
 };
 
-export default FilterContainer;
+export default React.memo(FilterContainer);
