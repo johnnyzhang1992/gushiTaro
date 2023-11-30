@@ -99,8 +99,11 @@ const Page = () => {
 
 	return (
 		<View className='page poetDetail'>
+			{/* 诗人图片 */}
 			<View className='avatarContainer'>
-				<Image src={detail.poet.avatar} className='avatar' />
+				{detail.poet.avatar ? (
+					<Image src={detail.poet.avatar} className='avatar' />
+				) : null}
 				<View className='author'>
 					<View className='name'>{detail.poet.author_name}</View>
 					<View className='dynasty'>「{detail.poet.dynasty}」</View>
@@ -108,12 +111,14 @@ const Page = () => {
 			</View>
 			<View className='divide'></View>
 			<OfficialAccount />
+			{/* 介绍 */}
 			<View className='poetProfile'>
 				<Text className='text' decode userSelect>
 					{detail.poet.profile}
 				</Text>
 			</View>
 			<View className='divide'></View>
+			{/* 其他信息 */}
 			{detail.poet.more_infos.map((info) => (
 				<PoemSection title={info.title} key={info.title}>
 					<LongTextCard
