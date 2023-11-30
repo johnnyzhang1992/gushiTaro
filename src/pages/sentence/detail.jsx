@@ -17,7 +17,7 @@ import copyPng from '../../images/icon/copy.png';
 
 import './style.scss';
 
-const Page = () => {
+const SentenceDetail = () => {
 	const { setTitle } = useNavigationBar({ title: '古诗文小助手' });
 	const catchRef = useRef({});
 	const [detail, setDetail] = useState({
@@ -180,4 +180,4 @@ const Page = () => {
 	);
 };
 
-export default Page;
+export default SentenceDetail;

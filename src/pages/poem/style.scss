@@ -15,14 +15,6 @@
 		font-size: 0.7em;
 	}
 }
-.filterContainer {
-	position: sticky;
-	top: 0;
-	background-color: #fff;
-	opacity: 0.9;
-	padding: 20px 30px;
-	z-index: 99;
-}
 .pageContainer {
 	padding: 0 30px;
 }
@@ -39,5 +31,15 @@
 		width: 44px;
 		height: 44px;
 		display: block;
+	}
+}
+.poemIndex {
+	.filterContainer {
+		position: sticky;
+		top: 0;
+		background-color: #fff;
+		opacity: 0.9;
+		padding: 20px 30px;
+		z-index: 99;
 	}
 }

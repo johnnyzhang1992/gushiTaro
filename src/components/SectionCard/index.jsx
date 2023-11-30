@@ -2,9 +2,9 @@ import { View } from '@tarojs/components';
 
 import './style.scss';
 
-const PoemSection = (props) => {
+const SectionCard = (props) => {
 	return (
-		<View className='poemSection'>
+		<View className='SectionCard'>
 			<View className='title'>{props.title}</View>
 			<View className='content'>
 				{ props.children}
@@ -13,4 +13,4 @@ const PoemSection = (props) => {
 	)
 }
 
-export default PoemSection;
+export default SectionCard;

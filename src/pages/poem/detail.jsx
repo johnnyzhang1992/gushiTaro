@@ -1,9 +1,7 @@
 import { useState, useRef } from 'react';
 import Taro, {
 	useLoad,
-	useUnload,
 	usePullDownRefresh,
-	useReachBottom,
 	useShareAppMessage,
 	useShareTimeline,
 } from '@tarojs/taro';
@@ -12,11 +10,11 @@ import { View, Image, OfficialAccount } from '@tarojs/components';
 
 import { fetchPoemDetail } from './service';
 
+import SectionCard from '../../components/SectionCard';
 import PoemCard from './components/PoemCard';
-import PoemSection from './components/PoemSection';
+import FixBottom from './components/FixBottom';
 import LongTextCard from '../../components/LongTextCard';
 import TagsCard from '../../components/TagsCard';
-import FixBottom from './components/FixBottom';
 import AudioCard from '../../components/AudioCard';
 
 import copyPng from '../../images/icon/copy.png';
@@ -122,12 +120,7 @@ const PoemDetail = () => {
 		console.log('page-pullRefresh');
 		Taro.stopPullDownRefresh();
 	});
-	useReachBottom(() => {
-		console.log('--rearchBottom');
-	});
-	useUnload(() => {
-		console.log('page-unload');
-	});
+
 	useShareAppMessage(() => {
 		const { poem } = detail;
 		return {
@@ -156,29 +149,29 @@ const PoemDetail = () => {
 			/>
 			{/* 标签 */}
 			{detail.poem.tagsArr.length > 0 ? (
-				<PoemSection title='分类'>
+				<SectionCard title='分类'>
 					<TagsCard tags={detail.poem.tagsArr || []} />
-				</PoemSection>
+				</SectionCard>
 			) : null}
 			{/* 创作背景 */}
 			{detail.poem.background ? (
-				<PoemSection title='创作背景'>
+				<SectionCard title='创作背景'>
 					<LongTextCard
 						title='创作背景'
 						showAll={false}
 						text={detail.poem.background || ''}
 					/>
-				</PoemSection>
+				</SectionCard>
 			) : null}
 			{/* 赏析 */}
 			{detail.detail.shangxi && detail.detail.shangxi.content ? (
-				<PoemSection title='赏析'>
+				<SectionCard title='赏析'>
 					<LongTextCard
 						title='赏析'
 						showAll={false}
 						text={detail.detail.shangxi || ''}
 					/>
-				</PoemSection>
+				</SectionCard>
 			) : null}
 			{/* 操作栏 复制 */}
 			<View className='copyContainer' onClick={handlecopy}>

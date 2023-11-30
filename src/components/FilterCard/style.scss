@@ -1,14 +1,14 @@
 .filterCard {
 	display: flex;
 	margin-bottom: 10px;
-	.title {
+	&>.title {
 		font-size: 26px;
 		font-weight: 600;
 		padding: 4px 0;
 		padding-left: 14px;
 		position: relative;
 		&::before {
-			content: " ";
+			content: ' ';
 			width: 6px;
 			height: 28px;
 			position: absolute;
@@ -17,17 +17,17 @@
 			background-color: #337ba7;
 		}
 	}
-}
-.filterList {
-	flex: 1;
-	display: flex;
-	flex-wrap: wrap;
-}
-.filterItem {
-	font-size: 26px;
-	padding: 4px 8px;
-	margin-right: 12px;
-	&.active {
-		color: #337ba7;
+	.filterList {
+		flex: 1;
+		display: flex;
+		flex-wrap: wrap;
+	}
+	.filterItem {
+		font-size: 26px;
+		padding: 4px 8px;
+		margin-right: 12px;
+		&.active {
+			color: #337ba7;
+		}
 	}
 }

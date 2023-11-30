@@ -97,7 +97,7 @@ const PoetPage = () => {
 		};
 	});
 	return (
-		<View className='page'>
+		<View className='page poetIndex'>
 			{/* 筛选 */}
 			<View className='filterContainer'>
 				<FilterCard

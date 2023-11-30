@@ -12,15 +12,16 @@ import Taro, {
 import { useNavigationBar } from 'taro-hooks';
 import { View, Text } from '@tarojs/components';
 
-import PoemSmallCard from '../../components/PoemSmallCard';
 import FilterCard from '../../components/FilterCard';
+import PoemSmallCard from '../../components/PoemSmallCard';
+
+import './style.scss';
 
 import useFetchList from '../../hooks/useFetchList';
 
 import { fetchHomeData, fetchPoemData } from './service';
 import { PoemTypes, DynastyArr } from '../../const/config';
 
-import './style.scss';
 
 const Poem = () => {
 	const { setTitle } = useNavigationBar({ title: '古诗文小助手' });
@@ -130,7 +131,7 @@ const Poem = () => {
 		};
 	});
 	return (
-		<View className='page'>
+		<View className='page poemIndex'>
 			{/* 页面顶部 -- 来自首页底部筛选 */}
 			{pageOptions.from === 'home' ? (
 				<View className='poemTitle'>

@@ -1,9 +1,7 @@
 import { useState, useRef } from 'react';
 import Taro, {
 	useLoad,
-	useUnload,
 	usePullDownRefresh,
-	useReachBottom,
 	useShareAppMessage,
 	useShareTimeline,
 } from '@tarojs/taro';
@@ -19,15 +17,15 @@ import {
 
 import { fetchPoetDetail } from './service';
 
-import PoemSection from '../poem/components/PoemSection';
+import SectionCard from '../../components/SectionCard';
 import LongTextCard from '../../components/LongTextCard';
+import PoemSmallCard from '../../components/PoemSmallCard';
 import LikeButton from '../../components/LikeButton';
 import CollectButton from '../../components/CollectButton';
-import PoemSmallCard from '../../components/PoemSmallCard';
 
 import './style.scss';
 
-const Page = () => {
+const PoetDetailPage = () => {
 	const { setTitle } = useNavigationBar({ title: '古诗文小助手' });
 	const [detail, setDetail] = useState({
 		poet: {
@@ -86,12 +84,7 @@ const Page = () => {
 		console.log('page-pullRefresh');
 		Taro.stopPullDownRefresh();
 	});
-	useReachBottom(() => {
-		console.log('--rearchBottom');
-	});
-	useUnload(() => {
-		console.log('page-unload');
-	});
+
 	useShareAppMessage(() => {
 		const { poet } = detail;
 		return {
@@ -133,7 +126,7 @@ const Page = () => {
 			</View>
 			<View className='divide'></View>
 			{/* 热门诗词  */}
-			<PoemSection title='热门诗词'>
+			<SectionCard title='热门诗词'>
 				<Swiper
 					className='hotPoemsSwiper'
 					indicatorColor='#999'
@@ -149,17 +142,17 @@ const Page = () => {
 						</SwiperItem>
 					))}
 				</Swiper>
-			</PoemSection>
+			</SectionCard>
 			<View className='divide'></View>
 			{/* 其他信息 */}
 			{detail.poet.more_infos.map((info) => (
-				<PoemSection title={info.title} key={info.title}>
+				<SectionCard title={info.title} key={info.title}>
 					<LongTextCard
 						title={info.title}
 						showAll={false}
 						text={info || ''}
 					/>
-				</PoemSection>
+				</SectionCard>
 			))}
 			{/* 底部 */}
 			<View className='fixBottom'>
@@ -188,4 +181,4 @@ const Page = () => {
 	);
 };
 
-export default Page;
+export default PoetDetailPage;
