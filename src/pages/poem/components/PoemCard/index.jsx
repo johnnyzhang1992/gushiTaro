@@ -7,6 +7,9 @@ import PoemContent from '../PoemContent';
 
 const PoemCard = (props) => {
 	const handleNavigateAuthor = () => {
+		if (props.author_id < 1) {
+			return false;
+		}
 		Taro.navigateTo({
 			url: '/pages/poet/detail?id=' + props.author_id,
 		});
@@ -15,16 +18,12 @@ const PoemCard = (props) => {
 		<View className='poemCard'>
 			{/* 标题 */}
 			<View className='title'>
-				<Text userSelect>
-					{props.title}
-				</Text>
+				<Text userSelect>{props.title}</Text>
 			</View>
 			{/* 作者 */}
 			<View className='author' onClick={handleNavigateAuthor}>
 				{props.dynasty ? (
-					<Text userSelect>
-						[{props.dynasty}]
-					</Text>
+					<Text userSelect>[{props.dynasty}]</Text>
 				) : null}
 				<Text userSelect className='name'>
 					{props.author}

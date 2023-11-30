@@ -14,6 +14,15 @@ export const fetchPoetData = (method, data) => {
 };
 
 /**
+ * 根据条件获取诗人的诗词列表
+ * @param {String} method GET
+ * @param {Object} data {}
+ */
+export const fetchPoetPoems = (method, data) => {
+	return Request(`/wxxcx/getPoetPoems?`, data, method);
+};
+
+/**
  * 诗人详情
  * @param {String} method GET
  * @param {Object} data {}

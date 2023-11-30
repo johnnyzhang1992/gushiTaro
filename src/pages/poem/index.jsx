@@ -12,7 +12,7 @@ import Taro, {
 import { useNavigationBar } from 'taro-hooks';
 import { View, Text } from '@tarojs/components';
 
-import PoemSmallCard from '../../components/PomSmallCard';
+import PoemSmallCard from '../../components/PoemSmallCard';
 import FilterCard from '../../components/FilterCard';
 
 import useFetchList from '../../hooks/useFetchList';

@@ -8,7 +8,14 @@ import Taro, {
 	useShareTimeline,
 } from '@tarojs/taro';
 import { useNavigationBar } from 'taro-hooks';
-import { View, Image, OfficialAccount, Text } from '@tarojs/components';
+import {
+	View,
+	Image,
+	OfficialAccount,
+	Text,
+	Swiper,
+	SwiperItem,
+} from '@tarojs/components';
 
 import { fetchPoetDetail } from './service';
 
@@ -16,6 +23,7 @@ import PoemSection from '../poem/components/PoemSection';
 import LongTextCard from '../../components/LongTextCard';
 import LikeButton from '../../components/LikeButton';
 import CollectButton from '../../components/CollectButton';
+import PoemSmallCard from '../../components/PoemSmallCard';
 
 import './style.scss';
 
@@ -33,7 +41,9 @@ const Page = () => {
 			collect_count: 0,
 			collect_status: false,
 		},
-		poems: {},
+		poems: {
+			data: [],
+		},
 	});
 	const cacheRef = useRef({
 		poemId: 48769,
@@ -106,7 +116,11 @@ const Page = () => {
 				) : null}
 				<View className='author'>
 					<View className='name'>{detail.poet.author_name}</View>
-					<View className='dynasty'>「{detail.poet.dynasty}」</View>
+					{detail.poet.dynasty ? (
+						<View className='dynasty'>
+							「{detail.poet.dynasty}」
+						</View>
+					) : null}
 				</View>
 			</View>
 			<View className='divide'></View>
@@ -117,6 +131,25 @@ const Page = () => {
 					{detail.poet.profile}
 				</Text>
 			</View>
+			<View className='divide'></View>
+			{/* 热门诗词  */}
+			<PoemSection title='热门诗词'>
+				<Swiper
+					className='hotPoemsSwiper'
+					indicatorColor='#999'
+					indicatorActiveColor='#333'
+					vertical
+					circular
+					indicatorDots
+					autoplay
+				>
+					{detail.poems.data.map((poem) => (
+						<SwiperItem key={poem.id}>
+							<PoemSmallCard {...poem} showCount />
+						</SwiperItem>
+					))}
+				</Swiper>
+			</PoemSection>
 			<View className='divide'></View>
 			{/* 其他信息 */}
 			{detail.poet.more_infos.map((info) => (

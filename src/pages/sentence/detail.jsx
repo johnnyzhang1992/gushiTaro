@@ -56,7 +56,7 @@ const Page = () => {
 				console.log(res.data);
 				const { sentence = {}, author = {}, poem = {} } = res.data;
 				setDetail({
-					author: author,
+					author: author || {},
 					poem,
 					sentence: {
 						...sentence,
