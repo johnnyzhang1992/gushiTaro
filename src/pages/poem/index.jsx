@@ -1,9 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Taro, {
 	useLoad,
-	useDidHide,
-	useDidShow,
-	useUnload,
 	usePullDownRefresh,
 	useReachBottom,
 	useShareAppMessage,
@@ -46,6 +43,7 @@ const Poem = () => {
 		total: 0,
 		last_page: 1,
 	});
+	const cacheOptions = useRef({});
 
 	// 使用自定义hook 获取诗词分页数据
 	const { data, error, loading } = useFetchList(
@@ -80,7 +78,8 @@ const Poem = () => {
 	}, [data]);
 
 	useLoad((options) => {
-		const { type, name, from, code, keyWord } = options;
+		const { type, name, from, code, keyWord, dynasty } = options;
+		cacheOptions.current = { ...options };
 		console.log(type, name, from, options);
 		setTitle(name || keyWord || '诗词文言');
 		setOptions({
@@ -106,13 +105,10 @@ const Poem = () => {
 		if (code) {
 			params['name'] = code;
 		}
+		if (dynasty && dynasty !== 'undefined') {
+			params['dynasty'] = dynasty;
+		}
 		updateParams(params);
-	});
-	useDidShow(() => {
-		console.log('page--show');
-	});
-	useDidHide(() => {
-		console.log('page-hide');
 	});
 	usePullDownRefresh(() => {
 		console.log('page-pullRefresh');
@@ -128,19 +124,39 @@ const Poem = () => {
 			});
 		}
 	});
-	useUnload(() => {
-		console.log('page-unload');
-	});
+	const computeParams = () => {
+		const { dynasty, type } = fetchParams;
+		let queryStr = '';
+		let newObj = {
+			...cacheOptions.current,
+		};
+		if (dynasty) {
+			newObj['dynasty'] = dynasty;
+		}
+		if (type) {
+			newObj['type'] = type;
+		}
+		Object.keys(newObj).forEach((key) => {
+			if (newObj[key]) {
+				queryStr += `${key}=${newObj[key]}&`;
+			}
+		});
+		return queryStr;
+	};
 	useShareAppMessage(() => {
+		const queryStr = computeParams();
+		const { keyWord } = fetchParams;
 		return {
-			title: '诗词文言',
-			path: '/pages/poem/index',
+			title: keyWord || '诗词文言',
+			path: '/pages/poem/index?' + queryStr,
 		};
 	});
 	useShareTimeline(() => {
+		const queryStr = computeParams();
+		const { keyWord } = fetchParams;
 		return {
-			title: '诗词文言',
-			path: '/pages/poem/index',
+			title: keyWord || '诗词文言',
+			path: '/pages/poem/index?' + queryStr,
 		};
 	});
 	return (
@@ -162,12 +178,14 @@ const Poem = () => {
 					<FilterCard
 						name='type'
 						title='分类'
+						initValue={pageOptions.type || '全部'}
 						filters={PoemTypes}
 						updateParams={updateParam}
 					/>
 					<FilterCard
 						name='dynasty'
 						title='朝代'
+						initValue={pageOptions.dynasty || '全部'}
 						filters={DynastyArr}
 						updateParams={updateParam}
 					/>

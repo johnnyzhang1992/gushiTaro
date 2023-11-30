@@ -1,9 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Taro, {
 	useLoad,
-	useDidHide,
-	useDidShow,
-	useUnload,
 	usePullDownRefresh,
 	useReachBottom,
 	useShareAppMessage,
@@ -27,8 +24,7 @@ const SentencePage = () => {
 	const [fetchParams, updateParams] = useState({
 		theme: '全部',
 		type: '全部',
-		from: 'home',
-		inited: true,
+		inited: false,
 	});
 	const [pagination, updatePagination] = useState({
 		page: 1,
@@ -36,6 +32,7 @@ const SentencePage = () => {
 		total: 0,
 		last_page: 1,
 	});
+	const cacheObj = useRef({ count: 0 });
 
 	// 使用自定义hook 获取诗词分页数据
 	const { data, error, loading } = useFetchList(
@@ -67,18 +64,23 @@ const SentencePage = () => {
 			total: 0,
 			last_page: -1,
 		});
+		cacheObj.current.count = cacheObj.current.count + 1;
 	};
 
 	console.log(data, error, loading);
-	useLoad(() => {
+	useLoad((options) => {
+		const { theme, type } = options;
+		console.log('options', options);
+		cacheObj.current = { ...options, count: 0 };
+		updateParams((pre) => {
+			return {
+				...pre,
+				theme: theme && theme !== 'undefined' ? theme : '全部',
+				type: type && type !== 'undefined' ? type : '全部',
+				inited: true,
+			};
+		});
 		setTitle('名句 | 古诗文助手');
-	});
-
-	useDidShow(() => {
-		console.log('page--show');
-	});
-	useDidHide(() => {
-		console.log('page-hide');
 	});
 	usePullDownRefresh(() => {
 		console.log('page-pullRefresh');
@@ -94,19 +96,30 @@ const SentencePage = () => {
 			});
 		}
 	});
-	useUnload(() => {
-		console.log('page-unload');
-	});
+	const computeParams = () => {
+		const { theme, type } = fetchParams;
+		let queryStr = '';
+
+		if (theme) {
+			queryStr += `theme=${theme}&`;
+		}
+		if (type) {
+			queryStr += `type=${type}&`;
+		}
+		return queryStr;
+	};
 	useShareAppMessage(() => {
+		const queryStr = computeParams();
 		return {
 			title: '名句',
-			path: '/pages/sentence/index',
+			path: '/pages/sentence/index?' + queryStr,
 		};
 	});
 	useShareTimeline(() => {
+		const queryStr = computeParams();
 		return {
 			title: '名句',
-			path: '/pages/sentence/index',
+			path: '/pages/sentence/index?' + queryStr,
 		};
 	});
 
@@ -116,6 +129,8 @@ const SentencePage = () => {
 			<FilterContainer
 				categories={sentenceCategories}
 				updateParam={updateParam}
+				defaultTheme={fetchParams.theme}
+				defaultType={fetchParams.type}
 			/>
 			<View className='divide' />
 			<View className='pageContainer'>

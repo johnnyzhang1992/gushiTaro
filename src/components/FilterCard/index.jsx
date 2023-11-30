@@ -1,5 +1,5 @@
 import { View } from '@tarojs/components';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import './style.scss';
 
@@ -10,6 +10,7 @@ const FilterItem = (props) => {
 		if (handleChange && typeof handleChange === 'function') {
 			const obj = {};
 			obj[formName] = name;
+			obj['pre_' + formName] = activeName;
 			handleChange(obj);
 		}
 	};
@@ -23,10 +24,12 @@ const FilterItem = (props) => {
 	);
 };
 
-const FilterCard = (props) => {
-	const { title, name, filters = [], updateParams } = props;
-	const [activeName, setName] = useState(filters[0]);
-
+const FilterCard = ({ title, name, filters = [], updateParams, initValue }) => {
+	const [activeName, setName] = useState(initValue || filters[0]);
+	console.log('activeName',title, name, initValue, activeName);
+	useEffect(() => {
+		setName(initValue);
+	}, [initValue]);
 	return (
 		<View className='filterCard'>
 			{title ? <View className='title'>{title}</View> : null}

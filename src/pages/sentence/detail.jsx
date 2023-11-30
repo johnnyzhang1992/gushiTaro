@@ -73,7 +73,9 @@ const SentenceDetail = () => {
 					},
 				});
 				setTitle(sentence.title);
-				let tagsArr = [sentence.theme, sentence.type];
+				let tagsArr = [];
+				tagsArr = tagsArr.concat(sentence.theme.split(','))
+				tagsArr = tagsArr.concat(sentence.type.split(','))
 				if (poem.tags) {
 					tagsArr = tagsArr.concat(poem.tags.split(','));
 				}
