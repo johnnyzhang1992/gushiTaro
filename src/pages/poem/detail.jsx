@@ -51,7 +51,7 @@ const PoemDetail = () => {
 	// 处理返回的数据， 特别是json 的解析
 	const computeData = (data) => {
 		const { poem, detail: poemDetail, sentences = [] } = data;
-		let _detail = { ...poemDetail };
+		let _detail = { ...(poemDetail || { yi: '', zhu: '' }) };
 		if (_detail && _detail.yi) {
 			_detail.yi = JSON.parse(_detail.yi || '{}');
 		}
@@ -66,7 +66,7 @@ const PoemDetail = () => {
 		}
 		let _poem = { ...poem };
 		_poem.content = JSON.parse(_poem.content || '{}');
-		_poem.tagsArr = String(_poem.tags).split(',');
+		_poem.tagsArr = _poem.tags === '' ? [] : String(_poem.tags).split(',');
 		setDetail({
 			...detail,
 			poem: _poem,
@@ -176,7 +176,7 @@ const PoemDetail = () => {
 						indicatorDots
 						autoplay
 						style={{
-							height: '130rpx',
+							height: '160rpx',
 						}}
 					>
 						{detail.sentences.map((sentence) => (

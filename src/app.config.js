@@ -3,6 +3,7 @@ export default {
 		'pages/index',
 		'pages/book',
 		'pages/me/index',
+		'pages/me/collect',
 		'pages/search/index',
 		'pages/poet/index',
 		'pages/poet/detail',

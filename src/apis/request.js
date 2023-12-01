@@ -20,7 +20,39 @@ const request = (url, params, method = 'GET') => {
 		method: method,
 		header: {
 			'content-type': 'application/json', // 默认值,
-		}
+		},
+		success: (res) => {
+			if (res && res.statusCode === 200) {
+				const { error_code } = res.data;
+				if (error_code && error_code == 401) {
+					console.log('当前token过期', res.data)
+					Taro.removeStorageSync('user');
+					Taro.removeStorageSync('wx_token');
+					const pages = Taro.getCurrentPages() || [];
+					Taro.showModal({
+						title: '提示',
+						content: '当前登录已过期,请重新登录！',
+						confirmText: '去登录',
+						success: function (_res) {
+							if (_res.confirm) {
+								console.log('用户点击确定');
+								Taro.setStorageSync(
+									'preLoginPath',
+									pages[pages.length - 1]['$taroPath']
+								);
+								Taro.switchTab({
+									url: '/pages/me/index',
+								});
+							} else if (_res.cancel) {
+								console.log('用户点击取消');
+							}
+						},
+					});
+				}
+			} else {
+				console.log('--请求报错：', res.data)
+			}
+		},
 	});
 };
 

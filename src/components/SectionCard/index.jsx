@@ -2,10 +2,16 @@ import { View, Text } from '@tarojs/components';
 
 import './style.scss';
 
-const SectionCard = ({ title, extra, children, style = {} }) => {
+const SectionCard = ({ title, extra, children, style = {}, titleClick }) => {
+	const handleTitleClick = () => {
+		if (titleClick && typeof titleClick === 'function') {
+			titleClick();
+			console.log('--sectionCard--titleClick')
+		}
+	}
 	return (
 		<View className='SectionCard' style={style}>
-			<View className='title'>
+			<View className='title' onClick={handleTitleClick}>
 				<Text>{title}</Text>
 				{extra ? <View className='extra'>{extra}</View> : null}
 			</View>

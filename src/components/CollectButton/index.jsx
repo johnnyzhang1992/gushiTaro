@@ -6,6 +6,7 @@ import collectSvg from '../../images/svg/collect.svg';
 import collectActiveSvg from '../../images/svg/collect_active.svg';
 
 import { updateUserCollect } from '../../services/global';
+import { userIsLogin } from '../../utils/auth';
 
 import './style.scss';
 
@@ -27,6 +28,10 @@ const CollectButton = (props) => {
 
 	const handleStatusChange = () => {
 		console.log('type,id:', type, id);
+		const isLogin = userIsLogin();
+		if (!isLogin) {
+			return false;
+		}
 		updateUserCollect('POST', {
 			type,
 			id,

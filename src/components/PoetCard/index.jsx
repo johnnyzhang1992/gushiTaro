@@ -3,23 +3,39 @@ import Taro from '@tarojs/taro';
 
 import './style.scss';
 
-const PoetCard = ({ id, avatar, author_name, dynasty, profile }) => {
+const PoetCard = ({
+	id,
+	avatar,
+	author_name,
+	dynasty,
+	profile,
+	showAvatar = true,
+	hideBorder = false,
+}) => {
 	const handleNavigate = () => {
 		Taro.navigateTo({
 			url: '/pages/poet/detail?id=' + id,
 		});
 	};
 	return (
-		<View className='poetCard' key={id} onClick={handleNavigate}>
-			<View className='avatar'>
-				<Image
-					lazyLoad
-					fadeIn
-					showMenuByLongpress
-					src={avatar}
-					className='img'
-				/>
-			</View>
+		<View
+			className={`poetCard ${hideBorder ? 'hideBorder' : ''} ${
+				showAvatar ? '' : 'hideAvatar'
+			}`}
+			key={id}
+			onClick={handleNavigate}
+		>
+			{showAvatar ? (
+				<View className='avatar'>
+					<Image
+						lazyLoad
+						fadeIn
+						showMenuByLongpress
+						src={avatar}
+						className='img'
+					/>
+				</View>
+			) : null}
 			<View className='content'>
 				<View className='author'>
 					<Text className='name'>{author_name}</Text>

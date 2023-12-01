@@ -6,6 +6,7 @@ import likeSvg from '../../images/svg/like.svg';
 import likeActiveSvg from '../../images/svg/like_active.svg';
 
 import { updateUserLike } from '../../services/global';
+import { userIsLogin } from '../../utils/auth';
 
 import './style.scss';
 
@@ -27,12 +28,21 @@ const LikeButton = (props) => {
 
 	const handleStatusChange = () => {
 		console.log('type,id:', type, id);
+		const isLogin = userIsLogin();
+		if (!isLogin) {
+			return false;
+		}
 		updateUserLike('POST', {
 			type,
 			id,
 		}).then((res) => {
 			if (res && res.statusCode === 200) {
-				const { status: resStatus, num: resCount, errors, error_code } = res.data;
+				const {
+					status: resStatus,
+					num: resCount,
+					errors,
+					error_code,
+				} = res.data;
 				if (!error_code) {
 					setStatus(resStatus);
 					setCount(resCount);
@@ -42,9 +52,9 @@ const LikeButton = (props) => {
 				} else {
 					Taro.showToast({
 						title: errors || '操作失败',
-						icon: 'error',
+						icon: 'none',
 						duration: 2000,
-					})
+					});
 				}
 			}
 		});

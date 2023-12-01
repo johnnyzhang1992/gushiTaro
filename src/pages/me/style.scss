@@ -1,0 +1,84 @@
+.mePage {
+	min-height: 100vh;
+	box-sizing: border-box;
+	.meTop {
+		color: #fff;
+		padding: 30px 30px;
+		background-color: #337ab7;
+		border-radius: 0 0 160px 160px;
+		margin-bottom: 30px;
+	}
+	.userInfoCard {
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		justify-content: flex-end;
+		.avatar {
+			.img {
+				width: 100px;
+				height: 100px;
+				border-radius: 50%;
+			}
+		}
+		.user_name {
+			font-size: 30px;
+			font-weight: 600;
+			padding-left: 30px;
+			margin-top: 10px;
+			display: flex;
+			align-items: center;
+			.icon {
+				font-size: 34px;
+				padding-left: 20px;
+			}
+		}
+	}
+	.loginCard {
+		padding: 30px 30px;
+		text-align: center;
+	}
+	.sectionItems {
+		display: flex;
+		justify-content: space-around;
+		margin-top: 20px;
+		.item {
+			text-align: center;
+		}
+		.name {
+			font-size: 30px;
+		}
+		.num {
+			font-size: 48px;
+			font-weight: 600;
+		}
+	}
+	.imgContainer {
+		.xcxImg {
+			width: 200px;
+			height: 200px;
+			display: block;
+			margin: 0 auto;
+		}
+	}
+	.btns {
+		margin-top: 20px;
+		display: flex;
+	}
+	.textContainer {
+		.text {
+			font-size: 26px;
+			font-size: #999;
+		}
+	}
+	.copyright {
+		color: #999;
+		text-align: center;
+		padding: 30px 0;
+	}
+}
+.colletPage {
+	.at-tabs__header {
+		position: sticky;
+		top: 0;
+	}
+}
