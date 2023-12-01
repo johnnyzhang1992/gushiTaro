@@ -4,7 +4,8 @@
 
 该小程序的目的是为了大家更方便简洁的学习中国传统古诗文，同时通过这些代码更多的学习使用小程序。
 
-> 该项目为 Taro 重构版，[原版本](https://github.com/johnnyzhang1992/gushi_lite) 在项目上线后会不再维护。当前仍在开发阶段，预计12月上旬上线。
+> 该项目为 Taro 重构版，[原版本](https://github.com/johnnyzhang1992/gushi_lite) 在项目上线后会不再维护。
+> 项目当前仍在开发阶段，预计12月上旬上线。
 
 ## 关于 Taro
 
@@ -75,4 +76,4 @@ Copyright © 2023 [johnnyzhang1992](https://github.com/johnnyzhang1992).
 
 ## 小程序二维码
 
-![古诗文小助手](./images/xcx.jpg)
+![古诗文小助手](./src/images/xcx.jpg)
