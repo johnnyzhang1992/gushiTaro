@@ -4,6 +4,7 @@ import {
 	Text,
 	Navigator,
 	Image,
+	Button
 } from '@tarojs/components';
 import { useState, useRef } from 'react';
 import Taro, {
@@ -22,6 +23,7 @@ import TagsCard from '../../components/TagsCard';
 import { fetchSentenceDetail } from './service';
 
 import copyPng from '../../images/icon/copy.png';
+import sharePng from '../../images/icon/share.png';
 
 import './style.scss';
 
@@ -74,8 +76,8 @@ const SentenceDetail = () => {
 				});
 				setTitle(sentence.title);
 				let tagsArr = [];
-				tagsArr = tagsArr.concat(sentence.theme.split(','))
-				tagsArr = tagsArr.concat(sentence.type.split(','))
+				tagsArr = tagsArr.concat(sentence.theme.split(','));
+				tagsArr = tagsArr.concat(sentence.type.split(','));
 				if (poem.tags) {
 					tagsArr = tagsArr.concat(poem.tags.split(','));
 				}
@@ -157,28 +159,41 @@ const SentenceDetail = () => {
 					class='poem-item'
 				>
 					<View class='poem-title title'>{detail.poem.title}</View>
+
 					<View class='poem-author'>
-						{'[' + detail.poem.dynasty + '] ' + detail.poem.author}
+						{detail.poem.dynasty
+							? '[' + detail.poem.dynasty + '] '
+							: null}
+						{detail.poem.author}
 					</View>
 					<View class='poem-title content'>
 						{detail.poem.content}
 					</View>
 				</Navigator>
 			</view>
-			<SectionCard
-				title='标签'
-				style={{
-					backgroundColor: '#fff',
-					marginTop: '20rpx',
-					borderRadius: '6px',
-					padding: '20rpx 30rpx'
-				}}
-			>
-				<TagsCard tags={tags} />
-			</SectionCard>
+			{/* 标签 */}
+			{tags.length > 0 ? (
+				<SectionCard
+					title='标签'
+					style={{
+						backgroundColor: '#fff',
+						marginTop: '20rpx',
+						borderRadius: '6px',
+						padding: '20rpx 30rpx',
+					}}
+				>
+					<TagsCard tags={tags} />
+				</SectionCard>
+			) : null}
 			{/* 操作栏 复制 */}
 			<View className='copyContainer' onClick={handlecopy}>
 				<Image src={copyPng} className='copy' />
+			</View>
+			{/* 操作栏 分享 */}
+			<View className='shreContainer'>
+				<Button type='default' size='mini' openType='share' hoverClass='none' plain className='shareBtn'>
+					<Image src={sharePng} className='share' />
+				</Button>
 			</View>
 			{/* 底部 */}
 			<View className='fixBottom'>

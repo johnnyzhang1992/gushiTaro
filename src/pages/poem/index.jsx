@@ -112,6 +112,13 @@ const Poem = () => {
 	});
 	usePullDownRefresh(() => {
 		console.log('page-pullRefresh');
+		// 改变分页数据，自动触发 useFetchList hook
+		updatePagination({
+			page: 1,
+			size: 15,
+			total: 0,
+			last_page: -1,
+		});
 		Taro.stopPullDownRefresh();
 	});
 	useReachBottom(() => {

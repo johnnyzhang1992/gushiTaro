@@ -6,7 +6,14 @@ import Taro, {
 	useShareTimeline,
 } from '@tarojs/taro';
 import { useNavigationBar } from 'taro-hooks';
-import { View, Image, OfficialAccount } from '@tarojs/components';
+import {
+	View,
+	Image,
+	OfficialAccount,
+	Button,
+	Swiper,
+	SwiperItem,
+} from '@tarojs/components';
 
 import { fetchPoemDetail } from './service';
 
@@ -16,8 +23,10 @@ import FixBottom from './components/FixBottom';
 import LongTextCard from '../../components/LongTextCard';
 import TagsCard from '../../components/TagsCard';
 import AudioCard from '../../components/AudioCard';
+import SentenceCard from '../../components/SentenceCard';
 
 import copyPng from '../../images/icon/copy.png';
+import sharePng from '../../images/icon/share.png';
 
 import './style.scss';
 
@@ -33,6 +42,7 @@ const PoemDetail = () => {
 			yi: '',
 			zhu: '',
 		},
+		sentences: [],
 	});
 	const cacheRef = useRef({
 		poemId: 48769,
@@ -40,7 +50,7 @@ const PoemDetail = () => {
 
 	// 处理返回的数据， 特别是json 的解析
 	const computeData = (data) => {
-		const { poem, detail: poemDetail } = data;
+		const { poem, detail: poemDetail, sentences = [] } = data;
 		let _detail = { ...poemDetail };
 		if (_detail && _detail.yi) {
 			_detail.yi = JSON.parse(_detail.yi || '{}');
@@ -61,6 +71,7 @@ const PoemDetail = () => {
 			...detail,
 			poem: _poem,
 			detail: _detail,
+			sentences,
 		});
 	};
 
@@ -73,9 +84,9 @@ const PoemDetail = () => {
 			.then((res) => {
 				if (res && res.statusCode === 200) {
 					console.log(res.data);
+					const { poem } = res.data;
 					computeData(res.data);
 					// setDetail(res.data);
-					const { poem } = res.data;
 					setTitle(poem.title);
 				}
 			})
@@ -85,7 +96,7 @@ const PoemDetail = () => {
 	};
 
 	// 复制文本
-	const handlecopy = () => {
+	const handleCopy = () => {
 		let poem = detail.poem;
 		let _data =
 			'《' +
@@ -153,6 +164,33 @@ const PoemDetail = () => {
 					<TagsCard tags={detail.poem.tagsArr || []} />
 				</SectionCard>
 			) : null}
+			{/* 摘录 */}
+			{detail.sentences.length > 0 ? (
+				<SectionCard title='句子摘录'>
+					<Swiper
+						className='hotPoemsSwiper'
+						indicatorColor='#999'
+						indicatorActiveColor='#333'
+						vertical
+						circular
+						indicatorDots
+						autoplay
+						style={{
+							height: '130rpx',
+						}}
+					>
+						{detail.sentences.map((sentence) => (
+							<SwiperItem key={sentence.id}>
+								<SentenceCard
+									{...sentence}
+									showCount={false}
+									showBorder={false}
+								/>
+							</SwiperItem>
+						))}
+					</Swiper>
+				</SectionCard>
+			) : null}
 			{/* 创作背景 */}
 			{detail.poem.background ? (
 				<SectionCard title='创作背景'>
@@ -174,8 +212,21 @@ const PoemDetail = () => {
 				</SectionCard>
 			) : null}
 			{/* 操作栏 复制 */}
-			<View className='copyContainer' onClick={handlecopy}>
+			<View className='copyContainer' onClick={handleCopy}>
 				<Image src={copyPng} className='copy' />
+			</View>
+			{/* 操作栏 分享 */}
+			<View className='shreContainer'>
+				<Button
+					type='default'
+					size='mini'
+					openType='share'
+					hoverClass='none'
+					plain
+					className='shareBtn'
+				>
+					<Image src={sharePng} className='share' />
+				</Button>
 			</View>
 			{/* 统计数据 -- 点赞、收藏人数*/}
 			{/* 注释，译文，摘录，学习计划 -- 半屏 */}

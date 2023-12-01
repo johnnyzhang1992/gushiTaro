@@ -10,6 +10,7 @@ const SentenceCard = ({
 	showCount = false,
 	like_count,
 	collect_count,
+	showBorder = true,
 }) => {
 	const handleNavigate = () => {
 		Taro.navigateTo({
@@ -17,7 +18,10 @@ const SentenceCard = ({
 		});
 	};
 	return (
-		<View className='sentenceCard' onClick={handleNavigate}>
+		<View
+			className={`sentenceCard ${showBorder ? '' : 'hideBorder'}`}
+			onClick={handleNavigate}
+		>
 			<View className='title'>
 				<Text>{title}</Text>
 			</View>

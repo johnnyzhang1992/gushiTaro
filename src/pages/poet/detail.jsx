@@ -13,7 +13,7 @@ import {
 	Text,
 	Swiper,
 	SwiperItem,
-	Navigator
+	Navigator,
 } from '@tarojs/components';
 
 import { fetchPoetDetail } from './service';
@@ -150,7 +150,11 @@ const PoetDetailPage = () => {
 				>
 					{detail.poems.data.map((poem) => (
 						<SwiperItem key={poem.id}>
-							<PoemSmallCard {...poem} showCount />
+							<PoemSmallCard
+								{...poem}
+								showCount={false}
+								showBorder={false}
+							/>
 						</SwiperItem>
 					))}
 				</Swiper>

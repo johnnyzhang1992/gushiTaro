@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback} from 'react';
 import { View } from '@tarojs/components';
 import Taro, { useUnload } from '@tarojs/taro';
 import { AtProgress } from 'taro-ui';
@@ -8,8 +8,7 @@ import Utils from '../../utils/util';
 
 import './style.scss';
 
-const AudioCard = (props) => {
-	const { title, author } = props;
+const AudioCard = ({ id, title, author}) => {
 	const [isPlay, updatePlay] = useState(false);
 	const repeatRef = useRef(false);
 	const audioRef = useRef();
@@ -22,7 +21,7 @@ const AudioCard = (props) => {
 		totalTime: '00:00',
 	});
 
-	const audioInit = (audioSrc) => {
+	const audioInit = useCallback((audioSrc) => {
 		Taro.setInnerAudioOption({
 			obeyMuteSwitch: false,
 		});
@@ -33,13 +32,13 @@ const AudioCard = (props) => {
 		innerAudioContext.autoplay = false;
 		innerAudioContext.src = audioSrc;
 		innerAudioContext.onCanplay(() => {
-			updateTime({
-				...audioTime,
+			updateTime((pre)=>({
+				...pre,
 				playTime: Utils.formateSeconds(0),
 				totalTime: Utils.formateSeconds(innerAudioContext.duration),
 				current: innerAudioContext.currentTime,
 				duration: innerAudioContext.duration,
-			});
+			}));
 		});
 		innerAudioContext.onPlay(() => {
 			console.log('开始播放');
@@ -72,7 +71,7 @@ const AudioCard = (props) => {
 				duration: 2000,
 			});
 		});
-	};
+	}, []);
 
 	const handlePlay = () => {
 		audioRef.current.play();
@@ -111,9 +110,9 @@ const AudioCard = (props) => {
 	});
 
 	useEffect(() => {
-		if (props.id) {
+		if (id) {
 			fetchPoemAudio('GET', {
-				id: props.id,
+				id: id,
 			}).then((res) => {
 				console.log(res);
 				if (res && res.statusCode === 200) {
@@ -122,7 +121,7 @@ const AudioCard = (props) => {
 			});
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [props.id]);
+	}, [id]);
 
 	useEffect(() => {
 		if (isPlay) {

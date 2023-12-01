@@ -33,6 +33,31 @@
 		display: block;
 	}
 }
+.shreContainer {
+	background-color: #337ab7;
+	position: fixed;
+	right: 24px;
+	padding: 16px;
+	border-radius: 100%;
+	bottom: 150px;
+	margin-bottom: env(safe-area-inset-bottom);
+	opacity: 0.9;
+	.share {
+		width: 44px;
+		height: 44px;
+		display: block;
+	}
+	.shareBtn {
+		padding: 0;
+		line-height: initial;
+		border-radius: 50%;
+		display: block;
+		border: 1px solid #337ab7!important;
+		&::after {
+			border: unset;
+		}
+	}
+}
 .poemIndex {
 	.filterContainer {
 		position: sticky;

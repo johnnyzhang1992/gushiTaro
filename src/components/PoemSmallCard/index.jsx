@@ -3,7 +3,6 @@ import Taro from '@tarojs/taro';
 
 import './style.scss';
 
-
 const PoemSmallCard = (props) => {
 	const content = props.content.split('。')[0].replaceAll('　', '') + '。';
 	const handleNavigate = () => {
@@ -12,7 +11,11 @@ const PoemSmallCard = (props) => {
 		});
 	};
 	return (
-		<View className='poemSmallCard' key={props.id} onClick={handleNavigate}>
+		<View
+			className={`poemSmallCard ${props.showBorder ? '' : 'hideBorder'}`}
+			key={props.id}
+			onClick={handleNavigate}
+		>
 			<View className='title'>
 				<Text className='name'>{props.title}</Text>
 			</View>
