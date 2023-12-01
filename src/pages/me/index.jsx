@@ -3,9 +3,9 @@ import { useState, useRef } from 'react';
 import Taro, {
 	useLoad,
 	useDidShow,
-	useDidHide,
 	usePullDownRefresh,
 } from '@tarojs/taro';
+import { useNavigationBar } from 'taro-hooks';
 
 import SectionCard from '../../components/SectionCard';
 
@@ -18,6 +18,7 @@ import poetPng from '../../images/icon/poet.png';
 import xcxPng from '../../images/xcx.jpg';
 
 const MeIndex = () => {
+	const { setTitle } = useNavigationBar({ title: '个人中心' });
 	const [userInfo, setInfo] = useState({
 		poem_count: 0,
 		poet_count: 0,
@@ -146,15 +147,20 @@ const MeIndex = () => {
 			urls: [BaseUrl + '/static/xcx/zanshang.jpeg'], // 需要预览的图片http链接列表
 		});
 	};
+
+	const navigateToAbout = () => {
+		Taro.navigateTo({
+			url: '/pages/post/index?type=about',
+		});
+	};
+
 	useLoad((options) => {
 		console.log(options);
 		const user = Taro.getStorageSync('user') || {};
 		setInfo({
 			...user,
 		});
-	});
-	useDidHide(() => {
-		console.log('--page--hide');
+		setTitle('个人中心');
 	});
 
 	useDidShow(() => {
@@ -176,12 +182,16 @@ const MeIndex = () => {
 						<View className='avatar'>
 							<Image src={poetPng} className='img' />
 						</View>
-						<View className='user_name'>
+						<Navigator
+							url='/pages/me/setting/index'
+							hoverClass='none'
+							className='user_name'
+						>
 							<Text className='text'>
 								{userInfo.name || userInfo.nickName}
 							</Text>
 							<Text className='icon at-icon at-icon-settings'></Text>
-						</View>
+						</Navigator>
 					</View>
 				) : (
 					<View className='loginCard'>
@@ -218,7 +228,7 @@ const MeIndex = () => {
 					<Navigator
 						className='item'
 						hoverClass='none'
-						url='/pages/me/collect?type=poet'
+						url='/pages/me/collect?type=author'
 					>
 						<View className='name'>诗人</View>
 						<View className='num'>{userInfo.poet_count}</View>
@@ -226,11 +236,14 @@ const MeIndex = () => {
 				</View>
 			</SectionCard>
 			<View className='divide' />
+			{/* 关于我们 */}
 			<SectionCard
 				title='关于我们'
 				extra={<View className='icon at-icon at-icon-chevron-right' />}
+				titleClick={navigateToAbout}
 			></SectionCard>
 			<View className='divide' />
+			{/* 小程序码 */}
 			<SectionCard title='小程序码'>
 				<View className='imgContainer'>
 					<Image
@@ -238,15 +251,22 @@ const MeIndex = () => {
 						showMenuByLongpress
 						className='xcxImg'
 					/>
+					<View className='intro'>
+						<Text className='text' userSelect>
+							长按图片可保存到本地或分享给朋友
+						</Text>
+					</View>
 				</View>
 			</SectionCard>
 			<View className='divide' />
+			{/* 赞赏 */}
 			<SectionCard
 				title='天冷了，给程序员小哥哥买杯热咖啡'
 				titleClick={handleZanshang}
 				extra={<View className='icon at-icon at-icon-chevron-right' />}
 			></SectionCard>
 			<View className='divide' />
+			{/* copyright */}
 			<View className='copyright'>
 				<Text className='text' decode userSelect>
 					2023 &copy; xuegushi.com

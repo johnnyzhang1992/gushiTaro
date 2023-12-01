@@ -11,6 +11,8 @@ export default {
 		'pages/poem/detail',
 		'pages/sentence/index',
 		'pages/sentence/detail',
+		'pages/post/index',
+		'pages/me/setting/index',
 	],
 	window: {
 		backgroundTextStyle: 'light',

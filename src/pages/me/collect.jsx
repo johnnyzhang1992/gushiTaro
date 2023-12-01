@@ -46,7 +46,12 @@ const CollectPage = () => {
 
 	useLoad((options) => {
 		console.log('options', options);
+		const { type } = options;
+		const findIndex = types.findIndex((item) => {
+			return item == type;
+		});
 		setTitle('我的收藏');
+		setIndex(findIndex || 0);
 	});
 
 	useReachBottom(() => {
@@ -71,7 +76,7 @@ const CollectPage = () => {
 			page: 1,
 			last_page: 2,
 		};
-		updatePagination(prePagination)
+		updatePagination(prePagination);
 		Taro.stopPullDownRefresh();
 	});
 
