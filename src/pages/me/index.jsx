@@ -153,9 +153,10 @@ const MeIndex = () => {
 	useLoad((options) => {
 		console.log(options);
 		const user = Taro.getStorageSync('user') || {};
-		setInfo({
+		setInfo((pre) => ({
+			...pre,
 			...user,
-		});
+		}));
 		setTitle('个人中心');
 	});
 
@@ -163,9 +164,10 @@ const MeIndex = () => {
 		console.log('--page--show');
 		fetchInfo();
 		const user = Taro.getStorageSync('user') || {};
-		setInfo({
+		setInfo((pre) => ({
+			...pre,
 			...user,
-		});
+		}));
 	});
 
 	usePullDownRefresh(() => {
