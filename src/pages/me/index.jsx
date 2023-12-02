@@ -1,10 +1,6 @@
 import { View, Button, Image, Text, Navigator } from '@tarojs/components';
 import { useState, useRef } from 'react';
-import Taro, {
-	useLoad,
-	useDidShow,
-	usePullDownRefresh,
-} from '@tarojs/taro';
+import Taro, { useLoad, useDidShow, usePullDownRefresh } from '@tarojs/taro';
 import { useNavigationBar } from 'taro-hooks';
 
 import SectionCard from '../../components/SectionCard';
@@ -166,6 +162,10 @@ const MeIndex = () => {
 	useDidShow(() => {
 		console.log('--page--show');
 		fetchInfo();
+		const user = Taro.getStorageSync('user') || {};
+		setInfo({
+			...user,
+		});
 	});
 
 	usePullDownRefresh(() => {
@@ -178,21 +178,24 @@ const MeIndex = () => {
 			{/* 用户信息和登录 */}
 			<View className='meTop'>
 				{userInfo.user_id ? (
-					<View className='userInfoCard'>
+					<Navigator
+						className='userInfoCard'
+						url='/pages/me/setting/index'
+						hoverClass='none'
+					>
 						<View className='avatar'>
-							<Image src={poetPng} className='img' />
+							<Image
+								src={userInfo.avatarUrl || poetPng}
+								className='img'
+							/>
 						</View>
-						<Navigator
-							url='/pages/me/setting/index'
-							hoverClass='none'
-							className='user_name'
-						>
+						<View className='user_name'>
 							<Text className='text'>
 								{userInfo.name || userInfo.nickName}
 							</Text>
 							<Text className='icon at-icon at-icon-settings'></Text>
-						</Navigator>
-					</View>
+						</View>
+					</Navigator>
 				) : (
 					<View className='loginCard'>
 						<Button

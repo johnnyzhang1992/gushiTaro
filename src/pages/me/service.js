@@ -1,4 +1,5 @@
-import Request from "../../apis/request";
+import Request from '../../apis/request';
+import UploadFile from '../../apis/uploadFile';
 
 /**
  * 创建新用户
@@ -6,7 +7,7 @@ import Request from "../../apis/request";
  * @param {Object} data {}
  */
 export const createUser = (method, data) => {
-	return Request("/wxxcx/userCrate", data, method);
+	return Request('/wxxcx/userCrate', data, method);
 };
 
 /**
@@ -27,7 +28,6 @@ export const fetchUserInfo = (method, data) => {
 	return Request(`/wxxcx/getUserInfo/${data.user_id}`, data, method);
 };
 
-
 /**
  * 获取我的收藏信息(诗词、名句、诗人)
  * @param {String} method GET
@@ -46,4 +46,24 @@ export const fetchUserCollect = (method, data) => {
  */
 export const updateUserCollect = (method, data) => {
 	return Request(`/wxxcx/updateCollect/${data.type}`, data, method);
+};
+
+/**
+ * 更新用户信息
+ * @param {*} method
+ * @param {*} data {nickName, avatar}
+ * @returns
+ */
+export const updateUserInfo = (method, data) => {
+	return Request(`/wxxcx/user/updateInfo`, data, method);
+};
+
+/**
+ * 上传头像
+ * @param {*} method
+ * @param {*} data
+ * @returns
+ */
+export const uploadAvatar = (method, data) => {
+	return UploadFile(`/wxxcx/user/uploadAvatar`, data, method);
 };
