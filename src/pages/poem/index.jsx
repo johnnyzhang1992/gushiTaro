@@ -93,7 +93,10 @@ const Poem = () => {
 			inited: true,
 		};
 		if (type) {
-			if (['tag', 'author'].includes(type)) {
+			// tag 对应 标签筛选
+			// author 对应作者筛选，仅加载该作者的诗词
+			// poem 标题和内容匹配
+			if (['tag', 'author','poem'].includes(type)) {
 				params['_type'] = type;
 			} else {
 				params['type'] = type;

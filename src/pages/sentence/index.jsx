@@ -69,12 +69,13 @@ const SentencePage = () => {
 
 	console.log(data, error, loading);
 	useLoad((options) => {
-		const { theme, type } = options;
+		const { theme, type, keyWord = '' } = options;
 		console.log('options', options);
 		cacheObj.current = { ...options, count: 0 };
 		updateParams((pre) => {
 			return {
 				...pre,
+				keyWord: keyWord && keyWord !== 'undefined' ? keyWord : '',
 				theme: theme && theme !== 'undefined' ? theme : '全部',
 				type: type && type !== 'undefined' ? type : '全部',
 				inited: true,
@@ -104,7 +105,7 @@ const SentencePage = () => {
 		}
 	});
 	const computeParams = () => {
-		const { theme, type } = fetchParams;
+		const { theme, type, keyWord } = fetchParams;
 		let queryStr = '';
 
 		if (theme) {
@@ -113,21 +114,38 @@ const SentencePage = () => {
 		if (type) {
 			queryStr += `type=${type}&`;
 		}
+		if (keyWord) {
+			queryStr += `keyWord=${keyWord}`;
+		}
 		return queryStr;
 	};
 	useShareAppMessage(() => {
 		const queryStr = computeParams();
-		const { theme } = fetchParams;
+		const { theme, keyWord } = fetchParams;
+		let title = '名句';
+		if (theme && theme !== '全部') {
+			title = `${theme} | 名句`;
+		}
+		if (keyWord) {
+			title = keyWord;
+		}
 		return {
-			title: theme !== '全部' ? `${theme} | 名句` : '名句',
+			title: title,
 			path: '/pages/sentence/index?' + queryStr,
 		};
 	});
 	useShareTimeline(() => {
 		const queryStr = computeParams();
-		const { theme } = fetchParams;
+		const { theme, keyWord } = fetchParams;
+		let title = '名句';
+		if (theme && theme !== '全部') {
+			title = `${theme} | 名句`;
+		}
+		if (keyWord) {
+			title = keyWord;
+		}
 		return {
-			title: theme !== '全部' ? `${theme} - 名句` : '名句',
+			title: title,
 			path: '/pages/sentence/index?' + queryStr,
 		};
 	});
@@ -141,6 +159,25 @@ const SentencePage = () => {
 				defaultTheme={fetchParams.theme}
 				defaultType={fetchParams.type}
 			/>
+			{/* 关键字筛选 */}
+			<View className='keywordFilter'>
+				{fetchParams.theme ? (
+					<Text decode className='key'>
+						{fetchParams.theme || ''}
+					</Text>
+				) : null}
+				{fetchParams.type ? (
+					<Text decode className='key'>
+						{fetchParams.type || ''}
+					</Text>
+				) : null}
+				{fetchParams.keyWord ? (
+					<Text decode className='key'>
+						{fetchParams.keyWord || ''}
+					</Text>
+				) : null}
+				<Text decode>共 {pagination.total} 条结果</Text>
+			</View>
 			<View className='divide' />
 			<View className='pageContainer'>
 				{data.list.map((sentence) => (

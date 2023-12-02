@@ -1,0 +1,23 @@
+.recordItem {
+	display: flex;
+	font-size: 28px;
+	align-items: center;
+	padding: 8px 0;
+	.text {
+		flex: 1;
+		padding: 0 12px;
+	}
+	.close {
+		justify-self: flex-end;
+	}
+	.history,
+	.close {
+		font-size: 30px;
+	}
+}
+.more {
+	.moreBtn {
+		display: block;
+		margin-top: 20px;
+	}
+}

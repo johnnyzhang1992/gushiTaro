@@ -9,7 +9,7 @@ import Request from "../../apis/request";
  * @param {String} method GET
  * @param {Object} data {}
  */
-export const GET_HOT_SEARCH = (method, data) => {
+export const fetchHotSearch = (method, data) => {
 	return Request(`/wxxcx/getsHotSearch`, data, method);
 };
 
@@ -18,6 +18,6 @@ export const GET_HOT_SEARCH = (method, data) => {
  * @param {String} method GET
  * @param {Object} data {}
  */
-export const GET_SEARCH = (method, data) => {
+export const fetchSearch = (method, data) => {
 	return Request(`/wxxcx/search/${data.key}`, data, method);
 };

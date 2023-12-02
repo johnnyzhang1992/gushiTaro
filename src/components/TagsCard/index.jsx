@@ -21,11 +21,11 @@ const TagItem = ({ tag }) => {
 	);
 };
 
-const TagsCard = ({ tags = []}) => {
+const TagsCard = ({ tags = [] }) => {
 	return (
 		<View className='tagCard'>
-			{tags.map((tag) => (
-				<TagItem key={tag} tag={tag} />
+			{tags.map((tag, index) => (
+				<TagItem key={index} tag={tag} />
 			))}
 		</View>
 	);

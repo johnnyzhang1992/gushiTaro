@@ -68,7 +68,16 @@ const PoetPage = () => {
 
 	useLoad((options) => {
 		console.log(options);
-		setTitle('诗人');
+		const { keyWord } = options;
+		if (keyWord && keyWord !== 'undefined') {
+			updateParams((pre) => ({
+				...pre,
+				keyWord,
+			}));
+			setTitle(keyWord + ' 诗人');
+		} else {
+			setTitle('诗人');
+		}
 	});
 	usePullDownRefresh(() => {
 		console.log('page-pullRefresh');
@@ -92,15 +101,17 @@ const PoetPage = () => {
 		}
 	});
 	useShareAppMessage(() => {
+		const { keyWord } = fetchParams;
 		return {
 			title: '诗人',
-			path: '/pages/poet/index',
+			path: '/pages/poet/index?keyWord=' + keyWord,
 		};
 	});
 	useShareTimeline(() => {
+		const { keyWord } = fetchParams;
 		return {
 			title: '诗人',
-			path: '/pages/poet/index',
+			path: '/pages/poet/index?keyWord=' + keyWord,
 		};
 	});
 	return (
@@ -114,6 +125,21 @@ const PoetPage = () => {
 					updateParams={updateParam}
 				/>
 			</View>
+			{/* 关键字筛选 */}
+			<View className='keywordFilter'>
+				{fetchParams.dynasty ? (
+					<Text decode className='key'>
+						{fetchParams.dynasty || ''}
+					</Text>
+				) : null}
+				{fetchParams.keyWord ? (
+					<Text decode className='key'>
+						{fetchParams.keyWord || ''}
+					</Text>
+				) : null}
+				<Text decode>共 {pagination.total} 条结果</Text>
+			</View>
+			<View className='divide' />
 			{/* 列表 */}
 			<View className='pageContainer'>
 				{data.list.map((item) => {

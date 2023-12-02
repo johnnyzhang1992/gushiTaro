@@ -15,12 +15,17 @@ const useFetchList = (fetchFn, params, pgConfig) => {
 		last_page: 0,
 		count: 0,
 	});
+	const cacheParams = useRef({});
 	const loadRef = useRef(false);
 
 	const fetchData = useCallback(() => {
 		const cachePg = dataRef.current;
 		const { page, last_page: lastPage } = pgConfig;
 		console.log('触发「useFetchList」, 触发次数：', cachePg.count);
+		console.log('--listParams:', {
+			...params,
+			page,
+		});
 		// 加载中或参数未初始化，不请求
 		if (loadRef.current || !params.inited) {
 			loadRef.current && console.log('---在请求ing');
@@ -29,17 +34,21 @@ const useFetchList = (fetchFn, params, pgConfig) => {
 		}
 		// 当前和缓存分页数据相同，不请求
 		if (page === cachePg.page && lastPage === cachePg.last_page) {
-			return false;
+			console.log('列表参数变化:old,new', cacheParams.current, params);
+			// 判断参数是否有变化
+			if (
+				JSON.stringify(cacheParams.current) === JSON.stringify(params)
+			) {
+				return false;
+			}
 		}
 		// 更新网络请求状态
 		loadRef.current = true;
 		updateLoading(true);
 		dataRef.current.count = cachePg.count + 1;
+		cacheParams.current = params;
 		console.log('---分页数据不同，发起请求：', page, cachePg.page);
-		console.log('--listParams:', {
-			...params,
-			page,
-		});
+
 		fetchFn('GET', {
 			...params,
 			page,
@@ -109,7 +118,7 @@ const useFetchList = (fetchFn, params, pgConfig) => {
 		error,
 		data,
 		loading,
-		setData
+		setData,
 	};
 };
 export default useFetchList;
