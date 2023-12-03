@@ -1,5 +1,9 @@
 import { View } from '@tarojs/components';
-import Taro, { usePullDownRefresh } from '@tarojs/taro';
+import Taro, {
+	usePullDownRefresh,
+	useShareAppMessage,
+	useShareTimeline,
+} from '@tarojs/taro';
 
 import './index.scss';
 
@@ -12,6 +16,18 @@ import { HomeCategories, HomeBooks } from '../const/config';
 const Index = () => {
 	usePullDownRefresh(() => {
 		Taro.stopPullDownRefresh();
+	});
+	useShareAppMessage(() => {
+		return {
+			title: '古诗文小助手',
+			path: '/pages/index',
+		};
+	});
+	useShareTimeline(() => {
+		return {
+			title: '古诗文小助手',
+			path: '/pages/index',
+		};
 	});
 	return (
 		<View className='wrapper'>

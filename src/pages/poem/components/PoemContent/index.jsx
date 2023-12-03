@@ -1,10 +1,10 @@
 import { View, Text } from '@tarojs/components';
 
+import HighLightText from '../../../../components/HighLightText';
+
 import './style.scss';
 
-const PoemContent = (props = { xu: '', content: [] }) => {
-	const { xu = '', content = [] } =
-		typeof props.content === 'string' ? { xu: '', content: [] } : props;
+const PoemContent = ({ type, lightWord, xu = '', content = [] }) => {
 	return (
 		<View className='poemContent'>
 			{xu ? (
@@ -14,12 +14,14 @@ const PoemContent = (props = { xu: '', content: [] }) => {
 					</Text>
 				</View>
 			) : null}
-			<View className={`content ${props.type !== '诗' ? 'wyw' : ''}`}>
+			<View className={`content ${type !== '诗' ? 'wyw' : ''}`}>
 				{content.map((item, index) => (
 					<View className='contentItem' key={index}>
-						<Text userSelect decode className='text block'>
-							{item}
-						</Text>
+						<HighLightText
+							className='text block'
+							text={item}
+							lightWord={lightWord}
+						/>
 					</View>
 				))}
 			</View>

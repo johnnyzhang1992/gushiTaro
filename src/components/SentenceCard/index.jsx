@@ -1,6 +1,8 @@
 import { View, Text } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 
+import HighLightText from '../HighLightText';
+
 import './style.scss';
 
 const SentenceCard = ({
@@ -11,10 +13,11 @@ const SentenceCard = ({
 	like_count,
 	collect_count,
 	showBorder = true,
+	lightWord = '',
 }) => {
 	const handleNavigate = () => {
 		Taro.navigateTo({
-			url: '/pages/sentence/detail?id=' + id,
+			url: `/pages/sentence/detail?keyWord=${lightWord || ''}&id=${id}`,
 		});
 	};
 	return (
@@ -23,7 +26,7 @@ const SentenceCard = ({
 			onClick={handleNavigate}
 		>
 			<View className='title'>
-				<Text>{title}</Text>
+				<HighLightText text={title} lightWord={lightWord} />
 			</View>
 			<View className='origin'>{origin}</View>
 			{showCount ? (

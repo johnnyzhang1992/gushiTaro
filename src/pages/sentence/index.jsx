@@ -181,7 +181,12 @@ const SentencePage = () => {
 			<View className='divide' />
 			<View className='pageContainer'>
 				{data.list.map((sentence) => (
-					<SentenceCard key={sentence.id} showCount {...sentence} />
+					<SentenceCard
+						{...sentence}
+						showCount
+						key={sentence.id}
+						lightWord={fetchParams.keyWord}
+					/>
 				))}
 			</View>
 			{/* 列表显示区域 */}

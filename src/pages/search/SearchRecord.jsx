@@ -13,6 +13,11 @@ const SearchRecord = ({ handleSearch }) => {
 	const [keys, updateKeys] = useState([]);
 	const allKeys = useRef(getHistoryKeys());
 
+	const handleClearAll = () => {
+		updateKeys([]);
+		clearAll();
+	};
+
 	const handleSeeMore = () => {
 		const lg = keys.length;
 		updateKeys(keys.concat(allKeys.current.slice(lg, lg + 5)));
@@ -63,7 +68,7 @@ const SearchRecord = ({ handleSearch }) => {
 				borderRadius: '12rpx',
 			}}
 			extra={
-				<Text className='clearALl' onClick={clearAll}>
+				<Text className='clearALl' onClick={handleClearAll}>
 					清空
 				</Text>
 			}

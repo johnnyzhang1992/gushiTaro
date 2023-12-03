@@ -45,7 +45,7 @@ const HomeNavs = () => {
 		},
 		{
 			icon: collectIcon,
-			path: '/pages/me/collect/index',
+			path: '/pages/me/collect?type=poem',
 			type: 'collect',
 			title: '我的收藏',
 		},

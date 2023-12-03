@@ -96,7 +96,7 @@ const Poem = () => {
 			// tag 对应 标签筛选
 			// author 对应作者筛选，仅加载该作者的诗词
 			// poem 标题和内容匹配
-			if (['tag', 'author','poem'].includes(type)) {
+			if (['tag', 'author', 'poem'].includes(type)) {
 				params['_type'] = type;
 			} else {
 				params['type'] = type;
@@ -224,7 +224,14 @@ const Poem = () => {
 			{/* 诗词列表 */}
 			<View className='pageContainer'>
 				{data.list.map((item) => {
-					return <PoemSmallCard {...item} key={item.id} showCount />;
+					return (
+						<PoemSmallCard
+							{...item}
+							showCount
+							key={item.id}
+							lightWord={pageOptions.keyWord}
+						/>
+					);
 				})}
 			</View>
 			{loading ? (

@@ -18,12 +18,13 @@ import {
 import { fetchPoemDetail } from './service';
 
 import SectionCard from '../../components/SectionCard';
-import PoemCard from './components/PoemCard';
-import FixBottom from './components/FixBottom';
 import LongTextCard from '../../components/LongTextCard';
+import PoemCard from './components/PoemCard';
+
+import SentenceCard from '../../components/SentenceCard';
+import FixBottom from './components/FixBottom';
 import TagsCard from '../../components/TagsCard';
 import AudioCard from '../../components/AudioCard';
-import SentenceCard from '../../components/SentenceCard';
 
 import copyPng from '../../images/icon/copy.png';
 import sharePng from '../../images/icon/share.png';
@@ -43,6 +44,9 @@ const PoemDetail = () => {
 			zhu: '',
 		},
 		sentences: [],
+	});
+	const [pageOptions, setOptions] = useState({
+		keyWord: '',
 	});
 	const cacheRef = useRef({
 		poemId: 48769,
@@ -124,6 +128,10 @@ const PoemDetail = () => {
 		console.log('options', options);
 		cacheRef.current.poemId = id;
 		fetchDetail(id || 48769);
+		setOptions((pre) => ({
+			...pre,
+			...options,
+		}));
 	});
 
 	usePullDownRefresh(() => {
@@ -139,6 +147,7 @@ const PoemDetail = () => {
 			path: '/pages/poem/detail?id=' + poem.id,
 		};
 	});
+
 	useShareTimeline(() => {
 		const { poem } = detail;
 		return {
@@ -149,7 +158,7 @@ const PoemDetail = () => {
 	return (
 		<View className='page poemDetail'>
 			{/* 诗词内容 */}
-			<PoemCard {...detail.poem} />
+			<PoemCard {...detail.poem} lightWord={pageOptions.keyWord} />
 			{/* 公众号 */}
 			<OfficialAccount />
 			{/* 音频播放 */}

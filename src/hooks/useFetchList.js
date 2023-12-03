@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
+import Taro from '@tarojs/taro';
 
 // 自定义 hook 内状态变化和props参数变化都会引起再次执行
 const useFetchList = (fetchFn, params, pgConfig) => {
@@ -20,7 +21,12 @@ const useFetchList = (fetchFn, params, pgConfig) => {
 
 	const fetchData = useCallback(() => {
 		const cachePg = dataRef.current;
+		const { requestType = 'poem' } = params;
 		const { page, last_page: lastPage } = pgConfig;
+		if (requestType === 'collect' && !Taro.getStorageSync('wx_token')) {
+			setError('登录后，才能获取数据哦！')
+			return false;
+		}
 		console.log('触发「useFetchList」, 触发次数：', cachePg.count);
 		console.log('--listParams:', {
 			...params,
@@ -55,7 +61,6 @@ const useFetchList = (fetchFn, params, pgConfig) => {
 		})
 			.then((res) => {
 				if (res.data && res.statusCode == 200) {
-					const { requestType = 'poem' } = params;
 					let _pgConfig = {};
 					if (requestType === 'poem') {
 						_pgConfig = res.data.poems;

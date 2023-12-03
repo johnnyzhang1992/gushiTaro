@@ -1,6 +1,11 @@
 import { useState, useRef } from 'react';
 import { View } from '@tarojs/components';
-import Taro, { useLoad, usePullDownRefresh } from '@tarojs/taro';
+import Taro, {
+	useLoad,
+	usePullDownRefresh,
+	useShareAppMessage,
+	useShareTimeline,
+} from '@tarojs/taro';
 import { useNavigationBar } from 'taro-hooks';
 
 import { fetchBookData } from './poem/service';
@@ -33,7 +38,6 @@ const Page = () => {
 		});
 		setBooks(newBooks);
 	};
-	console.log(books);
 	const fetchBooks = (code, name) => {
 		fetchBookData('GET', {
 			code,
@@ -62,7 +66,23 @@ const Page = () => {
 		const { code, name } = optionRef.current;
 		fetchBooks(code, name);
 		Taro.stopPullDownRefresh();
-	})
+	});
+
+	useShareAppMessage(() => {
+		const { name } = optionRef.current;
+		return {
+			title: name || '古诗文小助手',
+			path: '/pages/book',
+		};
+	});
+	useShareTimeline(() => {
+		const { name } = optionRef.current;
+		return {
+			title: name || '古诗文小助手',
+			path: '/pages/book',
+		};
+	});
+
 	return (
 		<View className='page bookPage'>
 			{books.map((book) => (

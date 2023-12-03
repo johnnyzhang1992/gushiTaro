@@ -143,7 +143,13 @@ const PoetPage = () => {
 			{/* 列表 */}
 			<View className='pageContainer'>
 				{data.list.map((item) => {
-					return <PoetCard key={item.id} {...item} />;
+					return (
+						<PoetCard
+							{...item}
+							key={item.id}
+							lightWord={fetchParams.keyWord}
+						/>
+					);
 				})}
 			</View>
 			{loading ? (

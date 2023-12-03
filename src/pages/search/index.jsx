@@ -1,12 +1,18 @@
 import { View, Text, Navigator } from '@tarojs/components';
 import { AtSearchBar } from 'taro-ui';
 import { useState, useRef } from 'react';
-import Taro, { useLoad, useDidShow, usePullDownRefresh } from '@tarojs/taro';
+import Taro, {
+	useLoad,
+	useDidShow,
+	usePullDownRefresh,
+	useShareAppMessage,
+	useShareTimeline,
+} from '@tarojs/taro';
 
 import SectionCard from '../../components/SectionCard';
 import PoemSmallCard from '../../components/PoemSmallCard';
-import TagsCard from '../../components/TagsCard';
 import SentenceCard from '../../components/SentenceCard';
+import TagsCard from '../../components/TagsCard';
 import PoetCard from '../../components/PoetCard';
 
 import SearchRecord from './SearchRecord';
@@ -34,8 +40,8 @@ const SearchPage = () => {
 		...initResult,
 	});
 	const [isSearch, updateStatus] = useState(false);
-
 	const cacheRef = useRef({});
+	const [showTips, tipsVisible] = useState(false);
 	const handleChange = (val) => {
 		console.log('搜索词变化：', val);
 		if (keyword === val.trim()) {
@@ -56,6 +62,11 @@ const SearchPage = () => {
 			...initResult,
 		});
 		updateStatus(false);
+	};
+
+	const handleTipsClose = () => {
+		tipsVisible(false);
+		Taro.setStorageSync('showSearchTips', 'close');
 	};
 
 	const handleSearch = () => {
@@ -106,14 +117,23 @@ const SearchPage = () => {
 		fetchHotSearch('GET', {}).then((res) => {
 			if (res && res.statusCode === 200) {
 				console.log(res.data);
-				updateHot(res.data || []);
+				// 去重
+				updateHot([...new Set(res.data || [])]);
 			}
 		});
 	};
 
 	useLoad((options) => {
 		console.log('---page--load', options);
-		// Taro.setStorageSync('historyKeys', ['李白','人生','哲理','竹','植物','白','梨花',])
+		Taro.setNavigationBarTitle({
+			title: '搜索 | 古诗文小助手',
+		});
+		const tipStatus = Taro.getStorageSync('showSearchTips');
+		if (!tipStatus) {
+			Taro.setStorageSync('showSearchTips', 'show');
+		} else {
+			tipsVisible(tipStatus !== 'close');
+		}
 	});
 
 	useDidShow(() => {
@@ -133,13 +153,27 @@ const SearchPage = () => {
 		borderRadius: '12rpx',
 	};
 
-	const HotKeyItem = ({ word, index }) => {
+	useShareAppMessage(() => {
+		return {
+			title: '搜索 | 古诗文小助手',
+			path: '/pages/search/index',
+		};
+	});
+
+	useShareTimeline(() => {
+		return {
+			title: '搜索 | 古诗文小助手',
+			path: '/pages/search/index',
+		};
+	});
+
+	const HotKeyItem = ({ word }) => {
 		const handleClick = () => {
 			setKeyword(word);
 		};
 		return (
 			<View className='hotKeys' onClick={handleClick}>
-				<Text className='index'>{index}</Text>
+				{/* <Text className='index'>{index}</Text> */}
 				<Text className='keyText' userSelect>
 					{word}
 				</Text>
@@ -172,6 +206,41 @@ const SearchPage = () => {
 					))}
 				</SectionCard>
 			) : null}
+			{/* 搜索提示 */}
+			{!isSearch && showTips ? (
+				<SectionCard
+					title='搜索小技巧'
+					style={sectionCardStyle}
+					extra={
+						<Text className='closeText' onClick={handleTipsClose}>
+							关闭
+						</Text>
+					}
+				>
+					<View class='searchKeyList'>
+						<View class='item'>
+							<Text userSelect decode>
+								1.关键词尽量简洁，不要整句搜索，也不要包含特殊字符（例如：，。《》以及空格等）
+							</Text>
+						</View>
+						<view class='item'>
+							<Text userSelect decode>
+								2.如果长的搜索词查询不到结果，可以尝试缩短搜索词，再次尝试。
+							</Text>
+						</view>
+						<view class='item'>
+							<Text userSelect decode>
+								3.搜索热词，指的是7日内，搜索量最多的词语
+							</Text>
+						</view>
+						<view class='item'>
+							<Text userSelect decode>
+								4.搜索记录，数据保存在用户本地
+							</Text>
+						</view>
+					</View>
+				</SectionCard>
+			) : null}
 			{/* 搜索结果 */}
 			{/* 标签 */}
 			{searchResult.tags.length > 0 ? (
@@ -198,7 +267,11 @@ const SearchPage = () => {
 				>
 					<View className='poetList'>
 						{searchResult.poets.map((poet) => (
-							<PoetCard {...poet} key={poet.id} />
+							<PoetCard
+								{...poet}
+								key={poet.id}
+								lightWord={keyword}
+							/>
 						))}
 					</View>
 				</SectionCard>
@@ -222,7 +295,11 @@ const SearchPage = () => {
 				>
 					<View className='poemList'>
 						{searchResult.sentences.map((sentence) => (
-							<SentenceCard {...sentence} key={sentence.id} />
+							<SentenceCard
+								{...sentence}
+								key={sentence.id}
+								lightWord={keyword}
+							/>
 						))}
 					</View>
 				</SectionCard>
@@ -246,12 +323,15 @@ const SearchPage = () => {
 				>
 					<View className='poemList'>
 						{searchResult.poems.map((poem) => (
-							<PoemSmallCard {...poem} key={poem.id} />
+							<PoemSmallCard
+								{...poem}
+								key={poem.id}
+								lightWord={keyword}
+							/>
 						))}
 					</View>
 				</SectionCard>
 			) : null}
-			{/* 搜索提示 */}
 		</View>
 	);
 };
