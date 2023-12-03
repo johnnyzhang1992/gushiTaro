@@ -97,6 +97,7 @@ const CollectPage = () => {
 			<AtTabs
 				current={currentIndex}
 				tabList={tabList}
+				swipeable={false}
 				onClick={handleTabChange}
 			>
 				<AtTabsPane current={currentIndex} index={0}>

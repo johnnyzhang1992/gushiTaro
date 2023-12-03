@@ -1,4 +1,4 @@
-import { View, Button, Image, Text, Navigator } from '@tarojs/components';
+import { View, Button, Image, Text, Navigator, Ad } from '@tarojs/components';
 import { useState, useRef } from 'react';
 import Taro, { useLoad, useDidShow, usePullDownRefresh } from '@tarojs/taro';
 import { useNavigationBar } from 'taro-hooks';
@@ -271,6 +271,7 @@ const MeIndex = () => {
 				extra={<View className='icon at-icon at-icon-chevron-right' />}
 			></SectionCard>
 			<View className='divide' />
+			<Ad unit-id='adunit-bf6445b29863936e' />
 			{/* copyright */}
 			<View className='copyright'>
 				<Text className='text' decode userSelect>
