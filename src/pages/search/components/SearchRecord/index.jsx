@@ -1,12 +1,12 @@
 import { View, Text, Button } from '@tarojs/components';
 import { useState, useRef, useEffect } from 'react';
 
-import SectionCard from '../../components/SectionCard';
+import SectionCard from '../../../../components/SectionCard';
 // <View className='at-icon at-icon-settings'></View>
 
-import { getHistoryKeys, removeKey, clearAll } from './historyUtil';
+import { getHistoryKeys, removeKey, clearAll } from '../../historyUtil';
 
-import './record.scss';
+import './style.scss';
 
 const SearchRecord = ({ handleSearch }) => {
 	// 默认显示五条

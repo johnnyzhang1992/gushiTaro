@@ -180,10 +180,11 @@ const PoemDetail = () => {
 						className='hotPoemsSwiper'
 						indicatorColor='#999'
 						indicatorActiveColor='#333'
-						vertical
+						vertical={false}
 						circular
 						indicatorDots
 						autoplay
+						adjustHeight='highest'
 						style={{
 							height: '160rpx',
 						}}

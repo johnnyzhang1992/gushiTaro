@@ -143,10 +143,11 @@ const PoetDetailPage = () => {
 					className='hotPoemsSwiper'
 					indicatorColor='#999'
 					indicatorActiveColor='#333'
-					vertical
+					vertical={false}
 					circular
 					indicatorDots
 					autoplay
+					adjustHeight='highest'
 				>
 					{detail.poems.data.map((poem) => (
 						<SwiperItem key={poem.id}>

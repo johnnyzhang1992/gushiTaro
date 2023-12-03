@@ -15,7 +15,8 @@ import SentenceCard from '../../components/SentenceCard';
 import TagsCard from '../../components/TagsCard';
 import PoetCard from '../../components/PoetCard';
 
-import SearchRecord from './SearchRecord';
+import SearchRecord from './components/SearchRecord';
+import RandomSearch from './components/RandomSearch';
 
 import { fetchSearch, fetchHotSearch } from './service';
 import { addKey } from './historyUtil';
@@ -206,6 +207,7 @@ const SearchPage = () => {
 					))}
 				</SectionCard>
 			) : null}
+			{!isSearch ? <RandomSearch /> : null}
 			{/* 搜索提示 */}
 			{!isSearch && showTips ? (
 				<SectionCard
