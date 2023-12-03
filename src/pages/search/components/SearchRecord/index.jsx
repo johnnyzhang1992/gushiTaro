@@ -68,7 +68,7 @@ const SearchRecord = ({ handleSearch }) => {
 				borderRadius: '12rpx',
 			}}
 			extra={
-				<Text className='clearALl' onClick={handleClearAll}>
+				<Text className='clearAll' onClick={handleClearAll}>
 					清空
 				</Text>
 			}
