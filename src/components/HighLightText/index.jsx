@@ -19,18 +19,28 @@ const HighLightText = ({ lightWord, text, className = '', style = {} }) => {
 		return getHilightStrArray(text, lightWord);
 	}, [lightWord, text]);
 	return (
-		<Text style={style} className={`${className}`}>
-			{textArr.map((t, index) => (
-				<Text
-					key={index}
-					decode
-					userSelect
-					space='ensp'
-					className={`text ${lightWord === t ? 'light' : ''}`}
-				>
-					{t}
-				</Text>
-			))}
+		<Text
+			userSelect
+			decode
+			space='ensp'
+			style={style}
+			className={`${className} lightText`}
+		>
+			{textArr.map((t, index) =>
+				lightWord === t ? (
+					<Text
+						key={index}
+						decode
+						userSelect
+						space='ensp'
+						className={`text ${lightWord === t ? 'light' : ''}`}
+					>
+						{t}
+					</Text>
+				) : (
+					t
+				)
+			)}
 		</Text>
 	);
 };

@@ -89,7 +89,6 @@ const ColllectContainer = ({ type, page, updatePage }) => {
 			id: params.id,
 		}).then((res) => {
 			if (res && res.statusCode === 200) {
-				console.log(res.data);
 				if (res.data.status) {
 					const newList = data.list.filter((item) => {
 						return item.id !== params.id;

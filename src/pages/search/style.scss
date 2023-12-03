@@ -5,6 +5,9 @@
 	min-height: 100vh;
 	.searchTop {
 		margin-bottom: 30px;
+		position: sticky;
+		top: 0;
+		z-index: 99;
 	}
 	.hotKeys {
 		font-size: 28rpx;
@@ -30,5 +33,8 @@
 	.closeText {
 		font-size: 28px;
 		font-weight: 400;
+	}
+	.extraNav {
+		font-size: 28px;
 	}
 }

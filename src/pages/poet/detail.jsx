@@ -127,39 +127,41 @@ const PoetDetailPage = () => {
 			</View>
 			<View className='divide'></View>
 			{/* 热门诗词  */}
-			<SectionCard
-				title='热门诗词'
-				extra={
-					<Navigator
-						className='navigator'
-						hoverClass='none'
-						url={`/pages/poem/index?from=poet&type=author&keyWord=${detail.poet.author_name}`}
-					>
-						查看更多
-					</Navigator>
-				}
-			>
-				<Swiper
-					className='hotPoemsSwiper'
-					indicatorColor='#999'
-					indicatorActiveColor='#333'
-					vertical={false}
-					circular
-					indicatorDots
-					autoplay
-					adjustHeight='highest'
+			{detail.poems.data && detail.poems.data.length > 0 ? (
+				<SectionCard
+					title='热门诗词'
+					extra={
+						<Navigator
+							className='navigator'
+							hoverClass='none'
+							url={`/pages/poem/index?from=poet&type=author&keyWord=${detail.poet.author_name}`}
+						>
+							查看更多
+						</Navigator>
+					}
 				>
-					{detail.poems.data.map((poem) => (
-						<SwiperItem key={poem.id}>
-							<PoemSmallCard
-								{...poem}
-								showCount={false}
-								showBorder={false}
-							/>
-						</SwiperItem>
-					))}
-				</Swiper>
-			</SectionCard>
+					<Swiper
+						className='hotPoemsSwiper'
+						indicatorColor='#999'
+						indicatorActiveColor='#333'
+						vertical={false}
+						circular
+						indicatorDots
+						autoplay
+						adjustHeight='highest'
+					>
+						{detail.poems.data.map((poem) => (
+							<SwiperItem key={poem.id}>
+								<PoemSmallCard
+									{...poem}
+									showCount={false}
+									showBorder={false}
+								/>
+							</SwiperItem>
+						))}
+					</Swiper>
+				</SectionCard>
+			) : null}
 			<View className='divide'></View>
 			{/* 其他信息 */}
 			{detail.poet.more_infos.map((info) => (

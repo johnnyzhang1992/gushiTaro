@@ -59,14 +59,6 @@ const FixBottom = (props) => {
 				>
 					译文
 				</View>
-				{/* <View
-					className='tabItem'
-					onClick={() => {
-						handleTabClick(2);
-					}}
-				>
-					摘录
-				</View> */}
 				<View className='right flex'>
 					<View className='tabItem like'>
 						<LikeButton
@@ -120,11 +112,6 @@ const FixBottom = (props) => {
 							/>
 						</View>
 					</AtTabsPane>
-					{/* <AtTabsPane current={current} index={2}>
-						<View className='tabContent'>
-							标签页三的内容
-						</View>
-					</AtTabsPane> */}
 				</AtTabs>
 			</PageContainer>
 		</View>

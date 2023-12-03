@@ -228,6 +228,7 @@ const Poem = () => {
 						<PoemSmallCard
 							{...item}
 							showCount
+							showBorder
 							key={item.id}
 							lightWord={pageOptions.keyWord}
 						/>

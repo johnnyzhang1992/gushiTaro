@@ -90,7 +90,6 @@ const SearchPage = () => {
 		}).then((res) => {
 			if (res && res.statusCode === 200) {
 				addKey(keyword);
-				console.log(res.data);
 				const { poems, poets, sentences, tags } = res.data;
 				updateResult({
 					poems: poems.data || [],
@@ -117,7 +116,6 @@ const SearchPage = () => {
 	const fetchHotKeys = () => {
 		fetchHotSearch('GET', {}).then((res) => {
 			if (res && res.statusCode === 200) {
-				console.log(res.data);
 				// 去重
 				updateHot([...new Set(res.data || [])]);
 			}
@@ -262,7 +260,7 @@ const SearchPage = () => {
 								hoverClass='none'
 								url={`/pages/poet/index?from=search&keyWord=${keyword}`}
 							>
-								查看更多({searchResult.poets_count})
+								查看更多 ({searchResult.poets_count})
 							</Navigator>
 						) : null
 					}
@@ -290,7 +288,7 @@ const SearchPage = () => {
 								hoverClass='none'
 								url={`/pages/sentence/index?from=search&keyWord=${keyword}`}
 							>
-								查看更多({searchResult.sentences_count})
+								查看更多 ({searchResult.sentences_count})
 							</Navigator>
 						) : null
 					}
@@ -318,7 +316,7 @@ const SearchPage = () => {
 								hoverClass='none'
 								url={`/pages/poem/index?from=search&type=poem&keyWord=${keyword}`}
 							>
-								查看更多({searchResult.poems_count})
+								查看更多 ({searchResult.poems_count})
 							</Navigator>
 						) : null
 					}

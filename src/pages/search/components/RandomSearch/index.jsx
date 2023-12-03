@@ -19,7 +19,6 @@ const RandomSearch = () => {
 	const fetchSearch = () => {
 		fetchRandomSearch('GET', {}).then((res) => {
 			if (res && res.statusCode === 200) {
-				console.log(res.data);
 				const {
 					poems = [],
 					poets = [],

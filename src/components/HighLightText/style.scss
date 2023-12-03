@@ -1,5 +1,9 @@
-.text {
-	&.light {
+.lightText {
+	display: block;
+	.text {
+		display: inline-block;
+	}
+	.light {
 		color: #337ab7;
 		font-size: 1.1em;
 	}

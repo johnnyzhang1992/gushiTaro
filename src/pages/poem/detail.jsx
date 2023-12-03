@@ -87,10 +87,8 @@ const PoemDetail = () => {
 		})
 			.then((res) => {
 				if (res && res.statusCode === 200) {
-					console.log(res.data);
 					const { poem } = res.data;
 					computeData(res.data);
-					// setDetail(res.data);
 					setTitle(poem.title);
 				}
 			})
@@ -127,7 +125,12 @@ const PoemDetail = () => {
 		const { id } = options;
 		console.log('options', options);
 		cacheRef.current.poemId = id;
-		fetchDetail(id || 48769);
+		if (!id || id < 0) {
+			Taro.switchTab({
+				url: '/pages/index'
+			})
+		}
+		fetchDetail(id);
 		setOptions((pre) => ({
 			...pre,
 			...options,

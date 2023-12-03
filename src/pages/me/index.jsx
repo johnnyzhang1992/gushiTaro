@@ -31,7 +31,6 @@ const MeIndex = () => {
 			user_id: id || user.user_id,
 		}).then((res) => {
 			if (res && res.statusCode === 200) {
-				console.log(res.data);
 				setInfo((pre) => ({
 					...pre,
 					...res.data,
@@ -86,7 +85,6 @@ const MeIndex = () => {
 		const preLoginPath = Taro.getStorageSync('preLoginPath');
 		createUser('POST', data)
 			.then((res) => {
-				console.log(res);
 				if (res.data && res.data.user_id) {
 					console.log('----------success------------');
 					Taro.setStorageSync('user', res.data);
