@@ -1,10 +1,12 @@
 // @import "~taro-ui/dist/style/index.scss";
+$color-brand: #337ab7;
 @import '~taro-ui/dist/style/components/icon.scss';
 @import "~taro-ui/dist/style/components/float-layout.scss";
 @import "~taro-ui/dist/style/components/tag.scss";
 @import "~taro-ui/dist/style/components/tabs.scss";
 @import "~taro-ui/dist/style/components/progress.scss";
 @import "~taro-ui/dist/style/components/search-bar.scss";
+@import "~taro-ui/dist/style/components/fab.scss";
 
 page {
 	// line-height: 1.6;

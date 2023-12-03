@@ -1,0 +1,43 @@
+.fabButton {
+	position: fixed;
+	right: 24px;
+	bottom: 320px;
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+	z-index: 99;
+	.apps {
+		// background-color: #fff;
+		margin-bottom: 10px;
+		.appItem {
+			// font-size: 48px;
+			padding: 16px 17px;
+			text-align: center;
+			background-color: #337ab7;
+			margin-bottom: 16px;
+			border-radius: 50%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			position: relative;
+			.icon {
+				color: #fff;
+				font-size: 28px;
+			}
+			.text {
+				color: #337ab7;
+				font-size: 26px;
+				font-weight: 5001;
+				padding-left: 6px;
+				// display: none;
+				position: absolute;
+				left: -120px;
+				letter-spacing: 1px;
+				// background-color: #fff;
+				padding: 18px 0;
+				// opacity: 0.8;
+			}
+		}
+	}
+}

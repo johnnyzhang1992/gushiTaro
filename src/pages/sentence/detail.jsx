@@ -19,6 +19,7 @@ import SectionCard from '../../components/SectionCard';
 import LikeButton from '../../components/LikeButton';
 import CollectButton from '../../components/CollectButton';
 import TagsCard from '../../components/TagsCard';
+import FabButton from '../../components/FabButton';
 
 import { fetchSentenceDetail } from './service';
 
@@ -218,6 +219,8 @@ const SentenceDetail = () => {
 					</View>
 				</View>
 			</View>
+			{/* 悬浮按钮 */}
+			<FabButton />
 		</View>
 	);
 };

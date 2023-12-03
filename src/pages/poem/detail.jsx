@@ -25,6 +25,7 @@ import SentenceCard from '../../components/SentenceCard';
 import FixBottom from './components/FixBottom';
 import TagsCard from '../../components/TagsCard';
 import AudioCard from '../../components/AudioCard';
+import FabButton from '../../components/FabButton';
 
 import copyPng from '../../images/icon/copy.png';
 import sharePng from '../../images/icon/share.png';
@@ -127,8 +128,8 @@ const PoemDetail = () => {
 		cacheRef.current.poemId = id;
 		if (!id || id < 0) {
 			Taro.switchTab({
-				url: '/pages/index'
-			})
+				url: '/pages/index',
+			});
 		}
 		fetchDetail(id);
 		setOptions((pre) => ({
@@ -244,6 +245,8 @@ const PoemDetail = () => {
 			{/* 统计数据 -- 点赞、收藏人数*/}
 			{/* 注释，译文，摘录，学习计划 -- 半屏 */}
 			<FixBottom poem={detail.poem} poemDetail={detail.detail} />
+			{/* 悬浮按钮 */}
+			<FabButton />
 		</View>
 	);
 };

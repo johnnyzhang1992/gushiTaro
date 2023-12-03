@@ -23,6 +23,7 @@ import LongTextCard from '../../components/LongTextCard';
 import PoemSmallCard from '../../components/PoemSmallCard';
 import LikeButton from '../../components/LikeButton';
 import CollectButton from '../../components/CollectButton';
+import FabButton from '../../components/FabButton';
 
 import './style.scss';
 
@@ -89,14 +90,14 @@ const PoetDetailPage = () => {
 	useShareAppMessage(() => {
 		const { poet } = detail;
 		return {
-			title: poet.title || '诗人详情',
+			title: poet.author_name || '诗人详情',
 			path: '/pages/poet/detail?id=' + poet.id,
 		};
 	});
 	useShareTimeline(() => {
 		const { poet } = detail;
 		return {
-			title: poet.title || '诗人详情',
+			title: poet.author_name || '诗人详情',
 			path: '/pages/poet/detail?id=' + poet.id,
 		};
 	});
@@ -196,6 +197,12 @@ const PoetDetailPage = () => {
 					</View>
 				</View>
 			</View>
+			{/* 悬浮按钮 */}
+			<FabButton
+				style={{
+					bottom: '240rpx',
+				}}
+			/>
 		</View>
 	);
 };
