@@ -36,21 +36,21 @@ const Index = () => {
 			{/* 导航 */}
 			<HomeNavs />
 			<View className='divide' />
-			{/* 课本 */}
-			<View className='sectionCard'>
-				<View className='cardTitle'>课本</View>
-				<View className='cardContent'>
-					{HomeBooks.map((item) => (
-						<HomeCard key={item.code} {...item} />
-					))}
-				</View>
-			</View>
-			<View className='divide' />
 			{/* 选集 */}
 			<View className='sectionCard'>
 				<View className='cardTitle'>选集</View>
 				<View className='cardContent'>
 					{HomeCategories.map((item) => (
+						<HomeCard key={item.code} {...item} />
+					))}
+				</View>
+			</View>
+			<View className='divide' />
+			{/* 课本 */}
+			<View className='sectionCard'>
+				<View className='cardTitle'>课本</View>
+				<View className='cardContent'>
+					{HomeBooks.map((item) => (
 						<HomeCard key={item.code} {...item} />
 					))}
 				</View>

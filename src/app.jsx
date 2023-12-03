@@ -1,9 +1,8 @@
 import Taro, {
 	useLaunch,
-	useDidHide,
 	usePageNotFound,
-	useDidShow,
 } from '@tarojs/taro';
+
 import './app.scss';
 
 import { BaseUrl } from './const/config';
@@ -31,32 +30,29 @@ const App = (props) => {
 							console.log('wx_token', result.data.wx_token);
 						}
 					},
+					fail: function (err) {
+						console.log(err);
+					}
 				});
 			},
 		});
 	};
+
 	useLaunch((options) => {
 		console.log('onLaunch', options);
 		Taro.setStorageSync('enterPath', options.path);
-		const app = Taro.getApp();
-		console.log('app', app);
 		Taro.getSystemInfo().then((sysRes) => {
 			Taro.setStorageSync('sys_info', sysRes);
 		});
 		userLogin();
 	});
-	usePageNotFound((res) => {
-		console.log(res);
+
+	usePageNotFound(() => {
 		Taro.switchTab({
-			url: 'pages/index',
+			url: '/pages/index',
 		}); // 如果是 tabbar 页面，请使用 Taro.switchTab
-	});
-	useDidShow(() => {
-		console.log('app--show');
-	});
-	useDidHide(() => {
-		console.log('app-hide');
 	});
 	return props.children;
 };
+
 export default App;
