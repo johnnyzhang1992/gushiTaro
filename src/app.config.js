@@ -13,6 +13,8 @@ export default {
 		'pages/sentence/detail',
 		'pages/post/index',
 		'pages/me/setting/index',
+		'pages/admin/index',
+		'pages/admin/search',
 	],
 	window: {
 		backgroundTextStyle: 'light',

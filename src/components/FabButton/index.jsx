@@ -49,6 +49,7 @@ const FabButton = ({ style }) => {
 						data-type='home'
 						onClick={handleClick}
 					>
+						<Text className='text'>返回首页</Text>
 						<AtIcon
 							value='home'
 							size='20'
@@ -56,13 +57,13 @@ const FabButton = ({ style }) => {
 							className='icon'
 						/>
 						{/* <View className='at-icon at-icon-home'></View> */}
-						<Text className='text'>返回首页</Text>
 					</View>
 					<View
 						className='appItem'
 						data-type='search'
 						onClick={handleClick}
 					>
+						<Text className='text'>马上搜索</Text>
 						<AtIcon
 							value='search'
 							size='20'
@@ -73,13 +74,13 @@ const FabButton = ({ style }) => {
 							className='icon at-icon at-icon-search'
 							color=''
 						></View> */}
-						<Text className='text'>马上搜索</Text>
 					</View>
 					<View
 						className='appItem'
 						data-type='collect'
 						onClick={handleClick}
 					>
+						<Text className='text'>我的收藏</Text>
 						<AtIcon
 							value='heart'
 							size='20'
@@ -87,13 +88,13 @@ const FabButton = ({ style }) => {
 							className='icon'
 						/>
 						{/* <View className='at-icon at-icon-heart'></View> */}
-						<Text className='text'>我的收藏</Text>
 					</View>
 					<View
 						className='appItem'
 						data-type='return'
 						onClick={handleClick}
 					>
+						<Text className='text'>返回上页</Text>
 						<AtIcon
 							value='chevron-left'
 							size='20'
@@ -101,7 +102,6 @@ const FabButton = ({ style }) => {
 							className='icon'
 						/>
 						{/* <View className='at-icon at-icon-chevron-left'></View> */}
-						<Text className='text'>返回上页</Text>
 					</View>
 				</View>
 			) : null}

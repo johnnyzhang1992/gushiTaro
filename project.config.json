@@ -2,6 +2,7 @@
   "miniprogramRoot": "dist/",
   "description": "古诗文小助手 taro 版本",
   "setting": {
+    "checkSiteMap": true,
     "urlCheck": true,
     "es6": false,
     "enhance": false,

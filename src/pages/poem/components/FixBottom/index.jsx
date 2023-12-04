@@ -63,7 +63,7 @@ const FixBottom = (props) => {
 					<View className='tabItem like'>
 						<LikeButton
 							type='poem'
-							id={poemDetail.poem_id}
+							id={poem.id}
 							count={poem.like_count}
 							status={poem.like_status}
 							showText
@@ -72,7 +72,7 @@ const FixBottom = (props) => {
 					<View className='tabItem like'>
 						<CollectButton
 							type='poem'
-							id={poemDetail.poem_id}
+							id={poem.id}
 							count={poem.collect_count}
 							status={poem.collect_status}
 							showText

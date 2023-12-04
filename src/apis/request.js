@@ -7,9 +7,9 @@ const request = (url, params, method = 'GET') => {
 	const wxToken = Taro.getStorageSync('wx_token');
 	let data = {
 		...params,
-		openId: user.openId,
-		wx_token: wxToken,
-		user_id: user.user_id,
+		openId: user.openId || '',
+		wx_token: wxToken || '',
+		user_id: user.user_id || -1,
 	};
 	console.log('--api--request:', url, method);
 	return Taro.request({

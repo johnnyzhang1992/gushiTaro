@@ -9,14 +9,16 @@
 	z-index: 99;
 	.apps {
 		// background-color: #fff;
+		// background-color: #337ab7;
 		margin-bottom: 10px;
 		.appItem {
 			// font-size: 48px;
-			padding: 16px 17px;
+			padding: 16px 26px;
 			text-align: center;
 			background-color: #337ab7;
 			margin-bottom: 16px;
-			border-radius: 50%;
+			// border-radius: 50%;
+			border-radius: 84px;
 			display: flex;
 			justify-content: center;
 			align-items: center;
@@ -26,17 +28,11 @@
 				font-size: 28px;
 			}
 			.text {
-				color: #337ab7;
-				font-size: 26px;
+				color: #fff;
+				font-size: 24px;
 				font-weight: 5001;
-				padding-left: 6px;
-				// display: none;
-				position: absolute;
-				left: -120px;
+				padding-right: 6px;
 				letter-spacing: 1px;
-				// background-color: #fff;
-				padding: 18px 0;
-				// opacity: 0.8;
 			}
 		}
 	}

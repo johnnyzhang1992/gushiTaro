@@ -19,6 +19,7 @@ const MeIndex = () => {
 		poem_count: 0,
 		poet_count: 0,
 		sentence_count: 0,
+		user_id: -1,
 	});
 	const isCreate = useRef(false);
 
@@ -276,6 +277,15 @@ const MeIndex = () => {
 					2023 &copy; xuegushi.com
 				</Text>
 			</View>
+			{userInfo.user_id && userInfo.user_id === 10 ? (
+				<SectionCard
+					title='数据统计'
+					style={{
+						paddingBottom: '30px'
+					}}
+					extra={<Navigator url='/pages/admin/index'>=&gt;进入</Navigator>}
+				/>
+			) : null}
 		</View>
 	);
 };
