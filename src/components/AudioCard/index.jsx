@@ -71,6 +71,13 @@ const AudioCard = ({ id, title, author }) => {
 		innerAudioContext.onStop(() => {
 			updatePlay(false);
 		});
+		innerAudioContext.onError(() => {
+			Taro.showToast({
+				title: '音频加载出错，暂时无法使用。',
+				icon: 'none',
+				duration: 2500
+			})
+		})
 		innerAudioContext.onError((result) => {
 			console.log(result.errMsg);
 			console.log(result.errCode);

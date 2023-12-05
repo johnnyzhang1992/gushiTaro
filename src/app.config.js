@@ -9,6 +9,7 @@ export default {
 		'pages/poet/detail',
 		'pages/poem/index',
 		'pages/poem/detail',
+		'pages/poem/detail/index',
 		'pages/sentence/index',
 		'pages/sentence/detail',
 		'pages/post/index',

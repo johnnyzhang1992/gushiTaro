@@ -18,7 +18,7 @@ const LongTextCard = ({ showAll = false, text, title }) => {
 	const cacheText = useMemo(() => {
 		let cText = '';
 		if (typeof text !== 'string') {
-			const { content, reference: propRef = {} } = text;
+			const { content = [], reference: propRef = {} } = text;
 			if (propRef) {
 				setReference((pre) => ({
 					...pre,
@@ -29,7 +29,10 @@ const LongTextCard = ({ showAll = false, text, title }) => {
 				}));
 			}
 			content.forEach((item) => {
-				cText += item.replaceAll('<strong>', '【').replaceAll('</strong>', '】') + '\n';
+				cText +=
+					item
+						.replaceAll('<strong>', '【')
+						.replaceAll('</strong>', '】') + '\n';
 			});
 		} else {
 			cText = text;
@@ -49,8 +52,12 @@ const LongTextCard = ({ showAll = false, text, title }) => {
 			<View className={`textContainer ${showAll ? 'all' : ''}`}>
 				<View className='longText'>
 					<Text userSelect decode className='text'>
-						{showAll ? cacheText : cacheText.substring(0, limitLength)}
-						{!showAll && cacheText.length > limitLength ? '...' : ''}
+						{showAll
+							? cacheText
+							: cacheText.substring(0, limitLength)}
+						{!showAll && cacheText.length > limitLength
+							? '...'
+							: ''}
 					</Text>
 				</View>
 			</View>
