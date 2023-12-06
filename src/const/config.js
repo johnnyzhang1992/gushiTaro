@@ -54,14 +54,15 @@ export const HomeBooks = [
 	{
 		name: '小学诗词',
 		code: 'xiaoxue',
-		profile: '静夜思',
+		profile: '江南可采莲',
 		type: 'book',
 	},
-	// {
-	// 	name: '小学古文',
-	// 	code: 'xiaoxuewyw',
-	// 	profile: '揠苗助长',
-	// },
+	{
+		name: '小学文言',
+		code: 'xiaoxuewyw',
+		profile: '守株待兔',
+		type: 'book',
+	},
 	{
 		name: '初中诗词',
 		code: 'chuzhong',
@@ -69,7 +70,7 @@ export const HomeBooks = [
 		type: 'book',
 	},
 	{
-		name: '初中古文',
+		name: '初中文言',
 		code: 'chuzhongwyw',
 		profile: '湖心亭看雪',
 		type: 'book',
@@ -81,7 +82,7 @@ export const HomeBooks = [
 		type: 'book',
 	},
 	{
-		name: '高中古文',
+		name: '高中文言',
 		code: 'gaozhongwyw',
 		profile: '孔雀东南飞',
 		type: 'book',

@@ -37,19 +37,31 @@ const CollectButton = (props) => {
 			id,
 		}).then((res) => {
 			if (res && res.statusCode === 200) {
-				const { status: resStatus, num: resCount, errors, error_code } = res.data;
+				const {
+					status: resStatus,
+					num: resCount,
+					errors,
+					error_code,
+				} = res.data;
 				if (!error_code) {
 					setStatus(resStatus);
 					setCount(resCount);
 					if (typeof updateStatus === 'function') {
 						updateStatus(resStatus, resCount);
 					}
+					if (resStatus) {
+						Taro.showToast({
+							title: '收藏成功！记得常常温习哦',
+							icon: 'none',
+							duration: 2000,
+						});
+					}
 				} else {
 					Taro.showToast({
 						title: errors || '操作失败',
 						icon: 'error',
 						duration: 2000,
-					})
+					});
 				}
 			}
 		});

@@ -25,12 +25,21 @@ const App = (props) => {
 								result.data.wx_token
 							);
 							console.log('wx_token', result.data.wx_token);
+						} else {
+							if (result.data && result.data.openId) {
+								Taro.setStorageSync('user', {
+									openId: result.data.openId,
+								});
+							}
 						}
 					},
 					fail: function (err) {
 						console.log(err);
 					},
 				});
+			},
+			fail: (err) => {
+				console.log(err);
 			},
 		});
 	};
@@ -72,8 +81,8 @@ const App = (props) => {
 				}
 			},
 			fail: function () {
-				console.log('---取消了更新')
-			}
+				console.log('---取消了更新');
+			},
 		});
 	});
 	// 更新失败

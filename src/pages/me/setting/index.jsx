@@ -8,9 +8,10 @@ import {
 	Button,
 } from '@tarojs/components';
 import { useState, useRef } from 'react';
-import Taro, { useLoad } from '@tarojs/taro';
+import Taro, { useDidShow, useLoad, usePullDownRefresh } from '@tarojs/taro';
 
 import { updateUserInfo, uploadAvatar } from '../service';
+import { userIsLogin } from '../../../utils/auth'
 
 import './style.scss';
 
@@ -36,6 +37,15 @@ const SettingPage = () => {
 			name: user.name || user.nickName,
 		});
 	});
+
+	useDidShow(() => {
+		const isLogin = userIsLogin();
+		console.log(isLogin)
+	})
+
+	usePullDownRefresh(() => {
+		Taro.stopPullDownRefresh();
+	})
 
 	const handleNickNameReview = (e) => {
 		console.log(e.detail);
