@@ -181,6 +181,12 @@ const SearchPage = () => {
 		);
 	};
 
+	const noSearchResult =
+		searchResult.tags.length < 1 &&
+		searchResult.poets.length < 1 &&
+		searchResult.sentences.length < 1 &&
+		searchResult.poems.length < 1;
+
 	return (
 		<View className='page searchPage'>
 			{/* 搜索框 */}
@@ -205,7 +211,8 @@ const SearchPage = () => {
 					))}
 				</SectionCard>
 			) : null}
-			{!isSearch ? <RandomSearch /> : null}
+			{/* 诗词随机推荐 */}
+			{!isSearch && !noSearchResult ? <RandomSearch /> : null}
 			{/* 搜索提示 */}
 			{!isSearch && showTips ? (
 				<SectionCard
@@ -331,6 +338,19 @@ const SearchPage = () => {
 						))}
 					</View>
 				</SectionCard>
+			) : null}
+			{/* 无搜索结果 */}
+			{isSearch && noSearchResult ? (
+				<View className='loading noResult'>
+					<View className='tip'>
+						<Text className='text'>(ｷ｀ﾟДﾟ´)!!</Text>
+					</View>
+					<View className='tip'>
+						<Text className='text'>
+							哎呀，没有搜索到内容，要不换个关键字试试?(*╹▽╹*)
+						</Text>
+					</View>
+				</View>
 			) : null}
 		</View>
 	);

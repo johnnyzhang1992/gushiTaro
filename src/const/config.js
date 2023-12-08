@@ -52,7 +52,7 @@ export const HomeCategories = [
 // 首页课本分类
 export const HomeBooks = [
 	{
-		name: '小学诗词',
+		name: '小学诗文',
 		code: 'xiaoxue',
 		profile: '江南可采莲',
 		type: 'book',
@@ -64,27 +64,27 @@ export const HomeBooks = [
 		type: 'book',
 	},
 	{
-		name: '初中诗词',
+		name: '初中诗文',
 		code: 'chuzhong',
-		profile: '明月几时有',
+		profile: '东临碣石',
 		type: 'book',
 	},
 	{
 		name: '初中文言',
 		code: 'chuzhongwyw',
-		profile: '湖心亭看雪',
+		profile: '学而时习之',
 		type: 'book',
 	},
 	{
-		name: '高中诗词',
+		name: '高中诗文',
 		code: 'gaozhong',
-		profile: '鱼我所欲也',
+		profile: '恰同学少年',
 		type: 'book',
 	},
 	{
 		name: '高中文言',
 		code: 'gaozhongwyw',
-		profile: '孔雀东南飞',
+		profile: '庖丁解牛',
 		type: 'book',
 	},
 ];
