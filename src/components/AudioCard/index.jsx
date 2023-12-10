@@ -20,6 +20,7 @@ const AudioCard = ({ id, title, author }) => {
 		playTime: '00:00',
 		totalTime: '00:00',
 	});
+	const [isError, setError] = useState(false);
 
 	const audioInit = useCallback((audioSrc) => {
 		Taro.setInnerAudioOption({
@@ -144,6 +145,7 @@ const AudioCard = ({ id, title, author }) => {
 							icon: 'none',
 							duration: 2500,
 						});
+						setError(true);
 					} else {
 						audioInit(res.data.src);
 					}
@@ -177,7 +179,7 @@ const AudioCard = ({ id, title, author }) => {
 		}
 	}, [isPlay]);
 
-	return (
+	return !isError ? (
 		<View className={`audioCard ${isPlay ? 'sticky' : ''}`}>
 			<View className='poem'>
 				<View className='at-icon at-icon-volume-plus icon'></View>
@@ -220,7 +222,7 @@ const AudioCard = ({ id, title, author }) => {
 				)}
 			</View>
 		</View>
-	);
+	) : null;
 };
 
 export default AudioCard;
