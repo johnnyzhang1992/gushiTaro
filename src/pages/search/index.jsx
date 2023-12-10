@@ -85,6 +85,7 @@ const SearchPage = () => {
 			updateResult(cacheRef.current[keyword]);
 			return false;
 		}
+		Taro.showLoading();
 		fetchSearch('GET', {
 			key: keyword,
 		}).then((res) => {
@@ -110,6 +111,8 @@ const SearchPage = () => {
 					tags,
 				};
 			}
+		}).finally(() => {
+			Taro.hideLoading();
 		});
 	};
 
@@ -212,7 +215,7 @@ const SearchPage = () => {
 				</SectionCard>
 			) : null}
 			{/* 诗词随机推荐 */}
-			{!isSearch && !noSearchResult ? <RandomSearch /> : null}
+			{!isSearch && noSearchResult ? <RandomSearch /> : null}
 			{/* 搜索提示 */}
 			{!isSearch && showTips ? (
 				<SectionCard

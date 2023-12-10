@@ -25,7 +25,7 @@ const LongTextCard = ({ showAll = false, text, title }) => {
 					...propRef,
 					content: Array.isArray(propRef.content)
 						? propRef.content
-						: [propRef.content],
+						: [],
 				}));
 			}
 			content.forEach((item) => {

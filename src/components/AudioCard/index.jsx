@@ -75,9 +75,9 @@ const AudioCard = ({ id, title, author }) => {
 			Taro.showToast({
 				title: '音频加载出错，暂时无法使用。',
 				icon: 'none',
-				duration: 2500
-			})
-		})
+				duration: 2500,
+			});
+		});
 		innerAudioContext.onError((result) => {
 			console.log(result.errMsg);
 			console.log(result.errCode);
@@ -87,10 +87,13 @@ const AudioCard = ({ id, title, author }) => {
 				duration: 2000,
 			});
 		});
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const handlePlay = () => {
+		if (!audioRef.current) {
+			return false;
+		}
 		audioRef.current.play();
 		updatePlay(true);
 	};
@@ -115,6 +118,9 @@ const AudioCard = ({ id, title, author }) => {
 	};
 
 	const handleRepeatPlay = () => {
+		if (!audioRef.current) {
+			return false;
+		}
 		audioRef.current.play();
 		updatePlay(true);
 		repeatRef.current = true;
@@ -132,7 +138,15 @@ const AudioCard = ({ id, title, author }) => {
 				id: id,
 			}).then((res) => {
 				if (res && res.statusCode === 200) {
-					audioInit(res.data.src);
+					if (!res.data.src) {
+						Taro.showToast({
+							title: res.data.msg || '音频生成失败',
+							icon: 'none',
+							duration: 2500,
+						});
+					} else {
+						audioInit(res.data.src);
+					}
 				}
 			});
 		}

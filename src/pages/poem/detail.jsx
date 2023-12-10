@@ -83,6 +83,7 @@ const PoemDetail = () => {
 	// 加载详情数据
 	const fetchDetail = (id) => {
 		const { poemId } = cacheRef.current;
+		Taro.showLoading();
 		fetchPoemDetail('GET', {
 			id: id || poemId,
 		})
@@ -92,6 +93,9 @@ const PoemDetail = () => {
 					computeData(res.data);
 					setTitle(poem.title);
 				}
+			})
+			.finally(() => {
+				Taro.hideLoading();
 			})
 			.catch((err) => {
 				console.log(err);
