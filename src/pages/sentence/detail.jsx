@@ -4,7 +4,7 @@ import {
 	Text,
 	Navigator,
 	Image,
-	Button
+	Button,
 } from '@tarojs/components';
 import { useState, useRef } from 'react';
 import Taro, {
@@ -65,7 +65,6 @@ const SentenceDetail = () => {
 			id: sId,
 		}).then((res) => {
 			if (res && res.statusCode === 200) {
-				console.log(res.data);
 				const { sentence = {}, author = {}, poem = {} } = res.data;
 				setDetail({
 					author: author || {},
@@ -75,10 +74,15 @@ const SentenceDetail = () => {
 						sentenceArr: splitSentence(sentence.title || ''),
 					},
 				});
-				setTitle(sentence.title);
+				const { title, theme='', type='' } = sentence;
+				setTitle(title);
 				let tagsArr = [];
-				tagsArr = tagsArr.concat(sentence.theme.split(','));
-				tagsArr = tagsArr.concat(sentence.type.split(','));
+				if (theme) {
+					tagsArr = tagsArr.concat(sentence.theme.split(','));
+				}
+				if (type) {
+					tagsArr = tagsArr.concat(sentence.type.split(','));
+				}
 				if (poem.tags) {
 					tagsArr = tagsArr.concat(poem.tags.split(','));
 				}
@@ -192,7 +196,14 @@ const SentenceDetail = () => {
 			</View>
 			{/* 操作栏 分享 */}
 			<View className='shreContainer'>
-				<Button type='default' size='mini' openType='share' hoverClass='none' plain className='shareBtn'>
+				<Button
+					type='default'
+					size='mini'
+					openType='share'
+					hoverClass='none'
+					plain
+					className='shareBtn'
+				>
 					<Image src={sharePng} className='share' />
 				</Button>
 			</View>

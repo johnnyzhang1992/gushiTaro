@@ -5,7 +5,7 @@ import { useNavigationBar } from 'taro-hooks';
 
 import SectionCard from '../../components/SectionCard';
 
-import { BaseUrl } from '../../const/config';
+// import { BaseUrl } from '../../const/config';
 import { fetchUserInfo, createUser } from './service';
 
 import './style.scss';
@@ -136,12 +136,12 @@ const MeIndex = () => {
 			});
 	};
 
-	const handleZanshang = () => {
-		Taro.previewImage({
-			current: BaseUrl + '/static/xcx/zanshang.jpeg', // 当前显示图片的http链接
-			urls: [BaseUrl + '/static/xcx/zanshang.jpeg'], // 需要预览的图片http链接列表
-		});
-	};
+	// const handleZanshang = () => {
+	// 	Taro.previewImage({
+	// 		current: BaseUrl + '/static/xcx/zanshang.jpeg', // 当前显示图片的http链接
+	// 		urls: [BaseUrl + '/static/xcx/zanshang.jpeg'], // 需要预览的图片http链接列表
+	// 	});
+	// };
 
 	const navigateToAbout = () => {
 		Taro.navigateTo({
@@ -264,12 +264,12 @@ const MeIndex = () => {
 			</SectionCard>
 			<View className='divide' />
 			{/* 赞赏 */}
-			<SectionCard
+			{/* <SectionCard
 				title='天冷了，给程序员小哥哥买杯热咖啡'
 				titleClick={handleZanshang}
 				extra={<View className='icon at-icon at-icon-chevron-right' />}
 			></SectionCard>
-			<View className='divide' />
+			<View className='divide' /> */}
 			<Ad unit-id='adunit-bf6445b29863936e' />
 			{/* copyright */}
 			<View className='copyright'>

@@ -136,11 +136,11 @@ const SearchPage = () => {
 		} else {
 			tipsVisible(tipStatus !== 'close');
 		}
+		fetchHotKeys();
 	});
 
 	useDidShow(() => {
 		console.log('---page--show');
-		fetchHotKeys();
 	});
 
 	usePullDownRefresh(() => {
