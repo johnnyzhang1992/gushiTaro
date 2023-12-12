@@ -140,6 +140,16 @@ const ColllectContainer = ({ type, page, updatePage }) => {
 					<Text>内容加载中...</Text>
 				</View>
 			) : null}
+			{!loading && data.list.length < 1 ? (
+				<View className='loading'>
+					<View>
+						<Text>哎呀，怎么没有收藏(ｷ｀ﾟДﾟ´)!!</Text>
+					</View>
+					<View>
+						<Text>要热爱学习呀！ヾ(◍°∇°◍)ﾉﾞ</Text>
+					</View>
+				</View>
+			) : null}
 			{error ? (
 				<View className='pageError'>
 					<View className='title'>接口请求报错：</View>

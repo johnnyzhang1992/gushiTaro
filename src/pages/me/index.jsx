@@ -178,7 +178,7 @@ const MeIndex = () => {
 		<View className='page mePage'>
 			{/* 用户信息和登录 */}
 			<View className='meTop'>
-				{userInfo.user_id ? (
+				{userInfo.user_id > 0 ? (
 					<Navigator
 						className='userInfoCard'
 						url='/pages/me/setting/index'
@@ -248,7 +248,20 @@ const MeIndex = () => {
 			></SectionCard>
 			<View className='divide' />
 			{/* 小程序码 */}
-			<SectionCard title='小程序码'>
+			<SectionCard
+				title='小程序码'
+				extra={
+					<Button
+						openType='contact'
+						size='small'
+						type='primary'
+						className='fankuiBtn'
+					>
+						<Text className='at-icon at-icon-help icon'></Text>
+						<Text className='text'>问题反馈</Text>
+					</Button>
+				}
+			>
 				<View className='imgContainer'>
 					<Image
 						src={xcxPng}
@@ -281,9 +294,13 @@ const MeIndex = () => {
 				<SectionCard
 					title='数据统计'
 					style={{
-						paddingBottom: '30px'
+						paddingBottom: '30px',
 					}}
-					extra={<Navigator url='/pages/admin/index'>=&gt;进入</Navigator>}
+					extra={
+						<Navigator url='/pages/admin/index'>
+							=&gt;进入
+						</Navigator>
+					}
 				/>
 			) : null}
 		</View>

@@ -79,6 +79,23 @@
 		text-align: center;
 		padding: 30px 0;
 	}
+	.fankuiBtn {
+		color: #fff;
+		font-size: 26px;
+		background-color: #337ab7;
+		line-height: normal;
+		padding: 8px 20px;
+		text-align: center;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		.text {
+			padding-left: 12px;
+		}
+		.icon {
+			font-size: 30px;
+		}
+	}
 }
 .colletPage {
 	.at-tabs__header {
