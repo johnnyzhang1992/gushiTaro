@@ -14,7 +14,7 @@ const HomeHeader = () => {
 	const timer = useRef(null);
 
 	const fetchSentence = useCallback(() => {
-		const [year, m, d] = Utils.formatDate(new Date());
+		const [year, m, d] = Utils.formatDate();
 		const currentDate = `${year}/${m}/${d}`;
 		const localSentence = Taro.getStorageSync('home_senetnce');
 		if (localSentence && localSentence.date == currentDate) {
@@ -23,7 +23,6 @@ const HomeHeader = () => {
 		}
 		fetchRandomSentence()
 			.then((res) => {
-				console.log(res);
 				if (res && res.statusCode == 200) {
 					setSentence(res.data[0]);
 					Taro.setStorageSync('home_senetnce', {
