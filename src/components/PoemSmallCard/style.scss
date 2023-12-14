@@ -5,7 +5,7 @@
 	&.hideBorder {
 		border-bottom: none;
 	}
-	&>.title {
+	& > .title {
 		color: #333;
 		font-size: 28px;
 		position: relative;
@@ -22,11 +22,17 @@
 
 	.content {
 		font-size: 30px;
-		color: #65645F;
+		color: #65645f;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 		overflow: hidden;
 		display: block;
+		.lightText {
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			overflow: hidden;
+			display: block;
+		}
 	}
 	.poet {
 		.author,
@@ -39,7 +45,7 @@
 			margin-right: 8px;
 			position: relative;
 			&::after {
-				content: " ";
+				content: ' ';
 				background-color: #999;
 				position: absolute;
 				right: 0;
@@ -48,6 +54,15 @@
 				width: 1px;
 				transform: translateY(-50%);
 			}
+		}
+	}
+	.bottom {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-top: 12rpx;
+		.icon {
+			font-size: 36px;
 		}
 	}
 	.count {

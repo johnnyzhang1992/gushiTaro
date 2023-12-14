@@ -22,9 +22,9 @@ import LongTextCard from '../../components/LongTextCard';
 import PoemCard from './components/PoemCard';
 
 import SentenceCard from '../../components/SentenceCard';
+import AudioCard from '../../components/AudioCard';
 import FixBottom from './components/FixBottom';
 import TagsCard from '../../components/TagsCard';
-import AudioCard from '../../components/AudioCard';
 import FabButton from '../../components/FabButton';
 
 import copyPng from '../../images/icon/copy.png';

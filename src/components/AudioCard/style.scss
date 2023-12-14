@@ -3,6 +3,9 @@
 	background-color: #f5f5f5;
 	padding: 20px 20px;
 	border-radius: 10px;
+	&.hidePoem{
+		margin: 10px 0;
+	}
 
 	&.sticky {
 		position: sticky;

@@ -10,8 +10,8 @@ import Taro, {
 } from '@tarojs/taro';
 
 import SectionCard from '../../components/SectionCard';
-import PoemSmallCard from '../../components/PoemSmallCard';
 import SentenceCard from '../../components/SentenceCard';
+import PoemSmallCard from '../../components/PoemSmallCard';
 import TagsCard from '../../components/TagsCard';
 import PoetCard from '../../components/PoetCard';
 

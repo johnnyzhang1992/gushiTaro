@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { View, Swiper, SwiperItem, Text, Navigator } from '@tarojs/components';
 
 import SectionCard from '../../../../components/SectionCard';
+import SentenceCard from '../../../../components/SentenceCard';
 import PoemSmallCard from '../../../../components/PoemSmallCard';
 import PoetCard from '../../../../components/PoetCard';
-import SentenceCard from '../../../../components/SentenceCard';
 
 import { fetchRandomSearch } from '../../service';
 

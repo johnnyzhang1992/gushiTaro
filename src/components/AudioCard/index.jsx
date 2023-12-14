@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { View } from '@tarojs/components';
 import Taro, { useUnload } from '@tarojs/taro';
 import { AtProgress } from 'taro-ui';
@@ -8,7 +8,7 @@ import Utils from '../../utils/util';
 
 import './style.scss';
 
-const AudioCard = ({ id, title, author }) => {
+const AudioCard = ({ id, title, author, showPoem = true }) => {
 	const [isPlay, updatePlay] = useState(false);
 	const repeatRef = useRef(false);
 	const audioRef = useRef();
@@ -180,12 +180,18 @@ const AudioCard = ({ id, title, author }) => {
 	}, [isPlay]);
 
 	return !isError ? (
-		<View className={`audioCard ${isPlay ? 'sticky' : ''}`}>
-			<View className='poem'>
-				<View className='at-icon at-icon-volume-plus icon'></View>
-				<View className='title'>{title}</View>
-				<View className='author'>{author}</View>
-			</View>
+		<View
+			className={`audioCard ${isPlay ? 'sticky' : ''} ${
+				showPoem ? '' : 'hidePoem'
+			}`}
+		>
+			{showPoem ? (
+				<View className='poem'>
+					<View className='at-icon at-icon-volume-plus icon'></View>
+					<View className='title'>{title}</View>
+					<View className='author'>{author}</View>
+				</View>
+			) : null}
 			<View className='progress'>
 				<View className='time pre'>{audioTime.playTime}</View>
 				<AtProgress
@@ -225,4 +231,4 @@ const AudioCard = ({ id, title, author }) => {
 	) : null;
 };
 
-export default AudioCard;
+export default React.memo(AudioCard);

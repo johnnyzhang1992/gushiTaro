@@ -2,8 +2,8 @@ import { View, Text } from '@tarojs/components';
 import React, { useState, useEffect, useMemo } from 'react';
 import Taro from '@tarojs/taro';
 
-import PoemSmallCard from '../../../../components/PoemSmallCard';
 import SentenceCard from '../../../../components/SentenceCard';
+import PoemSmallCard from '../../../../components/PoemSmallCard';
 import PoetCard from '../../../../components/PoetCard';
 
 import useFectchList from '../../../../hooks/useFetchList';
