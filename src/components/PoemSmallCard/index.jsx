@@ -56,7 +56,9 @@ const PoemSmallCard = ({
 				<View
 					className='at-icon at-icon-volume-plus audio icon'
 					onClick={handleAudioVisible}
-				></View>
+				>
+					<Text className='text'>{showAduio ? '收起' : '播放'}</Text>
+				</View>
 				{showCount ? (
 					<View className='count'>
 						<Text className='num'>喜欢 {like_count || 0}</Text>
