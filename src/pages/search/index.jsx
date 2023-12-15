@@ -80,17 +80,26 @@ const SearchPage = () => {
 			});
 			return false;
 		}
+		if (keyword.trim().length > 9) {
+			Taro.showToast({
+				title: '搜索词并不是越长越好哦！',
+				icon: 'none',
+				duration: 2000,
+			});
+		}
+		// 处理过的搜索词
+		const KeyWord = keyword.trim().substring(0, 9);
 		updateStatus(true);
-		if (cacheRef.current[keyword]) {
-			updateResult(cacheRef.current[keyword]);
+		if (cacheRef.current[KeyWord]) {
+			updateResult(cacheRef.current[KeyWord]);
 			return false;
 		}
 		Taro.showLoading();
 		fetchSearch('GET', {
-			key: keyword,
+			key: KeyWord,
 		}).then((res) => {
 			if (res && res.statusCode === 200) {
-				addKey(keyword);
+				addKey(KeyWord);
 				const { poems, poets, sentences, tags } = res.data;
 				updateResult({
 					poems: poems.data || [],
@@ -101,7 +110,7 @@ const SearchPage = () => {
 					sentences_count: sentences.total || 0,
 					tags,
 				});
-				cacheRef.current[keyword] = {
+				cacheRef.current[KeyWord] = {
 					poems: poems.data || [],
 					poems_count: poems.total || 0,
 					poets: poets.data || [],
