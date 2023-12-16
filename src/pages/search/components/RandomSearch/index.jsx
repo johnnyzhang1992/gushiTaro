@@ -133,6 +133,7 @@ const RandomSearch = () => {
 						<SwiperItem key={poem.id}>
 							<PoemSmallCard
 								{...poem}
+								hideAudio
 								showCount={false}
 								showBorder={false}
 							/>

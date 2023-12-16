@@ -17,6 +17,7 @@ const PoemSmallCard = ({
 	like_count,
 	collect_count,
 	lightWord,
+	hideAudio = false,
 }) => {
 	const [showAduio, audioVisible] = useState(false);
 	const _content = content.split('。')[0].replaceAll('　', '') + '。';
@@ -53,12 +54,16 @@ const PoemSmallCard = ({
 				</View>
 			</Navigator>
 			<View className='bottom'>
-				<View
-					className='at-icon at-icon-volume-plus audio icon'
-					onClick={handleAudioVisible}
-				>
-					<Text className='text'>{showAduio ? '收起' : '播放'}</Text>
-				</View>
+				{!hideAudio ? (
+					<View
+						className='at-icon at-icon-volume-plus audio icon'
+						onClick={handleAudioVisible}
+					>
+						<Text className='text'>
+							{showAduio ? '收起' : '播放'}
+						</Text>
+					</View>
+				) : null}
 				{showCount ? (
 					<View className='count'>
 						<Text className='num'>喜欢 {like_count || 0}</Text>
