@@ -287,7 +287,7 @@ const MeIndex = () => {
 			{/* copyright */}
 			<View className='copyright'>
 				<Text className='text' decode userSelect>
-					2023 &copy; xuegushi.com
+					2024 &copy; xuegushi.com
 				</Text>
 			</View>
 			{userInfo.user_id && userInfo.user_id === 10 ? (

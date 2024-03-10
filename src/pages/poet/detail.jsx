@@ -121,11 +121,13 @@ const PoetDetailPage = () => {
 			<View className='divide'></View>
 			<OfficialAccount />
 			{/* 介绍 */}
-			<View className='poetProfile'>
-				<Text className='text' decode userSelect>
-					{detail.poet.profile}
-				</Text>
-			</View>
+			<SectionCard title='简介'>
+				<View className='poetProfile'>
+					<Text className='text' decode userSelect>
+						{detail.poet.profile}
+					</Text>
+				</View>
+			</SectionCard>
 			<View className='divide'></View>
 			{/* 热门诗词  */}
 			{detail.poems.data && detail.poems.data.length > 0 ? (

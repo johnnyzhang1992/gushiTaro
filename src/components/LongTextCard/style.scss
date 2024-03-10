@@ -2,6 +2,7 @@
 	padding-bottom: env(safe-area-inset-bottom);
 	padding-left: 20px;
 	padding-right: 20px;
+	padding-top: 20px;
 }
 .longTextCard {
 	.textContainer {
@@ -31,6 +32,14 @@
 		}
 		.text {
 			font-size: 24px;
+		}
+	}
+	.at-float-layout {
+		.layout-header__title {
+			font-weight: 600;
+		}
+		.layout-body {
+			padding: 0;
 		}
 	}
 }

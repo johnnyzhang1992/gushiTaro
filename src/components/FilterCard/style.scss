@@ -1,6 +1,9 @@
 .filterCard {
 	display: flex;
 	margin-bottom: 10px;
+	&:last-child {
+		margin-bottom: 0;
+	}
 	&>.title {
 		font-size: 26px;
 		font-weight: 600;
