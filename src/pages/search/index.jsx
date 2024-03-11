@@ -97,34 +97,32 @@ const SearchPage = () => {
 		Taro.showLoading();
 		fetchSearch('GET', {
 			key: KeyWord,
-		})
-			.then((res) => {
-				if (res && res.statusCode === 200) {
-					addKey(KeyWord);
-					const { poems, poets, sentences, tags } = res.data;
-					updateResult({
-						poems: poems.data || [],
-						poems_count: poems.total || 0,
-						poets: poets.data || [],
-						poets_count: poets.total || 0,
-						sentences: sentences.data || [],
-						sentences_count: sentences.total || 0,
-						tags,
-					});
-					cacheRef.current[KeyWord] = {
-						poems: poems.data || [],
-						poems_count: poems.total || 0,
-						poets: poets.data || [],
-						poets_count: poets.total || 0,
-						sentences: sentences.data || [],
-						sentences_count: sentences.total || 0,
-						tags,
-					};
-				}
-			})
-			.finally(() => {
-				Taro.hideLoading();
-			});
+		}).then((res) => {
+			if (res && res.statusCode === 200) {
+				addKey(KeyWord);
+				const { poems, poets, sentences, tags } = res.data;
+				updateResult({
+					poems: poems.data || [],
+					poems_count: poems.total || 0,
+					poets: poets.data || [],
+					poets_count: poets.total || 0,
+					sentences: sentences.data || [],
+					sentences_count: sentences.total || 0,
+					tags,
+				});
+				cacheRef.current[KeyWord] = {
+					poems: poems.data || [],
+					poems_count: poems.total || 0,
+					poets: poets.data || [],
+					poets_count: poets.total || 0,
+					sentences: sentences.data || [],
+					sentences_count: sentences.total || 0,
+					tags,
+				};
+			}
+		}).finally(() => {
+			Taro.hideLoading();
+		});
 	};
 
 	const fetchHotKeys = () => {
@@ -346,7 +344,6 @@ const SearchPage = () => {
 						{searchResult.poems.map((poem) => (
 							<PoemSmallCard
 								{...poem}
-								hideAudio
 								key={poem.id}
 								lightWord={keyword}
 							/>
