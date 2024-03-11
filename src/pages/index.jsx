@@ -7,11 +7,6 @@ import Taro, {
 
 import './index.scss';
 
-import HomeHeader from '../components/HomeHeader';
-import HomeNavs from '../components/HomeNavs';
-import HomeCard from '../components/HomeCard';
-
-import { HomeCategories, HomeBooks } from '../const/config';
 
 const Index = () => {
 	usePullDownRefresh(() => {
@@ -30,31 +25,8 @@ const Index = () => {
 		};
 	});
 	return (
-		<View className='wrapper'>
-			{/* 顶部 - 每日一诗词 */}
-			<HomeHeader />
-			{/* 导航 */}
-			<HomeNavs />
-			<View className='divide' />
-			{/* 课本 */}
-			<View className='sectionCard'>
-				<View className='cardTitle'>课本</View>
-				<View className='cardContent'>
-					{HomeBooks.map((item) => (
-						<HomeCard key={item.code} {...item} />
-					))}
-				</View>
-			</View>
-			{/* 选集 */}
-			<View className='sectionCard'>
-				<View className='cardTitle'>选集</View>
-				<View className='cardContent'>
-					{HomeCategories.map((item) => (
-						<HomeCard key={item.code} {...item} />
-					))}
-				</View>
-			</View>
-			<View className='divide' />
+		<View className='page homePage'>
+			<View className='poemCard'>诗词卡片</View>
 		</View>
 	);
 };

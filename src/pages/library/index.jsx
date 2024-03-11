@@ -4,7 +4,7 @@ import Taro, { useLoad } from '@tarojs/taro';
 import { AtTabs, AtTabsPane, AtSearchBar } from 'taro-ui';
 
 import HomeCard from '../../components/HomeCard';
-
+import HomeNavs from '../../components/HomeNavs';
 import { HomeCategories } from '../../const/config';
 
 import './style.scss';
@@ -45,6 +45,9 @@ const PostPage = () => {
 				onActionClick={navigateSearch}
 			/>
 			<View className='divide' />
+			{/* 导航 */}
+			<HomeNavs />
+			<View className='divide' />
 			<AtTabs
 				current={currentTab}
 				tabList={tabList}
@@ -64,14 +67,10 @@ const PostPage = () => {
 					</View>
 				</AtTabsPane>
 				<AtTabsPane current={currentTab} index={1}>
-					<View className='tabContainer'>
-
-					</View>
+					<View className='tabContainer'></View>
 				</AtTabsPane>
 				<AtTabsPane current={currentTab} index={2}>
-					<View className='tabContainer'>
-
-					</View>
+					<View className='tabContainer'></View>
 				</AtTabsPane>
 			</AtTabs>
 		</View>

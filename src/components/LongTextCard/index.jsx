@@ -89,7 +89,7 @@ const LongTextCard = ({ showAll = false, text, title }) => {
 				scrollY
 				onClose={handleClose}
 			>
-				<View className='fullText'>
+				<View className='fullText' catchMove>
 					<Text userSelect decode className='text'>
 						{cacheText}
 					</Text>
