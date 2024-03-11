@@ -52,40 +52,63 @@ export const HomeCategories = [
 // 首页课本分类
 export const HomeBooks = [
 	{
-		name: '小学诗文',
+		name: '小学古诗词',
 		code: 'xiaoxue',
 		profile: '江南可采莲',
 		type: 'book',
 	},
+	// {
+	// 	name: '小学文言',
+	// 	code: 'xiaoxuewyw',
+	// 	profile: '守株待兔',
+	// 	type: 'book',
+	// },
 	{
-		name: '小学文言',
-		code: 'xiaoxuewyw',
-		profile: '守株待兔',
-		type: 'book',
-	},
-	{
-		name: '初中诗文',
+		name: '初中古诗词',
 		code: 'chuzhong',
 		profile: '东临碣石',
 		type: 'book',
 	},
+	// {
+	// 	name: '初中文言',
+	// 	code: 'chuzhongwyw',
+	// 	profile: '学而时习之',
+	// 	type: 'book',
+	// },
 	{
-		name: '初中文言',
-		code: 'chuzhongwyw',
-		profile: '学而时习之',
-		type: 'book',
-	},
-	{
-		name: '高中诗文',
+		name: '高中古诗词',
 		code: 'gaozhong',
 		profile: '恰同学少年',
 		type: 'book',
 	},
+	// {
+	// 	name: '高中文言',
+	// 	code: 'gaozhongwyw',
+	// 	profile: '庖丁解牛',
+	// 	type: 'book',
+	// },
 	{
-		name: '高中文言',
-		code: 'gaozhongwyw',
-		profile: '庖丁解牛',
+		code: 'tangshi',
+		name: '唐诗三百首',
+		profile: '蘅塘退士编',
 		type: 'book',
+	},
+	{
+		code: 'songcisanbai',
+		name: '宋词三百首',
+		profile: '朱孝臧编',
+		type: 'book',
+	},
+	{
+		code: 'sanbai',
+		name: '古诗三百首',
+		profile: '曾立国编',
+		type: 'book',
+	},
+	{
+		code: 'shijiu',
+		name: '古诗十九首',
+		profile: '南朝萧统录',
 	},
 ];
 

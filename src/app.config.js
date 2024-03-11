@@ -16,7 +16,9 @@ export default {
 		'pages/me/setting/index',
 		'pages/admin/index',
 		'pages/admin/search',
-		'pages/library/index'
+		'pages/find/index',
+		'pages/library/index',
+
 	],
 	window: {
 		backgroundTextStyle: 'light',
@@ -37,7 +39,7 @@ export default {
 				selectedIconPath: 'images/icon/home_active.png',
 			},
 			{
-				pagePath: 'pages/search/index',
+				pagePath: 'pages/find/index',
 				text: '发现',
 				iconPath: 'images/icon/find.png',
 				selectedIconPath: 'images/icon/find_active.png',

@@ -138,8 +138,15 @@ const SearchPage = () => {
 
 	useLoad((options) => {
 		console.log('---page--load', options);
+		const { key = '' } = options
+		if (key) {
+			setKeyword(key)
+			Taro.nextTick(() => {
+				handleSearch()
+			})
+		}
 		Taro.setNavigationBarTitle({
-			title: '搜索 | 古诗文小助手',
+			title: '搜索',
 		});
 		const tipStatus = Taro.getStorageSync('showSearchTips');
 		if (!tipStatus) {
