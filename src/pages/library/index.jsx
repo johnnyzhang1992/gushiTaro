@@ -1,15 +1,16 @@
 import { View } from '@tarojs/components';
 import { useState } from 'react';
 import Taro, { useLoad } from '@tarojs/taro';
-import { AtTabs, AtTabsPane, AtSearchBar } from 'taro-ui';
+import { AtSearchBar, AtSegmentedControl } from 'taro-ui';
 
 import HomeCard from '../../components/HomeCard';
-import HomeNavs from '../../components/HomeNavs';
+import PoemContainer from '../../components/PoemContainer';
+
 import { HomeCategories } from '../../const/config';
 
 import './style.scss';
 
-const tabList = [{ title: '分类' }, { title: '作品' }, { title: '作者' }];
+const tabList = ['分类', '作品', '作者'];
 
 const PostPage = () => {
 	const [searchKey, setKey] = useState('');
@@ -45,34 +46,35 @@ const PostPage = () => {
 				onActionClick={navigateSearch}
 			/>
 			<View className='divide' />
-			{/* 导航 */}
-			<HomeNavs />
-			<View className='divide' />
-			<AtTabs
-				current={currentTab}
-				tabList={tabList}
-				onClick={handleChangeTab}
-			>
-				<AtTabsPane current={currentTab} index={0}>
-					<View className='tabContainer'>
-						{/* 选集 */}
-						<View className='sectionCard'>
-							<View className='cardTitle'>选集</View>
-							<View className='cardContent'>
-								{HomeCategories.map((item) => (
-									<HomeCard key={item.code} {...item} />
-								))}
-							</View>
+			{/* 分类Tabs */}
+			<View className='tabs'>
+				<AtSegmentedControl
+					values={tabList}
+					fontSize={32}
+					onClick={handleChangeTab}
+					current={currentTab}
+				/>
+			</View>
+			{/* 分类 */}
+			{currentTab === 0 ? (
+				<View className='tabContainer'>
+					{/* 选集 */}
+					<View className='sectionCard'>
+						<View className='cardTitle'>选集</View>
+						<View className='cardContent'>
+							{HomeCategories.map((item) => (
+								<HomeCard key={item.code} {...item} />
+							))}
 						</View>
 					</View>
-				</AtTabsPane>
-				<AtTabsPane current={currentTab} index={1}>
-					<View className='tabContainer'></View>
-				</AtTabsPane>
-				<AtTabsPane current={currentTab} index={2}>
-					<View className='tabContainer'></View>
-				</AtTabsPane>
-			</AtTabs>
+				</View>
+			) : null}
+			{/* 作品 */}
+			{currentTab === 1 ? (
+				<View className='tabContainer'>
+					<PoemContainer />
+				</View>
+			) : null}
 		</View>
 	);
 };

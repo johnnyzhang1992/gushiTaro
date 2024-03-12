@@ -1,14 +1,10 @@
-.libraryPage{
-	.at-tabs {
-	.at-tabs__header {
+.libraryPage {
+	.tabs {
 		padding: 0 30px;
 		box-sizing: border-box;
+		margin: 20px 0;
+		.tabContainer {
+			padding-top: 30px;
+		}
 	}
-	.at-tabs__item {
-		font-weight: 600;
-	}
-	.tabContainer {
-		padding-top: 30px;
-	}
-}
 }
