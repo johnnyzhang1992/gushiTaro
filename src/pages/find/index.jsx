@@ -1,7 +1,7 @@
 import { View } from '@tarojs/components';
 // import { useNavigationBar } from 'taro-hooks';
 import { useState } from 'react';
-import Taro, { useLoad } from '@tarojs/taro';
+import Taro, { useLoad, usePullDownRefresh } from '@tarojs/taro';
 import { AtSearchBar } from 'taro-ui';
 
 import HomeHeader from '../../components/HomeHeader';
@@ -27,6 +27,9 @@ const PostPage = () => {
 	useLoad((options) => {
 		console.log(options);
 	});
+	usePullDownRefresh(() => {
+		Taro.stopPullDownRefresh()
+	})
 	return (
 		<View className='page'>
 			{/* 顶部header */}

@@ -1,10 +1,11 @@
 import { View } from '@tarojs/components';
 import { useState } from 'react';
-import Taro, { useLoad } from '@tarojs/taro';
+import Taro, { useLoad, usePullDownRefresh } from '@tarojs/taro';
 import { AtSearchBar, AtSegmentedControl } from 'taro-ui';
 
 import HomeCard from '../../components/HomeCard';
 import PoemContainer from '../../components/PoemContainer';
+import PoetContainer from '../../components/PoetContainer';
 
 import { HomeCategories } from '../../const/config';
 
@@ -33,6 +34,9 @@ const PostPage = () => {
 	useLoad((options) => {
 		console.log(options);
 	});
+	usePullDownRefresh(() => {
+		Taro.stopPullDownRefresh()
+	})
 	return (
 		<View className='page libraryPage'>
 			{/* 搜索 */}
@@ -73,6 +77,12 @@ const PostPage = () => {
 			{currentTab === 1 ? (
 				<View className='tabContainer'>
 					<PoemContainer />
+				</View>
+			) : null}
+			{/* 诗人 */}
+			{currentTab === 2 ? (
+				<View className='tabContainer'>
+					<PoetContainer />
 				</View>
 			) : null}
 		</View>
