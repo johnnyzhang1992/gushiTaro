@@ -33,10 +33,16 @@
 	background: rgba(0, 0, 0, 0.5);
 	display: flex;
 	align-items: center;
+	.poemShot {
+		width: 100%;
+		height: 75vh;
+		margin-top: 40px;
+	}
 	.poemCard {
 		margin: 0 auto;
-		width: 100vw;
-		height: 80vh;
+		// width: 100vw;
+		width: 100%;
+		height: 75vh;
 		background-color: #fff;
 		display: flex;
 		flex-direction: column;
@@ -55,31 +61,35 @@
 				width: 100%;
 				height: 72%;
 			}
-			.author,
-			.title,
-			.poem-text {
+			.author-container,
+			.title-container,
+			.poem-text .text {
 				// height: 100%;
-				writing-mode: vertical-rl; /* 从右到左 */
+				writing-mode: vertical-lr; /* 从左到右 */
 				text-orientation: upright; /* 保持正常显示 */
+				font-variation-settings: 'opsz' auto;
+				text-align: center;
 			}
-			.author {
+			.author-container .text {
 				color: #000;
 				font-size: 32px;
-				font-family: HYZhongLiShuJ;
+				// font-family: HYZhongLiShuJ;
 				background-color: #be140b;
 				margin-left: 18px;
 				padding: 14px 4px;
 				border-radius: 8px;
 				letter-spacing: 0.2em;
+				width: 48px;
 			}
-			.title {
+			.title-container .text {
 				color: #000;
 				font-size: 72px;
-				font-weight: 600;
-				font-family: HYFengGuKaiTi;
+				font-weight: 500;
+				// font-family: HYFengGuKaiTi;
 				-webkit-text-stroke: #000000 0.5px;
 				letter-spacing: 0.4em;
 				margin: 0 64px 0 32px;
+				width: 72px;
 			}
 			.poem {
 				height: 100%;
@@ -92,11 +102,12 @@
 					font-size: 48px;
 					letter-spacing: 0.4em;
 					font-variation-settings: 'opsz' auto;
+					width: 48px;
 				}
 			}
 		}
 		.bottom {
-			height: 106px;
+			height: 140px;
 			opacity: 1;
 			background: rgba(255, 255, 255, 0.78);
 			display: flex;
@@ -106,8 +117,8 @@
 			.date {
 				color: #6d3907;
 				font-size: 40px;
-				font-family: HYZhongXiuTi;
-				line-height: 56px;
+				// font-family: HYZhongXiuTi;
+				line-height: 48px;
 				text-align: left;
 				.yangli {
 					font-size: 36px;
@@ -119,16 +130,23 @@
 				.yi {
 					color: #be140b;
 					font-size: 32px;
-					line-height: 44px;
+					line-height: 52px;
 				}
 				.share {
 					color: #6d3907;
 					.at-icon {
-						font-size: 36px;
+						font-size: 38px;
 						margin-left: 10px;
 					}
 				}
 			}
 		}
+	}
+	.outShare {
+		position: absolute;
+		bottom: 5vh;
+		left: 0;
+		right: 0;
+		text-align: center;
 	}
 }
