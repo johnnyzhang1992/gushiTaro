@@ -1,12 +1,15 @@
 .SectionCard {
-	padding: 10px 30px;
+
 	&>.title {
 		color: #454545;
 		font-size: 32px;
 		font-weight: 600;
-		padding: 12px 0;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+		padding: 12px 30px;
+	}
+	&>.content {
+		padding: 20px 30px 20px 30px;
 	}
 }

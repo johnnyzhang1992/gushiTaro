@@ -1,18 +1,20 @@
 .mePage {
 	min-height: 100vh;
 	box-sizing: border-box;
+	background-color: #efefef;
 	.meTop {
 		color: #fff;
 		padding: 30px 30px;
 		background-color: #337ab7;
-		border-radius: 0 0 160px 160px;
-		margin-bottom: 30px;
+		// border-radius: 0 0 160px 160px;
+		// margin-bottom: 30px;
 	}
 	.userInfoCard {
 		display: flex;
 		align-items: center;
-		flex-direction: column;
+		// flex-direction: column;
 		justify-content: flex-end;
+		padding: 80px 20px 0 20px;
 		.avatar {
 			.img {
 				width: 100px;
@@ -27,9 +29,20 @@
 			margin-top: 10px;
 			display: flex;
 			align-items: center;
+			justify-content: space-between;
+			flex: 1;
+			.setting {
+				font-size: 24px;
+				padding-left: 20px;
+				display: flex;
+				align-items: center;
+				border-radius: 16px;
+				padding: 12px 20px;
+				border: 2px solid #fff;
+			}
 			.icon {
 				font-size: 36px;
-				padding-left: 20px;
+				padding-left: 10px;
 			}
 		}
 	}
@@ -37,10 +50,22 @@
 		padding: 30px 30px;
 		text-align: center;
 	}
+	.pageContainer {
+		padding: 20px;
+		.SectionCard {
+			background-color: #fff;
+			border: 2px solid #efefef;
+			margin-bottom: 20px;
+			border-radius: 16px;
+			.title {
+				border-bottom: 2px solid #efefef;
+			}
+		}
+	}
 	.sectionItems {
 		display: flex;
 		justify-content: space-around;
-		margin-top: 20px;
+		// margin-top: 20px;
 		.item {
 			text-align: center;
 		}
@@ -77,7 +102,7 @@
 	.copyright {
 		color: #999;
 		text-align: center;
-		padding: 30px 0;
+		padding-bottom: 30px;
 	}
 	.fankuiBtn {
 		color: #fff;

@@ -1,4 +1,5 @@
 import { View, Text, Snapshot } from '@tarojs/components';
+import { AtButton } from 'taro-ui';
 import Taro, {
 	usePullDownRefresh,
 	useShareAppMessage,
@@ -8,8 +9,9 @@ import Taro, {
 import './index.scss';
 
 const Index = () => {
-	const handleShare = () => {
-		console.log('点击生成图片')
+	// 下载图片到本地
+	const handleDownload = () => {
+		console.log('点击生成图片');
 		Taro.createSelectorQuery()
 			.select('#poemCard')
 			.node()
@@ -20,16 +22,17 @@ const Index = () => {
 					type: 'arraybuffer',
 					format: 'png',
 					success: (res1) => {
-						console.log(res1);
-						const f = `${Taro.env.USER_DATA_PATH}/gushiPoemCard.png`;
+						const randomNum = Math.floor(Math.random() * 1000000);
+						const f = `${Taro.env.USER_DATA_PATH}/gushiPoemCard_${randomNum}.png`;
 						const fs = Taro.getFileSystemManager();
 						fs.writeFileSync(f, res1.data, 'binary');
-						Taro.showToast({
-							title: '保存成功',
-						});
-
 						Taro.saveImageToPhotosAlbum({
 							filePath: f,
+							success() {
+								Taro.showToast({
+									title: '保存成功',
+								});
+							},
 							complete(res2) {
 								console.log('saveImageToPhotosAlbum:', res2);
 							},
@@ -41,15 +44,24 @@ const Index = () => {
 				});
 			});
 	};
+	// 分享
+	const handleShare = () => {
+		Taro.showShareMenu({
+			withShareTicket: true,
+			menus: ['shareAppMessage', 'shareTimeline'],
+		});
+	};
 	usePullDownRefresh(() => {
 		Taro.stopPullDownRefresh();
 	});
+
 	useShareAppMessage(() => {
 		return {
 			title: '古诗文小助手',
 			path: '/pages/index',
 		};
 	});
+
 	useShareTimeline(() => {
 		return {
 			title: '古诗文小助手',
@@ -86,20 +98,43 @@ const Index = () => {
 					</View>
 					<View className='bottom'>
 						<View className='date'>
-							<View className='nongli'>甲辰年 二月初四</View>
-							<View className='yangli'>2024/03/13</View>
+							<View className='nongli'>
+								<Text className='text'>甲辰年 二月初四</Text>
+							</View>
+							<View className='yangli'>
+								<Text className='text'>2024/03/13</Text>
+							</View>
 						</View>
 						<View className='desc'>
-							<View className='yi'>宜平安喜乐·出行</View>
-							<View className='share' onClick={handleShare}>
-								<View className='at-icon at-icon-heart'></View>
-								<View className='at-icon at-icon-share'></View>
+							<View className='yi'>
+								<Text className='text'>宜 平安喜乐·出行</Text>
+							</View>
+							<View className='ji'>
+								<Text className='text'>忌 平安喜乐·出行</Text>
 							</View>
 						</View>
 					</View>
 				</View>
 			</Snapshot>
-			<View className='outShare' onClick={handleShare}>分享生成图片</View>
+			<View className='outShare'>
+				<AtButton
+					type='primary'
+					size='normal'
+					circle
+					onClick={handleDownload}
+				>
+					保存图片
+				</AtButton>
+				<AtButton
+					type='secondary'
+					size='normal'
+					circle
+					openType='share'
+					onClick={handleShare}
+				>
+					收藏分享
+				</AtButton>
+			</View>
 		</View>
 	);
 };

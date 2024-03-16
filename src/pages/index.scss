@@ -30,7 +30,7 @@
 	box-sizing: border-box;
 	height: 100vh;
 	padding: 0 28px;
-	background: rgba(0, 0, 0, 0.5);
+	background: rgba(0, 0, 0, 0.2);
 	display: flex;
 	align-items: center;
 	.poemShot {
@@ -54,7 +54,6 @@
 			background-size: cover;
 			display: flex;
 			align-items: flex-end;
-
 			.poem-context {
 				display: flex;
 				align-items: center;
@@ -116,10 +115,12 @@
 			padding: 28px 24px;
 			.date {
 				color: #6d3907;
-				font-size: 40px;
+				font-size: 36px;
 				// font-family: HYZhongXiuTi;
 				line-height: 48px;
 				text-align: left;
+				letter-spacing: 0.2em;
+				flex: 1;
 				.yangli {
 					font-size: 36px;
 					line-height: 44px;
@@ -127,26 +128,25 @@
 			}
 			.desc {
 				text-align: right;
+				font-size: 34rpx;
+				line-height: 48rpx;
+				letter-spacing: 0.2em;
+				flex: 1;
 				.yi {
 					color: #be140b;
-					font-size: 32px;
-					line-height: 52px;
 				}
-				.share {
-					color: #6d3907;
-					.at-icon {
-						font-size: 38px;
-						margin-left: 10px;
-					}
+				.ji {
+					color: #333;
 				}
 			}
 		}
 	}
 	.outShare {
 		position: absolute;
-		bottom: 5vh;
+		bottom: 2vh;
 		left: 0;
 		right: 0;
 		text-align: center;
+		display: flex;
 	}
 }
