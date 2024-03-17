@@ -12,62 +12,19 @@ $color-brand: #337ab7;
 @import "~taro-ui/dist/style/components/button.scss";
 
 @font-face {
-  font-family: "Heti Song";
-  src: local("Songti SC Regular"), local("Songti TC Regular"), local("SimSun");
-}
-@font-face {
-  font-family: "Heti Song";
-  font-weight: 200;
-  src: local("Songti SC Light"), local("Songti TC Light"), "Heti Song Light Fallback";
-}
-@font-face {
-  font-family: "Heti Song Light Fallback";
-  font-weight: 200;
-  src: local("SimSun");
-}
-@font-face {
-  font-family: "Heti Song";
-  font-weight: 600;
-  src: local("Songti SC Bold"), local("Songti TC Bold"), "Heti Song Bold Fallback";
-}
-@font-face {
-  font-family: "Heti Song Bold Fallback";
-  font-weight: 600;
-  src: local("SimSun");
-}
-@font-face {
-  font-family: "Heti Song Black";
-  font-weight: 800;
-  src: local("Songti SC Black"), local("SimSun");
-}
-@font-face {
-  font-family: "Heti Kai";
-  src: local("Kaiti SC Regular"), local("Kaiti TC Regular"), local("STKaiti"), local("Kaiti"), local("BiauKai");
-}
-@font-face {
-  font-family: "Heti Kai";
-  font-weight: 600;
-  src: local("Kaiti SC Bold"), local("Kaiti TC Bold");
-}
-@font-face {
-  font-family: "Heti Kai Bold Fallback";
-  font-weight: 600;
-  src: local("STKaiti"), local("Kaiti") local("BiauKai");
-}
-@font-face {
-  font-family: "Heti Kai Black";
-  font-weight: 800;
-  src: local("Kaiti SC Black"), local("Kaiti TC Black"), local("STKaiti"), local("Kaiti");
+	font-family: 'ChillKai';
+	src: url("https://assets.xuegushi.com/fonts/ChillKai_Big5/ChillKai_Big5.subset.woff2");
 }
 page {
 	// line-height: 1.6;
-	// font-family: -apple-system-font, 'Helvetica Neue', sans-serif;
 	color: #121212;
 	padding: 0;
 	// box-sizing: border-box;
 	// letter-spacing: 0.5px;
-	font-family: PingFangSC-Light, PingFang S;
-	font-family: "Times New Roman", times, "Heti Song", serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	font-family: ChillKai;
+    color: #333;
+    font-size: 28rpx;
+    -webkit-font-smoothing: antialiased
 	// padding-bottom: env(safe-area-inset-bottom);
 }
 .divide {

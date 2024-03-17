@@ -46,9 +46,10 @@
 		background-color: #fff;
 		display: flex;
 		flex-direction: column;
+		font-family: ChillKai;
 		.container {
 			flex: 1;
-			background-image: url('https://xuegushi.com/files/6dzc4aznjohyqjknuu7j/card_bg_1.png');
+			background-image: url('https://assets.xuegushi.com/images/card_bg_1.png');
 			background-position: center;
 			background-repeat: no-repeat;
 			background-size: cover;
@@ -58,21 +59,26 @@
 				display: flex;
 				align-items: center;
 				width: 100%;
-				height: 72%;
+				height: 100%;
+			}
+			.author-container,
+			.title-container,
+			.poem{
+				height: 100%;
+				display: flex;
+				align-items: flex-end;
+				padding: 5vh 0;
 			}
 			.author-container,
 			.title-container,
 			.poem-text .text {
-				// height: 100%;
 				writing-mode: vertical-lr; /* 从左到右 */
 				text-orientation: upright; /* 保持正常显示 */
-				font-variation-settings: 'opsz' auto;
 				text-align: center;
 			}
 			.author-container .text {
 				color: #000;
 				font-size: 32px;
-				// font-family: HYZhongLiShuJ;
 				background-color: #be140b;
 				margin-left: 18px;
 				padding: 14px 4px;
@@ -82,26 +88,28 @@
 			}
 			.title-container .text {
 				color: #000;
-				font-size: 72px;
-				font-weight: 500;
-				// font-family: HYFengGuKaiTi;
-				-webkit-text-stroke: #000000 0.5px;
-				letter-spacing: 0.4em;
-				margin: 0 64px 0 32px;
-				width: 72px;
+				font-size: 50px;
+				// font-weight: 500;
+				letter-spacing: 0.2em;
+				margin: 0 40px 0 40px;
+				width: 52px;
+				max-height: 550px;
+				overflow: hidden;
 			}
 			.poem {
 				height: 100%;
 				flex: 1;
 				display: flex;
-				justify-content: space-evenly;
+				justify-content: flex-end;
 				align-items: center;
-				background: rgba(255, 255, 255, 0.5);
+				// background: rgba(255, 255, 255, 0.5);
 				.poem-text {
-					font-size: 48px;
-					letter-spacing: 0.4em;
-					font-variation-settings: 'opsz' auto;
-					width: 48px;
+					font-size: 54px;
+					letter-spacing: 0.5em;
+					// font-variation-settings: 'opsz' auto;
+					width: 54px;
+					margin-right: 40px;
+					height: 100%;
 				}
 			}
 		}
@@ -115,38 +123,43 @@
 			padding: 28px 24px;
 			.date {
 				color: #6d3907;
-				font-size: 36px;
+				font-size: 32px;
 				// font-family: HYZhongXiuTi;
-				line-height: 48px;
+				line-height: 42px;
 				text-align: left;
 				letter-spacing: 0.2em;
 				flex: 1;
 				.yangli {
-					font-size: 36px;
-					line-height: 44px;
+					font-size: 32px;
+					line-height: 40px;
 				}
 			}
 			.desc {
 				text-align: right;
-				font-size: 34rpx;
-				line-height: 48rpx;
+				font-size: 30rpx;
+				line-height: 42rpx;
 				letter-spacing: 0.2em;
 				flex: 1;
-				.yi {
-					color: #be140b;
-				}
-				.ji {
-					color: #333;
+				display: flex;
+				align-items: center;
+				justify-content: flex-end;
+				.xcxImg {
+					width: 100px;
+					height: 100px;
 				}
 			}
 		}
 	}
 	.outShare {
 		position: absolute;
-		bottom: 2vh;
-		left: 0;
-		right: 0;
+		bottom: 3vh;
+		left: 20rpx;
+		right: 20rpx;
 		text-align: center;
 		display: flex;
+		.share-btn {
+			flex: 1;
+			margin: 0 16px;
+		}
 	}
 }

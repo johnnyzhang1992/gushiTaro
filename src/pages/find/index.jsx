@@ -4,7 +4,6 @@ import { useState } from 'react';
 import Taro, { useLoad, usePullDownRefresh } from '@tarojs/taro';
 import { AtSearchBar } from 'taro-ui';
 
-import HomeHeader from '../../components/HomeHeader';
 import HomeCard from '../../components/HomeCard';
 import { HomeBooks } from '../../const/config';
 
@@ -32,9 +31,6 @@ const PostPage = () => {
 	})
 	return (
 		<View className='page'>
-			{/* 顶部header */}
-			<HomeHeader />
-			<View className='divide' />
 			{/* 搜索 */}
 			<AtSearchBar
 				actionName='搜一下'
