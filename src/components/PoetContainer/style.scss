@@ -1,6 +1,13 @@
 .poetContainer {
-	padding: 0 30px;
+	padding: 0 20px;
 	.scrollContainer {
-		height: calc(100vh - 236px);
+		height: calc(100vh - 177px);
+	}
+	.poetCard {
+		background-color: #fff;
+		border-bottom: unset;
+		padding: 20px;
+		margin: 20px 0;
+		border-radius: 8px;
 	}
 }

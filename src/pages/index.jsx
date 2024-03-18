@@ -1,6 +1,6 @@
 import { View, Text, Snapshot, Image, Navigator } from '@tarojs/components';
 import { useState, useEffect, useCallback } from 'react';
-import { AtButton } from 'taro-ui';
+import { AtButton, AtFloatLayout } from 'taro-ui';
 import Taro, {
 	usePullDownRefresh,
 	useShareAppMessage,
@@ -32,12 +32,26 @@ const Index = () => {
 	const [sentence, setSentence] = useState({
 		titleArr: [],
 	});
+	const [safeArea, setSafeArea] = useState({});
+	const [isOpen, setOpen] = useState(false);
 
-	const fetchSentence = useCallback(() => {
+	const handleShow = () => {
+		setOpen(true);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+	};
+
+	const handleReload = () => {
+		fetchSentence(true);
+	};
+
+	const fetchSentence = useCallback((forceGet = false) => {
 		const [year, m, d] = Utils.formatDate();
 		const currentDate = `${year}/${m}/${d}`;
 		const localSentence = Taro.getStorageSync('home_senetnce');
-		if (localSentence && localSentence.date == currentDate) {
+		if (!forceGet && localSentence && localSentence.date == currentDate) {
 			const temSen = localSentence.data;
 			setSentence({
 				...temSen,
@@ -105,6 +119,9 @@ const Index = () => {
 	};
 
 	useLoad(() => {
+		Taro.getSystemInfo().then((sysRes) => {
+			setSafeArea(sysRes.safeArea || {});
+		});
 	});
 
 	usePullDownRefresh(() => {
@@ -127,7 +144,14 @@ const Index = () => {
 
 	return (
 		<View className='page homePage'>
-			<Snapshot mode='view' className='poemShot' id='poemCard'>
+			<Snapshot
+				mode='view'
+				className='poemShot'
+				id='poemCard'
+				style={{
+					height: `calc(100% - ${safeArea.top}px)`,
+				}}
+			>
 				<View className='poemCard'>
 					<View className='container'>
 						<View className='poem-context'>
@@ -173,26 +197,48 @@ const Index = () => {
 					</View>
 				</View>
 			</Snapshot>
-			<View className='outShare'>
-				<AtButton
-					className='share-btn'
-					type='primary'
-					size='small'
-					circle
-					onClick={handleDownload}
-				>
-					保存图片
-				</AtButton>
-				<AtButton
-					className='share-btn'
-					type='secondary'
-					size='small'
-					circle
-					openType='share'
-				>
-					收藏分享
-				</AtButton>
+			<View
+				className='topShare'
+				style={{
+					top: `${safeArea.top}px`,
+				}}
+			>
+				<View className='share-btn share' onClick={handleShow}>
+					<View className='at-icon at-icon-share'></View>
+					<Text className='text'>分享</Text>
+				</View>
+				<View className='share-btn reload' onClick={handleReload}>
+					<View className='at-icon at-icon-reload'></View>
+					<Text className='text'>换一换</Text>
+				</View>
 			</View>
+			{/* 半屏展示全文 */}
+			<AtFloatLayout isOpened={isOpen} onClose={handleClose}>
+				<View className='shareContainer'>
+					<View className='shareLayout'>布局</View>
+					<View className='shareLayout'>颜色、二维码</View>
+					<View className='shareBottom'>
+						<AtButton
+							className='share-btn'
+							type='primary'
+							size='small'
+							circle
+							onClick={handleDownload}
+						>
+							保存到相册
+						</AtButton>
+						<AtButton
+							className='share-btn'
+							type='secondary'
+							size='small'
+							circle
+							openType='share'
+						>
+							分享给朋友
+						</AtButton>
+					</View>
+				</View>
+			</AtFloatLayout>
 		</View>
 	);
 };

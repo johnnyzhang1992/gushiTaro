@@ -20,7 +20,13 @@ const PoemSmallCard = ({
 	hideAudio = false,
 }) => {
 	const [showAduio, audioVisible] = useState(false);
-	const _content = content.split('。')[0].replaceAll('　', '') + '。';
+	// const _content = content.split('。')[0].replaceAll('　', '') + '。';
+	const _content = content
+		.split('。')
+		.map((text) => {
+			return text.replaceAll('　', '') + '。';
+		})
+		.slice(0, 2);
 	const handleAudioVisible = (e) => {
 		audioVisible((pre) => !pre);
 		e.stopPropagation();
@@ -50,10 +56,23 @@ const PoemSmallCard = ({
 				</View>
 				<View className='content'>
 					{/* 一句话介绍，第一个句号前 */}
-					<HighLightText text={_content} lightWord={lightWord} />
+					{_content.map((text) => {
+						return (
+							<HighLightText
+								key={text}
+								text={text}
+								lightWord={lightWord}
+							/>
+						);
+					})}
 				</View>
 			</Navigator>
-			<View className='bottom'>
+			<View
+				className='bottom'
+				style={{
+					display: hideAudio && !showCount ? 'none' : 'flex',
+				}}
+			>
 				{!hideAudio ? (
 					<View
 						className='at-icon at-icon-volume-plus audio icon'

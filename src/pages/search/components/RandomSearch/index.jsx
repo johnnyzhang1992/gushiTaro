@@ -120,7 +120,7 @@ const RandomSearch = () => {
 				}
 			>
 				<Swiper
-					className='hotPoemsSwiper'
+					className='hotPoemsSwiper poems'
 					indicatorColor='#999'
 					indicatorActiveColor='#333'
 					vertical={false}

@@ -61,7 +61,7 @@ const PostPage = () => {
 			</View>
 			{/* 分类 */}
 			{currentTab === 0 ? (
-				<View className='tabContainer'>
+				<View className='tabContainer type'>
 					{/* 选集 */}
 					<View className='sectionCard'>
 						<View className='cardTitle'>选集</View>

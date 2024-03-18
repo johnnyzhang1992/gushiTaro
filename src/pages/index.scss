@@ -29,27 +29,46 @@
 .homePage {
 	box-sizing: border-box;
 	height: 100vh;
-	padding: 0 28px;
-	background: rgba(0, 0, 0, 0.2);
+	padding: 88px 28px 28px;
+	background: #efefef;
 	display: flex;
-	align-items: center;
+	align-items: flex-end;
 	.poemShot {
 		width: 100%;
-		height: 75vh;
-		margin-top: 40px;
+	}
+	.topShare {
+		position: fixed;
+		left: 32px;
+		display: flex;
+		align-items: center;
+		.share-btn {
+			display: flex;
+			align-items: center;
+			margin-right: 30px;
+			padding: 20px 0;
+			&.share {
+				color: #337ab7;
+			}
+			.text {
+				margin-left: 12px;
+			}
+			&:last-child {
+				margin-right: 0;
+			}
+		}
 	}
 	.poemCard {
 		margin: 0 auto;
 		// width: 100vw;
 		width: 100%;
-		height: 75vh;
+		height: 100%;
 		background-color: #fff;
 		display: flex;
 		flex-direction: column;
 		font-family: ChillKai;
 		.container {
 			flex: 1;
-			background-image: url('https://assets.xuegushi.com/images/card_bg_1.png');
+			// background-image: url('https://assets.xuegushi.com/images/card_bg_1.png');
 			background-position: center;
 			background-repeat: no-repeat;
 			background-size: cover;
@@ -63,7 +82,7 @@
 			}
 			.author-container,
 			.title-container,
-			.poem{
+			.poem {
 				height: 100%;
 				display: flex;
 				align-items: flex-end;
@@ -76,15 +95,18 @@
 				text-orientation: upright; /* 保持正常显示 */
 				text-align: center;
 			}
-			.author-container .text {
-				color: #000;
-				font-size: 32px;
-				background-color: #be140b;
-				margin-left: 18px;
-				padding: 14px 4px;
-				border-radius: 8px;
-				letter-spacing: 0.2em;
-				width: 48px;
+			.author-container {
+				margin-left: 40px;
+				.text {
+					color: #fff;
+					font-size: 32px;
+					background-color: #be140b;
+					padding: 14px 10px;
+					border-radius: 8px;
+					letter-spacing: 0.2em;
+					width: 52px;
+					display: inline-block;
+				}
 			}
 			.title-container .text {
 				color: #000;
@@ -92,9 +114,11 @@
 				// font-weight: 500;
 				letter-spacing: 0.2em;
 				margin: 0 40px 0 40px;
-				width: 52px;
-				max-height: 550px;
+				width: 55px;
+				max-height: 548px;
 				overflow: hidden;
+				display: inline-block;
+				text-align: center;
 			}
 			.poem {
 				height: 100%;
@@ -106,7 +130,6 @@
 				.poem-text {
 					font-size: 54px;
 					letter-spacing: 0.5em;
-					// font-variation-settings: 'opsz' auto;
 					width: 54px;
 					margin-right: 40px;
 					height: 100%;
@@ -116,7 +139,7 @@
 		.bottom {
 			height: 140px;
 			opacity: 1;
-			background: rgba(255, 255, 255, 0.78);
+			// background: rgba(255, 255, 255, 0.78);
 			display: flex;
 			align-items: center;
 			justify-content: space-around;
@@ -125,20 +148,12 @@
 				color: #6d3907;
 				font-size: 32px;
 				// font-family: HYZhongXiuTi;
-				line-height: 42px;
+				line-height: 52px;
 				text-align: left;
 				letter-spacing: 0.2em;
 				flex: 1;
-				.yangli {
-					font-size: 32px;
-					line-height: 40px;
-				}
 			}
 			.desc {
-				text-align: right;
-				font-size: 30rpx;
-				line-height: 42rpx;
-				letter-spacing: 0.2em;
 				flex: 1;
 				display: flex;
 				align-items: center;
@@ -157,6 +172,7 @@
 		right: 20rpx;
 		text-align: center;
 		display: flex;
+		display: none;
 		.share-btn {
 			flex: 1;
 			margin: 0 16px;
