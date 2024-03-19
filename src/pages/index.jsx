@@ -1,4 +1,4 @@
-import { View, Text, Snapshot, Image, Navigator } from '@tarojs/components';
+import { View, Text, Snapshot, Image } from '@tarojs/components';
 import { useState, useEffect, useCallback } from 'react';
 import { AtButton, AtFloatLayout } from 'taro-ui';
 import Taro, {
@@ -12,6 +12,8 @@ import xcxPng from '../images/xcx.jpg';
 import Utils from '../utils/util';
 import { fetchRandomSentence } from '../services/global';
 
+import PoemPostCard from '../components/PoemPost';
+
 import './index.scss';
 
 // 拆分词句
@@ -20,9 +22,12 @@ const splitSentence = (sentence) => {
 	let pattern = new RegExp('[。，.、!！?？]', 'g');
 	sentence = sentence.replace(/，/g, ',');
 	sentence = sentence.replace(pattern, ',');
-	return sentence.split(',').filter((item) => {
-		return item;
-	});
+	return sentence
+		.split(',')
+		.filter((item) => {
+			return item;
+		})
+		.reverse();
 };
 
 const Index = () => {
@@ -32,12 +37,15 @@ const Index = () => {
 	const [sentence, setSentence] = useState({
 		titleArr: [],
 	});
-	const [safeArea, setSafeArea] = useState({});
 	const [isOpen, setOpen] = useState(false);
+	const [safeArea, setSafeArea] = useState({
+		width: 375,
+	});
+	const MenuRect = Taro.getMenuButtonBoundingClientRect();
 
-	const handleShow = () => {
-		setOpen(true);
-	};
+	// const handleShow = () => {
+	// 	setOpen(true);
+	// };
 
 	const handleClose = () => {
 		setOpen(false);
@@ -143,18 +151,28 @@ const Index = () => {
 	});
 
 	return (
-		<View className='page homePage'>
+		<View
+			className='page homePage'
+			style={{
+				padding: `${MenuRect.top || 0}px 15px 15px`,
+			}}
+		>
 			<Snapshot
 				mode='view'
 				className='poemShot'
 				id='poemCard'
 				style={{
-					height: `calc(100% - ${safeArea.top}px)`,
+					height: `calc(100% - ${MenuRect.height + 14}px)`,
 				}}
 			>
 				<View className='poemCard'>
 					<View className='container'>
-						<View className='poem-context'>
+						<PoemPostCard
+							sentence={sentence}
+							width={safeArea.width - 30}
+							type='normal'
+						/>
+						{/* <View className='poem-context'>
 							<View className='author-container'>
 								<Text className='text'>{sentence.author}</Text>
 							</View>
@@ -176,7 +194,7 @@ const Index = () => {
 									);
 								})}
 							</View>
-						</View>
+						</View> */}
 					</View>
 					<View className='bottom'>
 						<View className='date'>
@@ -200,10 +218,11 @@ const Index = () => {
 			<View
 				className='topShare'
 				style={{
-					top: `${safeArea.top}px`,
+					top: `${MenuRect.top}px`,
+					height: (MenuRect.height || 32) + 'px',
 				}}
 			>
-				<View className='share-btn share' onClick={handleShow}>
+				<View className='share-btn share' onClick={handleDownload}>
 					<View className='at-icon at-icon-share'></View>
 					<Text className='text'>分享</Text>
 				</View>

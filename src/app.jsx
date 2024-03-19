@@ -51,18 +51,18 @@ const App = (props) => {
 			Taro.setStorageSync('sys_info', sysRes);
 		});
 		userLogin();
-		Taro.loadFontFace({
-			global: true,
-			family: 'ChillKai',
-			source: 'url("https://assets.xuegushi.com/fonts/ChillKai_Big5/ChillKai_Big5.subset.woff2")',
-			scopes: ['webview', 'native'],
-			success: (res) => {
-				console.log('success', res.status);
-			},
-			fail: function (res) {
-				console.error(res);
-			},
-		});
+		// Taro.loadFontFace({
+		// 	global: true,
+		// 	family: 'ChillKai',
+		// 	source: 'url("https://assets.xuegushi.com/fonts/ChillKai_Big5/ChillKai_Big5.subset.ttf")',
+		// 	scopes: ['webview', 'native'],
+		// 	success: (res) => {
+		// 		console.log('success', res.status);
+		// 	},
+		// 	fail: function (res) {
+		// 		console.error(res);
+		// 	},
+		// });
 	});
 
 	usePageNotFound(() => {
