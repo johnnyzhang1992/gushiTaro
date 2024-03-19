@@ -29,12 +29,14 @@
 .homePage {
 	box-sizing: border-box;
 	height: 100vh;
-	padding: 88px 28px 28px;
+	// padding: 88px 28px 28px;
 	background: #efefef;
 	display: flex;
 	align-items: flex-end;
+	justify-content: center;
 	.poemShot {
 		width: 100%;
+		box-sizing: border-box;
 	}
 	.topShare {
 		position: fixed;
@@ -42,7 +44,7 @@
 		right: 0;
 		display: flex;
 		align-items: center;
-		transform: translateY(8px);
+		transform: translateY(10px);
 		.share-btn {
 			display: flex;
 			align-items: center;
@@ -68,7 +70,7 @@
 		display: flex;
 		flex-direction: column;
 		font-family: ChillKai;
-		border-radius: 16px;
+		// border-radius: 16px;;
 		.container {
 			flex: 1;
 			// background-image: url('https://assets.xuegushi.com/images/card_bg_1.png');

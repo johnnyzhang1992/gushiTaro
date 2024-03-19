@@ -154,7 +154,7 @@ const Index = () => {
 		<View
 			className='page homePage'
 			style={{
-				padding: `${MenuRect.top || 0}px 15px 15px`,
+				padding: `${MenuRect.top || 0}px 10px 10px`,
 			}}
 		>
 			<Snapshot
@@ -162,39 +162,21 @@ const Index = () => {
 				className='poemShot'
 				id='poemCard'
 				style={{
-					height: `calc(100% - ${MenuRect.height + 14}px)`,
+					height: `calc(100% - ${MenuRect.height + 15}px)`,
 				}}
 			>
-				<View className='poemCard'>
+				<View
+					className='poemCard'
+					style={{
+						padding: 10,
+					}}
+				>
 					<View className='container'>
 						<PoemPostCard
 							sentence={sentence}
-							width={safeArea.width - 30}
+							width={safeArea.width - 40}
 							type='normal'
 						/>
-						{/* <View className='poem-context'>
-							<View className='author-container'>
-								<Text className='text'>{sentence.author}</Text>
-							</View>
-							<Navigator
-								className='title-container'
-								url={`/pages/poem/detail?id=${sentence.poem_id}`}
-								hoverClass='none'
-							>
-								<Text className='text'>
-									{sentence.poem_title || ''}
-								</Text>
-							</Navigator>
-							<View className='poem'>
-								{sentence.titleArr.map((text) => {
-									return (
-										<View className='poem-text' key={text}>
-											<Text className='text'>{text}</Text>
-										</View>
-									);
-								})}
-							</View>
-						</View> */}
 					</View>
 					<View className='bottom'>
 						<View className='date'>

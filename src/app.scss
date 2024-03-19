@@ -11,13 +11,13 @@ $color-brand: #337ab7;
 @import '~taro-ui/dist/style/components/segmented-control.scss';
 @import '~taro-ui/dist/style/components/button.scss';
 
-// @font-face {
-// 	font-family: 'ChillKai';
-// 	src: url('https://assets.xuegushi.com/fonts/ChillKai_Big5/ChillKai_Big5.subset.woff2')
-// 			format('woff2'),
-// 		url('https://assets.xuegushi.com/fonts/ChillKai_Big5/ChillKai_Big5.subset.ttf')
-// 			format('truetype');
-// }
+@font-face {
+	font-family: 'ChillKai';
+	src: url('https://assets.xuegushi.com/fonts/ChillKai_Big5/ChillKai_Big5.subset.woff2')
+			format('woff2'),
+		url('https://assets.xuegushi.com/fonts/ChillKai_Big5/ChillKai_Big5.subset.ttf')
+			format('truetype');
+}
 page {
 	// line-height: 1.6;
 	color: #121212;
