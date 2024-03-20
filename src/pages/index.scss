@@ -144,13 +144,13 @@
 			// }
 		}
 		.bottom {
-			height: 140px;
+			height: 128px;
 			opacity: 1;
 			// background: rgba(255, 255, 255, 0.78);
 			display: flex;
 			align-items: center;
 			justify-content: space-around;
-			padding: 28px 24px;
+			padding: 24px 24px 0 24px;
 			.date {
 				color: #6d3907;
 				font-size: 32px;

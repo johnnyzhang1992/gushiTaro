@@ -4,23 +4,21 @@
 	display: flex;
 	flex-direction: row;
 	justify-content: space-around;
-	border: 4px solid red;
+	padding: 8px;
 	.postItem {
 		height: 100%;
 		flex: 1;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		border-right: 2px solid red;
+		border-right: unset;
 		padding: 6% 0;
-		&:last-child {
-			border-right: unset;
-		}
 		.text {
 			display: flex;
 			height: 100%;
 			justify-content: center;
 			align-items: flex-end;
+			text-align: center;
 		}
 		&.poem .text {
 			letter-spacing: 4px;
@@ -33,12 +31,30 @@
 			align-items: flex-end;
 			.text {
 				color: #fff;
-				background-color: #be140b;
+				background-color: #dd0011;
 				padding: 14px 10px;
 				border-radius: 8px;
 				display: block;
 				box-sizing: content-box;
 				height: auto;
+			}
+		}
+	}
+	&.redBorder {
+		border: 6px solid #c01112;
+		.postItem {
+			border: 2px solid #c01112;
+			&:last-child {
+				border-right: 2px solid #c01112;
+			}
+		}
+	}
+	&.blackBorder {
+		border: 6px solid #212321;
+		.postItem {
+			border: 2px solid #212321;
+			&:last-child {
+				border-right: 2px solid #212321;
 			}
 		}
 	}

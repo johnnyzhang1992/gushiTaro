@@ -19,7 +19,7 @@ import './index.scss';
 // 拆分词句
 const splitSentence = (sentence) => {
 	// 替代特殊符号 。。
-	let pattern = new RegExp('[。，.、!！?？]', 'g');
+	let pattern = new RegExp('[。，.、;；!！?？]', 'g');
 	sentence = sentence.replace(/，/g, ',');
 	sentence = sentence.replace(pattern, ',');
 	return sentence
@@ -175,7 +175,7 @@ const Index = () => {
 						<PoemPostCard
 							sentence={sentence}
 							width={safeArea.width - 40}
-							type='normal'
+							type='redBorder'
 						/>
 					</View>
 					<View className='bottom'>
