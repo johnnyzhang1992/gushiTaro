@@ -1,6 +1,6 @@
 import { View, Text, Snapshot, Image } from '@tarojs/components';
 import { useState, useEffect, useCallback } from 'react';
-import { AtButton, AtFloatLayout } from 'taro-ui';
+import { AtButton } from 'taro-ui';
 import Taro, {
 	usePullDownRefresh,
 	useShareAppMessage,
@@ -41,11 +41,12 @@ const Index = () => {
 	const [safeArea, setSafeArea] = useState({
 		width: 375,
 	});
+	const [showQrcode, qrcodeVisible] = useState(true);
 	const MenuRect = Taro.getMenuButtonBoundingClientRect();
 
-	// const handleShow = () => {
-	// 	setOpen(true);
-	// };
+	const handleShow = () => {
+		setOpen(true);
+	};
 
 	const handleClose = () => {
 		setOpen(false);
@@ -53,6 +54,10 @@ const Index = () => {
 
 	const handleReload = () => {
 		fetchSentence(true);
+	};
+
+	const handleHideBottom = () => {
+		qrcodeVisible(false);
 	};
 
 	const fetchSentence = useCallback((forceGet = false) => {
@@ -178,7 +183,12 @@ const Index = () => {
 							type='redBorder'
 						/>
 					</View>
-					<View className='bottom'>
+					<View
+						className='bottom'
+						style={{
+							display: showQrcode ? 'flex' : 'none',
+						}}
+					>
 						<View className='date'>
 							<View className='yangli'>
 								<Text className='text'>{date}</Text>
@@ -204,7 +214,7 @@ const Index = () => {
 					height: (MenuRect.height || 32) + 'px',
 				}}
 			>
-				<View className='share-btn share' onClick={handleDownload}>
+				<View className='share-btn share' onClick={handleShow}>
 					<View className='at-icon at-icon-share'></View>
 					<Text className='text'>分享</Text>
 				</View>
@@ -214,10 +224,27 @@ const Index = () => {
 				</View>
 			</View>
 			{/* 半屏展示全文 */}
-			<AtFloatLayout isOpened={isOpen} onClose={handleClose}>
-				<View className='shareContainer'>
-					<View className='shareLayout'>布局</View>
-					<View className='shareLayout'>颜色、二维码</View>
+			<View
+				style={{
+					visibility: isOpen ? 'visible' : 'hidden',
+				}}
+				className={`postFloatLayout ${isOpen ? 'active' : ''}`}
+			>
+				<view className='overlay' onClick={handleClose}></view>
+				<View className='layoutContainer'>
+					<View className='shareLayout'>
+						<View className='title'>
+							<Text className='text'>布局</Text>
+						</View>
+					</View>
+					<View className='shareLayout'>
+						<View className='title'>
+							<Text className='text'>背景</Text>
+						</View>
+						<View className='btn' onClick={handleHideBottom}>
+							点击隐藏日期和二维码
+						</View>
+					</View>
 					<View className='shareBottom'>
 						<AtButton
 							className='share-btn'
@@ -226,7 +253,7 @@ const Index = () => {
 							circle
 							onClick={handleDownload}
 						>
-							保存到相册
+							保存
 						</AtButton>
 						<AtButton
 							className='share-btn'
@@ -235,11 +262,11 @@ const Index = () => {
 							circle
 							openType='share'
 						>
-							分享给朋友
+							分享
 						</AtButton>
 					</View>
 				</View>
-			</AtFloatLayout>
+			</View>
 		</View>
 	);
 };

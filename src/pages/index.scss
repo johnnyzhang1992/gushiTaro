@@ -79,74 +79,10 @@
 			// background-size: cover;
 			display: flex;
 			align-items: flex-end;
-			// padding: 4vh 0;
-			// .poem-context {
-			// 	display: flex;
-			// 	align-items: center;
-			// 	width: 100%;
-			// 	height: 100%;
-
-			// 	box-sizing: border-box;
-			// }
-			// .author-container,
-			// .title-container,
-			// .poem {
-			// 	height: 100%;
-			// 	display: flex;
-			// 	align-items: flex-end;
-			// }
-			// .author-container,
-			// .title-container,
-			// .poem-text .text {
-			// 	writing-mode: vertical-lr; /* 从左到右 */
-			// 	text-orientation: upright; /* 保持正常显示 */
-			// 	text-align: center;
-			// }
-			// .author-container {
-			// 	margin-left: 40px;
-			// 	.text {
-			// 		color: #fff;
-			// 		font-size: 32px;
-			// 		background-color: #be140b;
-			// 		padding: 14px 10px;
-			// 		border-radius: 8px;
-			// 		letter-spacing: 0.2em;
-			// 		width: 52px;
-			// 		display: inline-block;
-			// 	}
-			// }
-			// .title-container .text {
-			// 	color: #000;
-			// 	font-size: 50px;
-			// 	// font-weight: 500;
-			// 	letter-spacing: 0.2em;
-			// 	margin: 0 40px 0 40px;
-			// 	width: 55px;
-			// 	max-height: 548px;
-			// 	overflow: hidden;
-			// 	display: block;
-			// 	text-align: center;
-			// }
-			// .poem {
-			// 	height: 100%;
-			// 	flex: 1;
-			// 	display: flex;
-			// 	justify-content: flex-end;
-			// 	align-items: center;
-			// 	// background: rgba(255, 255, 255, 0.5);
-			// 	.poem-text {
-			// 		font-size: 54px;
-			// 		letter-spacing: 0.5em;
-			// 		width: 54px;
-			// 		margin-right: 40px;
-			// 		height: 100%;
-			// 	}
-			// }
 		}
 		.bottom {
 			height: 128px;
 			opacity: 1;
-			// background: rgba(255, 255, 255, 0.78);
 			display: flex;
 			align-items: center;
 			justify-content: space-around;
@@ -154,7 +90,6 @@
 			.date {
 				color: #6d3907;
 				font-size: 32px;
-				// font-family: HYZhongXiuTi;
 				line-height: 52px;
 				text-align: left;
 				letter-spacing: 0.2em;
@@ -172,17 +107,59 @@
 			}
 		}
 	}
-	.outShare {
-		position: absolute;
-		bottom: 3vh;
-		left: 20rpx;
-		right: 20rpx;
-		text-align: center;
-		display: flex;
-		display: none;
-		.share-btn {
-			flex: 1;
-			margin: 0 16px;
+	.postFloatLayout {
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		visibility: hidden;
+		z-index: 810;
+		transition: visibility 300ms cubic-bezier(0.36, 0.66, 0.04, 1);
+		&.active {
+			.overlay {
+				opacity: 1;
+			}
+			.layoutContainer {
+				transform: translate3d(0, 0, 0);
+			}
+		}
+		.overlay {
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			background-color: rgba(0, 0, 0, 0.3);
+			opacity: 0;
+			-webkit-transition: opacity 150ms ease-in;
+			transition: opacity 150ms ease-in;
+		}
+		.layoutContainer {
+			position: absolute;
+			bottom: 0;
+			width: 100%;
+			min-height: 12.8rem;
+			max-height: 20.26667rem;
+			border-radius: 20rpx 20rpx 0 0;
+			padding: 20rpx 30rpx;
+			background-color: #fff;
+			transform: translate3d(0, 100%, 0);
+			transition: transform 300ms cubic-bezier(0.36, 0.66, 0.04, 1);
+			transition: transform 300ms cubic-bezier(0.36, 0.66, 0.04, 1),
+				-webkit-transform 300ms cubic-bezier(0.36, 0.66, 0.04, 1);
+		}
+		.shareLayout {
+			margin-bottom: 20px;
+			.title {
+				font-size: 28px;
+				line-height: 42px;
+				margin-bottom: 10px;
+				font-weight: 500;
+			}
+		}
+		.shareBottom {
+			display: flex;
 		}
 	}
 }

@@ -54,7 +54,8 @@ const App = (props) => {
 		Taro.loadFontFace({
 			global: true,
 			family: 'ChillKai',
-			source: 'url("https://assets.xuegushi.com/fonts/ChillKai_Big5/ChillKai_Big5.subset.ttf")',
+			// source: 'url("https://assets.xuegushi.com/fonts/ChillKai_Big5/ChillKai_Big5.subset.ttf")',
+			source: 'url("https://assets.xuegushi.com/fonts/HuiwenMingchao/HuiwenMingchao.ttf")',
 			scopes: ['webview', 'native'],
 			success: (res) => {
 				console.log('success', res.status);
