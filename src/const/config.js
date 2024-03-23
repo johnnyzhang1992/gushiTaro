@@ -213,3 +213,57 @@ export const sentenceCategories = [
 		types: ['全部', '写酒', '写茶', '荔枝'],
 	},
 ];
+
+export const FontFaceList = [
+	{
+		name: 'HuiwenMingchao',
+		extra_name: '汇文明朝体',
+		path: 'https://assets.xuegushi.com/fonts/HuiwenMingchao/HuiwenMingchao.ttf',
+		size: '23.295MB',
+		zipSize: '9.453MB'
+
+	},
+	{
+		name: 'ChillKai',
+		extra_name: '寒蝉行楷体',
+		path: 'https://assets.xuegushi.com/fonts/ChillKai_Big5/ChillKai_Big5.ttf',
+		size: '21.159MB',
+		zipSize: '11.359MB'
+	},
+	{
+		name: 'AlimamaDaoLiTi',
+		extra_name: '阿里妈妈刀隶体',
+		path: 'https://assets.xuegushi.com/fonts/AlimamaDaoLiTi/AlimamaDaoLiTi.ttf',
+		size: '4.921MB',
+		zipSize: '3.183MB'
+	},
+	{
+		name: 'HanyiZhongliShujian',
+		extra_name: '汉仪中隶书简',
+		path: 'https://assets.xuegushi.com/fonts/HanyiZhongliShujian/HanyiZhongliShujian.ttf',
+		size: '6.692MB',
+		zipSize: '4.68MB'
+	},
+	{
+		name: 'SuxinshiMobaoZibei',
+		extra_name: '苏新诗爨宝子碑简',
+		path: 'https://assets.xuegushi.com/fonts/SuxinshiMobaoZibei/SuxinshiMobaoZibei.ttf',
+		size: '8.637MB',
+		zipSize: '5.414MB'
+	},
+	{
+		name: 'KingHwa',
+		extra_name: '京华老宋体',
+		path: 'https://assets.xuegushi.com/fonts/KingHwa/KingHwa.ttf.zip',
+		size: '30.322MB',
+		zipSize: '20.325MB'
+	},
+	// {
+	// 	name: '',
+	// 	extra_name: '',
+	// 	path: '',
+	// 	size: '',
+	// 	zipSize: ''
+	// },
+
+]

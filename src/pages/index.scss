@@ -6,7 +6,6 @@
 	display: flex;
 	flex-direction: column;
 }
-
 .sectionCard {
 	box-sizing: border-box;
 	padding: 20px 20px;
@@ -32,19 +31,14 @@
 	// padding: 88px 28px 28px;
 	background: #efefef;
 	display: flex;
-	align-items: flex-end;
-	justify-content: center;
-	.poemShot {
-		width: 100%;
-		box-sizing: border-box;
-	}
+	align-items: center;
+	justify-content: flex-start;
+	flex-direction: column;
 	.topShare {
-		position: fixed;
-		left: 32px;
-		right: 0;
+		padding-left: 32px;
 		display: flex;
+		width: 100%;
 		align-items: center;
-		transform: translateY(10px);
 		.share-btn {
 			display: flex;
 			align-items: center;
@@ -61,6 +55,12 @@
 			}
 		}
 	}
+	.poemShot {
+		width: 100%;
+		box-sizing: border-box;
+		font-family: ChillKai;
+	}
+
 	.poemCard {
 		margin: 0 auto;
 		// width: 100vw;
@@ -70,6 +70,7 @@
 		display: flex;
 		flex-direction: column;
 		font-family: ChillKai;
+		box-sizing: border-box;
 		// border-radius: 16px;;
 		.container {
 			flex: 1;
@@ -139,8 +140,8 @@
 			position: absolute;
 			bottom: 0;
 			width: 100%;
-			min-height: 12.8rem;
-			max-height: 20.26667rem;
+			// min-height: 12.8rem;
+			// max-height: 20.26667rem;
 			border-radius: 20rpx 20rpx 0 0;
 			padding: 20rpx 30rpx;
 			background-color: #fff;

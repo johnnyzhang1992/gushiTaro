@@ -43,6 +43,7 @@ const Index = () => {
 	});
 	const [showQrcode, qrcodeVisible] = useState(true);
 	const MenuRect = Taro.getMenuButtonBoundingClientRect();
+	const deviceInfo = Taro.getDeviceInfo();
 
 	const handleShow = () => {
 		setOpen(true);
@@ -155,19 +156,45 @@ const Index = () => {
 		};
 	});
 
+	const isPc = ['mac', 'windows'].includes(deviceInfo.platform);
+	const LeaveTop = isPc ? 10 : MenuRect.top;
+
 	return (
 		<View
 			className='page homePage'
 			style={{
-				padding: `${MenuRect.top || 0}px 10px 10px`,
+				padding: `10px 10px`,
 			}}
 		>
+			{/* 顶部操作栏 */}
+			<View
+				className='topShare'
+				style={{
+					marginTop: `${LeaveTop - 10}px`,
+					height: (MenuRect.height || 32) + 'px',
+					paddingLeft: '10px',
+					transform: `translateY(${isPc ? 0 : 5}px)`,
+				}}
+			>
+				{!isPc ? (
+					<View className='share-btn share' onClick={handleShow}>
+						<View className='at-icon at-icon-share'></View>
+						<Text className='text'>分享</Text>
+					</View>
+				) : null}
+				<View className='share-btn reload' onClick={handleReload}>
+					<View className='at-icon at-icon-reload'></View>
+					<Text className='text'>换一换</Text>
+				</View>
+			</View>
+			{/* 画报 */}
 			<Snapshot
 				mode='view'
 				className='poemShot'
 				id='poemCard'
 				style={{
-					height: `calc(100% - ${MenuRect.height + 15}px)`,
+					height: `calc(100% - ${LeaveTop + MenuRect.height - 20}px)`,
+					marginTop: '10px',
 				}}
 			>
 				<View
@@ -207,22 +234,6 @@ const Index = () => {
 					</View>
 				</View>
 			</Snapshot>
-			<View
-				className='topShare'
-				style={{
-					top: `${MenuRect.top}px`,
-					height: (MenuRect.height || 32) + 'px',
-				}}
-			>
-				<View className='share-btn share' onClick={handleShow}>
-					<View className='at-icon at-icon-share'></View>
-					<Text className='text'>分享</Text>
-				</View>
-				<View className='share-btn reload' onClick={handleReload}>
-					<View className='at-icon at-icon-reload'></View>
-					<Text className='text'>换一换</Text>
-				</View>
-			</View>
 			{/* 半屏展示全文 */}
 			<View
 				style={{

@@ -7,6 +7,23 @@ import { View, Text, Navigator } from '@tarojs/components';
 
 import './style.scss';
 
+const TextItem = (props) => {
+	const { text = '', type = 'poem', size = 24 } = props;
+	const TextArr = text.split('');
+	const style = {
+		fontSize: size,
+		width: size,
+		height: type === 'poem' ? size * 1.3 : size * 1.2,
+	};
+	return TextArr.map((item, index) => {
+		return (
+			<Text key={index} className='text' style={style}>
+				{item}
+			</Text>
+		);
+	});
+};
+
 const PoemPostCard = (props) => {
 	const {
 		sentence = { titleArr: [] },
@@ -76,19 +93,13 @@ const PoemPostCard = (props) => {
 			{textArr.map((item) => {
 				return (
 					<View className={`postItem ${item.type}`} key={item.id}>
-						<Text
-							className='text'
-							style={{
-								fontSize: item.size,
-								width: item.size + 2,
-								maxHeight:
-									item.type === 'title'
-										? (item.size + 2) * 10
-										: '100%',
-							}}
-						>
-							{item.text}
-						</Text>
+						{item.type === 'author' ? (
+							<View className='author-container'>
+								<TextItem {...item} />
+							</View>
+						) : (
+							<TextItem {...item} />
+						)}
 					</View>
 				);
 			})}

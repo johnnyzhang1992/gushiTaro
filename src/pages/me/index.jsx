@@ -21,6 +21,8 @@ const MeIndex = () => {
 	});
 	const [safeArea, setSafeArea] = useState({});
 	const isCreate = useRef(false);
+	const deviceInfo = Taro.getDeviceInfo();
+	const isPc = ['mac', 'windows'].includes(deviceInfo.platform);
 
 	const fetchInfo = (id) => {
 		const user = Taro.getStorageSync('user');
@@ -175,7 +177,7 @@ const MeIndex = () => {
 			<View
 				className='meTop'
 				style={{
-					paddingTop: safeArea.top || 47,
+					paddingTop: !isPc ? safeArea.top : 0,
 				}}
 			>
 				{userInfo.user_id > 0 ? (
