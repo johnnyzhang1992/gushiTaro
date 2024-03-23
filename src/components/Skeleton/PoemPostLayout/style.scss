@@ -1,0 +1,27 @@
+.layout-container {
+	border: 2px solid #333;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+
+	.thin {
+		width: 2px;
+		background-color: #333;
+		height: 80%;
+		margin-right: 10%;
+	}
+	&.letter {
+		.thin {
+			height: 100%;
+		}
+	}
+	&.active {
+		border-color: #337ab7;
+		.thin {
+			background-color: #337ab7;
+		}
+	}
+	&:last-child {
+		margin-right: 0;
+	}
+}

@@ -1,4 +1,4 @@
-import { View, Text, Snapshot, Image } from '@tarojs/components';
+import { View, Text, Snapshot, Image, ScrollView } from '@tarojs/components';
 import { useState, useEffect, useCallback } from 'react';
 import { AtButton } from 'taro-ui';
 import Taro, {
@@ -13,6 +13,7 @@ import Utils from '../utils/util';
 import { fetchRandomSentence } from '../services/global';
 
 import PoemPostCard from '../components/PoemPost';
+import PoemPostLayout from '../components/Skeleton/PoemPostLayout';
 
 import './index.scss';
 
@@ -30,6 +31,19 @@ const splitSentence = (sentence) => {
 		.reverse();
 };
 
+// 边框颜色配置数组
+const borderColorArr = [
+	{
+		name: '红色',
+		color: '#c01112',
+		colorName: 'redBorder',
+	},
+	{
+		name: '黑色',
+		color: '#212321',
+		colorName: 'blackBorder',
+	},
+];
 const Index = () => {
 	const [date] = useState(() => {
 		return Utils.formatDate().join('/');
@@ -41,7 +55,13 @@ const Index = () => {
 	const [safeArea, setSafeArea] = useState({
 		width: 375,
 	});
-	const [showQrcode, qrcodeVisible] = useState(true);
+	const [postConfig, updateConfig] = useState({
+		type: 'default',
+		showQrcode: true,
+		letterBorder: '', // redBorder blankBorder
+		bgColor: '',
+		fontColor: '#333',
+	});
 	const MenuRect = Taro.getMenuButtonBoundingClientRect();
 	const deviceInfo = Taro.getDeviceInfo();
 
@@ -57,8 +77,27 @@ const Index = () => {
 		fetchSentence(true);
 	};
 
-	const handleHideBottom = () => {
-		qrcodeVisible(false);
+	const handleToggleBottom = () => {
+		updateConfig({
+			...postConfig,
+			showQrcode: !postConfig.showQrcode,
+		});
+	};
+
+	const updateLayout = (type) => {
+		updateConfig({
+			...postConfig,
+			type: type,
+			letterBorder: type === 'letter' ? 'redBorder' : '',
+		});
+	};
+
+	const selectBorderColor = (e) => {
+		const { color } = e.currentTarget.dataset;
+		updateConfig({
+			...postConfig,
+			letterBorder: color || 'redBorder',
+		});
 	};
 
 	const fetchSentence = useCallback((forceGet = false) => {
@@ -207,13 +246,13 @@ const Index = () => {
 						<PoemPostCard
 							sentence={sentence}
 							width={safeArea.width - 40}
-							type='redBorder'
+							type={postConfig.letterBorder}
 						/>
 					</View>
 					<View
 						className='bottom'
 						style={{
-							display: showQrcode ? 'flex' : 'none',
+							display: postConfig.showQrcode ? 'flex' : 'none',
 						}}
 					>
 						<View className='date'>
@@ -243,16 +282,74 @@ const Index = () => {
 			>
 				<view className='overlay' onClick={handleClose}></view>
 				<View className='layoutContainer'>
+					{/* 布局 */}
 					<View className='shareLayout'>
 						<View className='title'>
 							<Text className='text'>布局</Text>
 						</View>
+						<ScrollView
+							scrollX
+							enableFlex
+							className='scrollContainer'
+							style={{height: 32}}
+						>
+							<PoemPostLayout
+								type='default'
+								style={{
+									width: 24,
+									height: 32,
+									marginRight: 6,
+								}}
+								update={updateLayout}
+								activeType={postConfig.type}
+							/>
+							<PoemPostLayout
+								type='letter'
+								style={{
+									width: 24,
+									height: 32,
+									marginRight: 6,
+								}}
+								update={updateLayout}
+								activeType={postConfig.type}
+							/>
+						</ScrollView>
+					</View>
+					{/* 边框颜色 */}
+					<View
+						className='shareLayout'
+						style={{
+							display:
+								postConfig.type === 'letter' ? 'block' : 'none',
+						}}
+					>
+						<View className='title'>
+							<Text className='text'>边框</Text>
+						</View>
+						<view className='scrollContainer'>
+							{borderColorArr.map((color) => {
+								return (
+									<View
+										key={color.name}
+										className='color-item'
+										style={{
+											backgroundColor: color.color,
+										}}
+										data-color={color.colorName}
+										onClick={selectBorderColor}
+									></View>
+								);
+							})}
+						</view>
 					</View>
 					<View className='shareLayout'>
 						<View className='title'>
 							<Text className='text'>背景</Text>
 						</View>
-						<View className='btn' onClick={handleHideBottom}>
+						{/* <View className='scrollContainer'>
+
+						</View> */}
+						<View className='btn' onClick={handleToggleBottom}>
 							点击隐藏日期和二维码
 						</View>
 					</View>
