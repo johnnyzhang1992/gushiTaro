@@ -104,6 +104,7 @@
 				.xcxImg {
 					width: 100px;
 					height: 100px;
+					border-radius: 50%;
 				}
 			}
 		}
@@ -164,14 +165,53 @@
 				flex-direction: row;
 				box-sizing: border-box;
 				.color-item {
-					width: 40px;
-					height: 20px;
-					margin-right: 20px;
+					box-sizing: border-box;
+					&.bgColor {
+						border: 4px solid #333;
+					}
+					&.active {
+						border: 6px solid  #337ab7;
+					}
+				}
+			}
+			.layout-bottom {
+				display: flex;
+				align-items: center;
+				justify-content: space-around;
+				.scrollContainer {
+					align-items: center;
+				}
+				.qrcode-container {
+					padding: 8px;
+					border: 2px solid #333;
+					border-radius: 50%;
+					&.active {
+						border: 4px solid #337ab7;
+					}
+					.qrcode {
+						border-radius: 50%;
+					}
 				}
 			}
 		}
 		.shareBottom {
 			display: flex;
+			.share-btn {
+				flex: 1;
+				display: flex;
+				align-items: center;
+				margin-right: 30px;
+				&:last-child {
+					margin-right: 0;
+				}
+				.at-icon {
+					margin-right: 12px;
+				}
+				.at-button__text {
+					display: flex;
+					align-items: center;
+				}
+			}
 		}
 	}
 }

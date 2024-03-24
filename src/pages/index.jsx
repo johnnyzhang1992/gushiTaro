@@ -1,4 +1,4 @@
-import { View, Text, Snapshot, Image, ScrollView } from '@tarojs/components';
+import { View, Text, Snapshot, Image } from '@tarojs/components';
 import { useState, useEffect, useCallback } from 'react';
 import { AtButton } from 'taro-ui';
 import Taro, {
@@ -9,6 +9,7 @@ import Taro, {
 } from '@tarojs/taro';
 
 import xcxPng from '../images/xcx.jpg';
+import Qrcode from '../images/icon/qrcode.png';
 import Utils from '../utils/util';
 import { fetchRandomSentence } from '../services/global';
 
@@ -44,6 +45,29 @@ const borderColorArr = [
 		colorName: 'blackBorder',
 	},
 ];
+// 背景色 fontColor
+const bgColorArr = [
+	{
+		value: '#fff',
+	},
+	{
+		value: 'rgba(14,14,15)',
+		fontColor: '#fff',
+	},
+	{
+		value: 'rgba(16,20, 51)',
+		fontColor: '#fff',
+	},
+	{
+		value: 'rgba(204,189,153)',
+	},
+	{
+		value: 'rgba(247,215,174)',
+	},
+	{
+		value: 'rgba(170,134,83)',
+	}
+];
 const Index = () => {
 	const [date] = useState(() => {
 		return Utils.formatDate().join('/');
@@ -59,7 +83,7 @@ const Index = () => {
 		type: 'default',
 		showQrcode: true,
 		letterBorder: '', // redBorder blankBorder
-		bgColor: '',
+		bgColor: '#fff',
 		fontColor: '#333',
 	});
 	const MenuRect = Taro.getMenuButtonBoundingClientRect();
@@ -97,6 +121,15 @@ const Index = () => {
 		updateConfig({
 			...postConfig,
 			letterBorder: color || 'redBorder',
+		});
+	};
+
+	const selectBgColor = (e) => {
+		const { color, fontColor } = e.currentTarget.dataset;
+		updateConfig({
+			...postConfig,
+			bgColor: color || '#fff',
+			fontColor: fontColor || '#333',
 		});
 	};
 
@@ -240,10 +273,13 @@ const Index = () => {
 					className='poemCard'
 					style={{
 						padding: 10,
+						backgroundColor: postConfig.bgColor || '#fff',
+						color: postConfig.fontColor || '#333',
 					}}
 				>
 					<View className='container'>
 						<PoemPostCard
+							bgColor={postConfig.bgColor || '#fff'}
 							sentence={sentence}
 							width={safeArea.width - 40}
 							type={postConfig.letterBorder}
@@ -287,18 +323,13 @@ const Index = () => {
 						<View className='title'>
 							<Text className='text'>布局</Text>
 						</View>
-						<ScrollView
-							scrollX
-							enableFlex
-							className='scrollContainer'
-							style={{height: 32}}
-						>
+						<View className='scrollContainer'>
 							<PoemPostLayout
 								type='default'
 								style={{
-									width: 24,
-									height: 32,
-									marginRight: 6,
+									width: 30,
+									height: 40,
+									marginRight: 10,
 								}}
 								update={updateLayout}
 								activeType={postConfig.type}
@@ -306,14 +337,14 @@ const Index = () => {
 							<PoemPostLayout
 								type='letter'
 								style={{
-									width: 24,
-									height: 32,
-									marginRight: 6,
+									width: 30,
+									height: 40,
+									marginRight: 10,
 								}}
 								update={updateLayout}
 								activeType={postConfig.type}
 							/>
-						</ScrollView>
+						</View>
 					</View>
 					{/* 边框颜色 */}
 					<View
@@ -326,31 +357,83 @@ const Index = () => {
 						<View className='title'>
 							<Text className='text'>边框</Text>
 						</View>
-						<view className='scrollContainer'>
+						<View className='scrollContainer'>
 							{borderColorArr.map((color) => {
 								return (
 									<View
 										key={color.name}
-										className='color-item'
+										className={`color-item ${
+											postConfig.letterBorder ===
+											color.colorName
+												? 'active'
+												: ''
+										}`}
 										style={{
 											backgroundColor: color.color,
+											width: 30,
+											height: 20,
+											padding: 4,
+											marginRight: 10,
 										}}
 										data-color={color.colorName}
 										onClick={selectBorderColor}
 									></View>
 								);
 							})}
-						</view>
+						</View>
 					</View>
 					<View className='shareLayout'>
 						<View className='title'>
 							<Text className='text'>背景</Text>
 						</View>
-						{/* <View className='scrollContainer'>
-
-						</View> */}
-						<View className='btn' onClick={handleToggleBottom}>
-							点击隐藏日期和二维码
+						<View className='layout-bottom'>
+							<View
+								className='scrollContainer'
+								style={{
+									width: 'calc(100% - 50px)',
+								}}
+							>
+								{bgColorArr.map((color) => {
+									return (
+										<View
+											key={color.value}
+											className={`color-item bgColor ${
+												postConfig.bgColor ===
+												color.value
+													? 'active'
+													: ''
+											}`}
+											style={{
+												backgroundColor: color.value,
+												width: 40,
+												height: 30,
+												padding: 4,
+												marginRight: 10,
+											}}
+											data-color={color.value}
+											data-fontColor={
+												color.fontColor || ''
+											}
+											onClick={selectBgColor}
+										></View>
+									);
+								})}
+							</View>
+							<View
+								className={`qrcode-container  ${
+									postConfig.showQrcode ? 'active' : ''
+								}`}
+								onClick={handleToggleBottom}
+							>
+								<Image
+									src={Qrcode}
+									className='qrcode'
+									style={{
+										height: 30,
+										width: 30,
+									}}
+								/>
+							</View>
 						</View>
 					</View>
 					<View className='shareBottom'>
@@ -361,7 +444,8 @@ const Index = () => {
 							circle
 							onClick={handleDownload}
 						>
-							保存
+							<View className='at-icon at-icon-download'></View>
+							<Text>保存</Text>
 						</AtButton>
 						<AtButton
 							className='share-btn'
@@ -370,7 +454,8 @@ const Index = () => {
 							circle
 							openType='share'
 						>
-							分享
+							<View className='at-icon at-icon-share'></View>
+							<Text>分享</Text>
 						</AtButton>
 					</View>
 				</View>
