@@ -7,11 +7,16 @@ const PoemPostLayout = ({
 	activeType = '',
 	style = {},
 	update,
+	letterBorder = '',
+	borderColor = '#333',
 }) => {
 	const isActive = activeType && activeType === type;
 	const handleClick = () => {
 		if (update && typeof update === 'function') {
-			update(type);
+			update({
+				type,
+				letterBorder: letterBorder || '',
+			});
 		}
 	};
 	// type default letter 边线为letter
@@ -21,8 +26,20 @@ const PoemPostLayout = ({
 			style={style}
 			onClick={handleClick}
 		>
-			<View className='thin'></View>
-			<View className='thin'></View>
+			<View
+				className='thin'
+				style={{
+					backgroundColor: borderColor,
+					height: type !== 'default' ? '100%' : '80%'
+				}}
+			></View>
+			<View
+				className='thin'
+				style={{
+					backgroundColor: borderColor,
+					height: type !== 'default' ? '100%' : '80%'
+				}}
+			></View>
 		</View>
 	);
 };

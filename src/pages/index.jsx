@@ -32,17 +32,19 @@ const splitSentence = (sentence) => {
 		.reverse();
 };
 
-// 边框颜色配置数组
-const borderColorArr = [
+// 边框颜色配置
+const letterLayoutConfig = [
 	{
-		name: '红色',
-		color: '#c01112',
-		colorName: 'redBorder',
+		name: 'default',
+		color: '#333',
 	},
 	{
-		name: '黑色',
+		name: 'blackBorder',
 		color: '#212321',
-		colorName: 'blackBorder',
+	},
+	{
+		name: 'redBorder',
+		color: '#c01112',
 	},
 ];
 // 背景色 fontColor
@@ -55,10 +57,6 @@ const bgColorArr = [
 		fontColor: '#fff',
 	},
 	{
-		value: 'rgba(16,20, 51)',
-		fontColor: '#fff',
-	},
-	{
 		value: 'rgba(204,189,153)',
 	},
 	{
@@ -66,7 +64,11 @@ const bgColorArr = [
 	},
 	{
 		value: 'rgba(170,134,83)',
-	}
+	},
+	{
+		value: '#6c9180',
+		fontColor: '#fff',
+	},
 ];
 const Index = () => {
 	const [date] = useState(() => {
@@ -82,9 +84,10 @@ const Index = () => {
 	const [postConfig, updateConfig] = useState({
 		type: 'default',
 		showQrcode: true,
-		letterBorder: '', // redBorder blankBorder
+		letterBorder: 'default', // redBorder blankBorder
 		bgColor: '#fff',
 		fontColor: '#333',
+		ratio: 0.75, // 显示比例 3:4 9:16
 	});
 	const MenuRect = Taro.getMenuButtonBoundingClientRect();
 	const deviceInfo = Taro.getDeviceInfo();
@@ -108,19 +111,11 @@ const Index = () => {
 		});
 	};
 
-	const updateLayout = (type) => {
+	const updateLayout = ({ type, letterBorder }) => {
 		updateConfig({
 			...postConfig,
 			type: type,
-			letterBorder: type === 'letter' ? 'redBorder' : '',
-		});
-	};
-
-	const selectBorderColor = (e) => {
-		const { color } = e.currentTarget.dataset;
-		updateConfig({
-			...postConfig,
-			letterBorder: color || 'redBorder',
+			letterBorder: letterBorder || '',
 		});
 	};
 
@@ -263,7 +258,6 @@ const Index = () => {
 			<Snapshot
 				mode='view'
 				className='poemShot'
-				id='poemCard'
 				style={{
 					height: `calc(100% - ${LeaveTop + MenuRect.height - 20}px)`,
 					marginTop: '10px',
@@ -318,73 +312,99 @@ const Index = () => {
 			>
 				<view className='overlay' onClick={handleClose}></view>
 				<View className='layoutContainer'>
+					<View
+						className='post-container'
+						style={{
+							padding: 15,
+						}}
+					>
+						<Snapshot
+							mode='view'
+							className='poemShot'
+							id='poemCard'
+							style={{
+								width: safeArea.width - 60,
+								height: (safeArea.width - 60) / 0.75,
+							}}
+						>
+							<View
+								className='poemCard'
+								style={{
+									padding: 10,
+									backgroundColor:
+										postConfig.bgColor || '#fff',
+									color: postConfig.fontColor || '#333',
+								}}
+							>
+								<View className='container'>
+									<PoemPostCard
+										bgColor={postConfig.bgColor || '#fff'}
+										sentence={sentence}
+										width={safeArea.width - 40}
+										type={postConfig.letterBorder}
+									/>
+								</View>
+								<View
+									className='bottom'
+									style={{
+										display: postConfig.showQrcode
+											? 'flex'
+											: 'none',
+									}}
+								>
+									<View className='date'>
+										<View className='yangli'>
+											<Text className='text'>{date}</Text>
+										</View>
+										<View className='nongli'>
+											<Text className='text'>
+												甲辰龙年
+											</Text>
+										</View>
+									</View>
+									<View className='desc'>
+										<Image
+											src={xcxPng}
+											showMenuByLongpress
+											className='xcxImg'
+										/>
+									</View>
+								</View>
+							</View>
+						</Snapshot>
+					</View>
 					{/* 布局 */}
 					<View className='shareLayout'>
 						<View className='title'>
 							<Text className='text'>布局</Text>
 						</View>
-						<View className='scrollContainer'>
-							<PoemPostLayout
-								type='default'
-								style={{
-									width: 30,
-									height: 40,
-									marginRight: 10,
-								}}
-								update={updateLayout}
-								activeType={postConfig.type}
-							/>
-							<PoemPostLayout
-								type='letter'
-								style={{
-									width: 30,
-									height: 40,
-									marginRight: 10,
-								}}
-								update={updateLayout}
-								activeType={postConfig.type}
-							/>
-						</View>
-					</View>
-					{/* 边框颜色 */}
-					<View
-						className='shareLayout'
-						style={{
-							display:
-								postConfig.type === 'letter' ? 'block' : 'none',
-						}}
-					>
-						<View className='title'>
-							<Text className='text'>边框</Text>
-						</View>
-						<View className='scrollContainer'>
-							{borderColorArr.map((color) => {
+						<View
+							className='scrollContainer'
+						>
+							{letterLayoutConfig.map((layout) => {
 								return (
-									<View
-										key={color.name}
-										className={`color-item ${
-											postConfig.letterBorder ===
-											color.colorName
-												? 'active'
-												: ''
-										}`}
+									<PoemPostLayout
+										type={layout.name}
+										key={layout.name}
 										style={{
-											backgroundColor: color.color,
 											width: 30,
-											height: 20,
-											padding: 4,
+											height: 40,
 											marginRight: 10,
+											borderColor: layout.color,
 										}}
-										data-color={color.colorName}
-										onClick={selectBorderColor}
-									></View>
+										borderColor={layout.color}
+										letterBorder={layout.name}
+										update={updateLayout}
+										activeType={postConfig.letterBorder}
+									/>
 								);
 							})}
 						</View>
 					</View>
+					{/* 背景色 */}
 					<View className='shareLayout'>
 						<View className='title'>
-							<Text className='text'>背景</Text>
+							<Text className='text'>背景色</Text>
 						</View>
 						<View className='layout-bottom'>
 							<View
@@ -405,7 +425,7 @@ const Index = () => {
 											}`}
 											style={{
 												backgroundColor: color.value,
-												width: 40,
+												width: 30,
 												height: 30,
 												padding: 4,
 												marginRight: 10,
@@ -429,13 +449,14 @@ const Index = () => {
 									src={Qrcode}
 									className='qrcode'
 									style={{
-										height: 30,
-										width: 30,
+										height: 22,
+										width: 22,
 									}}
 								/>
 							</View>
 						</View>
 					</View>
+					{/* 底部按钮 */}
 					<View className='shareBottom'>
 						<AtButton
 							className='share-btn'
