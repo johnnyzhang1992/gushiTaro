@@ -30,10 +30,11 @@ const PoemPostCard = (props) => {
 		width,
 		type,
 		bgColor = '#fff',
+		mini = false
 	} = props;
-	let pSize = 28; // 诗词字体大小
-	let tSize = 24; // 标题字号
-	let aSize = 16; // 作者字号
+	let pSize = mini ? 22 :28; // 诗词字体大小
+	let tSize = mini ? 18 : 24; // 标题字号
+	let aSize = mini ? 12 : 16; // 作者字号
 	const minColumn = sentence.titleArr.length + 2; // 最小列数
 	const column = Math.round(width / 50); // 计算列数
 	// 说明屏幕宽度过下，字体要缩小

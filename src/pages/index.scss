@@ -132,7 +132,7 @@
 			width: 100%;
 			height: 100%;
 			position: absolute;
-			background-color: rgba(0, 0, 0, 0.3);
+			background-color: rgba(0, 0, 0, 0.9);
 			opacity: 0;
 			-webkit-transition: opacity 150ms ease-in;
 			transition: opacity 150ms ease-in;
@@ -161,9 +161,9 @@
 		.shareLayout {
 			margin-bottom: 12px;
 			.title {
-				font-size: 28px;
-				line-height: 42px;
-				margin-bottom: 10px;
+				font-size: 24px;
+				line-height: 36px;
+				margin-bottom: 6px;
 				font-weight: 500;
 			}
 			.scrollContainer {

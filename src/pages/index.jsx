@@ -315,7 +315,7 @@ const Index = () => {
 					<View
 						className='post-container'
 						style={{
-							padding: 15,
+							padding: 12,
 						}}
 					>
 						<Snapshot
@@ -342,6 +342,7 @@ const Index = () => {
 										sentence={sentence}
 										width={safeArea.width - 40}
 										type={postConfig.letterBorder}
+										mini
 									/>
 								</View>
 								<View
@@ -425,8 +426,8 @@ const Index = () => {
 											}`}
 											style={{
 												backgroundColor: color.value,
-												width: 30,
-												height: 30,
+												width: 25,
+												height: 25,
 												padding: 4,
 												marginRight: 10,
 											}}
@@ -449,8 +450,8 @@ const Index = () => {
 									src={Qrcode}
 									className='qrcode'
 									style={{
-										height: 22,
-										width: 22,
+										height: 20,
+										width: 20,
 									}}
 								/>
 							</View>
