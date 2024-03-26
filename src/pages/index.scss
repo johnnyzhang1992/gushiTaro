@@ -132,7 +132,7 @@
 			width: 100%;
 			height: 100%;
 			position: absolute;
-			background-color: rgba(0, 0, 0, 0.9);
+			background-color: rgba(0, 0, 0, 0.6);
 			opacity: 0;
 			-webkit-transition: opacity 150ms ease-in;
 			transition: opacity 150ms ease-in;
@@ -141,8 +141,6 @@
 			position: absolute;
 			bottom: 0;
 			width: 100%;
-			// min-height: 12.8rem;
-			// max-height: 20.26667rem;
 			border-radius: 20rpx 20rpx 0 0;
 			padding: 20rpx 30rpx;
 			background-color: #fff;

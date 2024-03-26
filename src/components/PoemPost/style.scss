@@ -19,6 +19,7 @@
 		.text {
 			display: block;
 			text-align: center;
+			line-height: 100%;
 		}
 		&.title {
 			justify-content: flex-end;
@@ -54,6 +55,24 @@
 			border-right: unset;
 			&:last-child {
 				border-right: 2px solid #212321;
+			}
+		}
+	}
+	&.center {
+		justify-content: center;
+		.postItem {
+			flex: unset;
+			padding: 5% 10px 15% 20px;
+			&.poem {
+				justify-content: center;
+			}
+			&.title {
+				padding-left: 12px;
+			}
+			&.author {
+				.author-container {
+					transform: translateY(-20px);
+				}
 			}
 		}
 	}

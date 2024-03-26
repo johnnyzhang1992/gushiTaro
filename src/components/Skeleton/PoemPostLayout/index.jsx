@@ -30,14 +30,14 @@ const PoemPostLayout = ({
 				className='thin'
 				style={{
 					backgroundColor: borderColor,
-					height: type !== 'default' ? '100%' : '80%'
+					height: type.includes('letter') ? '100%' : '80%'
 				}}
 			></View>
 			<View
 				className='thin'
 				style={{
 					backgroundColor: borderColor,
-					height: type !== 'default' ? '100%' : '80%'
+					height: type.includes('letter') ? '100%' : '80%'
 				}}
 			></View>
 		</View>

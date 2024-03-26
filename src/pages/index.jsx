@@ -39,6 +39,10 @@ const letterLayoutConfig = [
 		color: '#333',
 	},
 	{
+		name: 'center',
+		color: '#333',
+	},
+	{
 		name: 'blackBorder',
 		color: '#212321',
 	},
