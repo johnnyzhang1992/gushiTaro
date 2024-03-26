@@ -55,10 +55,16 @@
 			}
 		}
 	}
+	.post-container {
+		flex: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
 	.poemShot {
 		width: 100%;
 		box-sizing: border-box;
-		font-family: ChillKai;
+		font-family: ChillKai, serif;
 	}
 
 	.poemCard {
@@ -69,7 +75,6 @@
 		background-color: #fff;
 		display: flex;
 		flex-direction: column;
-		font-family: ChillKai;
 		box-sizing: border-box;
 		// border-radius: 16px;;
 		.container {
@@ -177,6 +182,19 @@
 					}
 					&.active {
 						border: 6px solid  #337ab7;
+					}
+				}
+				.ratio-item {
+					font-size: 24px;
+					padding: 12px 20px;
+					border: 2px solid #333;
+					margin-right: 20px;
+					border-radius: 8px;
+					&:last-child {
+						margin-right: 0;
+					}
+					&.active {
+						border-color: #337ab7;
 					}
 				}
 			}

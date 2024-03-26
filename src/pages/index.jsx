@@ -74,6 +74,17 @@ const bgColorArr = [
 		fontColor: '#fff',
 	},
 ];
+// 模式
+const ratioConfig = [
+	{
+		name: '小红书',
+		value: 0.75,
+	},
+	{
+		name: '手机壁纸',
+		value: 0.4615,
+	},
+];
 const Index = () => {
 	const [date] = useState(() => {
 		return Utils.formatDate().join('/');
@@ -86,12 +97,12 @@ const Index = () => {
 		width: 375,
 	});
 	const [postConfig, updateConfig] = useState({
-		type: 'default',
+		type: 'default', // default center letter horiv
 		showQrcode: true,
 		letterBorder: 'default', // redBorder blankBorder
 		bgColor: '#fff',
 		fontColor: '#333',
-		ratio: 0.75, // 显示比例 3:4 9:16
+		ratio: 0.75, // 显示比例 0.75 0.46
 	});
 	const MenuRect = Taro.getMenuButtonBoundingClientRect();
 	const deviceInfo = Taro.getDeviceInfo();
@@ -129,6 +140,14 @@ const Index = () => {
 			...postConfig,
 			bgColor: color || '#fff',
 			fontColor: fontColor || '#333',
+		});
+	};
+
+	const selecrRatio = (e) => {
+		const { ratio } = e.currentTarget.dataset;
+		updateConfig({
+			...postConfig,
+			ratio: ratio || 0.75,
 		});
 	};
 
@@ -229,6 +248,11 @@ const Index = () => {
 
 	const isPc = ['mac', 'windows'].includes(deviceInfo.platform);
 	const LeaveTop = isPc ? 10 : MenuRect.top;
+	let contentWidth = safeArea.width * 0.9;
+	const maxHeight = safeArea.height - LeaveTop - MenuRect.height - 40
+	if (maxHeight < contentWidth / postConfig.ratio) {
+		contentWidth = maxHeight * postConfig.ratio
+	}
 
 	return (
 		<View
@@ -247,66 +271,69 @@ const Index = () => {
 					transform: `translateY(${isPc ? 0 : 5}px)`,
 				}}
 			>
-				{!isPc ? (
-					<View className='share-btn share' onClick={handleShow}>
-						<View className='at-icon at-icon-share'></View>
-						<Text className='text'>分享</Text>
-					</View>
-				) : null}
+				<View className='share-btn share' onClick={handleShow}>
+					<View className='at-icon at-icon-share'></View>
+					<Text className='text'>分享</Text>
+				</View>
 				<View className='share-btn reload' onClick={handleReload}>
 					<View className='at-icon at-icon-reload'></View>
 					<Text className='text'>换一换</Text>
 				</View>
 			</View>
 			{/* 画报 */}
-			<Snapshot
-				mode='view'
-				className='poemShot'
-				style={{
-					height: `calc(100% - ${LeaveTop + MenuRect.height - 20}px)`,
-					marginTop: '10px',
-				}}
-			>
-				<View
-					className='poemCard'
+			<View className='post-container'>
+				<Snapshot
+					mode='view'
+					className='poemShot'
+					id='poemCard'
 					style={{
-						padding: 10,
-						backgroundColor: postConfig.bgColor || '#fff',
-						color: postConfig.fontColor || '#333',
+						width: contentWidth,
+						height: contentWidth / postConfig.ratio,
 					}}
 				>
-					<View className='container'>
-						<PoemPostCard
-							bgColor={postConfig.bgColor || '#fff'}
-							sentence={sentence}
-							width={safeArea.width - 40}
-							type={postConfig.letterBorder}
-						/>
-					</View>
 					<View
-						className='bottom'
+						className='poemCard'
 						style={{
-							display: postConfig.showQrcode ? 'flex' : 'none',
+							padding: 10,
+							backgroundColor: postConfig.bgColor || '#fff',
+							color: postConfig.fontColor || '#333',
 						}}
 					>
-						<View className='date'>
-							<View className='yangli'>
-								<Text className='text'>{date}</Text>
-							</View>
-							<View className='nongli'>
-								<Text className='text'>甲辰龙年</Text>
-							</View>
-						</View>
-						<View className='desc'>
-							<Image
-								src={xcxPng}
-								showMenuByLongpress
-								className='xcxImg'
+						<View className='container'>
+							<PoemPostCard
+								bgColor={postConfig.bgColor || '#fff'}
+								sentence={sentence}
+								width={safeArea.width - 40}
+								type={postConfig.letterBorder}
 							/>
 						</View>
+						<View
+							className='bottom'
+							style={{
+								display: postConfig.showQrcode
+									? 'flex'
+									: 'none',
+							}}
+						>
+							<View className='date'>
+								<View className='yangli'>
+									<Text className='text'>{date}</Text>
+								</View>
+								<View className='nongli'>
+									<Text className='text'>甲辰龙年</Text>
+								</View>
+							</View>
+							<View className='desc'>
+								<Image
+									src={xcxPng}
+									showMenuByLongpress
+									className='xcxImg'
+								/>
+							</View>
+						</View>
 					</View>
-				</View>
-			</Snapshot>
+				</Snapshot>
+			</View>
 			{/* 半屏展示全文 */}
 			<View
 				style={{
@@ -316,76 +343,12 @@ const Index = () => {
 			>
 				<view className='overlay' onClick={handleClose}></view>
 				<View className='layoutContainer'>
-					<View
-						className='post-container'
-						style={{
-							padding: 12,
-						}}
-					>
-						<Snapshot
-							mode='view'
-							className='poemShot'
-							id='poemCard'
-							style={{
-								width: safeArea.width - 60,
-								height: (safeArea.width - 60) / 0.75,
-							}}
-						>
-							<View
-								className='poemCard'
-								style={{
-									padding: 10,
-									backgroundColor:
-										postConfig.bgColor || '#fff',
-									color: postConfig.fontColor || '#333',
-								}}
-							>
-								<View className='container'>
-									<PoemPostCard
-										bgColor={postConfig.bgColor || '#fff'}
-										sentence={sentence}
-										width={safeArea.width - 40}
-										type={postConfig.letterBorder}
-										mini
-									/>
-								</View>
-								<View
-									className='bottom'
-									style={{
-										display: postConfig.showQrcode
-											? 'flex'
-											: 'none',
-									}}
-								>
-									<View className='date'>
-										<View className='yangli'>
-											<Text className='text'>{date}</Text>
-										</View>
-										<View className='nongli'>
-											<Text className='text'>
-												甲辰龙年
-											</Text>
-										</View>
-									</View>
-									<View className='desc'>
-										<Image
-											src={xcxPng}
-											showMenuByLongpress
-											className='xcxImg'
-										/>
-									</View>
-								</View>
-							</View>
-						</Snapshot>
-					</View>
 					{/* 布局 */}
 					<View className='shareLayout'>
 						<View className='title'>
 							<Text className='text'>布局</Text>
 						</View>
-						<View
-							className='scrollContainer'
-						>
+						<View className='scrollContainer'>
 							{letterLayoutConfig.map((layout) => {
 								return (
 									<PoemPostLayout
@@ -402,6 +365,31 @@ const Index = () => {
 										update={updateLayout}
 										activeType={postConfig.letterBorder}
 									/>
+								);
+							})}
+						</View>
+					</View>
+					{/* 模式，小红书和壁纸 */}
+					<View className='shareLayout'>
+						<View className='title'>
+							<Text className='text'>展示模式</Text>
+						</View>
+
+						<View className='scrollContainer ratio-list'>
+							{ratioConfig.map((ratio) => {
+								return (
+									<View
+										key={ratio.value}
+										data-ratio={ratio.value}
+										onClick={selecrRatio}
+										className={`ratio-item ${
+											postConfig.ratio == ratio.value
+												? 'active'
+												: ''
+										}`}
+									>
+										{ratio.name}
+									</View>
 								);
 							})}
 						</View>
@@ -469,6 +457,9 @@ const Index = () => {
 							size='small'
 							circle
 							onClick={handleDownload}
+							style={{
+								display: isPc ? 'flex' : 'none',
+							}}
 						>
 							<View className='at-icon at-icon-download'></View>
 							<Text>保存</Text>
