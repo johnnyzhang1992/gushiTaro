@@ -71,8 +71,9 @@
 				display: none;
 			}
 			&.author {
+				padding-left: 0;
 				.author-container {
-					transform: translateY(-20px);
+					transform: translateY(-40px);
 				}
 			}
 		}

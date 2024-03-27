@@ -52,9 +52,8 @@ const App = (props) => {
 		});
 		userLogin();
 		Taro.loadFontFace({
-			global: true,
 			family: 'ChillKai',
-			source: 'url("https://assets.xuegushi.com/fonts/HuiwenMingchao/HuiwenMingchao.ttf")',
+			source: 'url("https://assets.xuegushi.com/fonts/AlimamaDaoLiTi/AlimamaDaoLiTi.ttf")',
 			scopes: ['webview', 'native'],
 			success: (res) => {
 				console.log('success', res.status);

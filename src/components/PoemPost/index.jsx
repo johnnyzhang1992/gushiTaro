@@ -30,14 +30,14 @@ const PoemPostCard = (props) => {
 		width,
 		type,
 		letterBorder = '',
-		bgColor = '#fff',
-		mini = false,
+		mode = 'post'
 	} = props;
-	let pSize = mini ? 22 : 28; // 诗词字体大小
-	let tSize = mini ? 18 : 24; // 标题字号
-	let aSize = mini ? 12 : 16; // 作者字号
+	let pSize = 28; // 诗词字体大小
+	let tSize = 24; // 标题字号
+	let aSize = 16; // 作者字号
 	if (type === 'center') {
-		pSize = mini ? 26 : 32
+		pSize = mode === 'bg' ? 28 : 30
+		aSize = 14
 	}
 	const minColumn = sentence.titleArr.length + 1; // 最小列数
 	const column = Math.round(width / 60); // 计算列数
@@ -94,9 +94,6 @@ const PoemPostCard = (props) => {
 			url={`/pages/poem/detail?id=${sentence.poem_id}`}
 			hoverClass='none'
 			className={`postCard ${type} ${letterBorder}`}
-			style={{
-				backgroundColor: bgColor,
-			}}
 		>
 			{textArr.map((item) => {
 				return (

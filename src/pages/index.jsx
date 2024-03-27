@@ -1,4 +1,4 @@
-import { View, Text, Snapshot, Image } from '@tarojs/components';
+import { View, Text, Snapshot, Image, ScrollView } from '@tarojs/components';
 import { useState, useEffect, useCallback } from 'react';
 import { AtButton } from 'taro-ui';
 import Taro, {
@@ -12,6 +12,7 @@ import xcxPng from '../images/xcx.jpg';
 import Qrcode from '../images/icon/qrcode.png';
 import Utils from '../utils/util';
 import { fetchRandomSentence } from '../services/global';
+import { postBgImages } from '../const/config';
 
 import PoemPostCard from '../components/PoemPost';
 import PoemPostLayout from '../components/Skeleton/PoemPostLayout';
@@ -52,30 +53,36 @@ const letterLayoutConfig = [
 	},
 ];
 // 背景色 fontColor
-const bgColorArr = [
-	{
-		value: '#fff',
-	},
-	{
-		value: 'rgba(14,14,15)',
-		fontColor: '#fff',
-	},
-	{
-		value: 'rgba(204,189,153)',
-	},
-	{
-		value: 'rgba(247,215,174)',
-	},
-	{
-		value: 'rgba(170,134,83)',
-	},
-	{
-		value: '#6c9180',
-		fontColor: '#fff',
-	},
-];
+// const bgColorArr = [
+// 	{
+// 		value: '#fff',
+// 	},
+// 	{
+// 		value: 'rgba(14,14,15)',
+// 		fontColor: '#fff',
+// 	},
+// 	{
+// 		value: 'rgba(204,189,153)',
+// 	},
+// 	{
+// 		value: 'rgba(247,215,174)',
+// 	},
+// 	{
+// 		value: 'rgba(170,134,83)',
+// 	},
+// 	{
+// 		value: '#6c9180',
+// 		fontColor: '#fff',
+// 	},
+// ];
+// 字体颜色
+const fontColorArr = ['#fff', '#333'];
 // 模式
 const ratioConfig = [
+	{
+		name: '默认',
+		value: 1,
+	},
 	{
 		name: '小红书',
 		value: 0.75,
@@ -101,6 +108,7 @@ const Index = () => {
 		showQrcode: true,
 		letterBorder: 'default', // redBorder blankBorder
 		bgColor: '#fff',
+		bgImg: postBgImages[0], // 背景图
 		fontColor: '#333',
 		ratio: 0.75, // 显示比例 0.75 0.46
 	});
@@ -134,12 +142,18 @@ const Index = () => {
 		});
 	};
 
-	const selectBgColor = (e) => {
-		const { color, fontColor } = e.currentTarget.dataset;
+	const selectFontColor = (e) => {
+		const { fontColor } = e.currentTarget.dataset;
 		updateConfig({
 			...postConfig,
-			bgColor: color || '#fff',
 			fontColor: fontColor || '#333',
+		});
+	};
+	const selectBgImg = (e) => {
+		const { img } = e.currentTarget.dataset;
+		updateConfig({
+			...postConfig,
+			bgImg: img,
 		});
 	};
 
@@ -249,9 +263,16 @@ const Index = () => {
 	const isPc = ['mac', 'windows'].includes(deviceInfo.platform);
 	const LeaveTop = isPc ? 10 : MenuRect.top;
 	let contentWidth = safeArea.width * 0.9;
-	const maxHeight = safeArea.height - LeaveTop - MenuRect.height - 40
+	const maxHeight = safeArea.height - LeaveTop - MenuRect.height - 60;
 	if (maxHeight < contentWidth / postConfig.ratio) {
-		contentWidth = maxHeight * postConfig.ratio
+		contentWidth = maxHeight * postConfig.ratio;
+	}
+	const contentHeight =
+		postConfig.ratio === 1
+			? safeArea.height - LeaveTop - MenuRect.height - 60
+			: contentWidth / postConfig.ratio;
+	if (postConfig.ratio === 1) {
+		contentWidth = safeArea.width - 30;
 	}
 
 	return (
@@ -288,7 +309,7 @@ const Index = () => {
 					id='poemCard'
 					style={{
 						width: contentWidth,
-						height: contentWidth / postConfig.ratio,
+						height: contentHeight,
 					}}
 				>
 					<View
@@ -297,14 +318,19 @@ const Index = () => {
 							padding: 10,
 							backgroundColor: postConfig.bgColor || '#fff',
 							color: postConfig.fontColor || '#333',
+							backgroundImage: postConfig.bgImg
+								? `url(${postConfig.bgImg})`
+								: 'unset',
 						}}
 					>
 						<View className='container'>
 							<PoemPostCard
 								bgColor={postConfig.bgColor || '#fff'}
 								sentence={sentence}
+								fontColor={postConfig.fontColor}
 								width={safeArea.width - 40}
 								type={postConfig.letterBorder}
+								mode={postConfig.ratio === 0.75 ? 'post' : 'bg'}
 							/>
 						</View>
 						<View
@@ -394,44 +420,88 @@ const Index = () => {
 							})}
 						</View>
 					</View>
-					{/* 背景色 */}
+					{/* 字体颜色 */}
 					<View className='shareLayout'>
 						<View className='title'>
-							<Text className='text'>背景色</Text>
+							<Text className='text'>字体颜色</Text>
 						</View>
 						<View className='layout-bottom'>
 							<View
 								className='scrollContainer'
 								style={{
-									width: 'calc(100% - 50px)',
+									width: '100%',
 								}}
 							>
-								{bgColorArr.map((color) => {
+								{fontColorArr.map((color) => {
 									return (
 										<View
-											key={color.value}
+											key={color}
 											className={`color-item bgColor ${
-												postConfig.bgColor ===
-												color.value
+												postConfig.fontColor === color
 													? 'active'
 													: ''
 											}`}
 											style={{
-												backgroundColor: color.value,
-												width: 25,
-												height: 25,
+												backgroundColor: color,
+												width: 30,
+												height: 30,
 												padding: 4,
 												marginRight: 10,
 											}}
-											data-color={color.value}
-											data-fontColor={
-												color.fontColor || ''
-											}
-											onClick={selectBgColor}
+											data-fontColor={color || ''}
+											onClick={selectFontColor}
 										></View>
 									);
 								})}
 							</View>
+						</View>
+					</View>
+					{/* 背景图 */}
+					<View className='shareLayout'>
+						<View className='title'>
+							<Text className='text'>背景色</Text>
+						</View>
+						<View className='layout-bottom'>
+							<ScrollView
+								scrollX
+								enableFlex
+								enhanced
+								showScrollbar={false}
+								className='scrollContainer bgImgList'
+								style={{
+									height: 36,
+									width: safeArea.width - 90,
+								}}
+							>
+								{postBgImages.map((img) => {
+									return (
+										<View
+											key={img}
+											className={`color-item bgImg ${
+												postConfig.bgImg === img
+													? 'active'
+													: ''
+											}`}
+											style={{
+												width: 30,
+												height: 30,
+												marginRight: 8,
+											}}
+											data-img={img}
+											onClick={selectBgImg}
+										>
+											<Image
+												src={img}
+												style={{
+													width: '100%',
+													height: '100%',
+													borderRadius: '50%',
+												}}
+											/>
+										</View>
+									);
+								})}
+							</ScrollView>
 							<View
 								className={`qrcode-container  ${
 									postConfig.showQrcode ? 'active' : ''

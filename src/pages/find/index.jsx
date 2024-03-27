@@ -30,7 +30,7 @@ const PostPage = () => {
 		Taro.stopPullDownRefresh()
 	})
 	return (
-		<View className='page'>
+		<View className='page findPage'>
 			{/* 搜索 */}
 			<AtSearchBar
 				actionName='搜一下'
