@@ -374,25 +374,42 @@ const Index = () => {
 						<View className='title'>
 							<Text className='text'>布局</Text>
 						</View>
-						<View className='scrollContainer'>
-							{letterLayoutConfig.map((layout) => {
-								return (
-									<PoemPostLayout
-										type={layout.name}
-										key={layout.name}
-										style={{
-											width: 30,
-											height: 40,
-											marginRight: 10,
-											borderColor: layout.color,
-										}}
-										borderColor={layout.color}
-										letterBorder={layout.name}
-										update={updateLayout}
-										activeType={postConfig.letterBorder}
-									/>
-								);
-							})}
+						<View className='layout-bottom'>
+							<View className='scrollContainer'>
+								{letterLayoutConfig.map((layout) => {
+									return (
+										<PoemPostLayout
+											type={layout.name}
+											key={layout.name}
+											style={{
+												width: 30,
+												height: 40,
+												marginRight: 10,
+												borderColor: layout.color,
+											}}
+											borderColor={layout.color}
+											letterBorder={layout.name}
+											update={updateLayout}
+											activeType={postConfig.letterBorder}
+										/>
+									);
+								})}
+							</View>
+							<View
+								className={`qrcode-container  ${
+									postConfig.showQrcode ? 'active' : ''
+								}`}
+								onClick={handleToggleBottom}
+							>
+								<Image
+									src={Qrcode}
+									className='qrcode'
+									style={{
+										height: 25,
+										width: 25,
+									}}
+								/>
+							</View>
 						</View>
 					</View>
 					{/* 模式，小红书和壁纸 */}
@@ -400,7 +417,6 @@ const Index = () => {
 						<View className='title'>
 							<Text className='text'>展示模式</Text>
 						</View>
-
 						<View className='scrollContainer ratio-list'>
 							{ratioConfig.map((ratio) => {
 								return (
@@ -469,8 +485,8 @@ const Index = () => {
 								showScrollbar={false}
 								className='scrollContainer bgImgList'
 								style={{
-									height: 36,
-									width: safeArea.width - 90,
+									height: 44,
+									width: safeArea.width - 30,
 								}}
 							>
 								{postBgImages.map((img) => {
@@ -492,48 +508,33 @@ const Index = () => {
 										>
 											<Image
 												src={img}
+												mode='widthFix'
+												className='bg-img'
 												style={{
-													width: '100%',
-													height: '100%',
-													borderRadius: '50%',
+													width: 30,
+													height: 30,
 												}}
 											/>
 										</View>
 									);
 								})}
 							</ScrollView>
-							<View
-								className={`qrcode-container  ${
-									postConfig.showQrcode ? 'active' : ''
-								}`}
-								onClick={handleToggleBottom}
-							>
-								<Image
-									src={Qrcode}
-									className='qrcode'
-									style={{
-										height: 20,
-										width: 20,
-									}}
-								/>
-							</View>
 						</View>
 					</View>
 					{/* 底部按钮 */}
 					<View className='shareBottom'>
-						<AtButton
-							className='share-btn'
-							type='primary'
-							size='small'
-							circle
-							onClick={handleDownload}
-							style={{
-								display: isPc ? 'flex' : 'none',
-							}}
-						>
-							<View className='at-icon at-icon-download'></View>
-							<Text>保存</Text>
-						</AtButton>
+						{!isPc ? (
+							<AtButton
+								className='share-btn'
+								type='primary'
+								size='small'
+								circle
+								onClick={handleDownload}
+							>
+								<View className='at-icon at-icon-download'></View>
+								<Text>保存</Text>
+							</AtButton>
+						) : null}
 						<AtButton
 							className='share-btn'
 							type='secondary'
