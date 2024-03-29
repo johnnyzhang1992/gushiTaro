@@ -14,7 +14,7 @@ const PoemContent = ({ type, lightWord, xu = '', content = [] }) => {
 					</Text>
 				</View>
 			) : null}
-			<View className={`content ${type !== '诗' ? 'wyw' : ''}`}>
+			<View className={`content ${type === '文言文' ? 'wyw' : ''}`}>
 				{content.map((item, index) => (
 					<View className='contentItem' key={index}>
 						<HighLightText

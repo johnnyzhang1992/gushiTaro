@@ -39,16 +39,24 @@ const Page = () => {
 		setBooks(newBooks);
 	};
 	const fetchBooks = (code, name) => {
+		Taro.showLoading({
+			title: '加载中...',
+		});
 		fetchBookData('GET', {
 			code,
 			name,
-		}).then((res) => {
-			if (res && res.statusCode === 200) {
-				console.log(res.data);
-				// 拿到数据后，按照 book分类，然后渲染
-				computeBook(res.data.poems || []);
-			}
-		});
+		})
+			.then((res) => {
+				if (res && res.statusCode === 200) {
+					console.log(res.data);
+					// 拿到数据后，按照 book分类，然后渲染
+					computeBook(res.data.poems || []);
+				}
+				Taro.hideLoading();
+			})
+			.catch(() => {
+				Taro.hideLoading();
+			});
 	};
 
 	useLoad((options) => {

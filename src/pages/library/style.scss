@@ -1,0 +1,18 @@
+.libraryPage {
+	font-family: ChillKai;
+	min-height: 100vh;
+	background-color: #efefef;
+	.tabs {
+		padding: 20px 30px 10px 30px;
+		box-sizing: border-box;
+	}
+	.tabContainer {
+		&.type {
+			padding: 30px 20px;
+			.sectionCard {
+				border-radius: 12px;
+				background-color: #fff;
+			}
+		}
+	}
+}

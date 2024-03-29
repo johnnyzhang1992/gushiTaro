@@ -1,0 +1,27 @@
+page {
+	font-family: ChillKai;
+}
+.findPage {
+	background-color: #efefef;
+	.homeNavs {
+		background-color: #fff;
+	}
+	.sectionCard {
+		background: #fff;
+		margin: 20rpx;
+		border-radius: 12rpx;
+		.cardItem {
+			max-height: 250px;
+		}
+		.scroll-container {
+			white-space: nowrap;
+			display: flex;
+			flex-wrap: nowrap;
+		}
+		.book-cover {
+			width: 33%;
+			height: 280rpx;
+			flex: none;
+		}
+	}
+}

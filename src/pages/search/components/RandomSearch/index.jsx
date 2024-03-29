@@ -56,10 +56,11 @@ const RandomSearch = () => {
 				}
 			>
 				<Swiper
-					className='hotPoemsSwiper'
+					className='hotPoemsSwiper poets'
 					indicatorColor='#999'
 					indicatorActiveColor='#333'
 					vertical={false}
+					interval={4000}
 					circular
 					indicatorDots
 					autoplay
@@ -86,7 +87,7 @@ const RandomSearch = () => {
 				}
 			>
 				<Swiper
-					className='hotPoemsSwiper'
+					className='hotPoemsSwiper sentences'
 					indicatorColor='#999'
 					indicatorActiveColor='#333'
 					vertical={false}
@@ -120,10 +121,11 @@ const RandomSearch = () => {
 				}
 			>
 				<Swiper
-					className='hotPoemsSwiper'
+					className='hotPoemsSwiper poems'
 					indicatorColor='#999'
 					indicatorActiveColor='#333'
 					vertical={false}
+					interval={6000}
 					circular
 					indicatorDots
 					autoplay

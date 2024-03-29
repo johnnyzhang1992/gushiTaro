@@ -1,0 +1,25 @@
+page {
+	padding: 0;
+}
+.header {
+	width: 100%;
+	min-height: 140px;
+	background: url("https://xuegushi.com/static/wx/h_bg.jpg") center center
+		no-repeat;
+	background-size: cover;
+	overflow-x: hidden;
+	position: relative;
+	.header-bottom {
+		position: absolute;
+		left: 30px;
+		right: 30px;
+		bottom: 0;
+	}
+	.boat-container {
+		display: inline-block;
+	}
+	.boat {
+		width: 96px;
+		height: 60px;
+	}
+}

@@ -1,0 +1,24 @@
+.layout-container {
+	border: 2px solid #333;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	.thin {
+		width: 4px;
+		background-color: #333;
+		height: 80%;
+		margin-right: 10%;
+	}
+	&.center {
+		justify-content: center;
+		.thin:last-child {
+			margin-right: 0;
+		}
+	}
+	&.active {
+		border: solid 4px #337ab7;
+	}
+	&:last-child {
+		margin-right: 0;
+	}
+}

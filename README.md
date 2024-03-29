@@ -58,7 +58,7 @@ Give a ⭐️ if this project helped you!
 
 ## License
 
-Copyright © 2023 [johnnyzhang1992](https://github.com/johnnyzhang1992).
+Copyright © 2024 [johnnyzhang1992](https://github.com/johnnyzhang1992).
 
 ---
 

@@ -24,7 +24,6 @@
 		display: block;
 		letter-spacing: 6px;
 		padding: 60px 0 60px 30px;
-		font-family: SimSun, FangSong, STSong, STZhongsong, LiSu, KaiTi,PingFangSC-Light, PingFang S, "Microsoft YaHei";
 	}
 	.sentence-origin {
 		text-align: right;
@@ -119,6 +118,23 @@
 		border: 1px solid #337ab7!important;
 		&::after {
 			border: unset;
+		}
+	}
+}
+.sentenceIndex {
+	background-color: #efefef;
+	.keywordFilter {
+		background-color: #fff;
+	}
+	.pageContainer {
+		background-color: #efefef;
+		.sentenceCard {
+			padding: 16rpx 16rpx;
+			position: relative;
+			border-bottom: unset;
+			background: #fff;
+			margin: 20rpx 0 ;
+			border-radius: 8rpx;
 		}
 	}
 }

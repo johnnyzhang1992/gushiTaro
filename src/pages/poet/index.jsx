@@ -139,7 +139,6 @@ const PoetPage = () => {
 				) : null}
 				<Text decode>共 {pagination.total} 条结果</Text>
 			</View>
-			<View className='divide' />
 			{/* 列表 */}
 			<View className='pageContainer'>
 				{data.list.map((item) => {

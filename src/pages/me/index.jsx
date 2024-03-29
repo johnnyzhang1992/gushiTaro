@@ -1,7 +1,6 @@
-import { View, Button, Image, Text, Navigator, Ad } from '@tarojs/components';
+import { View, Button, Image, Text, Navigator } from '@tarojs/components';
 import { useState, useRef } from 'react';
 import Taro, { useLoad, useDidShow, usePullDownRefresh } from '@tarojs/taro';
-import { useNavigationBar } from 'taro-hooks';
 
 import SectionCard from '../../components/SectionCard';
 
@@ -14,14 +13,16 @@ import poetPng from '../../images/icon/poet.png';
 import xcxPng from '../../images/xcx.jpg';
 
 const MeIndex = () => {
-	const { setTitle } = useNavigationBar({ title: '个人中心' });
 	const [userInfo, setInfo] = useState({
 		poem_count: 0,
 		poet_count: 0,
 		sentence_count: 0,
 		user_id: -1,
 	});
+	const [safeArea, setSafeArea] = useState({});
 	const isCreate = useRef(false);
+	const deviceInfo = Taro.getDeviceInfo();
+	const isPc = ['mac', 'windows'].includes(deviceInfo.platform);
 
 	const fetchInfo = (id) => {
 		const user = Taro.getStorageSync('user');
@@ -136,13 +137,6 @@ const MeIndex = () => {
 			});
 	};
 
-	// const handleZanshang = () => {
-	// 	Taro.previewImage({
-	// 		current: BaseUrl + '/static/xcx/zanshang.jpeg', // 当前显示图片的http链接
-	// 		urls: [BaseUrl + '/static/xcx/zanshang.jpeg'], // 需要预览的图片http链接列表
-	// 	});
-	// };
-
 	const navigateToAbout = () => {
 		Taro.navigateTo({
 			url: '/pages/post/index?type=about',
@@ -152,11 +146,14 @@ const MeIndex = () => {
 	useLoad((options) => {
 		console.log(options);
 		const user = Taro.getStorageSync('user') || {};
+		Taro.getSystemInfo().then((sysRes) => {
+			setSafeArea(sysRes.safeArea || {});
+		});
+
 		setInfo((pre) => ({
 			...pre,
 			...user,
 		}));
-		setTitle('个人中心');
 	});
 
 	useDidShow(() => {
@@ -177,7 +174,12 @@ const MeIndex = () => {
 	return (
 		<View className='page mePage'>
 			{/* 用户信息和登录 */}
-			<View className='meTop'>
+			<View
+				className='meTop'
+				style={{
+					paddingTop: !isPc ? safeArea.top : 0,
+				}}
+			>
 				{userInfo.user_id > 0 ? (
 					<Navigator
 						className='userInfoCard'
@@ -194,7 +196,10 @@ const MeIndex = () => {
 							<Text className='text'>
 								{userInfo.name || userInfo.nickName}
 							</Text>
-							<Text className='icon at-icon at-icon-settings'></Text>
+							<View className='setting'>
+								<Text className='text'>编辑资料</Text>
+								<Text className='icon at-icon at-icon-settings'></Text>
+							</View>
 						</View>
 					</Navigator>
 				) : (
@@ -210,99 +215,79 @@ const MeIndex = () => {
 					</View>
 				)}
 			</View>
-			{/* 我的收藏 */}
-			<SectionCard title='我的收藏'>
-				<View className='sectionItems'>
-					<Navigator
-						className='item'
-						hoverClass='none'
-						url='/pages/me/collect?type=poem'
-					>
-						<View className='name'>诗词文言</View>
-						<View className='num'>{userInfo.poem_count}</View>
-					</Navigator>
-					<Navigator
-						className='item'
-						hoverClass='none'
-						url='/pages/me/collect?type=sentence'
-					>
-						<View className='name'>名句摘录</View>
-						<View className='num'>{userInfo.sentence_count}</View>
-					</Navigator>
-					<Navigator
-						className='item'
-						hoverClass='none'
-						url='/pages/me/collect?type=author'
-					>
-						<View className='name'>诗人</View>
-						<View className='num'>{userInfo.poet_count}</View>
-					</Navigator>
-				</View>
-			</SectionCard>
-			<View className='divide' />
-			{/* 关于我们 */}
-			<SectionCard
-				title='关于我们'
-				extra={<View className='icon at-icon at-icon-chevron-right' />}
-				titleClick={navigateToAbout}
-			></SectionCard>
-			<View className='divide' />
-			{/* 小程序码 */}
-			<SectionCard
-				title='小程序码'
-				extra={
-					<Button
-						openType='contact'
-						size='small'
-						type='primary'
-						className='fankuiBtn'
-					>
-						<Text className='at-icon at-icon-help icon'></Text>
-						<Text className='text'>问题反馈</Text>
-					</Button>
-				}
-			>
-				<View className='imgContainer'>
-					<Image
-						src={xcxPng}
-						showMenuByLongpress
-						className='xcxImg'
-					/>
-					<View className='intro'>
-						<Text className='text' userSelect>
-							长按图片可保存到本地或分享给朋友
-						</Text>
-					</View>
-				</View>
-			</SectionCard>
-			<View className='divide' />
-			{/* 赞赏 */}
-			{/* <SectionCard
-				title='天冷了，给程序员小哥哥买杯热咖啡'
-				titleClick={handleZanshang}
-				extra={<View className='icon at-icon at-icon-chevron-right' />}
-			></SectionCard>
-			<View className='divide' /> */}
-			<Ad unit-id='adunit-bf6445b29863936e' />
-			{/* copyright */}
-			<View className='copyright'>
-				<Text className='text' decode userSelect>
-					2024 &copy; xuegushi.com
-				</Text>
-			</View>
-			{userInfo.user_id && userInfo.user_id === 10 ? (
-				<SectionCard
-					title='数据统计'
-					style={{
-						paddingBottom: '30px',
-					}}
-					extra={
-						<Navigator url='/pages/admin/index'>
-							=&gt;进入
+			<View className='pageContainer'>
+				{/* 我的收藏 */}
+				<SectionCard title='我的收藏'>
+					<View className='sectionItems'>
+						<Navigator
+							className='item'
+							hoverClass='none'
+							url='/pages/me/collect?type=poem'
+						>
+							<View className='name'>诗词文言</View>
+							<View className='num'>{userInfo.poem_count}</View>
 						</Navigator>
+						<Navigator
+							className='item'
+							hoverClass='none'
+							url='/pages/me/collect?type=sentence'
+						>
+							<View className='name'>名句摘录</View>
+							<View className='num'>
+								{userInfo.sentence_count}
+							</View>
+						</Navigator>
+						<Navigator
+							className='item'
+							hoverClass='none'
+							url='/pages/me/collect?type=author'
+						>
+							<View className='name'>诗人</View>
+							<View className='num'>{userInfo.poet_count}</View>
+						</Navigator>
+					</View>
+				</SectionCard>
+				{/* 关于我们 */}
+				<SectionCard
+					title='关于我们'
+					extra={
+						<View className='icon at-icon at-icon-chevron-right' />
 					}
-				/>
-			) : null}
+					titleClick={navigateToAbout}
+				>
+					<View className='imgContainer'>
+						<Image
+							src={xcxPng}
+							showMenuByLongpress
+							className='xcxImg'
+						/>
+						<View className='intro'>
+							<Text className='text' userSelect>
+								长按图片可保存到本地或分享给朋友
+							</Text>
+						</View>
+					</View>
+				</SectionCard>
+				{/* copyright */}
+				<View className='copyright'>
+					<Text className='text' decode userSelect>
+						2024 &copy; xuegushi.com
+					</Text>
+				</View>
+				{userInfo.user_id && userInfo.user_id === 10 ? (
+					<SectionCard
+						title='数据统计'
+						style={{
+							paddingBottom: '30px',
+						}}
+						extra={
+							<Navigator url='/pages/admin/index'>
+								=&gt;进入
+							</Navigator>
+						}
+					/>
+				) : null}
+			</View>
 		</View>
 	);
 };

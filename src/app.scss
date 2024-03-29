@@ -1,21 +1,31 @@
 // @import "~taro-ui/dist/style/index.scss";
 $color-brand: #337ab7;
 @import '~taro-ui/dist/style/components/icon.scss';
-@import "~taro-ui/dist/style/components/float-layout.scss";
-@import "~taro-ui/dist/style/components/tag.scss";
-@import "~taro-ui/dist/style/components/tabs.scss";
-@import "~taro-ui/dist/style/components/progress.scss";
-@import "~taro-ui/dist/style/components/search-bar.scss";
-@import "~taro-ui/dist/style/components/fab.scss";
+@import '~taro-ui/dist/style/components/float-layout.scss';
+@import '~taro-ui/dist/style/components/tag.scss';
+@import '~taro-ui/dist/style/components/tabs.scss';
+@import '~taro-ui/dist/style/components/progress.scss';
+@import '~taro-ui/dist/style/components/search-bar.scss';
+@import '~taro-ui/dist/style/components/fab.scss';
+@import '~taro-ui/dist/style/components/nav-bar.scss';
+@import '~taro-ui/dist/style/components/segmented-control.scss';
+@import '~taro-ui/dist/style/components/button.scss';
 
+@font-face {
+	font-family: 'ChillKai';
+	src: url('https://assets.xuegushi.com/fonts/AlimamaDaoLiTi/AlimamaDaoLiTi.ttf')
+		format('truetype');
+}
 page {
 	// line-height: 1.6;
-	// font-family: -apple-system-font, 'Helvetica Neue', sans-serif;
 	color: #121212;
 	padding: 0;
 	// box-sizing: border-box;
 	// letter-spacing: 0.5px;
-	font-family: PingFangSC-Light, PingFang S;
+	font-family: ChillKai, serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	color: #333;
+	font-size: 28rpx;
+	-webkit-font-smoothing: antialiased;
 	// padding-bottom: env(safe-area-inset-bottom);
 }
 .divide {
@@ -37,8 +47,8 @@ page {
 }
 .navigator {
 	color: #337ab7;
-    font-size: 28rpx;
-    font-weight: 400;
+	font-size: 28rpx;
+	font-weight: 400;
 }
 .keywordFilter {
 	color: #999;
@@ -48,7 +58,7 @@ page {
 		position: relative;
 		padding-right: 30px;
 		&::after {
-			content: "/";
+			content: '/';
 			position: absolute;
 			right: 0;
 			padding: 0 6px;

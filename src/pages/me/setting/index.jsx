@@ -147,16 +147,6 @@ const SettingPage = () => {
 						/>
 					</View>
 				</View>
-				<View className='formBtns'>
-					<Button
-						size='small'
-						type='primary'
-						formType='submit'
-						className='submitBtn'
-					>
-						保存
-					</Button>
-				</View>
 				<View className='agressContainer'>
 					<Switch name='agree' type='checkbox' controlled={false} />
 					<Navigator
@@ -166,6 +156,16 @@ const SettingPage = () => {
 					>
 						《用户服务协议及隐私条款》
 					</Navigator>
+				</View>
+				<View className='formBtns'>
+					<Button
+						size='small'
+						type='primary'
+						formType='submit'
+						className='submitBtn'
+					>
+						保存
+					</Button>
 				</View>
 			</Form>
 		</View>

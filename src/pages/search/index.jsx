@@ -70,9 +70,10 @@ const SearchPage = () => {
 		Taro.setStorageSync('showSearchTips', 'close');
 	};
 
-	const handleSearch = () => {
-		console.log('搜索词：', keyword);
-		if (!keyword.trim()) {
+	const handleSearch = (key) => {
+		console.log('搜索词：', keyword, key);
+		const searchKey = typeof key === 'string' ? key : keyword
+		if (!searchKey.trim()) {
 			Taro.showToast({
 				title: '搜点啥呢ლ(′◉❥◉｀ლ)',
 				icon: 'none',
@@ -80,7 +81,7 @@ const SearchPage = () => {
 			});
 			return false;
 		}
-		if (keyword.trim().length > 9) {
+		if (searchKey.trim().length > 9) {
 			Taro.showToast({
 				title: '搜索词并不是越长越好哦！',
 				icon: 'none',
@@ -88,7 +89,7 @@ const SearchPage = () => {
 			});
 		}
 		// 处理过的搜索词
-		const KeyWord = keyword.trim().substring(0, 9);
+		const KeyWord = searchKey.trim().substring(0, 9);
 		updateStatus(true);
 		if (cacheRef.current[KeyWord]) {
 			updateResult(cacheRef.current[KeyWord]);
@@ -136,8 +137,13 @@ const SearchPage = () => {
 
 	useLoad((options) => {
 		console.log('---page--load', options);
+		const { key = '' } = options
+		if (key) {
+			setKeyword(key)
+			handleSearch(key)
+		}
 		Taro.setNavigationBarTitle({
-			title: '搜索 | 古诗文小助手',
+			title: '搜索',
 		});
 		const tipStatus = Taro.getStorageSync('showSearchTips');
 		if (!tipStatus) {

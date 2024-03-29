@@ -151,7 +151,7 @@ const SentencePage = () => {
 	});
 
 	return (
-		<View className='page'>
+		<View className='page sentenceIndex'>
 			{/* 筛选区域 */}
 			<FilterContainer
 				categories={sentenceCategories}
@@ -178,7 +178,6 @@ const SentencePage = () => {
 				) : null}
 				<Text decode>共 {pagination.total} 条结果</Text>
 			</View>
-			<View className='divide' />
 			<View className='pageContainer'>
 				{data.list.map((sentence) => (
 					<SentenceCard

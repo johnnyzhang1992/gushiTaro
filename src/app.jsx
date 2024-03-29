@@ -51,6 +51,18 @@ const App = (props) => {
 			Taro.setStorageSync('sys_info', sysRes);
 		});
 		userLogin();
+		Taro.loadFontFace({
+			global: true,
+			family: 'ChillKai',
+			source: 'url("https://assets.xuegushi.com/fonts/AlimamaDaoLiTi/AlimamaDaoLiTi.ttf")',
+			scopes: ['webview'],
+			success: (res) => {
+				console.log('success', res.status);
+			},
+			fail: function (res) {
+				console.error(res);
+			},
+		});
 	});
 
 	usePageNotFound(() => {

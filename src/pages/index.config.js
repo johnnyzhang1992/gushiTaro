@@ -1,5 +1,10 @@
 export default {
-  navigationBarTitleText: '首页 | 古诗文小助手',
-	enableShareAppMessage: true,
-	enableShareTimeline: true,
+  renderer: 'skyline',
+  navigationBarTitleText: '首页',
+  navigationBarTextStyle: 'white',
+  enablePullDownRefresh: false,
+  enableShareAppMessage: true,
+  enableShareTimeline: true,
+  navigationStyle: 'custom',
+  componentFramework: 'glass-easel',
 };
