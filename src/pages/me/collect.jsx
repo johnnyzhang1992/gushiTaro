@@ -7,6 +7,9 @@ import Taro, {
 	useReachBottom,
 } from '@tarojs/taro';
 import { useNavigationBar } from 'taro-hooks';
+
+import './style.scss';
+
 import CollectContainer from './components/CollectContainer';
 
 const tabList = [

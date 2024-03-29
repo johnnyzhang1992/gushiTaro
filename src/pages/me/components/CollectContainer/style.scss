@@ -1,8 +1,16 @@
 .collectContainer {
-	padding: 20px 30px;
+	padding: 0 20px 20px;
 	.collectItem {
-		border-bottom: 2px solid #f5f5f5;
-		padding-bottom: 20px;
+		padding: 0 20px 20px;
+		background-color: #fff;
+		border-radius: 12px;
+		margin: 20rpx 0;
+		.poemSmallCard {
+			margin-bottom: 0;
+			&:last-child {
+				margin-top: 0;
+			}
+		}
 		.bottom {
 			display: flex;
 			justify-content: space-between;

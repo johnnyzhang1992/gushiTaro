@@ -220,7 +220,6 @@ const Poem = () => {
 				) : null}
 				<Text decode>共 {pagination.total} 条结果</Text>
 			</View>
-			<View className='divide' />
 			{/* 诗词列表 */}
 			<View className='pageContainer'>
 				{data.list.map((item) => {

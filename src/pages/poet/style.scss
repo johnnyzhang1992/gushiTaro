@@ -14,6 +14,7 @@
 		display: flex;
 		padding: 10px 30px;
 		align-items: center;
+		justify-content: center;
 		.name {
 			font-weight: 500;
 		}
@@ -32,6 +33,10 @@
 	height: 305px;
 }
 .poetIndex {
+	background-color: #efefef;
+	.keywordFilter {
+		background-color: #fff;
+	}
 	.filterContainer {
 		position: sticky;
 		top: 0;
@@ -39,5 +44,13 @@
 		opacity: 0.9;
 		padding: 20px 30px;
 		z-index: 99;
+	}
+	.poetCard {
+		display: flex;
+		padding: 20rpx 20rpx;
+		border-bottom: unset;
+		background: #fff;
+		margin: 20rpx 0;
+		border-radius: 12rpx;
 	}
 }

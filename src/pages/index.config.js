@@ -6,4 +6,5 @@ export default {
   enableShareAppMessage: true,
   enableShareTimeline: true,
   navigationStyle: 'custom',
+  componentFramework: 'glass-easel',
 };

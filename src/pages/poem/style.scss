@@ -7,6 +7,7 @@
 	width: 100%;
 	box-sizing: border-box;
 	text-align: center;
+	background-color: #fff;
 	.title {
 		color: #333;
 	}
@@ -16,7 +17,7 @@
 	}
 }
 .pageContainer {
-	padding: 0 30px;
+	padding: 0 20px;
 }
 .copyContainer {
 	background-color: #337ab7;
@@ -59,6 +60,10 @@
 	}
 }
 .poemIndex {
+	background-color: #efefef;
+	.keywordFilter{
+		background-color: #fff;
+	}
 	.filterContainer {
 		position: sticky;
 		top: 0;
