@@ -60,6 +60,7 @@ const RandomSearch = () => {
 					indicatorColor='#999'
 					indicatorActiveColor='#333'
 					vertical={false}
+					interval={4000}
 					circular
 					indicatorDots
 					autoplay
@@ -124,6 +125,7 @@ const RandomSearch = () => {
 					indicatorColor='#999'
 					indicatorActiveColor='#333'
 					vertical={false}
+					interval={6000}
 					circular
 					indicatorDots
 					autoplay
