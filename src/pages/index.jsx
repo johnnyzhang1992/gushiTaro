@@ -52,31 +52,10 @@ const letterLayoutConfig = [
 		color: '#c01112',
 	},
 ];
-// 背景色 fontColor
-// const bgColorArr = [
-// 	{
-// 		value: '#fff',
-// 	},
-// 	{
-// 		value: 'rgba(14,14,15)',
-// 		fontColor: '#fff',
-// 	},
-// 	{
-// 		value: 'rgba(204,189,153)',
-// 	},
-// 	{
-// 		value: 'rgba(247,215,174)',
-// 	},
-// 	{
-// 		value: 'rgba(170,134,83)',
-// 	},
-// 	{
-// 		value: '#6c9180',
-// 		fontColor: '#fff',
-// 	},
-// ];
+
 // 字体颜色
 const fontColorArr = ['#fff', '#333'];
+
 // 模式
 const ratioConfig = [
 	{
@@ -149,6 +128,7 @@ const Index = () => {
 			fontColor: fontColor || '#333',
 		});
 	};
+
 	const selectBgImg = (e) => {
 		const { img } = e.currentTarget.dataset;
 		updateConfig({
@@ -260,8 +240,10 @@ const Index = () => {
 		};
 	});
 
+	// PC端样式比较特殊，且不支持图片导出
 	const isPc = ['mac', 'windows'].includes(deviceInfo.platform);
 	const LeaveTop = isPc ? 10 : MenuRect.top;
+	// 根据设置的图片比例和实际的屏幕视图大小来计算最终的画报尺寸
 	let contentWidth = safeArea.width * 0.9;
 	const maxHeight = safeArea.height - LeaveTop - MenuRect.height - 60;
 	if (maxHeight < contentWidth / postConfig.ratio) {
