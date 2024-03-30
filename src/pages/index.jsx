@@ -110,7 +110,7 @@ const Index = () => {
 		bgColor: '#fff',
 		bgImg: postBgImages[0], // 背景图
 		fontColor: '#333',
-		ratio: 0.75, // 显示比例 0.75 0.46
+		ratio: 1, // 显示比例 0.75 0.46
 	});
 	const MenuRect = Taro.getMenuButtonBoundingClientRect();
 	const deviceInfo = Taro.getDeviceInfo();

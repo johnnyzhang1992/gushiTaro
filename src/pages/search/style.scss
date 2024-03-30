@@ -37,6 +37,25 @@
 	.extraNav {
 		font-size: 28px;
 	}
+	.SectionCard {
+		.sentenceCard, .poetCard {
+			&:first-child {
+				padding-top: 0;
+			}
+			&:last-child {
+				border-bottom: unset;
+				padding-bottom: 0;
+			}
+		}
+		.poemSmallCard {
+			&:first-child {
+				margin-top: 0;
+			}
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+	}
 }
 .noResult {
 	padding: 60px;

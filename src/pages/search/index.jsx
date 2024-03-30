@@ -352,6 +352,7 @@ const SearchPage = () => {
 								{...poem}
 								key={poem.id}
 								lightWord={keyword}
+								hideAudio
 							/>
 						))}
 					</View>

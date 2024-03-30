@@ -4,12 +4,19 @@
 	padding: 0 16px;
 	box-sizing: border-box;
 	margin-bottom: 20px;
+	&:first-child {
+		padding-left: 0;
+	}
+	&:last-child {
+		padding-right: 0;
+	}
 	.cover-container {
 		width: 100%;
 		height: 100%;
 		display: flex;
 		justify-content: space-between;
-		background-color: #337ab7;
+		// background-color: #337ab7;
+		background-color: rgba(55,70,108);
 	}
 	.book-name {
 		color: #333;
