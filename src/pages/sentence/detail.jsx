@@ -16,6 +16,7 @@ import Taro, {
 import { useNavigationBar } from 'taro-hooks';
 
 import SectionCard from '../../components/SectionCard';
+import PoemSmallCard from '../../components/PoemSmallCard';
 import LikeButton from '../../components/LikeButton';
 import CollectButton from '../../components/CollectButton';
 import TagsCard from '../../components/TagsCard';
@@ -74,7 +75,7 @@ const SentenceDetail = () => {
 						sentenceArr: splitSentence(sentence.title || ''),
 					},
 				});
-				const { title, theme='', type='' } = sentence;
+				const { title, theme = '', type = '' } = sentence;
 				setTitle(title);
 				let tagsArr = [];
 				if (theme) {
@@ -157,25 +158,28 @@ const SentenceDetail = () => {
 			{/* 公众号 */}
 			<OfficialAccount />
 			{/* 诗词卡片 */}
-			<view class='poemCard'>
-				<Navigator
-					url={`/pages/poem/detail?id=${detail.poem.id}`}
-					hover-class='none'
-					class='poem-item'
-				>
-					<View class='poem-title title'>{detail.poem.title}</View>
-
-					<View class='poem-author'>
-						{detail.poem.dynasty
-							? '[' + detail.poem.dynasty + '] '
-							: null}
-						{detail.poem.author}
-					</View>
-					<View class='poem-title content'>
-						{detail.poem.content}
-					</View>
-				</Navigator>
-			</view>
+			<SectionCard
+				title='原文'
+				style={{
+					backgroundColor: '#fff',
+					marginTop: '20rpx',
+					borderRadius: '6px',
+				}}
+				extra={
+					<Navigator
+						url={`/pages/poem/detail?id=${detail.poem.id}`}
+						hover-class='none'
+					>
+						查看更多
+					</Navigator>
+				}
+			>
+				<PoemSmallCard
+					{...detail.poem}
+					content={detail.poem.content || ''}
+					hideAudio
+				/>
+			</SectionCard>
 			{/* 标签 */}
 			{tags.length > 0 ? (
 				<SectionCard
@@ -184,7 +188,6 @@ const SentenceDetail = () => {
 						backgroundColor: '#fff',
 						marginTop: '20rpx',
 						borderRadius: '6px',
-						padding: '20rpx 30rpx',
 					}}
 				>
 					<TagsCard tags={tags} />
