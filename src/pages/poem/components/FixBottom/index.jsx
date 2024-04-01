@@ -92,6 +92,7 @@ const FixBottom = (props) => {
 					current={current}
 					tabList={tabList}
 					onClick={handleTabChange}
+					swipeable={false}
 					className='atTabs'
 				>
 					<AtTabsPane current={current} index={0}>
