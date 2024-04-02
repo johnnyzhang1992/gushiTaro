@@ -386,6 +386,7 @@ const Index = () => {
 								<Image
 									src={Qrcode}
 									className='qrcode'
+									mode='widthFix'
 									style={{
 										height: 25,
 										width: 25,
@@ -467,7 +468,7 @@ const Index = () => {
 								showScrollbar={false}
 								className='scrollContainer bgImgList'
 								style={{
-									height: 44,
+									height: 40,
 									width: safeArea.width - 30,
 								}}
 							>
