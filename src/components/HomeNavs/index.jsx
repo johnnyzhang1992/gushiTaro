@@ -4,9 +4,9 @@ import { View,Navigator, Image } from '@tarojs/components';
 import './style.scss';
 
 import poemIcon from '../../images/icon/poem.png';
-import poetIcon from '../../images/icon/poet.png';
-import collectIcon from '../../images/icon/collect_active.png';
-import sentenceIcon from '../../images/icon/sentence.png';
+import poetIcon from '../../images/svg/poet.svg';
+import collectIcon from '../../images/svg/collect_active.svg';
+import sentenceIcon from '../../images/svg/sentence.svg';
 
 
 const NavItem = (props) => {

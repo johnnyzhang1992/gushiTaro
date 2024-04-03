@@ -39,20 +39,24 @@
 		display: flex;
 		width: 100%;
 		align-items: center;
-		.share-btn {
-			display: flex;
-			align-items: center;
-			margin-right: 30px;
-			height: 100%;
-			&.share {
-				color: #337ab7;
-			}
-			.text {
-				margin-left: 12px;
-			}
-			&:last-child {
-				margin-right: 0;
-			}
+	}
+	.share-btn {
+		display: flex;
+		align-items: center;
+		margin-right: 30px;
+		height: 100%;
+		&.share {
+			color: #337ab7;
+		}
+		.text {
+			margin-left: 12px;
+		}
+		&:last-child {
+			margin-right: 0;
+		}
+		.icon {
+			width: 28px;
+			height: 28px;
 		}
 	}
 	.post-container {
@@ -186,7 +190,7 @@
 						border: 4px solid #333;
 					}
 					&.active {
-						border: 6px solid  #337ab7;
+						border: 6px solid #337ab7;
 					}
 				}
 				.ratio-item {
@@ -203,7 +207,7 @@
 						border-color: #337ab7;
 					}
 				}
-				&.bgImgList{
+				&.bgImgList {
 					display: block;
 					overflow-x: scroll;
 					white-space: nowrap;

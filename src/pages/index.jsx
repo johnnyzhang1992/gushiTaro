@@ -10,6 +10,9 @@ import Taro, {
 
 import xcxPng from '../images/xcx.jpg';
 import Qrcode from '../images/icon/qrcode.png';
+import shareSvg from '../images/svg/share.svg';
+import refreshSvg from '../images/svg/refresh.svg';
+import saveSvg from '../images/svg/save.svg';
 import Utils from '../utils/util';
 import { fetchRandomSentence } from '../services/global';
 import { postBgImages } from '../const/config';
@@ -275,11 +278,13 @@ const Index = () => {
 				}}
 			>
 				<View className='share-btn share' onClick={handleShow}>
-					<View className='at-icon at-icon-share'></View>
+					{/* <View className='at-icon at-icon-share'></View> */}
+					<Image src={shareSvg} mode='widthFix' className='icon' />
 					<Text className='text'>分享</Text>
 				</View>
 				<View className='share-btn reload' onClick={handleReload}>
-					<View className='at-icon at-icon-reload'></View>
+					{/* <View className='at-icon at-icon-reload'></View> */}
+					<Image src={refreshSvg} mode='widthFix' className='icon' />
 					<Text className='text'>换一换</Text>
 				</View>
 			</View>
@@ -514,8 +519,12 @@ const Index = () => {
 								circle
 								onClick={handleDownload}
 							>
-								<View className='at-icon at-icon-download'></View>
-								<Text>保存</Text>
+								<Image
+									src={saveSvg}
+									mode='widthFix'
+									className='icon'
+								/>
+								<Text className='text'>保存</Text>
 							</AtButton>
 						) : null}
 						<AtButton
@@ -525,8 +534,12 @@ const Index = () => {
 							circle
 							openType='share'
 						>
-							<View className='at-icon at-icon-share'></View>
-							<Text>分享</Text>
+							<Image
+								src={shareSvg}
+								mode='widthFix'
+								className='icon'
+							/>
+							<Text className='text'>分享</Text>
 						</AtButton>
 					</View>
 				</View>
