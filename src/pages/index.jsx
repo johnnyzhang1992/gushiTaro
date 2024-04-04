@@ -2,10 +2,11 @@ import { View, Text, Snapshot, Image, ScrollView } from '@tarojs/components';
 import { useState, useEffect, useCallback } from 'react';
 import { AtButton } from 'taro-ui';
 import Taro, {
-	usePullDownRefresh,
 	useShareAppMessage,
 	useShareTimeline,
 	useLoad,
+	useUnload,
+	Events,
 } from '@tarojs/taro';
 
 import xcxPng from '../images/xcx.jpg';
@@ -15,12 +16,16 @@ import refreshSvg from '../images/svg/refresh.svg';
 import saveSvg from '../images/svg/save.svg';
 import Utils from '../utils/util';
 import { fetchRandomSentence } from '../services/global';
-import { postBgImages } from '../const/config';
+import { postBgImages, FontFaceList } from '../const/config';
+import LoadLocalFont from '../utils/loadFont';
 
+import Layout from '../layout';
 import PoemPostCard from '../components/PoemPost';
 import PoemPostLayout from '../components/Skeleton/PoemPostLayout';
 
 import './index.scss';
+
+const events = new Events();
 
 // 拆分词句
 const splitSentence = (sentence) => {
@@ -219,14 +224,23 @@ const Index = () => {
 			});
 	};
 
+	const handleGlobalFontLoad = () => {
+		console.log('---字体加载成功通知');
+		updateConfig({
+			...postConfig,
+		});
+	};
+
 	useLoad(() => {
 		Taro.getSystemInfo().then((sysRes) => {
 			setSafeArea(sysRes.safeArea || {});
 		});
+		LoadLocalFont(true, handleGlobalFontLoad);
+		events.on('loadFont', handleGlobalFontLoad);
 	});
 
-	usePullDownRefresh(() => {
-		Taro.stopPullDownRefresh();
+	useUnload(() => {
+		events.off('loadFont', handleGlobalFontLoad);
 	});
 
 	useShareAppMessage(() => {
@@ -260,291 +274,278 @@ const Index = () => {
 		contentWidth = safeArea.width - 30;
 	}
 
+	// 自定义字体
+	const currentFont = FontFaceList.find((font) => {
+		return font.extra_name === Taro.getStorageSync('fontName');
+	});
+
 	return (
-		<View
-			className='page homePage'
-			style={{
-				padding: `10px 10px`,
-			}}
-		>
-			{/* 顶部操作栏 */}
+		<Layout>
 			<View
-				className='topShare'
+				className={`page homePage ${currentFont && currentFont.name}`}
 				style={{
-					marginTop: `${LeaveTop - 10}px`,
-					height: (MenuRect.height || 32) + 'px',
-					paddingLeft: '10px',
-					transform: `translateY(${isPc ? 0 : 5}px)`,
+					padding: `10px 10px`,
 				}}
 			>
-				<View className='share-btn share' onClick={handleShow}>
-					{/* <View className='at-icon at-icon-share'></View> */}
-					<Image src={shareSvg} mode='widthFix' className='icon' />
-					<Text className='text'>分享</Text>
-				</View>
-				<View className='share-btn reload' onClick={handleReload}>
-					{/* <View className='at-icon at-icon-reload'></View> */}
-					<Image src={refreshSvg} mode='widthFix' className='icon' />
-					<Text className='text'>换一换</Text>
-				</View>
-			</View>
-			{/* 画报 */}
-			<View className='post-container'>
-				<Snapshot
-					mode='view'
-					className='poemShot'
-					id='poemCard'
+				{/* 顶部操作栏 */}
+				<View
+					className='topShare'
 					style={{
-						width: contentWidth,
-						height: contentHeight,
+						marginTop: `${LeaveTop - 10}px`,
+						height: (MenuRect.height || 32) + 'px',
+						paddingLeft: '10px',
+						transform: `translateY(${isPc ? 0 : 5}px)`,
 					}}
 				>
-					<View
-						className='poemCard'
+					<View className='share-btn share' onClick={handleShow}>
+						{/* <View className='at-icon at-icon-share'></View> */}
+						<Image src={shareSvg} mode='widthFix' className='icon' />
+						<Text className='text'>分享</Text>
+					</View>
+					<View className='share-btn reload' onClick={handleReload}>
+						{/* <View className='at-icon at-icon-reload'></View> */}
+						<Image src={refreshSvg} mode='widthFix' className='icon' />
+						<Text className='text'>换一换</Text>
+					</View>
+				</View>
+				{/* 画报 */}
+				<View className='post-container'>
+					<Snapshot
+						mode='view'
+						className='poemShot'
+						id='poemCard'
 						style={{
-							padding: 10,
-							backgroundColor: postConfig.bgColor || '#fff',
-							color: postConfig.fontColor || '#333',
-							backgroundImage: postConfig.bgImg
-								? `url(${postConfig.bgImg})`
-								: 'unset',
+							width: contentWidth,
+							height: contentHeight,
 						}}
 					>
-						<View className='container'>
-							<PoemPostCard
-								bgColor={postConfig.bgColor || '#fff'}
-								sentence={sentence}
-								fontColor={postConfig.fontColor}
-								width={safeArea.width - 40}
-								type={postConfig.letterBorder}
-								mode={postConfig.ratio === 0.75 ? 'post' : 'bg'}
-							/>
-						</View>
 						<View
-							className='bottom'
+							className='poemCard'
 							style={{
-								display: postConfig.showQrcode
-									? 'flex'
-									: 'none',
+								padding: 10,
+								backgroundColor: postConfig.bgColor || '#fff',
+								color: postConfig.fontColor || '#333',
+								backgroundImage: postConfig.bgImg
+									? `url(${postConfig.bgImg})`
+									: 'unset',
 							}}
 						>
-							<View className='date'>
-								<View className='yangli'>
-									<Text className='text'>{date}</Text>
-								</View>
-								<View className='nongli'>
-									<Text className='text'>甲辰龙年</Text>
-								</View>
-							</View>
-							<View className='desc'>
-								<Image
-									src={xcxPng}
-									showMenuByLongpress
-									className='xcxImg'
+							<View className='container'>
+								<PoemPostCard
+									bgColor={postConfig.bgColor || '#fff'}
+									sentence={sentence}
+									fontColor={postConfig.fontColor}
+									width={safeArea.width - 40}
+									type={postConfig.letterBorder}
+									mode={postConfig.ratio === 0.75 ? 'post' : 'bg'}
 								/>
-							</View>
-						</View>
-					</View>
-				</Snapshot>
-			</View>
-			{/* 半屏展示全文 */}
-			<View
-				style={{
-					visibility: isOpen ? 'visible' : 'hidden',
-				}}
-				className={`postFloatLayout ${isOpen ? 'active' : ''}`}
-			>
-				<view className='overlay' onClick={handleClose}></view>
-				<View className='layoutContainer'>
-					{/* 布局 */}
-					<View className='shareLayout'>
-						<View className='title'>
-							<Text className='text'>布局</Text>
-						</View>
-						<View className='layout-bottom'>
-							<View className='scrollContainer'>
-								{letterLayoutConfig.map((layout) => {
-									return (
-										<PoemPostLayout
-											type={layout.name}
-											key={layout.name}
-											style={{
-												width: 30,
-												height: 40,
-												marginRight: 10,
-												borderColor: layout.color,
-											}}
-											borderColor={layout.color}
-											letterBorder={layout.name}
-											update={updateLayout}
-											activeType={postConfig.letterBorder}
-										/>
-									);
-								})}
 							</View>
 							<View
-								className={`qrcode-container  ${
-									postConfig.showQrcode ? 'active' : ''
-								}`}
-								onClick={handleToggleBottom}
+								className='bottom'
+								style={{
+									display: postConfig.showQrcode ? 'flex' : 'none',
+								}}
 							>
-								<Image
-									src={Qrcode}
-									className='qrcode'
-									mode='widthFix'
-									style={{
-										height: 25,
-										width: 25,
-									}}
-								/>
-							</View>
-						</View>
-					</View>
-					{/* 模式，小红书和壁纸 */}
-					<View className='shareLayout'>
-						<View className='title'>
-							<Text className='text'>展示模式</Text>
-						</View>
-						<View className='scrollContainer ratio-list'>
-							{ratioConfig.map((ratio) => {
-								return (
-									<View
-										key={ratio.value}
-										data-ratio={ratio.value}
-										onClick={selecrRatio}
-										className={`ratio-item ${
-											postConfig.ratio == ratio.value
-												? 'active'
-												: ''
-										}`}
-									>
-										{ratio.name}
+								<View className='date'>
+									<View className='yangli'>
+										<Text className='text'>{date}</Text>
 									</View>
-								);
-							})}
-						</View>
-					</View>
-					{/* 字体颜色 */}
-					<View className='shareLayout'>
-						<View className='title'>
-							<Text className='text'>字体颜色</Text>
-						</View>
-						<View className='layout-bottom'>
-							<View
-								className='scrollContainer'
-								style={{
-									width: '100%',
-								}}
-							>
-								{fontColorArr.map((color) => {
-									return (
-										<View
-											key={color}
-											className={`color-item bgColor ${
-												postConfig.fontColor === color
-													? 'active'
-													: ''
-											}`}
-											style={{
-												backgroundColor: color,
-												width: 30,
-												height: 30,
-												padding: 4,
-												marginRight: 10,
-											}}
-											data-fontColor={color || ''}
-											onClick={selectFontColor}
-										></View>
-									);
-								})}
+									<View className='nongli'>
+										<Text className='text'>甲辰龙年</Text>
+									</View>
+								</View>
+								<View className='desc'>
+									<Image src={xcxPng} showMenuByLongpress className='xcxImg' />
+								</View>
 							</View>
 						</View>
-					</View>
-					{/* 背景图 */}
-					<View className='shareLayout'>
-						<View className='title'>
-							<Text className='text'>背景色</Text>
-						</View>
-						<View className='layout-bottom'>
-							<ScrollView
-								scrollX
-								enableFlex
-								enhanced
-								showScrollbar={false}
-								className='scrollContainer bgImgList'
-								style={{
-									height: 40,
-									width: safeArea.width - 30,
-								}}
-							>
-								{postBgImages.map((img) => {
-									return (
-										<View
-											key={img}
-											className={`color-item bgImg ${
-												postConfig.bgImg === img
-													? 'active'
-													: ''
-											}`}
-											style={{
-												width: 30,
-												height: 30,
-												marginRight: 8,
-											}}
-											data-img={img}
-											onClick={selectBgImg}
-										>
-											<Image
-												src={img}
-												mode='widthFix'
-												className='bg-img'
+					</Snapshot>
+				</View>
+				{/* 半屏展示全文 */}
+				<View
+					style={{
+						visibility: isOpen ? 'visible' : 'hidden',
+					}}
+					className={`postFloatLayout ${isOpen ? 'active' : ''}`}
+				>
+					<view className='overlay' onClick={handleClose}></view>
+					<View className='layoutContainer'>
+						{/* 布局 */}
+						<View className='shareLayout'>
+							<View className='title'>
+								<Text className='text'>布局</Text>
+							</View>
+							<View className='layout-bottom'>
+								<View className='scrollContainer'>
+									{letterLayoutConfig.map((layout) => {
+										return (
+											<PoemPostLayout
+												type={layout.name}
+												key={layout.name}
 												style={{
 													width: 30,
-													height: 30,
+													height: 40,
+													marginRight: 10,
+													borderColor: layout.color,
 												}}
+												borderColor={layout.color}
+												letterBorder={layout.name}
+												update={updateLayout}
+												activeType={postConfig.letterBorder}
 											/>
+										);
+									})}
+								</View>
+								<View
+									className={`qrcode-container  ${
+										postConfig.showQrcode ? 'active' : ''
+									}`}
+									onClick={handleToggleBottom}
+								>
+									<Image
+										src={Qrcode}
+										className='qrcode'
+										mode='widthFix'
+										style={{
+											height: 25,
+											width: 25,
+										}}
+									/>
+								</View>
+							</View>
+						</View>
+						{/* 模式，小红书和壁纸 */}
+						<View className='shareLayout'>
+							<View className='title'>
+								<Text className='text'>展示模式</Text>
+							</View>
+							<View className='scrollContainer ratio-list'>
+								{ratioConfig.map((ratio) => {
+									return (
+										<View
+											key={ratio.value}
+											data-ratio={ratio.value}
+											onClick={selecrRatio}
+											className={`ratio-item ${
+												postConfig.ratio == ratio.value ? 'active' : ''
+											}`}
+										>
+											{ratio.name}
 										</View>
 									);
 								})}
-							</ScrollView>
+							</View>
 						</View>
-					</View>
-					{/* 底部按钮 */}
-					<View className='shareBottom'>
-						{!isPc ? (
+						{/* 字体颜色 */}
+						<View className='shareLayout'>
+							<View className='title'>
+								<Text className='text'>字体颜色</Text>
+							</View>
+							<View className='layout-bottom'>
+								<View
+									className='scrollContainer'
+									style={{
+										width: '100%',
+									}}
+								>
+									{fontColorArr.map((color) => {
+										return (
+											<View
+												key={color}
+												className={`color-item bgColor ${
+													postConfig.fontColor === color ? 'active' : ''
+												}`}
+												style={{
+													backgroundColor: color,
+													width: 30,
+													height: 30,
+													padding: 4,
+													marginRight: 10,
+												}}
+												data-fontColor={color || ''}
+												onClick={selectFontColor}
+											></View>
+										);
+									})}
+								</View>
+							</View>
+						</View>
+						{/* 背景图 */}
+						<View className='shareLayout'>
+							<View className='title'>
+								<Text className='text'>背景色</Text>
+							</View>
+							<View className='layout-bottom'>
+								<ScrollView
+									scrollX
+									enableFlex
+									enhanced
+									showScrollbar={false}
+									className='scrollContainer bgImgList'
+									style={{
+										height: 52,
+										width: safeArea.width - 30,
+									}}
+								>
+									{postBgImages.map((img) => {
+										return (
+											<View
+												key={img}
+												className={`color-item bgImg ${
+													postConfig.bgImg === img ? 'active' : ''
+												}`}
+												style={{
+													width: 30,
+													height: 30,
+													marginRight: 8,
+												}}
+												data-img={img}
+												onClick={selectBgImg}
+											>
+												<Image
+													src={img}
+													mode='widthFix'
+													className='bg-img'
+													style={{
+														width: 30,
+														height: 30,
+													}}
+												/>
+											</View>
+										);
+									})}
+								</ScrollView>
+							</View>
+						</View>
+						{/* 底部按钮 */}
+						<View className='shareBottom'>
+							{!isPc ? (
+								<AtButton
+									className='share-btn'
+									type='primary'
+									size='small'
+									circle
+									onClick={handleDownload}
+								>
+									<Image src={saveSvg} mode='widthFix' className='icon' />
+									<Text className='text'>保存</Text>
+								</AtButton>
+							) : null}
 							<AtButton
 								className='share-btn'
-								type='primary'
+								type='secondary'
 								size='small'
 								circle
-								onClick={handleDownload}
+								openType='share'
 							>
-								<Image
-									src={saveSvg}
-									mode='widthFix'
-									className='icon'
-								/>
-								<Text className='text'>保存</Text>
+								<Image src={shareSvg} mode='widthFix' className='icon' />
+								<Text className='text'>分享</Text>
 							</AtButton>
-						) : null}
-						<AtButton
-							className='share-btn'
-							type='secondary'
-							size='small'
-							circle
-							openType='share'
-						>
-							<Image
-								src={shareSvg}
-								mode='widthFix'
-								className='icon'
-							/>
-							<Text className='text'>分享</Text>
-						</AtButton>
+						</View>
 					</View>
 				</View>
 			</View>
-		</View>
+		</Layout>
 	);
 };
 

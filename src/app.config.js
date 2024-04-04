@@ -18,6 +18,7 @@ export default {
     'pages/admin/search',
     'pages/find/index',
     'pages/library/index',
+    'pages/me/fonts/index',
   ],
   window: {
     backgroundTextStyle: 'light',
@@ -59,7 +60,6 @@ export default {
   },
   lazyCodeLoading: 'requiredComponents',
   requiredBackgroundModes: ['audio'],
-//   componentFramework: 'glass-easel',
   style: 'v2',
   rendererOptions: {
     skyline: {

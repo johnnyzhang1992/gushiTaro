@@ -1,5 +1,4 @@
 .mePage {
-	font-family: ChillKai;
 	min-height: 100vh;
 	box-sizing: border-box;
 	background-color: #efefef;
@@ -101,6 +100,12 @@
 			font-size: #999;
 		}
 	}
+	.font-item {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
 	.copyright {
 		color: #999;
 		text-align: center;

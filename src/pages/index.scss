@@ -34,6 +34,7 @@
 	align-items: center;
 	justify-content: flex-start;
 	flex-direction: column;
+	font-family: GushiFont, serif;
 	.topShare {
 		padding-left: 32px;
 		display: flex;
@@ -68,8 +69,8 @@
 	.poemShot {
 		width: 100%;
 		box-sizing: border-box;
-		font-family: ChillKai, serif;
 		background-repeat: repeat;
+		font-family: GushiFont, serif;
 	}
 
 	.poemCard {
@@ -208,9 +209,12 @@
 					}
 				}
 				&.bgImgList {
-					display: block;
-					overflow-x: scroll;
+					display: flex;
+					flex-wrap: nowrap;
 					white-space: nowrap;
+					flex-direction: row;
+					justify-content: flex-start;
+					align-items: center;
 				}
 				.bgImg {
 					border-radius: 50%;
@@ -220,15 +224,13 @@
 					justify-content: center;
 					box-sizing: border-box;
 					border: 4px solid #333;
-					float: left;
+					// float: left;
 					margin-bottom: 6px;
 					&.active {
 						border-width: 6px;
 					}
 					.bg-img {
 						display: block;
-						width: 100%;
-						height: 100%;
 						border-radius: 50%;
 					}
 				}

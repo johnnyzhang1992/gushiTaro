@@ -232,7 +232,7 @@ export const FontFaceList = [
   {
     name: 'KingHwa',
     extra_name: '京华老宋体',
-    path: 'https://assets.xuegushi.com/fonts/KingHwa/KingHwa.ttf.zip',
+    path: 'https://assets.xuegushi.com/fonts/KingHwa/KingHwa.ttf',
     size: '30.322MB',
     zipSize: '20.325MB',
   },
