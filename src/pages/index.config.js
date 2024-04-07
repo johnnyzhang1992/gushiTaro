@@ -11,9 +11,7 @@ export default {
   styleIsolation: 'apply-shared',
   rendererOptions: {
     skyline: {
-			defaultDisplayBlock: true,
-			component: true,
-			styleIsolation: 'apply-shared',
+			defaultDisplayBlock: true
     },
   },
 };

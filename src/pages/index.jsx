@@ -21,6 +21,7 @@ import LoadLocalFont from '../utils/loadFont';
 
 import Layout from '../layout';
 import PoemPostCard from '../components/PoemPost';
+import FloatLayout from '../components/FloatLayout';
 import PoemPostLayout from '../components/Skeleton/PoemPostLayout';
 
 import './index.scss';
@@ -195,7 +196,6 @@ const Index = () => {
 			.select('#poemCard')
 			.node()
 			.exec((res) => {
-				console.log(res[0]);
 				const node = res[0].node;
 				node.takeSnapshot({
 					type: 'arraybuffer',
@@ -209,6 +209,7 @@ const Index = () => {
 							filePath: f,
 							success() {
 								Taro.showToast({
+									icon: 'success',
 									title: '保存成功',
 								});
 							},
@@ -219,6 +220,10 @@ const Index = () => {
 					},
 					fail(res1) {
 						console.log(res1);
+						Taro.showToast({
+							icon: 'error',
+							title: '保存失败',
+						});
 					},
 				});
 			});
@@ -235,7 +240,7 @@ const Index = () => {
 		Taro.getSystemInfo().then((sysRes) => {
 			setSafeArea(sysRes.safeArea || {});
 		});
-		LoadLocalFont(true, handleGlobalFontLoad);
+		LoadLocalFont(false, handleGlobalFontLoad);
 		events.on('loadFont', handleGlobalFontLoad);
 	});
 
@@ -362,14 +367,16 @@ const Index = () => {
 					</Snapshot>
 				</View>
 				{/* 半屏展示全文 */}
-				<View
+				<FloatLayout
+					showTitle={false}
+					isOpen={isOpen}
+					close={handleClose}
+					className='postFloatLayout'
 					style={{
 						visibility: isOpen ? 'visible' : 'hidden',
 					}}
-					className={`postFloatLayout ${isOpen ? 'active' : ''}`}
 				>
-					<view className='overlay' onClick={handleClose}></view>
-					<View className='layoutContainer'>
+					<View className='post-config'>
 						{/* 布局 */}
 						<View className='shareLayout'>
 							<View className='title'>
@@ -543,7 +550,7 @@ const Index = () => {
 							</AtButton>
 						</View>
 					</View>
-				</View>
+				</FloatLayout>
 			</View>
 		</Layout>
 	);
