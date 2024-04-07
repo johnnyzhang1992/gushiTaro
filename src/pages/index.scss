@@ -59,6 +59,13 @@
 			width: 28px;
 			height: 28px;
 		}
+		&.reload.active {
+			.icon {
+				transform-origin: 50% 50%;
+				transition: all 1s ease;
+				transform: rotate(360deg);
+			}
+		}
 	}
 	.post-container {
 		flex: 1;

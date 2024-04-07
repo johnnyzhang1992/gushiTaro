@@ -100,6 +100,7 @@ const Index = () => {
 		fontColor: '#333',
 		ratio: 1, // 显示比例 0.75 0.46
 	});
+	const [isReload, updateReload] = useState(false);
 	const MenuRect = Taro.getMenuButtonBoundingClientRect();
 	const deviceInfo = Taro.getDeviceInfo();
 
@@ -112,6 +113,7 @@ const Index = () => {
 	};
 
 	const handleReload = () => {
+		updateReload(true);
 		fetchSentence(true);
 	};
 
@@ -179,9 +181,11 @@ const Index = () => {
 						data: temSen,
 					});
 				}
+				updateReload(false);
 			})
 			.catch((err) => {
 				console.log(err);
+				updateReload(false);
 			});
 	}, []);
 
@@ -307,9 +311,12 @@ const Index = () => {
 						<Image src={shareSvg} mode='widthFix' className='icon' />
 						<Text className='text'>分享</Text>
 					</View>
-					<View className='share-btn reload' onClick={handleReload}>
+					<View
+						className={`share-btn reload ${isReload ? 'active' : ''}`}
+						onClick={handleReload}
+					>
 						{/* <View className='at-icon at-icon-reload'></View> */}
-						<Image src={refreshSvg} mode='widthFix' className='icon' />
+						<Image src={refreshSvg} mode='widthFix' className={`icon `} />
 						<Text className='text'>换一换</Text>
 					</View>
 				</View>
