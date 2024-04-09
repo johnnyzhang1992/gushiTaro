@@ -1,8 +1,9 @@
 .fullText {
 	padding-bottom: env(safe-area-inset-bottom);
-	padding-left: 20px;
-	padding-right: 20px;
 	padding-top: 20px;
+	.text {
+		text-align: justify;
+	}
 }
 .longTextCard {
 	.textContainer {
@@ -11,6 +12,16 @@
 			display: block;
 			font-size: 28px;
 			line-height: 1.6em;
+		}
+		&.limit {
+			.longText {
+				.text {
+					max-height: 4.8em;
+					display: block;
+					text-overflow: ellipsis;
+					overflow: hidden;
+				}
+			}
 		}
 	}
 	.reference {
@@ -32,16 +43,6 @@
 		}
 		.text {
 			font-size: 24px;
-		}
-	}
-	.at-float-layout {
-		.layout-header__title {
-			font-weight: 600;
-			font-size: 34px;
-		}
-		.layout-body {
-			padding: 0;
-			font-size: 30px;
 		}
 	}
 }

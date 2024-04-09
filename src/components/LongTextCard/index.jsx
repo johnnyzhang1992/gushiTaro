@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { View, Text, Button } from '@tarojs/components';
-import { AtFloatLayout } from 'taro-ui';
+
+import FloatLayout from '../FloatLayout';
 
 import './style.scss';
 
@@ -23,16 +24,13 @@ const LongTextCard = ({ showAll = false, text, title }) => {
 				setReference((pre) => ({
 					...pre,
 					...propRef,
-					content: Array.isArray(propRef.content)
-						? propRef.content
-						: [],
+					content: Array.isArray(propRef.content) ? propRef.content : [],
 				}));
 			}
 			content.forEach((item) => {
 				cText +=
-					item
-						.replaceAll('<strong>', '【')
-						.replaceAll('</strong>', '】') + '\n';
+					item.replaceAll('<strong>', '【').replaceAll('</strong>', '】') +
+					'\n';
 			});
 		} else {
 			cText = text;
@@ -49,15 +47,10 @@ const LongTextCard = ({ showAll = false, text, title }) => {
 	return (
 		<View className='longTextCard'>
 			{/* 内容展示 */}
-			<View className={`textContainer ${showAll ? 'all' : ''}`}>
+			<View className={`textContainer ${cacheText.length > limitLength ? 'limit' : ''} ${showAll ? 'all' : ''}`}>
 				<View className='longText'>
-					<Text userSelect decode className='text'>
-						{showAll
-							? cacheText
-							: cacheText.substring(0, limitLength)}
-						{!showAll && cacheText.length > limitLength
-							? '...'
-							: ''}
+					<Text userSelect decode space='nbsp' maxLines={3} className='text'>
+						{showAll ? cacheText : cacheText.substring(0, limitLength)}
 					</Text>
 				</View>
 			</View>
@@ -83,18 +76,19 @@ const LongTextCard = ({ showAll = false, text, title }) => {
 				) : null}
 			</View>
 			{/* 半屏展示全文 */}
-			<AtFloatLayout
-				isOpened={isOpen}
+			<FloatLayout
+				showTitle
+				close={handleClose}
 				title={title}
+				isOpen={isOpen}
 				scrollY
-				onClose={handleClose}
 			>
 				<View className='fullText'>
 					<Text userSelect decode className='text'>
 						{cacheText}
 					</Text>
 				</View>
-			</AtFloatLayout>
+			</FloatLayout>
 		</View>
 	);
 };

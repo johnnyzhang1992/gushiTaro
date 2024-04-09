@@ -43,9 +43,9 @@
 			align-items: center;
 			justify-content: space-between;
 			background-color: #f7f7f7;
-			padding: 18px;
+			padding: 18px 30px;
 			line-height: 1.5;
-			margin: 20px -30px 0;
+			margin: -20px -30px 0;
 			border-radius: 20px 20px 0 0;
 			.layout-header__title {
 				overflow: hidden;
@@ -71,7 +71,10 @@
 			}
 		}
 		.float-layout-body {
-			padding-top: 20px;
+			// padding-top: 20px;
+			.float-layout-body__scroll-view {
+				height: 65vh;
+			}
 		}
 	}
 }

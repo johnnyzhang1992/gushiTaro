@@ -8,6 +8,11 @@ import Taro, {
 	Events,
 } from '@tarojs/taro';
 
+import Layout from '../layout';
+import PoemPostCard from '../components/PoemPost';
+import FloatLayout from '../components/FloatLayout';
+import PostLayoutConfig from '../components/PostLayoutConfig';
+
 import xcxPng from '../images/xcx.jpg';
 import shareSvg from '../images/svg/share.svg';
 import refreshSvg from '../images/svg/refresh.svg';
@@ -15,11 +20,6 @@ import Utils from '../utils/util';
 import { fetchRandomSentence } from '../services/global';
 import { postBgImages, FontFaceList } from '../const/config';
 import LoadLocalFont from '../utils/loadFont';
-
-import Layout from '../layout';
-import PoemPostCard from '../components/PoemPost';
-import FloatLayout from '../components/FloatLayout';
-import PostLayoutConfig from '../components/PostLayoutConfig';
 
 import './index.scss';
 
