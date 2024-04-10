@@ -18,8 +18,10 @@ const BookCover = (props) => {
 		<View className='book-cover' onClick={handleNavigate}>
 			<View className='cover-container'>
 				<View className='book-name'>
-					<Text className='text name'>{name}</Text>
-					<Text className='text desc'>{profile}</Text>
+					<View className='name-container'>
+						<Text className='text name'>{name}</Text>
+						<Text className='text desc'>{profile}</Text>
+					</View>
 				</View>
 				<View className='book-slider'>
 					<View className='top'></View>
