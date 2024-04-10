@@ -1,12 +1,9 @@
 .book-cover {
 	font-size: 26px;
 	min-height: 280px;
-	padding: 0 16px;
+	padding-right: 20px;
 	box-sizing: border-box;
 	margin-bottom: 20px;
-	&:first-child {
-		padding-left: 0;
-	}
 	&:last-child {
 		padding-right: 0;
 	}
