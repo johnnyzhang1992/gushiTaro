@@ -24,7 +24,7 @@
     "packNpmRelationList": [],
     "ignoreUploadUnusedFiles": true,
     "uglifyFileName": false,
-    "compileWorklet": false
+    "compileWorklet": true
   },
   "compileType": "miniprogram",
   "simulatorType": "wechat",

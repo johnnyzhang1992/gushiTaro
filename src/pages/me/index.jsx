@@ -257,6 +257,9 @@ const MeIndex = () => {
 							更多字体
 						</Navigator>
 					}
+					style={{
+						display: 'none'
+					}}
 				>
 					<View className='font-item'>
 						<View className='font-name'>当前字体</View>

@@ -11,12 +11,13 @@
 		.longText {
 			display: block;
 			font-size: 28px;
-			line-height: 1.6em;
+			line-height: 1.4rem;
+			padding-bottom: 20px;
 		}
 		&.limit {
 			.longText {
 				.text {
-					max-height: 4.8em;
+					max-height: 4.2rem;
 					display: block;
 					text-overflow: ellipsis;
 					overflow: hidden;

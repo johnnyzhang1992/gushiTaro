@@ -47,7 +47,7 @@ const LongTextCard = ({ showAll = false, text, title }) => {
 	return (
 		<View className='longTextCard'>
 			{/* 内容展示 */}
-			<View className={`textContainer ${cacheText.length > limitLength ? 'limit' : ''} ${showAll ? 'all' : ''}`}>
+			<View className={`textContainer ${cacheText.length > limitLength && !showAll ? 'limit' : ''} ${showAll ? 'all' : ''}`}>
 				<View className='longText'>
 					<Text userSelect decode space='nbsp' maxLines={3} className='text'>
 						{showAll ? cacheText : cacheText.substring(0, limitLength)}
