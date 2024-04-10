@@ -1,8 +1,9 @@
-import Taro, { useLaunch, usePageNotFound } from '@tarojs/taro';
+import Taro, { useLaunch, usePageNotFound, useDidShow } from '@tarojs/taro';
 
 import './app.scss';
 
 import { BaseUrl } from './const/config';
+import LoadLocalFont from './utils/loadFont';
 
 const App = (props) => {
 	// 用户登录
@@ -51,20 +52,13 @@ const App = (props) => {
 			Taro.setStorageSync('sys_info', sysRes);
 		});
 		userLogin();
-		Taro.loadFontFace({
-			global: true,
-			family: 'ChillKai',
-			source: 'url("https://assets.xuegushi.com/fonts/AlimamaDaoLiTi/AlimamaDaoLiTi.ttf")',
-			scopes: ['webview'],
-			success: (res) => {
-				console.log('success', res.status);
-			},
-			fail: function (res) {
-				console.error(res);
-			},
-		});
 	});
 
+	useDidShow(() => {
+		LoadLocalFont(true, () => {
+			console.log('--app.js--load-Font')
+		})
+	})
 	usePageNotFound(() => {
 		Taro.switchTab({
 			url: '/pages/index',

@@ -16,6 +16,12 @@
 		border-right: unset;
 		padding: 5% 0;
 		box-sizing: border-box;
+		.poem-container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: flex-start;
+		}
 		.text {
 			display: block;
 			text-align: center;
@@ -23,9 +29,15 @@
 		}
 		&.title {
 			justify-content: flex-end;
+			.poem-container{
+				justify-content: flex-end;
+			}
 		}
 		&.author {
 			justify-content: flex-end;
+			.poem-container {
+				justify-content: flex-end;
+			}
 			.author-container {
 				color: #fff;
 				background-color: #9d131b;
@@ -34,7 +46,7 @@
 				height: auto;
 				display: block;
 				box-sizing: content-box;
-				transform: translateY(-8px);
+				transform: translateY(-0.5rem);
 			}
 		}
 	}
@@ -72,9 +84,13 @@
 			}
 			&.author {
 				padding-left: 0;
-				.author-container {
-					transform: translateY(-40px);
+				justify-content: center;
+				.poem-container {
+					justify-content: flex-end;
 				}
+			}
+			.poem-container {
+				justify-content: flex-start;
 			}
 		}
 	}

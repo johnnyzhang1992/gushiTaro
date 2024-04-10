@@ -8,8 +8,10 @@
     box-shadow: 0 -2px 6px hsla(0,0%,7%,.1);
 	.bottomTabs {
 		padding: 20px 30px;
+		align-items: center;
 	}
 	.tabItem {
+		font-size: 34rpx;
 		padding: 8px 12px;
 	}
 	.flex {
@@ -24,6 +26,7 @@
 	.at-tabs__item{
 		width: auto;
 		flex: unset;
+		font-size: 32px;
 	}
 }
 .tabContent {

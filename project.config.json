@@ -7,7 +7,7 @@
     "es6": false,
     "enhance": false,
     "compileHotReLoad": false,
-    "postcss": false,
+    "postcss": true,
     "preloadBackgroundData": false,
     "minified": true,
     "newFeature": true,
@@ -23,7 +23,8 @@
     },
     "packNpmRelationList": [],
     "ignoreUploadUnusedFiles": true,
-    "uglifyFileName": false
+    "uglifyFileName": false,
+    "compileWorklet": true
   },
   "compileType": "miniprogram",
   "simulatorType": "wechat",

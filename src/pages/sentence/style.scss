@@ -49,33 +49,9 @@
 	.sentence-content .normal {
 		color: #888;
 	}
-	.poemCard {
-		padding: 20px 30px;
-		margin-top: 30px;
-		border-radius: 12px;
-		background-color: #fff;
-		.poem-item {
-			color: #888;
-			display: block;
-		}
-		.poem-title {
-			color: #333;
-			font-size: 28px;
-		}
-		.poem-title.title {
-			font-size: 36px;
-			font-weight: 500;
-		}
-		.poem-title.content {
-			font-size: 32px;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-			overflow: hidden;
-		}
-		.poem-author {
-			font-size: 26px;
-			padding: 12px 0;
-		}
+	.poemSmallCard {
+		padding: 0;
+		margin: 0;
 	}
 }
 .fixBottom {

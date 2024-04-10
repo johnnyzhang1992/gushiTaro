@@ -24,16 +24,18 @@
 	.content {
 		font-size: 30px;
 		color: #65645f;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-		overflow: hidden;
+		// text-overflow: ellipsis;
+		// white-space: nowrap;
+		// overflow: hidden;
 		display: block;
 		line-height: 44px;
 		.lightText {
-			text-overflow: ellipsis;
-			white-space: nowrap;
-			overflow: hidden;
+			// text-overflow: ellipsis;
+			// white-space: nowrap;
+			// overflow: hidden;
 			display: block;
+			white-space: pre-wrap;
+			word-break: break-all;
 		}
 	}
 	.poet {

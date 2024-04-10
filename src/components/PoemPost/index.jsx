@@ -30,14 +30,14 @@ const PoemPostCard = (props) => {
 		width,
 		type,
 		letterBorder = '',
-		mode = 'post'
+		mode = 'post',
 	} = props;
 	let pSize = 28; // 诗词字体大小
 	let tSize = 24; // 标题字号
 	let aSize = 16; // 作者字号
 	if (type === 'center') {
-		pSize = mode === 'bg' ? 28 : 30
-		aSize = 14
+		pSize = mode === 'bg' ? 28 : 30;
+		aSize = 14;
 	}
 	const minColumn = sentence.titleArr.length + 1; // 最小列数
 	const column = Math.round(width / 60); // 计算列数
@@ -51,6 +51,7 @@ const PoemPostCard = (props) => {
 	const textArr = [];
 	const totalColumn = column > minColumn ? column : minColumn;
 	const gap = totalColumn - sentence.titleArr.length;
+	let maxPoemHeight = 0;
 	for (let i = 0; i < totalColumn; i++) {
 		if (0 === i) {
 			textArr.push({
@@ -80,12 +81,16 @@ const PoemPostCard = (props) => {
 			});
 		}
 		if (i >= gap) {
+			let text = sentence.titleArr[i - gap];
 			textArr.push({
 				id: i,
-				text: sentence.titleArr[i - gap],
+				text,
 				type: 'poem',
 				size: pSize,
 			});
+			if (maxPoemHeight < text.length * pSize * 1.3) {
+				maxPoemHeight = text.length * pSize * 1.3;
+			}
 		}
 	}
 
@@ -99,11 +104,28 @@ const PoemPostCard = (props) => {
 				return (
 					<View className={`postItem ${item.type}`} key={item.id}>
 						{item.type === 'author' ? (
-							<View className='author-container'>
-								<TextItem {...item} />
+							<View
+								className='poem-container'
+								style={{
+									minHeight: maxPoemHeight,
+								}}
+							>
+								<View className='author-container'>
+									<TextItem {...item} />
+								</View>
 							</View>
 						) : (
-							<TextItem {...item} />
+							<View
+								className='poem-container'
+								style={{
+									minHeight:
+										item.type !== 'title'
+											? maxPoemHeight
+											: 'auto',
+								}}
+							>
+								<TextItem {...item} />
+							</View>
 						)}
 					</View>
 				);

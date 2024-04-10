@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { PageContainer, View } from '@tarojs/components';
+import { View } from '@tarojs/components';
 import { AtTabs, AtTabsPane } from 'taro-ui';
 
+import FloatLayout from '../../../../components/FloatLayout';
 import LongTextCard from '../../../../components/LongTextCard';
 import LikeButton from '../../../../components/LikeButton';
 import CollectButton from '../../../../components/CollectButton';
@@ -81,39 +82,32 @@ const FixBottom = (props) => {
 					{/* <View className='tabItem like'>加入学习</View> */}
 				</View>
 			</View>
-			<PageContainer
-				show={show}
-				overlay
-				zIndex={99}
-				position='bottom'
-				onClickOverlay={handleClickOverlay}
+			<FloatLayout
+				showTitle={false}
+				isOpen={show}
+				close={handleClickOverlay}
+				scrollY
 			>
 				<AtTabs
 					current={current}
 					tabList={tabList}
 					onClick={handleTabChange}
+					swipeable={false}
+					animated={false}
 					className='atTabs'
 				>
 					<AtTabsPane current={current} index={0}>
 						<View className='tabContent'>
-							<LongTextCard
-								text={poemDetail.zhu}
-								titl='注释'
-								showAll
-							/>
+							<LongTextCard text={poemDetail.zhu} titl='注释' showAll />
 						</View>
 					</AtTabsPane>
 					<AtTabsPane current={current} index={1}>
 						<View className='tabContent'>
-							<LongTextCard
-								text={poemDetail.yi}
-								title='译文'
-								showAll
-							/>
+							<LongTextCard text={poemDetail.yi} title='译文' showAll />
 						</View>
 					</AtTabsPane>
 				</AtTabs>
-			</PageContainer>
+			</FloatLayout>
 		</View>
 	);
 };

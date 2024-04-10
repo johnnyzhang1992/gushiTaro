@@ -17,7 +17,7 @@ const PoemSmallCard = ({
 	like_count,
 	collect_count,
 	lightWord,
-	hideAudio = false
+	hideAudio = false,
 }) => {
 	const [showAduio, audioVisible] = useState(false);
 	// const _content = content.split('。')[0].replaceAll('　', '') + '。';
@@ -65,6 +65,10 @@ const PoemSmallCard = ({
 							/>
 						);
 					})}
+					<HighLightText
+						key='other'
+						text='......'
+					/>
 				</View>
 			</Navigator>
 			<View
