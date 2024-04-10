@@ -11,6 +11,10 @@
 
 [Taro](https://taro-docs.jd.com/) 是一个开放式跨端跨框架解决方案，支持使用 React/Vue/Nerv 等框架来开发 微信 / 京东 / 百度 / 支付宝 / 字节跳动 / QQ / 飞书 小程序 / H5 / RN 等应用。
 
+### Taro 版本更新
+
+`taro info` 查看当前cli和项目的版本。 使用 `taro update self [版本号]` 和 `taro update project [版本号]` 来更新cli和项目的taro 版本。
+
 ## 文件目录
 
 - `apis`
