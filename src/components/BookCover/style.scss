@@ -1,12 +1,9 @@
 .book-cover {
 	font-size: 26px;
 	min-height: 280px;
-	padding: 0 16px;
+	padding-right: 20px;
 	box-sizing: border-box;
 	margin-bottom: 20px;
-	&:first-child {
-		padding-left: 0;
-	}
 	&:last-child {
 		padding-right: 0;
 	}
@@ -16,18 +13,24 @@
 		display: flex;
 		justify-content: space-between;
 		// background-color: #337ab7;
-		background-color: rgba(55,70,108);
+		background-color: rgba(55, 70, 108);
 	}
 	.book-name {
 		color: #333;
 		background-color: #fff;
 		margin: 14% 0 0 10%;
 		width: 22%;
-		height: 60%;
-		padding: 8px 4px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
+		height: 70%;
+		padding: 8px;
+		.name-container {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border: 2px solid #000;
+			padding: 4px;
+			height: 100%;
+			box-sizing: border-box;
+		}
 		.name,
 		.desc {
 			writing-mode: vertical-rl;
