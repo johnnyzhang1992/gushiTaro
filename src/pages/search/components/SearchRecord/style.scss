@@ -2,7 +2,12 @@
 	display: flex;
 	font-size: 28px;
 	align-items: center;
-	padding: 8px 0;
+	padding: 8rpx 16rpx;
+	background: #fff;
+	margin-right: 16px;
+	margin-bottom: 16px;
+	border-radius: 6px;
+	justify-content: space-between;
 	.text {
 		flex: 1;
 		padding: 0 12px;
@@ -12,7 +17,7 @@
 	}
 	.history,
 	.close {
-		font-size: 30px;
+		font-size: 24px;
 	}
 }
 .more {
@@ -23,4 +28,15 @@
 }
 .clearAll {
 	font-size: 28px;
+}
+.searchRecordSection {
+	.title {
+		margin-bottom: 12px;
+	}
+	.title, .content {
+		padding: 10px 10px 0;
+	}
+}
+.recordContainer {
+	display: flex;
 }
