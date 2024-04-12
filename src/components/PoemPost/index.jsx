@@ -39,6 +39,10 @@ const PoemPostCard = (props) => {
 		pSize = mode === 'bg' ? 28 : 30;
 		aSize = 14;
 	}
+	if (type === 'horizontal') {
+		pSize = 32
+		tSize = 16
+	}
 	const minColumn = sentence.titleArr.length + 1; // 最小列数
 	const column = Math.round(width / 60); // 计算列数
 	// 说明屏幕宽度过下，字体要缩小
@@ -62,12 +66,16 @@ const PoemPostCard = (props) => {
 			});
 		}
 		if (1 === i) {
+			let text = sentence.poem_title;
+			if (type === 'center') {
+				text = '︽' + sentence.poem_title + '︾';
+			}
+			if (type === 'horizontal') {
+				text = sentence.author + '《' + sentence.poem_title + '》';
+			}
 			textArr.push({
 				id: i,
-				text:
-					type === 'center'
-						? '︽' + sentence.poem_title + '︾'
-						: sentence.poem_title,
+				text: text,
 				type: 'title',
 				size: tSize,
 			});
@@ -93,6 +101,15 @@ const PoemPostCard = (props) => {
 			}
 		}
 	}
+	const styleName = type !== 'horizontal' ? 'minHeight' : 'minWidth';
+	const poemStyle = {
+		title: {},
+		poem: {},
+		author: {},
+	};
+	poemStyle.author[styleName] = maxPoemHeight;
+	poemStyle.title[styleName] = 'auto';
+	poemStyle.poem[styleName] = maxPoemHeight;
 
 	return (
 		<Navigator
@@ -104,26 +121,13 @@ const PoemPostCard = (props) => {
 				return (
 					<View className={`postItem ${item.type}`} key={item.id}>
 						{item.type === 'author' ? (
-							<View
-								className='poem-container'
-								style={{
-									minHeight: maxPoemHeight,
-								}}
-							>
+							<View className='poem-container' style={poemStyle['author']}>
 								<View className='author-container'>
 									<TextItem {...item} />
 								</View>
 							</View>
 						) : (
-							<View
-								className='poem-container'
-								style={{
-									minHeight:
-										item.type !== 'title'
-											? maxPoemHeight
-											: 'auto',
-								}}
-							>
+							<View className='poem-container' style={poemStyle[item.type]}>
 								<TextItem {...item} />
 							</View>
 						)}

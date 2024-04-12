@@ -4,12 +4,9 @@ import Taro from '@tarojs/taro';
 import './style.scss';
 
 // 书籍封面
-const BookCover = (props) => {
-	const { code, name, profile, type } = props;
+const BookCover = ({ code, name, profile, type = '' }) => {
 	const handleNavigate = () => {
-		console.log(code, type);
-		const path =
-			type && type === 'book' ? '/pages/book?' : '/pages/poem/index?';
+		const path = type === 'book' ? '/pages/book?' : '/pages/poem/index?';
 		Taro.navigateTo({
 			url: `${path}code=${code}&name=${name}&profile=${profile}&from=home`,
 		});
