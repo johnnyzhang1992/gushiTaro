@@ -44,7 +44,6 @@ const SearchRecord = ({ handleSearch }) => {
 		};
 		return (
 			<View className='recordItem' onClick={handleItemClick}>
-				<View className='hsitory at-icon at-icon-clock'></View>
 				<View className='text'>{text}</View>
 				<View
 					className='close at-icon at-icon-close'
@@ -62,9 +61,10 @@ const SearchRecord = ({ handleSearch }) => {
 	return keys.length > 0 ? (
 		<SectionCard
 			title='搜索记录'
+			className='searchRecordSection'
 			style={{
-				backgroundColor: '#fff',
-				margin: '0 20rpx 30rpx 20rpx',
+				backgroundColor: 'unset',
+				margin: '0 20rpx 0 20rpx',
 				borderRadius: '12rpx',
 			}}
 			extra={

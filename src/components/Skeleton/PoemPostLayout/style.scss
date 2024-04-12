@@ -15,6 +15,16 @@
 			margin-right: 0;
 		}
 	}
+	&.horizontal {
+		flex-direction: column;
+		justify-content: center;
+		.thin {
+			height: 4px!important;
+			width: 80%;
+			margin-right: 0;
+			margin-bottom: 6px;
+		}
+	}
 	&.active {
 		border: solid 4px #337ab7;
 	}

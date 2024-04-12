@@ -46,7 +46,7 @@
 				height: auto;
 				display: block;
 				box-sizing: content-box;
-				transform: translateY(-0.5rem);
+				transform: translateY(-0.2rem);
 			}
 		}
 	}
@@ -91,6 +91,41 @@
 			}
 			.poem-container {
 				justify-content: flex-start;
+			}
+		}
+	}
+	&.horizontal {
+		flex-direction: column-reverse;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
+		.postItem {
+			height: auto;
+			width: 100%;
+			flex-basis: 100%;
+			text-align: center;
+			flex: none;
+			justify-content: center;
+			padding: 0;
+			margin-bottom: 20px;
+			&.blank {
+				display: none;
+			}
+			&.author {
+				display: none;
+			}
+			.poem-container {
+				width: auto;
+				flex-direction: row;
+				justify-content: flex-end;
+			}
+			&.title {
+				margin-top: 40px;
+				.poem-container {
+					width: auto;
+					position: relative;
+					justify-content: flex-end;
+				}
 			}
 		}
 	}

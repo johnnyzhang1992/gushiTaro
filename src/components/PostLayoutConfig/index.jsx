@@ -22,6 +22,10 @@ const letterLayoutConfig = [
 		color: '#333',
 	},
 	{
+		name: 'horizontal',
+		color: '#333',
+	},
+	{
 		name: 'blackBorder',
 		color: '#212321',
 	},

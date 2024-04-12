@@ -72,7 +72,10 @@ const SearchPage = () => {
 
 	const handleSearch = (key) => {
 		console.log('搜索词：', keyword, key);
-		const searchKey = typeof key === 'string' ? key : keyword
+		if (key && typeof key === 'string') {
+			setKeyword(key)
+		}
+		const searchKey = typeof key === 'string' ? key : keyword;
 		if (!searchKey.trim()) {
 			Taro.showToast({
 				title: '搜点啥呢ლ(′◉❥◉｀ლ)',
@@ -98,32 +101,34 @@ const SearchPage = () => {
 		Taro.showLoading();
 		fetchSearch('GET', {
 			key: KeyWord,
-		}).then((res) => {
-			if (res && res.statusCode === 200) {
-				addKey(KeyWord);
-				const { poems, poets, sentences, tags } = res.data;
-				updateResult({
-					poems: poems.data || [],
-					poems_count: poems.total || 0,
-					poets: poets.data || [],
-					poets_count: poets.total || 0,
-					sentences: sentences.data || [],
-					sentences_count: sentences.total || 0,
-					tags,
-				});
-				cacheRef.current[KeyWord] = {
-					poems: poems.data || [],
-					poems_count: poems.total || 0,
-					poets: poets.data || [],
-					poets_count: poets.total || 0,
-					sentences: sentences.data || [],
-					sentences_count: sentences.total || 0,
-					tags,
-				};
-			}
-		}).finally(() => {
-			Taro.hideLoading();
-		});
+		})
+			.then((res) => {
+				if (res && res.statusCode === 200) {
+					addKey(KeyWord);
+					const { poems, poets, sentences, tags } = res.data;
+					updateResult({
+						poems: poems.data || [],
+						poems_count: poems.total || 0,
+						poets: poets.data || [],
+						poets_count: poets.total || 0,
+						sentences: sentences.data || [],
+						sentences_count: sentences.total || 0,
+						tags,
+					});
+					cacheRef.current[KeyWord] = {
+						poems: poems.data || [],
+						poems_count: poems.total || 0,
+						poets: poets.data || [],
+						poets_count: poets.total || 0,
+						sentences: sentences.data || [],
+						sentences_count: sentences.total || 0,
+						tags,
+					};
+				}
+			})
+			.finally(() => {
+				Taro.hideLoading();
+			});
 	};
 
 	const fetchHotKeys = () => {
@@ -137,10 +142,10 @@ const SearchPage = () => {
 
 	useLoad((options) => {
 		console.log('---page--load', options);
-		const { key = '' } = options
+		const { key = '' } = options;
 		if (key) {
-			setKeyword(key)
-			handleSearch(key)
+			setKeyword(key);
+			handleSearch(key);
 		}
 		Taro.setNavigationBarTitle({
 			title: '搜索',
@@ -187,14 +192,13 @@ const SearchPage = () => {
 	const HotKeyItem = ({ word }) => {
 		const handleClick = () => {
 			setKeyword(word);
+			handleSearch(word)
 		};
 		return (
 			<View className='hotKeys' onClick={handleClick}>
-				{/* <Text className='index'>{index}</Text> */}
 				<Text className='keyText' userSelect>
 					{word}
 				</Text>
-				<View className='icon at-icon at-icon-streaming'></View>
 			</View>
 		);
 	};
@@ -220,21 +224,28 @@ const SearchPage = () => {
 				/>
 			</View>
 			{/* 搜索记录 */}
-			{!isSearch ? <SearchRecord handleSearch={handleChange} /> : null}
+			{!isSearch ? <SearchRecord handleSearch={handleSearch} /> : null}
 			{/* 搜索热词 -大家都在搜 */}
 			{!isSearch ? (
-				<SectionCard title='搜素热词' style={sectionCardStyle}>
+				<SectionCard
+					title='搜索热词'
+					className='hotKeysSection'
+					style={{
+						...sectionCardStyle,
+						backgroundColor: 'unset',
+						marginBottom: 6,
+					}}
+				>
 					{hotKeywords.map((word, index) => (
 						<HotKeyItem key={index} word={word} index={index + 1} />
 					))}
 				</SectionCard>
 			) : null}
-			{/* 诗词随机推荐 */}
-			{!isSearch && noSearchResult ? <RandomSearch /> : null}
 			{/* 搜索提示 */}
 			{!isSearch && showTips ? (
 				<SectionCard
 					title='搜索小技巧'
+					className='seachTipSection'
 					style={sectionCardStyle}
 					extra={
 						<Text className='closeText' onClick={handleTipsClose}>
@@ -266,6 +277,8 @@ const SearchPage = () => {
 					</View>
 				</SectionCard>
 			) : null}
+			{/* 诗词随机推荐 */}
+			{!isSearch && noSearchResult ? <RandomSearch /> : null}
 			{/* 搜索结果 */}
 			{/* 标签 */}
 			{searchResult.tags.length > 0 ? (
@@ -292,11 +305,7 @@ const SearchPage = () => {
 				>
 					<View className='poetList'>
 						{searchResult.poets.map((poet) => (
-							<PoetCard
-								{...poet}
-								key={poet.id}
-								lightWord={keyword}
-							/>
+							<PoetCard {...poet} key={poet.id} lightWord={keyword} />
 						))}
 					</View>
 				</SectionCard>

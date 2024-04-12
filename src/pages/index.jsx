@@ -51,7 +51,7 @@ const Index = () => {
 		width: 375,
 	});
 	const [postConfig, updateConfig] = useState({
-		type: 'default', // default center letter horiv
+		type: 'default', // default center letter horizontal
 		showQrcode: true,
 		letterBorder: 'default', // redBorder blankBorder
 		bgColor: '#fff',
