@@ -117,13 +117,14 @@
 			.poem-container {
 				width: auto;
 				flex-direction: row;
-				justify-content: center;
+				justify-content: flex-end;
 			}
 			&.title {
 				margin-top: 40px;
 				.poem-container {
 					width: auto;
 					position: relative;
+					justify-content: flex-end;
 				}
 			}
 		}

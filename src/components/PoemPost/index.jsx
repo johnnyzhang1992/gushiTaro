@@ -40,8 +40,8 @@ const PoemPostCard = (props) => {
 		aSize = 14;
 	}
 	if (type === 'horizontal') {
-		pSize = 32
-		tSize = 16
+		pSize = 30;
+		tSize = 16;
 	}
 	const minColumn = sentence.titleArr.length + 1; // 最小列数
 	const column = Math.round(width / 60); // 计算列数
@@ -56,6 +56,10 @@ const PoemPostCard = (props) => {
 	const totalColumn = column > minColumn ? column : minColumn;
 	const gap = totalColumn - sentence.titleArr.length;
 	let maxPoemHeight = 0;
+	let ratio = 1.3 // 放大比例
+	if (type === 'horizontal') {
+		ratio = 1
+	}
 	for (let i = 0; i < totalColumn; i++) {
 		if (0 === i) {
 			textArr.push({
@@ -96,8 +100,8 @@ const PoemPostCard = (props) => {
 				type: 'poem',
 				size: pSize,
 			});
-			if (maxPoemHeight < text.length * pSize * 1.3) {
-				maxPoemHeight = text.length * pSize * 1.3;
+			if (maxPoemHeight < text.length * pSize * ratio) {
+				maxPoemHeight = text.length * pSize * ratio;
 			}
 		}
 	}
@@ -108,7 +112,7 @@ const PoemPostCard = (props) => {
 		author: {},
 	};
 	poemStyle.author[styleName] = maxPoemHeight;
-	poemStyle.title[styleName] = 'auto';
+	poemStyle.title[styleName] = type === 'horizontal' ? maxPoemHeight : 'auto';
 	poemStyle.poem[styleName] = maxPoemHeight;
 
 	return (
