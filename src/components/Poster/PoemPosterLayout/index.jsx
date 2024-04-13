@@ -26,20 +26,28 @@ const PoemPostLayout = ({
 			style={style}
 			onClick={handleClick}
 		>
+			{[1, 2].map((th) => {
+				return (
+					<View
+						key={th}
+						className='thin'
+						style={{
+							backgroundColor: borderColor,
+							height: type.includes('Border') ? '100%' : '80%',
+						}}
+					></View>
+				);
+			})}
 			<View
-				className='thin'
+				className='border-container'
 				style={{
-					backgroundColor: borderColor,
-					height: type.includes('letter') ? '100%' : '80%'
+					display: type.includes('Border') ? 'flex' : 'none',
 				}}
-			></View>
-			<View
-				className='thin'
-				style={{
-					backgroundColor: borderColor,
-					height: type.includes('letter') ? '100%' : '80%'
-				}}
-			></View>
+			>
+				{[1, 2, 3].map((it) => {
+					return <View className='thin-border' key={it}></View>;
+				})}
+			</View>
 		</View>
 	);
 };
