@@ -7,10 +7,7 @@
 		width: 4px;
 		background-color: #333;
 		height: 80%;
-		margin-right: 10%;
-		&:last-child {
-			margin-right: 0;
-		}
+		margin-right: 8px;
 	}
 	&.blackBorder,
 	&.redBorder {
@@ -38,8 +35,8 @@
 	}
 	&.center {
 		justify-content: center;
-		.thin:last-child {
-			margin-right: 0;
+		.thin {
+			transform: translateX(8px);
 		}
 	}
 	&.horizontal {
@@ -49,13 +46,10 @@
 			height: 4px !important;
 			width: 80%;
 			margin-right: 0;
-			margin-bottom: 6px;
+			margin-bottom: 8px;
 		}
 	}
 	&.active {
 		border: solid 4px #337ab7;
-	}
-	&:last-child {
-		margin-right: 0;
 	}
 }

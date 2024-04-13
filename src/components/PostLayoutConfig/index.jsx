@@ -14,15 +14,15 @@ import './style.scss';
 // 边框颜色配置
 const letterLayoutConfig = [
 	{
-		name: 'horizontal',
-		color: '#333',
-	},
-	{
 		name: 'default',
 		color: '#333',
 	},
 	{
 		name: 'center',
+		color: '#333',
+	},
+	{
+		name: 'horizontal',
 		color: '#333',
 	},
 	{
@@ -61,7 +61,7 @@ const PostLayoutConfig = ({
 	isPc = false,
 }) => {
 	const [postConfig, updateConfig] = useState({
-		type: 'horizontal', // default center letter horizontal
+		type: 'default', // default center letter horizontal
 		showQrcode: true,
 		letterBorder: 'default', // redBorder blankBorder
 		bgColor: '#fff',
