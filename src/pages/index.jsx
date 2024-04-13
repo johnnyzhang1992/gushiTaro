@@ -51,7 +51,7 @@ const Index = () => {
 		width: 375,
 	});
 	const [postConfig, updateConfig] = useState({
-		type: 'default', // default center letter horizontal
+		type: 'horizontal', // default center letter horizontal
 		showQrcode: true,
 		letterBorder: 'default', // redBorder blankBorder
 		bgColor: '#fff',
@@ -268,7 +268,7 @@ const Index = () => {
 									sentence={sentence}
 									fontColor={postConfig.fontColor}
 									width={safeArea.width - 40}
-									type={postConfig.letterBorder}
+									type={postConfig.type}
 									mode={postConfig.ratio === 0.75 ? 'post' : 'bg'}
 								/>
 							</View>

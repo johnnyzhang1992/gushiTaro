@@ -8,6 +8,33 @@
 		background-color: #333;
 		height: 80%;
 		margin-right: 10%;
+		&:last-child {
+			margin-right: 0;
+		}
+	}
+	&.blackBorder,
+	&.redBorder {
+		.thin {
+			display: none;
+		}
+		.border-container {
+			width: 100%;
+			height: 100%;
+			justify-content: space-evenly;
+			box-sizing: border-box;
+		}
+		.thin-border {
+			height: 100%;
+			width: 2px;
+			background-color: #212321;
+		}
+	}
+	&.redBorder {
+		.thin-border {
+			height: 100%;
+			width: 2px;
+			background-color: #c01112;
+		}
 	}
 	&.center {
 		justify-content: center;
@@ -19,7 +46,7 @@
 		flex-direction: column;
 		justify-content: center;
 		.thin {
-			height: 4px!important;
+			height: 4px !important;
 			width: 80%;
 			margin-right: 0;
 			margin-bottom: 6px;

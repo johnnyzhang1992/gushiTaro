@@ -4,7 +4,8 @@
   "setting": {
     "compileHotReLoad": true,
     "urlCheck": false,
-    "skylineRenderEnable": true
+    "skylineRenderEnable": true,
+    "lazyloadPlaceholderEnable": false
   },
   "libVersion": "3.4.0"
 }
