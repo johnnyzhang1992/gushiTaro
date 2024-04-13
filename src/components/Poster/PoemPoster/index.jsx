@@ -24,7 +24,7 @@ const TextItem = (props) => {
 	});
 };
 
-const PoemPostCard = (props) => {
+const PoemPosterCard = (props) => {
 	const {
 		sentence = { titleArr: [] },
 		width,
@@ -142,4 +142,4 @@ const PoemPostCard = (props) => {
 	);
 };
 
-export default PoemPostCard;
+export default PoemPosterCard;

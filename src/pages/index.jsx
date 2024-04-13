@@ -9,11 +9,10 @@ import Taro, {
 } from '@tarojs/taro';
 
 import Layout from '../layout';
-import PoemPostCard from '../components/PoemPost';
 import FloatLayout from '../components/FloatLayout';
-import PostLayoutConfig from '../components/PostLayoutConfig';
+import PosterLayoutConfig from '../components/Poster/PosterLayoutConfig';
+import PosterSnapshot from '../components/Poster/PosterSnapshot';
 
-import xcxPng from '../images/xcx.jpg';
 import shareSvg from '../images/svg/share.svg';
 import refreshSvg from '../images/svg/refresh.svg';
 import Utils from '../utils/util';
@@ -40,9 +39,6 @@ const splitSentence = (sentence) => {
 };
 
 const Index = () => {
-	const [date] = useState(() => {
-		return Utils.formatDate().join('/');
-	});
 	const [sentence, setSentence] = useState({
 		titleArr: [],
 	});
@@ -50,7 +46,7 @@ const Index = () => {
 	const [safeArea, setSafeArea] = useState({
 		width: 375,
 	});
-	const [postConfig, updateConfig] = useState({
+	const [posterConfig, updateConfig] = useState({
 		type: 'default', // default center letter horizontal
 		showQrcode: true,
 		letterBorder: 'default', // redBorder blankBorder
@@ -156,7 +152,7 @@ const Index = () => {
 	const handleGlobalFontLoad = () => {
 		console.log('---字体加载成功通知');
 		updateConfig({
-			...postConfig,
+			...posterConfig,
 		});
 	};
 
@@ -192,14 +188,14 @@ const Index = () => {
 	// 根据设置的图片比例和实际的屏幕视图大小来计算最终的画报尺寸
 	let contentWidth = safeArea.width * 0.9;
 	const maxHeight = safeArea.height - LeaveTop - MenuRect.height - 60;
-	if (maxHeight < contentWidth / postConfig.ratio) {
-		contentWidth = maxHeight * postConfig.ratio;
+	if (maxHeight < contentWidth / posterConfig.ratio) {
+		contentWidth = maxHeight * posterConfig.ratio;
 	}
 	const contentHeight =
-		postConfig.ratio === 1
+		posterConfig.ratio === 1
 			? safeArea.height - LeaveTop - MenuRect.height - 60
-			: contentWidth / postConfig.ratio;
-	if (postConfig.ratio === 1) {
+			: contentWidth / posterConfig.ratio;
+	if (posterConfig.ratio === 1) {
 		contentWidth = safeArea.width - 30;
 	}
 
@@ -251,46 +247,11 @@ const Index = () => {
 							height: contentHeight,
 						}}
 					>
-						<View
-							className='poemCard'
-							style={{
-								padding: 10,
-								backgroundColor: postConfig.bgColor || '#fff',
-								color: postConfig.fontColor || '#333',
-								backgroundImage: postConfig.bgImg
-									? `url(${postConfig.bgImg})`
-									: 'unset',
-							}}
-						>
-							<View className='container'>
-								<PoemPostCard
-									bgColor={postConfig.bgColor || '#fff'}
-									sentence={sentence}
-									fontColor={postConfig.fontColor}
-									width={safeArea.width - 40}
-									type={postConfig.type}
-									mode={postConfig.ratio === 0.75 ? 'post' : 'bg'}
-								/>
-							</View>
-							<View
-								className='bottom'
-								style={{
-									display: postConfig.showQrcode ? 'flex' : 'none',
-								}}
-							>
-								<View className='date'>
-									<View className='yangli'>
-										<Text className='text'>{date}</Text>
-									</View>
-									<View className='nongli'>
-										<Text className='text'>甲辰龙年</Text>
-									</View>
-								</View>
-								<View className='desc'>
-									<Image src={xcxPng} showMenuByLongpress className='xcxImg' />
-								</View>
-							</View>
-						</View>
+						<PosterSnapshot
+							safeArea={safeArea}
+							sentence={sentence}
+							posterConfig={posterConfig}
+						/>
 					</Snapshot>
 				</View>
 				{/* 半屏展示全文 */}
@@ -303,7 +264,7 @@ const Index = () => {
 						visibility: isOpen ? 'visible' : 'hidden',
 					}}
 				>
-					<PostLayoutConfig
+					<PosterLayoutConfig
 						safeArea={safeArea}
 						isPc={isPc}
 						update={updateConfig}

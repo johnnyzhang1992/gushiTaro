@@ -2,12 +2,12 @@ import { View, Text, Image, ScrollView } from '@tarojs/components';
 import { AtButton } from 'taro-ui';
 import { useEffect, useState } from 'react';
 
-import PoemPostLayout from '../Skeleton/PoemPostLayout';
+import PoemPosterLayout from '../PoemPosterLayout';
 
-import Qrcode from '../../images/icon/qrcode.png';
-import shareSvg from '../../images/svg/share.svg';
-import saveSvg from '../../images/svg/save.svg';
-import { postBgImages } from '../../const/config';
+import Qrcode from '../../../images/icon/qrcode.png';
+import shareSvg from '../../../images/svg/share.svg';
+import saveSvg from '../../../images/svg/save.svg';
+import { postBgImages } from '../../../const/config';
 
 import './style.scss';
 
@@ -60,7 +60,7 @@ const PostLayoutConfig = ({
 	safeArea,
 	isPc = false,
 }) => {
-	const [postConfig, updateConfig] = useState({
+	const [posterConfig, updateConfig] = useState({
 		type: 'default', // default center letter horizontal
 		showQrcode: true,
 		letterBorder: 'default', // redBorder blankBorder
@@ -72,14 +72,14 @@ const PostLayoutConfig = ({
 
 	const handleToggleBottom = () => {
 		updateConfig({
-			...postConfig,
-			showQrcode: !postConfig.showQrcode,
+			...posterConfig,
+			showQrcode: !posterConfig.showQrcode,
 		});
 	};
 
 	const updateLayout = ({ type, letterBorder }) => {
 		updateConfig({
-			...postConfig,
+			...posterConfig,
 			type: type,
 			letterBorder: letterBorder || '',
 		});
@@ -88,7 +88,7 @@ const PostLayoutConfig = ({
 	const selectFontColor = (e) => {
 		const { fontColor } = e.currentTarget.dataset;
 		updateConfig({
-			...postConfig,
+			...posterConfig,
 			fontColor: fontColor || '#333',
 		});
 	};
@@ -96,7 +96,7 @@ const PostLayoutConfig = ({
 	const selectBgImg = (e) => {
 		const { img } = e.currentTarget.dataset;
 		updateConfig({
-			...postConfig,
+			...posterConfig,
 			bgImg: img,
 		});
 	};
@@ -104,16 +104,16 @@ const PostLayoutConfig = ({
 	const selecrRatio = (e) => {
 		const { ratio } = e.currentTarget.dataset;
 		updateConfig({
-			...postConfig,
+			...posterConfig,
 			ratio: ratio || 0.75,
 		});
 	};
 
 	useEffect(() => {
 		if (update && typeof update === 'function') {
-			update(postConfig);
+			update(posterConfig);
 		}
-	}, [postConfig, update]);
+	}, [posterConfig, update]);
 
 	return (
 		<View className='post-layout-config'>
@@ -126,7 +126,7 @@ const PostLayoutConfig = ({
 					<View className='scrollContainer'>
 						{letterLayoutConfig.map((layout) => {
 							return (
-								<PoemPostLayout
+								<PoemPosterLayout
 									type={layout.name}
 									key={layout.name}
 									style={{
@@ -138,14 +138,14 @@ const PostLayoutConfig = ({
 									borderColor={layout.color}
 									letterBorder={layout.name}
 									update={updateLayout}
-									activeType={postConfig.type}
+									activeType={posterConfig.type}
 								/>
 							);
 						})}
 					</View>
 					<View
 						className={`qrcode-container  ${
-							postConfig.showQrcode ? 'active' : ''
+							posterConfig.showQrcode ? 'active' : ''
 						}`}
 						onClick={handleToggleBottom}
 					>
@@ -174,7 +174,7 @@ const PostLayoutConfig = ({
 								data-ratio={ratio.value}
 								onClick={selecrRatio}
 								className={`ratio-item ${
-									postConfig.ratio == ratio.value ? 'active' : ''
+									posterConfig.ratio == ratio.value ? 'active' : ''
 								}`}
 							>
 								{ratio.name}
@@ -200,7 +200,7 @@ const PostLayoutConfig = ({
 								<View
 									key={color}
 									className={`color-item bgColor ${
-										postConfig.fontColor === color ? 'active' : ''
+										posterConfig.fontColor === color ? 'active' : ''
 									}`}
 									style={{
 										backgroundColor: color,
@@ -239,7 +239,7 @@ const PostLayoutConfig = ({
 								<View
 									key={img}
 									className={`color-item bgImg ${
-										postConfig.bgImg === img ? 'active' : ''
+										posterConfig.bgImg === img ? 'active' : ''
 									}`}
 									style={{
 										width: 30,
