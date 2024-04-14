@@ -169,10 +169,10 @@ const SentenceDetail = () => {
 		fetchDetail(options.id);
 	});
 	usePullDownRefresh(() => {
-		console.log('page-pullRefresh');
 		fetchDetail();
 		Taro.stopPullDownRefresh();
 	});
+
 	useShareAppMessage(() => {
 		const { sentence } = detail;
 		return {
@@ -180,6 +180,7 @@ const SentenceDetail = () => {
 			path: '/pages/sentence/detail?id=' + sentence.id,
 		};
 	});
+
 	useShareTimeline(() => {
 		const { sentence } = detail;
 		return {
@@ -202,7 +203,7 @@ const SentenceDetail = () => {
 	}
 	const contentHeight =
 		posterConfig.ratio === 1
-			? safeArea.height - LeaveTop - MenuRect.height - 20
+			? safeArea.height - LeaveTop - MenuRect.height - 40
 			: contentWidth / posterConfig.ratio;
 	if (posterConfig.ratio === 1) {
 		contentWidth = safeArea.width - 30;

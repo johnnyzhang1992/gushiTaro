@@ -40,7 +40,7 @@ const PoemPosterCard = (props) => {
 		aSize = 14;
 	}
 	if (type === 'horizontal') {
-		pSize = 30;
+		pSize = 34;
 		tSize = 16;
 	}
 	const minColumn = sentence.titleArr.length + 1; // 最小列数
