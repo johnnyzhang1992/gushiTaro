@@ -1,11 +1,4 @@
-import {
-	View,
-	OfficialAccount,
-	Text,
-	Navigator,
-	Image,
-	Button,
-} from '@tarojs/components';
+import { View, Text, Image, Snapshot } from '@tarojs/components';
 import { useState, useRef } from 'react';
 import Taro, {
 	useLoad,
@@ -15,23 +8,39 @@ import Taro, {
 } from '@tarojs/taro';
 import { useNavigationBar } from 'taro-hooks';
 
-import SectionCard from '../../components/SectionCard';
-import PoemSmallCard from '../../components/PoemSmallCard';
+import Layout from '../../layout';
+import FloatLayout from '../../components/FloatLayout';
+import PosterLayoutConfig from '../../components/Poster/PosterLayoutConfig';
+import PosterSnapshot from '../../components/Poster/PosterSnapshot';
 import LikeButton from '../../components/LikeButton';
 import CollectButton from '../../components/CollectButton';
-import TagsCard from '../../components/TagsCard';
-import FabButton from '../../components/FabButton';
 
 import { fetchSentenceDetail } from './service';
+import { postBgImages } from '../../const/config';
 
-import copyPng from '../../images/icon/copy.png';
-import sharePng from '../../images/icon/share.png';
+import shareSvg from '../../images/svg/share.svg';
+import returnSvg from '../../images/svg/return.svg';
+import copyPng from '../../images/svg/copy.svg';
 
 import './style.scss';
 
+// 拆分词句
+const splitSentence = (sentence) => {
+	// 替代特殊符号 。。
+	let pattern = new RegExp('[。，.、;；!！?？]', 'g');
+	sentence = sentence.replace(/，/g, ',');
+	sentence = sentence.replace(pattern, ',');
+	return sentence
+		.split(',')
+		.filter((item) => {
+			return item;
+		})
+		.reverse();
+};
 const SentenceDetail = () => {
 	const { setTitle } = useNavigationBar({ title: '古诗文小助手' });
 	const catchRef = useRef({});
+	const [isOpen, setOpen] = useState(false);
 	const [detail, setDetail] = useState({
 		poem: {
 			dynasty: '',
@@ -40,25 +49,27 @@ const SentenceDetail = () => {
 		author: {},
 		sentence: {
 			title: '',
-			sentenceArr: [],
+			titleArr: [],
 			like_count: 0,
 			collect_count: 0,
 			collect_status: false,
 			like_status: false,
+			author: '',
+			poem_id: '',
+			dynasty: '',
+			poem_title: '',
 		},
 	});
-	const [tags, setTags] = useState([]);
 
-	// 拆分词句
-	const splitSentence = (sentence) => {
-		// 替代特殊符号 。。
-		let pattern = new RegExp('[。，.、!！?？]', 'g');
-		sentence = sentence.replace(/，/g, ',');
-		sentence = sentence.replace(pattern, ',');
-		return sentence.split(',').filter((item) => {
-			return item;
-		});
-	};
+	const [posterConfig, updateConfig] = useState({
+		type: 'default', // default center letter horizontal
+		showQrcode: true,
+		letterBorder: 'default', // redBorder blankBorder
+		bgColor: '#fff',
+		bgImg: postBgImages[0], // 背景图
+		fontColor: '#333',
+		ratio: 1, // 显示比例 0.75 0.46
+	});
 
 	const fetchDetail = (id) => {
 		const sId = id || catchRef.id;
@@ -72,22 +83,15 @@ const SentenceDetail = () => {
 					poem,
 					sentence: {
 						...sentence,
-						sentenceArr: splitSentence(sentence.title || ''),
+						author: poem.author,
+						poem_id: poem.id,
+						dynasty: poem.dynasty,
+						poem_title: poem.title,
+						titleArr: splitSentence(sentence.title || ''),
 					},
 				});
-				const { title, theme = '', type = '' } = sentence;
+				const { title } = sentence;
 				setTitle(title);
-				let tagsArr = [];
-				if (theme) {
-					tagsArr = tagsArr.concat(sentence.theme.split(','));
-				}
-				if (type) {
-					tagsArr = tagsArr.concat(sentence.type.split(','));
-				}
-				if (poem.tags) {
-					tagsArr = tagsArr.concat(poem.tags.split(','));
-				}
-				setTags([...new Set(tagsArr)]);
 			}
 		});
 	};
@@ -104,6 +108,58 @@ const SentenceDetail = () => {
 				});
 			},
 		});
+	};
+
+	// 下载图片到本地
+	const handleDownload = () => {
+		console.log('点击生成图片');
+		Taro.createSelectorQuery()
+			.select('#poemCard')
+			.node()
+			.exec((res) => {
+				const node = res[0].node;
+				node.takeSnapshot({
+					type: 'arraybuffer',
+					format: 'png',
+					success: (res1) => {
+						const randomNum = Math.floor(Math.random() * 1000000);
+						const f = `${Taro.env.USER_DATA_PATH}/gushiPoemCard_${randomNum}.png`;
+						const fs = Taro.getFileSystemManager();
+						fs.writeFileSync(f, res1.data, 'binary');
+						Taro.saveImageToPhotosAlbum({
+							filePath: f,
+							success() {
+								Taro.showToast({
+									icon: 'success',
+									title: '保存成功',
+								});
+							},
+							complete(res2) {
+								console.log('saveImageToPhotosAlbum:', res2);
+							},
+						});
+					},
+					fail(res1) {
+						console.log(res1);
+						Taro.showToast({
+							icon: 'error',
+							title: '保存失败',
+						});
+					},
+				});
+			});
+	};
+
+	const handleShow = () => {
+		setOpen(true);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+	};
+
+	const handleNavigateBack = () => {
+		Taro.navigateBack();
 	};
 
 	useLoad((options) => {
@@ -132,87 +188,63 @@ const SentenceDetail = () => {
 		};
 	});
 
+	const MenuRect = Taro.getMenuButtonBoundingClientRect();
+	const deviceInfo = Taro.getDeviceInfo();
+	const safeArea = Taro.getSystemInfoSync().safeArea;
+	// PC端样式比较特殊，且不支持图片导出
+	const isPc = ['mac', 'windows'].includes(deviceInfo.platform);
+	const LeaveTop = isPc ? 10 : MenuRect.top;
+	// 根据设置的图片比例和实际的屏幕视图大小来计算最终的画报尺寸
+	let contentWidth = safeArea.width * 0.9;
+	const maxHeight = safeArea.height - LeaveTop - MenuRect.height - 20;
+	if (maxHeight < contentWidth / posterConfig.ratio) {
+		contentWidth = maxHeight * posterConfig.ratio;
+	}
+	const contentHeight =
+		posterConfig.ratio === 1
+			? safeArea.height - LeaveTop - MenuRect.height - 20
+			: contentWidth / posterConfig.ratio;
+	if (posterConfig.ratio === 1) {
+		contentWidth = safeArea.width - 30;
+	}
+	const titleWidth = (safeArea.width / 2 - MenuRect.width - 15) * 2;
+
 	return (
-		<View className='page sentenceDetail'>
-			<View className='topCard'>
-				<View class='sentence-section'>
-					<View class='sentence-title'>
-						{detail.sentence.sentenceArr.map((item) => (
-							<Text
-								class='content text'
-								decode
-								userSelect
-								key={item}
-							>
-								{item}
-							</Text>
-						))}
-					</View>
-					<view class='sentence-origin'>
-						<Text class='text author' decode userSelect>
-							{detail.author.author_name}
-						</Text>
-					</view>
-				</View>
-			</View>
-			{/* 公众号 */}
-			<OfficialAccount />
-			{/* 诗词卡片 */}
-			<SectionCard
-				title='原文'
-				style={{
-					backgroundColor: '#fff',
-					marginTop: '20rpx',
-					borderRadius: '6px',
-				}}
-				extra={
-					<Navigator
-						url={`/pages/poem/detail?id=${detail.poem.id}`}
-						hover-class='none'
+		<Layout>
+			<View className='page sentenceDetail'>
+				{/* 顶部操作栏 */}
+				<View className='topNavbar'>
+					<View
+						className='topNavbar-container'
+						style={{
+							marginTop: `${LeaveTop - 10}px`,
+							height: (MenuRect.height || 32) + 20 + 'px',
+							paddingLeft: 15,
+						}}
 					>
-						查看更多
-					</Navigator>
-				}
-			>
-				<PoemSmallCard
-					{...detail.poem}
-					content={detail.poem.content || ''}
-					hideAudio
-				/>
-			</SectionCard>
-			{/* 标签 */}
-			{tags.length > 0 ? (
-				<SectionCard
-					title='标签'
-					style={{
-						backgroundColor: '#fff',
-						marginTop: '20rpx',
-						borderRadius: '6px',
-					}}
-				>
-					<TagsCard tags={tags} />
-				</SectionCard>
-			) : null}
-			{/* 操作栏 复制 */}
-			<View className='copyContainer' onClick={handlecopy}>
-				<Image src={copyPng} className='copy' />
-			</View>
-			{/* 操作栏 分享 */}
-			<View className='shreContainer'>
-				<Button
-					type='default'
-					size='mini'
-					openType='share'
-					hoverClass='none'
-					plain
-					className='shareBtn'
-				>
-					<Image src={sharePng} className='share' />
-				</Button>
-			</View>
-			{/* 底部 */}
-			<View className='fixBottom'>
-				<View className='buttonContainer'>
+						<View className='share-btn return' onClick={handleNavigateBack}>
+							<Image src={returnSvg} mode='widthFix' className='icon' />
+						</View>
+						<View
+							className='title'
+							style={{
+								width: titleWidth,
+							}}
+						>
+							{detail.sentence.title}
+						</View>
+					</View>
+				</View>
+				{/* 按钮区域 */}
+				<View className='top-btns'>
+					<View className='btnItem share-btn share' onClick={handleShow}>
+						<Image src={shareSvg} mode='widthFix' className='icon' />
+						<Text className='text'>分享</Text>
+					</View>
+					<View className='btnItem share-btn' onClick={handlecopy}>
+						<Image src={copyPng} className='icon copy' />
+						<Text className='text'>复制</Text>
+					</View>
 					<View className='btnItem'>
 						<LikeButton
 							type='sentence'
@@ -232,10 +264,43 @@ const SentenceDetail = () => {
 						/>
 					</View>
 				</View>
+				<View className='post-container'>
+					<Snapshot
+						mode='view'
+						className='poemShot'
+						id='poemCard'
+						style={{
+							width: contentWidth,
+							height: contentHeight,
+						}}
+					>
+						<PosterSnapshot
+							safeArea={safeArea}
+							sentence={detail.sentence}
+							posterConfig={posterConfig}
+							showDate={false}
+						/>
+					</Snapshot>
+				</View>
+				{/* 半屏展示全文 */}
+				<FloatLayout
+					showTitle={false}
+					isOpen={isOpen}
+					close={handleClose}
+					className='postFloatLayout'
+					style={{
+						visibility: isOpen ? 'visible' : 'hidden',
+					}}
+				>
+					<PosterLayoutConfig
+						safeArea={safeArea}
+						isPc={isPc}
+						update={updateConfig}
+						handleDownload={handleDownload}
+					/>
+				</FloatLayout>
 			</View>
-			{/* 悬浮按钮 */}
-			<FabButton />
-		</View>
+		</Layout>
 	);
 };
 

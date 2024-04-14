@@ -30,6 +30,9 @@ page {
 	-webkit-font-smoothing: antialiased;
 	// padding-bottom: env(safe-area-inset-bottom);
 }
+.safeBottom {
+	padding-bottom: env(safe-area-inset-bottom)
+}
 .divide {
 	height: 12px;
 	width: 100%;

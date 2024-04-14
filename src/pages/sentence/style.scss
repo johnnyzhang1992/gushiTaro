@@ -1,8 +1,12 @@
 .page.sentenceDetail {
-	padding: 30px;
 	box-sizing: border-box;
-	min-height: 100vh;
-	background-color: #f5f5f5;
+	background: #efefef;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	flex-direction: column;
+	font-family: GushiFont, serif;
+	height: 100%;
 	.sentence-section {
 		clear: both;
 		overflow: hidden;
@@ -53,7 +57,88 @@
 		padding: 0;
 		margin: 0;
 	}
+	.topNavbar {
+		background-color: #337ab7;
+		width: 100%;
+	}
+	.topNavbar-container {
+		padding-left: 32px;
+		display: flex;
+		width: 100%;
+		align-items: center;
+		position: relative;
+		.title {
+			color: #fff;
+			font-size: 28px;
+			position: absolute;
+			left: 50%;
+			transform: translateX(-50%);
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+	}
+	.top-btns {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+		padding: 20px 30px 0;
+		.btnItem {
+			color: #337ab7;
+			margin-right: 16px;
+			&:last-child {
+				margin-right: 0;
+			}
+		}
+		.share-btn {
+			background-color: rgba(51, 122, 183, 0.1);
+			padding: 8rpx 20rpx;
+			border-radius: 8rpx;
+			font-size: 24rpx;
+			box-sizing: border-box;
+		}
+	}
+	.post-container {
+		flex: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.share-btn {
+		display: flex;
+		align-items: center;
+		margin-right: 30px;
+		height: 100%;
+		&.share {
+			color: #337ab7;
+		}
+		.text {
+			margin-left: 12px;
+		}
+		&:last-child {
+			margin-right: 0;
+		}
+		.icon {
+			width: 28px;
+			height: 28px;
+		}
+		&.return {
+			.icon {
+				width: 36px;
+				height: 36px;
+			}
+		}
+		&.reload.active {
+			.icon {
+				transform-origin: 50% 50%;
+				transition: all 1s ease;
+				transform: rotate(360deg);
+			}
+		}
+	}
 }
+
 .fixBottom {
 	position: fixed;
 	bottom: 0;
@@ -91,7 +176,7 @@
 		line-height: initial;
 		border-radius: 50%;
 		display: block;
-		border: 1px solid #337ab7!important;
+		border: 1px solid #337ab7 !important;
 		&::after {
 			border: unset;
 		}
@@ -109,7 +194,7 @@
 			position: relative;
 			border-bottom: unset;
 			background: #fff;
-			margin: 20rpx 0 ;
+			margin: 20rpx 0;
 			border-radius: 8rpx;
 		}
 	}

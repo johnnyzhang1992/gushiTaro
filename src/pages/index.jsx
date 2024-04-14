@@ -267,6 +267,7 @@ const Index = () => {
 					<PosterLayoutConfig
 						safeArea={safeArea}
 						isPc={isPc}
+						isTab
 						update={updateConfig}
 						handleDownload={handleDownload}
 					/>
