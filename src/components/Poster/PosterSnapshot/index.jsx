@@ -6,6 +6,8 @@ import PoemPosterCard from '../PoemPoster';
 import xcxPng from '../../../images/xcx.jpg';
 import Utils from '../../../utils/util';
 
+import './style.scss'
+
 const PosterSnapshot = (props) => {
 	const { sentence, posterConfig, safeArea, showDate = true } = props;
 
@@ -15,7 +17,7 @@ const PosterSnapshot = (props) => {
 
 	return (
 		<View
-			className='poemCard'
+			className='poster-snapshot'
 			style={{
 				padding: 10,
 				backgroundColor: posterConfig.bgColor || '#fff',

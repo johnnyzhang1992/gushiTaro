@@ -5,7 +5,7 @@
 	right: 0;
 	padding-bottom: env(safe-area-inset-bottom);
 	background-color: #fff;
-    box-shadow: 0 -2px 6px hsla(0,0%,7%,.1);
+  box-shadow: 0 -2px 6px hsla(0,0%,7%,.1);
 	.bottomTabs {
 		padding: 20px 30px;
 		align-items: center;
@@ -30,7 +30,8 @@
 	}
 }
 .tabContent {
-	height: 70vh;
-	padding: 20px 30px;
+	height: 65vh;
+	padding: 20px 0 30px 0;
 	overflow-y: auto;
+	box-sizing: border-box;
 }

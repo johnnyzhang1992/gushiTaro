@@ -90,21 +90,31 @@
 	}
 	.shareBottom {
 		display: flex;
-		.share-btn {
-			flex: 1;
+	}
+	.share-btn {
+		flex: 1;
+		display: flex;
+		align-items: center;
+		margin-right: 30px;
+		&.share {
+			color: #337ab7;
+		}
+		.text {
+			margin-left: 12px;
+		}
+		&:last-child {
+			margin-right: 0;
+		}
+		.icon {
+			width: 28px;
+			height: 28px;
+		}
+		.at-icon {
+			margin-right: 12px;
+		}
+		.at-button__text {
 			display: flex;
 			align-items: center;
-			margin-right: 30px;
-			&:last-child {
-				margin-right: 0;
-			}
-			.at-icon {
-				margin-right: 12px;
-			}
-			.at-button__text {
-				display: flex;
-				align-items: center;
-			}
 		}
 	}
 }

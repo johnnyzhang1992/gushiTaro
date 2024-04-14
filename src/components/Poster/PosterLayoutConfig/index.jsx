@@ -59,6 +59,7 @@ const PostLayoutConfig = ({
 	handleDownload,
 	safeArea,
 	isPc = false,
+	isTab = false,
 }) => {
 	const [posterConfig, updateConfig] = useState({
 		type: 'default', // default center letter horizontal
@@ -116,7 +117,7 @@ const PostLayoutConfig = ({
 	}, [posterConfig, update]);
 
 	return (
-		<View className='post-layout-config'>
+		<View className={`post-layout-config ${!isTab ? 'safeBottom' : ''}`}>
 			{/* 布局 */}
 			<View className='shareLayout'>
 				<View className='title'>
