@@ -6,7 +6,6 @@ import Taro, {
 	useShareAppMessage,
 	useShareTimeline,
 } from '@tarojs/taro';
-import { useNavigationBar } from 'taro-hooks';
 
 import Layout from '../../layout';
 import FloatLayout from '../../components/FloatLayout';
@@ -38,7 +37,6 @@ const splitSentence = (sentence) => {
 		.reverse();
 };
 const SentenceDetail = () => {
-	const { setTitle } = useNavigationBar({ title: '古诗文小助手' });
 	const catchRef = useRef({});
 	const [isOpen, setOpen] = useState(false);
 	const [detail, setDetail] = useState({
@@ -90,8 +88,6 @@ const SentenceDetail = () => {
 						titleArr: splitSentence(sentence.title || ''),
 					},
 				});
-				const { title } = sentence;
-				setTitle(title);
 			}
 		});
 	};
@@ -164,7 +160,6 @@ const SentenceDetail = () => {
 
 	useLoad((options) => {
 		console.log('sentence--Detail:', options);
-		setTitle('名句 | 古诗文助手');
 		catchRef.current = options;
 		fetchDetail(options.id);
 	});
@@ -214,7 +209,13 @@ const SentenceDetail = () => {
 		<Layout>
 			<View className='page sentenceDetail'>
 				{/* 顶部操作栏 */}
-				<View className='topNavbar'>
+				{/* pc不支持自定义导航栏 */}
+				<View
+					className='topNavbar'
+					style={{
+						display: isPc ? 'none' : 'block',
+					}}
+				>
 					<View
 						className='topNavbar-container'
 						style={{
