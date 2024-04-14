@@ -30,7 +30,7 @@ const FloatLayout = (props) => {
 			}}
 		>
 			<View className='float-layout__overlay' onClick={handleClose}></View>
-			<View className='float-layout-container'>
+			<View className='float-layout-container safeBottom'>
 				{showTitle ? (
 					<View
 						className='float-layout-header'
