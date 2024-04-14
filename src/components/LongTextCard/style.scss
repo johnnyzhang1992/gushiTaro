@@ -6,6 +6,7 @@
 	}
 }
 .longTextCard {
+	padding-bottom: env(safe-area-inset-bottom);
 	.textContainer {
 		.longText {
 			display: block;
