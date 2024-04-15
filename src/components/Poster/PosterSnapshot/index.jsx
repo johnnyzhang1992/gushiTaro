@@ -21,10 +21,7 @@ const PosterSnapshot = (props) => {
 			style={{
 				padding: 10,
 				backgroundColor: posterConfig.bgColor || '#fff',
-				color: posterConfig.fontColor || '#333',
-				backgroundImage: posterConfig.bgImg
-					? `url(${posterConfig.bgImg})`
-					: 'unset',
+				color: posterConfig.fontColor || '#333'
 			}}
 		>
 			{/* 主体内容 */}

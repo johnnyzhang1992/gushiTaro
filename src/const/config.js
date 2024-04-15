@@ -552,20 +552,37 @@ export const CiPaiArr = [
 // 飞花令
 export const FeiHuaConfig = [];
 
+export const postBgColorArr = [
+  'rgba(255,255,255)',
+  'rgba(251,248,234)',
+  'rgba(244,213,121)',
+  'rgba(210,155,80)',
+  'rgba(131,109,113)',
+  'rgba(152,91,87)',
+  'rgba(204,75,50)',
+  'rgba(124,25,28)',
+  'rgba(172,177,153)',
+  'rgba(201,224,182)',
+  'rgba(91,162,150)',
+  'rgba(68,123,122)',
+  'rgba(58,1114,56)',
+  'rgba(19,46,73)',
+];
+
 export const postBgImages = [
   'https://assets.xuegushi.com/images/post_bg/255_255_255.png',
   'https://assets.xuegushi.com/images/post_bg/251_248_234.png',
   'https://assets.xuegushi.com/images/post_bg/244_213_121.png',
   'https://assets.xuegushi.com/images/post_bg/210_155_80.png',
-	'https://assets.xuegushi.com/images/post_bg/131_109_113.png',
-	'https://assets.xuegushi.com/images/post_bg/152_91_87.png',
-	'https://assets.xuegushi.com/images/post_bg/204_75_50.png',
-	'https://assets.xuegushi.com/images/post_bg/124_25_28.png',
+  'https://assets.xuegushi.com/images/post_bg/131_109_113.png',
+  'https://assets.xuegushi.com/images/post_bg/152_91_87.png',
+  'https://assets.xuegushi.com/images/post_bg/204_75_50.png',
+  'https://assets.xuegushi.com/images/post_bg/124_25_28.png',
   'https://assets.xuegushi.com/images/post_bg/172_177_153.png',
   'https://assets.xuegushi.com/images/post_bg/201_224_182.png',
   'https://assets.xuegushi.com/images/post_bg/91_162_150.png',
   'https://assets.xuegushi.com/images/post_bg/68_123_122.png',
   'https://assets.xuegushi.com/images/post_bg/58_1114_56.png',
-  'https://assets.xuegushi.com/images/post_bg/19_46_73.png'
+  'https://assets.xuegushi.com/images/post_bg/19_46_73.png',
   // 'https://assets.xuegushi.com/images/post_bg/.png',
 ];

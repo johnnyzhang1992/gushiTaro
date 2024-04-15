@@ -15,7 +15,7 @@ import LikeButton from '../../components/LikeButton';
 import CollectButton from '../../components/CollectButton';
 
 import { fetchSentenceDetail } from './service';
-import { postBgImages } from '../../const/config';
+// import { postBgImages } from '../../const/config';
 
 import shareSvg from '../../images/svg/share.svg';
 import returnSvg from '../../images/svg/return.svg';
@@ -64,7 +64,8 @@ const SentenceDetail = () => {
 		showQrcode: true,
 		letterBorder: 'default', // redBorder blankBorder
 		bgColor: '#fff',
-		bgImg: postBgImages[0], // 背景图
+		// bgImg: postBgImages[0], // 背景图
+		bgColor: 'rgba(255,255,255)',
 		fontColor: '#333',
 		ratio: 1, // 显示比例 0.75 0.46
 	});

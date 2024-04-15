@@ -7,7 +7,7 @@ import PoemPosterLayout from '../PoemPosterLayout';
 import Qrcode from '../../../images/icon/qrcode.png';
 import shareSvg from '../../../images/svg/share.svg';
 import saveSvg from '../../../images/svg/save.svg';
-import { postBgImages } from '../../../const/config';
+import { postBgColorArr } from '../../../const/config';
 
 import './style.scss';
 
@@ -66,8 +66,9 @@ const PostLayoutConfig = ({
 		showQrcode: true,
 		letterBorder: 'default', // redBorder blankBorder
 		bgColor: '#fff',
-		bgImg: postBgImages[0], // 背景图
+		// bgImg: postBgImages[0], // 背景图
 		fontColor: '#333',
+		bgColor: 'rgba(255,255,255)',
 		ratio: 1, // 显示比例 0.75 0.46
 	});
 
@@ -94,11 +95,19 @@ const PostLayoutConfig = ({
 		});
 	};
 
-	const selectBgImg = (e) => {
-		const { img } = e.currentTarget.dataset;
+	// const selectBgImg = (e) => {
+	// 	const { img } = e.currentTarget.dataset;
+	// 	updateConfig({
+	// 		...posterConfig,
+	// 		bgImg: img,
+	// 	});
+	// };
+
+	const selectBgColor = (e) => {
+		const { color } = e.currentTarget.dataset;
 		updateConfig({
 			...posterConfig,
-			bgImg: img,
+			bgColor: color,
 		});
 	};
 
@@ -235,31 +244,22 @@ const PostLayoutConfig = ({
 							width: safeArea.width - 30,
 						}}
 					>
-						{postBgImages.map((img) => {
+						{postBgColorArr.map((color) => {
 							return (
 								<View
-									key={img}
+									key={color}
 									className={`color-item bgImg ${
-										posterConfig.bgImg === img ? 'active' : ''
+										posterConfig.bgColor === color ? 'active' : ''
 									}`}
 									style={{
 										width: 30,
 										height: 30,
 										marginRight: 8,
+										backgroundColor: color,
 									}}
-									data-img={img}
-									onClick={selectBgImg}
-								>
-									<Image
-										src={img}
-										mode='widthFix'
-										className='bg-img'
-										style={{
-											width: 30,
-											height: 30,
-										}}
-									/>
-								</View>
+									data-color={color}
+									onClick={selectBgColor}
+								></View>
 							);
 						})}
 					</ScrollView>

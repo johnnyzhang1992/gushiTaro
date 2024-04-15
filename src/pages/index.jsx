@@ -17,7 +17,7 @@ import shareSvg from '../images/svg/share.svg';
 import refreshSvg from '../images/svg/refresh.svg';
 import Utils from '../utils/util';
 import { fetchRandomSentence } from '../services/global';
-import { postBgImages, FontFaceList } from '../const/config';
+import { FontFaceList } from '../const/config';
 import LoadLocalFont from '../utils/loadFont';
 
 import './index.scss';
@@ -51,7 +51,8 @@ const Index = () => {
 		showQrcode: true,
 		letterBorder: 'default', // redBorder blankBorder
 		bgColor: '#fff',
-		bgImg: postBgImages[0], // 背景图
+		// bgImg: postBgImages[0], // 背景图
+		bgColor: 'rgba(255,255,255)',
 		fontColor: '#333',
 		ratio: 1, // 显示比例 0.75 0.46
 	});
