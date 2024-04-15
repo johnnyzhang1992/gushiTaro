@@ -89,6 +89,10 @@ const SentenceDetail = () => {
 						titleArr: splitSentence(sentence.title || ''),
 					},
 				});
+				const { title } = sentence || {}
+				Taro.setNavigationBarTitle({
+					title: title
+				})
 			}
 		});
 	};
