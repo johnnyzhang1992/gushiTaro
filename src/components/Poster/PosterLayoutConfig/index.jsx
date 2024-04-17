@@ -7,52 +7,17 @@ import PoemPosterLayout from '../PoemPosterLayout';
 import Qrcode from '../../../images/icon/qrcode.png';
 import shareSvg from '../../../images/svg/share.svg';
 import saveSvg from '../../../images/svg/save.svg';
-import { postBgColorArr } from '../../../const/config';
+// import { postBgColorArr } from '../../../const/config';
+import {
+	postBgColorArr,
+	letterLayoutConfig,
+	fontColorArr,
+	ratioConfig,
+	initConfig,
+	postBgImages,
+} from '../../../const/posterConfig';
 
 import './style.scss';
-
-// 边框颜色配置
-const letterLayoutConfig = [
-	{
-		name: 'default',
-		color: '#333',
-	},
-	{
-		name: 'center',
-		color: '#333',
-	},
-	{
-		name: 'horizontal',
-		color: '#333',
-	},
-	{
-		name: 'blackBorder',
-		color: '#212321',
-	},
-	{
-		name: 'redBorder',
-		color: '#c01112',
-	},
-];
-
-// 字体颜色
-const fontColorArr = ['#fff', '#333'];
-
-// 模式
-const ratioConfig = [
-	{
-		name: '默认',
-		value: 1,
-	},
-	{
-		name: '小红书',
-		value: 0.75,
-	},
-	{
-		name: '手机壁纸',
-		value: 0.4615,
-	},
-];
 
 const PostLayoutConfig = ({
 	update,
@@ -62,14 +27,7 @@ const PostLayoutConfig = ({
 	isTab = false,
 }) => {
 	const [posterConfig, updateConfig] = useState({
-		type: 'default', // default center letter horizontal
-		showQrcode: true,
-		letterBorder: 'default', // redBorder blankBorder
-		bgColor: '#fff',
-		// bgImg: postBgImages[0], // 背景图
-		fontColor: '#333',
-		bgColor: 'rgba(255,255,255)',
-		ratio: 1, // 显示比例 0.75 0.46
+		...initConfig,
 	});
 
 	const handleToggleBottom = () => {
@@ -95,13 +53,13 @@ const PostLayoutConfig = ({
 		});
 	};
 
-	// const selectBgImg = (e) => {
-	// 	const { img } = e.currentTarget.dataset;
-	// 	updateConfig({
-	// 		...posterConfig,
-	// 		bgImg: img,
-	// 	});
-	// };
+	const selectBgImg = (e) => {
+		const { img } = e.currentTarget.dataset;
+		updateConfig({
+			...posterConfig,
+			bgImg: img,
+		});
+	};
 
 	const selectBgColor = (e) => {
 		const { color } = e.currentTarget.dataset;
@@ -227,7 +185,30 @@ const PostLayoutConfig = ({
 					</View>
 				</View>
 			</View>
-			{/* 背景图 */}
+			{/* 是否显示背景图 */}
+			<View className='shareLayout'>
+				<View className='title'>
+					<Text className='text'>背景图</Text>
+				</View>
+				<View className='scrollContainer'>
+					{postBgImages.map((bg) => {
+						return (
+							<View
+								className={`bgImg ${posterConfig.bgImg === bg ? 'active' : ''}`}
+								Key={bg}
+								data-img={bg}
+								onClick={selectBgImg}
+								style={{
+									backgroundImage: `url(${bg})`,
+									width: 90,
+									height: 30,
+								}}
+							/>
+						);
+					})}
+				</View>
+			</View>
+			{/* 背景色 */}
 			<View className='shareLayout'>
 				<View className='title'>
 					<Text className='text'>背景色</Text>
