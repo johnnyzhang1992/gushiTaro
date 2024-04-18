@@ -7,53 +7,42 @@ import PoemPosterLayout from '../PoemPosterLayout';
 import Qrcode from '../../../images/icon/qrcode.png';
 import shareSvg from '../../../images/svg/share.svg';
 import saveSvg from '../../../images/svg/save.svg';
-import { postBgImages } from '../../../const/config';
+
+import {
+	postBgColorArr,
+	letterLayoutConfig,
+	fontColorArr,
+	ratioConfig,
+	initConfig,
+	postBgImages,
+} from '../../../const/posterConfig';
 
 import './style.scss';
 
-// 边框颜色配置
-const letterLayoutConfig = [
-	{
-		name: 'default',
-		color: '#333',
-	},
-	{
-		name: 'center',
-		color: '#333',
-	},
-	{
-		name: 'horizontal',
-		color: '#333',
-	},
-	{
-		name: 'blackBorder',
-		color: '#212321',
-	},
-	{
-		name: 'redBorder',
-		color: '#c01112',
-	},
-];
-
-// 字体颜色
-const fontColorArr = ['#fff', '#333'];
-
-// 模式
-const ratioConfig = [
-	{
-		name: '默认',
-		value: 1,
-	},
-	{
-		name: '小红书',
-		value: 0.75,
-	},
-	{
-		name: '手机壁纸',
-		value: 0.4615,
-	},
-];
-
+const PosterLayoutItem = (props) => {
+	const {
+		title = '',
+		containerClass = '',
+		isInline = false,
+		containerStyle = {},
+	} = props;
+	const _class = isInline ? 'layout-bottom' : 'scrollContainer';
+	return (
+		<View className='shareLayout'>
+			<View className='title'>
+				<Text className='text'>{title}</Text>
+			</View>
+			<View
+				className={`${_class} ${containerClass}`}
+				style={{
+					...containerStyle,
+				}}
+			>
+				{props.children}
+			</View>
+		</View>
+	);
+};
 const PostLayoutConfig = ({
 	update,
 	handleDownload,
@@ -62,13 +51,7 @@ const PostLayoutConfig = ({
 	isTab = false,
 }) => {
 	const [posterConfig, updateConfig] = useState({
-		type: 'default', // default center letter horizontal
-		showQrcode: true,
-		letterBorder: 'default', // redBorder blankBorder
-		bgColor: '#fff',
-		bgImg: postBgImages[0], // 背景图
-		fontColor: '#333',
-		ratio: 1, // 显示比例 0.75 0.46
+		...initConfig,
 	});
 
 	const handleToggleBottom = () => {
@@ -102,6 +85,14 @@ const PostLayoutConfig = ({
 		});
 	};
 
+	const selectBgColor = (e) => {
+		const { color } = e.currentTarget.dataset;
+		updateConfig({
+			...posterConfig,
+			bgColor: color,
+		});
+	};
+
 	const selecrRatio = (e) => {
 		const { ratio } = e.currentTarget.dataset;
 		updateConfig({
@@ -117,13 +108,10 @@ const PostLayoutConfig = ({
 	}, [posterConfig, update]);
 
 	return (
-		<View className={`post-layout-config ${!isTab ? 'safeBottom' : ''}`}>
+		<View className={`poster-layout-config ${!isTab ? 'safeBottom' : ''}`}>
 			{/* 布局 */}
-			<View className='shareLayout'>
-				<View className='title'>
-					<Text className='text'>布局</Text>
-				</View>
-				<View className='layout-bottom'>
+			<PosterLayoutItem title='布局' isInline>
+				<>
 					<View className='scrollContainer'>
 						{letterLayoutConfig.map((layout) => {
 							return (
@@ -160,111 +148,103 @@ const PostLayoutConfig = ({
 							}}
 						/>
 					</View>
-				</View>
-			</View>
+				</>
+			</PosterLayoutItem>
 			{/* 模式，小红书和壁纸 */}
-			<View className='shareLayout'>
-				<View className='title'>
-					<Text className='text'>展示模式</Text>
-				</View>
-				<View className='scrollContainer ratio-list'>
-					{ratioConfig.map((ratio) => {
+			<PosterLayoutItem title='展示模式' containerClass='ratio-list'>
+				{ratioConfig.map((ratio) => {
+					return (
+						<View
+							key={ratio.value}
+							data-ratio={ratio.value}
+							onClick={selecrRatio}
+							className={`ratio-item ${
+								posterConfig.ratio == ratio.value ? 'active' : ''
+							}`}
+						>
+							{ratio.name}
+						</View>
+					);
+				})}
+			</PosterLayoutItem>
+			{/* 字体颜色 */}
+			<PosterLayoutItem
+				title='字体颜色'
+				containerStyle={{
+					width: '100%',
+				}}
+			>
+				{fontColorArr.map((color) => {
+					return (
+						<View
+							key={color}
+							className={`color-item bgColor ${
+								posterConfig.fontColor === color ? 'active' : ''
+							}`}
+							style={{
+								backgroundColor: color,
+								width: 30,
+								height: 30,
+								padding: 4,
+								marginRight: 10,
+							}}
+							data-fontColor={color || ''}
+							onClick={selectFontColor}
+						></View>
+					);
+				})}
+			</PosterLayoutItem>
+			{/* 背景图 */}
+			<PosterLayoutItem title='背景图'>
+				{postBgImages.map((bg) => {
+					return (
+						<View
+							className={`bgImg ${posterConfig.bgImg === bg ? 'active' : ''}`}
+							Key={bg}
+							data-img={bg}
+							onClick={selectBgImg}
+							style={{
+								backgroundImage: `url(${bg})`,
+								width: 90,
+								height: 30,
+							}}
+						/>
+					);
+				})}
+			</PosterLayoutItem>
+			{/* 背景色 */}
+			<PosterLayoutItem title='背景色' containerClass='bgColorList'>
+				<ScrollView
+					scrollX
+					enableFlex
+					enhanced
+					showScrollbar={false}
+					className='scrollContainer bgImgList'
+					style={{
+						height: 52,
+						width: safeArea.width - 30,
+					}}
+				>
+					{postBgColorArr.map((color) => {
 						return (
 							<View
-								key={ratio.value}
-								data-ratio={ratio.value}
-								onClick={selecrRatio}
-								className={`ratio-item ${
-									posterConfig.ratio == ratio.value ? 'active' : ''
+								key={color}
+								className={`color-item bgImg ${
+									posterConfig.bgColor === color ? 'active' : ''
 								}`}
-							>
-								{ratio.name}
-							</View>
+								style={{
+									width: 30,
+									height: 30,
+									marginRight: 8,
+									backgroundColor: color,
+								}}
+								data-color={color}
+								onClick={selectBgColor}
+							></View>
 						);
 					})}
-				</View>
-			</View>
-			{/* 字体颜色 */}
-			<View className='shareLayout'>
-				<View className='title'>
-					<Text className='text'>字体颜色</Text>
-				</View>
-				<View className='layout-bottom'>
-					<View
-						className='scrollContainer'
-						style={{
-							width: '100%',
-						}}
-					>
-						{fontColorArr.map((color) => {
-							return (
-								<View
-									key={color}
-									className={`color-item bgColor ${
-										posterConfig.fontColor === color ? 'active' : ''
-									}`}
-									style={{
-										backgroundColor: color,
-										width: 30,
-										height: 30,
-										padding: 4,
-										marginRight: 10,
-									}}
-									data-fontColor={color || ''}
-									onClick={selectFontColor}
-								></View>
-							);
-						})}
-					</View>
-				</View>
-			</View>
-			{/* 背景图 */}
-			<View className='shareLayout'>
-				<View className='title'>
-					<Text className='text'>背景色</Text>
-				</View>
-				<View className='layout-bottom'>
-					<ScrollView
-						scrollX
-						enableFlex
-						enhanced
-						showScrollbar={false}
-						className='scrollContainer bgImgList'
-						style={{
-							height: 52,
-							width: safeArea.width - 30,
-						}}
-					>
-						{postBgImages.map((img) => {
-							return (
-								<View
-									key={img}
-									className={`color-item bgImg ${
-										posterConfig.bgImg === img ? 'active' : ''
-									}`}
-									style={{
-										width: 30,
-										height: 30,
-										marginRight: 8,
-									}}
-									data-img={img}
-									onClick={selectBgImg}
-								>
-									<Image
-										src={img}
-										mode='widthFix'
-										className='bg-img'
-										style={{
-											width: 30,
-											height: 30,
-										}}
-									/>
-								</View>
-							);
-						})}
-					</ScrollView>
-				</View>
-			</View>
+				</ScrollView>
+			</PosterLayoutItem>
 			{/* 底部按钮 */}
 			<View className='shareBottom'>
 				{!isPc ? (

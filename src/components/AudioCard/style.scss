@@ -1,6 +1,6 @@
 .audioCard {
 	margin: 10px 20px;
-	background-color: #f5f5f5;
+	background-color: #c1c1c1;
 	padding: 20px 20px;
 	border-radius: 10px;
 	&.hidePoem{
@@ -19,7 +19,7 @@
 		flex: 1;
 		flex-wrap: wrap;
 		.author {
-			color: #8493a5;
+			color: #337ab7;
 			font-size: 26px;
 			padding-left: 20px;
 		}
@@ -60,6 +60,7 @@
 			border: 1px solid #999;
 			border-radius: 8px;
 			margin-right: 30px;
+			background-color: #fff;
 			&:last-child {
 				margin-right: 0;
 			}

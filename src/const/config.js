@@ -551,18 +551,3 @@ export const CiPaiArr = [
 
 // 飞花令
 export const FeiHuaConfig = [];
-
-export const postBgImages = [
-  'https://assets.xuegushi.com/images/post_bg/255_255_255.png',
-  'https://assets.xuegushi.com/images/post_bg/247_246_242.png',
-  'https://assets.xuegushi.com/images/post_bg/251_248_234.png',
-  'https://assets.xuegushi.com/images/post_bg/152_91_87.png',
-  'https://assets.xuegushi.com/images/post_bg/204_75_50.png',
-  'https://assets.xuegushi.com/images/post_bg/172_177_153.png',
-  'https://assets.xuegushi.com/images/post_bg/201_224_182.png',
-  'https://assets.xuegushi.com/images/post_bg/91_162_150.png',
-  'https://assets.xuegushi.com/images/post_bg/68_123_122.png',
-  'https://assets.xuegushi.com/images/post_bg/98_119_157.png',
-  'https://assets.xuegushi.com/images/post_bg/60_70_92.png',
-  // 'https://assets.xuegushi.com/images/post_bg/.png',
-];

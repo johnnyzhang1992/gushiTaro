@@ -59,11 +59,16 @@
 			width: 28px;
 			height: 28px;
 		}
-		&.reload.active {
+		&.reload {
 			.icon {
 				transform-origin: 50% 50%;
-				transition: all 1s ease;
-				transform: rotate(360deg);
+				transition: all 0.6s ease 0;
+			}
+			&.active {
+				color: #337ab7;
+				.icon {
+					transform: rotateZ(180deg);
+				}
 			}
 		}
 	}

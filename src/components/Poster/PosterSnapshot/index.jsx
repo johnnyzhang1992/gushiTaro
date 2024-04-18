@@ -6,7 +6,7 @@ import PoemPosterCard from '../PoemPoster';
 import xcxPng from '../../../images/xcx.jpg';
 import Utils from '../../../utils/util';
 
-import './style.scss'
+import './style.scss';
 
 const PosterSnapshot = (props) => {
 	const { sentence, posterConfig, safeArea, showDate = true } = props;
@@ -22,9 +22,7 @@ const PosterSnapshot = (props) => {
 				padding: 10,
 				backgroundColor: posterConfig.bgColor || '#fff',
 				color: posterConfig.fontColor || '#333',
-				backgroundImage: posterConfig.bgImg
-					? `url(${posterConfig.bgImg})`
-					: 'unset',
+				backgroundImage: `url(${posterConfig.bgImg})` || 'unset',
 			}}
 		>
 			{/* 主体内容 */}

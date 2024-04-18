@@ -17,8 +17,9 @@ import shareSvg from '../images/svg/share.svg';
 import refreshSvg from '../images/svg/refresh.svg';
 import Utils from '../utils/util';
 import { fetchRandomSentence } from '../services/global';
-import { postBgImages, FontFaceList } from '../const/config';
+import { FontFaceList } from '../const/config';
 import LoadLocalFont from '../utils/loadFont';
+import { initConfig } from '../const/posterConfig';
 
 import './index.scss';
 
@@ -37,6 +38,7 @@ const splitSentence = (sentence) => {
 		})
 		.reverse();
 };
+let timer = null;
 
 const Index = () => {
 	const [sentence, setSentence] = useState({
@@ -47,13 +49,7 @@ const Index = () => {
 		width: 375,
 	});
 	const [posterConfig, updateConfig] = useState({
-		type: 'default', // default center letter horizontal
-		showQrcode: true,
-		letterBorder: 'default', // redBorder blankBorder
-		bgColor: '#fff',
-		bgImg: postBgImages[0], // 背景图
-		fontColor: '#333',
-		ratio: 1, // 显示比例 0.75 0.46
+		...initConfig,
 	});
 	const [isReload, updateReload] = useState(false);
 	const MenuRect = Taro.getMenuButtonBoundingClientRect();
@@ -97,7 +93,10 @@ const Index = () => {
 						data: temSen,
 					});
 				}
-				updateReload(false);
+				timer = setTimeout(() => {
+					updateReload(false);
+					clearTimeout(timer);
+				}, 600);
 			})
 			.catch((err) => {
 				console.log(err);

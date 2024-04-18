@@ -15,10 +15,11 @@ import LikeButton from '../../components/LikeButton';
 import CollectButton from '../../components/CollectButton';
 
 import { fetchSentenceDetail } from './service';
-import { postBgImages } from '../../const/config';
+import { initConfig } from '../../const/posterConfig';
 
 import shareSvg from '../../images/svg/share.svg';
 import returnSvg from '../../images/svg/return.svg';
+import homeSvg from '../../images/svg/home.svg';
 import copyPng from '../../images/svg/copy.svg';
 
 import './style.scss';
@@ -58,16 +59,10 @@ const SentenceDetail = () => {
 			poem_title: '',
 		},
 	});
-
 	const [posterConfig, updateConfig] = useState({
-		type: 'default', // default center letter horizontal
-		showQrcode: true,
-		letterBorder: 'default', // redBorder blankBorder
-		bgColor: '#fff',
-		bgImg: postBgImages[0], // 背景图
-		fontColor: '#333',
-		ratio: 1, // 显示比例 0.75 0.46
+		...initConfig,
 	});
+	const [historyList, setHList] = useState([]);
 
 	const fetchDetail = (id) => {
 		const sId = id || catchRef.id;
@@ -87,6 +82,10 @@ const SentenceDetail = () => {
 						poem_title: poem.title,
 						titleArr: splitSentence(sentence.title || ''),
 					},
+				});
+				const { title } = sentence || {};
+				Taro.setNavigationBarTitle({
+					title: title,
 				});
 			}
 		});
@@ -155,13 +154,20 @@ const SentenceDetail = () => {
 	};
 
 	const handleNavigateBack = () => {
-		Taro.navigateBack();
+		if (historyList.length > 1) {
+			Taro.navigateBack();
+		} else {
+			Taro.switchTab({
+				url: '/pages/index',
+			});
+		}
 	};
 
 	useLoad((options) => {
 		console.log('sentence--Detail:', options);
 		catchRef.current = options;
 		fetchDetail(options.id);
+		setHList([...Taro.getCurrentPages()]);
 	});
 	usePullDownRefresh(() => {
 		fetchDetail();
@@ -225,7 +231,11 @@ const SentenceDetail = () => {
 						}}
 					>
 						<View className='share-btn return' onClick={handleNavigateBack}>
-							<Image src={returnSvg} mode='widthFix' className='icon' />
+							<Image
+								src={historyList.length > 1 ? returnSvg : homeSvg}
+								mode='widthFix'
+								className='icon'
+							/>
 						</View>
 						<View
 							className='title'

@@ -1,12 +1,13 @@
-.post-layout-config {
+.poster-layout-config {
 	padding-top: 20px;
 	.shareLayout {
 		margin-bottom: 20px;
-		.title {
+		&>.title {
 			font-size: 28px;
 			line-height: 36px;
 			margin-bottom: 12px;
 			font-weight: 500;
+			white-space: nowrap;
 		}
 		.scrollContainer {
 			width: 100%;
@@ -46,22 +47,24 @@
 				align-items: center;
 			}
 			.bgImg {
-				border-radius: 50%;
+				// border-radius: 50%;
 				display: flex;
 				flex: none;
 				align-items: flex-end;
-				justify-content: center;
+				justify-content: centesr;
 				box-sizing: border-box;
 				border: 4px solid #333;
 				// float: left;
-				margin-bottom: 6px;
+				margin-bottom: 4px;
+				background-repeat: repeat;
+				margin-right: 16px;
 				&.active {
-					border-width: 6px;
+					border-width: 4px;
+					border-color: #337ab7;
 				}
-				.bg-img {
-					display: block;
-					border-radius: 50%;
-				}
+			}
+			&.bgColorList {
+				align-items: center;
 			}
 		}
 		.layout-bottom {
@@ -85,6 +88,25 @@
 				.qrcode {
 					border-radius: 50%;
 				}
+			}
+		}
+		&.showBgLayout {
+			display: flex;
+			align-items: center;
+			&>.title {
+				margin-bottom: 0;
+			}
+			.at-switch {
+				padding: 0;
+			}
+			.at-switch__title {
+				flex: unset;
+			}
+			.at-switch__switch {
+				transform: scale(0.6);
+			}
+			.scrollContainer {
+				justify-content: flex-end;
 			}
 		}
 	}
