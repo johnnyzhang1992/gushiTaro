@@ -1,4 +1,4 @@
-.post-layout-config {
+.poster-layout-config {
 	padding-top: 20px;
 	.shareLayout {
 		margin-bottom: 20px;
@@ -62,6 +62,9 @@
 					border-width: 4px;
 					border-color: #337ab7;
 				}
+			}
+			&.bgColorList {
+				align-items: center;
 			}
 		}
 		.layout-bottom {
