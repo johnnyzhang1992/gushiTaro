@@ -8,6 +8,7 @@ import { getHistoryKeys, removeKey, clearAll } from '../../historyUtil';
 
 import './style.scss';
 
+const pageSize = 10;
 const SearchRecord = ({ handleSearch }) => {
 	// 默认显示五条
 	const [keys, updateKeys] = useState([]);
@@ -20,7 +21,7 @@ const SearchRecord = ({ handleSearch }) => {
 
 	const handleSeeMore = () => {
 		const lg = keys.length;
-		updateKeys(keys.concat(allKeys.current.slice(lg, lg + 5)));
+		updateKeys(keys.concat(allKeys.current.slice(lg, lg + pageSize)));
 	};
 	const handleClick = (key) => {
 		if (handleSearch && typeof handleSearch === 'function') {
@@ -55,7 +56,7 @@ const SearchRecord = ({ handleSearch }) => {
 
 	useEffect(() => {
 		const localKeys = getHistoryKeys();
-		updateKeys(localKeys.slice(0, 5));
+		updateKeys(localKeys.slice(0, pageSize));
 	}, []);
 
 	return keys.length > 0 ? (

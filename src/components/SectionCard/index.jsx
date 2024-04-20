@@ -3,7 +3,7 @@ import { View, Text } from '@tarojs/components';
 import './style.scss';
 
 const SectionCard = ({
-	title,
+	title = '',
 	extra,
 	children,
 	style = {},
@@ -17,7 +17,13 @@ const SectionCard = ({
 	};
 	return (
 		<View className={`SectionCard ${className}`} style={style}>
-			<View className='title' onClick={handleTitleClick}>
+			<View
+				className='title'
+				onClick={handleTitleClick}
+				style={{
+					display: `${title ? 'flex' : 'none'}`,
+				}}
+			>
 				<Text>{title}</Text>
 				{extra ? <View className='extra'>{extra}</View> : null}
 			</View>

@@ -110,7 +110,7 @@ const PostLayoutConfig = ({
 	return (
 		<View className={`poster-layout-config ${!isTab ? 'safeBottom' : ''}`}>
 			{/* 布局 */}
-			<PosterLayoutItem title='布局' isInline>
+			<PosterLayoutItem title='布局' isInline key='layout'>
 				<>
 					<View className='scrollContainer'>
 						{letterLayoutConfig.map((layout) => {
@@ -151,7 +151,11 @@ const PostLayoutConfig = ({
 				</>
 			</PosterLayoutItem>
 			{/* 模式，小红书和壁纸 */}
-			<PosterLayoutItem title='展示模式' containerClass='ratio-list'>
+			<PosterLayoutItem
+				title='展示模式'
+				containerClass='ratio-list'
+				key='ratio'
+			>
 				{ratioConfig.map((ratio) => {
 					return (
 						<View
@@ -173,6 +177,7 @@ const PostLayoutConfig = ({
 				containerStyle={{
 					width: '100%',
 				}}
+				key='fontColor'
 			>
 				{fontColorArr.map((color) => {
 					return (
@@ -190,17 +195,17 @@ const PostLayoutConfig = ({
 							}}
 							data-fontColor={color || ''}
 							onClick={selectFontColor}
-						></View>
+						/>
 					);
 				})}
 			</PosterLayoutItem>
 			{/* 背景图 */}
-			<PosterLayoutItem title='背景图'>
+			<PosterLayoutItem title='底纹' key='bgImg'>
 				{postBgImages.map((bg) => {
 					return (
 						<View
 							className={`bgImg ${posterConfig.bgImg === bg ? 'active' : ''}`}
-							Key={bg}
+							key={bg}
 							data-img={bg}
 							onClick={selectBgImg}
 							style={{
@@ -213,7 +218,11 @@ const PostLayoutConfig = ({
 				})}
 			</PosterLayoutItem>
 			{/* 背景色 */}
-			<PosterLayoutItem title='背景色' containerClass='bgColorList'>
+			<PosterLayoutItem
+				title='背景色'
+				containerClass='bgColorList'
+				key='bgColor'
+			>
 				<ScrollView
 					scrollX
 					enableFlex

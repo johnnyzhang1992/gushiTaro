@@ -69,7 +69,13 @@ const SentencePage = () => {
 
 	console.log(data, error, loading);
 	useLoad((options) => {
-		const { theme, type, keyWord = '' } = options;
+		const {
+			theme,
+			type,
+			keyWord = '',
+			author_source_id = '',
+			author = '',
+		} = options;
 		console.log('options', options);
 		cacheObj.current = { ...options, count: 0 };
 		updateParams((pre) => {
@@ -79,9 +85,11 @@ const SentencePage = () => {
 				theme: theme && theme !== 'undefined' ? theme : '全部',
 				type: type && type !== 'undefined' ? type : '全部',
 				inited: true,
+				author_source_id,
+				author,
 			};
 		});
-		setTitle('名句 | 古诗文助手');
+		setTitle(keyWord || author || '名句');
 	});
 	usePullDownRefresh(() => {
 		console.log('page-pullRefresh');
@@ -105,23 +113,16 @@ const SentencePage = () => {
 		}
 	});
 	const computeParams = () => {
-		const { theme, type, keyWord } = fetchParams;
+		const keys = Object.keys(fetchParams);
 		let queryStr = '';
-
-		if (theme) {
-			queryStr += `theme=${theme}&`;
-		}
-		if (type) {
-			queryStr += `type=${type}&`;
-		}
-		if (keyWord) {
-			queryStr += `keyWord=${keyWord}`;
-		}
+		keys.forEach((k) => {
+			queryStr += `${k}=${fetchParams[k]}&`;
+		});
 		return queryStr;
 	};
-	useShareAppMessage(() => {
+	const getShareConfig = () => {
 		const queryStr = computeParams();
-		const { theme, keyWord } = fetchParams;
+		const { theme, keyWord, author } = fetchParams;
 		let title = '名句';
 		if (theme && theme !== '全部') {
 			title = `${theme} | 名句`;
@@ -129,23 +130,25 @@ const SentencePage = () => {
 		if (keyWord) {
 			title = keyWord;
 		}
+		if (author) {
+			title = author;
+		}
 		return {
-			title: title,
+			title,
+			queryStr,
+		};
+	};
+	useShareAppMessage(() => {
+		const { title, queryStr } = getShareConfig();
+		return {
+			title,
 			path: '/pages/sentence/index?' + queryStr,
 		};
 	});
 	useShareTimeline(() => {
-		const queryStr = computeParams();
-		const { theme, keyWord } = fetchParams;
-		let title = '名句';
-		if (theme && theme !== '全部') {
-			title = `${theme} | 名句`;
-		}
-		if (keyWord) {
-			title = keyWord;
-		}
+		const { title, queryStr } = getShareConfig();
 		return {
-			title: title,
+			title,
 			path: '/pages/sentence/index?' + queryStr,
 		};
 	});
@@ -159,26 +162,8 @@ const SentencePage = () => {
 				defaultTheme={fetchParams.theme}
 				defaultType={fetchParams.type}
 			/>
-			{/* 关键字筛选 */}
-			<View className='keywordFilter'>
-				{fetchParams.theme ? (
-					<Text decode className='key'>
-						{fetchParams.theme || ''}
-					</Text>
-				) : null}
-				{fetchParams.type ? (
-					<Text decode className='key'>
-						{fetchParams.type || ''}
-					</Text>
-				) : null}
-				{fetchParams.keyWord ? (
-					<Text decode className='key'>
-						{fetchParams.keyWord || ''}
-					</Text>
-				) : null}
-				<Text decode>共 {pagination.total} 条结果</Text>
-			</View>
-			<View className='pageContainer'>
+			{/* 列表显示区域 */}
+			<View className='pageContainer safeBottom'>
 				{data.list.map((sentence) => (
 					<SentenceCard
 						{...sentence}
@@ -188,7 +173,7 @@ const SentencePage = () => {
 					/>
 				))}
 			</View>
-			{/* 列表显示区域 */}
+			{/* loading */}
 			{loading ? (
 				<View className='loading'>
 					<Text>内容加载中...</Text>

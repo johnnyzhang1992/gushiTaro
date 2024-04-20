@@ -184,6 +184,7 @@
 	}
 }
 .sentenceIndex {
+	min-height: 100vh;
 	background-color: #efefef;
 	.keywordFilter {
 		background-color: #fff;
@@ -191,12 +192,12 @@
 	.pageContainer {
 		background-color: #efefef;
 		.sentenceCard {
-			padding: 16rpx 16rpx;
+			padding: 16px 16px;
 			position: relative;
 			border-bottom: unset;
 			background: #fff;
-			margin: 20rpx 0;
-			border-radius: 8rpx;
+			margin-bottom: 20px;
+			border-radius: 8px;
 		}
 	}
 }

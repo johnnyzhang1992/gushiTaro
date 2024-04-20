@@ -44,6 +44,9 @@
 		font-size: 28px;
 	}
 	.SectionCard {
+		&>.title {
+			border-bottom: 2px solid #f5f5f5;
+		}
 		.sentenceCard, .poetCard {
 			&:first-child {
 				padding-top: 0;
@@ -54,11 +57,14 @@
 			}
 		}
 		.poemSmallCard {
+			padding: 0;
+			border-bottom: 2px solid #f5f5f5;
 			&:first-child {
 				margin-top: 0;
 			}
 			&:last-child {
 				margin-bottom: 0;
+				border-bottom: unset;
 			}
 		}
 	}

@@ -167,6 +167,12 @@ const PoemDetail = () => {
 		<View className='page poemDetail'>
 			{/* 诗词内容 */}
 			<PoemCard {...detail.poem} lightWord={pageOptions.keyWord} />
+			{/* 标签 */}
+			{detail.poem.tagsArr.length > 0 ? (
+				<SectionCard title=''>
+					<TagsCard tags={detail.poem.tagsArr || []} />
+				</SectionCard>
+			) : null}
 			{/* 公众号 */}
 			<OfficialAccount />
 			{/* 音频播放 */}
@@ -175,12 +181,6 @@ const PoemDetail = () => {
 				title={detail.poem.title}
 				author={detail.poem.author}
 			/>
-			{/* 标签 */}
-			{detail.poem.tagsArr.length > 0 ? (
-				<SectionCard title='分类'>
-					<TagsCard tags={detail.poem.tagsArr || []} />
-				</SectionCard>
-			) : null}
 			{/* 摘录 */}
 			{detail.sentences.length > 0 ? (
 				<SectionCard title='句子摘录'>
@@ -194,7 +194,7 @@ const PoemDetail = () => {
 						autoplay
 						adjustHeight='highest'
 						style={{
-							height: '160rpx',
+							height: '176rpx',
 						}}
 					>
 						{detail.sentences.map((sentence) => (

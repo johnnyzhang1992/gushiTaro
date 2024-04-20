@@ -3,7 +3,7 @@
   "projectname": "gushiTaro",
   "setting": {
     "compileHotReLoad": true,
-    "urlCheck": true,
+    "urlCheck": false,
     "skylineRenderEnable": true,
     "lazyloadPlaceholderEnable": false
   },

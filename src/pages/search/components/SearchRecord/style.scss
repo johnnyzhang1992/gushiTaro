@@ -11,6 +11,7 @@
 	.text {
 		flex: 1;
 		padding: 0 12px;
+		white-space: nowrap;
 	}
 	.close {
 		justify-self: flex-end;
@@ -22,6 +23,7 @@
 }
 .more {
 	.moreBtn {
+		font-size: 24px;
 		display: block;
 		margin-top: 20px;
 	}
@@ -30,6 +32,7 @@
 	font-size: 28px;
 }
 .searchRecordSection {
+	margin-bottom: 20px;
 	.title {
 		margin-bottom: 12px;
 	}
@@ -39,4 +42,5 @@
 }
 .recordContainer {
 	display: flex;
+	flex-wrap: wrap;
 }

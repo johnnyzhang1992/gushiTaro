@@ -42,27 +42,17 @@ const PoemSmallCard = ({
 				hoverClass='none'
 			>
 				<View className='title'>
-					<HighLightText
-						className='name'
-						text={title}
-						lightWord={lightWord}
-					/>
+					<HighLightText className='name' text={title} lightWord={lightWord} />
 				</View>
 				<View className='poet'>
-					{dynasty ? (
-						<Text className='dynasty'>{dynasty}</Text>
-					) : null}
+					{dynasty ? <Text className='dynasty'>{dynasty}</Text> : null}
 					<Text className='author'>{author}</Text>
 				</View>
 				<View className='content'>
 					{/* 一句话介绍，第一个句号前 */}
 					{_content.map((text) => {
 						return (
-							<HighLightText
-								key={text}
-								text={text}
-								lightWord={lightWord}
-							/>
+							<HighLightText key={text} text={text} lightWord={lightWord} />
 						);
 					})}
 					<HighLightText
@@ -82,9 +72,7 @@ const PoemSmallCard = ({
 						className='at-icon at-icon-volume-plus audio icon'
 						onClick={handleAudioVisible}
 					>
-						<Text className='text'>
-							{showAduio ? '收起' : '播放'}
-						</Text>
+						<Text className='text'>{showAduio ? '收起' : '播放'}</Text>
 					</View>
 				) : null}
 				{showCount ? (

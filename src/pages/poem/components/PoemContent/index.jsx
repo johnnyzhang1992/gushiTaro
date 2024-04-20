@@ -5,6 +5,11 @@ import HighLightText from '../../../../components/HighLightText';
 import './style.scss';
 
 const PoemContent = ({ type, lightWord, xu = '', content = [] }) => {
+	const typeObj = {
+		'诗': 'shi',
+		'词': 'ci',
+		'文言文': 'wyw',
+	}
 	return (
 		<View className='poemContent'>
 			{xu ? (
@@ -14,7 +19,7 @@ const PoemContent = ({ type, lightWord, xu = '', content = [] }) => {
 					</Text>
 				</View>
 			) : null}
-			<View className={`content ${type === '文言文' ? 'wyw' : ''}`}>
+			<View className={`content ${typeObj[type] || 'ci'}`}>
 				{content.map((item, index) => (
 					<View className='contentItem' key={index}>
 						<HighLightText

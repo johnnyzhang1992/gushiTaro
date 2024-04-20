@@ -126,7 +126,7 @@ const PoetPage = () => {
 				/>
 			</View>
 			{/* 关键字筛选 */}
-			<View className='keywordFilter'>
+			{/* <View className='keywordFilter'>
 				{fetchParams.dynasty ? (
 					<Text decode className='key'>
 						{fetchParams.dynasty || ''}
@@ -138,9 +138,9 @@ const PoetPage = () => {
 					</Text>
 				) : null}
 				<Text decode>共 {pagination.total} 条结果</Text>
-			</View>
+			</View> */}
 			{/* 列表 */}
-			<View className='pageContainer'>
+			<View className='pageContainer safeBottom'>
 				{data.list.map((item) => {
 					return (
 						<PoetCard

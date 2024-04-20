@@ -1,4 +1,4 @@
-import { View, Text } from '@tarojs/components';
+import { View, Text, Image } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 
 import './style.scss';
@@ -16,6 +16,7 @@ const PoemCard = ({
 	type,
 	text_content,
 	lightWord = '',
+	author_avatar = '',
 }) => {
 	const handleNavigateAuthor = () => {
 		if (author_id < 1) {
@@ -27,16 +28,40 @@ const PoemCard = ({
 	};
 	return (
 		<View className='poemCard'>
+			{/* 作者 */}
+			<View className='card-top'>
+				<View className='author' onClick={handleNavigateAuthor}>
+					{author_avatar ? (
+						<Image
+							src={author_avatar}
+							mode='aspectFit'
+							className='author_avatar'
+						/>
+					) : null}
+					<Text userSelect className='name'>
+						{author}
+					</Text>
+					{dynasty ? (
+						<Text userSelect className='dynasty'>
+							{dynasty}
+						</Text>
+					) : null}
+				</View>
+				{/* 操作区 */}
+				<View
+					className='operate-list'
+					style={{
+						display: 'none',
+					}}
+				>
+					<View className='operate-item'>复</View>
+					<View className='operate-item'>享</View>
+					<View className='operate-item'>拼</View>
+				</View>
+			</View>
 			{/* 标题 */}
 			<View className='title'>
 				<HighLightText text={title} lightWord={lightWord} />
-			</View>
-			{/* 作者 */}
-			<View className='author' onClick={handleNavigateAuthor}>
-				{dynasty ? <Text userSelect>[{dynasty}]</Text> : null}
-				<Text userSelect className='name'>
-					{author}
-				</Text>
 			</View>
 			{/* 序文 内容 */}
 			<PoemContent

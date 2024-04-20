@@ -6,23 +6,33 @@
 	}
 }
 .longTextCard {
-	padding-bottom: env(safe-area-inset-bottom);
 	.textContainer {
 		.longText {
 			display: block;
-			font-size: 28px;
+			font-size: 30px;
 			line-height: 1.4rem;
 			padding-bottom: 20px;
 		}
 		&.limit {
 			.longText {
+				display: -webkit-box;
+				-webkit-line-clamp: 3;
+				-webkit-box-orient: vertical;
 				.text {
 					max-height: 4.2rem;
 					display: block;
 					text-overflow: ellipsis;
 					overflow: hidden;
+					display: -webkit-box;
+					-webkit-line-clamp: 3;
+					-webkit-box-orient: vertical;
 				}
 			}
+		}
+	}
+	.textOperate {
+		.full-btn {
+			font-size: 24px;
 		}
 	}
 	.reference {
@@ -30,7 +40,7 @@
 		padding-left: 30px;
 		position: relative;
 		&::before {
-			content: " ";
+			content: ' ';
 			background-color: #ddd;
 			width: 6px;
 			height: 100%;
