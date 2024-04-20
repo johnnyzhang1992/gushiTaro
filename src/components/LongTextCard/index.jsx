@@ -44,7 +44,7 @@ const LongTextCard = ({ showAll = false, text, title }) => {
 		openVisible(true);
 	};
 
-	const isLimit = cacheText.length > limitLength;
+	const isLimit = cacheText.length > limitLength && !showAll;
 	return (
 		<View className='longTextCard'>
 			{/* 内容展示 */}
@@ -61,7 +61,7 @@ const LongTextCard = ({ showAll = false, text, title }) => {
 						maxLines={3}
 						className='text'
 					>
-						{showAll ? cacheText : cacheText.substring(0, limitLength)}
+						{showAll ? cacheText : cacheText.substring(0, limitLength + 20)}
 					</Text>
 				</View>
 			</View>
