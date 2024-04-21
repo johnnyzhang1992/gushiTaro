@@ -11,8 +11,6 @@ import {
 	Image,
 	OfficialAccount,
 	Text,
-	Swiper,
-	SwiperItem,
 	Navigator,
 } from '@tarojs/components';
 
@@ -20,7 +18,6 @@ import { fetchPoetDetail } from './service';
 
 import SectionCard from '../../components/SectionCard';
 import LongTextCard from '../../components/LongTextCard';
-import PoemSmallCard from '../../components/PoemSmallCard';
 import LikeButton from '../../components/LikeButton';
 import CollectButton from '../../components/CollectButton';
 import FabButton from '../../components/FabButton';
@@ -40,6 +37,8 @@ const PoetDetailPage = () => {
 			like_status: false,
 			collect_count: 0,
 			collect_status: false,
+			poems_count: 0,
+			sentences_count: 0,
 		},
 		poems: {
 			data: [],
@@ -103,7 +102,12 @@ const PoetDetailPage = () => {
 	});
 
 	return (
-		<View className='page poetDetail'>
+		<View
+			className='page poetDetail'
+			style={{
+				display: detail.poet.id ? 'block' : 'none',
+			}}
+		>
 			{/* 诗人图片 */}
 			<View className='avatarContainer'>
 				{detail.poet.avatar ? (
@@ -112,13 +116,10 @@ const PoetDetailPage = () => {
 				<View className='author'>
 					<View className='name'>{detail.poet.author_name}</View>
 					{detail.poet.dynasty ? (
-						<View className='dynasty'>
-							「{detail.poet.dynasty}」
-						</View>
+						<View className='dynasty'>「{detail.poet.dynasty}」</View>
 					) : null}
 				</View>
 			</View>
-			<View className='divide'></View>
 			<OfficialAccount />
 			{/* 介绍 */}
 			<SectionCard title='简介'>
@@ -126,55 +127,28 @@ const PoetDetailPage = () => {
 					<Text className='text' decode userSelect>
 						{detail.poet.profile}
 					</Text>
-				</View>
-			</SectionCard>
-			<View className='divide'></View>
-			{/* 热门诗词  */}
-			{detail.poems.data && detail.poems.data.length > 0 ? (
-				<SectionCard
-					title='热门诗词'
-					extra={
+					<View className='btn-list'>
 						<Navigator
-							className='navigator'
+							className='navigator btn-item'
 							hoverClass='none'
 							url={`/pages/poem/index?from=poet&type=author&keyWord=${detail.poet.author_name}`}
 						>
-							查看更多
+							{detail.poet.poems_count}篇诗文
 						</Navigator>
-					}
-				>
-					<Swiper
-						className='hotPoemsSwiper'
-						indicatorColor='#999'
-						indicatorActiveColor='#333'
-						vertical={false}
-						circular
-						indicatorDots
-						autoplay
-						adjustHeight='highest'
-					>
-						{detail.poems.data.map((poem) => (
-							<SwiperItem key={poem.id}>
-								<PoemSmallCard
-									{...poem}
-									hideAudio
-									showCount={false}
-									showBorder={false}
-								/>
-							</SwiperItem>
-						))}
-					</Swiper>
-				</SectionCard>
-			) : null}
-			<View className='divide'></View>
+						<Navigator
+							className='navigator btn-item'
+							hoverClass='none'
+							url={`/pages/sentence/index?from=poet&author=${detail.poet.author_name}&author_source_id=${detail.poet.source_id}`}
+						>
+							{detail.poet.sentences_count}条名句
+						</Navigator>
+					</View>
+				</View>
+			</SectionCard>
 			{/* 其他信息 */}
 			{detail.poet.more_infos.map((info) => (
 				<SectionCard title={info.title} key={info.title}>
-					<LongTextCard
-						title={info.title}
-						showAll={false}
-						text={info || ''}
-					/>
+					<LongTextCard title={info.title} showAll={false} text={info || ''} />
 				</SectionCard>
 			))}
 			{/* 底部 */}

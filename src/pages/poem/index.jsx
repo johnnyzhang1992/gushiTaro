@@ -187,7 +187,7 @@ const Poem = () => {
 				<View className='filterContainer'>
 					<FilterCard
 						name='type'
-						title='分类'
+						title='形式'
 						initValue={pageOptions.type || '全部'}
 						filters={PoemTypes}
 						updateParams={updateParam}
@@ -201,27 +201,8 @@ const Poem = () => {
 					/>
 				</View>
 			) : null}
-			{/* 关键字筛选 */}
-			<View className='keywordFilter'>
-				{fetchParams.type ? (
-					<Text decode className='key'>
-						{fetchParams.type || ''}
-					</Text>
-				) : null}
-				{fetchParams.dynasty ? (
-					<Text decode className='key'>
-						{fetchParams.dynasty || ''}
-					</Text>
-				) : null}
-				{pageOptions.keyWord ? (
-					<Text decode className='key'>
-						{pageOptions.keyWord || ''}
-					</Text>
-				) : null}
-				<Text decode>共 {pagination.total} 条结果</Text>
-			</View>
 			{/* 诗词列表 */}
-			<View className='pageContainer'>
+			<View className='pageContainer safeBottom'>
 				{data.list.map((item) => {
 					return (
 						<PoemSmallCard

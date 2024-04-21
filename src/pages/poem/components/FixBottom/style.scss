@@ -5,7 +5,7 @@
 	right: 0;
 	padding-bottom: env(safe-area-inset-bottom);
 	background-color: #fff;
-  box-shadow: 0 -2px 6px hsla(0,0%,7%,.1);
+	box-shadow: 0 -2px 6px hsla(0, 0%, 7%, 0.1);
 	.bottomTabs {
 		padding: 20px 30px;
 		align-items: center;
@@ -23,7 +23,7 @@
 	}
 }
 .atTabs {
-	.at-tabs__item{
+	.at-tabs__item {
 		width: auto;
 		flex: unset;
 		font-size: 32px;
@@ -34,4 +34,7 @@
 	padding: 20px 0 30px 0;
 	overflow-y: auto;
 	box-sizing: border-box;
+	.longTextCard {
+		padding-bottom: env(safe-area-inset-bottom);
+	}
 }

@@ -44,19 +44,35 @@ const LongTextCard = ({ showAll = false, text, title }) => {
 		openVisible(true);
 	};
 
+	const isLimit = cacheText.length > limitLength && !showAll;
 	return (
 		<View className='longTextCard'>
 			{/* 内容展示 */}
-			<View className={`textContainer ${cacheText.length > limitLength && !showAll ? 'limit' : ''} ${showAll ? 'all' : ''}`}>
+			<View
+				className={`textContainer ${isLimit ? 'limit' : ''} ${
+					showAll ? 'all' : ''
+				}`}
+			>
 				<View className='longText'>
-					<Text userSelect decode space='nbsp' maxLines={3} className='text'>
-						{showAll ? cacheText : cacheText.substring(0, limitLength)}
+					<Text
+						userSelect
+						decode
+						space={isLimit ? 'ensp' : 'nbsp'}
+						maxLines={3}
+						className='text'
+					>
+						{showAll ? cacheText : cacheText.substring(0, limitLength + 20)}
 					</Text>
 				</View>
 			</View>
 			{/* 资源引用 */}
 			{reference.content.length > 0 ? (
-				<View className='reference'>
+				<View
+					className='reference'
+					style={{
+						display: `${isLimit ? 'none' : 'block'}`,
+					}}
+				>
 					<View className='title'>{reference.title}</View>
 					{(reference.content || []).map((ref, index) => (
 						<View className='refItem' key={index}>
@@ -70,7 +86,7 @@ const LongTextCard = ({ showAll = false, text, title }) => {
 			{/* 操作区 */}
 			<View className='textOperate'>
 				{!showAll && cacheText.length > limitLength ? (
-					<Button plain size='mini' onClick={handleShow}>
+					<Button className='full-btn' plain size='mini' onClick={handleShow}>
 						阅读全文
 					</Button>
 				) : null}
@@ -87,6 +103,18 @@ const LongTextCard = ({ showAll = false, text, title }) => {
 					<Text userSelect decode className='text'>
 						{cacheText}
 					</Text>
+					{reference.content.length > 0 ? (
+						<View className='reference'>
+							<View className='title'>{reference.title}</View>
+							{(reference.content || []).map((ref, index) => (
+								<View className='refItem' key={index}>
+									<Text userSelect decode className='text'>
+										{ref}
+									</Text>
+								</View>
+							))}
+						</View>
+					) : null}
 				</View>
 			</FloatLayout>
 		</View>

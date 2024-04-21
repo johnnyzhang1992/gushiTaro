@@ -10,7 +10,6 @@ import {
 	View,
 	Image,
 	OfficialAccount,
-	Button,
 	Swiper,
 	SwiperItem,
 } from '@tarojs/components';
@@ -27,8 +26,7 @@ import FixBottom from './components/FixBottom';
 import TagsCard from '../../components/TagsCard';
 import FabButton from '../../components/FabButton';
 
-import copyPng from '../../images/icon/copy.png';
-import sharePng from '../../images/icon/share.png';
+import audioSvg from '../../images/svg/audio.svg';
 
 import './style.scss';
 
@@ -102,30 +100,6 @@ const PoemDetail = () => {
 			});
 	};
 
-	// 复制文本
-	const handleCopy = () => {
-		let poem = detail.poem;
-		let _data =
-			'《' +
-			poem.title +
-			'》' +
-			poem.dynasty +
-			'|' +
-			poem.author +
-			'\n' +
-			poem.text_content;
-		Taro.setClipboardData({
-			data: _data,
-			success: function () {
-				Taro.showToast({
-					title: '诗词复制成功',
-					icon: 'success',
-					duration: 2000,
-				});
-			},
-		});
-	};
-
 	useLoad((options) => {
 		const { id } = options;
 		console.log('options', options);
@@ -167,6 +141,12 @@ const PoemDetail = () => {
 		<View className='page poemDetail'>
 			{/* 诗词内容 */}
 			<PoemCard {...detail.poem} lightWord={pageOptions.keyWord} />
+			{/* 标签 */}
+			{detail.poem.tagsArr.length > 0 ? (
+				<SectionCard title=''>
+					<TagsCard tags={detail.poem.tagsArr || []} />
+				</SectionCard>
+			) : null}
 			{/* 公众号 */}
 			<OfficialAccount />
 			{/* 音频播放 */}
@@ -175,12 +155,6 @@ const PoemDetail = () => {
 				title={detail.poem.title}
 				author={detail.poem.author}
 			/>
-			{/* 标签 */}
-			{detail.poem.tagsArr.length > 0 ? (
-				<SectionCard title='分类'>
-					<TagsCard tags={detail.poem.tagsArr || []} />
-				</SectionCard>
-			) : null}
 			{/* 摘录 */}
 			{detail.sentences.length > 0 ? (
 				<SectionCard title='句子摘录'>
@@ -194,7 +168,7 @@ const PoemDetail = () => {
 						autoplay
 						adjustHeight='highest'
 						style={{
-							height: '160rpx',
+							height: '176rpx',
 						}}
 					>
 						{detail.sentences.map((sentence) => (
@@ -230,27 +204,24 @@ const PoemDetail = () => {
 				</SectionCard>
 			) : null}
 			{/* 操作栏 复制 */}
-			<View className='copyContainer' onClick={handleCopy}>
-				<Image src={copyPng} className='copy' />
-			</View>
-			{/* 操作栏 分享 */}
-			<View className='shreContainer'>
-				<Button
-					type='default'
-					size='mini'
-					openType='share'
-					hoverClass='none'
-					plain
-					className='shareBtn'
-				>
-					<Image src={sharePng} className='share' />
-				</Button>
+			<View
+				className='copyContainer'
+				style={{
+					display: 'none',
+				}}
+			>
+				<Image src={audioSvg} className='copy' />
 			</View>
 			{/* 统计数据 -- 点赞、收藏人数*/}
 			{/* 注释，译文，摘录，学习计划 -- 半屏 */}
 			<FixBottom poem={detail.poem} poemDetail={detail.detail} />
 			{/* 悬浮按钮 */}
-			<FabButton />
+			<FabButton
+				style={{
+					bottom: '150rpx',
+					marginBottom: `env(safe-area-inset-bottom)`,
+				}}
+			/>
 		</View>
 	);
 };

@@ -6,6 +6,12 @@ import AudioCard from '../AudioCard';
 
 import './style.scss';
 
+const removeSpecialText = (text) => {
+	return text
+		.replaceAll('<storng', '')
+		.replaceAll('</strong', '')
+		.replaceAll('&quot;', '');
+};
 const PoemSmallCard = ({
 	id,
 	content,
@@ -20,8 +26,7 @@ const PoemSmallCard = ({
 	hideAudio = false,
 }) => {
 	const [showAduio, audioVisible] = useState(false);
-	// const _content = content.split('。')[0].replaceAll('　', '') + '。';
-	const _content = content
+	const _content = removeSpecialText(content)
 		.split('。')
 		.map((text) => {
 			return text.replaceAll('　', '') + '。';
@@ -42,33 +47,20 @@ const PoemSmallCard = ({
 				hoverClass='none'
 			>
 				<View className='title'>
-					<HighLightText
-						className='name'
-						text={title}
-						lightWord={lightWord}
-					/>
+					<HighLightText className='name' text={title} lightWord={lightWord} />
 				</View>
 				<View className='poet'>
-					{dynasty ? (
-						<Text className='dynasty'>{dynasty}</Text>
-					) : null}
+					{dynasty ? <Text className='dynasty'>{dynasty}</Text> : null}
 					<Text className='author'>{author}</Text>
 				</View>
 				<View className='content'>
 					{/* 一句话介绍，第一个句号前 */}
 					{_content.map((text) => {
 						return (
-							<HighLightText
-								key={text}
-								text={text}
-								lightWord={lightWord}
-							/>
+							<HighLightText key={text} text={text} lightWord={lightWord} />
 						);
 					})}
-					<HighLightText
-						key='other'
-						text='......'
-					/>
+					<HighLightText key='other' text='......' />
 				</View>
 			</Navigator>
 			<View
@@ -82,9 +74,7 @@ const PoemSmallCard = ({
 						className='at-icon at-icon-volume-plus audio icon'
 						onClick={handleAudioVisible}
 					>
-						<Text className='text'>
-							{showAduio ? '收起' : '播放'}
-						</Text>
+						<Text className='text'>{showAduio ? '收起' : '播放'}</Text>
 					</View>
 				) : null}
 				{showCount ? (

@@ -1,19 +1,69 @@
 .poemCard {
 	padding: 20px 30px;
-	text-align: center;
+	text-align: left;
 	.title {
-		font-size: 44px;
+		font-size: 50px;
 		color: #333;
 		font-weight: 500;
-		text-align: center;
+	}
+	.card-top {
+		display: flex;
+		align-items: center;
+		margin-bottom: 20px;
+		justify-content: space-between;
+	}
+	.author_avatar {
+		width: 90px;
+		height: 90px;
+		border-radius: 100%;
+		margin-right: 20px;
+		border: 2px solid #efefef;
 	}
 	.author {
 		color: #888;
-		font-size: 28px;
-		margin-top: 10px;
+		font-size: 30px;
+		display: flex;
+		align-items: center;
 		.name {
 			color: #337ab7;
 			padding-left: 8px;
+		}
+		.dynasty {
+			font-size: 0.8em;
+			line-height: 1em;
+			background-color: #efefef;
+			padding: 5px 12px;
+			border-radius: 8px;
+			margin-left: 20px;
+		}
+	}
+	.operate-list {
+		display: flex;
+		.operate-item {
+			font-size: 30px;
+			width: 54px;
+			height: 54px;
+			text-align: center;
+			box-sizing: border-box;
+			border-radius: 50%;
+			border: 4px solid #efefef;
+			padding: 8px;
+			margin-left: 16px;
+		}
+		.share-btn {
+			padding: 0;
+			line-height: initial;
+			border-radius: 50%;
+			display: block;
+			border: unset;
+			width: auto;
+			&::after {
+				border: unset;
+			}
+		}
+		.icon {
+			width: 30px;
+			height: 30px;
 		}
 	}
 }

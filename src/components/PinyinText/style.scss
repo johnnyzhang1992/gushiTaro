@@ -1,0 +1,16 @@
+.pinyin-text-container {
+	display: flex;
+	flex-wrap: wrap;
+	.pinyin-text {
+		display: flex;
+		align-items: center;
+		margin-right: 6px;
+		flex-direction: column;
+		.text {
+			text-align: center;
+		}
+		.hanzi {
+			font-size: 0.9em;
+		}
+	}
+}
