@@ -9,7 +9,7 @@ import HighLightText from '../../../../components/HighLightText';
 import PinyinText from '../../../../components/PinyinText';
 
 import { fetchPoemPinyin } from '../../service';
-import copySVg from '../../../../images/svg/copy.svg';
+import copySVg from '../../../../images/svg/copy_black.svg';
 import shareSvg from '../../../../images/svg/share_black.svg';
 import pinyinSvg from '../../../../images/svg/pinyin.svg';
 
@@ -55,6 +55,14 @@ const PoemCard = ({
 	};
 
 	const getPinyin = () => {
+		if (Pinyin.title) {
+			updatePinyin({
+				title: '',
+				xu: '',
+				content: [],
+			});
+			return false;
+		}
 		Taro.showLoading({
 			title: '转换中，请稍等',
 			icon: 'none',
@@ -67,7 +75,6 @@ const PoemCard = ({
 		})
 			.then((res) => {
 				const { pinyin } = res.data;
-				console.log(pinyin, res.data);
 				const pinyinArr = pinyin.split('_');
 				const [p_title, p_xu, ...p_content] = pinyinArr;
 				updatePinyin({

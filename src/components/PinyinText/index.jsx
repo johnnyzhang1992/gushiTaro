@@ -37,7 +37,6 @@ const PinyinText = ({ text, pinyin }) => {
 		.trim()
 		.replaceAll('  ', ' ')
 		.split(' ');
-	console.log(textArr, pinyinArr);
 	return (
 		<View className='pinyin-text-container'>
 			{textArr.map((item, index) => {

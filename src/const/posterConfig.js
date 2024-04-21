@@ -29,7 +29,6 @@ export const postBgColorArr = [
 
 // 背景图
 export const postBgImages = [
-  'https://assets.xuegushi.com/images/post_bg/255_255_255.png',
   'https://assets.xuegushi.com/images/poster_bg.png',
   'https://assets.xuegushi.com/images/poster_bg1.png',
 ];

@@ -79,9 +79,10 @@ const PostLayoutConfig = ({
 
 	const selectBgImg = (e) => {
 		const { img } = e.currentTarget.dataset;
+		const { bgImg } = posterConfig
 		updateConfig({
 			...posterConfig,
-			bgImg: img,
+			bgImg: bgImg == img ? '' : img,
 		});
 	};
 
