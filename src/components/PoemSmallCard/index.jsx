@@ -6,6 +6,12 @@ import AudioCard from '../AudioCard';
 
 import './style.scss';
 
+const removeSpecialText = (text) => {
+	return text
+		.replaceAll('<storng', '')
+		.replaceAll('</strong', '')
+		.replaceAll('&quot;', '');
+};
 const PoemSmallCard = ({
 	id,
 	content,
@@ -20,8 +26,7 @@ const PoemSmallCard = ({
 	hideAudio = false,
 }) => {
 	const [showAduio, audioVisible] = useState(false);
-	// const _content = content.split('。')[0].replaceAll('　', '') + '。';
-	const _content = content
+	const _content = removeSpecialText(content)
 		.split('。')
 		.map((text) => {
 			return text.replaceAll('　', '') + '。';
@@ -55,10 +60,7 @@ const PoemSmallCard = ({
 							<HighLightText key={text} text={text} lightWord={lightWord} />
 						);
 					})}
-					<HighLightText
-						key='other'
-						text='......'
-					/>
+					<HighLightText key='other' text='......' />
 				</View>
 			</Navigator>
 			<View

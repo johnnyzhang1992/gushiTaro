@@ -32,7 +32,7 @@ const convertChinesePunctuationToEnglish = (str) => {
 	return str;
 };
 const PinyinText = ({ text, pinyin }) => {
-	const textArr = text.split('');
+	const textArr = text.replaceAll('&quot;', '"').split('');
 	const pinyinArr = convertChinesePunctuationToEnglish(pinyin)
 		.trim()
 		.replaceAll('  ', ' ')

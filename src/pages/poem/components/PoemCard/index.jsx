@@ -55,20 +55,31 @@ const PoemCard = ({
 	};
 
 	const getPinyin = () => {
-		fetchPoemPinyin('POST', {
-			text: `${title}_${content.xu || ''}_${(content.content || []).join('_')}`,
-			dictType: 'complete',
-		}).then((res) => {
-			const { pinyin } = res.data;
-			console.log(pinyin, res.data);
-			const pinyinArr = pinyin.split('_');
-			const [p_title, p_xu, ...p_content] = pinyinArr;
-			updatePinyin({
-				title: p_title,
-				xu: p_xu,
-				content: p_content,
-			});
+		Taro.showLoading({
+			title: '转换中，请稍等',
+			icon: 'none',
 		});
+		fetchPoemPinyin('POST', {
+			text: `${title}_${content.xu || ''}_${(content.content || []).join(
+				'_'
+			)}`.replaceAll('&quot;', '"'),
+			dictType: 'complete',
+		})
+			.then((res) => {
+				const { pinyin } = res.data;
+				console.log(pinyin, res.data);
+				const pinyinArr = pinyin.split('_');
+				const [p_title, p_xu, ...p_content] = pinyinArr;
+				updatePinyin({
+					title: p_title,
+					xu: p_xu,
+					content: p_content,
+				});
+				Taro.hideLoading();
+			})
+			.catch(() => {
+				Taro.hideLoading();
+			});
 	};
 	return (
 		<View className='poemCard'>
