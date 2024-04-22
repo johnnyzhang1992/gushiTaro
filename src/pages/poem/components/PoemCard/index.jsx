@@ -72,7 +72,7 @@ const PoemCard = ({
 		// 使用缓存
 		if (pinyinHistory.current.title) {
 			updatePinyin({
-				...pinyinHistory,
+				...pinyinHistory.current,
 			});
 			return false;
 		}
