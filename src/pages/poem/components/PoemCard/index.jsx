@@ -88,6 +88,14 @@ const PoemCard = ({
 		})
 			.then((res) => {
 				const { pinyin } = res.data;
+				if (!pinyin) {
+					Taro.hideLoading();
+					Taro.showToast({
+						icon: 'none',
+						title: '转换失败，请重试！'
+					})
+					return false
+				}
 				const pinyinArr = pinyin.split('_');
 				const [p_title, p_xu, ...p_content] = pinyinArr;
 				updatePinyin({
