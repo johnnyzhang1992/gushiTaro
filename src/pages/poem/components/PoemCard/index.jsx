@@ -1,6 +1,6 @@
 import { View, Text, Image, Button } from '@tarojs/components';
 import Taro from '@tarojs/taro';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 import './style.scss';
 
@@ -11,7 +11,8 @@ import PinyinText from '../../../../components/PinyinText';
 import { fetchPoemPinyin } from '../../service';
 import copySVg from '../../../../images/svg/copy_black.svg';
 import shareSvg from '../../../../images/svg/share_black.svg';
-import pinyinSvg from '../../../../images/svg/pinyin.svg';
+import pinyinSvg from '../../../../images/svg/pinyin_black.svg';
+import pinyinActiveSvg from '../../../../images/svg/pinyin.svg';
 
 const PoemCard = ({
 	author_id,
@@ -30,6 +31,11 @@ const PoemCard = ({
 		xu: '',
 		content: [],
 	});
+	const pinyinHistory = useRef({
+		title: '',
+		xu: '',
+		content: [],
+	})
 	const handleNavigateAuthor = () => {
 		if (author_id < 1) {
 			return false;
@@ -63,6 +69,13 @@ const PoemCard = ({
 			});
 			return false;
 		}
+		// 使用缓存
+		if (pinyinHistory.current.title) {
+			updatePinyin({
+				...pinyinHistory.current,
+			});
+			return false;
+		}
 		Taro.showLoading({
 			title: '转换中，请稍等',
 			icon: 'none',
@@ -75,6 +88,14 @@ const PoemCard = ({
 		})
 			.then((res) => {
 				const { pinyin } = res.data;
+				if (!pinyin) {
+					Taro.hideLoading();
+					Taro.showToast({
+						icon: 'none',
+						title: '转换失败，请重试！'
+					})
+					return false
+				}
 				const pinyinArr = pinyin.split('_');
 				const [p_title, p_xu, ...p_content] = pinyinArr;
 				updatePinyin({
@@ -82,6 +103,11 @@ const PoemCard = ({
 					xu: p_xu,
 					content: p_content,
 				});
+				pinyinHistory.current = {
+					title: p_title,
+					xu: p_xu,
+					content: p_content,
+				};
 				Taro.hideLoading();
 			})
 			.catch(() => {
@@ -119,8 +145,18 @@ const PoemCard = ({
 							<Image src={shareSvg} mode='widthFix' className='icon' />
 						</Button>
 					</View>
-					<View className='operate-item' onClick={getPinyin}>
-						<Image src={pinyinSvg} mode='widthFix' className='icon' />
+					<View
+						className='operate-item'
+						onClick={getPinyin}
+						style={{
+							borderColor: Pinyin.title ? '#337ab7' : '#efefef',
+						}}
+					>
+						<Image
+							src={Pinyin.title ? pinyinActiveSvg : pinyinSvg}
+							mode='widthFix'
+							className='icon'
+						/>
 					</View>
 				</View>
 			</View>

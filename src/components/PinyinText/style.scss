@@ -4,13 +4,17 @@
 	.pinyin-text {
 		display: flex;
 		align-items: center;
-		margin-right: 6px;
 		flex-direction: column;
+		min-width: 58px;
+		margin-bottom: 4px;
 		.text {
 			text-align: center;
 		}
 		.hanzi {
-			font-size: 0.9em;
+			font-size: 0.8em;
+		}
+		.pinyin {
+			font-size: 0.5em;
 		}
 	}
 }
