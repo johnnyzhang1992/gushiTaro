@@ -9,13 +9,13 @@ import shareSvg from '../../../images/svg/share.svg';
 import saveSvg from '../../../images/svg/save.svg';
 
 import {
-	postBgColorArr,
 	letterLayoutConfig,
 	fontColorArr,
 	ratioConfig,
 	initConfig,
 	postBgImages,
 } from '../../../const/posterConfig';
+import { colors } from '../../../const/color';
 
 import './style.scss';
 
@@ -53,6 +53,8 @@ const PostLayoutConfig = ({
 	const [posterConfig, updateConfig] = useState({
 		...initConfig,
 	});
+	const [secondaryBgColorArr, updateSecondarArr] = useState([]);
+	const [colorName, updateColorName] = useState('');
 
 	const handleToggleBottom = () => {
 		updateConfig({
@@ -79,7 +81,7 @@ const PostLayoutConfig = ({
 
 	const selectBgImg = (e) => {
 		const { img } = e.currentTarget.dataset;
-		const { bgImg } = posterConfig
+		const { bgImg } = posterConfig;
 		updateConfig({
 			...posterConfig,
 			bgImg: bgImg == img ? '' : img,
@@ -87,7 +89,14 @@ const PostLayoutConfig = ({
 	};
 
 	const selectBgColor = (e) => {
-		const { color } = e.currentTarget.dataset;
+		const { color, name } = e.currentTarget.dataset;
+		const findSecondary = colors.find((c) => {
+			return c.hex === color;
+		});
+		updateColorName(name || '');
+		if (findSecondary) {
+			updateSecondarArr(findSecondary.colors || []);
+		}
 		updateConfig({
 			...posterConfig,
 			bgColor: color,
@@ -200,7 +209,7 @@ const PostLayoutConfig = ({
 					);
 				})}
 			</PosterLayoutItem>
-			{/* 背景图 */}
+			{/* 底纹图 */}
 			<PosterLayoutItem title='底纹' key='bgImg'>
 				{postBgImages.map((bg) => {
 					return (
@@ -220,40 +229,84 @@ const PostLayoutConfig = ({
 			</PosterLayoutItem>
 			{/* 背景色 */}
 			<PosterLayoutItem
-				title='背景色'
+				title={`背景色(中国传统颜色  ${colorName})`}
 				containerClass='bgColorList'
 				key='bgColor'
 			>
-				<ScrollView
-					scrollX
-					enableFlex
-					enhanced
-					showScrollbar={false}
-					className='scrollContainer bgImgList'
-					style={{
-						height: 52,
-						width: safeArea.width - 30,
-					}}
-				>
-					{postBgColorArr.map((color) => {
-						return (
-							<View
-								key={color}
-								className={`color-item bgImg ${
-									posterConfig.bgColor === color ? 'active' : ''
-								}`}
-								style={{
-									width: 30,
-									height: 30,
-									marginRight: 8,
-									backgroundColor: color,
-								}}
-								data-color={color}
-								onClick={selectBgColor}
-							></View>
-						);
-					})}
-				</ScrollView>
+				<>
+					<ScrollView
+						scrollX
+						enableFlex
+						enhanced
+						showScrollbar={false}
+						className='scrollContainer bgImgList'
+						style={{
+							height: 38,
+							width: safeArea.width - 30,
+						}}
+					>
+						{colors.map((color) => {
+							return (
+								<View
+									key={color.id}
+									className={`color-item bgImg  ${color.hex.replace('#', '')} ${
+										posterConfig.bgColor === color.hex ? 'active' : ''
+									}`}
+									data-color={color.hex}
+									data-name={color.name}
+									onClick={selectBgColor}
+								>
+									<View
+										className='color-circle'
+										style={{
+											width: 34,
+											height: 34,
+											backgroundColor: color.hex,
+										}}
+									></View>
+									<Text className='text'>{color.name}</Text>
+								</View>
+							);
+						})}
+					</ScrollView>
+					{secondaryBgColorArr.length > 0 ? (
+						<ScrollView
+							scrollX
+							enableFlex
+							enhanced
+							showScrollbar={false}
+							className='scrollContainer bgImgList'
+							style={{
+								height: 38,
+								width: safeArea.width - 30,
+							}}
+						>
+							{secondaryBgColorArr.map((color) => {
+								return (
+									<View
+										key={color.id}
+										className={`color-item bgImg ${
+											posterConfig.bgColor === color.hex ? 'active' : ''
+										}`}
+										data-color={color.hex}
+										data-name={color.name}
+										onClick={selectBgColor}
+									>
+										<View
+											className='color-circle'
+											style={{
+												width: 34,
+												height: 34,
+												backgroundColor: color.hex,
+											}}
+										></View>
+										<Text className='text'>{color.name}</Text>
+									</View>
+								);
+							})}
+						</ScrollView>
+					) : null}
+				</>
 			</PosterLayoutItem>
 			{/* 底部按钮 */}
 			<View className='shareBottom'>
