@@ -9,6 +9,7 @@ import Taro, {
 import { useNavigationBar } from 'taro-hooks';
 import { View, Text } from '@tarojs/components';
 
+import Layout from '../../layout';
 import FilterCard from '../../components/FilterCard';
 import PoemSmallCard from '../../components/PoemSmallCard';
 
@@ -170,63 +171,65 @@ const Poem = () => {
 		};
 	});
 	return (
-		<View className='page poemIndex'>
-			{/* 页面顶部 -- 来自首页底部筛选 */}
-			{pageOptions.from === 'home' ? (
-				<View className='poemTitle'>
-					<View className='title'>
-						<Text>{pageOptions.title}</Text>
+		<Layout>
+			<View className='page poemIndex'>
+				{/* 页面顶部 -- 来自首页底部筛选 */}
+				{pageOptions.from === 'home' ? (
+					<View className='poemTitle'>
+						<View className='title'>
+							<Text>{pageOptions.title}</Text>
+						</View>
+						<View className='profile'>
+							<Text>{pageOptions.profile}</Text>
+						</View>
 					</View>
-					<View className='profile'>
-						<Text>{pageOptions.profile}</Text>
-					</View>
-				</View>
-			) : null}
-			{/* 默认筛选项 */}
-			{!pageOptions.from ? (
-				<View className='filterContainer'>
-					<FilterCard
-						name='type'
-						title='形式'
-						initValue={pageOptions.type || '全部'}
-						filters={PoemTypes}
-						updateParams={updateParam}
-					/>
-					<FilterCard
-						name='dynasty'
-						title='朝代'
-						initValue={pageOptions.dynasty || '全部'}
-						filters={DynastyArr}
-						updateParams={updateParam}
-					/>
-				</View>
-			) : null}
-			{/* 诗词列表 */}
-			<View className='pageContainer safeBottom'>
-				{data.list.map((item) => {
-					return (
-						<PoemSmallCard
-							{...item}
-							showCount
-							showBorder
-							key={item.id}
-							lightWord={pageOptions.keyWord}
+				) : null}
+				{/* 默认筛选项 */}
+				{!pageOptions.from ? (
+					<View className='filterContainer'>
+						<FilterCard
+							name='type'
+							title='形式'
+							initValue={pageOptions.type || '全部'}
+							filters={PoemTypes}
+							updateParams={updateParam}
 						/>
-					);
-				})}
+						<FilterCard
+							name='dynasty'
+							title='朝代'
+							initValue={pageOptions.dynasty || '全部'}
+							filters={DynastyArr}
+							updateParams={updateParam}
+						/>
+					</View>
+				) : null}
+				{/* 诗词列表 */}
+				<View className='pageContainer safeBottom'>
+					{data.list.map((item) => {
+						return (
+							<PoemSmallCard
+								{...item}
+								showCount
+								showBorder
+								key={item.id}
+								lightWord={pageOptions.keyWord}
+							/>
+						);
+					})}
+				</View>
+				{loading ? (
+					<View className='loading'>
+						<Text>内容加载中...</Text>
+					</View>
+				) : null}
+				{error ? (
+					<View className='pageError'>
+						<View className='title'>接口请求报错：</View>
+						<Text>{error}</Text>
+					</View>
+				) : null}
 			</View>
-			{loading ? (
-				<View className='loading'>
-					<Text>内容加载中...</Text>
-				</View>
-			) : null}
-			{error ? (
-				<View className='pageError'>
-					<View className='title'>接口请求报错：</View>
-					<Text>{error}</Text>
-				</View>
-			) : null}
-		</View>
+		</Layout>
 	);
 };
 

@@ -1,43 +1,38 @@
 import { View } from '@tarojs/components';
-import Taro, { Events } from '@tarojs/taro';
-import { useEffect, useState } from 'react';
+import Taro from '@tarojs/taro';
+import { useEffect } from 'react';
 
+import { getPoemList, updatePoemList, initPoem } from './util';
 import './style.scss';
+
+// 参数放外面，多个页面引入该组件，内容可共享
+let poemList = [];
+let currentPoem = { ...initPoem };
 
 const GushiAudio = () => {
 	// 路由记录
 	const pages = Taro.getCurrentPages();
 	// 当前页面路由信息
 	console.log(pages[pages.length - 1]);
-	// 古诗详情
-	const [poem, updatePoem] = useState({
-		author_name: '',
-		dynasty: '',
-		auduo_url: '',
-		content: [],
-		xu: '',
-		id: '',
-	});
-	// 播放列表
-	const [poemList, updateList] = useState([]);
-	const events = new Events();
 
 	const handlePoemAdd = (payload) => {
-		console.log(payload);
-		if (!poem.id) {
-			updatePoem(payload);
-		}
-		updateList([...poemList, payload]);
+		console.log(payload, 'poemAudioAdd');
+		currentPoem = {...payload}
+		poemList = updatePoemList(poemList, payload);
+		console.log(currentPoem, poemList);
 	};
 
 	useEffect(() => {
-		events.on('poemAdd', handlePoemAdd);
+		poemList = getPoemList();
+	}, []);
+
+	useEffect(() => {
+		Taro.eventCenter.on('poemAudioAdd', handlePoemAdd);
 		return () => {
-			events.off('poemAdd', handlePoemAdd);
+			Taro.eventCenter.off('poemAudioAdd', handlePoemAdd);
 		};
-	});
-	// // 触发一个事件，传参
-	// events.trigger('eventName', {});
+	}, []);
+
 	return (
 		<View className='gushi-audio'>
 			{/* 诗词内容展示区 */}
