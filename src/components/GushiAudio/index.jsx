@@ -2,7 +2,14 @@ import { View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import { useEffect } from 'react';
 
-import { getPoemList, updatePoemList, initPoem } from './util';
+import {
+	getPoemList,
+	updatePoemList,
+	initPoem,
+	updateCurrentPoem,
+	getCurrentPoem,
+} from './util';
+
 import './style.scss';
 
 // 参数放外面，多个页面引入该组件，内容可共享
@@ -17,12 +24,13 @@ const GushiAudio = () => {
 
 	const handlePoemAdd = (payload) => {
 		console.log(payload, 'poemAudioAdd');
-		currentPoem = {...payload}
+		currentPoem = updateCurrentPoem(payload);
 		poemList = updatePoemList(poemList, payload);
 		console.log(currentPoem, poemList);
 	};
 
 	useEffect(() => {
+		currentPoem = getCurrentPoem();
 		poemList = getPoemList();
 	}, []);
 
