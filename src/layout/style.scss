@@ -1,3 +1,13 @@
 .layout {
 	height: 100%;
+	.layout-extra {
+		position: fixed;
+		height: 100vh;
+		width: 100vw;
+		top: 0;
+		left: 0;
+		overflow: hidden;
+		z-index: 100;
+		pointer-events: none;
+	}
 }

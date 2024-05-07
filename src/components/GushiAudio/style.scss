@@ -1,0 +1,59 @@
+.gushi-audio {
+	height: 100vh;
+	width: 100vw;
+	box-sizing: border-box;
+	z-index: 101;
+	pointer-events: none;
+	position: relative;
+	.gushi-page-container {
+		height: 100vh;
+		width: 100vw;
+		box-sizing: content-box;
+		display: flex;
+		align-items: flex-start;
+		flex-direction: column;
+		justify-content: flex-end;
+		padding-bottom: env(safe-area-inset-bottom);
+		pointer-events: auto;
+		.top {
+			display: flex;
+			justify-content: space-around;
+		}
+		.top,
+		.gushi-content,
+		.audio-player,
+		.operate-container {
+			width: 100%;
+		}
+		.gushi-content {
+			padding: 20px 30px;
+		}
+		.audio-player {
+			// height: 120px;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			.operate-container {
+				display: flex;
+				justify-content: space-around;
+				padding: 0 30px;
+			}
+			.loop,.pre,.status,.next,.list {
+				flex: 1;
+				padding: 30px 0;
+				display: flex;
+				justify-content: center;
+			}
+		}
+		.audio-setting {
+			display: flex;
+			align-items: center;
+			width: 100%;
+			padding: 0 30px;
+		}
+		.svg {
+			width: 50px;
+			height: 50px;
+		}
+	}
+}

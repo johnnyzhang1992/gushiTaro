@@ -3,7 +3,7 @@ import Taro, {
 	useLoad,
 	usePullDownRefresh,
 	useShareAppMessage,
-	useShareTimeline
+	useShareTimeline,
 } from '@tarojs/taro';
 import { useNavigationBar } from 'taro-hooks';
 import {
@@ -108,9 +108,10 @@ const PoemDetail = () => {
 			title: detail.poem.title,
 			dynasty: detail.poem.dynasty,
 			xu: detail.poem.xu || '',
-			content: detail.poem.content || []
+			content: detail.poem.content || {content: []},
+			author_avatar: detail.poem.author_avatar || ''
 		});
-	}
+	};
 
 	useLoad((options) => {
 		const { id } = options;
@@ -178,7 +179,7 @@ const PoemDetail = () => {
 							indicatorActiveColor='#333'
 							vertical={false}
 							circular
-							indicatorDots
+							indicatorDots={detail.sentences.length > 1}
 							autoplay
 							adjustHeight='highest'
 							style={{
@@ -218,10 +219,7 @@ const PoemDetail = () => {
 					</SectionCard>
 				) : null}
 				{/* 操作栏 复制 */}
-				<View
-					className='copyContainer'
-					onClick={handlePlayAudio}
-				>
+				<View className='copyContainer' onClick={handlePlayAudio}>
 					<Image src={audioSvg} className='copy' />
 				</View>
 				{/* 统计数据 -- 点赞、收藏人数*/}

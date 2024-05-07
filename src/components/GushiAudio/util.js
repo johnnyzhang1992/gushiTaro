@@ -1,32 +1,37 @@
 import Taro from '@tarojs/taro';
 
 export const initSetting = {
-	rate: 1, // 0.5 - 2
-	speaker: '',
-	loopMode: '', // 列表循环、单曲循环，当前播放
-	loop: false,
-	autoPlay: false,
-	obeyMuteSwitch: false,
-	volume: 1, // 0-1
-}
+  rate: 1, // 0.5 - 2
+  speaker: '',
+  loopMode: '', // 列表循环、单曲循环，当前播放
+  loop: false,
+  autoPlay: false,
+  obeyMuteSwitch: false,
+  volume: 1, // 0-1
+};
 
 export const initPoem = {
   author_name: '',
+  author_avatar: '',
   dynasty: '',
-  auduo_url: '',
-  content: [],
+  audio_url: '',
+  content: { content: [] },
+  title: '',
   xu: '',
-	id: '',
-	audio_url: '',
-  duration: 0,
-  current_time: 0,
+  id: '',
+  audio_url: '',
+  duration: '00:00',
+  current_time: '00:00',
+  total_time: 0,
+  currentTime: 0,
+  isPlaying: false, // 正在播放中
 };
 
 /**
  * 获取当前播放诗词
  */
 export const getCurrentPoem = () => {
-  return Taro.getStorageSync('currentPoemAudio') || null;
+  return Taro.getStorageSync('currentPoemAudio') || initPoem;
 };
 
 /**
@@ -35,7 +40,9 @@ export const getCurrentPoem = () => {
  * @returns
  */
 export const updateLocalPoem = (poem) => {
+  // console.log('update-currentPoem', poem)
   if (typeof poem !== 'object' || !poem.id) {
+    Taro.removeStorageSync('currentPoemAudio');
     return false;
   }
   Taro.setStorageSync('currentPoemAudio', poem);
@@ -49,10 +56,11 @@ export const updateLocalPoem = (poem) => {
  */
 export const updateCurrentPoem = (currentPoem, payload) => {
   if (typeof payload !== 'object') {
-    return false;
+    return currentPoem;
   }
   const newPoem = { ...(currentPoem || initPoem), ...payload };
   updateLocalPoem(newPoem);
+  updatePoemList(getPoemList(), newPoem);
   return newPoem;
 };
 
@@ -77,13 +85,20 @@ export const updateLocalList = (list) => {
  * @param {*} poem
  * @returns
  */
-export const updatePoemList = (oldList = [], poem) => {
+export const updatePoemList = (oldList = [], poem = {}) => {
   if (typeof poem !== 'object' || !poem.id) {
     return false;
   }
-  const newList = [...oldList];
-  const isExist = oldList.find((item) => {
-    return item.id === poem.id;
+  let isExist = false;
+  const newList = [...oldList].map((item) => {
+    if (item.id === poem.id) {
+      isExist = true;
+      return {
+        ...item,
+        ...poem,
+      };
+    }
+    return item;
   });
   if (!isExist) {
     newList.push(poem);
