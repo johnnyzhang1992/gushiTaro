@@ -13,8 +13,11 @@
 		align-items: flex-start;
 		flex-direction: column;
 		justify-content: flex-end;
-		padding-bottom: env(safe-area-inset-bottom);
 		pointer-events: auto;
+		&.normalPage {
+			padding-bottom: env(safe-area-inset-bottom);
+			box-sizing: border-box;
+		}
 		.top {
 			display: flex;
 			justify-content: space-around;

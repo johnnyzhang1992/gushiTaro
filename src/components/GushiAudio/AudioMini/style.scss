@@ -8,10 +8,13 @@
 	z-index: 102;
 	background-color: #fff;
 	box-shadow: 0px -8px 8px 2px #f4f6f9;
+	&.normalPage {
+		padding-bottom: env(safe-area-inset-bottom);
+	}
 	.audio-mini {
 		color: #333;
 		font-size: 24px;
-		height: 90px;
+		min-height: 90px;
 		padding: 8px 16px;
 		box-sizing: border-box;
 		display: flex;
@@ -43,6 +46,12 @@
 			// margin-left: 8px;
 			padding: 0 12px;
 			text-align: center;
+		}
+		.close {
+			.svg {
+				width: 60px;
+				height: 60px;
+			}
 		}
 		.svg {
 			width: 40px;

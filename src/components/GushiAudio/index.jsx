@@ -52,6 +52,7 @@ const loopList = [
 		next: 0,
 	},
 ];
+const tabPages = ['pages/index', 'pages/find/index', 'pages/me/index'];
 const GushiAudio = ({ close, show }) => {
 	// 路由记录
 	const pages = Taro.getCurrentPages();
@@ -63,6 +64,7 @@ const GushiAudio = ({ close, show }) => {
 
 	// 当前页面路由信息
 	const currentPath = pages[pages.length - 1];
+	const isTabPage = tabPages.includes(currentPath.route);
 
 	const listModeChange = () => {
 		updateListMode(loopList[currentLoop.next]);
@@ -219,6 +221,12 @@ const GushiAudio = ({ close, show }) => {
 		close();
 	};
 
+	// 半屏组件关闭
+	const handleContainerLeave = () => {
+		// toggleVisible(false);
+		updateMode('mini');
+	};
+
 	useDidShow(() => {
 		console.log('--didShow:gushiAudio');
 		currentPoem = getCurrentPoem();
@@ -264,12 +272,17 @@ const GushiAudio = ({ close, show }) => {
 				show={pageVisible && showMode === 'normal'}
 				close-on-slide-down
 				overlay={false}
+				onLeave={handleContainerLeave}
 				customStyle={{
 					height: '10vh',
 					display: showMode === 'normal' ? 'block' : 'none',
 				}}
 			>
-				<View className='gushi-page-container'>
+				<View
+					className={`gushi-page-container ${
+						isTabPage ? 'tabPage' : 'normalPage'
+					}`}
+				>
 					<View className='top'>
 						<View onClick={handleClose}>关闭</View>
 						<View onClick={handlePackUp}>缩小</View>
@@ -343,15 +356,18 @@ const GushiAudio = ({ close, show }) => {
 			</PageContainer>
 			{/* mini操作区，可全屏拖动 */}
 			{/* 移动结束后，自动贴边，计算离那边近，自动移动到哪边 */}
-			<AudioMini
-				close={handleClose}
-				expand={handleExpand}
-				playChange={changePlayStatus}
-				lastTimes={lastTimes}
-				style={{
-					display: showMode === 'mini' ? 'block' : 'none',
-				}}
-			/>
+			{currentPoem.id ? (
+				<AudioMini
+					close={handleClose}
+					expand={handleExpand}
+					playChange={changePlayStatus}
+					lastTimes={lastTimes}
+					isTabPage={isTabPage}
+					style={{
+						display: showMode === 'mini' ? 'block' : 'none',
+					}}
+				/>
+			) : null}
 		</View>
 	);
 };

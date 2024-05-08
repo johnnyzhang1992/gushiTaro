@@ -9,13 +9,20 @@ import pauseSvg from '../../../images/svg/audio/pause.svg';
 import closeSvg from '../../../images/svg/audio/close.svg';
 
 const AudioMini = (props) => {
-	const { close, expand, playChange, style = {}, lastTimes } = props;
+	const {
+		close,
+		expand,
+		playChange,
+		style = {},
+		lastTimes,
+		isTabPage = false,
+	} = props;
 	const currentPoem = getCurrentPoem();
 
 	return (
 		<View
 			data-times={lastTimes}
-			className='audio-mini-container'
+			className={`audio-mini-container ${isTabPage ? 'tabPage' : 'normalPage'}`}
 			style={{
 				...style,
 			}}
