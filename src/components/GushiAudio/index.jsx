@@ -2,6 +2,7 @@ import { PageContainer, View, Text, Image } from '@tarojs/components';
 import Taro, { useDidShow } from '@tarojs/taro';
 import { useEffect, useState } from 'react';
 
+import AudioProgress from './AudioProgress';
 import AudioMini from './AudioMini';
 
 import {
@@ -272,6 +273,7 @@ const GushiAudio = ({ close, show }) => {
 				show={pageVisible && showMode === 'normal'}
 				close-on-slide-down
 				overlay={false}
+				round
 				onLeave={handleContainerLeave}
 				customStyle={{
 					height: '10vh',
@@ -323,7 +325,16 @@ const GushiAudio = ({ close, show }) => {
 					{/* 播放器 */}
 					<View className='audio-player'>
 						{/* 进度条 */}
-						<View className='player-progress'>{/* 当前时间、总时长 */}</View>
+						{/* 当前时间、总时长 */}
+						<View className='player-progress'>
+							<AudioProgress
+								lastTimes={lastTimes}
+								current_time={currentPoem.current_time}
+								total_time={currentPoem.total_time}
+								duration={currentPoem.duration}
+								currentTime={currentPoem.currentTime}
+							/>
+						</View>
 						{/* 操作区 */}
 						<View className='operate-container'>
 							{/* 播放模式、上一首、播放、暂停、下一首、列表 */}
