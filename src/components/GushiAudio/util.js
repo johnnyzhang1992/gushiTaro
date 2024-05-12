@@ -20,7 +20,6 @@ export const initPoem = {
   xu: '',
 	id: '',
 	author_id: '',
-  audio_url: '',
   duration: '00:00',
   current_time: '00:00',
   total_time: 0,

@@ -7,8 +7,9 @@ import {
 	ScrollView,
 } from '@tarojs/components';
 import Taro, { useDidShow } from '@tarojs/taro';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
+import PinyinText from '../PinyinText';
 import AudioProgress from './AudioProgress';
 import AudioMini from './AudioMini';
 
@@ -20,7 +21,7 @@ import {
 	getCurrentPoem,
 } from './util';
 import Utils from '../../utils/util';
-import { fetchPoemAudio } from '../../services/global';
+import { fetchPoemAudio, fetchPoemPinyin } from '../../services/global';
 
 import './style.scss';
 
@@ -33,6 +34,8 @@ import listLoopSvg from '../../images/svg/audio/list_loop.svg';
 import oneLoopSvg from '../../images/svg/audio/one_loop.svg';
 import randomLoopSvg from '../../images/svg/audio/random_loop.svg';
 import settingSvg from '../../images/svg/audio/setting.svg';
+import pinyinSvg from '../../images/svg/pinyin_black.svg';
+import pinyinActiveSvg from '../../images/svg/pinyin.svg';
 // import closeSvg from '../../images/svg/audio/close.svg';
 
 // 参数放外面，多个页面引入该组件，内容可共享
@@ -69,6 +72,16 @@ const GushiAudio = ({ close, show }) => {
 	const [showMode, updateMode] = useState('mini');
 	const [lastTimes, updateTimes] = useState(0);
 	const [currentLoop, updateListMode] = useState(loopList[0]);
+	const [Pinyin, updatePinyin] = useState({
+		title: '',
+		xu: '',
+		content: [],
+	});
+	const pinyinHistory = useRef({
+		title: '',
+		xu: '',
+		content: [],
+	});
 
 	// 当前页面路由信息
 	const currentPath = pages[pages.length - 1];
@@ -237,6 +250,62 @@ const GushiAudio = ({ close, show }) => {
 		e.preventDefault();
 	};
 
+	const getPinyin = () => {
+		if (Pinyin.title) {
+			updatePinyin({
+				title: '',
+				xu: '',
+				content: [],
+			});
+			return false;
+		}
+		// 使用缓存
+		if (pinyinHistory.current.title) {
+			updatePinyin({
+				...pinyinHistory.current,
+			});
+			return false;
+		}
+		Taro.showLoading({
+			title: '转换中，请稍等',
+			icon: 'none',
+		});
+		const { title, content } = currentPoem;
+		fetchPoemPinyin('POST', {
+			text: `${title}_${content.xu || ''}_${(content.content || []).join(
+				'_'
+			)}`.replaceAll('&quot;', '"'),
+			dictType: 'complete',
+		})
+			.then((res) => {
+				const { pinyin } = res.data;
+				if (!pinyin) {
+					Taro.hideLoading();
+					Taro.showToast({
+						icon: 'none',
+						title: '转换失败，请重试！',
+					});
+					return false;
+				}
+				const pinyinArr = pinyin.split('_');
+				const [p_title, p_xu, ...p_content] = pinyinArr;
+				updatePinyin({
+					title: p_title,
+					xu: p_xu,
+					content: p_content,
+				});
+				pinyinHistory.current = {
+					title: p_title,
+					xu: p_xu,
+					content: p_content,
+				};
+				Taro.hideLoading();
+			})
+			.catch(() => {
+				Taro.hideLoading();
+			});
+	};
+
 	useDidShow(() => {
 		console.log('--didShow:gushiAudio');
 		currentPoem = getCurrentPoem();
@@ -302,16 +371,24 @@ const GushiAudio = ({ close, show }) => {
 							display: showMode === 'normal' ? 'block' : 'none',
 						}}
 					>
+						{/* 标题 */}
 						<Navigator
 							hoverClass='none'
 							url={`/pages/poet/detail?id=${currentPoem.author_id}`}
 							className='link title'
 						>
-							<Text decode selectable userSelect className='text'>
-								{currentPoem.title}
-							</Text>
+							{Pinyin.title ? (
+								<PinyinText
+									text={currentPoem.title}
+									pinyin={Pinyin.title}
+									className='pinyin'
+								/>
+							) : (
+								<Text decode selectable userSelect className='text'>
+									{currentPoem.title}
+								</Text>
+							)}
 						</Navigator>
-						{/* 标题 */}
 						{/* 朝代、作者 */}
 						<Navigator
 							hoverClass='none'
@@ -333,11 +410,19 @@ const GushiAudio = ({ close, show }) => {
 							showScrollbar={false}
 							className='content ci'
 						>
-							{currentPoem.content.content.map((item, index) => (
-								<View className='contentItem' key={index}>
-									<Text userSelect decode space='ensp' className='text block'>
-										{item}
-									</Text>
+							{currentPoem.content.content.map((_item, _index) => (
+								<View className='contentItem' key={_index}>
+									{Pinyin.content[_index] ? (
+										<PinyinText
+											className='text block pinyin'
+											text={_item}
+											pinyin={Pinyin.content[_index]}
+										/>
+									) : (
+										<Text userSelect decode space='ensp' className='text block'>
+											{_item}
+										</Text>
+									)}
 								</View>
 							))}
 						</ScrollView>
@@ -347,6 +432,13 @@ const GushiAudio = ({ close, show }) => {
 					<View className='audio-setting'>
 						<View className='setting'>
 							<Image src={settingSvg} mode='widthFix' className='svg' />
+						</View>
+						<View className='setting pinyin' onClick={getPinyin}>
+							<Image
+								src={Pinyin.title ? pinyinActiveSvg : pinyinSvg}
+								mode='widthFix'
+								className='svg'
+							/>
 						</View>
 					</View>
 					{/* 播放器 */}

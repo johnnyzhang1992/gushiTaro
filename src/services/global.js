@@ -42,3 +42,19 @@ export const updateUserLike = (method, data) => {
 export const fetchPoemAudio = (method, data) => {
 	return Request(`/wxxcx/getPoemAudio/${data.id}`, data, method);
 };
+
+/**
+ * 获取诗词的 pinyin
+ * @param {String} method POST
+ * @param {Object} data {}
+ */
+export const fetchPoemPinyin = (method, data) => {
+  return Request(
+    `/gushi/pinyin`,
+    {
+			...data,
+			hostUrl: 'https://api.historybook.cn'
+    },
+    method
+  );
+};

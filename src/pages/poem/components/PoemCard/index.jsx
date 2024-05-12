@@ -8,7 +8,7 @@ import PoemContent from '../PoemContent';
 import HighLightText from '../../../../components/HighLightText';
 import PinyinText from '../../../../components/PinyinText';
 
-import { fetchPoemPinyin } from '../../service';
+import { fetchPoemPinyin } from '../../../../services/global';
 import copySVg from '../../../../images/svg/copy_black.svg';
 import shareSvg from '../../../../images/svg/share_black.svg';
 import pinyinSvg from '../../../../images/svg/pinyin_black.svg';

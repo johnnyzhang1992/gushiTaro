@@ -47,11 +47,19 @@
 			}
 			.content {
 				margin-top: 20px;
-				height: 60vh;
+				height: 56vh;
 			}
 			.contentItem {
 				font-size: 28px;
 				margin-bottom: 12px;
+			}
+			.pinyin-text {
+				.pinyin {
+					font-size: 22px;
+				}
+				.hanzi {
+					font-size: 26px;
+				}
 			}
 		}
 		.audio-player {
@@ -78,6 +86,7 @@
 		}
 		.audio-setting {
 			display: flex;
+			justify-content: space-between;
 			align-items: center;
 			width: 100%;
 			padding: 0 30px;
