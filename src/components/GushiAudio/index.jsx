@@ -1,4 +1,11 @@
-import { PageContainer, View, Text, Image } from '@tarojs/components';
+import {
+	PageContainer,
+	View,
+	Text,
+	Image,
+	Navigator,
+	ScrollView,
+} from '@tarojs/components';
 import Taro, { useDidShow } from '@tarojs/taro';
 import { useEffect, useState } from 'react';
 
@@ -204,10 +211,6 @@ const GushiAudio = ({ close, show }) => {
 		fetchAudioUrl(payload.id);
 	};
 
-	const handlePackUp = () => {
-		updateMode('mini');
-	};
-
 	const handleExpand = () => {
 		updateMode('normal');
 	};
@@ -226,6 +229,12 @@ const GushiAudio = ({ close, show }) => {
 	const handleContainerLeave = () => {
 		// toggleVisible(false);
 		updateMode('mini');
+	};
+
+	const handleClickOverlay = (e) => {
+		updateMode('mini');
+		e.stopPropagation();
+		e.preventDefault();
 	};
 
 	useDidShow(() => {
@@ -272,11 +281,12 @@ const GushiAudio = ({ close, show }) => {
 			<PageContainer
 				show={pageVisible && showMode === 'normal'}
 				close-on-slide-down
-				overlay={false}
+				overlay
 				round
+				onClickOverlay={handleClickOverlay}
 				onLeave={handleContainerLeave}
 				customStyle={{
-					height: '10vh',
+					height: '100vh',
 					display: showMode === 'normal' ? 'block' : 'none',
 				}}
 			>
@@ -285,10 +295,6 @@ const GushiAudio = ({ close, show }) => {
 						isTabPage ? 'tabPage' : 'normalPage'
 					}`}
 				>
-					<View className='top'>
-						<View onClick={handleClose}>关闭</View>
-						<View onClick={handlePackUp}>缩小</View>
-					</View>
 					{/* 诗词内容展示区 */}
 					<View
 						className='gushi-content'
@@ -296,16 +302,37 @@ const GushiAudio = ({ close, show }) => {
 							display: showMode === 'normal' ? 'block' : 'none',
 						}}
 					>
-						<View className='title'>{currentPoem.title}</View>
+						<Navigator
+							hoverClass='none'
+							url={`/pages/poet/detail?id=${currentPoem.author_id}`}
+							className='link title'
+						>
+							<Text decode selectable userSelect className='text'>
+								{currentPoem.title}
+							</Text>
+						</Navigator>
 						{/* 标题 */}
 						{/* 朝代、作者 */}
-						<View className='author'>
-							<Text>
-								{currentPoem.dynasty} | {currentPoem.author}
+						<Navigator
+							hoverClass='none'
+							url={`/pages/poet/detail?id=${currentPoem.author_id}`}
+							className='link author'
+							style={{
+								display: currentPoem.author_id ? 'block' : 'none',
+							}}
+						>
+							<Text decode selectable userSelect className='text'>
+								{currentPoem.author} [{currentPoem.dynasty}]
 							</Text>
-						</View>
+						</Navigator>
 						{/* 内容*/}
-						<View className='content ci'>
+						<ScrollView
+							scrollY
+							enhanced
+							enableFlex
+							showScrollbar={false}
+							className='content ci'
+						>
 							{currentPoem.content.content.map((item, index) => (
 								<View className='contentItem' key={index}>
 									<Text userSelect decode space='ensp' className='text block'>
@@ -313,7 +340,7 @@ const GushiAudio = ({ close, show }) => {
 									</Text>
 								</View>
 							))}
-						</View>
+						</ScrollView>
 						{/* 是否展示拼音 */}
 					</View>
 					{/* 定时、语速等设置、加入诗单 */}

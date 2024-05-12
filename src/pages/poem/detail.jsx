@@ -38,6 +38,7 @@ const PoemDetail = () => {
 			tagsArr: [],
 			title: '',
 			author: '',
+			author_id: 0
 		},
 		detail: {
 			yi: '',
@@ -105,6 +106,7 @@ const PoemDetail = () => {
 		Taro.eventCenter.trigger('poemAudioAdd', {
 			id: detail.poem.id,
 			author: detail.poem.author,
+			author_id: detail.poem.author_id,
 			title: detail.poem.title,
 			dynasty: detail.poem.dynasty,
 			xu: detail.poem.xu || '',
