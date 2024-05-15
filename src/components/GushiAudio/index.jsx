@@ -320,7 +320,7 @@ const GushiAudio = ({ close, show }) => {
 	useEffect(() => {
 		currentPoem = getCurrentPoem();
 		poemList = getPoemList();
-		console.log(currentPoem, poemList);
+		// console.log(currentPoem, poemList);
 		if (currentPoem.id) {
 			toggleVisible(true);
 		}

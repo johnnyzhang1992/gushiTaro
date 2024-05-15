@@ -1,6 +1,7 @@
 import { View, Text, Image, ScrollView } from '@tarojs/components';
 import { AtButton } from 'taro-ui';
 import { useEffect, useState } from 'react';
+import Taro from '@tarojs/taro';
 
 import PoemPosterLayout from '../PoemPosterLayout';
 
@@ -112,9 +113,18 @@ const PostLayoutConfig = ({
 	};
 
 	useEffect(() => {
+		const cacheConfig = Taro.getStorageSync('posterConfig') || {};
+		updateConfig({
+			...posterConfig,
+			...cacheConfig,
+		});
+	}, []);
+
+	useEffect(() => {
 		if (update && typeof update === 'function') {
 			update(posterConfig);
 		}
+		Taro.setStorageSync('posterConfig', posterConfig);
 	}, [posterConfig, update]);
 
 	return (
