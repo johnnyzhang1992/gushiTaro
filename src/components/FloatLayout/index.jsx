@@ -7,12 +7,13 @@ import closeSvg from '../../images/svg/close.svg';
 const FloatLayout = (props) => {
 	const {
 		close,
-		title='',
+		title = '',
 		style = {},
 		showTitle = true,
-		className='',
+		className = '',
 		isOpen,
 		scrollY = false,
+		containerStyle = {},
 	} = props;
 
 	const handleClose = () => {
@@ -30,7 +31,12 @@ const FloatLayout = (props) => {
 			}}
 		>
 			<View className='float-layout__overlay' onClick={handleClose}></View>
-			<View className='float-layout-container safeBottom'>
+			<View
+				className='float-layout-container safeBottom'
+				style={{
+					...containerStyle,
+				}}
+			>
 				{showTitle ? (
 					<View
 						className='float-layout-header'

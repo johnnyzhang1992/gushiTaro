@@ -10,6 +10,7 @@ import Taro, { useDidShow } from '@tarojs/taro';
 import { useEffect, useState, useRef } from 'react';
 
 import PinyinText from '../PinyinText';
+import FloatLayout from '../FloatLayout';
 import AudioProgress from './AudioProgress';
 import AudioMini from './AudioMini';
 
@@ -77,6 +78,9 @@ const GushiAudio = ({ close, show }) => {
 		xu: '',
 		content: [],
 	});
+	// '' 'list' 'setting'
+	const [floatType, updateFloatType] = useState('');
+
 	const pinyinHistory = useRef({
 		title: '',
 		xu: '',
@@ -250,6 +254,18 @@ const GushiAudio = ({ close, show }) => {
 		e.preventDefault();
 	};
 
+	const showSetting = () => {
+		updateFloatType('setting');
+	};
+
+	const showList = () => {
+		updateFloatType('list');
+	};
+
+	const floatClose = () => {
+		updateFloatType('');
+	};
+
 	const getPinyin = () => {
 		if (Pinyin.title) {
 			updatePinyin({
@@ -407,6 +423,7 @@ const GushiAudio = ({ close, show }) => {
 							scrollY
 							enhanced
 							enableFlex
+							refresherEnabled={false}
 							showScrollbar={false}
 							className='content ci'
 						>
@@ -430,7 +447,7 @@ const GushiAudio = ({ close, show }) => {
 					</View>
 					{/* 定时、语速等设置、加入诗单 */}
 					<View className='audio-setting'>
-						<View className='setting'>
+						<View className='setting' onClick={showSetting}>
 							<Image src={settingSvg} mode='widthFix' className='svg' />
 						</View>
 						<View className='setting pinyin' onClick={getPinyin}>
@@ -477,7 +494,7 @@ const GushiAudio = ({ close, show }) => {
 							<View className='next'>
 								<Image src={nextSvg} mode='widthFix' className='svg' />
 							</View>
-							<View className='list'>
+							<View className='list' onClick={showList}>
 								<Image src={listSvg} mode='widthFix' className='svg' />
 							</View>
 						</View>
@@ -498,6 +515,37 @@ const GushiAudio = ({ close, show }) => {
 					}}
 				/>
 			) : null}
+			{/* 列表和设置 */}
+			<FloatLayout
+				showTitle={false}
+				isOpen={!!floatType}
+				close={floatClose}
+				containerStyle={{
+					width: '90%',
+					bottom: '10vh',
+					height: '65vh',
+					left: '5%',
+					borderRadius: '20rpx',
+					paddingTop: '20rpx'
+				}}
+			>
+				<View
+					className='audio-list'
+					style={{
+						display: floatType === 'list' ? 'block' : 'none',
+					}}
+				>
+					列表
+				</View>
+				<View
+					className='audio-setting'
+					style={{
+						display: floatType === 'setting' ? 'block' : 'none',
+					}}
+				>
+					设置
+				</View>
+			</FloatLayout>
 		</View>
 	);
 };

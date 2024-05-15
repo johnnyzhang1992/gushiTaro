@@ -13,9 +13,9 @@ const AudioProgress = (props) => {
 		lastTimes = 0,
 	} = props;
 	const percent = (currentTime / total_time) * 100;
-	console.log(currentTime, total_time, lastTimes);
+	// console.log(currentTime, total_time, lastTimes);
 	return (
-		<View className='audio-progress'>
+		<View className='audio-progress' data-lasttimes={lastTimes}>
 			<AtProgress
 				color='#337ab7'
 				strokeWidth={2}
