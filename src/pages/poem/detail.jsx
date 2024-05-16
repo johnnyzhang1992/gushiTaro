@@ -16,8 +16,8 @@ import {
 
 import { fetchPoemDetail } from './service';
 
-import Layout from '../../layout';
 import SectionCard from '../../components/SectionCard';
+import Layout from '../../layout';
 import LongTextCard from '../../components/LongTextCard';
 import PoemCard from './components/PoemCard';
 
