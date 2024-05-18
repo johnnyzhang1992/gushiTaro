@@ -18,8 +18,8 @@ export const initPoem = {
   content: { content: [] },
   title: '',
   xu: '',
-	id: '',
-	author_id: '',
+  id: '',
+  author_id: '',
   duration: '00:00',
   current_time: '00:00',
   total_time: 0,
@@ -105,4 +105,47 @@ export const updatePoemList = (oldList = [], poem = {}) => {
   }
   updateLocalList(newList);
   return newList;
+};
+
+// 更新音频到列表
+export const poemAudioUpdate = (poem) => {
+  const oldList = getPoemList();
+  if (typeof poem !== 'object' || !poem.id) {
+    return false;
+  }
+  let isExist = false;
+  const newList = [...oldList].map((item) => {
+    if (item.id === poem.id) {
+      isExist = true;
+      return {
+        ...item,
+        ...poem,
+      };
+    }
+    return item;
+  });
+  if (!isExist) {
+    newList.push(poem);
+  }
+  updateLocalList(newList);
+  return newList;
+};
+
+// 移除列表内某个音频
+export const poemAudioRemove = (poem) => {
+  const oldList = getPoemList();
+  if (typeof poem !== 'object' || !poem.id) {
+    return oldList;
+  }
+  const newList = oldList.filter((item) => {
+    return item.id !== poem.id;
+  });
+  updateLocalList(newList);
+  return newList;
+};
+
+// 清空列表
+export const poemAudioClear = () => {
+  updateLocalList([]);
+  return [];
 };

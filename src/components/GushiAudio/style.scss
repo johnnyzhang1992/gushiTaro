@@ -98,4 +98,19 @@
 			height: 50px;
 		}
 	}
+	.float-layout {
+		.float-layout-body {
+			height: 100%;
+		}
+		.fl-title {
+			font-size: 34px;
+			margin-bottom: 12px;
+			.setting-title {
+				display: flex;
+				justify-content: center;
+				align-items: baseline;
+				position: relative;
+			}
+		}
+	}
 }

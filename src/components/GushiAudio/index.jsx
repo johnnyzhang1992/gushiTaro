@@ -16,7 +16,7 @@ import AudioMini from './AudioMini';
 
 import {
 	getPoemList,
-	updatePoemList,
+	poemAudioUpdate,
 	initPoem,
 	updateCurrentPoem,
 	getCurrentPoem,
@@ -37,6 +37,7 @@ import randomLoopSvg from '../../images/svg/audio/random_loop.svg';
 import settingSvg from '../../images/svg/audio/setting.svg';
 import pinyinSvg from '../../images/svg/pinyin_black.svg';
 import pinyinActiveSvg from '../../images/svg/pinyin.svg';
+import AudioList from './AudioList';
 // import closeSvg from '../../images/svg/audio/close.svg';
 
 // 参数放外面，多个页面引入该组件，内容可共享
@@ -221,7 +222,7 @@ const GushiAudio = ({ close, show }) => {
 			...initPoem,
 			...payload,
 		});
-		poemList = updatePoemList(poemList, payload);
+		poemList = poemAudioUpdate(payload);
 		console.log(currentPoem, poemList);
 		toggleVisible(true);
 		show();
@@ -325,7 +326,6 @@ const GushiAudio = ({ close, show }) => {
 	useDidShow(() => {
 		console.log('--didShow:gushiAudio');
 		currentPoem = getCurrentPoem();
-		poemList = getPoemList();
 		updateMode('mini');
 		if (audioPlayer) {
 			addPlayEvent();
@@ -335,7 +335,6 @@ const GushiAudio = ({ close, show }) => {
 
 	useEffect(() => {
 		currentPoem = getCurrentPoem();
-		poemList = getPoemList();
 		// console.log(currentPoem, poemList);
 		if (currentPoem.id) {
 			toggleVisible(true);
@@ -360,6 +359,8 @@ const GushiAudio = ({ close, show }) => {
 			close();
 		}
 	}, [pageVisible, show, close]);
+
+	poemList = getPoemList();
 
 	return (
 		<View className='gushi-audio' data-time={lastTimes}>
@@ -523,28 +524,24 @@ const GushiAudio = ({ close, show }) => {
 				containerStyle={{
 					width: '90%',
 					bottom: '10vh',
-					height: '65vh',
+					height: '70vh',
 					left: '5%',
 					borderRadius: '20rpx',
-					paddingTop: '20rpx'
+					paddingTop: '20rpx',
 				}}
 			>
-				<View
-					className='audio-list'
-					style={{
-						display: floatType === 'list' ? 'block' : 'none',
-					}}
-				>
-					列表
-				</View>
-				<View
-					className='audio-setting'
-					style={{
-						display: floatType === 'setting' ? 'block' : 'none',
-					}}
-				>
-					设置
-				</View>
+				{floatType === 'list' ? (
+					<AudioList update={updateTimes} currentPoem={currentPoem} />
+				) : (
+					<>
+						<View className='fl-title'>
+							<View className='setting-tiitle'>
+								<Text className='text'>播放设置</Text>
+							</View>
+						</View>
+						<View className='audio-setting'>设置</View>
+					</>
+				)}
 			</FloatLayout>
 		</View>
 	);

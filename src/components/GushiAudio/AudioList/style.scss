@@ -1,0 +1,60 @@
+.audio-list {
+	height: 100%;
+	.l-title {
+		font-size: 34px;
+		margin-bottom: 12px;
+		display: flex;
+		justify-content: center;
+		align-items: baseline;
+		position: relative;
+		.num {
+			font-size: 28px;
+		}
+		.clear {
+			color: #333;
+			font-size: 30px;
+			position: absolute;
+			right: 0;
+			top: 50%;
+			transform: translateY(-50%);
+		}
+	}
+}
+.list-container {
+	height: calc(100% - 46px);
+}
+.audio-item {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 4px 0;
+	&.active {
+		color: #337ab7;
+		font-weight: 500;
+		.poem-name {
+			.author {
+				color: #337ab7;
+			}
+		}
+	}
+	.poem-name {
+		flex: 1;
+		display: flex;
+		align-items: baseline;
+		flex-wrap: nowrap;
+		overflow: hidden;
+		word-break: keep-all;
+		.name {
+			font-size: 28px;
+		}
+		.author {
+			font-size: 24px;
+			color: #999;
+		}
+	}
+	.delete {
+		color: #666;
+		font-size: 30px;
+		padding: 0 20px;
+	}
+}
