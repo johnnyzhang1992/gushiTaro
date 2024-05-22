@@ -1,14 +1,14 @@
 .audio-list {
 	height: 100%;
 	.l-title {
-		font-size: 34px;
+		font-size: 40px;
 		margin-bottom: 12px;
 		display: flex;
 		justify-content: center;
 		align-items: baseline;
 		position: relative;
 		.num {
-			font-size: 28px;
+			font-size: 30px;
 		}
 		.clear {
 			color: #333;
@@ -21,7 +21,7 @@
 	}
 }
 .list-container {
-	height: calc(100% - 46px);
+	height: calc(100% - 52px);
 }
 .audio-item {
 	display: flex;
@@ -45,16 +45,16 @@
 		overflow: hidden;
 		word-break: keep-all;
 		.name {
-			font-size: 28px;
+			font-size: 30px;
 		}
 		.author {
-			font-size: 24px;
+			font-size: 26px;
 			color: #999;
 		}
 	}
 	.delete {
 		color: #666;
-		font-size: 30px;
+		font-size: 32px;
 		padding: 0 20px;
 	}
 }

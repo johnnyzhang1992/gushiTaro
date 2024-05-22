@@ -21,6 +21,18 @@
 			padding-bottom: env(safe-area-inset-bottom);
 			box-sizing: border-box;
 		}
+		.top-close {
+			position: absolute;
+			top: 20px;
+			right: 20px;
+			z-index: 2;
+			cursor: pointer;
+			.svg {
+				height: 60px;
+				width: 60px;
+				overflow: hidden;
+			}
+		}
 		.top {
 			display: flex;
 			justify-content: space-around;
@@ -48,17 +60,8 @@
 			.content {
 				margin-top: 20px;
 				height: 56vh;
-			}
-			.contentItem {
-				font-size: 28px;
-				margin-bottom: 12px;
-			}
-			.pinyin-text {
-				.pinyin {
-					font-size: 22px;
-				}
-				.hanzi {
-					font-size: 26px;
+				&.pinyin {
+					height: 54vh;
 				}
 			}
 		}
@@ -101,16 +104,6 @@
 	.float-layout {
 		.float-layout-body {
 			height: 100%;
-		}
-		.fl-title {
-			font-size: 34px;
-			margin-bottom: 12px;
-			.setting-title {
-				display: flex;
-				justify-content: center;
-				align-items: baseline;
-				position: relative;
-			}
 		}
 	}
 }

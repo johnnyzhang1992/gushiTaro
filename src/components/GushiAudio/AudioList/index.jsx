@@ -3,15 +3,18 @@ import { getPoemList, poemAudioRemove, poemAudioClear } from '../util';
 
 import './style.scss';
 
-const AudioItem = ({ audio = {}, remove, currentPoem = {} }) => {
+const AudioItem = ({ audio = {}, currentPoem = {}, remove, updatePoem }) => {
 	const removeOne = () => {
 		remove(audio);
+	};
+	const handleUpdatePoem = () => {
+		updatePoem({ ...audio });
 	};
 	return (
 		<View
 			className={`audio-item ${audio.id === currentPoem.id ? 'active' : ''}`}
 		>
-			<View className='poem-name'>
+			<View className='poem-name' onClick={handleUpdatePoem}>
 				<Text className='name'>{audio.title}</Text>
 				<Text className='author'>-{audio.author}</Text>
 			</View>
@@ -22,7 +25,7 @@ const AudioItem = ({ audio = {}, remove, currentPoem = {} }) => {
 	);
 };
 
-const AudioList = ({ update, currentPoem = {} }) => {
+const AudioList = ({ update, updatePoem, currentPoem = {} }) => {
 	const poemList = getPoemList();
 
 	const handleClear = () => {
@@ -51,6 +54,7 @@ const AudioList = ({ update, currentPoem = {} }) => {
 							key={item.id}
 							audio={item}
 							remove={handleRemove}
+							updatePoem={updatePoem}
 							currentPoem={currentPoem}
 						/>
 					))}

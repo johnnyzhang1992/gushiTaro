@@ -7,12 +7,12 @@ import {
 	ScrollView,
 } from '@tarojs/components';
 import Taro, { useDidShow } from '@tarojs/taro';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 
-import PinyinText from '../PinyinText';
 import FloatLayout from '../FloatLayout';
 import AudioProgress from './AudioProgress';
 import AudioMini from './AudioMini';
+import AudioWords from './AudioWords';
 
 import {
 	getPoemList,
@@ -37,8 +37,9 @@ import randomLoopSvg from '../../images/svg/audio/random_loop.svg';
 import settingSvg from '../../images/svg/audio/setting.svg';
 import pinyinSvg from '../../images/svg/pinyin_black.svg';
 import pinyinActiveSvg from '../../images/svg/pinyin.svg';
+import closeSvg from '../../images/svg/audio/close.svg';
+
 import AudioList from './AudioList';
-// import closeSvg from '../../images/svg/audio/close.svg';
 
 // 参数放外面，多个页面引入该组件，内容可共享
 let poemList = [];
@@ -81,12 +82,6 @@ const GushiAudio = ({ close, show }) => {
 	});
 	// '' 'list' 'setting'
 	const [floatType, updateFloatType] = useState('');
-
-	const pinyinHistory = useRef({
-		title: '',
-		xu: '',
-		content: [],
-	});
 
 	// 当前页面路由信息
 	const currentPath = pages[pages.length - 1];
@@ -165,7 +160,7 @@ const GushiAudio = ({ close, show }) => {
 		}
 		const isPause = !!audioPlayer.paused;
 		const isInit = audioPlayer.src;
-		console.log('paused', isPause, audioPlayer);
+		console.log('paused', isPause, audioPlayer, isInit);
 		console.log('isPlaying', !isPause);
 		if (isPause || !isInit) {
 			if (audioPlayer.currentTime) {
@@ -193,7 +188,7 @@ const GushiAudio = ({ close, show }) => {
 	// 获取音频地址
 	const fetchAudioUrl = (id) => {
 		if (id === currentPoem.id && currentPoem.audio_url) {
-			changePlayStatus();
+			audioInit(currentPoem.audio_url);
 			return false;
 		}
 		fetchPoemAudio('GET', {
@@ -217,10 +212,14 @@ const GushiAudio = ({ close, show }) => {
 	};
 
 	const handlePoemAdd = (payload) => {
+		audioPlayer = null;
 		console.log(payload, 'poemAudioAdd');
-		currentPoem = updateCurrentPoem(currentPoem, {
+		currentPoem = updateCurrentPoem(initPoem, {
 			...initPoem,
 			...payload,
+			isPlaying: false,
+			currentTime: 0,
+			current_time: '00:00',
 		});
 		poemList = poemAudioUpdate(payload);
 		console.log(currentPoem, poemList);
@@ -277,9 +276,9 @@ const GushiAudio = ({ close, show }) => {
 			return false;
 		}
 		// 使用缓存
-		if (pinyinHistory.current.title) {
+		if (currentPoem.pinyin.title) {
 			updatePinyin({
-				...pinyinHistory.current,
+				...currentPoem.pinyin,
 			});
 			return false;
 		}
@@ -287,11 +286,11 @@ const GushiAudio = ({ close, show }) => {
 			title: '转换中，请稍等',
 			icon: 'none',
 		});
-		const { title, content } = currentPoem;
+		const { title, content, author, dynasty } = currentPoem;
 		fetchPoemPinyin('POST', {
-			text: `${title}_${content.xu || ''}_${(content.content || []).join(
-				'_'
-			)}`.replaceAll('&quot;', '"'),
+			text: `${title}_${content.xu || ''}_${author}·${dynasty}_${(
+				content.content || []
+			).join('_')}`.replaceAll('&quot;', '"'),
 			dictType: 'complete',
 		})
 			.then((res) => {
@@ -305,17 +304,21 @@ const GushiAudio = ({ close, show }) => {
 					return false;
 				}
 				const pinyinArr = pinyin.split('_');
-				const [p_title, p_xu, ...p_content] = pinyinArr;
+				const [p_title, p_xu, p_author, ...p_content] = pinyinArr;
 				updatePinyin({
 					title: p_title,
 					xu: p_xu,
+					author: p_author,
 					content: p_content,
 				});
-				pinyinHistory.current = {
-					title: p_title,
-					xu: p_xu,
-					content: p_content,
-				};
+				currentPoem = updateCurrentPoem(currentPoem, {
+					pinyin: {
+						title: p_title,
+						xu: p_xu,
+						content: p_content,
+						author: p_author,
+					},
+				});
 				Taro.hideLoading();
 			})
 			.catch(() => {
@@ -381,6 +384,10 @@ const GushiAudio = ({ close, show }) => {
 						isTabPage ? 'tabPage' : 'normalPage'
 					}`}
 				>
+					{/* 关闭按钮 */}
+					<View className='top-close' onClick={handleClickOverlay}>
+						<Image src={closeSvg} className='svg' mode='widthFix' />
+					</View>
 					{/* 诗词内容展示区 */}
 					<View
 						className='gushi-content'
@@ -391,20 +398,15 @@ const GushiAudio = ({ close, show }) => {
 						{/* 标题 */}
 						<Navigator
 							hoverClass='none'
-							url={`/pages/poet/detail?id=${currentPoem.author_id}`}
+							url={`/pages/poem/detail?id=${currentPoem.id}`}
 							className='link title'
 						>
-							{Pinyin.title ? (
-								<PinyinText
-									text={currentPoem.title}
-									pinyin={Pinyin.title}
-									className='pinyin'
-								/>
-							) : (
-								<Text decode selectable userSelect className='text'>
-									{currentPoem.title}
-								</Text>
-							)}
+							<AudioWords
+								content={{
+									content: [currentPoem.title],
+								}}
+								pinyin={{ content: [Pinyin.title || ''] }}
+							/>
 						</Navigator>
 						{/* 朝代、作者 */}
 						<Navigator
@@ -415,35 +417,28 @@ const GushiAudio = ({ close, show }) => {
 								display: currentPoem.author_id ? 'block' : 'none',
 							}}
 						>
-							<Text decode selectable userSelect className='text'>
-								{currentPoem.author} [{currentPoem.dynasty}]
-							</Text>
+							<AudioWords
+								content={{
+									content: [
+										`${currentPoem.author || ''}·${currentPoem.dynasty || ''}`,
+									],
+								}}
+								pinyin={{ content: [Pinyin.author || ''] }}
+							/>
 						</Navigator>
 						{/* 内容*/}
-						<ScrollView
-							scrollY
-							enhanced
-							enableFlex
-							refresherEnabled={false}
-							showScrollbar={false}
-							className='content ci'
-						>
-							{currentPoem.content.content.map((_item, _index) => (
-								<View className='contentItem' key={_index}>
-									{Pinyin.content[_index] ? (
-										<PinyinText
-											className='text block pinyin'
-											text={_item}
-											pinyin={Pinyin.content[_index]}
-										/>
-									) : (
-										<Text userSelect decode space='ensp' className='text block'>
-											{_item}
-										</Text>
-									)}
-								</View>
-							))}
-						</ScrollView>
+						{currentPoem.content ? (
+							<ScrollView
+								scrollY
+								enhanced
+								enableFlex
+								refresherEnabled={false}
+								showScrollbar={false}
+								className={`content ci ${Pinyin.title ? 'pinyin' : ''}`}
+							>
+								<AudioWords content={currentPoem.content} pinyin={Pinyin} />
+							</ScrollView>
+						) : null}
 						{/* 是否展示拼音 */}
 					</View>
 					{/* 定时、语速等设置、加入诗单 */}
@@ -531,7 +526,11 @@ const GushiAudio = ({ close, show }) => {
 				}}
 			>
 				{floatType === 'list' ? (
-					<AudioList update={updateTimes} currentPoem={currentPoem} />
+					<AudioList
+						update={updateTimes}
+						currentPoem={currentPoem}
+						updatePoem={handlePoemAdd}
+					/>
 				) : (
 					<>
 						<View className='fl-title'>

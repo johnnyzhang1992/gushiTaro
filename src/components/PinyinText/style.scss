@@ -3,7 +3,7 @@
 	flex-wrap: wrap;
 	.pinyin-text {
 		display: flex;
-		align-items: center;
+		align-items: last baseline;
 		flex-direction: column;
 		min-width: 58px;
 		margin-bottom: 4px;
