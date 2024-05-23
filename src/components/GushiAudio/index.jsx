@@ -7,7 +7,7 @@ import {
 	ScrollView,
 } from '@tarojs/components';
 import Taro, { useDidShow } from '@tarojs/taro';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 import FloatLayout from '../FloatLayout';
 import AudioProgress from './AudioProgress';
@@ -75,6 +75,7 @@ const GushiAudio = ({ close, show }) => {
 	const [showMode, updateMode] = useState('mini');
 	const [lastTimes, updateTimes] = useState(0);
 	const [currentLoop, updateListMode] = useState(loopList[0]);
+	const loopIds = useRef([]); // 当前poemList已播放的ID
 	const [Pinyin, updatePinyin] = useState({
 		title: '',
 		xu: '',
@@ -136,6 +137,7 @@ const GushiAudio = ({ close, show }) => {
 			currentPoem = updateCurrentPoem(currentPoem, {
 				isPlaying: true,
 			});
+			loopIds.current = [...new Set([...loopIds.current, currentPoem.id])];
 			updateTimes((pre) => pre + 1);
 		});
 		audioPlayer.onPause(() => {
@@ -151,7 +153,100 @@ const GushiAudio = ({ close, show }) => {
 				isPlaying: false,
 			});
 			updateTimes(0);
+			handlePlayNewOne(0, 'loop');
 		});
+		audioPlayer.onEnded(() => {
+			console.log('--onEnded');
+			currentPoem = updateCurrentPoem(currentPoem, {
+				isPlaying: false,
+			});
+			handlePlayNewOne(0, 'loop');
+		});
+	};
+
+	const handlePlayPre = () => {
+		handlePlayNewOne(-1, 'side');
+	};
+
+	const handlePlayNext = () => {
+		handlePlayNewOne(1, 'side');
+	};
+
+	const getRandomNumberFromArray = (arr) => {
+		// 生成一个随机索引
+		const index = Math.floor(Math.random() * arr.length);
+		// 从数组中移除并返回随机元素
+		return arr.splice(index, 1)[0];
+	};
+	/**
+	 * 播放新的音频
+	 * @param {*} index
+	 * @param {*} type
+	 */
+	const handlePlayNewOne = (index, type = 'side') => {
+		// 0 当前 1 下一首 -1 上一首
+		const poems = getPoemList();
+		const currentIndex = poems.findIndex((item) => item.id === currentPoem.id);
+		let nextIndex = index;
+		let unPlayList = poems.filter((item) => {
+			return !loopIds.current.includes(item.id);
+		});
+		// 全部播放过一遍，则置空
+		if (unPlayList.length === 0) {
+			loopIds.current = [];
+			unPlayList = [...poemList];
+		}
+		console.log('index,type:', index, type);
+		console.log('currentIndex:', currentIndex);
+		console.log(unPlayList, poems);
+		// 处理循环 list one random
+		if (type === 'side') {
+			if (index > 0) {
+				if (currentIndex > 0) {
+					nextIndex = currentIndex + 1;
+				} else {
+					nextIndex = 1;
+				}
+				nextIndex = nextIndex > poems.length - 1 ? 0 : nextIndex;
+			}
+			if (index < 0) {
+				if (currentIndex > 0) {
+					nextIndex = currentIndex - 1;
+				} else {
+					nextIndex = poems.length - 1;
+				}
+				nextIndex = nextIndex > 0 ? nextIndex : 0;
+			}
+		}
+		if (type === 'loop') {
+			console.log('currentLop', currentLoop);
+			switch (currentLoop.name) {
+				case 'list':
+					nextIndex = currentIndex + 1;
+					nextIndex = nextIndex > poems.length - 1 ? 0 : nextIndex;
+					break;
+				case 'one':
+					nextIndex = 0;
+					break;
+				case 'random':
+					nextIndex = parseInt(
+						getRandomNumberFromArray(Object.keys(unPlayList))
+					);
+					break;
+			}
+		}
+		console.log('nextIndex', nextIndex);
+		if (nextIndex === currentIndex) {
+			audioPlayer.play();
+			return false;
+		}
+		let nextPoem = poems[nextIndex] || {};
+		currentPoem = updateCurrentPoem(currentPoem, nextPoem);
+		if (nextPoem.audio_url) {
+			audioInit(nextPoem.audio_url);
+		} else {
+			fetchAudioUrl(nextPoem.id);
+		}
 	};
 
 	const changePlayStatus = () => {
@@ -473,7 +568,7 @@ const GushiAudio = ({ close, show }) => {
 							<View className='loop' onClick={listModeChange}>
 								<Image src={currentLoop.svg} mode='widthFix' className='svg' />
 							</View>
-							<View className='pre'>
+							<View className='pre' onClick={handlePlayPre}>
 								<Image src={preSvg} mode='widthFix' className='svg' />
 							</View>
 							<View className='status' onClick={changePlayStatus}>
@@ -487,7 +582,7 @@ const GushiAudio = ({ close, show }) => {
 									className='svg'
 								/>
 							</View>
-							<View className='next'>
+							<View className='next' onClick={handlePlayNext}>
 								<Image src={nextSvg} mode='widthFix' className='svg' />
 							</View>
 							<View className='list' onClick={showList}>
