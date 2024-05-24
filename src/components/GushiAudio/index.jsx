@@ -74,7 +74,7 @@ const GushiAudio = ({ close, show }) => {
 	// normal mini min-expand
 	const [showMode, updateMode] = useState('mini');
 	const [lastTimes, updateTimes] = useState(0);
-	const [currentLoop, updateListMode] = useState(loopList[0]);
+	const [currentLoop, udateLoopMode] = useState(loopList[0]);
 	const loopIds = useRef([]); // 当前poemList已播放的ID
 	const [Pinyin, updatePinyin] = useState({
 		title: '',
@@ -89,7 +89,10 @@ const GushiAudio = ({ close, show }) => {
 	const isTabPage = tabPages.includes(currentPath.route);
 
 	const listModeChange = () => {
-		updateListMode(loopList[currentLoop.next]);
+		udateLoopMode(loopList[currentLoop.next]);
+		if (currentPoem.audio_url) {
+			addPlayEvent(currentPoem.audio_url);
+		}
 	};
 
 	const audioInit = (audio_url) => {
@@ -103,6 +106,8 @@ const GushiAudio = ({ close, show }) => {
 		audioPlayer.src = audio_url;
 		currentPoem = updateCurrentPoem(currentPoem, {
 			isPlaying: true,
+			currentTime: 0,
+			curreent_time: '00:00',
 			total_time: audioPlayer.duration,
 			duration: Utils.formateSeconds(Number(audioPlayer.duration)),
 			audio_url: audio_url,
@@ -111,6 +116,9 @@ const GushiAudio = ({ close, show }) => {
 	};
 
 	const addPlayEvent = (audio_url) => {
+		if (!audioPlayer) {
+			audioInit(audio_url);
+		}
 		audioPlayer.onTimeUpdate(() => {
 			const { currentTime, duration = 0 } = audioPlayer;
 			const {
@@ -149,16 +157,18 @@ const GushiAudio = ({ close, show }) => {
 		});
 		audioPlayer.onStop(() => {
 			console.log('--onStop');
-			currentPoem = updateCurrentPoem(currentPoem, {
-				isPlaying: false,
-			});
-			updateTimes(0);
-			handlePlayNewOne(0, 'loop');
+			// currentPoem = updateCurrentPoem(currentPoem, {
+			// 	isPlaying: false,
+			// });
+			// updateTimes(0);
+			// handlePlayNewOne(0, 'loop');
 		});
 		audioPlayer.onEnded(() => {
 			console.log('--onEnded');
 			currentPoem = updateCurrentPoem(currentPoem, {
 				isPlaying: false,
+				curreent_time: '00:00',
+				currentTime: 0,
 			});
 			handlePlayNewOne(0, 'loop');
 		});
@@ -226,7 +236,7 @@ const GushiAudio = ({ close, show }) => {
 					nextIndex = nextIndex > poems.length - 1 ? 0 : nextIndex;
 					break;
 				case 'one':
-					nextIndex = 0;
+					nextIndex = currentIndex;
 					break;
 				case 'random':
 					nextIndex = parseInt(
@@ -237,7 +247,7 @@ const GushiAudio = ({ close, show }) => {
 		}
 		console.log('nextIndex', nextIndex);
 		if (nextIndex === currentIndex) {
-			audioPlayer.play();
+			changePlayStatus(currentPoem.audio_url);
 			return false;
 		}
 		let nextPoem = poems[nextIndex] || {};
@@ -253,12 +263,17 @@ const GushiAudio = ({ close, show }) => {
 		if (!audioPlayer) {
 			audioPlayer = Taro.getBackgroundAudioManager();
 		}
-		const isPause = !!audioPlayer.paused;
-		const isInit = audioPlayer.src;
-		console.log('paused', isPause, audioPlayer, isInit);
-		console.log('isPlaying', !isPause);
-		if (isPause || !isInit) {
-			if (audioPlayer.currentTime) {
+		const isPause = audioPlayer.paused;
+		console.log('paused', isPause, audioPlayer, audioPlayer.currentTime);
+		console.log('isPlaying', isPause !== undefined && !isPause);
+		if (!currentPoem.audio_url) {
+			fetchAudioUrl(currentPoem.id);
+			return false;
+		}
+		if (isPause === undefined || isPause) {
+			if (audioPlayer.currentTime > 0 && currentPoem.currentTime > 0) {
+				console.log('--play', audioPlayer);
+				audioPlayer.src = currentPoem.audio_url;
 				audioPlayer.play();
 			} else {
 				console.log(currentPoem.audio_url, 'audio_url');
@@ -266,13 +281,7 @@ const GushiAudio = ({ close, show }) => {
 					fetchAudioUrl(currentPoem.id);
 					return false;
 				}
-				audioPlayer.src = currentPoem.audio_url;
-				audioPlayer.title = currentPoem.title;
-				currentPoem = updateCurrentPoem(currentPoem, {
-					duration: Utils.formateSeconds(audioPlayer.duration),
-				});
-				audioPlayer.play();
-				addPlayEvent(currentPoem.audio_url);
+				audioInit(currentPoem.audio_url);
 			}
 		} else {
 			audioPlayer.pause();
@@ -316,11 +325,17 @@ const GushiAudio = ({ close, show }) => {
 			currentTime: 0,
 			current_time: '00:00',
 		});
+		updatePinyin({
+			...Pinyin,
+			...payload.pinyin,
+		});
 		poemList = poemAudioUpdate(payload);
-		console.log(currentPoem, poemList);
 		toggleVisible(true);
 		show();
 		fetchAudioUrl(payload.id);
+		if (!payload.pinyin || !payload.pinyin.title) {
+			getPinyin();
+		}
 	};
 
 	const handleExpand = () => {
@@ -377,10 +392,6 @@ const GushiAudio = ({ close, show }) => {
 			});
 			return false;
 		}
-		Taro.showLoading({
-			title: '转换中，请稍等',
-			icon: 'none',
-		});
 		const { title, content, author, dynasty } = currentPoem;
 		fetchPoemPinyin('POST', {
 			text: `${title}_${content.xu || ''}_${author}·${dynasty}_${(
@@ -414,10 +425,10 @@ const GushiAudio = ({ close, show }) => {
 						author: p_author,
 					},
 				});
-				Taro.hideLoading();
+				updateTimes((pre) => pre + 1);
 			})
-			.catch(() => {
-				Taro.hideLoading();
+			.catch((err) => {
+				console.log(err);
 			});
 	};
 
@@ -425,9 +436,6 @@ const GushiAudio = ({ close, show }) => {
 		console.log('--didShow:gushiAudio');
 		currentPoem = getCurrentPoem();
 		updateMode('mini');
-		if (audioPlayer) {
-			addPlayEvent();
-		}
 		updateTimes((pre) => pre + 1);
 	});
 
@@ -435,6 +443,7 @@ const GushiAudio = ({ close, show }) => {
 		currentPoem = getCurrentPoem();
 		// console.log(currentPoem, poemList);
 		if (currentPoem.id) {
+			getPinyin();
 			toggleVisible(true);
 		}
 		if (!currentPath.route.includes('pages/poem/detail')) {
