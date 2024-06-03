@@ -22,7 +22,11 @@ import {
 	getCurrentPoem,
 } from './util';
 import Utils from '../../utils/util';
-import { fetchPoemAudio, fetchPoemPinyin } from '../../services/global';
+import {
+	fetchPoemAudio,
+	fetchPoemPinyin,
+	fetchPoemSynthesis,
+} from '../../services/global';
 
 import './style.scss';
 
@@ -89,6 +93,7 @@ const GushiAudio = ({ close, show }) => {
 	const isTabPage = tabPages.includes(currentPath.route);
 
 	const listModeChange = () => {
+		console.log('loopMode:', currentLoop.next, currentPoem);
 		udateLoopMode(loopList[currentLoop.next]);
 		if (currentPoem.audio_url) {
 			addPlayEvent(currentPoem.audio_url);
@@ -103,6 +108,7 @@ const GushiAudio = ({ close, show }) => {
 		audioPlayer.epname = '古诗文小助手';
 		audioPlayer.singer = currentPoem.author_name;
 		audioPlayer.coverImgUrl = ''; // logo
+		audioPlayer.referrerPolicy = 'origin';
 		audioPlayer.src = audio_url;
 		currentPoem = updateCurrentPoem(currentPoem, {
 			isPlaying: true,
@@ -289,34 +295,78 @@ const GushiAudio = ({ close, show }) => {
 		updateTimes((pre) => pre + 1);
 	};
 
+	// 获取阿里云诗词语音合成音频
+	const fetchAudioSynthesis = () => {
+		const {
+			id,
+			title,
+			author,
+			dynasty,
+			xu = '',
+			content = { content: [] },
+		} = currentPoem;
+		let poem_text = '';
+		poem_text += `${title} ${author} ${dynasty} ${xu}`;
+		if (content.content && Array.isArray(content.content)) {
+			content.content.forEach((text) => {
+				poem_text += text;
+			});
+		}
+		fetchPoemSynthesis('POST', {
+			text: poem_text,
+			config: JSON.stringify({
+				poem_id: id,
+				title: title,
+			}),
+		})
+			.then((res) => {
+				console.log(res);
+				if (res && res.statusCode === 200) {
+					const { audio_url } = res.data.result || {};
+					currentPoem = updateCurrentPoem(currentPoem, {
+						audio_url: audio_url,
+					});
+					audioInit(audio_url);
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
+
 	// 获取音频地址
 	const fetchAudioUrl = (id) => {
 		if (id === currentPoem.id && currentPoem.audio_url) {
 			audioInit(currentPoem.audio_url);
 			return false;
 		}
-		fetchPoemAudio('GET', {
-			id: id,
-		}).then((res) => {
-			if (res && res.statusCode === 200) {
-				if (!res.data.src) {
-					Taro.showToast({
-						title: res.data.msg || '音频生成失败',
-						icon: 'none',
-						duration: 2500,
-					});
-				} else {
-					currentPoem = updateCurrentPoem(currentPoem, {
-						audio_url: res.data.src,
-					});
-					audioInit(res.data.src);
-				}
-			}
-		});
+		fetchAudioSynthesis();
+		// fetchPoemAudio('GET', {
+		// 	id: id,
+		// }).then((res) => {
+		// 	if (res && res.statusCode === 200) {
+		// 		if (!res.data.src) {
+		// 			Taro.showToast({
+		// 				title: res.data.msg || '音频生成失败',
+		// 				icon: 'none',
+		// 				duration: 2500,
+		// 			});
+		// 		} else {
+		// 			currentPoem = updateCurrentPoem(currentPoem, {
+		// 				audio_url: res.data.src,
+		// 			});
+		// 			audioInit(res.data.src);
+		// 		}
+		// 	}
+		// });
 	};
 
 	const handlePoemAdd = (payload) => {
 		audioPlayer = null;
+		const { fromPath = '' } = payload || {};
+		if (fromPath !== currentPath.route) {
+			return false;
+		}
 		console.log(payload, 'poemAudioAdd');
 		currentPoem = updateCurrentPoem(initPoem, {
 			...initPoem,

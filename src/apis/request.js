@@ -14,8 +14,9 @@ const request = (url, params, method = 'GET') => {
 	};
 	if (hostUrl) {
 		data = {
-			text: params.text || '',
-			dictType: params.dictType || ''
+			...params,
+			// text: params.text || '',
+			// dictType: params.dictType || ''
 		}
 	}
   console.log('--api--request:', url, method, hostUrl);

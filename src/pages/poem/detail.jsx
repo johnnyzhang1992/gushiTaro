@@ -111,7 +111,8 @@ const PoemDetail = () => {
 			dynasty: detail.poem.dynasty,
 			xu: detail.poem.xu || '',
 			content: detail.poem.content || {content: []},
-			author_avatar: detail.poem.author_avatar || ''
+			author_avatar: detail.poem.author_avatar || '',
+			fromPath: 'pages/poem/detail'
 		});
 	};
 

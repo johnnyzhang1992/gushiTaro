@@ -58,3 +58,46 @@ export const fetchPoemPinyin = (method, data) => {
     method
   );
 };
+
+/**
+ * 获取诗词的语音合成
+ * @param {*} method
+ * @param { Object} data {text, config}
+ * @param {Object}
+ * config {
+  creator_openid = "",
+  title = "",
+  poem_id = 1024,
+	speaker = "sijia",
+  sample_rate = 100,
+  speech_rate = -125, // [-500, 500] [0.5, 2]}
+	format = "wav",
+	// speaker 和成人
+	// sample_rate 音频采样率，默认是8000、16000、24000 Hz
+	// speech_rate 语速，取值范围：-500～500，默认值：0。
+	// format 音频编码格式，支持.pcm、.wav和.mp3格式。默认值：pcm
+ * @returns {audio_url}
+ */
+export const fetchPoemSynthesis = (method = 'POST', data) => {
+	console.log(data)
+  return Request(
+    `/gushi/tts/synthesis`,
+    {
+			...data,
+			hostUrl: 'https://api.historybook.cn'
+    },
+    method
+  );
+}
+/**
+ * 获取阿里云语音合成发言人角色列表
+ * @param {*} method
+ * @param {*} data
+ * @returns
+ */
+export const fetchVoiceSpeakers = (method, data = {}) => {
+	return Request(`/gushi/tts/voiceSpeakers`, {
+		data,
+		hostUrl: 'https://api.historybook.cn'
+	},method);
+}
