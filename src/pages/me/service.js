@@ -7,7 +7,7 @@ import UploadFile from '../../apis/uploadFile';
  * @param {Object} data {}
  */
 export const createUser = (method, data) => {
-	return Request('/wxxcx/userCrate', data, method);
+	return Request('/api/user/crate', data, method);
 };
 
 /**
@@ -25,7 +25,7 @@ export const GET_WX_QRCODE = (method, data) => {
  * @param {Object} data {}
  */
 export const fetchUserInfo = (method, data) => {
-	return Request(`/wxxcx/getUserInfo/${data.user_id}`, data, method);
+	return Request(`/api/user/userStats`, data, method);
 };
 
 /**
@@ -34,7 +34,7 @@ export const fetchUserInfo = (method, data) => {
  * @param {Object} data
  */
 export const fetchUserCollect = (method, data) => {
-	return Request(`/wxxcx/getCollect/${data.user_id}`, data, method);
+	return Request(`/api/getCollects/${data.user_id}`, data, method);
 };
 
 /**
@@ -45,7 +45,7 @@ export const fetchUserCollect = (method, data) => {
  * @param {poem,sentence,author} type
  */
 export const updateUserCollect = (method, data) => {
-	return Request(`/wxxcx/updateCollect/${data.type}`, data, method);
+	return Request(`/api/updateCollect`, data, method);
 };
 
 /**
@@ -55,7 +55,7 @@ export const updateUserCollect = (method, data) => {
  * @returns
  */
 export const updateUserInfo = (method, data) => {
-	return Request(`/wxxcx/user/updateInfo`, data, method);
+	return Request(`/api/user/updateInfo`, data, method);
 };
 
 /**

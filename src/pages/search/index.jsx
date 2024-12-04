@@ -105,23 +105,23 @@ const SearchPage = () => {
 			.then((res) => {
 				if (res && res.statusCode === 200) {
 					addKey(KeyWord);
-					const { poems, poets, sentences, tags } = res.data;
+					const { poems,poems_count, poets, poets_count, sentences, sentences_count, tags } = res.data;
 					updateResult({
-						poems: poems.data || [],
-						poems_count: poems.total || 0,
-						poets: poets.data || [],
-						poets_count: poets.total || 0,
-						sentences: sentences.data || [],
-						sentences_count: sentences.total || 0,
+						poems: poems || [],
+						poems_count: poems_count,
+						poets: poets || [],
+						poets_count: poets_count,
+						sentences: sentences || [],
+						sentences_count: sentences_count,
 						tags,
 					});
 					cacheRef.current[KeyWord] = {
-						poems: poems.data || [],
-						poems_count: poems.total || 0,
-						poets: poets.data || [],
-						poets_count: poets.total || 0,
-						sentences: sentences.data || [],
-						sentences_count: sentences.total || 0,
+						poems: poems || [],
+						poems_count: poems_count,
+						poets: poets || [],
+						poets_count: poets_count,
+						sentences: sentences || [],
+						sentences_count: sentences_count,
 						tags,
 					};
 				}

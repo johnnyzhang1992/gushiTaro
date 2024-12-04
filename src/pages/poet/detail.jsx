@@ -40,9 +40,7 @@ const PoetDetailPage = () => {
 			poems_count: 0,
 			sentences_count: 0,
 		},
-		poems: {
-			data: [],
-		},
+		poems: [],
 	});
 	const cacheRef = useRef({
 		poemId: 48769,
@@ -62,7 +60,7 @@ const PoetDetailPage = () => {
 						poems,
 						poet: {
 							...poet,
-							more_infos: JSON.parse(poet.more_infos || ''),
+							more_infos: poet.more_infos || [],
 						},
 					});
 					setTitle(poet.author_name);

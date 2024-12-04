@@ -18,7 +18,6 @@ import refreshSvg from '../images/svg/refresh.svg';
 import Utils from '../utils/util';
 import { fetchRandomSentence } from '../services/global';
 import { FontFaceList } from '../const/config';
-import LoadLocalFont from '../utils/loadFont';
 import { initConfig } from '../const/posterConfig';
 
 import './index.scss';
@@ -159,7 +158,6 @@ const Index = () => {
 		Taro.getSystemInfo().then((sysRes) => {
 			setSafeArea(sysRes.safeArea || {});
 		});
-		LoadLocalFont(false, handleGlobalFontLoad);
 		events.on('loadFont', handleGlobalFontLoad);
 	});
 

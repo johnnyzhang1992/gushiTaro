@@ -86,7 +86,7 @@ const ColllectContainer = ({ type, page, updatePage }) => {
 		updateUserCollect('POST', {
 			user_id: user.user_id,
 			type,
-			id: params.id,
+			target_id: params.id,
 		}).then((res) => {
 			if (res && res.statusCode === 200) {
 				if (res.data.status) {

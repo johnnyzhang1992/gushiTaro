@@ -14,7 +14,7 @@
 		align-items: center;
 		// flex-direction: column;
 		justify-content: flex-end;
-		padding: 80px 20px 0 20px;
+		padding: 100px 20px 0 20px;
 		.avatar {
 			.img {
 				width: 100px;
@@ -50,6 +50,9 @@
 	.loginCard {
 		padding: 30px 30px;
 		text-align: center;
+		.loginBtn{
+			color: #337ab7;
+		}
 	}
 	.pageContainer {
 		padding: 20px;

@@ -10,7 +10,7 @@ import Request from "../../apis/request";
  * @param {Object} data {}
  */
 export const fetchPoetData = (method, data) => {
-	return Request(`/wxxcx/getPoetData?`, data, method);
+	return Request(`/api/author/list?`, data, method);
 };
 
 /**
@@ -19,7 +19,7 @@ export const fetchPoetData = (method, data) => {
  * @param {Object} data {}
  */
 export const fetchPoetPoems = (method, data) => {
-	return Request(`/wxxcx/getPoetPoems?`, data, method);
+	return Request(`/api/author/${data.id}/poems?`, data, method);
 };
 
 /**
@@ -28,5 +28,5 @@ export const fetchPoetPoems = (method, data) => {
  * @param {Object} data {}
  */
 export const fetchPoetDetail = (method, data) => {
-	return Request(`/wxxcx/getPoetDetailData/${data.id}`, data, method);
+	return Request(`/api/author/${data.id}`, data, method);
 };

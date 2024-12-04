@@ -8,7 +8,7 @@ import Taro, {
 import { useNavigationBar } from 'taro-hooks';
 import {
 	View,
-	Image,
+	// Image,
 	OfficialAccount,
 	Swiper,
 	SwiperItem,
@@ -27,7 +27,7 @@ import FixBottom from './components/FixBottom';
 import TagsCard from '../../components/TagsCard';
 import FabButton from '../../components/FabButton';
 
-import audioSvg from '../../images/svg/audio.svg';
+// import audioSvg from '../../images/svg/audio.svg';
 
 import './style.scss';
 
@@ -57,21 +57,8 @@ const PoemDetail = () => {
 	const computeData = (data) => {
 		const { poem, detail: poemDetail, sentences = [] } = data;
 		let _detail = { ...(poemDetail || { yi: '', zhu: '' }) };
-		if (_detail && _detail.yi) {
-			_detail.yi = JSON.parse(_detail.yi || '{}');
-		}
-		if (_detail && _detail.zhu) {
-			_detail.zhu = JSON.parse(_detail.zhu || '{}');
-		}
-		if (_detail && _detail.shangxi) {
-			_detail.shangxi = JSON.parse(_detail.shangxi || '{}');
-		}
-		if (_detail && _detail.more_infos) {
-			_detail.more_infos = JSON.parse(_detail.more_infos || '{}');
-		}
 		let _poem = { ...poem };
-		_poem.content = JSON.parse(_poem.content || '{}');
-		_poem.tagsArr = _poem.tags === '' ? [] : String(_poem.tags).split(',');
+		_poem.tagsArr = _poem.tags ? String(_poem.tags || '').split(',') : [];
 		setDetail({
 			...detail,
 			poem: _poem,
@@ -102,19 +89,19 @@ const PoemDetail = () => {
 			});
 	};
 
-	const handlePlayAudio = () => {
-		Taro.eventCenter.trigger('poemAudioAdd', {
-			id: detail.poem.id,
-			author: detail.poem.author,
-			author_id: detail.poem.author_id,
-			title: detail.poem.title,
-			dynasty: detail.poem.dynasty,
-			xu: detail.poem.xu || '',
-			content: detail.poem.content || {content: []},
-			author_avatar: detail.poem.author_avatar || '',
-			fromPath: 'pages/poem/detail'
-		});
-	};
+	// const handlePlayAudio = () => {
+	// 	Taro.eventCenter.trigger('poemAudioAdd', {
+	// 		id: detail.poem.id,
+	// 		author: detail.poem.author,
+	// 		author_id: detail.poem.author_id,
+	// 		title: detail.poem.title,
+	// 		dynasty: detail.poem.dynasty,
+	// 		xu: detail.poem.xu || '',
+	// 		content: detail.poem.content || {content: []},
+	// 		author_avatar: detail.poem.author_avatar || '',
+	// 		fromPath: 'pages/poem/detail'
+	// 	});
+	// };
 
 	useLoad((options) => {
 		const { id } = options;
@@ -222,9 +209,9 @@ const PoemDetail = () => {
 					</SectionCard>
 				) : null}
 				{/* 操作栏 复制 */}
-				<View className='copyContainer' onClick={handlePlayAudio}>
+				{/* <View className='copyContainer' onClick={handlePlayAudio}>
 					<Image src={audioSvg} className='copy' />
-				</View>
+				</View> */}
 				{/* 统计数据 -- 点赞、收藏人数*/}
 				{/* 注释，译文，摘录，学习计划 -- 半屏 */}
 				<FixBottom poem={detail.poem} poemDetail={detail.detail} />

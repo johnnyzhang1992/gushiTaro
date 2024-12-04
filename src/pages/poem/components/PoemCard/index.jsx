@@ -15,6 +15,7 @@ import pinyinSvg from '../../../../images/svg/pinyin_black.svg';
 import pinyinActiveSvg from '../../../../images/svg/pinyin.svg';
 
 const PoemCard = ({
+	id: poemId,
 	author_id,
 	title,
 	dynasty,
@@ -81,10 +82,8 @@ const PoemCard = ({
 			icon: 'none',
 		});
 		fetchPoemPinyin('POST', {
-			text: `${title}_${content.xu || ''}_${(content.content || []).join(
-				'_'
-			)}`.replaceAll('&quot;', '"'),
 			dictType: 'complete',
+			poem_id: poemId
 		})
 			.then((res) => {
 				const { pinyin } = res.data;

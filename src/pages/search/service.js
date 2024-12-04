@@ -10,7 +10,7 @@ import Request from "../../apis/request";
  * @param {Object} data {}
  */
 export const fetchHotSearch = (method, data) => {
-	return Request(`/wxxcx/getsHotSearch`, data, method);
+	return Request(`/api/search/hot`, data, method);
 };
 
 /**
@@ -19,7 +19,7 @@ export const fetchHotSearch = (method, data) => {
  * @param {Object} data {}
  */
 export const fetchSearch = (method, data) => {
-	return Request(`/wxxcx/search/${data.key}`, data, method);
+	return Request(`/api/search`, data, method);
 };
 
 /**
@@ -28,5 +28,5 @@ export const fetchSearch = (method, data) => {
  * @param {Object} data {}
  */
 export const fetchRandomSearch = (method, data) => {
-	return Request(`/wxxcx/getsRandomSearch`, data, method);
+	return Request(`/api/search/random`, data, method);
 };

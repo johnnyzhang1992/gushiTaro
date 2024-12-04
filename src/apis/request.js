@@ -5,18 +5,18 @@ import { BaseUrl } from '../const/config';
 const request = (url, params, method = 'GET') => {
   const user = Taro.getStorageSync('user') || {};
   const wxToken = Taro.getStorageSync('wx_token');
-  const { hostUrl } = params || {};
+  const { hostUrl, ...restParams } = params || {};
   let data = {
-    ...params,
-    openId: user.openId || '',
+    ...restParams,
+		openId: user.openId || user.openid || '',
+		openid: user.openid || '',
     wx_token: wxToken || '',
     user_id: user.user_id || -1,
 	};
 	if (hostUrl) {
 		data = {
-			...params,
-			// text: params.text || '',
-			// dictType: params.dictType || ''
+			...data,
+			...restParams,
 		}
 	}
   console.log('--api--request:', url, method, hostUrl);

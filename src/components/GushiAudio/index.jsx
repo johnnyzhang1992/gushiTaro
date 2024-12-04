@@ -23,7 +23,7 @@ import {
 } from './util';
 import Utils from '../../utils/util';
 import {
-	fetchPoemAudio,
+	// fetchPoemAudio,
 	fetchPoemPinyin,
 	fetchPoemSynthesis,
 } from '../../services/global';
@@ -322,7 +322,7 @@ const GushiAudio = ({ close, show }) => {
 			.then((res) => {
 				console.log(res);
 				if (res && res.statusCode === 200) {
-					const { audio_url } = res.data.result || {};
+					const { audio_url } = res.data || {};
 					currentPoem = updateCurrentPoem(currentPoem, {
 						audio_url: audio_url,
 					});

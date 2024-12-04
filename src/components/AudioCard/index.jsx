@@ -3,7 +3,7 @@ import { View } from '@tarojs/components';
 import Taro, { useUnload } from '@tarojs/taro';
 import { AtProgress } from 'taro-ui';
 
-import { fetchPoemAudio } from '../../services/global';
+import { fetchPoemSynthesis } from '../../services/global';
 import Utils from '../../utils/util';
 
 import './style.scss';
@@ -135,11 +135,16 @@ const AudioCard = ({ id, title, author, showPoem = true }) => {
 
 	useEffect(() => {
 		if (id) {
-			fetchPoemAudio('GET', {
-				id: id,
+			fetchPoemSynthesis('POST', {
+				poem_id: id,
+				config: JSON.stringify({
+					poem_id: id,
+					title: title,
+				}),
 			}).then((res) => {
 				if (res && res.statusCode === 200) {
-					if (!res.data.src) {
+					const { audio_url } = res.data || {};
+					if (!audio_url) {
 						Taro.showToast({
 							title: res.data.msg || '音频生成失败',
 							icon: 'none',
@@ -147,7 +152,7 @@ const AudioCard = ({ id, title, author, showPoem = true }) => {
 						});
 						setError(true);
 					} else {
-						audioInit(res.data.src);
+						audioInit(audio_url);
 					}
 				}
 			});

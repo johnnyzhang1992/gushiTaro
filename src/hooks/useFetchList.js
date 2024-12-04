@@ -2,6 +2,13 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import Taro from '@tarojs/taro';
 
 // 自定义 hook 内状态变化和props参数变化都会引起再次执行
+/**
+ * 获取列表 hook
+ * @param {*} fetchFn
+ * @param {*} params 请求参数
+ * @param {*} pgConfig 分页信息
+ * @returns
+ */
 const useFetchList = (fetchFn, params, pgConfig) => {
 	const [data, setData] = useState({
 		list: [],
@@ -20,11 +27,12 @@ const useFetchList = (fetchFn, params, pgConfig) => {
 	const loadRef = useRef(false);
 
 	const fetchData = useCallback(() => {
+		// 缓存分页信息
 		const cachePg = dataRef.current;
 		const { requestType = 'poem' } = params;
 		const { page, last_page: lastPage } = pgConfig;
 		if (requestType === 'collect' && !Taro.getStorageSync('wx_token')) {
-			setError('登录后，才能获取数据哦！')
+			setError('登录后，才能获取数据哦！');
 			return false;
 		}
 		console.log('触发「useFetchList」, 触发次数：', cachePg.count);
@@ -39,14 +47,15 @@ const useFetchList = (fetchFn, params, pgConfig) => {
 			return false;
 		}
 		// 当前和缓存分页数据相同，不请求
-		if (page === cachePg.page && lastPage === cachePg.last_page) {
-			console.log('列表参数变化:old,new', cacheParams.current, params);
-			// 判断参数是否有变化
-			if (
-				JSON.stringify(cacheParams.current) === JSON.stringify(params)
-			) {
-				return false;
-			}
+		console.log('page', page, cachePg.page);
+		console.log('lastPage', lastPage, cachePg.last_page);
+		console.log('列表参数变化:old,new', cacheParams.current, params);
+		// 判断参数是否有变化
+		if (
+			JSON.stringify({ ...cacheParams.current, page: cachePg.page }) ===
+			JSON.stringify({ ...params, page })
+		) {
+			return false;
 		}
 		// 更新网络请求状态
 		loadRef.current = true;
@@ -61,20 +70,15 @@ const useFetchList = (fetchFn, params, pgConfig) => {
 		})
 			.then((res) => {
 				if (res.data && res.statusCode == 200) {
-					let _pgConfig = {};
-					if (requestType === 'poem') {
-						_pgConfig = res.data.poems;
-					} else if (requestType === 'poet') {
-						_pgConfig = res.data.poets;
-					} else if (requestType === 'collect') {
-						_pgConfig = res.data.data;
-					}
-					const {
-						data: poemData,
-						current_page,
-						last_page,
-						total,
-					} = _pgConfig;
+					// let _pgConfig = {};
+					// if (requestType === 'poem') {
+					// 	_pgConfig = res.data.poems;
+					// } else if (requestType === 'poet') {
+					// 	_pgConfig = res.data.poets;
+					// } else if (requestType === 'collect') {
+					// 	_pgConfig = res.data.data;
+					// }
+					const { list=[], current_page, last_page, total } = res.data;
 					dataRef.current = {
 						...cachePg,
 						page: current_page,
@@ -84,10 +88,7 @@ const useFetchList = (fetchFn, params, pgConfig) => {
 					loadRef.current = false;
 					console.log('----请求成功--更新数据');
 					setData((preData) => {
-						const List =
-							page > 1
-								? [...preData.list, ...poemData]
-								: poemData;
+						const List = page > 1 ? [...preData.list, ...list] : list;
 						return {
 							list: List,
 							pagination: {

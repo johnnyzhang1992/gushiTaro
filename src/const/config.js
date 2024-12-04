@@ -1,4 +1,4 @@
-export const BaseUrl = 'https://xuegushi.com';
+export const BaseUrl = 'https://api.xuegushi.com';
 
 // 首页标签分类
 export const HomeCategories = [

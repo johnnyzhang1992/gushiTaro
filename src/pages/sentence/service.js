@@ -10,7 +10,7 @@ import Request from "../../apis/request";
  * @param {Object} data {}
  */
 export const fetchSentenceData = (method, data) => {
-	return Request(`/wxxcx/getSentenceData`, data, method);
+	return Request(`/api/sentence/list`, data, method);
 };
 
 /**
@@ -19,5 +19,5 @@ export const fetchSentenceData = (method, data) => {
  * @param {Object} data {}
  */
 export const fetchSentenceDetail = (method, data) => {
-	return Request(`/wxxcx/getSentenceDetail/${data.id}`, data, method);
+	return Request(`/api/sentence/${data.id}`, data, method);
 };

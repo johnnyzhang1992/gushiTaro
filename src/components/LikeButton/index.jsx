@@ -33,8 +33,9 @@ const LikeButton = (props) => {
 			return false;
 		}
 		updateUserLike('POST', {
+			status: likeStatus ? 1 : 0,
 			type,
-			id,
+			target_id: id,
 		}).then((res) => {
 			if (res && res.statusCode === 200) {
 				const {

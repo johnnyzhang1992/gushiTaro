@@ -5,11 +5,13 @@ import Taro, { useLoad, useDidShow, usePullDownRefresh } from '@tarojs/taro';
 import SectionCard from '../../components/SectionCard';
 
 // import { BaseUrl } from '../../const/config';
-import { fetchUserInfo, createUser } from './service';
+// import { fetchUserInfo, createUser } from './service';
+import { fetchUserInfo } from './service';
+import { createUser } from '../../services/global';
 
 import './style.scss';
 
-import poetPng from '../../images/icon/poet.png';
+// import poetPng from '../../images/icon/poet.png';
 import xcxPng from '../../images/xcx.jpg';
 
 const MeIndex = () => {
@@ -188,12 +190,12 @@ const MeIndex = () => {
 						url='/pages/me/setting/index'
 						hoverClass='none'
 					>
-						<View className='avatar'>
+						{/* <View className='avatar'>
 							<Image
 								src={userInfo.avatarUrl || poetPng}
 								className='img'
 							/>
-						</View>
+						</View> */}
 						<View className='user_name'>
 							<Text className='text'>
 								{userInfo.name || userInfo.nickName}
@@ -295,19 +297,6 @@ const MeIndex = () => {
 						2024 &copy; xuegushi.com
 					</Text>
 				</View>
-				{userInfo.user_id && userInfo.user_id === 10 ? (
-					<SectionCard
-						title='数据统计'
-						style={{
-							paddingBottom: '30px',
-						}}
-						extra={
-							<Navigator url='/pages/admin/index'>
-								=&gt;进入
-							</Navigator>
-						}
-					/>
-				) : null}
 			</View>
 		</View>
 	);
