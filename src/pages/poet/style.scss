@@ -1,6 +1,8 @@
 .poetDetail {
+	min-height: 100vh;
 	padding-bottom: 220px;
 	background-color: #f5f5f5;
+	box-sizing: border-box;
 	.SectionCard {
 		background-color: #fff;
 		margin-bottom: 20px;
@@ -59,7 +61,7 @@
 }
 .poetIndex {
 	min-height: 100vh;
-	background-color: #efefef;
+	background-color: #f8f8f8;
 	.keywordFilter {
 		background-color: #fff;
 	}

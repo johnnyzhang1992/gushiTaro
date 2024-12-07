@@ -25,7 +25,7 @@ const PoetCard = ({
 			key={id}
 			onClick={handleNavigate}
 		>
-			{showAvatar ? (
+			{showAvatar && avatar ? (
 				<View className='avatar'>
 					<Image
 						lazyLoad

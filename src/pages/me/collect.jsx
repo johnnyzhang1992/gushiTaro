@@ -104,25 +104,31 @@ const CollectPage = () => {
 				onClick={handleTabChange}
 			>
 				<AtTabsPane current={currentIndex} index={0}>
-					<CollectContainer
-						type='poem'
-						page={pagination['poem'].page}
-						updatePage={updatePage}
-					/>
+					{currentIndex == 0 ? (
+						<CollectContainer
+							type='poem'
+							page={pagination['poem'].page}
+							updatePage={updatePage}
+						/>
+					) : null}
 				</AtTabsPane>
 				<AtTabsPane current={currentIndex} index={1}>
-					<CollectContainer
-						type='sentence'
-						page={pagination['sentence'].page}
-						updatePage={updatePage}
-					/>
+					{currentIndex == 1 ? (
+						<CollectContainer
+							type='sentence'
+							page={pagination['sentence'].page}
+							updatePage={updatePage}
+						/>
+					) : null}
 				</AtTabsPane>
 				<AtTabsPane current={currentIndex} index={2}>
-					<CollectContainer
-						type='author'
-						page={pagination['author'].page}
-						updatePage={updatePage}
-					/>
+					{currentIndex == 2 ? (
+						<CollectContainer
+							type='author'
+							page={pagination['author'].page}
+							updatePage={updatePage}
+						/>
+					) : null}
 				</AtTabsPane>
 			</AtTabs>
 		</View>

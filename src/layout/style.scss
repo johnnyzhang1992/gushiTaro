@@ -1,3 +1,7 @@
 .layout {
 	height: 100%;
+	.layout-extra {
+		overflow: hidden;
+		position: relative;
+	}
 }

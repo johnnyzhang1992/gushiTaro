@@ -1,6 +1,5 @@
 import {
 	View,
-	Image,
 	Navigator,
 	Form,
 	Input,
@@ -10,7 +9,8 @@ import {
 import { useState, useRef } from 'react';
 import Taro, { useDidShow, useLoad, usePullDownRefresh } from '@tarojs/taro';
 
-import { updateUserInfo, uploadAvatar } from '../service';
+// import { updateUserInfo } from '../service';
+import { updateUserInfo } from '../../../services/global';
 import { userIsLogin } from '../../../utils/auth'
 
 import './style.scss';
@@ -77,7 +77,8 @@ const SettingPage = () => {
 					icon: 'success',
 					duration: 2000,
 				});
-				Taro.setStorageSync('user', res.data);
+				const localUser = Taro.getStorageSync('user');
+				Taro.setStorageSync('user', { ...localUser, ...res.data });
 				Taro.navigateBack();
 			} else {
 				console.log('---更新失败', res);
@@ -90,50 +91,50 @@ const SettingPage = () => {
 		});
 	};
 
-	const updateAvatar = () => {
-		Taro.chooseImage({
-			count: 1,
-			sizeType: ['compressed'],
-			sourceType: ['album'],
-			success: function (res) {
-				// 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-				var tempFilePath = res.tempFilePaths[0];
-				uploadAvatar('POST', {
-					name: 'file',
-					filePath: tempFilePath,
-				}).then((_res) => {
-					if (_res && _res.statusCode === 200) {
-						const user = Taro.getStorageSync('user');
-						const { avatarUrl } = JSON.parse(_res.data);
-						Taro.setStorageSync('user', {
-							...user,
-							avatar: avatarUrl,
-							avatarUrl,
-						});
-						updateForm((pre) => ({
-							...pre,
-							avatar: avatarUrl,
-						}));
-					}
-				});
-			},
-			fail: (err) => {
-				console.log(err);
-			},
-		});
-	};
+	// const updateAvatar = () => {
+	// 	Taro.chooseImage({
+	// 		count: 1,
+	// 		sizeType: ['compressed'],
+	// 		sourceType: ['album'],
+	// 		success: function (res) {
+	// 			// 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+	// 			var tempFilePath = res.tempFilePaths[0];
+	// 			uploadAvatar('POST', {
+	// 				name: 'file',
+	// 				filePath: tempFilePath,
+	// 			}).then((_res) => {
+	// 				if (_res && _res.statusCode === 200) {
+	// 					const user = Taro.getStorageSync('user');
+	// 					const { avatarUrl } = JSON.parse(_res.data);
+	// 					Taro.setStorageSync('user', {
+	// 						...user,
+	// 						avatar: avatarUrl,
+	// 						avatarUrl,
+	// 					});
+	// 					updateForm((pre) => ({
+	// 						...pre,
+	// 						avatar: avatarUrl,
+	// 					}));
+	// 				}
+	// 			});
+	// 		},
+	// 		fail: (err) => {
+	// 			console.log(err);
+	// 		},
+	// 	});
+	// };
 
 	return (
 		<View className='page settingPage'>
 			<Form onSubmit={handleSubmit}>
-				<View className='formItem center noBottom'>
+				{/* <View className='formItem center noBottom'>
 					<View className='formContent' onClick={updateAvatar}>
 						<View className='avatar'>
 							<Image src={form.avatar} className='avatarImg' />
 						</View>
 						<View className='intro'>设置头像</View>
 					</View>
-				</View>
+				</View> */}
 				<View className='formItem'>
 					<View className='label'>姓名</View>
 					<View className='formContent'>

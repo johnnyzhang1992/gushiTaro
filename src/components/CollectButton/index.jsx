@@ -33,8 +33,9 @@ const CollectButton = (props) => {
 			return false;
 		}
 		updateUserCollect('POST', {
+			status: collectStatus ? 1 : 0,
 			type,
-			id,
+			target_id: id,
 		}).then((res) => {
 			if (res && res.statusCode === 200) {
 				const {

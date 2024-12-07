@@ -9,6 +9,13 @@
 	box-sizing: border-box;
 	background-repeat: repeat;
 	// background-size: cover;
+	font-family:  GushiFont, 'Heti Kai', serif, system-ui, -apple-system, 'Apple Color Emoji',
+	'Segoe UI Emoji', 'Segoe UI Symbol';
+	-webkit-font-smoothing: subpixel-antialiased;
+	// line-height: 1.5;
+	// overflow-wrap: break-word;
+	// word-wrap: break-word;
+	hyphens: auto;
 	.container {
 		flex: 1;
 		display: flex;

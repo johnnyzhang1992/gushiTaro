@@ -2,8 +2,9 @@ import Taro, { useLaunch, usePageNotFound, useDidShow } from '@tarojs/taro';
 
 import './app.scss';
 
-import { BaseUrl } from './const/config';
+// import { BaseUrl } from './const/config';
 import LoadLocalFont from './utils/loadFont';
+import { fetchUserInfo } from './services/global';
 
 const App = (props) => {
 	// 用户登录
@@ -12,19 +13,14 @@ const App = (props) => {
 			success: (res) => {
 				// this.globalData.code = res.code;
 				// 发送 res.code 到后台换取 openId, sessionKey, unionId
-				Taro.request({
-					url: BaseUrl + '/wxxcx/userInfo',
-					data: {
-						code: res.code,
-					},
-					success: function (result) {
+				fetchUserInfo('GET', {
+					code: res.code,
+				})
+					.then((result) => {
 						if (result.data && !result.data.status) {
 							console.log('-----login---success------');
 							Taro.setStorageSync('user', result.data);
-							Taro.setStorageSync(
-								'wx_token',
-								result.data.wx_token
-							);
+							Taro.setStorageSync('wx_token', result.data.wx_token);
 							console.log('wx_token', result.data.wx_token);
 						} else {
 							if (result.data && result.data.openId) {
@@ -33,11 +29,10 @@ const App = (props) => {
 								});
 							}
 						}
-					},
-					fail: function (err) {
+					})
+					.catch((err) => {
 						console.log(err);
-					},
-				});
+					});
 			},
 			fail: (err) => {
 				console.log(err);

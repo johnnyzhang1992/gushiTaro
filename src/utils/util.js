@@ -136,6 +136,9 @@ const excludeSpecial = (s) => {
 const formateSeconds = (seconds) => {
 	let min = 0;
 	let sec = 0;
+	if (typeof seconds !== 'number' || Number.isNaN(seconds)) {
+		return '00:00'
+	}
 	if (seconds > 0) {
 		min = parseInt(seconds / 60);
 		sec = parseInt(seconds % 60);

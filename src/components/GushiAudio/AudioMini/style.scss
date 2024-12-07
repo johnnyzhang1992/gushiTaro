@@ -1,0 +1,65 @@
+.audio-mini-container {
+	height: 108px;
+	width: 100%;
+	box-sizing: content-box;
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	z-index: 102;
+	background-color: #fff;
+	box-shadow: 0px -8px 8px 2px #f4f6f9;
+	&.normalPage {
+		padding-bottom: env(safe-area-inset-bottom);
+	}
+	.audio-mini {
+		color: #333;
+		font-size: 24px;
+		height: 100%;
+		padding: 8px 16px;
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+		align-items: center;
+		pointer-events: auto;
+		.author_avatar {
+			margin-right: 20px;
+			.avatar {
+				height: 72px;
+			}
+		}
+		.mini-content {
+			flex: 1;
+			display: flex;
+			height: 100%;
+			flex-direction: column;
+			justify-content: space-evenly;
+			.audio-time {
+				display: flex;
+				.start {
+					margin-right: 2px;
+				}
+				.total {
+					margin-left: 2px;
+				}
+			}
+		}
+		.status,
+		.close {
+			min-width: 64px;
+			// margin-left: 8px;
+			padding: 0 12px;
+			text-align: center;
+		}
+		.close {
+			.svg {
+				width: 60px;
+				height: 60px;
+			}
+		}
+		.svg {
+			width: 40px;
+			height: 40px;
+		}
+	}
+}

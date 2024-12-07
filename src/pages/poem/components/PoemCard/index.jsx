@@ -8,13 +8,14 @@ import PoemContent from '../PoemContent';
 import HighLightText from '../../../../components/HighLightText';
 import PinyinText from '../../../../components/PinyinText';
 
-import { fetchPoemPinyin } from '../../service';
+import { fetchPoemPinyin } from '../../../../services/global';
 import copySVg from '../../../../images/svg/copy_black.svg';
 import shareSvg from '../../../../images/svg/share_black.svg';
 import pinyinSvg from '../../../../images/svg/pinyin_black.svg';
 import pinyinActiveSvg from '../../../../images/svg/pinyin.svg';
 
 const PoemCard = ({
+	id: poemId,
 	author_id,
 	title,
 	dynasty,
@@ -81,10 +82,8 @@ const PoemCard = ({
 			icon: 'none',
 		});
 		fetchPoemPinyin('POST', {
-			text: `${title}_${content.xu || ''}_${(content.content || []).join(
-				'_'
-			)}`.replaceAll('&quot;', '"'),
 			dictType: 'complete',
+			poem_id: poemId
 		})
 			.then((res) => {
 				const { pinyin } = res.data;
@@ -149,7 +148,7 @@ const PoemCard = ({
 						className='operate-item'
 						onClick={getPinyin}
 						style={{
-							borderColor: Pinyin.title ? '#337ab7' : '#efefef',
+							borderColor: Pinyin.title ? '#337ab7' : '#f8f8f8',
 						}}
 					>
 						<Image

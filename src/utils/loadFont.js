@@ -8,7 +8,7 @@ const events = new Events();
  */
 const LoadLocalFont = (global = false, cb) => {
   // 去本地缓存字体配置
-  const cacheFont = Taro.getStorageSync('fontName');
+  const cacheFont = Taro.getStorageSync('fontName') || '阿里妈妈刀隶体';
   if (!cacheFont) {
     return false;
   }

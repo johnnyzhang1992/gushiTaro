@@ -11,7 +11,7 @@ const PoemContent = ({ type, lightWord, xu = '', content = [], pinyin }) => {
 		词: 'ci',
 		文言文: 'wyw',
 	};
-	const { xu: pinyinXu, content: pinyinContent } = pinyin || {};
+	const { xu: pinyinXu = '', content: pinyinContent = '' } = pinyin || {};
 	return (
 		<View className='poemContent'>
 			{pinyinXu.trim() ? (

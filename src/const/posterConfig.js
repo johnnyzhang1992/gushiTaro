@@ -2,10 +2,10 @@ export const initConfig = {
   type: 'default', // default center letter horizontal
   showQrcode: true,
   letterBorder: 'default', // redBorder blankBorder
-  bgColor: '#fff',
+  // bgColor: '#f0f0f4',
   bgImg: '', // 背景图
   showBg: false,
-  bgColor: 'rgba(255,255,255)',
+  bgColor: '#ffffff',
   fontColor: '#333',
   ratio: 1, // 显示比例 0.75 0.46
 };

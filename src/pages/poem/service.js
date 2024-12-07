@@ -5,7 +5,7 @@ import Request from '../../apis/request';
  * @param {Object} data {}
  */
 export const fetchHomeData = (method, data) => {
-  return Request(`/wxxcx/getHomeData`, data, method);
+	return Request(`/api/poemBook/poems`, data, method);
 };
 
 /**
@@ -14,7 +14,7 @@ export const fetchHomeData = (method, data) => {
  * @param {Object} data {}
  */
 export const fetchBookData = (method, data) => {
-  return Request(`/wxxcx/getBookData`, data, method);
+	return Request(`/api/poemBook/detail`, data, method);
 };
 
 /**
@@ -23,7 +23,7 @@ export const fetchBookData = (method, data) => {
  * @param {Object} data {}
  */
 export const fetchPoemData = (method, data) => {
-  return Request(`/wxxcx/getPoemData`, data, method);
+	return Request(`/api/poem/list`, data, method);
 };
 
 /**
@@ -32,7 +32,7 @@ export const fetchPoemData = (method, data) => {
  * @param {Object} data {}
  */
 export const fetchPoemDetail = (method, data) => {
-  return Request(`/wxxcx/poem/${data.id}`, data, method);
+	return Request(`/api/poem/${data.id}`, data, method);
 };
 
 /**
@@ -41,7 +41,7 @@ export const fetchPoemDetail = (method, data) => {
  * @param {Object} data {}
  */
 export const fetchPoemContent = (method, data) => {
-  return Request(`/wxxcx/getPoemContent/${data.id}`, data, method);
+	return Request(`/api/poem/${data.id}`, data, method);
 };
 
 /**
@@ -50,21 +50,5 @@ export const fetchPoemContent = (method, data) => {
  * @param {Object} data {}
  */
 export const fetchPoemAudio = (method, data) => {
-  return Request(`/wxxcx/getPoemAudio/${data.id}`, data, method);
-};
-
-/**
- * 获取诗词的 pinyin
- * @param {String} method POST
- * @param {Object} data {}
- */
-export const fetchPoemPinyin = (method, data) => {
-  return Request(
-    `/gushi/pinyin`,
-    {
-			...data,
-			hostUrl: 'https://api.historybook.cn'
-    },
-    method
-  );
+	return Request(`/api/tts/synthesis`, { ...data, poem_id: data.id }, method);
 };

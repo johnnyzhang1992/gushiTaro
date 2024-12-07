@@ -19,11 +19,7 @@ const RandomSearch = () => {
 	const fetchSearch = () => {
 		fetchRandomSearch('GET', {}).then((res) => {
 			if (res && res.statusCode === 200) {
-				const {
-					poems = [],
-					poets = [],
-					sentences = [],
-				} = res.data || {};
+				const { poems = [], poets = [], sentences = [] } = res.data || {};
 				updateSearch({ poems, poets, sentences });
 			}
 		});
@@ -62,7 +58,7 @@ const RandomSearch = () => {
 					vertical={false}
 					interval={4000}
 					circular
-					indicatorDots
+					indicatorDots={search.poets.length > 1}
 					autoplay
 					adjustHeight='highest'
 				>
@@ -92,17 +88,13 @@ const RandomSearch = () => {
 					indicatorActiveColor='#333'
 					vertical={false}
 					circular
-					indicatorDots
+					indicatorDots={search.sentences.length > 1}
 					autoplay
 					adjustHeight='highest'
 				>
 					{search.sentences.map((poem) => (
 						<SwiperItem key={poem.id}>
-							<SentenceCard
-								{...poem}
-								showCount={false}
-								showBorder={false}
-							/>
+							<SentenceCard {...poem} showCount={false} showBorder={false} />
 						</SwiperItem>
 					))}
 				</Swiper>
@@ -127,7 +119,7 @@ const RandomSearch = () => {
 					vertical={false}
 					interval={6000}
 					circular
-					indicatorDots
+					indicatorDots={search.poems.length > 1}
 					autoplay
 					adjustHeight='highest'
 				>

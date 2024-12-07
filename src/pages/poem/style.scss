@@ -31,6 +31,8 @@
 }
 .pageContainer {
 	padding: 20px 20px 0 20px;
+	padding-bottom: const(safe-area-inset-bottom);
+	padding-bottom: env(safe-area-inset-bottom);
 }
 .copyContainer {
 	background-color: #337ab7;
@@ -74,7 +76,7 @@
 }
 .poemIndex {
 	min-height: 100vh;
-	background-color: #efefef;
+	background-color: #f8f8f8;
 	box-sizing: border-box;
 	.keywordFilter {
 		background-color: #fff;

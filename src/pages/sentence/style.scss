@@ -1,11 +1,11 @@
 .page.sentenceDetail {
 	box-sizing: border-box;
-	background: #efefef;
+	background: #f8f8f8;
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
 	flex-direction: column;
-	font-family: GushiFont, serif;
+
 	height: 100%;
 	.sentence-section {
 		clear: both;
@@ -185,12 +185,12 @@
 }
 .sentenceIndex {
 	min-height: 100vh;
-	background-color: #efefef;
+	background-color: #f8f8f8;
 	.keywordFilter {
 		background-color: #fff;
 	}
 	.pageContainer {
-		background-color: #efefef;
+		background-color: #f8f8f8;
 		.sentenceCard {
 			padding: 16px 16px;
 			position: relative;
