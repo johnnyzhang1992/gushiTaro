@@ -1,4 +1,4 @@
-import { View, Text, Snapshot, Image } from '@tarojs/components';
+import { View, Snapshot } from '@tarojs/components';
 import { useState, useEffect, useCallback } from 'react';
 import Taro, {
 	useShareAppMessage,
@@ -13,8 +13,6 @@ import FloatLayout from '../components/FloatLayout';
 import PosterLayoutConfig from '../components/Poster/PosterLayoutConfig';
 import PosterSnapshot from '../components/Poster/PosterSnapshot';
 
-import shareSvg from '../images/svg/share.svg';
-import refreshSvg from '../images/svg/refresh.svg';
 import Utils from '../utils/util';
 import { fetchRandomSentence } from '../services/global';
 import { FontFaceList } from '../const/config';
@@ -65,6 +63,12 @@ const Index = () => {
 	const handleReload = () => {
 		updateReload(true);
 		fetchSentence(true);
+	};
+
+	const navigateToSearch = () => {
+		Taro.navigateTo({
+			url: '/pages/search/index',
+		});
 	};
 
 	const fetchSentence = useCallback((forceGet = false) => {
@@ -216,21 +220,22 @@ const Index = () => {
 						marginTop: `${LeaveTop - 10}px`,
 						height: (MenuRect.height || 32) + 'px',
 						paddingLeft: '10px',
-						transform: `translateY(${isPc ? 0 : 5}px)`,
+						// transform: `translateY(${isPc ? 0 : 5}px)`,
 					}}
 				>
 					<View className='share-btn share' onClick={handleShow}>
-						{/* <View className='at-icon at-icon-share'></View> */}
-						<Image src={shareSvg} mode='widthFix' className='icon' />
-						<Text className='text'>分享</Text>
+						<View className='at-icon at-icon-share-2'></View>
+						{/* <Text className='text'>分享</Text> */}
 					</View>
 					<View
 						className={`share-btn reload ${isReload ? 'active' : ''}`}
 						onClick={handleReload}
 					>
-						{/* <View className='at-icon at-icon-reload'></View> */}
-						<Image src={refreshSvg} mode='widthFix' className={`icon `} />
-						<Text className='text'>换一换</Text>
+						<View className='at-icon at-icon-reload'></View>
+						{/* <Text className='text'>换一换</Text> */}
+					</View>
+					<View className='share-btn share' onClick={navigateToSearch}>
+						<View className='at-icon at-icon-search'></View>
 					</View>
 				</View>
 				{/* 画报 */}

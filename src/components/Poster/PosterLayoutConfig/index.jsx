@@ -141,8 +141,7 @@ const PostLayoutConfig = ({
 									style={{
 										width: 30,
 										height: 40,
-										marginRight: 10,
-										borderColor: layout.color,
+										marginRight: 10
 									}}
 									borderColor={layout.color}
 									letterBorder={layout.name}

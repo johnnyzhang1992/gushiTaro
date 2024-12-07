@@ -148,7 +148,7 @@ const PoemCard = ({
 						className='operate-item'
 						onClick={getPinyin}
 						style={{
-							borderColor: Pinyin.title ? '#337ab7' : '#efefef',
+							borderColor: Pinyin.title ? '#337ab7' : '#f8f8f8',
 						}}
 					>
 						<Image

@@ -1,7 +1,7 @@
 .mePage {
 	min-height: 100vh;
 	box-sizing: border-box;
-	background-color: #efefef;
+	background-color: #f8f8f8;
 	.meTop {
 		color: #fff;
 		padding: 30px 30px;
@@ -58,11 +58,11 @@
 		padding: 20px;
 		.SectionCard {
 			background-color: #fff;
-			border: 2px solid #efefef;
+			border: 2px solid #f8f8f8;
 			margin-bottom: 20px;
 			border-radius: 16px;
 			.title {
-				border-bottom: 2px solid #efefef;
+				border-bottom: 2px solid #f8f8f8;
 			}
 		}
 	}
@@ -133,7 +133,7 @@
 	}
 }
 .collectPage {
-	background-color: #efefef;
+	background-color: #f8f8f8;
 	.at-tabs__header {
 		position: sticky;
 		top: 0;

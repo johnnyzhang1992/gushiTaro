@@ -131,7 +131,7 @@ const Poem = () => {
 		if (page < last_page) {
 			updatePagination({
 				...pagination,
-				page: page + 1,
+				page: parseInt(page) + 1,
 			});
 		}
 	});
