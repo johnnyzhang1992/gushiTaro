@@ -16,6 +16,12 @@
 	// overflow-wrap: break-word;
 	// word-wrap: break-word;
 	hyphens: auto;
+	transition: all 0.5s ease-in-out;
+  transform: rotatey(0deg);
+	&.remove {
+		transition: all 0.8s ease-in-out;
+    transform: rotatey(-180deg);
+	}
 	.container {
 		flex: 1;
 		display: flex;

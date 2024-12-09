@@ -90,16 +90,18 @@ const Index = () => {
 						...res.data[0],
 						titleArr: splitSentence(res.data[0].title) || [],
 					};
-					setSentence(temSen);
-					Taro.setStorageSync('home_senetnce', {
-						date: currentDate,
-						data: temSen,
-					});
-				}
-				timer = setTimeout(() => {
+					timer = setTimeout(() => {
+						updateReload(false);
+						setSentence(temSen);
+						Taro.setStorageSync('home_senetnce', {
+							date: currentDate,
+							data: temSen,
+						});
+						clearTimeout(timer);
+					}, 800);
+				} else {
 					updateReload(false);
-					clearTimeout(timer);
-				}, 600);
+				}
 			})
 			.catch((err) => {
 				console.log(err);
@@ -250,6 +252,7 @@ const Index = () => {
 						}}
 					>
 						<PosterSnapshot
+							isReload={isReload}
 							safeArea={safeArea}
 							sentence={sentence}
 							posterConfig={posterConfig}
