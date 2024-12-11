@@ -25,7 +25,9 @@
     "ignoreUploadUnusedFiles": true,
     "uglifyFileName": false,
     "compileWorklet": true,
-    "swc": true
+    "swc": true,
+    "minifyWXSS": true,
+    "minifyWXML": true
   },
   "compileType": "miniprogram",
   "simulatorType": "wechat",
