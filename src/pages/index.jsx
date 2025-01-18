@@ -236,7 +236,7 @@ const Index = () => {
 						id='poemCard'
 						style={{
 							width: contentWidth * 0.9,
-							height: contentHeight * 0.8,
+							height: contentHeight * 0.85,
 						}}
 					>
 						<PosterSnapshot
