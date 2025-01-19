@@ -30,7 +30,6 @@ const request = (url, params, method = 'GET') => {
 			'content-type': 'application/json', // 默认值,
 		},
 		success: (res) => {
-			console.log(res);
 			if (res && [200, 401].includes(res.statusCode)) {
 				const statusCode = res.statusCode;
 				if (statusCode == 401) {

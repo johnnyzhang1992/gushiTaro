@@ -66,7 +66,7 @@ const PoemPosterCard = (props) => {
 				id: i,
 				text: sentence.author,
 				type: 'author',
-				size: aSize,
+				size: aSize.toFixed(2),
 			});
 		}
 		if (1 === i) {
@@ -81,7 +81,7 @@ const PoemPosterCard = (props) => {
 				id: i,
 				text: text,
 				type: 'title',
-				size: tSize,
+				size: tSize*0.9,
 			});
 		}
 		if (i < gap && i > 1 && type !== 'center') {
