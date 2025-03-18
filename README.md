@@ -6,7 +6,8 @@
 
 > 该项目为 Taro 重构版，[原版本](https://github.com/johnnyzhang1992/gushi_lite) 在项目上线后会不再维护。
 
-> 项目当前第一版已于2023年12月4日上线。
+> 项目当前第一版已于 2023 年 12 月 4 日上线。
+
 > 移除诗词朗读功能。（官方解释：小程序服务内容涉及【有声读物】，属个人主体尚未开放服务类目
 
 ## 拼音转换
@@ -21,7 +22,7 @@
 
 ### Taro 版本更新
 
-`taro info` 查看当前cli和项目的版本。 使用 `taro update self [版本号]` 和 `taro update project [版本号]` 来更新cli和项目的taro 版本。
+`taro info` 查看当前 cli 和项目的版本。 使用 `taro update self [版本号]` 和 `taro update project [版本号]` 来更新 cli 和项目的 taro 版本。
 
 ## 文件目录
 
