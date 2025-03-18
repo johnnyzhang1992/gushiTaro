@@ -16,12 +16,12 @@
 	// overflow-wrap: break-word;
 	// word-wrap: break-word;
 	hyphens: auto;
-	transition: all 0.5s ease-in-out;
-  transform: rotatey(0deg);
-	&.remove {
-		transition: all 0.8s ease-in-out;
-    transform: rotatey(-180deg);
-	}
+	// transition: all 0.5s ease-in-out;
+  // transform: translateX(0);
+	// &.remove {
+	// 	transition: all 0.8s ease-in-out;
+  //   transform: translateX(-100%);
+	// }
 	.container {
 		flex: 1;
 		display: flex;
@@ -36,14 +36,13 @@
 		padding: 24px 24px 0 24px;
 		.date {
 			color: #6d3907;
-			font-size: 32px;
-			line-height: 52px;
+			font-size: 30px;
+			line-height: 50px;
 			text-align: left;
 			letter-spacing: 0.2em;
 			flex: 1;
 		}
 		.desc {
-			flex: 1;
 			display: flex;
 			align-items: center;
 			justify-content: flex-end;

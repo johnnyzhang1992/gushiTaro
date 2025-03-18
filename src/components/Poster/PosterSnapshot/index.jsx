@@ -8,6 +8,7 @@ import Utils from '../../../utils/util';
 
 import './style.scss';
 
+const shenianDate = new Date('2025/01/29 00:00:00');
 const PosterSnapshot = (props) => {
 	const {
 		sentence,
@@ -20,6 +21,8 @@ const PosterSnapshot = (props) => {
 	const [date] = useState(() => {
 		return Utils.formatDate().join('/');
 	});
+
+	const nongliText = new Date() > shenianDate ? '乙巳蛇年' : '甲辰龙年';
 
 	return (
 		<View
@@ -61,7 +64,7 @@ const PosterSnapshot = (props) => {
 						<Text className='text'>{date}</Text>
 					</View>
 					<View className='nongli'>
-						<Text className='text'>甲辰龙年</Text>
+						<Text className='text'>{nongliText}</Text>
 					</View>
 				</View>
 				<View className='desc'>

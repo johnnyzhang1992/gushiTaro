@@ -1,4 +1,4 @@
-import { View, Snapshot } from '@tarojs/components';
+import { View, Snapshot, Text } from '@tarojs/components';
 import { useState, useEffect, useCallback } from 'react';
 import Taro, {
 	useShareAppMessage,
@@ -221,23 +221,11 @@ const Index = () => {
 					style={{
 						marginTop: `${LeaveTop - 10}px`,
 						height: (MenuRect.height || 32) + 'px',
-						paddingLeft: '10px',
-						// transform: `translateY(${isPc ? 0 : 5}px)`,
 					}}
 				>
-					<View className='share-btn share' onClick={handleShow}>
-						<View className='at-icon at-icon-share-2'></View>
-						{/* <Text className='text'>分享</Text> */}
-					</View>
-					<View
-						className={`share-btn reload ${isReload ? 'active' : ''}`}
-						onClick={handleReload}
-					>
-						<View className='at-icon at-icon-reload'></View>
-						{/* <Text className='text'>换一换</Text> */}
-					</View>
-					<View className='share-btn share' onClick={navigateToSearch}>
+					<View className='search' onClick={navigateToSearch}>
 						<View className='at-icon at-icon-search'></View>
+						<Text className='text'>搜索</Text>
 					</View>
 				</View>
 				{/* 画报 */}
@@ -247,8 +235,8 @@ const Index = () => {
 						className='poemShot'
 						id='poemCard'
 						style={{
-							width: contentWidth,
-							height: contentHeight,
+							width: contentWidth * 0.9,
+							height: contentHeight * 0.85,
 						}}
 					>
 						<PosterSnapshot
@@ -258,6 +246,19 @@ const Index = () => {
 							posterConfig={posterConfig}
 						/>
 					</Snapshot>
+					<View className='post-bottom'>
+						<View
+							className={`share-btn reload ${isReload ? 'active' : ''}`}
+							onClick={handleReload}
+						>
+							<View className='at-icon at-icon-reload'></View>
+							<Text className='text'>换一换</Text>
+						</View>
+						<View className='share-btn share' onClick={handleShow}>
+							<View className='at-icon at-icon-share-2'></View>
+							<Text className='text'>分享</Text>
+						</View>
+					</View>
 				</View>
 				{/* 半屏展示全文 */}
 				<FloatLayout

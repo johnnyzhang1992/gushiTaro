@@ -40,6 +40,19 @@
 		display: flex;
 		width: 100%;
 		align-items: center;
+		.search {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 400px;
+			background-color: #fff;
+			border-radius: 40px;
+			padding: 10px 0;
+			font-size: 24px;
+			.text {
+				padding-left: 20px;
+			}
+		}
 	}
 	.share-btn {
 		display: flex;
@@ -50,6 +63,7 @@
 		// 	color: #337ab7;
 		// }
 		.text {
+			font-size: 24px;
 			margin-left: 12px;
 		}
 		&:last-child {
@@ -78,12 +92,21 @@
 		flex: 1;
 		display: flex;
 		align-items: center;
+		flex-direction: column;
 		justify-content: center;
+		.post-bottom {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			padding: 40px 10px 0 10px;
+		}
 	}
 	.poemShot {
 		width: 100%;
 		box-sizing: border-box;
 		background-repeat: repeat;
+		width: 80vw;
+		height: 65vh;
 		// font-family: GushiFont, serif;
 	}
 }

@@ -22,7 +22,7 @@ import LongTextCard from '../../components/LongTextCard';
 import PoemCard from './components/PoemCard';
 
 import SentenceCard from '../../components/SentenceCard';
-import AudioCard from '../../components/AudioCard';
+// import AudioCard from '../../components/AudioCard';
 import FixBottom from './components/FixBottom';
 import TagsCard from '../../components/TagsCard';
 import FabButton from '../../components/FabButton';
@@ -155,11 +155,11 @@ const PoemDetail = () => {
 				{/* 公众号 */}
 				<OfficialAccount />
 				{/* 音频播放 */}
-				<AudioCard
+				{/* <AudioCard
 					id={detail.poem.id}
 					title={detail.poem.title}
 					author={detail.poem.author}
-				/>
+				/> */}
 				{/* 摘录 */}
 				{detail.sentences.length > 0 ? (
 					<SectionCard title='句子摘录'>
