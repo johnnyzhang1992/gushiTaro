@@ -59,7 +59,6 @@ export default {
     ],
   },
   lazyCodeLoading: 'requiredComponents',
-  requiredBackgroundModes: ['audio'],
   style: 'v2',
   rendererOptions: {
     skyline: {

@@ -43,12 +43,3 @@ export const fetchPoemDetail = (method, data) => {
 export const fetchPoemContent = (method, data) => {
 	return Request(`/api/poem/${data.id}`, data, method);
 };
-
-/**
- * 获取诗词的语音
- * @param {String} method GET
- * @param {Object} data {}
- */
-export const fetchPoemAudio = (method, data) => {
-	return Request(`/api/tts/synthesis`, { ...data, poem_id: data.id }, method);
-};

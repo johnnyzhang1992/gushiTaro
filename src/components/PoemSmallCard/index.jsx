@@ -1,8 +1,6 @@
 import { View, Text, Navigator } from '@tarojs/components';
-// import { useState } from 'react';
 
 import HighLightText from '../HighLightText';
-// import AudioCard from '../AudioCard';
 
 import './style.scss';
 
@@ -25,17 +23,13 @@ const PoemSmallCard = ({
 	lightWord,
 	hideAudio = false,
 }) => {
-	// const [showAduio, audioVisible] = useState(false);
 	const _content = removeSpecialText(content)
 		.split('。')
 		.map((text) => {
 			return text.replaceAll('　', '') + '。';
 		})
 		.slice(0, 2);
-	// const handleAudioVisible = (e) => {
-	// 	audioVisible((pre) => !pre);
-	// 	e.stopPropagation();
-	// };
+
 	return (
 		<View
 			className={`poemSmallCard ${showBorder ? '' : 'hideBorder'}`}
@@ -69,14 +63,6 @@ const PoemSmallCard = ({
 					display: hideAudio && !showCount ? 'none' : 'flex',
 				}}
 			>
-				{/* {!hideAudio ? (
-					<View
-						className='at-icon at-icon-volume-plus audio icon'
-						onClick={handleAudioVisible}
-					>
-						<Text className='text'>{showAduio ? '收起' : '播放'}</Text>
-					</View>
-				) : null} */}
 				{showCount ? (
 					<View className='count'>
 						<Text className='num'>喜欢 {like_count || 0}</Text>
@@ -84,7 +70,6 @@ const PoemSmallCard = ({
 					</View>
 				) : null}
 			</View>
-			{/* {showAduio ? <AudioCard id={id} showPoem={false} /> : null} */}
 		</View>
 	);
 };

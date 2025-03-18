@@ -22,12 +22,9 @@ import LongTextCard from '../../components/LongTextCard';
 import PoemCard from './components/PoemCard';
 
 import SentenceCard from '../../components/SentenceCard';
-// import AudioCard from '../../components/AudioCard';
 import FixBottom from './components/FixBottom';
 import TagsCard from '../../components/TagsCard';
 import FabButton from '../../components/FabButton';
-
-// import audioSvg from '../../images/svg/audio.svg';
 
 import './style.scss';
 
@@ -89,20 +86,6 @@ const PoemDetail = () => {
 			});
 	};
 
-	// const handlePlayAudio = () => {
-	// 	Taro.eventCenter.trigger('poemAudioAdd', {
-	// 		id: detail.poem.id,
-	// 		author: detail.poem.author,
-	// 		author_id: detail.poem.author_id,
-	// 		title: detail.poem.title,
-	// 		dynasty: detail.poem.dynasty,
-	// 		xu: detail.poem.xu || '',
-	// 		content: detail.poem.content || {content: []},
-	// 		author_avatar: detail.poem.author_avatar || '',
-	// 		fromPath: 'pages/poem/detail'
-	// 	});
-	// };
-
 	useLoad((options) => {
 		const { id } = options;
 		console.log('options', options);
@@ -154,12 +137,6 @@ const PoemDetail = () => {
 				) : null}
 				{/* 公众号 */}
 				<OfficialAccount />
-				{/* 音频播放 */}
-				{/* <AudioCard
-					id={detail.poem.id}
-					title={detail.poem.title}
-					author={detail.poem.author}
-				/> */}
 				{/* 摘录 */}
 				{detail.sentences.length > 0 ? (
 					<SectionCard title='句子摘录'>
