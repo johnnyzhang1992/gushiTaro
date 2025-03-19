@@ -1,9 +1,36 @@
 .libraryPage {
 	min-height: 100vh;
 	background-color: #f8f8f8;
+	.header {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+		.typeContainer {
+			padding: 6px;
+			background-color: #f8f8f8;
+			display: flex;
+			align-items: center;
+			border-radius: 14px;
+			.typeItem {
+				color: #333;
+				flex: 1;
+				padding: 8px 14x;
+				border-radius: 10px;
+				&.active {
+					color: #000;
+					background-color: #fff;
+				}
+			}
+		}
+	}
+	.at-search-bar {
+		padding: 18px 18px;
+	}
 	.tabs {
 		padding: 20px 30px 10px 30px;
 		box-sizing: border-box;
+		margin-top: 20px;
 	}
 	.tabContainer {
 		&.type {

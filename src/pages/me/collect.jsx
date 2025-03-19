@@ -14,13 +14,13 @@ import CollectContainer from './components/CollectContainer';
 
 const tabList = [
 	{
-		title: '诗词',
+		title: '作品',
 	},
 	{
-		title: '名句',
+		title: '摘录',
 	},
 	{
-		title: '诗人',
+		title: '作者',
 	},
 ];
 const types = ['poem', 'sentence', 'author'];

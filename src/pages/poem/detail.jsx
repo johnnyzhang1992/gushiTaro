@@ -176,7 +176,9 @@ const PoemDetail = () => {
 					</SectionCard>
 				) : null}
 				{/* 赏析 */}
-				{detail.detail.shangxi && detail.detail.shangxi.content ? (
+				{detail.detail.shangxi &&
+				detail.detail.shangxi.content &&
+				detail.detail.shangxi.content != 'ï»¿' ? (
 					<SectionCard title='赏析'>
 						<LongTextCard
 							title='赏析'

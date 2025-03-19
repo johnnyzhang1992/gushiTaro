@@ -59,18 +59,18 @@ const PoetContainer = () => {
 			.then((res) => {
 				if (res.data && res.statusCode == 200) {
 					const {
-						data: poetData,
+						list = [],
 						current_page,
 						last_page,
 						total,
-					} = res.data.poets;
+					} = res.data;
 					pagination.current = {
 						...pagination.current,
 						page: current_page,
 						last_page,
 						total,
 					};
-					setList(page === 1 ? poetData : [...poetList, ...poetData]);
+					setList(page === 1 ? list : [...poetList, ...list]);
 				} else {
 					setError('列表加载失败');
 				}

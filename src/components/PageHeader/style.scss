@@ -1,0 +1,16 @@
+.custome-page-header {
+	position: relative;
+	background-color: #fff;
+	// box-sizing: border-box;
+	padding-bottom: 12px;
+}
+.header-title {
+	position: absolute;
+	left: 50%;
+	bottom: 0;
+	height: 100%;
+	transform: translateX(-50%);
+	font-size: 28px;
+	color: #fff;
+	text-align: center;
+}

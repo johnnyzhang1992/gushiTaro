@@ -1,8 +1,9 @@
-import { View } from '@tarojs/components';
+import { View, Text } from '@tarojs/components';
 import { useState } from 'react';
 import Taro, { useLoad, usePullDownRefresh } from '@tarojs/taro';
-import { AtSearchBar, AtSegmentedControl } from 'taro-ui';
+import { AtTabs, AtTabsPane } from 'taro-ui';
 
+import PageHeader from '../../components/PageHeader';
 import HomeCard from '../../components/HomeCard';
 import PoemContainer from '../../components/PoemContainer';
 import PoetContainer from '../../components/PoetContainer';
@@ -11,80 +12,85 @@ import { HomeCategories } from '../../const/config';
 
 import './style.scss';
 
-const tabList = ['分类', '作品', '作者'];
+// const tabList = ['分类', '作品', '作者'];
 
 const PostPage = () => {
-	const [searchKey, setKey] = useState('');
+	const [type, setType] = useState('文库');
 	const [currentTab, setTab] = useState(0);
-
-	const handleKeyChange = (key) => {
-		setKey(key);
-	};
-	const handleClear = () => {
-		setKey('');
-	};
 	const handleChangeTab = (index) => {
 		setTab(index);
 	};
-	const navigateSearch = () => {
-		Taro.navigateTo({
-			url: '/pages/search/index?key=' + searchKey,
-		});
-	};
+	// const navigateSearch = () => {
+	// 	Taro.navigateTo({
+	// 		url: '/pages/search/index',
+	// 	});
+	// };
 	useLoad((options) => {
 		console.log(options);
 	});
 	usePullDownRefresh(() => {
-		Taro.stopPullDownRefresh()
-	})
+		Taro.stopPullDownRefresh();
+	});
 	return (
 		<View className='page libraryPage'>
-			{/* 搜索 */}
-			<AtSearchBar
-				actionName='搜一下'
-				value={searchKey}
-				onChange={handleKeyChange}
-				showActionButton
-				onClear={handleClear}
-				onConfirm={navigateSearch}
-				onActionClick={navigateSearch}
-			/>
-			<View className='divide' />
-			{/* 分类Tabs */}
-			<View className='tabs'>
-				<AtSegmentedControl
-					values={tabList}
-					fontSize={32}
-					onClick={handleChangeTab}
-					current={currentTab}
-				/>
-			</View>
-			{/* 分类 */}
-			{currentTab === 0 ? (
-				<View className='tabContainer type'>
-					{/* 选集 */}
-					<View className='sectionCard'>
-						<View className='cardTitle'>选集</View>
-						<View className='cardContent'>
-							{HomeCategories.map((item) => (
-								<HomeCard key={item.code} {...item} />
-							))}
-						</View>
+			<PageHeader>
+				<View className='header'>
+					<View className='typeContainer'>
+						<Text
+							className={['typeItem', type == '摘录' ? 'active' : '']}
+							onClick={() => {
+								setType('摘录');
+							}}
+						>
+							摘录
+						</Text>
+						<Text
+							className={['typeItem', type == '文库' ? 'active' : '']}
+							onClick={() => {
+								setType('文库');
+							}}
+						>
+							文库
+						</Text>
 					</View>
 				</View>
-			) : null}
-			{/* 作品 */}
-			{currentTab === 1 ? (
-				<View className='tabContainer'>
-					<PoemContainer />
-				</View>
-			) : null}
-			{/* 诗人 */}
-			{currentTab === 2 ? (
-				<View className='tabContainer'>
-					<PoetContainer />
-				</View>
-			) : null}
+			</PageHeader>
+			{/* 分类Tabs */}
+			<AtTabs
+				current={currentTab}
+				tabList={[{ title: '分类' }, { title: '作品' }, { title: '作者' }]}
+				onClick={handleChangeTab}
+			>
+				{/* 分类 */}
+				<AtTabsPane current={currentTab} index={0}>
+					<View className='tabContainer type'>
+						<View className='sectionCard'>
+							<View className='cardTitle'>选集</View>
+							<View className='cardContent'>
+								{HomeCategories.map((item) => (
+									<HomeCard key={item.code} {...item} />
+								))}
+							</View>
+						</View>
+					</View>
+				</AtTabsPane>
+				{/* 作品 */}
+				<AtTabsPane current={currentTab} index={1}>
+					{currentTab === 1 ? (
+						<View className='tabContainer'>
+							<PoemContainer />
+						</View>
+					) : null}
+				</AtTabsPane>
+				{/* 作者 */}
+				<AtTabsPane current={currentTab} index={2}>
+					{currentTab === 2 ? (
+						<View className='tabContainer'>
+							<PoetContainer />
+						</View>
+					) : null}
+				</AtTabsPane>
+			</AtTabs>
 		</View>
 	);
 };

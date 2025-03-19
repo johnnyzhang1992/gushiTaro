@@ -4,7 +4,7 @@ import Taro from '@tarojs/taro';
 import './styles.scss';
 
 const CardItem = (props) => {
-	const { code, name, profile, type } = props;
+	const { code, name, profile = '', type } = props;
 	const handleNavigate = () => {
 		console.log(code, type);
 		const path =
