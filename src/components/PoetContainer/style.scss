@@ -1,8 +1,8 @@
 .poetContainer {
 	padding: 0 20px;
-	.scrollContainer {
-		height: calc(100vh - 104px);
-	}
+	height: 100%;
+	overflow: hidden;
+	box-sizing: border-box;
 	.poetCard {
 		background-color: #fff;
 		border-bottom: unset;

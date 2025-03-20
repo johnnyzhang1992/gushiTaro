@@ -1,6 +1,6 @@
 import { View, Text } from '@tarojs/components';
 import { useState } from 'react';
-import Taro, { useLoad, usePullDownRefresh } from '@tarojs/taro';
+import { useLoad } from '@tarojs/taro';
 import { AtTabs, AtTabsPane } from 'taro-ui';
 
 import PageHeader from '../../components/PageHeader';
@@ -27,9 +27,6 @@ const PostPage = () => {
 	// };
 	useLoad((options) => {
 		console.log(options);
-	});
-	usePullDownRefresh(() => {
-		Taro.stopPullDownRefresh();
 	});
 	return (
 		<View className='page libraryPage'>
@@ -76,19 +73,15 @@ const PostPage = () => {
 				</AtTabsPane>
 				{/* 作品 */}
 				<AtTabsPane current={currentTab} index={1}>
-					{currentTab === 1 ? (
-						<View className='tabContainer'>
-							<PoemContainer />
-						</View>
-					) : null}
+					<View className='tabContainer'>
+						<PoemContainer />
+					</View>
 				</AtTabsPane>
 				{/* 作者 */}
 				<AtTabsPane current={currentTab} index={2}>
-					{currentTab === 2 ? (
-						<View className='tabContainer'>
-							<PoetContainer />
-						</View>
-					) : null}
+					<View className='tabContainer'>
+						<PoetContainer />
+					</View>
 				</AtTabsPane>
 			</AtTabs>
 		</View>

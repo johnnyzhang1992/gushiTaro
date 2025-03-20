@@ -1,5 +1,7 @@
 .libraryPage {
-	min-height: 100vh;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
 	background-color: #f8f8f8;
 	.header {
 		display: flex;
@@ -7,15 +9,15 @@
 		justify-content: center;
 		height: 100%;
 		.typeContainer {
-			padding: 6px;
-			background-color: #f8f8f8;
+			padding: 8px 12px;
+			background-color: #ebedf0;
 			display: flex;
 			align-items: center;
 			border-radius: 14px;
 			.typeItem {
 				color: #333;
 				flex: 1;
-				padding: 8px 14x;
+				padding: 4px 14px;
 				border-radius: 10px;
 				&.active {
 					color: #000;
@@ -27,12 +29,25 @@
 	.at-search-bar {
 		padding: 18px 18px;
 	}
+	.at-tabs {
+		flex: 1;
+		height: auto;
+		.at-tabs__body {
+			height: calc(100% - 82px);
+		}
+		.at-tabs-pane--active, .at-tabs-pane {
+			height: 100%;
+			box-sizing: border-box;
+		}
+	}
 	.tabs {
 		padding: 20px 30px 10px 30px;
 		box-sizing: border-box;
 		margin-top: 20px;
 	}
 	.tabContainer {
+		height: 100%;
+		box-sizing: border-box;
 		&.type {
 			padding: 30px 20px;
 			.sectionCard {

@@ -15,9 +15,10 @@ const PoetContainer = () => {
 		total: 0,
 		last_page: 2,
 	});
+	const refreshFlag = useRef(false);
 	const [poetList, setList] = useState([]);
-	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState('');
+	const [scrollHeight, updateHeight] = useState('auto');
 
 	const reachBottom = () => {
 		console.log('--rearchBottom');
@@ -41,32 +42,26 @@ const PoetContainer = () => {
 		Taro.nextTick(() => {
 			fetchList();
 		});
-		Taro.stopPullDownRefresh();
 	};
 	const fetchList = () => {
+		if (refreshFlag.current) {
+			return false;
+		}
 		const { page, last_page: lastPage } = pagination.current;
 		if (page >= lastPage) {
 			return false;
 		}
-		if (loading) {
-			return false;
-		}
 		Taro.showLoading({
-			title: '加载中...'
-		})
-		setLoading(true);
+			title: '加载中...',
+		});
+		refreshFlag.current = true;
 		fetchPoetData('GET', pagination.current)
 			.then((res) => {
 				if (res.data && res.statusCode == 200) {
-					const {
-						list = [],
-						current_page,
-						last_page,
-						total,
-					} = res.data;
+					const { list = [], current_page, last_page, total } = res.data;
 					pagination.current = {
 						...pagination.current,
-						page: current_page,
+						page: parseInt(current_page),
 						last_page,
 						total,
 					};
@@ -74,22 +69,37 @@ const PoetContainer = () => {
 				} else {
 					setError('列表加载失败');
 				}
-				setLoading(false);
-				Taro.hideLoading()
+				refreshFlag.current = false;
+				Taro.hideLoading();
 			})
 			.catch((err) => {
 				setError(err);
-				setLoading(false);
-				Taro.hideLoading()
+				refreshFlag.current = false;
+				Taro.hideLoading();
 			});
 	};
 
 	useEffect(() => {
 		fetchList();
+		Taro.createSelectorQuery()
+			.select('#poetScrollContainer')
+			.fields(
+				{
+					dataset: true,
+					size: true,
+					scrollOffset: true,
+					properties: ['scrollX', 'scrollY'],
+				},
+				function (res) {
+					console.log(res);
+					updateHeight(res.height || 500);
+				}
+			)
+			.exec();
 	}, []);
 
 	return (
-		<View className='poetContainer'>
+		<View className='poetContainer' id='poetScrollContainer'>
 			{/* 诗人列表 */}
 			<ScrollView
 				className='scrollContainer'
@@ -101,6 +111,9 @@ const PoetContainer = () => {
 				refresherEnabled
 				onScrollToLower={reachBottom}
 				onRefresherPulling={pullDownRefresh}
+				style={{
+					height: scrollHeight == 'auto' ? scrollHeight : scrollHeight + 'px',
+				}}
 			>
 				{poetList.map((item) => {
 					return (

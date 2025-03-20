@@ -104,7 +104,7 @@ const MeIndex = () => {
 						...res.data,
 					}));
 					fetchInfo(res.data.user_id);
-					if (preLoginPath) {
+					if (preLoginPath && preLoginPath.includes('pages/me/index')) {
 						Taro.showModal({
 							title: '提示',
 							content: '您是否要返回登录前页面',
