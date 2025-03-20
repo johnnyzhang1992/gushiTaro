@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import Taro from '@tarojs/taro';
-import { View, ScrollView } from '@tarojs/components';
+import { View, ScrollView, Text, Navigator } from '@tarojs/components';
 
 import SectionCard from '../../components/SectionCard';
 import TypeCard from '../../components/TypeCard';
 
 import './style.scss';
 
-import { HomeCategories } from '../../const/config';
+import { CategoriesList } from '../../const/config';
 
 const TypeContainer = () => {
 	const [scrollHeight, updateHeight] = useState('auto');
@@ -24,7 +24,7 @@ const TypeContainer = () => {
 				},
 				function (res) {
 					console.log(res);
-					updateHeight(res.height-20 || 500);
+					updateHeight(res.height - 20 || 500);
 				}
 			)
 			.exec();
@@ -45,13 +45,27 @@ const TypeContainer = () => {
 					height: scrollHeight == 'auto' ? scrollHeight : scrollHeight + 'px',
 				}}
 			>
-				<SectionCard title='选集'>
-					<View className='typeList'>
-						{HomeCategories.map((item) => (
-							<TypeCard key={item.code} {...item} />
-						))}
-					</View>
-				</SectionCard>
+				{/* 每个分类，最多展示12条，多余的展示多余 */}
+				{CategoriesList.map((cat) => (
+					<SectionCard
+						key={cat.title}
+						title={cat.title}
+						extra={
+							cat.list.length > 12 ? (
+								<Navigator url={`/pages/type/index?title=${cat.title}`}>
+									<Text>更多</Text>
+									<View className='icon at-icon at-icon-chevron-right' />
+								</Navigator>
+							) : null
+						}
+					>
+						<View className='typeList'>
+							{cat.list.slice(0, 12).map((item) => (
+								<TypeCard key={item.name} {...item} />
+							))}
+						</View>
+					</SectionCard>
+				))}
 			</ScrollView>
 		</View>
 	);

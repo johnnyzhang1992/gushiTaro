@@ -3,14 +3,16 @@ import Taro from '@tarojs/taro';
 
 import './styles.scss';
 
-const CardItem = (props) => {
-	const { code, name, profile = '', type } = props;
+const TypeCard = (props) => {
+	const { code = '', name = '', profile = '', sentence = '', type } = props;
 	const handleNavigate = () => {
-		console.log(code, type);
+		console.log(code, type, props);
 		const path =
 			type && type === 'book' ? '/pages/book?' : '/pages/poem/index?';
 		Taro.navigateTo({
-			url: `${path}code=${code}&name=${name}&profile=${profile}&from=home`,
+			url: `${path}code=${code}&name=${name}&profile=${
+				sentence || profile
+			}&keyWord=${name}&from=home`,
 		});
 	};
 	return (
@@ -21,4 +23,4 @@ const CardItem = (props) => {
 	);
 };
 
-export default CardItem;
+export default TypeCard;

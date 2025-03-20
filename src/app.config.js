@@ -19,6 +19,7 @@ export default {
 		'pages/find/index',
 		'pages/library/index',
 		'pages/me/fonts/index',
+		'pages/type/index'
 	],
 	window: {
 		backgroundTextStyle: 'light',

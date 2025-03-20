@@ -10,7 +10,7 @@ import PoetContainer from '../../components/PoetContainer';
 
 import './style.scss';
 
-const PostPage = () => {
+const Page = () => {
 	const [type, setType] = useState('文库');
 	const [currentTab, setTab] = useState(0);
 	const handleChangeTab = (index) => {
@@ -30,12 +30,12 @@ const PostPage = () => {
 				<View className='header'>
 					<View className='typeContainer'>
 						<Text
-							className={['typeItem', type == '摘录' ? 'active' : '']}
+							className={['typeItem', type == '字典' ? 'active' : '']}
 							onClick={() => {
-								setType('摘录');
+								setType('字典');
 							}}
 						>
-							摘录
+							字典
 						</Text>
 						<Text
 							className={['typeItem', type == '文库' ? 'active' : '']}
@@ -48,6 +48,8 @@ const PostPage = () => {
 					</View>
 				</View>
 			</PageHeader>
+			{/* 字典 */}
+			{/* 文库 */}
 			{/* 分类Tabs */}
 			<AtTabs
 				current={currentTab}
@@ -71,4 +73,4 @@ const PostPage = () => {
 	);
 };
 
-export default PostPage;
+export default Page;
