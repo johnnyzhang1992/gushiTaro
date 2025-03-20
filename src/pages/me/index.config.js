@@ -1,6 +1,5 @@
 export default {
-  navigationBarTitleText: '个人中心',
+  navigationBarTitleText: '我的',
   enableShareAppMessage: true,
-  enableShareTimeline: true,
-  navigationStyle: 'custom',
+  enableShareTimeline: true
 };

@@ -1,4 +1,3 @@
-import { AtTabs, AtTabsPane } from 'taro-ui';
 import { View } from '@tarojs/components';
 import { useCallback, useState } from 'react';
 import Taro, {
@@ -12,22 +11,16 @@ import './style.scss';
 
 import CollectContainer from './components/CollectContainer';
 
-const tabList = [
-	{
-		title: '作品',
-	},
-	{
-		title: '摘录',
-	},
-	{
-		title: '作者',
-	},
-];
 const types = ['poem', 'sentence', 'author'];
+const typeObj = {
+	poem: '作品',
+	sentence: '摘录',
+	author: '作者',
+};
 const CollectPage = () => {
 	const { setTitle } = useNavigationBar({ title: '我的收藏' });
 
-	const [currentIndex, setIndex] = useState(0);
+	const [currentIndex, setIndex] = useState(-1);
 	const [pagination, updatePagination] = useState({
 		poem: {
 			page: 1,
@@ -43,17 +36,13 @@ const CollectPage = () => {
 		},
 	});
 
-	const handleTabChange = (val) => {
-		setIndex(val);
-	};
-
 	useLoad((options) => {
 		console.log('options', options);
-		const { type } = options;
+		const { type = 'poem' } = options;
 		const findIndex = types.findIndex((item) => {
 			return item == type;
 		});
-		setTitle('我的收藏');
+		setTitle('我的收藏 | ' + typeObj[type]);
 		setIndex(findIndex || 0);
 	});
 
@@ -97,40 +86,29 @@ const CollectPage = () => {
 
 	return (
 		<View className='page collectPage'>
-			<AtTabs
-				current={currentIndex}
-				tabList={tabList}
-				swipeable={false}
-				onClick={handleTabChange}
-			>
-				<AtTabsPane current={currentIndex} index={0}>
-					{currentIndex == 0 ? (
-						<CollectContainer
-							type='poem'
-							page={pagination['poem'].page}
-							updatePage={updatePage}
-						/>
-					) : null}
-				</AtTabsPane>
-				<AtTabsPane current={currentIndex} index={1}>
-					{currentIndex == 1 ? (
-						<CollectContainer
-							type='sentence'
-							page={pagination['sentence'].page}
-							updatePage={updatePage}
-						/>
-					) : null}
-				</AtTabsPane>
-				<AtTabsPane current={currentIndex} index={2}>
-					{currentIndex == 2 ? (
-						<CollectContainer
-							type='author'
-							page={pagination['author'].page}
-							updatePage={updatePage}
-						/>
-					) : null}
-				</AtTabsPane>
-			</AtTabs>
+			{currentIndex == 0 ? (
+				<CollectContainer
+					type='poem'
+					page={pagination['poem'].page}
+					updatePage={updatePage}
+				/>
+			) : null}
+
+			{currentIndex == 1 ? (
+				<CollectContainer
+					type='sentence'
+					page={pagination['sentence'].page}
+					updatePage={updatePage}
+				/>
+			) : null}
+
+			{currentIndex == 2 ? (
+				<CollectContainer
+					type='author'
+					page={pagination['author'].page}
+					updatePage={updatePage}
+				/>
+			) : null}
 		</View>
 	);
 };

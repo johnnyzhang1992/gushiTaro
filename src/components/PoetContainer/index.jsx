@@ -51,9 +51,6 @@ const PoetContainer = () => {
 		if (page >= lastPage) {
 			return false;
 		}
-		Taro.showLoading({
-			title: '加载中...',
-		});
 		refreshFlag.current = true;
 		fetchPoetData('GET', pagination.current)
 			.then((res) => {
@@ -70,12 +67,10 @@ const PoetContainer = () => {
 					setError('列表加载失败');
 				}
 				refreshFlag.current = false;
-				Taro.hideLoading();
 			})
 			.catch((err) => {
 				setError(err);
 				refreshFlag.current = false;
-				Taro.hideLoading();
 			});
 	};
 

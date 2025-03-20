@@ -14,7 +14,7 @@
 		align-items: center;
 		// flex-direction: column;
 		justify-content: flex-end;
-		padding: 100px 20px 0 20px;
+		// padding: 100px 20px 0 20px;
 		.avatar {
 			.img {
 				width: 100px;
@@ -48,10 +48,12 @@
 		}
 	}
 	.loginCard {
-		padding: 30px 30px;
 		text-align: center;
 		.loginBtn {
-			color: #337ab7;
+			background: #337ab7;
+			color: #fff;
+			padding: 6px 50px;
+			border-radius: 16px;
 		}
 	}
 	.pageContainer {
@@ -143,5 +145,6 @@
 	.at-tabs__header {
 		position: sticky;
 		top: 0;
+		display: none;
 	}
 }

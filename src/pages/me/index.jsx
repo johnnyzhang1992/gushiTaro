@@ -10,6 +10,7 @@ import { createUser } from '../../services/global';
 import './style.scss';
 
 import xcxPng from '../../images/xcx.jpg';
+import poetPng from '../../images/svg/poet.svg';
 
 const initUser = {
 	poem_count: 0,
@@ -19,10 +20,7 @@ const initUser = {
 };
 const MeIndex = () => {
 	const [userInfo, setInfo] = useState(initUser);
-	const [safeArea, setSafeArea] = useState({});
 	const isCreate = useRef(false);
-	const deviceInfo = Taro.getDeviceInfo();
-	const isPc = ['mac', 'windows'].includes(deviceInfo.platform);
 
 	const fetchInfo = (id) => {
 		const user = Taro.getStorageSync('user');
@@ -154,9 +152,6 @@ const MeIndex = () => {
 	useLoad((options) => {
 		console.log(options);
 		const user = Taro.getStorageSync('user') || {};
-		Taro.getSystemInfo().then((sysRes) => {
-			setSafeArea(sysRes.safeArea || {});
-		});
 
 		setInfo((pre) => ({
 			...pre,
@@ -183,47 +178,41 @@ const MeIndex = () => {
 	const currentFont = Taro.getStorageSync('fontName');
 	return (
 		<View className='page mePage'>
-			{/* 用户信息和登录 */}
-			<View
-				className='meTop'
-				style={{
-					paddingTop: !isPc ? safeArea.top : 0,
-				}}
-			>
-				{userInfo.user_id > 0 ? (
-					<Navigator
-						className='userInfoCard'
-						url='/pages/me/setting/index'
-						hoverClass='none'
-					>
-						{/* <View className='avatar'>
-							<Image
-								src={userInfo.avatarUrl || poetPng}
-								className='img'
-							/>
-						</View> */}
-						<View className='user_name'>
-							<Text className='text'>{userInfo.name || userInfo.nickName}</Text>
-							<View className='setting'>
-								<Text className='text'>编辑资料</Text>
-								<Text className='icon at-icon at-icon-settings'></Text>
-							</View>
-						</View>
-					</Navigator>
-				) : (
-					<View className='loginCard'>
-						<Button
-							className='loginBtn'
-							size='mini'
-							type='default'
-							onClick={getUserProfile}
-						>
-							立即登录
-						</Button>
-					</View>
-				)}
-			</View>
 			<View className='pageContainer'>
+				{/* 用户信息和登录 */}
+				<SectionCard>
+					{userInfo.user_id > 0 ? (
+						<Navigator
+							className='userInfoCard'
+							url='/pages/me/setting/index'
+							hoverClass='none'
+						>
+							<View className='avatar'>
+								<Image src={userInfo.avatarUrl || poetPng} className='img' />
+							</View>
+							<View className='user_name'>
+								<Text className='text'>
+									{userInfo.name || userInfo.nickName}
+								</Text>
+								<View className='setting'>
+									<Text className='text'>编辑资料</Text>
+									<Text className='icon at-icon at-icon-settings'></Text>
+								</View>
+							</View>
+						</Navigator>
+					) : (
+						<View className='loginCard'>
+							<Button
+								className='loginBtn'
+								size='mini'
+								type='default'
+								onClick={getUserProfile}
+							>
+								立即登录
+							</Button>
+						</View>
+					)}
+				</SectionCard>
 				{/* 我的收藏 */}
 				<SectionCard title='我的收藏'>
 					<View className='sectionItems'>
