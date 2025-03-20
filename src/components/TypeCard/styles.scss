@@ -1,8 +1,8 @@
 .cardItem {
 	font-size: 32px;
-	// width: 25%;
+	width: 20.125%;
 	color: #333;
-	margin-right: 5%;
+	margin-right: 6.5%;
 	box-sizing: border-box;
 	padding: 20px 10px 0 10px;
 	margin-bottom: 20px;
@@ -13,6 +13,9 @@
 	justify-content: center;
 	&.active:before {
 		background-color: #337ab7;
+	}
+	&:nth-child(4n) {
+		margin-right: 0;
 	}
 	&:before {
 		content: ' ';

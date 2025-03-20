@@ -4,15 +4,11 @@ import { useLoad } from '@tarojs/taro';
 import { AtTabs, AtTabsPane } from 'taro-ui';
 
 import PageHeader from '../../components/PageHeader';
-import HomeCard from '../../components/HomeCard';
+import TypeContainer from '../../components/TypeContainer';
 import PoemContainer from '../../components/PoemContainer';
 import PoetContainer from '../../components/PoetContainer';
 
-import { HomeCategories } from '../../const/config';
-
 import './style.scss';
-
-// const tabList = ['分类', '作品', '作者'];
 
 const PostPage = () => {
 	const [type, setType] = useState('文库');
@@ -60,28 +56,15 @@ const PostPage = () => {
 			>
 				{/* 分类 */}
 				<AtTabsPane current={currentTab} index={0}>
-					<View className='tabContainer type'>
-						<View className='sectionCard'>
-							<View className='cardTitle'>选集</View>
-							<View className='cardContent'>
-								{HomeCategories.map((item) => (
-									<HomeCard key={item.code} {...item} />
-								))}
-							</View>
-						</View>
-					</View>
+					<TypeContainer />
 				</AtTabsPane>
 				{/* 作品 */}
 				<AtTabsPane current={currentTab} index={1}>
-					<View className='tabContainer'>
-						<PoemContainer />
-					</View>
+					<PoemContainer />
 				</AtTabsPane>
 				{/* 作者 */}
 				<AtTabsPane current={currentTab} index={2}>
-					<View className='tabContainer'>
-						<PoetContainer />
-					</View>
+					<PoetContainer />
 				</AtTabsPane>
 			</AtTabs>
 		</View>

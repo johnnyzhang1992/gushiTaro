@@ -33,7 +33,7 @@
 		flex: 1;
 		height: auto;
 		.at-tabs__body {
-			height: calc(100% - 82px);
+			height: calc(100% - 88px);
 		}
 		.at-tabs-pane--active, .at-tabs-pane {
 			height: 100%;
@@ -48,12 +48,5 @@
 	.tabContainer {
 		height: 100%;
 		box-sizing: border-box;
-		&.type {
-			padding: 30px 20px;
-			.sectionCard {
-				border-radius: 12px;
-				background-color: #fff;
-			}
-		}
 	}
 }

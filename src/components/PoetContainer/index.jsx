@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import Taro from '@tarojs/taro';
 import { View, Text, ScrollView } from '@tarojs/components';
 
-import PoetCard from '../../components/PoetCard';
+import PoetCard from "../../components/PoetCard";
 
 import './style.scss';
 
