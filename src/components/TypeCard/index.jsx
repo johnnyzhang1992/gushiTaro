@@ -4,15 +4,32 @@ import Taro from '@tarojs/taro';
 import './styles.scss';
 
 const TypeCard = (props) => {
-	const { code = '', name = '', profile = '', sentence = '', type } = props;
+	const {
+		code = '',
+		name = '',
+		profile = '',
+		sentence = '',
+		type = '',
+	} = props;
 	const handleNavigate = () => {
 		console.log(code, type, props);
-		const path =
-			type && type === 'book' ? '/pages/book?' : '/pages/poem/index?';
-		Taro.navigateTo({
-			url: `${path}code=${code}&name=${name}&profile=${
+
+		const path = type === 'book' ? '/pages/book?' : '/pages/library/detail?';
+		let query = 'from=home';
+		if (sentence) {
+			query = `${query}&name=${name}&profile=${
 				sentence || profile
-			}&keyWord=${name}&from=home`,
+				}&keyWord=${name}`;
+			if (type) {
+				query = `${query}&type=tag`
+			}
+		} else {
+			query = `${query}&code=${code}&name=${name}&profile=${
+				sentence || profile
+			}`;
+		}
+		Taro.navigateTo({
+			url: `${path}${query}`,
 		});
 	};
 	return (

@@ -35,7 +35,8 @@
 		.at-tabs__body {
 			height: calc(100% - 88px);
 		}
-		.at-tabs-pane--active, .at-tabs-pane {
+		.at-tabs-pane--active,
+		.at-tabs-pane {
 			height: 100%;
 			box-sizing: border-box;
 		}
@@ -48,5 +49,46 @@
 	.tabContainer {
 		height: 100%;
 		box-sizing: border-box;
+	}
+}
+.libraryDetail {
+	height: 100vh;
+	background-color: #f8f8f8;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	.poemTitle {
+		font-size: 40px;
+		padding: 30px;
+		width: 100%;
+		box-sizing: border-box;
+		text-align: center;
+		background-color: #fff;
+		.title {
+			color: #333;
+		}
+		.profile {
+			color: #888;
+			font-size: 0.7em;
+		}
+	}
+	.listContainer {
+		flex: 1;
+	}
+	.at-tabs {
+		height: 88px;
+		overflow: visible;
+		// .at-tabs__body {
+		// 	height: calc(100% - 88px);
+		// }
+	}
+	.at-tabs-pane--active {
+		height: 100%;
+		box-sizing: border-box;
+	}
+	.tabs {
+		padding: 20px 30px 10px 30px;
+		box-sizing: border-box;
+		margin-top: 20px;
 	}
 }

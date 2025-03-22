@@ -1,4 +1,4 @@
-import { View, Text } from '@tarojs/components';
+import { View } from '@tarojs/components';
 import { useState } from 'react';
 import { useLoad } from '@tarojs/taro';
 import { AtTabs, AtTabsPane } from 'taro-ui';
@@ -11,7 +11,7 @@ import PoetContainer from '../../components/PoetContainer';
 import './style.scss';
 
 const Page = () => {
-	const [type, setType] = useState('文库');
+	// const [type, setType] = useState('文库');
 	const [currentTab, setTab] = useState(0);
 	const handleChangeTab = (index) => {
 		setTab(index);
@@ -26,27 +26,27 @@ const Page = () => {
 	});
 	return (
 		<View className='page libraryPage'>
-			<PageHeader>
-				<View className='header'>
+			<PageHeader title='文库'>
+				{/* <View className='header'>
 					<View className='typeContainer'>
-						<Text
+						<View
 							className={['typeItem', type == '字典' ? 'active' : '']}
 							onClick={() => {
 								setType('字典');
 							}}
 						>
 							字典
-						</Text>
-						<Text
+						</View>
+						<View
 							className={['typeItem', type == '文库' ? 'active' : '']}
 							onClick={() => {
 								setType('文库');
 							}}
 						>
 							文库
-						</Text>
+						</View>
 					</View>
-				</View>
+				</View> */}
 			</PageHeader>
 			{/* 字典 */}
 			{/* 文库 */}

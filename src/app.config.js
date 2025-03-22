@@ -14,12 +14,10 @@ export default {
 		'pages/sentence/detail',
 		'pages/post/index',
 		'pages/me/setting/index',
-		'pages/admin/index',
-		'pages/admin/search',
 		'pages/find/index',
 		'pages/library/index',
-		'pages/me/fonts/index',
-		'pages/type/index'
+		'pages/library/detail',
+		'pages/type/index',
 	],
 	window: {
 		backgroundTextStyle: 'light',
@@ -51,7 +49,6 @@ export default {
 				iconPath: 'images/icon/find.png',
 				selectedIconPath: 'images/icon/find_active.png',
 			},
-
 			{
 				pagePath: 'pages/me/index',
 				text: '我',

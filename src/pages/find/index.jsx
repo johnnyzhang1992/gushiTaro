@@ -1,12 +1,12 @@
-import { ScrollView, View } from '@tarojs/components';
+import { View } from '@tarojs/components';
 // import { useNavigationBar } from 'taro-hooks';
 import { useState } from 'react';
 import Taro, { useLoad, usePullDownRefresh } from '@tarojs/taro';
 import { AtSearchBar } from 'taro-ui';
 
-import { HomeBooks, HomeCategories } from '../../const/config';
+// import { HomeBooks, HomeCategories } from '../../const/config';
 import HomeNavs from '../../components/HomeNavs';
-import BookCover from '../../components/BookCover';
+// import BookCover from '../../components/BookCover';
 import RandomSearch from '../search/components/RandomSearch';
 
 import './style.scss';
@@ -46,7 +46,7 @@ const PostPage = () => {
 			<View className='divide' />
 			<HomeNavs />
 			{/* 课本 */}
-			<View className='sectionCard'>
+			{/* <View className='sectionCard'>
 				<View className='cardTitle'>学习</View>
 				<View className='cardContent'>
 					<ScrollView
@@ -64,9 +64,9 @@ const PostPage = () => {
 						))}
 					</ScrollView>
 				</View>
-			</View>
+			</View> */}
 			{/* 选集 */}
-			<View
+			{/* <View
 				className='sectionCard'
 				style={{
 					padding: 10,
@@ -89,9 +89,10 @@ const PostPage = () => {
 						))}
 					</ScrollView>
 				</View>
-			</View>
+			</View> */}
 			{/* 随机探索 */}
 			<RandomSearch />
+			{/* 词牌 */}
 			{/* 飞花 */}
 			{/* <View className='sectionCard'>
 				<View className='cardTitle'>飞花</View>

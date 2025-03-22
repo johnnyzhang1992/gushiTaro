@@ -1,4 +1,4 @@
-.poemContainer {
+.sentenceContainer {
 	// padding: 0 20px;
 	height: 100%;
 	overflow: hidden;
@@ -6,8 +6,11 @@
 	.scrollContainer {
 		padding: 0 20px;
 		box-sizing: border-box;
-	}
-	.poemSmallCard {
-		margin: 20px 0;
+		.sentenceCard {
+			margin-bottom: 20rpx;
+			border-radius: 12rpx;
+			padding: 16rpx;
+			background-color: #fff;
+		}
 	}
 }

@@ -1,14 +1,15 @@
-import { useState, useEffect, useRef } from 'react';
-import Taro from '@tarojs/taro';
-import { View, Text, ScrollView } from '@tarojs/components';
+import { ScrollView, View, Text } from '@tarojs/components';
+import { useState, useRef, useEffect } from 'react';
 
-import PoemSmallCard from '../../components/PoemSmallCard';
+import Taro from '@tarojs/taro';
+
+import SentenceCard from '../../components/SentenceCard';
 
 import './style.scss';
 
-import { fetchPoemData } from '../../pages/poem/service';
+import { fetchSentenceData } from '../../pages/sentence/service';
 
-const PoemContainer = (props) => {
+const SentenceContainer = (props) => {
 	const pagination = useRef({
 		page: 1,
 		size: 15,
@@ -17,7 +18,7 @@ const PoemContainer = (props) => {
 	});
 	const refreshFlag = useRef(false);
 	const paramsRef = useRef(props.params || {});
-	const [poemList, setList] = useState([]);
+	const [sentenceList, setList] = useState([]);
 	const [error, setError] = useState('');
 	const [scrollHeight, updateHeight] = useState('auto');
 
@@ -46,31 +47,23 @@ const PoemContainer = (props) => {
 	};
 
 	const computeParams = (options) => {
-		const { type, from, code, keyWord, dynasty } = options;
-		let params = {
-			from: from || 'home',
-		};
-		if (type) {
-			// tag 对应 标签筛选
-			// author 对应作者筛选，仅加载该作者的诗词
-			// poem 标题和内容匹配
-			if (['tag', 'author', 'poem'].includes(type)) {
-				params['_type'] = type;
-			} else {
-				params['type'] = type;
-			}
-		}
-		if (keyWord) {
-			params['keyWord'] = keyWord;
-		}
-		if (code) {
-			params['name'] = code;
-		}
-		if (dynasty && dynasty !== 'undefined') {
-			params['dynasty'] = dynasty;
+		const { name = '', type } = options;
+		let params = {};
+		if (type && type == 'tag') {
+			params = {
+				...params,
+				type: name,
+			};
+		} else {
+			params = {
+				...params,
+				title: name,
+				keyWord: name
+			};
 		}
 		return params;
 	};
+
 	const fetchList = () => {
 		if (refreshFlag.current) {
 			return false;
@@ -81,8 +74,7 @@ const PoemContainer = (props) => {
 		}
 		refreshFlag.current = true;
 		const params = computeParams(paramsRef.current);
-		console.log(props.params, pagination.current);
-		fetchPoemData('GET', { ...params, ...pagination.current })
+		fetchSentenceData('GET', { ...params, ...pagination.current })
 			.then((res) => {
 				if (res.data && res.statusCode == 200) {
 					const { list = [], current_page, last_page, total } = res.data;
@@ -93,7 +85,7 @@ const PoemContainer = (props) => {
 						total,
 					};
 					console.log(list.length, 'list');
-					setList(page === 1 ? list : [...poemList, ...list]);
+					setList(page === 1 ? list : [...sentenceList, ...list]);
 				} else {
 					setError('列表加载失败');
 				}
@@ -104,9 +96,10 @@ const PoemContainer = (props) => {
 				refreshFlag.current = false;
 			});
 	};
+
 	useEffect(() => {
 		paramsRef.current = {
-			...(props.params || {})
+			...(props.params || {}),
 		};
 		pagination.current = {
 			...pagination.current,
@@ -120,7 +113,7 @@ const PoemContainer = (props) => {
 
 	useEffect(() => {
 		Taro.createSelectorQuery()
-			.select('#poemScrollContainer')
+			.select('#sentenceScrollContainer')
 			.fields(
 				{
 					dataset: true,
@@ -136,8 +129,8 @@ const PoemContainer = (props) => {
 	}, []);
 
 	return (
-		<View className='poemContainer' id='poemScrollContainer'>
-			{/* 诗词列表 */}
+		<View className='sentenceContainer' id='sentenceScrollContainer'>
+			{/* 摘录列表 */}
 			<ScrollView
 				className='scrollContainer'
 				scrollY
@@ -152,17 +145,9 @@ const PoemContainer = (props) => {
 					height: scrollHeight == 'auto' ? scrollHeight : scrollHeight + 'px',
 				}}
 			>
-				{poemList.map((item) => {
-					return (
-						<PoemSmallCard
-							{...item}
-							showCount
-							showBorder
-							lightWord=''
-							key={item.id}
-						/>
-					);
-				})}
+				{sentenceList.map((sentence) => (
+					<SentenceCard {...sentence} showCount key={sentence.id} />
+				))}
 			</ScrollView>
 			{error ? (
 				<View className='pageError'>
@@ -174,4 +159,4 @@ const PoemContainer = (props) => {
 	);
 };
 
-export default PoemContainer;
+export default SentenceContainer;

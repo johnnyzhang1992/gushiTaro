@@ -175,7 +175,6 @@ const MeIndex = () => {
 		Taro.stopPullDownRefresh();
 	});
 
-	const currentFont = Taro.getStorageSync('fontName');
 	return (
 		<View className='page mePage'>
 			<View className='pageContainer'>
@@ -249,19 +248,6 @@ const MeIndex = () => {
 								<View className='at-icon at-icon-chevron-right'></View>
 							</View>
 						</Navigator>
-					</View>
-				</SectionCard>
-				{/* 字体设置 */}
-				<SectionCard
-					title='字体管理'
-					extra={<Navigator url='/pages/me/fonts/index'>更多字体</Navigator>}
-					style={{
-						display: 'none',
-					}}
-				>
-					<View className='font-item'>
-						<View className='font-name'>当前字体</View>
-						<View className='font-name'>{currentFont || '系统默认'}</View>
 					</View>
 				</SectionCard>
 				{/* 关于我们 */}

@@ -4,14 +4,14 @@
 	// box-sizing: border-box;
 	padding-bottom: 16px;
 	background-color: #337ab7;
+	&.hasTitle {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
 }
 .header-title {
-	position: absolute;
-	left: 50%;
-	bottom: 0;
-	height: 100%;
-	transform: translateX(-50%);
-	font-size: 28px;
+	font-size: 32px;
 	color: #fff;
 	text-align: center;
 }

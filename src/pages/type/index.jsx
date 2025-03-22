@@ -30,7 +30,11 @@ const TypePage = () => {
 				<View className='pageContainer'>
 					<View className='typeList'>
 						{typeList.list.map((item) => (
-							<TypeCard key={item.name} {...item} />
+							<TypeCard
+								key={item.name}
+								type={item.type || (typeList.tag && 'tag')}
+								{...item}
+							/>
 						))}
 					</View>
 				</View>

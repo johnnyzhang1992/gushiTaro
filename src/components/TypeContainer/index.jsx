@@ -51,8 +51,8 @@ const TypeContainer = () => {
 						key={cat.title}
 						title={cat.title}
 						extra={
-							cat.list.length > 12 ? (
-								<Navigator url={`/pages/type/index?title=${cat.title}`}>
+							cat.list.length > 8 ? (
+								<Navigator hoverClass='none' url={`/pages/type/index?title=${cat.title}`}>
 									<Text>更多</Text>
 									<View className='icon at-icon at-icon-chevron-right' />
 								</Navigator>
@@ -60,8 +60,12 @@ const TypeContainer = () => {
 						}
 					>
 						<View className='typeList'>
-							{cat.list.slice(0, 12).map((item) => (
-								<TypeCard key={item.name} {...item} />
+							{cat.list.slice(0, 8).map((item) => (
+								<TypeCard
+									key={item.name}
+									type={item.type || (cat.tag && 'tag')}
+									{...item}
+								/>
 							))}
 						</View>
 					</SectionCard>

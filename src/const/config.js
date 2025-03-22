@@ -107,18 +107,55 @@ export const CategoriesList = [
 		],
 	},
 	{
-		title: '主题',
+		title: '课本',
 		list: [
 			{
-				name: '爱',
-				profile: '愿得一人心',
-				sentence: '愿得一人心，白首不相离。',
+				name: '小学古诗词',
+				code: 'xiaoxue',
+				profile: '江南可采莲',
+				type: 'book',
 			},
 			{
-				name: '禅',
-				profile: '愿得一人心',
-				sentence: '愿得一人心，白首不相离。',
+				name: '初中古诗词',
+				code: 'chuzhong',
+				profile: '东临碣石',
+				type: 'book',
 			},
+			{
+				name: '高中古诗词',
+				code: 'gaozhong',
+				profile: '恰同学少年',
+				type: 'book',
+			},
+			{
+				name: '小学文言',
+				code: 'xiaoxuewyw',
+				profile: '守株待兔',
+				type: 'book',
+			},
+			{
+				name: '初中文言',
+				code: 'chuzhongwyw',
+				profile: '学而时习之',
+				type: 'book',
+			},
+			{
+				name: '高中文言',
+				code: 'gaozhongwyw',
+				profile: '庖丁解牛',
+				type: 'book',
+			},
+		],
+	},
+	{
+		title: '主题',
+		tag: true,
+		list: [
+			// {
+			// 	name: '禅',
+			// 	profile: '愿得一人心',
+			// 	sentence: '愿得一人心，白首不相离。',
+			// },
 			{
 				name: '茶',
 				profile: '竹炉汤沸火初红',
@@ -128,6 +165,16 @@ export const CategoriesList = [
 				name: '酒',
 				profile: '桃李春风一杯酒',
 				sentence: '桃李春风一杯酒，江湖夜雨十年灯。',
+			},
+			{
+				name: '爱情',
+				profile: '愿得一人心',
+				sentence: '愿得一人心，白首不相离。',
+			},
+			{
+				name: '友情',
+				profile: '王孙归不归',
+				sentence: '春草明年绿，王孙归不归。',
 			},
 			{
 				name: '战争',
@@ -173,11 +220,6 @@ export const CategoriesList = [
 				name: '边塞',
 				profile: '归雁入胡天',
 				sentence: '征蓬出汉塞，归雁入胡天。',
-			},
-			{
-				name: '友情',
-				profile: '王孙归不归',
-				sentence: '春草明年绿，王孙归不归。',
 			},
 			{
 				name: '羁旅',
@@ -248,31 +290,175 @@ export const CategoriesList = [
 	},
 	{
 		title: '写景',
+		tag: true,
 		list: [
 			{
-				name: '',
-				profile: '',
-				sentence: '',
+				name: '春天',
+				profile: '花落知多少',
+				sentence: '夜来风无声，花落知多少。',
 			},
-		],
-	},
-	{
-		title: '课本',
-		list: [
 			{
-				name: '',
-				profile: '',
-				sentence: '',
+				name: '夏天',
+				profile: '一晴方觉夏深',
+				sentence: '连雨不知春去，一晴方觉夏深。',
 			},
+			{
+				name: '秋天',
+				profile: '秋日胜春朝',
+				sentence: '自古逢秋悲寂寥，我言秋日胜春朝。',
+			},
+			{
+				name: '冬天',
+				profile: '风雪夜归人',
+				sentence: '柴门闻犬吠，风雪夜归人。',
+			},
+			{
+				name: '写山',
+				profile: '横看成岭侧成峰',
+				sentence: '横看成岭侧成峰，远近高低各不同。',
+			},
+			{
+				name: '写水',
+				profile: '江青月近人',
+				sentence: '野旷天低树，江清月近人。',
+			},
+			{
+				name: '月亮',
+				profile: '对影成三人',
+				sentence: '举杯邀明月，对影成三人。',
+			},
+			{
+				name: '太阳',
+				profile: '长河落日圆',
+				sentence: '大漠孤烟直，长河落日圆。',
+			},
+			{
+				name: '星星',
+				profile: '星垂平野阔',
+				sentence: '星垂平野阔，月涌大江流。',
+			},
+			{
+				name: '写风',
+				profile: '二月春风似剪刀',
+				sentence: '不知细叶谁裁出，二月春风似剪刀。',
+			},
+			{
+				name: '写云',
+				profile: '苍茫云海间',
+				sentence: '明月出天山，苍茫云海间。',
+			},
+			{
+				name: '写雨',
+				profile: '好雨知时节',
+				sentence: '好雨知时节，当春乃发生。',
+			},
+			{
+				name: '写雪',
+				profile: '独钓寒江雪',
+				sentence: '孤舟蓑笠翁，独钓寒江雪。',
+			},
+			{
+				name: '彩虹',
+				profile: '安得五彩虹',
+				sentence: '安得五彩虹，驾天作长桥。',
+			},
+			{
+				name: '瀑布',
+				profile: '飞流直下三千尺',
+				sentence: '飞流直下三千尺，疑是银河落九天。',
+			},
+			{
+				name: '写鸟',
+				profile: '一行白鹭上青天',
+				sentence: '两只黄鹂鸣翠柳，一行白鹭上青天。',
+			},
+			{
+				name: '梅花',
+				profile: '只有香如故',
+				sentence: '零落成泥碾作尘，只有香如故。',
+			},
+			{
+				name: '竹子',
+				profile: '竹影和诗瘦',
+				sentence: '竹影和诗瘦，梅花入梦香。',
+			},
+			{
+				name: '菊花',
+				profile: '采菊东篱下',
+				sentence: '采菊东篱下，悠然见南山。',
+			},
+			{
+				name: '荷花',
+				profile: '一一风荷举',
+				sentence: '水面清圆，一一风荷举。',
+			},
+			{
+				name: '桃花',
+				profile: '桃之夭夭',
+				sentence: '桃之夭夭，灼灼其华。',
+			},
+			{
+				name: '松树',
+				profile: '大雪压青松',
+				sentence: '大雪压青松，青松挺且直。',
+			},
+			{
+				name: '柳树',
+				profile: '万条垂下绿丝绦',
+				sentence: '碧玉妆成一树高，万条垂下绿丝绦。',
+			},
+			{
+				name: '桂花',
+				profile: '玉树悬秋',
+				sentence: '蓝云笼晓，玉树悬秋，交加金钏霞枝',
+			},
+			//	'梅花', '梨花', '荷花', '菊花', '柳树', '叶子', '竹子'],
 		],
 	},
+
 	{
 		title: '节日',
+		tag: true,
 		list: [
 			{
-				name: '',
-				profile: '',
-				sentence: '',
+				name: '春节',
+				profile: '新桃换旧符',
+				sentence: '千门万户曈曈日，总把新桃换旧符。',
+			},
+			{
+				name: '元宵节',
+				profile: '火树银花合',
+				sentence: '火树银花合，星桥铁锁开。',
+			},
+			{
+				name: '寒食节',
+				profile: '东风御柳斜',
+				sentence: '春城无处不飞花，寒食东风御柳斜。',
+			},
+			{
+				name: '清明节',
+				profile: '行人欲断魂',
+				sentence: '清明时节雨纷纷，路上行人欲断魂。',
+			},
+			{
+				name: '端午节',
+				profile: '时清日复长',
+				sentence: '端午临中夏，时清日复长。',
+			},
+			{
+				name: '七夕节',
+				profile: '牵牛织女星',
+				sentence: '天阶夜色凉如水，坐看牵牛织女星。',
+			},
+			{
+				name: '中秋节',
+				profile: '天涯共此时',
+				sentence: '海上生明月，天涯共此时。',
+			},
+			{
+				name: '重阳节',
+				profile: '佳节又重阳',
+				sentence: '佳节又重阳，玉枕纱厨，半夜凉初透。',
 			},
 		],
 	},
@@ -280,9 +466,124 @@ export const CategoriesList = [
 		title: '节气',
 		list: [
 			{
-				name: '',
-				profile: '',
-				sentence: '',
+				name: '立春',
+				profile: '柳色早黄浅',
+				sentence: '柳色早黄浅，水文新绿微。',
+			},
+			{
+				name: '雨水',
+				profile: '润物细无声',
+				sentence: '随风潜入夜，润物细无声。',
+			},
+			{
+				name: '惊蛰',
+				profile: '一雷惊蛰始',
+				sentence: '微雨众卉新，一雷惊蛰始。',
+			},
+			{
+				name: '春分',
+				profile: '聊赠一枝花',
+				sentence: '江南无所有，聊赠一枝花。',
+			},
+			{
+				name: '清明',
+				profile: '行人欲断魂',
+				sentence: '清明时节雨纷纷，路上行人欲断魂。',
+			},
+			{
+				name: '谷雨',
+				profile: '鱼翻谷雨萍',
+				sentence: '鸟弄桐花日，鱼翻谷雨萍。',
+			},
+			{
+				name: '立夏',
+				profile: '帘栊暑尚微',
+				sentence: '槐柳阴初密，帘栊暑尚微。',
+			},
+			{
+				name: '小满',
+				profile: '夜莺啼绿柳',
+				sentence: '夜莺啼绿柳，皓月醒长空。',
+			},
+			{
+				name: '芒种',
+				profile: '处处菱歌长',
+				sentence: '家家麦饭香，处处菱歌长。',
+			},
+			{
+				name: '夏至',
+				profile: '圆荷始散芳',
+				sentence: '绿筠尚含粉，圆荷始散芳。',
+			},
+			{
+				name: '小暑',
+				profile: '竹露滴清响',
+				sentence: '荷风送香气，竹露滴清响。',
+			},
+			{
+				name: '大暑',
+				profile: '烈日不肯暮',
+				sentence: '清风不肯来，烈日不肯暮。',
+			},
+			{
+				name: '立秋',
+				profile: '梧桐月明中',
+				sentence: '睡起秋声无觅处，满街梧桐月明中。',
+			},
+			{
+				name: '处暑',
+				profile: '秋日景初微',
+				sentence: '寒蝉声渐咽，秋日景初微。',
+			},
+			{
+				name: '白露',
+				profile: '蒹葭苍苍',
+				sentence: '蒹葭苍苍，白露为霜。',
+			},
+			{
+				name: '秋分',
+				profile: '竹露夕微微',
+				sentence: '秋分客尚在，竹露夕微微。',
+			},
+			{
+				name: '寒露',
+				profile: '交映凝寒露',
+				sentence: '交映凝寒露，相和起夜风。',
+			},
+			{
+				name: '霜降',
+				profile: '霜降夕流清',
+				sentence: '泊舟淮水次，霜降夕流清。',
+			},
+			{
+				name: '立冬',
+				profile: '侵晨雪满船',
+				sentence: '夜半风翻屋，侵晨雪满船。',
+			},
+			{
+				name: '小雪',
+				profile: '片片互玲珑',
+				sentence: '片片互玲珑，飞扬玉漏终。',
+			},
+			{
+				name: '大雪',
+				profile: '时闻折竹声',
+				sentence: '夜深知雪重，时闻折竹声。',
+			},
+			{
+				name: '冬至',
+				profile: '抱膝影伴身',
+				sentence: '邯郸驿里逢冬至，抱膝灯前影伴身。',
+			},
+			{
+				name: '小寒',
+				profile: '冷蕊幽芳满',
+				sentence: '东君先递玉麟香，冷蕊幽芳满。',
+			},
+			{
+				name: '大寒',
+				profile: '阶前冻银床',
+				sentence: '阶前冻银床，檐头冰钟乳。',
 			},
 		],
 	},
@@ -290,9 +591,291 @@ export const CategoriesList = [
 		title: '花卉',
 		list: [
 			{
-				name: '',
-				profile: '',
+				name: '牡丹',
+				profile: '唯有牡丹正国色',
+				sentence: '唯有牡丹真国色，花开时节动京城。',
+			},
+			{
+				name: '梅花',
+				profile: '有梅无雪不精神',
+				sentence: '有梅无雪不精神，有雪无诗俗了人。',
+			},
+			{
+				name: '桃花',
+				profile: '人间四月芳菲尽',
+				sentence: '人间四月芳菲尽，山寺桃花始盛开。',
+			},
+			{
+				name: '梨花',
+				profile: '梨花院落溶溶月',
+				sentence: '梨花院落溶溶月，柳絮池塘淡淡风。',
+			},
+			{
+				name: '桂花',
+				profile: '人闲桂花落，夜静春山空。',
 				sentence: '',
+			},
+			{
+				name: '杏花',
+				profile: '沾衣欲湿杏花雨',
+				sentence: '沾衣欲湿杏花雨，半面宫妆出晓晴。',
+			},
+			{
+				name: '李花',
+				profile: '小小琼英舒嫩白',
+				sentence: '小小琼英舒嫩白，未饶深紫与轻红。',
+			},
+			{
+				name: '荷花',
+				profile: '一一风荷举',
+				sentence: '水面清圆，一一风荷举。',
+			},
+			{
+				name: '菊花',
+				profile: '此花开尽更无花',
+				sentence: '不是花中偏爱菊，此花开尽更无花。',
+			},
+
+			{
+				name: '海棠',
+				profile: '海棠如旧时',
+				sentence: '幽梦锦城西，海棠如旧时。',
+			},
+			{
+				name: '芍药',
+				profile: '今日阶前红芍药',
+				sentence: '今日阶前红芍药，几花欲老几花新。',
+			},
+			{
+				name: '玉兰',
+				profile: '霓裳片片晚妆新',
+				sentence: '霓裳片片晚妆新，束素亭亭玉殿春。',
+			},
+		],
+	},
+
+	{
+		title: '时间',
+		list: [
+			{
+				name: '正月',
+				profile: '正月晴和风气新',
+				sentence: '正月晴和风气新，纷纷已有醉游人。',
+			},
+			{
+				name: '二月',
+				profile: '二月出惊见草芽',
+				sentence: '新年都未有芳华，二月初惊见草芽。',
+			},
+			{
+				name: '三月',
+				profile: '三月残花落更开',
+				sentence: '三月残花落更开，小檐日日燕飞来。',
+			},
+			{
+				name: '四月',
+				profile: '四月清和雨咋晴',
+				sentence: '四月清和雨咋晴，难上当户转分明。',
+			},
+			{
+				name: '五月',
+				profile: '五月虽热麦风清',
+				sentence: '五月虽热麦风清，檐头索索缲车鸣。',
+			},
+			{
+				name: '六月',
+				profile: '毕竟西湖六月中',
+				sentence: '毕竟西湖六月中，风光不与四时同。',
+			},
+			{
+				name: '七月',
+				profile: '七月七日长生殿',
+				sentence: '七月七日长生殿，夜半无人私语时。',
+			},
+			{
+				name: '八月',
+				profile: '今夜月明人尽望',
+				sentence: '今夜月明人尽望，不知秋思落谁家。',
+			},
+			{
+				name: '九月',
+				profile: '可怜九月初三夜',
+				sentence: '可怜九月初三夜，露似真珠月似弓。',
+			},
+			{
+				name: '十月',
+				profile: '十月江南天气好',
+				sentence: '十月江南天气好，可怜冬景似春华。',
+			},
+			{
+				name: '十一月',
+				profile: '夜阑卧听风吹雨',
+				sentence: '夜阑卧听风吹雨，铁马冰河入梦来。',
+			},
+			{
+				name: '十二月',
+				profile: '月照一天雪',
+				sentence: '吹灯窗更明，月照一天雪。',
+			},
+		],
+	},
+	{
+		title: '时令',
+		list: [
+			{
+				name: '樱桃',
+				profile: '樱桃落尽春归去',
+				sentence: '樱桃落尽春归去，蝶翻金粉双飞。',
+			},
+			{
+				name: '荔枝',
+				profile: '一骑红尘妃子笑',
+				sentence: '一骑红尘妃子笑，无人知是荔枝来。',
+			},
+			{
+				name: '杨梅',
+				profile: '罗浮山下四时春',
+				sentence: '罗浮山下四时春，卢橘杨梅次第新。',
+			},
+			{
+				name: '梅子',
+				profile: '梅子青时节',
+				sentence: '雨轻风色暴，梅子青时节。',
+			},
+			{
+				name: '红豆',
+				profile: '红豆生南国',
+				sentence: '红豆生南国，春来发几枝。',
+			},
+			{
+				name: '杏',
+				profile: '梅子金黄杏子肥',
+				sentence: '梅子金黄杏子肥，梅花雪白菜花稀。',
+			},
+			{
+				name: '葡萄',
+				profile: '葡萄美酒夜光杯',
+				sentence: '葡萄美酒夜光杯，欲饮琵琶马上催。',
+			},
+			{
+				name: '枇杷',
+				profile: '亭亭如盖矣',
+				sentence: '庭有枇杷树，吾妻死之年所手植也，今已亭亭如盖矣。',
+			},
+			{
+				name: '木瓜',
+				profile: '投我以木瓜',
+				sentence: '投我以木瓜，报之以琼琚',
+			},
+			{
+				name: '石榴',
+				profile: '石榴开遍透帘明',
+				sentence: '别院深深夏席清，石榴开遍透帘明',
+			},
+			{
+				name: '银杏',
+				profile: '银杏叶凋零鸭脚黄',
+				sentence: '银杏叶凋零鸭脚黄，玉树花冷淡鸡冠紫',
+			},
+		],
+	},
+	{
+		title: '地理',
+		list: [
+			{
+				name: '黄鹤楼',
+				profile: '黄鹤一去不复返',
+				sentence: '黄鹤一去不复返，白云千载空悠悠。',
+			},
+			{
+				name: '西湖',
+				profile: '欲把西湖比西子',
+				sentence: '欲把西湖比西子，淡妆浓抹总相宜。',
+			},
+			{
+				name: '洞庭湖',
+				profile: '一夜洞庭湖水声',
+				sentence: '觉来不语到明坐，一夜洞庭湖水声。',
+			},
+			{
+				name: '黄河',
+				profile: '九曲黄河万里沙',
+				sentence: '九曲黄河万里沙，浪淘风簸自天涯。',
+			},
+			{
+				name: '长江',
+				profile: '都付笑谈中',
+				sentence: '古今多少事，都付笑谈中。',
+			},
+			{
+				name: '长城',
+				profile: '望长城内外',
+				sentence: '望长城内外，惟余莽莽',
+			},
+			{
+				name: '鹳雀楼',
+				profile: '白日依山尽',
+				sentence: '白日依山尽，黄河入海流。',
+			},
+			{
+				name: '赤壁',
+				profile: '千古风流人物',
+				sentence: '大江东去，浪淘尽，千古风流人物',
+			},
+			{
+				name: '寒山寺',
+				profile: '姑苏城外寒山寺',
+				sentence: '姑苏城外寒山寺，夜半钟声到客船。',
+			},
+			{
+				name: '滕王阁',
+				profile: '秋水共长天一色',
+				sentence: '落霞与孤鹜齐飞，秋水共长天一色。',
+			},
+			{
+				name: '骊山',
+				profile: '骊山语罢清宵半',
+				sentence: '骊山语罢清宵半，泪雨霖铃终不怨。',
+			},
+		],
+	},
+	{
+		title: '城市',
+		list: [
+			{
+				name: '洛阳',
+				profile: '洛阳城里见秋风',
+				sentence: '洛阳城里见秋风，欲作家书意万里。',
+			},
+			{
+				name: '长安',
+				profile: '一日看尽长安花',
+				sentence: '春风得意马蹄疾，一日看尽长安花。',
+			},
+			{
+				name: '金陵',
+				profile: '凤凰台上凤凰游',
+				sentence: '凤凰台上凤凰游，凤去楼空江自流。',
+			},
+			{
+				name: '杭州',
+				profile: '最忆是杭州',
+				sentence: '江南忆，最忆是杭州。',
+			},
+			{
+				name: '姑苏',
+				profile: '姑苏城外寒山寺',
+				sentence: '姑苏城外寒山寺，夜半钟声到客船。',
+			},
+			{
+				name: '扬州',
+				profile: '烟花三月下扬州',
+				sentence: '故人西辞黄鹤楼，烟花三月下扬州。',
+			},
+			{
+				name: '凉州',
+				profile: '葡萄美酒夜光杯',
+				sentence: '葡萄美酒夜光杯，欲饮琵琶马上催',
 			},
 		],
 	},
@@ -300,22 +883,142 @@ export const CategoriesList = [
 		title: '名山',
 		list: [
 			{
-				name: '',
-				profile: '',
-				sentence: '',
+				name: '黄山',
+				profile: '黄山归来不看岳',
+				sentence: '五岳归来不看山，黄山归来不看岳。',
 			},
-		],
-	},
-	{
-		title: '词牌',
-		list: [
 			{
-				name: '',
-				profile: '',
-				sentence: '',
+				name: '泰山',
+				profile: '造化钟神秀',
+				sentence: '造化钟神秀，阴阳割昏晓。',
+			},
+			{
+				name: '衡山',
+				profile: '衡山苍苍入紫冥',
+				sentence: '衡山苍苍入紫冥，下看南极老人星。',
+			},
+			{
+				name: '华山',
+				profile: '西岳出浮云',
+				sentence: '西岳出浮云，云山互明灭。',
+			},
+			{
+				name: '恒山',
+				profile: '恒山北临岱',
+				sentence: '恒山北临岱，秀崿东跨幽。',
+			},
+			{
+				name: '嵩山',
+				profile: '尽入嵩山静夜看',
+				sentence: '此时不合人间有，尽入嵩山静夜看。',
+			},
+			{
+				name: '庐山',
+				profile: '不识庐山真面目',
+				sentence: '不识庐山真面目，只缘身在此山中。',
+			},
+			{
+				name: '五台山',
+				profile: '诗阁晓窗苍雪岭',
+				sentence: '诗阁晓窗苍雪岭，画堂秋水接蓝溪。',
+			},
+			{
+				name: '普陀山',
+				profile: '千年普济香烟袅',
+				sentence: '千年普济香烟袅，百尺莲台佛像巍。',
+			},
+			{
+				name: '峨眉山',
+				profile: '峨眉山月半轮秋',
+				sentence: '峨眉山月半轮秋，影入平羌江水流。',
+			},
+			{
+				name: '九华山',
+				profile: '禅灯几点翠微明',
+				sentence: '寺隔数峰犹未到，禅灯几点翠微明。',
+			},
+			{
+				name: '武当山',
+				profile: '武当云外钟鼓清',
+				sentence: '皇极殿中龙虎静，武当云外钟鼓清',
+			},
+			{
+				name: '武夷山',
+				profile: '溪边奇茗冠天下',
+				sentence: '溪边奇茗冠天下，武夷仙人从古栽。',
+			},
+			{
+				name: '终南山',
+				profile: '君言不得意',
+				sentence: '君言不得意，归卧南山陲。',
+			},
+			{
+				name: '青城山',
+				profile: '青城山中云茫茫',
+				sentence: '青城山中云茫茫，龙车问道来轩皇。',
+			},
+			{
+				name: '昆仑山',
+				profile: '昆仑山上玉楼前',
+				sentence: '昆仑山上玉楼前，五色祥光混紫烟。',
+			},
+			{
+				name: '太白山',
+				profile: '太白与我语',
+				sentence: '太白与我语，为我开天关。',
+			},
+			{
+				name: '长白山',
+				profile: '长白山初出',
+				sentence: '长白山初出，青云路欲飞。',
+			},
+			{
+				name: '敬亭山',
+				profile: '相看两不厌',
+				sentence: '相看两不厌，唯有敬亭山。',
+			},
+			{
+				name: '崆峒山',
+				profile: '斗星高被众峰吞',
+				sentence: '斗星高被众峰吞，莽荡山河剑气昏。',
+			},
+			{
+				name: '武陵源',
+				profile: '仙境何处有',
+				sentence: '仙境何处有，武陵源上寻。',
+			},
+			{
+				name: '白云山',
+				profile: '白云山下春光早',
+				sentence: '白云山下春光早，少年冶游风景好',
+			},
+			{
+				name: '雁荡山',
+				profile: '雁荡经行云漠漠',
+				sentence: '雁荡经行云漠漠，龙湫宴坐雨蒙蒙。',
+			},
+			{
+				name: '龙虎山',
+				profile: '龙虎山中作道人',
+				sentence: '细思便合从君去，龙虎山中作道人。',
+			},
+			{
+				name: '齐云山',
+				profile: '齐云山与壁云齐',
+				sentence: '齐云山与壁云齐，四顾青山座座低。',
 			},
 		],
 	},
+	// {
+	// 	title: '词牌',
+	// 	list: [
+	// 		{
+	// 			name: '',
+	// 			profile: '',
+	// 			sentence: '',
+	// 		},
+	// 	],
+	// },
 ];
 // 首页课本分类
 export const HomeBooks = [
