@@ -55,8 +55,7 @@ const LibraryDetail = () => {
 				current={currentTab}
 				tabList={[{ title: '作品' }, { title: '摘录' }]}
 				onClick={handleChangeTab}
-			></AtTabs>
-			<View className='listContainer'>
+			>
 				{/* 作品 */}
 				<AtTabsPane current={currentTab} index={0}>
 					{pageOptions.inited ? <PoemContainer params={pageOptions} /> : null}
@@ -67,7 +66,7 @@ const LibraryDetail = () => {
 						<SentenceContainer params={pageOptions} />
 					) : null}
 				</AtTabsPane>
-			</View>
+			</AtTabs>
 		</View>
 	);
 };
