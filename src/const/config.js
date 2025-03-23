@@ -1067,7 +1067,7 @@ export const PoemTypes = ['全部', '诗', '词', '曲', '文言文'];
 
 // 朝代列表
 export const DynastyArr = [
-	'全部',
+	// '全部',
 	'先秦',
 	'两汉',
 	'魏晋',
