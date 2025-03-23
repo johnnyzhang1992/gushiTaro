@@ -16,11 +16,7 @@ const Page = () => {
 	const handleChangeTab = (index) => {
 		setTab(index);
 	};
-	// const navigateSearch = () => {
-	// 	Taro.navigateTo({
-	// 		url: '/pages/search/index',
-	// 	});
-	// };
+
 	useLoad((options) => {
 		console.log(options);
 	});

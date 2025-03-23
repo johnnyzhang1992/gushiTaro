@@ -9,6 +9,17 @@
 		align-items: center;
 		justify-content: center;
 	}
+	.search {
+		position: absolute;
+		bottom: 16px;
+		left: 32px;
+		font-size: 32px;
+		display: flex;
+		align-items: center;
+		color: #fff;
+		padding: 4px 14px;
+		box-sizing: border-box;
+	}
 }
 .header-title {
 	font-size: 32px;

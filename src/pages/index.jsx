@@ -225,7 +225,6 @@ const Index = () => {
 						}}
 					>
 						<View className='at-icon at-icon-search'></View>
-						<Text className='text'>搜索</Text>
 					</View>
 				</View>
 				{/* 画报 */}

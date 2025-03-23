@@ -10,6 +10,12 @@ const PageHeader = (props) => {
 	// PC端样式比较特殊，且不支持图片导出
 	const isPc = ['mac', 'windows'].includes(deviceInfo.platform);
 	const LeaveTop = isPc ? 10 : MenuRect.top;
+
+	const navigateSearch = () => {
+		Taro.navigateTo({
+			url: '/pages/search/index',
+		});
+	};
 	return (
 		<View
 			className={`custome-page-header ${title ? 'hasTitle' : ''}`}
@@ -18,6 +24,15 @@ const PageHeader = (props) => {
 				height: (MenuRect.height || 32) + 'px',
 			}}
 		>
+			<View
+				className='search'
+				onClick={navigateSearch}
+				style={{
+					height: (MenuRect.height || 32) + 'px',
+				}}
+			>
+				<View className='at-icon at-icon-search'></View>
+			</View>
 			{props.children ? (
 				props.children
 			) : (
