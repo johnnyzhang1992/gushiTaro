@@ -75,7 +75,7 @@ const PoetContainer = () => {
 			dynasty: dynasty,
 		};
 		const { page, last_page: lastPage } = pagination.current;
-		if (dynastyRef.current == '全部' && page > 1) {
+		if (['精选', '全部'].includes(dynastyRef.current) && page > 1) {
 			return false;
 		}
 		if (page > lastPage) {
