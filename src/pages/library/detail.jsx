@@ -1,6 +1,10 @@
 import { View, Text } from '@tarojs/components';
 import { useState } from 'react';
-import Taro, { useLoad } from '@tarojs/taro';
+import Taro, {
+	useLoad,
+	useShareAppMessage,
+	useShareTimeline,
+} from '@tarojs/taro';
 import { AtTabs, AtTabsPane } from 'taro-ui';
 
 import SentenceContainer from '../../components/SentenceContainer';
@@ -37,6 +41,40 @@ const LibraryDetail = () => {
 			title: options.name || '古诗文小助手',
 		});
 	});
+
+	const computeParams = () => {
+		const keys = Object.keys(pageOptions);
+		let queryStr = '';
+		keys.forEach((k) => {
+			queryStr += `${k}=${pageOptions[k]}&`;
+		});
+		return queryStr;
+	};
+
+	const getShareConfig = () => {
+		const queryStr = computeParams();
+		const { title, name } = pageOptions;
+		return {
+			title: title || name,
+			queryStr,
+		};
+	};
+
+	useShareAppMessage(() => {
+		const { title, queryStr } = getShareConfig();
+		return {
+			title,
+			path: '/pages/library/detail?' + queryStr,
+		};
+	});
+	useShareTimeline(() => {
+		const { title, queryStr } = getShareConfig();
+		return {
+			title,
+			path: '/pages/library/detail?' + queryStr,
+		};
+	});
+
 	return (
 		<View className='page libraryDetail'>
 			{/* 顶部分类和一句诗词 */}

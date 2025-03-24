@@ -43,12 +43,12 @@ export default {
 				iconPath: 'images/icon/library.png',
 				selectedIconPath: 'images/icon/library_active.png',
 			},
-			{
-				pagePath: 'pages/find/index',
-				text: '发现',
-				iconPath: 'images/icon/find.png',
-				selectedIconPath: 'images/icon/find_active.png',
-			},
+			// {
+			// 	pagePath: 'pages/find/index',
+			// 	text: '发现',
+			// 	iconPath: 'images/icon/find.png',
+			// 	selectedIconPath: 'images/icon/find_active.png',
+			// },
 			{
 				pagePath: 'pages/me/index',
 				text: '我',

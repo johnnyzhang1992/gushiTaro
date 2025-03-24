@@ -207,9 +207,6 @@ const PostLayoutConfig = ({
 							}`}
 							style={{
 								backgroundColor: color,
-								width: 30,
-								height: 30,
-								padding: 4,
 								marginRight: 10,
 							}}
 							data-fontColor={color || ''}
@@ -258,7 +255,7 @@ const PostLayoutConfig = ({
 							return (
 								<View
 									key={color.id}
-									className={`color-item bgImg  ${color.hex.replace('#', '')} ${
+									className={`color-item bgColor  ${color.hex.replace('#', '')} ${
 										posterConfig.bgColor === color.hex ? 'active' : ''
 									}`}
 									data-color={color.hex}
@@ -268,8 +265,6 @@ const PostLayoutConfig = ({
 									<View
 										className='color-circle'
 										style={{
-											width: 34,
-											height: 34,
 											backgroundColor: color.hex,
 										}}
 									></View>
@@ -294,7 +289,7 @@ const PostLayoutConfig = ({
 								return (
 									<View
 										key={color.id}
-										className={`color-item bgImg ${
+										className={`color-item bgColor ${
 											posterConfig.bgColor === color.hex ? 'active' : ''
 										}`}
 										data-color={color.hex}
@@ -304,8 +299,6 @@ const PostLayoutConfig = ({
 										<View
 											className='color-circle'
 											style={{
-												width: 34,
-												height: 34,
 												backgroundColor: color.hex,
 											}}
 										></View>

@@ -24,7 +24,7 @@ const TypeContainer = () => {
 				},
 				function (res) {
 					console.log(res);
-					updateHeight(res.height - 20 || 500);
+					updateHeight(res.height || 500);
 				}
 			)
 			.exec();
