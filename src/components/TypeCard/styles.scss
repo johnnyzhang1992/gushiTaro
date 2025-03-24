@@ -1,17 +1,21 @@
 .cardItem {
 	font-size: 32px;
-	width: 25%;
+	width: 20.125%;
 	color: #333;
-	margin-right: 0;
+	margin-right: 6.5%;
 	box-sizing: border-box;
 	padding: 20px 10px 0 10px;
-	max-height: 250px;
+	margin-bottom: 20px;
+	max-height: 275px;
 	text-align: center;
 	position: relative;
 	display: flex;
 	justify-content: center;
 	&.active:before {
 		background-color: #337ab7;
+	}
+	&:nth-child(4n) {
+		margin-right: 0;
 	}
 	&:before {
 		content: ' ';
@@ -23,7 +27,8 @@
 		width: 100px;
 		/* border-top: 4rpx solid #f3f3f3; */
 		color: #f3f3f3;
-		background-color: #337ab7;
+		// background-color: #337ab7;
+		background-color: #ddd;
 	}
 	.name,
 	.profile {
@@ -33,6 +38,9 @@
 		text-align: left;
 		writing-mode: vertical-rl;
 		letter-spacing: 4px;
+	}
+	.name {
+		font-size: 1.1rem;
 	}
 	.profile {
 		font-size: 0.7em;

@@ -1,5 +1,9 @@
 export default {
-	navigationBarTitleText: '文库',
+	component: true,
+	disableScroll: true,
 	enableShareAppMessage: true,
 	enableShareTimeline: true,
+	enablePullDownRefresh: false,
+	navigationBarTitleText: '文库',
+	navigationStyle: 'custom',
 };

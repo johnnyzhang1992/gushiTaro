@@ -209,27 +209,31 @@ const Index = () => {
 
 	return (
 		<Layout>
-			<View
-				className={`page homePage ${currentFont && currentFont.name}`}
-				style={{
-					padding: `10px 10px`,
-				}}
-			>
+			<View className={`page homePage ${currentFont && currentFont.name}`}>
 				{/* 顶部操作栏 */}
 				<View
 					className='topShare'
 					style={{
-						marginTop: `${LeaveTop - 10}px`,
-						height: (MenuRect.height || 32) + 'px',
+						paddingTop: `${LeaveTop}px`,
 					}}
 				>
-					<View className='search' onClick={navigateToSearch}>
+					<View
+						className='search'
+						onClick={navigateToSearch}
+						style={{
+							height: (MenuRect.height || 32) + 'px',
+						}}
+					>
 						<View className='at-icon at-icon-search'></View>
-						<Text className='text'>搜索</Text>
 					</View>
 				</View>
 				{/* 画报 */}
-				<View className='post-container'>
+				<View
+					className='post-container'
+					style={{
+						padding: `10px 10px`,
+					}}
+				>
 					<Snapshot
 						mode='view'
 						className='poemShot'

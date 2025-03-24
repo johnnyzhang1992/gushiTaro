@@ -40,18 +40,15 @@
 		display: flex;
 		width: 100%;
 		align-items: center;
+		background-color: #337ab7;
+		padding-bottom: 16px;
 		.search {
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			width: 400px;
-			background-color: #fff;
-			border-radius: 40px;
-			padding: 10px 0;
-			font-size: 24px;
-			.text {
-				padding-left: 20px;
-			}
+			color: #fff;
+			font-size: 32px;
+			padding: 0 14px;
 		}
 	}
 	.share-btn {

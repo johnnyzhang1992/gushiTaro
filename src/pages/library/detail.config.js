@@ -1,6 +1,5 @@
 export default {
-	navigationBarTitleText: '发现',
+	navigationBarTitleText: '古诗文小助手',
 	enableShareAppMessage: true,
 	enableShareTimeline: true,
-	navigationStyle: 'custom',
 };

@@ -1,6 +1,8 @@
 .findPage {
 	background-color: #f8f8f8;
 	padding-bottom: 20px;
+	box-sizing: border-box;
+	min-height: 100vh;
 	.homeNavs {
 		background-color: #fff;
 	}

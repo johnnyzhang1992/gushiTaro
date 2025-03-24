@@ -40,14 +40,14 @@ const RandomSearch = () => {
 			</View>
 			{/* 诗人 */}
 			<SectionCard
-				title='诗人'
+				title='作者'
 				extra={
 					<Navigator
 						className='extraNav'
 						hoverClass='none'
 						url='/pages/poet/index'
 					>
-						查看更多
+						更多
 					</Navigator>
 				}
 			>
@@ -71,14 +71,14 @@ const RandomSearch = () => {
 			</SectionCard>
 			{/* 名句 */}
 			<SectionCard
-				title='诗词摘录'
+				title='摘录'
 				extra={
 					<Navigator
 						className='extraNav'
 						hoverClass='none'
 						url='/pages/sentence/index'
 					>
-						查看更多
+						更多
 					</Navigator>
 				}
 			>
@@ -101,14 +101,14 @@ const RandomSearch = () => {
 			</SectionCard>
 			{/* 诗词 */}
 			<SectionCard
-				title='诗词'
+				title='作品'
 				extra={
 					<Navigator
 						className='extraNav'
 						hoverClass='none'
 						url='/pages/poem/index'
 					>
-						查看更多
+						更多
 					</Navigator>
 				}
 			>

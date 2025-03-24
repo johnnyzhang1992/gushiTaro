@@ -4,27 +4,23 @@ import Taro, { useLoad, useDidShow, usePullDownRefresh } from '@tarojs/taro';
 
 import SectionCard from '../../components/SectionCard';
 
-// import { BaseUrl } from '../../const/config';
-// import { fetchUserInfo, createUser } from './service';
 import { fetchUserInfo } from './service';
 import { createUser } from '../../services/global';
 
 import './style.scss';
 
-// import poetPng from '../../images/icon/poet.png';
 import xcxPng from '../../images/xcx.jpg';
+import poetPng from '../../images/svg/poet.svg';
 
+const initUser = {
+	poem_count: 0,
+	poet_count: 0,
+	sentence_count: 0,
+	user_id: -1,
+};
 const MeIndex = () => {
-	const [userInfo, setInfo] = useState({
-		poem_count: 0,
-		poet_count: 0,
-		sentence_count: 0,
-		user_id: -1,
-	});
-	const [safeArea, setSafeArea] = useState({});
+	const [userInfo, setInfo] = useState(initUser);
 	const isCreate = useRef(false);
-	const deviceInfo = Taro.getDeviceInfo();
-	const isPc = ['mac', 'windows'].includes(deviceInfo.platform);
 
 	const fetchInfo = (id) => {
 		const user = Taro.getStorageSync('user');
@@ -33,14 +29,22 @@ const MeIndex = () => {
 		}
 		fetchUserInfo('GET', {
 			user_id: id || user.user_id,
-		}).then((res) => {
-			if (res && res.statusCode === 200) {
-				setInfo((pre) => ({
-					...pre,
-					...res.data,
-				}));
-			}
-		});
+		})
+			.then((res) => {
+				if (res && res.statusCode === 200) {
+					setInfo((pre) => ({
+						...pre,
+						...res.data,
+					}));
+				}
+				// token 过期
+				if (res.statusCode == 401) {
+					setInfo(initUser);
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	};
 
 	const getUserProfile = () => {
@@ -98,7 +102,7 @@ const MeIndex = () => {
 						...res.data,
 					}));
 					fetchInfo(res.data.user_id);
-					if (preLoginPath) {
+					if (preLoginPath && preLoginPath.includes('pages/me/index')) {
 						Taro.showModal({
 							title: '提示',
 							content: '您是否要返回登录前页面',
@@ -148,9 +152,6 @@ const MeIndex = () => {
 	useLoad((options) => {
 		console.log(options);
 		const user = Taro.getStorageSync('user') || {};
-		Taro.getSystemInfo().then((sysRes) => {
-			setSafeArea(sysRes.safeArea || {});
-		});
 
 		setInfo((pre) => ({
 			...pre,
@@ -174,52 +175,43 @@ const MeIndex = () => {
 		Taro.stopPullDownRefresh();
 	});
 
-	const currentFont = Taro.getStorageSync('fontName');
 	return (
 		<View className='page mePage'>
-			{/* 用户信息和登录 */}
-			<View
-				className='meTop'
-				style={{
-					paddingTop: !isPc ? safeArea.top : 0,
-				}}
-			>
-				{userInfo.user_id > 0 ? (
-					<Navigator
-						className='userInfoCard'
-						url='/pages/me/setting/index'
-						hoverClass='none'
-					>
-						{/* <View className='avatar'>
-							<Image
-								src={userInfo.avatarUrl || poetPng}
-								className='img'
-							/>
-						</View> */}
-						<View className='user_name'>
-							<Text className='text'>
-								{userInfo.name || userInfo.nickName}
-							</Text>
-							<View className='setting'>
-								<Text className='text'>编辑资料</Text>
-								<Text className='icon at-icon at-icon-settings'></Text>
-							</View>
-						</View>
-					</Navigator>
-				) : (
-					<View className='loginCard'>
-						<Button
-							className='loginBtn'
-							size='mini'
-							type='default'
-							onClick={getUserProfile}
-						>
-							立即登录
-						</Button>
-					</View>
-				)}
-			</View>
 			<View className='pageContainer'>
+				{/* 用户信息和登录 */}
+				<SectionCard>
+					{userInfo.user_id > 0 ? (
+						<Navigator
+							className='userInfoCard'
+							url='/pages/me/setting/index'
+							hoverClass='none'
+						>
+							<View className='avatar'>
+								<Image src={userInfo.avatarUrl || poetPng} className='img' />
+							</View>
+							<View className='user_name'>
+								<Text className='text'>
+									{userInfo.name || userInfo.nickName}
+								</Text>
+								<View className='setting'>
+									<Text className='text'>编辑资料</Text>
+									<Text className='icon at-icon at-icon-settings'></Text>
+								</View>
+							</View>
+						</Navigator>
+					) : (
+						<View className='loginCard'>
+							<Button
+								className='loginBtn'
+								size='mini'
+								type='default'
+								onClick={getUserProfile}
+							>
+								立即登录
+							</Button>
+						</View>
+					)}
+				</SectionCard>
 				{/* 我的收藏 */}
 				<SectionCard title='我的收藏'>
 					<View className='sectionItems'>
@@ -228,17 +220,21 @@ const MeIndex = () => {
 							hoverClass='none'
 							url='/pages/me/collect?type=poem'
 						>
-							<View className='name'>诗词文言</View>
-							<View className='num'>{userInfo.poem_count}</View>
+							<View className='name'>作品</View>
+							<View className='num'>
+								<Text>{userInfo.poem_count}</Text>
+								<View className='at-icon at-icon-chevron-right'></View>
+							</View>
 						</Navigator>
 						<Navigator
 							className='item'
 							hoverClass='none'
 							url='/pages/me/collect?type=sentence'
 						>
-							<View className='name'>名句摘录</View>
+							<View className='name'>摘录</View>
 							<View className='num'>
-								{userInfo.sentence_count}
+								<Text>{userInfo.sentence_count}</Text>
+								<View className='at-icon at-icon-chevron-right'></View>
 							</View>
 						</Navigator>
 						<Navigator
@@ -246,44 +242,22 @@ const MeIndex = () => {
 							hoverClass='none'
 							url='/pages/me/collect?type=author'
 						>
-							<View className='name'>诗人</View>
-							<View className='num'>{userInfo.poet_count}</View>
+							<View className='name'>作者</View>
+							<View className='num'>
+								<Text>{userInfo.poet_count}</Text>
+								<View className='at-icon at-icon-chevron-right'></View>
+							</View>
 						</Navigator>
-					</View>
-				</SectionCard>
-				{/* 字体设置 */}
-				<SectionCard
-					title='字体管理'
-					extra={
-						<Navigator url='/pages/me/fonts/index'>
-							更多字体
-						</Navigator>
-					}
-					style={{
-						display: 'none'
-					}}
-				>
-					<View className='font-item'>
-						<View className='font-name'>当前字体</View>
-						<View className='font-name'>
-							{currentFont || '系统默认'}
-						</View>
 					</View>
 				</SectionCard>
 				{/* 关于我们 */}
 				<SectionCard
 					title='关于我们'
-					extra={
-						<View className='icon at-icon at-icon-chevron-right' />
-					}
+					extra={<View className='icon at-icon at-icon-chevron-right' />}
 					titleClick={navigateToAbout}
 				>
 					<View className='imgContainer'>
-						<Image
-							src={xcxPng}
-							showMenuByLongpress
-							className='xcxImg'
-						/>
+						<Image src={xcxPng} showMenuByLongpress className='xcxImg' />
 						<View className='intro'>
 							<Text className='text' userSelect>
 								长按图片可保存到本地或分享给朋友

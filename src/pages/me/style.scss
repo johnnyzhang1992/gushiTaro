@@ -14,7 +14,7 @@
 		align-items: center;
 		// flex-direction: column;
 		justify-content: flex-end;
-		padding: 100px 20px 0 20px;
+		// padding: 100px 20px 0 20px;
 		.avatar {
 			.img {
 				width: 100px;
@@ -48,18 +48,20 @@
 		}
 	}
 	.loginCard {
-		padding: 30px 30px;
 		text-align: center;
-		.loginBtn{
-			color: #337ab7;
+		.loginBtn {
+			background: #337ab7;
+			color: #fff;
+			padding: 6px 50px;
+			border-radius: 16px;
 		}
 	}
 	.pageContainer {
-		padding: 20px;
+		padding: 30px 20px;
 		.SectionCard {
 			background-color: #fff;
 			border: 2px solid #f8f8f8;
-			margin-bottom: 20px;
+			margin-bottom: 30px;
 			border-radius: 16px;
 			.title {
 				border-bottom: 2px solid #f8f8f8;
@@ -67,18 +69,24 @@
 		}
 	}
 	.sectionItems {
-		display: flex;
-		justify-content: space-around;
 		// margin-top: 20px;
 		.item {
-			text-align: center;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 20px 0;
+			border-bottom: 2rpx solid #f8f8f8;
+			&:last-child {
+				border-bottom: unset;
+			}
 		}
 		.name {
 			font-size: 30px;
 		}
 		.num {
-			font-size: 48px;
-			font-weight: 600;
+			color: #999;
+			font-size: 28px;
+			// font-weight: 400;
 		}
 	}
 	.imgContainer {
@@ -134,8 +142,12 @@
 }
 .collectPage {
 	background-color: #f8f8f8;
+	min-height: 100vh;
+	box-sizing: border-box;
+	padding-top: 20px;
 	.at-tabs__header {
 		position: sticky;
 		top: 0;
+		display: none;
 	}
 }

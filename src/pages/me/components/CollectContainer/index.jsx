@@ -63,7 +63,6 @@ const ColllectContainer = ({ type, page, updatePage }) => {
 		fetchParams,
 		pagination
 	);
-	console.log(data, loading, error);
 	const TabItem = useMemo(() => {
 		let item = null;
 		switch (type) {

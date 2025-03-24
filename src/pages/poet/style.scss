@@ -12,28 +12,43 @@
 	}
 }
 .avatarContainer {
-	padding-top: 20px;
+	padding: 20px;
 	background-color: #fff;
 	margin-bottom: 20px;
+	display: flex;
+	align-items: flex-end;
 	.avatar {
-		width: 208px;
-		height: 300px;
-		margin: 0 auto;
+		width: 160px;
+		height: auto;
 		display: block;
 	}
 	.author {
 		font-size: 30px;
 		display: flex;
 		padding: 10px 30px;
-		align-items: center;
+		flex-direction: column;
+		align-items: flex-start;
 		justify-content: center;
 		.name {
+			font-size: 44px;
 			font-weight: 500;
 		}
 		.dynasty {
 			color: #666;
-			font-size: 26px;
-			margin-left: 20px;
+			font-size: 30px;
+			// margin-left: 20px;
+		}
+	}
+	.data {
+		flex: 1;
+		display: flex;
+		justify-content: flex-end;
+		.navigator {
+			font-size: 28px;
+			padding-right: 40px;
+			&:last-child {
+				margin-right: 0;
+			}
 		}
 	}
 }

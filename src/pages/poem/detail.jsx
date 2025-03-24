@@ -139,7 +139,7 @@ const PoemDetail = () => {
 				<OfficialAccount />
 				{/* 摘录 */}
 				{detail.sentences.length > 0 ? (
-					<SectionCard title='句子摘录'>
+					<SectionCard title='摘录'>
 						<Swiper
 							className='hotPoemsSwiper'
 							indicatorColor='#999'
@@ -176,7 +176,9 @@ const PoemDetail = () => {
 					</SectionCard>
 				) : null}
 				{/* 赏析 */}
-				{detail.detail.shangxi && detail.detail.shangxi.content ? (
+				{detail.detail.shangxi &&
+				detail.detail.shangxi.content &&
+				detail.detail.shangxi.content != 'ï»¿' ? (
 					<SectionCard title='赏析'>
 						<LongTextCard
 							title='赏析'

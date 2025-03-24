@@ -136,7 +136,7 @@ const SettingPage = () => {
 					</View>
 				</View> */}
 				<View className='formItem'>
-					<View className='label'>姓名</View>
+					<View className='label'>昵称</View>
 					<View className='formContent'>
 						<Input
 							controlled={false}

@@ -212,7 +212,7 @@ const Poem = () => {
 								showCount
 								showBorder
 								key={item.id}
-								lightWord={pageOptions.keyWord}
+								lightWord={pageOptions.from === 'search' ? pageOptions.keyWord : ''}
 							/>
 						);
 					})}

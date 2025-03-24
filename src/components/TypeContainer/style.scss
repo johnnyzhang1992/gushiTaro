@@ -1,0 +1,19 @@
+.typeContainer {
+	height: 100%;
+	overflow: hidden;
+	box-sizing: border-box;
+	.scrollContainer {
+		padding: 0 20px;
+		box-sizing: border-box;
+	}
+	.SectionCard {
+		background-color: #fff;
+		border-radius: 12px;
+		margin-top: 30px;
+		margin-bottom: 30px;
+	}
+	.typeList {
+		display: flex;
+		flex-wrap: wrap;
+	}
+}

@@ -109,13 +109,29 @@ const PoetDetailPage = () => {
 			{/* 诗人图片 */}
 			<View className='avatarContainer'>
 				{detail.poet.avatar ? (
-					<Image src={detail.poet.avatar} className='avatar' />
+					<Image src={detail.poet.avatar} className='avatar' mode='widthFix' />
 				) : null}
 				<View className='author'>
 					<View className='name'>{detail.poet.author_name}</View>
 					{detail.poet.dynasty ? (
-						<View className='dynasty'>「{detail.poet.dynasty}」</View>
+						<View className='dynasty'>{detail.poet.dynasty}</View>
 					) : null}
+				</View>
+				<View className='data'>
+					<Navigator
+						className='navigator'
+						hoverClass='none'
+						url={`/pages/poem/index?from=poet&type=author&keyWord=${detail.poet.author_name}`}
+					>
+						<Text>作品：{detail.poet.poems_count}</Text>
+					</Navigator>
+					<Navigator
+						className='navigator'
+						hoverClass='none'
+						url={`/pages/sentence/index?from=poet&author=${detail.poet.author_name}&author_source_id=${detail.poet.source_id}`}
+					>
+						<Text>摘录：{detail.poet.sentences_count}</Text>
+					</Navigator>
 				</View>
 			</View>
 			<OfficialAccount />
@@ -125,22 +141,6 @@ const PoetDetailPage = () => {
 					<Text className='text' decode userSelect>
 						{detail.poet.profile}
 					</Text>
-					<View className='btn-list'>
-						<Navigator
-							className='navigator btn-item'
-							hoverClass='none'
-							url={`/pages/poem/index?from=poet&type=author&keyWord=${detail.poet.author_name}`}
-						>
-							{detail.poet.poems_count}篇诗文
-						</Navigator>
-						<Navigator
-							className='navigator btn-item'
-							hoverClass='none'
-							url={`/pages/sentence/index?from=poet&author=${detail.poet.author_name}&author_source_id=${detail.poet.source_id}`}
-						>
-							{detail.poet.sentences_count}条名句
-						</Navigator>
-					</View>
 				</View>
 			</SectionCard>
 			{/* 其他信息 */}
