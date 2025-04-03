@@ -1,8 +1,9 @@
 export default {
-	navigationBarTitleText: '搜索 | 古诗文小助手',
+	component: true,
+	disableScroll: true,
 	enableShareAppMessage: true,
 	enableShareTimeline: true,
-	navigationStyle: 'custom',
-	disableScroll: true,
 	enablePullDownRefresh: false,
+	navigationBarTitleText: '词典',
+	navigationStyle: 'custom',
 };

@@ -4,12 +4,14 @@ import { View } from '@tarojs/components';
 import Taro, { useLoad, usePullDownRefresh } from '@tarojs/taro';
 
 import PageHeader from '../../components/PageHeader';
-import RandomSearch from '../search/components/RandomSearch';
+import SectionCard from '../../components/SectionCard';
+import WordCard from '../../components/Dictionary/WordCard';
+
+import DictionaryContainer from '../../components/Dictionary/DictionaryContainer';
 
 import './style.scss';
 
 const PostPage = () => {
-
 	useLoad((options) => {
 		console.log(options);
 	});
@@ -21,13 +23,22 @@ const PostPage = () => {
 			<PageHeader title='发现' />
 			<View className='divide' />
 			{/* 随机探索 */}
-			<RandomSearch />
+			{/* <RandomSearch /> */}
+			<DictionaryContainer params={{}} />
 			{/* 词牌 */}
+			<SectionCard title='词牌'>
+				<View className='cardContent'>
+					<WordCard text='如梦令' />
+					<WordCard text='浣溪沙' />
+				</View>
+			</SectionCard>
 			{/* 飞花 */}
-			{/* <View className='sectionCard'>
-				<View className='cardTitle'>飞花</View>
-				<View className='cardContent'></View>
-			</View> */}
+			<SectionCard title='飞花令'>
+				<View className='cardContent'>
+					<WordCard text='日' />
+					<WordCard text='月' />
+				</View>
+			</SectionCard>
 			{/* 诗单 */}
 			{/* <View className='sectionCard'>
 				<View className='cardTitle'>诗单</View>

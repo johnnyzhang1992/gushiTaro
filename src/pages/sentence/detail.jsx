@@ -79,7 +79,7 @@ const SentenceDetail = () => {
 						author: poem.author,
 						poem_id: poem.id,
 						dynasty: poem.dynasty,
-						poem_title: poem.title,
+						poem_title: poem.title.split('/')[0],
 						titleArr: splitSentence(sentence.title || ''),
 					},
 				});
@@ -247,6 +247,25 @@ const SentenceDetail = () => {
 						</View>
 					</View>
 				</View>
+				{/* 画报 */}
+				<View className='post-container'>
+					<Snapshot
+						mode='view'
+						className='poemShot'
+						id='poemCard'
+						style={{
+							width: contentWidth,
+							height: contentHeight,
+						}}
+					>
+						<PosterSnapshot
+							safeArea={safeArea}
+							sentence={detail.sentence}
+							posterConfig={posterConfig}
+							showDate={false}
+						/>
+					</Snapshot>
+				</View>
 				{/* 按钮区域 */}
 				<View className='top-btns'>
 					<View className='btnItem share-btn share' onClick={handleShow}>
@@ -275,24 +294,6 @@ const SentenceDetail = () => {
 							showText
 						/>
 					</View>
-				</View>
-				<View className='post-container'>
-					<Snapshot
-						mode='view'
-						className='poemShot'
-						id='poemCard'
-						style={{
-							width: contentWidth,
-							height: contentHeight,
-						}}
-					>
-						<PosterSnapshot
-							safeArea={safeArea}
-							sentence={detail.sentence}
-							posterConfig={posterConfig}
-							showDate={false}
-						/>
-					</Snapshot>
 				</View>
 				{/* 半屏展示全文 */}
 				<FloatLayout

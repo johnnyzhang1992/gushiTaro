@@ -79,6 +79,7 @@ const Index = () => {
 			const temSen = localSentence.data;
 			setSentence({
 				...temSen,
+				poem_title: temSen.poem_title.split('/')[0],
 				titleArr: temSen.titleArr || splitSentence(temSen.title),
 			});
 			return false;
@@ -86,9 +87,11 @@ const Index = () => {
 		fetchRandomSentence()
 			.then((res) => {
 				if (res && res.statusCode == 200) {
+					const sentenceRes = res.data[0];
 					const temSen = {
-						...res.data[0],
-						titleArr: splitSentence(res.data[0].title) || [],
+						...sentenceRes,
+						poem_title: sentenceRes.poem_title.split('/')[0],
+						titleArr: splitSentence(sentenceRes.title) || [],
 					};
 					timer = setTimeout(() => {
 						updateReload(false);
@@ -164,6 +167,16 @@ const Index = () => {
 		Taro.getSystemInfo().then((sysRes) => {
 			setSafeArea(sysRes.safeArea || {});
 		});
+		const localSentence = Taro.getStorageSync('home_senetnce') || {};
+		const temSen = localSentence.data || null;
+		if (localSentence && temSen) {
+			setSentence({
+				...temSen,
+				poem_title: temSen.poem_title.split('/')[0],
+				titleArr: temSen.titleArr || splitSentence(temSen.title),
+			});
+			return false;
+		}
 		events.on('loadFont', handleGlobalFontLoad);
 	});
 

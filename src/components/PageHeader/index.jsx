@@ -4,7 +4,7 @@ import Taro from '@tarojs/taro';
 import './style.scss';
 
 const PageHeader = (props) => {
-	const { title } = props;
+	const { title, showSearch = true, showBack = false } = props;
 	const MenuRect = Taro.getMenuButtonBoundingClientRect();
 	const deviceInfo = Taro.getDeviceInfo();
 	// PC端样式比较特殊，且不支持图片导出
@@ -16,6 +16,11 @@ const PageHeader = (props) => {
 			url: '/pages/search/index',
 		});
 	};
+	const navigateBack = () => {
+		Taro.navigateBack({
+			delta: 1,
+		});
+	}
 	return (
 		<View
 			className={`custome-page-header ${title ? 'hasTitle' : ''}`}
@@ -24,15 +29,30 @@ const PageHeader = (props) => {
 				height: (MenuRect.height || 32) + 'px',
 			}}
 		>
-			<View
-				className='search'
-				onClick={navigateSearch}
-				style={{
-					height: (MenuRect.height || 32) + 'px',
-				}}
-			>
-				<View className='at-icon at-icon-search'></View>
-			</View>
+			{/* 搜索入口 */}
+			{showSearch ? (
+				<View
+					className='search'
+					onClick={navigateSearch}
+					style={{
+						height: (MenuRect.height || 32) + 'px',
+					}}
+				>
+					<View className='at-icon at-icon-search'></View>
+				</View>
+			) : null}
+			{/* 返回按钮 */}
+			{showBack ? (
+				<View
+					className='search'
+					onClick={navigateBack}
+					style={{
+						height: (MenuRect.height || 32) + 'px',
+					}}
+				>
+					<View className='at-icon at-icon-chevron-left'></View>
+				</View>
+			) : null}
 			{props.children ? (
 				props.children
 			) : (
