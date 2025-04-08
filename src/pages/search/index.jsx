@@ -250,7 +250,8 @@ const SearchPage = () => {
 		searchResult.sentences.length < 1 &&
 		searchResult.poems.length < 1;
 
-	const placeholder = type === '字典' ? '输入汉字、拼音等查询' : '输入关键字查询';
+	const placeholder =
+		type === '字典' ? '输入汉字、拼音等查询' : '输入关键字查询';
 	return (
 		<View className='page searchPage'>
 			{/* 顶部header */}
@@ -261,6 +262,10 @@ const SearchPage = () => {
 							className={['typeItem', type == '字典' ? 'active' : '']}
 							onClick={() => {
 								setType('字典');
+								setDictParams({
+									...dictParams,
+									keyWord: keyword,
+								});
 							}}
 						>
 							字典

@@ -20,25 +20,25 @@ const LoadLocalFont = (global = false, cb) => {
     return false;
   }
   console.log('---load--font--start, global:', global);
-  Taro.loadFontFace({
-    global: global,
-    family: 'GushiFont',
-    source: `url("${findFont.path}")`,
-    scopes: ['webview', 'native'],
-    success: (res) => {
-      console.log('加载字体:', cacheFont, res.status);
-      events.trigger('loadFont');
-      if (cb && typeof cb === 'function') {
-        cb();
-      }
-    },
-		fail: function (res) {
-      console.error(res);
-    },
-    complete: function () {
-      console.log('load---complete');
-    },
-  });
+  // Taro.loadFontFace({
+  //   global: global,
+  //   family: 'GushiFont',
+  //   source: `url("${findFont.path}")`,
+  //   scopes: ['webview', 'native'],
+  //   success: (res) => {
+  //     console.log('加载字体:', cacheFont, res.status);
+  //     events.trigger('loadFont');
+  //     if (cb && typeof cb === 'function') {
+  //       cb();
+  //     }
+  //   },
+	// 	fail: function (res) {
+  //     console.error(res);
+  //   },
+  //   complete: function () {
+  //     console.log('load---complete');
+  //   },
+  // });
 };
 
 export default LoadLocalFont;

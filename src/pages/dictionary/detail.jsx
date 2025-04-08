@@ -110,7 +110,9 @@ const DictionaryDetail = () => {
 						</Text>
 
 						<Text className='lable'>总笔画</Text>
-						<Text className='value'>{detail.strokes}</Text>
+						<Text className='value' userSelect selectable>
+							{detail.strokes}
+						</Text>
 					</View>
 					{/* 基本解释 */}
 					<SectionCard className='explanation' title='解释'>

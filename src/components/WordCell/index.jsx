@@ -26,6 +26,8 @@ const WordCell = (props) => {
 				style={{
 					fontSize: `${fontSize}rpx`,
 				}}
+				userSelect
+				selectable
 			>
 				{props.children || text}
 			</Text>

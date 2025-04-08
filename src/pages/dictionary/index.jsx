@@ -2,6 +2,7 @@ import { View } from '@tarojs/components';
 import { useLoad } from '@tarojs/taro';
 
 import PageHeader from '../../components/PageHeader';
+import DictionaryContainer from '../../components/DictionaryContainer';
 
 import './style.scss';
 
@@ -13,6 +14,7 @@ const DictionaryPage = () => {
 	return (
 		<View className='page dictionaryPage'>
 			<PageHeader title='字典' />
+			<DictionaryContainer />
 			{/* 合理分类 */}
 			{/* 推荐字 */}
 			{/* 推荐词 */}
