@@ -1,4 +1,4 @@
-import { View, Snapshot, Text } from '@tarojs/components';
+import { View, Snapshot, Text, Image } from '@tarojs/components';
 import { useState, useEffect, useCallback } from 'react';
 import Taro, {
 	useShareAppMessage,
@@ -15,8 +15,9 @@ import PosterSnapshot from '../components/Poster/PosterSnapshot';
 
 import Utils from '../utils/util';
 import { fetchRandomSentence } from '../services/global';
-import { FontFaceList } from '../const/config';
 import { initConfig } from '../const/posterConfig';
+
+import searchSvg from '../images/svg/search.svg';
 
 import './index.scss';
 
@@ -79,6 +80,7 @@ const Index = () => {
 			const temSen = localSentence.data;
 			setSentence({
 				...temSen,
+				poem_title: temSen.poem_title.split('/')[0],
 				titleArr: temSen.titleArr || splitSentence(temSen.title),
 			});
 			return false;
@@ -86,9 +88,11 @@ const Index = () => {
 		fetchRandomSentence()
 			.then((res) => {
 				if (res && res.statusCode == 200) {
+					const sentenceRes = res.data[0];
 					const temSen = {
-						...res.data[0],
-						titleArr: splitSentence(res.data[0].title) || [],
+						...sentenceRes,
+						poem_title: sentenceRes.poem_title.split('/')[0],
+						titleArr: splitSentence(sentenceRes.title) || [],
 					};
 					timer = setTimeout(() => {
 						updateReload(false);
@@ -164,6 +168,16 @@ const Index = () => {
 		Taro.getSystemInfo().then((sysRes) => {
 			setSafeArea(sysRes.safeArea || {});
 		});
+		const localSentence = Taro.getStorageSync('home_senetnce') || {};
+		const temSen = localSentence.data || null;
+		if (localSentence && temSen) {
+			setSentence({
+				...temSen,
+				poem_title: temSen.poem_title.split('/')[0],
+				titleArr: temSen.titleArr || splitSentence(temSen.title),
+			});
+			return false;
+		}
 		events.on('loadFont', handleGlobalFontLoad);
 	});
 
@@ -202,14 +216,9 @@ const Index = () => {
 		contentWidth = safeArea.width - 30;
 	}
 
-	// 自定义字体
-	const currentFont = FontFaceList.find((font) => {
-		return font.extra_name === Taro.getStorageSync('fontName');
-	});
-
 	return (
 		<Layout>
-			<View className={`page homePage ${currentFont && currentFont.name}`}>
+			<View className='page homePage'>
 				{/* 顶部操作栏 */}
 				<View
 					className='topShare'
@@ -224,7 +233,7 @@ const Index = () => {
 							height: (MenuRect.height || 32) + 'px',
 						}}
 					>
-						<View className='at-icon at-icon-search'></View>
+						<Image src={searchSvg} className='icon' mode='widthFix' />
 					</View>
 				</View>
 				{/* 画报 */}

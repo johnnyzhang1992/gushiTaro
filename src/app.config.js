@@ -18,6 +18,8 @@ export default {
 		'pages/library/index',
 		'pages/library/detail',
 		'pages/type/index',
+		'pages/dictionary/index',
+		'pages/dictionary/detail',
 	],
 	window: {
 		backgroundTextStyle: 'light',
@@ -45,7 +47,7 @@ export default {
 			},
 			// {
 			// 	pagePath: 'pages/find/index',
-			// 	text: '发现',
+			// 	text: '探索',
 			// 	iconPath: 'images/icon/find.png',
 			// 	selectedIconPath: 'images/icon/find_active.png',
 			// },

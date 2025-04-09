@@ -10,6 +10,9 @@
 		background: #fff;
 		margin: 20rpx;
 		border-radius: 12rpx;
+		.ciItem {
+			display: flex;
+		}
 		.cardItem {
 			max-height: 250px;
 		}

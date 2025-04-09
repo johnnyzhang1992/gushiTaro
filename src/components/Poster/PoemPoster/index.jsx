@@ -10,10 +10,11 @@ import './style.scss';
 const TextItem = (props) => {
 	const { text = '', type = 'poem', size = 24 } = props;
 	const TextArr = text.split('');
+	const textHeight = type === 'poem' ? size * 1.3 : size * 1.2;
 	const style = {
-		fontSize: size,
-		width: size,
-		height: type === 'poem' ? size * 1.3 : size * 1.2,
+		fontSize: size + 'px',
+		width: size + 'px',
+		height: textHeight + 'px',
 	};
 	return TextArr.map((item, index) => {
 		return (
@@ -32,16 +33,16 @@ const PoemPosterCard = (props) => {
 		letterBorder = '',
 		mode = 'post',
 	} = props;
-	let pSize = 28; // 诗词字体大小
-	let tSize = 24; // 标题字号
-	let aSize = 16; // 作者字号
+	let pSize = 24; // 诗词字体大小
+	let tSize = 20; // 标题字号
+	let aSize = 12; // 作者字号
 	if (type === 'center') {
-		pSize = mode === 'bg' ? 28 : 30;
-		aSize = 14;
+		pSize = mode === 'bg' ? 24 : 26;
+		aSize = 12;
 	}
 	if (type === 'horizontal') {
-		pSize = 34;
-		tSize = 16;
+		pSize = 30;
+		tSize = 12;
 	}
 	const minColumn = sentence.titleArr.length + 1; // 最小列数
 	const column = Math.round(width / 60); // 计算列数
@@ -56,9 +57,9 @@ const PoemPosterCard = (props) => {
 	const totalColumn = column > minColumn ? column : minColumn;
 	const gap = totalColumn - sentence.titleArr.length;
 	let maxPoemHeight = 0;
-	let ratio = 1.3 // 放大比例
+	let ratio = 1.3; // 放大比例
 	if (type === 'horizontal') {
-		ratio = 1
+		ratio = 1;
 	}
 	for (let i = 0; i < totalColumn; i++) {
 		if (0 === i) {
@@ -81,7 +82,7 @@ const PoemPosterCard = (props) => {
 				id: i,
 				text: text,
 				type: 'title',
-				size: tSize*0.9,
+				size: tSize * (0.9).toFixed(2),
 			});
 		}
 		if (i < gap && i > 1 && type !== 'center') {
@@ -101,7 +102,7 @@ const PoemPosterCard = (props) => {
 				size: pSize,
 			});
 			if (maxPoemHeight < text.length * pSize * ratio) {
-				maxPoemHeight = text.length * pSize * ratio;
+				maxPoemHeight = text.length * pSize * ratio.toFixed(2);
 			}
 		}
 	}

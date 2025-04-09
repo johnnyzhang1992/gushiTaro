@@ -1,0 +1,80 @@
+.dictionaryDetailPage {
+	padding: 20px;
+	.top_title {
+		display: flex;
+		align-items: center;
+	}
+	.wordCell {
+		margin-bottom: 30px;
+	}
+	.hor-item {
+		display: flex;
+		align-items: center;
+		margin-bottom: 20px;
+		line-height: 32px;
+		font-size: 28px;
+		.lable {
+			padding: 4px 12px;
+			margin: 0 20px 0 0;
+			background-color: #dee0dd;
+			color: #605b45;
+			border-radius: 8px;
+		}
+		.value {
+			margin-right: 20px;
+		}
+	}
+	.chengyuDetail {
+		.hor-item {
+			align-items: flex-start;
+			&.center {
+				align-items: center;
+			}
+			.lable {
+				background-color: unset;
+			}
+			.value {
+				flex: 1;
+				flex-wrap: wrap;
+			}
+		}
+	}
+	.explanation {
+		font-size: 28px;
+		.more_item {
+			margin-bottom: 20px;
+			.exp_item {
+				margin-bottom: 20px;
+				line-height: 36px;
+			}
+		}
+	}
+	.SectionCard {
+		margin-bottom: 20px;
+		background-color: #f5f5f5;
+		border-radius: 12px;
+		.title {
+			padding: 20px 20px 0;
+			// border-bottom: 1px solid #ccc;
+		}
+		.content {
+			padding: 20px;
+			box-sizing: border-box;
+		}
+		.scrollContainer {
+			white-space: nowrap;
+			&.ci {
+				.wordCard {
+					background-color: unset;
+					padding: 20px 0;
+				}
+			}
+			.wordCard {
+				margin-right: 20px;
+			}
+			.wordCell {
+				margin-bottom: 0;
+			}
+		}
+	}
+}

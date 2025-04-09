@@ -7,5 +7,5 @@
     "skylineRenderEnable": true,
     "lazyloadPlaceholderEnable": false
   },
-  "libVersion": "development"
+  "libVersion": "3.8.0"
 }
