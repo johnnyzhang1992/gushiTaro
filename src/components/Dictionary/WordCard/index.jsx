@@ -5,10 +5,15 @@ import WordCell from '../../WordCell';
 
 import './style.scss';
 
+const removeDigitsAndParentheses = (str = '') => {
+	// 使用正则表达式移除所有阿拉伯数字和括号
+	return str.replace(/[0-9()（）\-]/g, '');
+};
+
 const WordCard = (props) => {
 	const { type, pinyin = '', text = '', _id, cellType = 'black' } = props;
-	const textArr = text.split('');
-	const pinyinArr = pinyin.split(' ');
+	const textArr = removeDigitsAndParentheses(text).split('');
+	const pinyinArr = removeDigitsAndParentheses(pinyin).split(' ');
 	const navigateToDetail = () => {
 		Taro.navigateTo({
 			url: `/pages/dictionary/detail?type=${type}&id=${_id}`,

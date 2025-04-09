@@ -12,6 +12,11 @@ import { fetchDictionaryDetail } from '../../pages/dictionary/service';
 
 const typeArr = ['word', 'ci', 'chengyu'];
 
+const removeDigitsAndParentheses = (str = '') => {
+	// 使用正则表达式移除所有阿拉伯数字和括号
+	return str.replace(/[0-9()（）\-]/g, '');
+};
+
 // 详情页
 const DictionaryDetail = () => {
 	const [detail, setDetail] = useState({});
@@ -24,6 +29,8 @@ const DictionaryDetail = () => {
 		if (type == 'ci') {
 			return {
 				...res,
+				ci: removeDigitsAndParentheses(res.ci),
+				pinyin: removeDigitsAndParentheses(res.pinyin),
 				explanationObj: explanation.split('\n'),
 			};
 		}
