@@ -3,7 +3,7 @@ import Taro, { useLaunch, usePageNotFound, useDidShow } from '@tarojs/taro';
 import './app.scss';
 
 // import { BaseUrl } from './const/config';
-import LoadLocalFont from './utils/loadFont';
+// import LoadLocalFont from './utils/loadFont';
 import { fetchUserInfo } from './services/global';
 
 const App = (props) => {
@@ -50,9 +50,9 @@ const App = (props) => {
 	});
 
 	useDidShow(() => {
-		LoadLocalFont(true, () => {
-			console.log('--app.js--load-Font')
-		})
+		// LoadLocalFont(true, () => {
+		// 	console.log('--app.js--load-Font')
+		// })
 	})
 	usePageNotFound(() => {
 		Taro.switchTab({

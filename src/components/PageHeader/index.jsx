@@ -1,5 +1,7 @@
-import { View } from '@tarojs/components';
+import { View, Image } from '@tarojs/components';
 import Taro from '@tarojs/taro';
+
+import searchSvg from '../../images/svg/search.svg';
 
 import './style.scss';
 
@@ -20,7 +22,7 @@ const PageHeader = (props) => {
 		Taro.navigateBack({
 			delta: 1,
 		});
-	}
+	};
 	return (
 		<View
 			className={`custome-page-header ${title ? 'hasTitle' : ''}`}
@@ -38,7 +40,7 @@ const PageHeader = (props) => {
 						height: (MenuRect.height || 32) + 'px',
 					}}
 				>
-					<View className='at-icon at-icon-search'></View>
+					<Image src={searchSvg} className='icon' mode='widthFix' />
 				</View>
 			) : null}
 			{/* 返回按钮 */}

@@ -2,7 +2,7 @@ import { View } from '@tarojs/components';
 import { useLoad } from '@tarojs/taro';
 
 import PageHeader from '../../components/PageHeader';
-import DictionaryContainer from '../../components/DictionaryContainer';
+import DictionaryContainer from '../../components/Dictionary/DictionaryContainer';
 
 import './style.scss';
 
