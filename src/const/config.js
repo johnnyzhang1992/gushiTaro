@@ -1,4 +1,5 @@
 export const BaseUrl = 'https://api.xuegushi.com';
+// export const BaseUrl = 'http://127.0.0.1:3000';
 
 // 首页标签分类
 export const HomeCategories = [

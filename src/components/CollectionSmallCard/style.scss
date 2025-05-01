@@ -1,0 +1,50 @@
+.collection-small-card {
+	padding: 24px 0;
+	position: relative;
+	&::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		right: 0;
+		border-bottom: 1px solid rgba(228, 230, 235, 0.5);
+		z-index: 10;
+		bottom: 0;
+		z-index: 1;
+	}
+	&:last-child {
+		&::after {
+			display: none;
+		}
+	}
+	.collection-title {
+		color: #252933;
+		font-weight: 500;
+		font-size: 32px;
+		margin-bottom: 16px;
+	}
+	.collection-info {
+		color: #8a919f;
+		font-size: 26px;
+		display: flex;
+		justify-content: space-between;
+		.spilt {
+			padding: 0 6px;
+		}
+		.info-left {
+			display: flex;
+			align-items: center;
+		}
+		.info-right {
+			display: flex;
+			.edit,
+			.delete {
+				display: flex;
+				align-items: center;
+				padding: 4px 15px;
+				.at-icon {
+					margin-right: 10px;
+				}
+			}
+		}
+	}
+}

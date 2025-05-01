@@ -27,9 +27,9 @@ const LongTextCard = ({ showAll = false, text, title }) => {
 					content: Array.isArray(propRef.content) ? propRef.content : [],
 				}));
 			}
-			content.forEach((item) => {
+			content.forEach((item = '') => {
 				cText +=
-					item.replaceAll('<strong>', '【').replaceAll('</strong>', '】') +
+					(item || '').replaceAll('<strong>', '【').replaceAll('</strong>', '】') +
 					'\n';
 			});
 		} else {

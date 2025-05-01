@@ -1,12 +1,14 @@
 .collectButton {
 	color: #337ab7;
-	display: flex;
-	justify-content: center;
-	align-items: center;
 	background-color: rgba(51, 122, 183, 0.1);
-	padding: 8px 20px;
-	border-radius: 8px;
-	font-size: 24px;
+	.buttonContainer.collect {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 8px 20px;
+		border-radius: 8px;
+		font-size: 24px;
+	}
 	&.active {
 		color: #fff;
 		background-color: #337ab7;

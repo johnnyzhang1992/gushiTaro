@@ -27,7 +27,7 @@ const SectionCard = ({
 				<Text>{title}</Text>
 				{extra ? <View className='extra'>{extra}</View> : null}
 			</View>
-			<View className='content'>{children}</View>
+			{children ? <View className='content'>{children}</View> : null}
 		</View>
 	);
 };
