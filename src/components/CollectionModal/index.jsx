@@ -56,8 +56,8 @@ const CollectionModal = ({
 				desc: `作品数量：${item.poem_count}`,
 			}));
 			setCollections(checkboxOptions);
-			setIds(res.data.exsitCollections || []);
-			oldIds.current = res.data.exsitCollections || [];
+			setIds(res.data.existCollections || []);
+			oldIds.current = res.data.existCollections || [];
 		}
 	};
 
