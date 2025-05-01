@@ -17,7 +17,6 @@ import {
 import { fetchPoemDetail } from './service';
 
 import SectionCard from '../../components/SectionCard';
-import Layout from '../../layout';
 import LongTextCard from '../../components/LongTextCard';
 import PoemCard from './components/PoemCard';
 
@@ -35,7 +34,7 @@ const PoemDetail = () => {
 			tagsArr: [],
 			title: '',
 			author: '',
-			author_id: 0
+			author_id: 0,
 		},
 		detail: {
 			yi: '',
@@ -125,84 +124,82 @@ const PoemDetail = () => {
 	});
 
 	return (
-		<Layout>
-			<View className='page poemDetail'>
-				{/* 诗词内容 */}
-				<PoemCard {...detail.poem} lightWord={pageOptions.keyWord} />
-				{/* 标签 */}
-				{detail.poem.tagsArr.length > 0 ? (
-					<SectionCard title=''>
-						<TagsCard tags={detail.poem.tagsArr || []} />
-					</SectionCard>
-				) : null}
-				{/* 公众号 */}
-				<OfficialAccount />
-				{/* 摘录 */}
-				{detail.sentences.length > 0 ? (
-					<SectionCard title='摘录'>
-						<Swiper
-							className='hotPoemsSwiper'
-							indicatorColor='#999'
-							indicatorActiveColor='#333'
-							vertical={false}
-							circular
-							indicatorDots={detail.sentences.length > 1}
-							autoplay
-							adjustHeight='highest'
-							style={{
-								height: '176rpx',
-							}}
-						>
-							{detail.sentences.map((sentence) => (
-								<SwiperItem key={sentence.id}>
-									<SentenceCard
-										{...sentence}
-										showCount={false}
-										showBorder={false}
-									/>
-								</SwiperItem>
-							))}
-						</Swiper>
-					</SectionCard>
-				) : null}
-				{/* 创作背景 */}
-				{detail.poem.background ? (
-					<SectionCard title='创作背景'>
-						<LongTextCard
-							title='创作背景'
-							showAll={false}
-							text={detail.poem.background || ''}
-						/>
-					</SectionCard>
-				) : null}
-				{/* 赏析 */}
-				{detail.detail.shangxi &&
-				detail.detail.shangxi.content &&
-				detail.detail.shangxi.content != 'ï»¿' ? (
-					<SectionCard title='赏析'>
-						<LongTextCard
-							title='赏析'
-							showAll={false}
-							text={detail.detail.shangxi || ''}
-						/>
-					</SectionCard>
-				) : null}
-				{/* 操作栏 复制 */}
-				{/* <View className='copyContainer' onClick={handlePlayAudio}>
+		<View className='page poemDetail'>
+			{/* 诗词内容 */}
+			<PoemCard {...detail.poem} lightWord={pageOptions.keyWord} />
+			{/* 标签 */}
+			{detail.poem.tagsArr.length > 0 ? (
+				<SectionCard title=''>
+					<TagsCard tags={detail.poem.tagsArr || []} />
+				</SectionCard>
+			) : null}
+			{/* 公众号 */}
+			<OfficialAccount />
+			{/* 摘录 */}
+			{detail.sentences.length > 0 ? (
+				<SectionCard title='摘录'>
+					<Swiper
+						className='hotPoemsSwiper'
+						indicatorColor='#999'
+						indicatorActiveColor='#333'
+						vertical={false}
+						circular
+						indicatorDots={detail.sentences.length > 1}
+						autoplay
+						adjustHeight='highest'
+						style={{
+							height: '176rpx',
+						}}
+					>
+						{detail.sentences.map((sentence) => (
+							<SwiperItem key={sentence.id}>
+								<SentenceCard
+									{...sentence}
+									showCount={false}
+									showBorder={false}
+								/>
+							</SwiperItem>
+						))}
+					</Swiper>
+				</SectionCard>
+			) : null}
+			{/* 创作背景 */}
+			{detail.poem.background ? (
+				<SectionCard title='创作背景'>
+					<LongTextCard
+						title='创作背景'
+						showAll={false}
+						text={detail.poem.background || ''}
+					/>
+				</SectionCard>
+			) : null}
+			{/* 赏析 */}
+			{detail.detail.shangxi &&
+			detail.detail.shangxi.content &&
+			detail.detail.shangxi.content != 'ï»¿' ? (
+				<SectionCard title='赏析'>
+					<LongTextCard
+						title='赏析'
+						showAll={false}
+						text={detail.detail.shangxi || ''}
+					/>
+				</SectionCard>
+			) : null}
+			{/* 操作栏 复制 */}
+			{/* <View className='copyContainer' onClick={handlePlayAudio}>
 					<Image src={audioSvg} className='copy' />
 				</View> */}
-				{/* 统计数据 -- 点赞、收藏人数*/}
-				{/* 注释，译文，摘录，学习计划 -- 半屏 */}
-				<FixBottom poem={detail.poem} poemDetail={detail.detail} />
-				{/* 悬浮按钮 */}
-				<FabButton
-					style={{
-						bottom: '150rpx',
-						marginBottom: `env(safe-area-inset-bottom)`,
-					}}
-				/>
-			</View>
-		</Layout>
+			{/* 统计数据 -- 点赞、收藏人数*/}
+			{/* 注释，译文，摘录，学习计划 -- 半屏 */}
+			<FixBottom poem={detail.poem} poemDetail={detail.detail} />
+			{/* 悬浮按钮 */}
+			<FabButton
+				style={{
+					bottom: '150rpx',
+					marginBottom: `env(safe-area-inset-bottom)`,
+				}}
+			/>
+		</View>
 	);
 };
 

@@ -9,9 +9,13 @@ $color-brand: #337ab7;
 @import '~taro-ui/dist/style/components/search-bar.scss';
 @import '~taro-ui/dist/style/components/fab.scss';
 @import '~taro-ui/dist/style/components/nav-bar.scss';
-@import '~taro-ui/dist/style/components/segmented-control.scss';
+// @import '~taro-ui/dist/style/components/segmented-control.scss';
 @import '~taro-ui/dist/style/components/button.scss';
 @import '~taro-ui/dist/style/components/switch.scss';
+@import "~taro-ui/dist/style/components/modal.scss";
+@import "~taro-ui/dist/style/components/textarea.scss";
+@import "~taro-ui/dist/style/components/input.scss";
+@import "~taro-ui/dist/style/components/checkbox.scss";
 
 page {
 	// line-height: 1.6;

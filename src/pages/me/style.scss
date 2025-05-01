@@ -150,4 +150,38 @@
 		top: 0;
 		display: none;
 	}
+	.collectContainer {
+		padding: 0 20px 20px;
+		.collectItem {
+			padding: 0 20px 20px;
+			background-color: #fff;
+			border-radius: 12px;
+			margin: 20rpx 0;
+			.poemSmallCard {
+				margin-bottom: 0;
+				padding: 20px 0;
+				&:last-child {
+					margin-top: 0;
+				}
+			}
+			.bottom {
+				display: flex;
+				justify-content: space-between;
+			}
+			.time {
+				font-size: 24px;
+				color: #999;
+				.date {
+					margin-left: 12px;
+				}
+			}
+			.deleteBtn {
+				color: #999;
+				font-size: 24px;
+				padding: 4px 20px;
+				border-radius: 6px;
+				border: 1px solid #999;
+			}
+		}
+	}
 }

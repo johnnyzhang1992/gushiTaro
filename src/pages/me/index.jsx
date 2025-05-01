@@ -218,6 +218,17 @@ const MeIndex = () => {
 						<Navigator
 							className='item'
 							hoverClass='none'
+							url='/pages/me/collections'
+						>
+							<View className='name'>收藏集</View>
+							<View className='num'>
+								<Text>{userInfo.collection_count || 0}</Text>
+								<View className='at-icon at-icon-chevron-right'></View>
+							</View>
+						</Navigator>
+						<Navigator
+							className='item'
+							hoverClass='none'
 							url='/pages/me/collect?type=poem'
 						>
 							<View className='name'>作品</View>
