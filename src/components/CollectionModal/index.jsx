@@ -1,6 +1,6 @@
 import { View, ScrollView } from '@tarojs/components';
 import { AtInput, AtCheckbox } from 'taro-ui';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Taro from '@tarojs/taro';
 
 import FloatLoayout from '../../components/FloatLayout';
@@ -37,6 +37,7 @@ const CollectionModal = ({
 	});
 	const [modalType, setType] = useState(initType); // create edit
 	const [showModal, setShowModal] = useState(false);
+	const oldIds = useRef([]);
 
 	const getCollections = async (target_id) => {
 		console.log(type, targetId);
@@ -56,6 +57,7 @@ const CollectionModal = ({
 			}));
 			setCollections(checkboxOptions);
 			setIds(res.data.exsitCollections || []);
+			oldIds.current = res.data.exsitCollections || [];
 		}
 	};
 
@@ -99,48 +101,44 @@ const CollectionModal = ({
 
 	const handleUpdateCollect = async () => {
 		const _ids = collectionIds.filter((item) => item);
-		if (_ids.length < 1) {
+		// 若未收藏，且没有选择收藏集
+		if (oldIds.current.length == 0 && _ids.length < 1) {
 			Taro.showToast({
 				title: '请选中一个收藏集',
 				icon: 'none',
 				duration: 2000,
 			});
+			return false;
 		}
 		updateUserCollect('POST', {
 			type,
 			target_id: targetId,
 			collection_id: _ids.join(','),
-		}).then((res) => {
-			if (res && res.statusCode === 200) {
-				const {
-					status: resStatus,
-					num: resCount,
-					errors,
-					msg = '',
-					error_code,
-				} = res.data;
-				if (!error_code) {
+		})
+			.then((res) => {
+				if (res && res.statusCode === 200) {
+					const { status: resStatus, num: resCount, msg = '' } = res.data;
 					console.log(resCount, 'resCount');
+					oldIds.current = [..._ids];
 					// 通知上级组件
 					if (onSuccess && typeof onSuccess === 'function') {
-						onSuccess(resStatus, resCount);
+						onSuccess(resStatus, resCount < 0 ? 0 : resCount);
 					}
-					if (resStatus) {
-						Taro.showToast({
-							title: msg || '收藏成功！记得常常温习哦',
-							icon: 'none',
-							duration: 2000,
-						});
-					}
-				} else {
 					Taro.showToast({
-						title: errors || '操作失败',
-						icon: 'error',
+						title: msg || '收藏成功！记得常常温习哦',
+						icon: 'none',
 						duration: 2000,
 					});
 				}
-			}
-		});
+			})
+			.catch((err) => {
+				console.log('updateUserCollect', err);
+				Taro.showToast({
+					title: '操作失败',
+					icon: 'error',
+					duration: 2000,
+				});
+			});
 	};
 
 	const handleUpdateCollection = async () => {
