@@ -10,10 +10,10 @@ import { useState, useRef } from 'react';
 import Taro, { useDidShow, useLoad, usePullDownRefresh } from '@tarojs/taro';
 
 // import { updateUserInfo } from '../service';
-import { updateUserInfo } from '../../../services/global';
-import { userIsLogin } from '../../../utils/auth'
+import { updateUserInfo } from '../../services/global';
+import { userIsLogin } from '../../utils/auth';
 
-import './style.scss';
+import './setting.scss';
 
 const SettingPage = () => {
 	const [form, updateForm] = useState({
@@ -40,12 +40,12 @@ const SettingPage = () => {
 
 	useDidShow(() => {
 		const isLogin = userIsLogin();
-		console.log(isLogin)
-	})
+		console.log(isLogin);
+	});
 
 	usePullDownRefresh(() => {
 		Taro.stopPullDownRefresh();
-	})
+	});
 
 	const handleNickNameReview = (e) => {
 		console.log(e.detail);

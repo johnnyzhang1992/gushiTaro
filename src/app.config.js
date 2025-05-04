@@ -5,7 +5,7 @@ export default {
 		'pages/me/index',
 		'pages/me/collect',
 		'pages/me/collections',
-		'pages/me/setting/index',
+		'pages/me/setting',
 		'pages/search/index',
 		'pages/poet/index',
 		'pages/poet/detail',

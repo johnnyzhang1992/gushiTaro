@@ -183,7 +183,7 @@ const MeIndex = () => {
 					{userInfo.user_id > 0 ? (
 						<Navigator
 							className='userInfoCard'
-							url='/pages/me/setting/index'
+							url='/pages/me/setting'
 							hoverClass='none'
 						>
 							<View className='avatar'>

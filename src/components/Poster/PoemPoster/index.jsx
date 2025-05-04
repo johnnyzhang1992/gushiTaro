@@ -9,7 +9,7 @@ import './style.scss';
 
 const TextItem = (props) => {
 	const { text = '', type = 'poem', size = 24 } = props;
-	const TextArr = text.split('');
+	const TextArr = text.trim().split('');
 	const textHeight = type === 'poem' ? size * 1.3 : size * 1.2;
 	const style = {
 		fontSize: size + 'px',
