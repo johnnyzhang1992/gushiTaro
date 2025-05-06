@@ -205,7 +205,7 @@ const CollectionModal = ({
 		if (modalType == 'create') {
 			setType('edit');
 		}
-		if (modalType == 'edit_collection') {
+		if (['edit_collection', 'create_collection'].includes( modalType)) {
 			if (onClose && typeof onClose === 'function') {
 				onClose();
 			}
@@ -232,7 +232,14 @@ const CollectionModal = ({
 		<FloatLoayout isOpen={showModal} showTitle={false} close={handleClose}>
 			<View className='collectionTitle'>
 				<View className='title'>{titleObj[modalType] || '选择收藏集'}</View>
-				<View className='collectionDesc'>选择或创建你想添加的收藏集</View>
+				<View
+					className='collectionDesc'
+					style={{
+						display: modalType == 'edit' ? 'block' : 'none',
+					}}
+				>
+					选择或创建你想添加的收藏集
+				</View>
 			</View>
 			{/* 编辑收藏集 */}
 			<view

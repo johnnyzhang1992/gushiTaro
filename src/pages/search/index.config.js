@@ -4,5 +4,5 @@ export default {
 	enableShareTimeline: true,
 	navigationStyle: 'custom',
 	disableScroll: true,
-	enablePullDownRefresh: false,
+	enablePullDownRefresh: true,
 };

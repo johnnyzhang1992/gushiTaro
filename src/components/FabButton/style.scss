@@ -3,9 +3,9 @@
 	right: 24px;
 	bottom: 320px;
 	display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-end;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-end;
 	z-index: 99;
 	.apps {
 		// background-color: #fff;
@@ -23,6 +23,7 @@
 			justify-content: center;
 			align-items: center;
 			position: relative;
+			opacity: 0.9;
 			.icon {
 				color: #fff;
 				font-size: 28px;

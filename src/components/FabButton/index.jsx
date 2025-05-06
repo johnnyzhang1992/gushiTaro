@@ -28,7 +28,7 @@ const FabButton = ({ style }) => {
 				break;
 			case 'collect':
 				Taro.navigateTo({
-					url: '/pages/me/collect?type=poem',
+					url: '/pages/me/collection',
 				});
 				break;
 			case 'return':
@@ -49,7 +49,7 @@ const FabButton = ({ style }) => {
 						data-type='home'
 						onClick={handleClick}
 					>
-						<Text className='text'>返回首页</Text>
+						<Text className='text'>首页</Text>
 						<AtIcon
 							value='home'
 							size='20'
@@ -63,7 +63,7 @@ const FabButton = ({ style }) => {
 						data-type='search'
 						onClick={handleClick}
 					>
-						<Text className='text'>马上搜索</Text>
+						<Text className='text'>搜索</Text>
 						<AtIcon
 							value='search'
 							size='20'
@@ -80,7 +80,7 @@ const FabButton = ({ style }) => {
 						data-type='collect'
 						onClick={handleClick}
 					>
-						<Text className='text'>我的收藏</Text>
+						<Text className='text'>收藏</Text>
 						<AtIcon
 							value='heart'
 							size='20'
@@ -94,7 +94,7 @@ const FabButton = ({ style }) => {
 						data-type='return'
 						onClick={handleClick}
 					>
-						<Text className='text'>返回上页</Text>
+						<Text className='text'>返回</Text>
 						<AtIcon
 							value='chevron-left'
 							size='20'
