@@ -1,5 +1,6 @@
 import { View, ScrollView } from '@tarojs/components';
 import { useEffect, useState, useRef } from 'react';
+import Taro from '@tarojs/taro';
 
 import SectionCard from '../../SectionCard';
 import WordCard from '../WordCard';
@@ -22,6 +23,9 @@ const DictionaryContainer = (props) => {
 			return false;
 		}
 		queryFlag.current = true;
+		Taro.showLoading({
+			title: '加载中',
+		})
 		fetchDictionarySearch('GET', query || {})
 			.then((res) => {
 				console.log(res, 'res');
@@ -29,6 +33,7 @@ const DictionaryContainer = (props) => {
 			})
 			.finally(() => {
 				queryFlag.current = false;
+				Taro.hideLoading();
 			});
 	};
 	useEffect(() => {
