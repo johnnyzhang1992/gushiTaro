@@ -1,0 +1,36 @@
+.filter-modal {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	.filter-btn {
+		color: #fff;
+		font-size: 28px;
+		padding: 5px 20px;
+		border-radius: 6px;
+		// background-color: #f8f8f8;
+		display: flex;
+		align-items: center;
+		.filter-btn__text {
+			margin-left: 10px;
+		}
+	}
+	.float-layout-container {
+		padding: 0 0 20px 0;
+		.float-layout-header {
+			margin: 0;
+		}
+	}
+	.filter-layout-container {
+		height: 75vh;
+		.filter-card {
+			.filter-card__title {
+				color: #666;
+				padding: 10px 20px;
+				background-color: rgba(239, 239, 244);
+			}
+			.at-radio__option-wrap {
+				padding: 20px 32px 20px 0;
+			}
+		}
+	}
+}

@@ -15,7 +15,6 @@ import SentenceCard from '../../components/SentenceCard';
 import useFetchList from '../../hooks/useFetchList';
 
 import { fetchSentenceData } from './service';
-// import { sentenceCategories } from '../../const/config';
 
 import './style.scss';
 
@@ -49,23 +48,6 @@ const SentencePage = () => {
 			};
 		});
 	}, [data]);
-
-	// const updateParam = useCallback((filterParams) => {
-	// 	console.log('filterParams--更新:', filterParams);
-	// 	updateParams((pre) => {
-	// 		return {
-	// 			...pre,
-	// 			...filterParams,
-	// 		};
-	// 	});
-	// 	updatePagination({
-	// 		page: 1,
-	// 		size: 15,
-	// 		total: 0,
-	// 		last_page: -1,
-	// 	});
-	// 	cacheObj.current.count = cacheObj.current.count + 1;
-	// }, []);
 
 	console.log(data, error, loading);
 	useLoad((options) => {
@@ -155,13 +137,6 @@ const SentencePage = () => {
 
 	return (
 		<View className='page sentenceIndex'>
-			{/* 筛选区域 */}
-			{/* <FilterContainer
-				categories={sentenceCategories}
-				updateParam={updateParam}
-				defaultTheme={fetchParams.theme}
-				defaultType={fetchParams.type}
-			/> */}
 			{/* 列表显示区域 */}
 			<View className='pageContainer safeBottom'>
 				{data.list.map((sentence) => (
