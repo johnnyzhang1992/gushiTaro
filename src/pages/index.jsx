@@ -134,6 +134,7 @@ const Index = () => {
 		console.log('queryParams:', queryParams);
 		fetchSentence(true);
 	}, [fetchSentence, queryParams]);
+
 	// 下载图片到本地
 	const handleDownload = () => {
 		console.log('点击生成图片');

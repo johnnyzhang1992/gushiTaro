@@ -33,16 +33,18 @@ const FilterModal = (props) => {
 	const initRef = useRef(false);
 
 	const handleAuthorChange = (value) => {
+		const { author = ''} = currentSelect
 		setSelect({
 			...currentSelect,
-			author: value,
+			author: author == value ? '' : value,
 		});
 	};
 
 	const handleThemeSelect = (value) => {
+		const { theme = '' } = currentSelect;
 		setSelect({
 			...currentSelect,
-			theme: value,
+			theme: theme == value ? '' : value,
 		});
 	};
 
@@ -62,7 +64,7 @@ const FilterModal = (props) => {
 	};
 
 	const queryAuthorList = async () => {
-		const res = await fetchPoetData('GET', { size: 15 }).catch((err) => {
+		const res = await fetchPoetData('GET', { size: 8 }).catch((err) => {
 			console.log(err);
 		});
 		if (res && res.statusCode == 200) {
@@ -77,7 +79,6 @@ const FilterModal = (props) => {
 			setList(temList);
 		}
 		initRef.current = true;
-		console.log(res);
 	};
 
 	const themeOptions = themeList.map((item) => {
@@ -106,6 +107,7 @@ const FilterModal = (props) => {
 		<View className='filter-modal'>
 			{/* 按钮 */}
 			<View className='filter-btn' onClick={showModal}>
+				<View className='at-icon at-icon-filter'></View>
 				<Text className='filter-btn__text'>{btnText}</Text>
 			</View>
 			{/* 弹窗 */}

@@ -3,11 +3,16 @@
 	left: 50%;
 	transform: translateX(-50%);
 	.filter-btn {
-		color: #333;
-		font-size: 24px;
-		padding: 5px 16px;
+		color: #fff;
+		font-size: 28px;
+		padding: 5px 20px;
 		border-radius: 6px;
-		background-color: #f8f8f8;
+		// background-color: #f8f8f8;
+		display: flex;
+		align-items: center;
+		.filter-btn__text {
+			margin-left: 10px;
+		}
 	}
 	.float-layout-container {
 		padding: 0 0 20px 0;
