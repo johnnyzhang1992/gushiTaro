@@ -4,14 +4,13 @@ import Taro, {
 	useShareAppMessage,
 	useShareTimeline,
 	useLoad,
-	useUnload,
-	Events,
 } from '@tarojs/taro';
 
 import Layout from '../layout';
 import FloatLayout from '../components/FloatLayout';
 import PosterLayoutConfig from '../components/Poster/PosterLayoutConfig';
 import PosterSnapshot from '../components/Poster/PosterSnapshot';
+import FilterModal from '../components/FilterModal';
 
 import Utils from '../utils/util';
 import { fetchRandomSentence } from '../services/global';
@@ -20,8 +19,6 @@ import { initConfig } from '../const/posterConfig';
 import searchSvg from '../images/svg/search.svg';
 
 import './index.scss';
-
-const events = new Events();
 
 // 拆分词句
 const splitSentence = (sentence) => {
@@ -50,6 +47,10 @@ const Index = () => {
 		...initConfig,
 	});
 	const [isReload, updateReload] = useState(false);
+	const [queryParams, setQueryParams] = useState({
+		author: '',
+		theme: ''
+	});
 	const MenuRect = Taro.getMenuButtonBoundingClientRect();
 	const deviceInfo = Taro.getDeviceInfo();
 
@@ -72,51 +73,67 @@ const Index = () => {
 		});
 	};
 
-	const fetchSentence = useCallback((forceGet = false) => {
-		const [year, m, d] = Utils.formatDate();
-		const currentDate = `${year}/${m}/${d}`;
-		const localSentence = Taro.getStorageSync('home_senetnce');
-		if (!forceGet && localSentence && localSentence.date == currentDate) {
-			const temSen = localSentence.data;
-			setSentence({
-				...temSen,
-				poem_title: temSen.poem_title.split('/')[0],
-				titleArr: temSen.titleArr || splitSentence(temSen.title),
-			});
-			return false;
-		}
-		fetchRandomSentence()
-			.then((res) => {
-				if (res && res.statusCode == 200) {
-					const sentenceRes = res.data[0];
-					const temSen = {
-						...sentenceRes,
-						poem_title: sentenceRes.poem_title.split('/')[0],
-						titleArr: splitSentence(sentenceRes.title) || [],
-					};
-					timer = setTimeout(() => {
+	const fetchSentence = useCallback(
+		(forceGet = false) => {
+			const [year, m, d] = Utils.formatDate();
+			const currentDate = `${year}/${m}/${d}`;
+			const localSentence = Taro.getStorageSync('home_senetnce');
+			if (!forceGet && localSentence && localSentence.date == currentDate) {
+				const temSen = localSentence.data;
+				setSentence({
+					...temSen,
+					poem_title: temSen.poem_title.split('/')[0],
+					titleArr: temSen.titleArr || splitSentence(temSen.title),
+				});
+				return false;
+			}
+			fetchRandomSentence('GET', queryParams)
+				.then((res) => {
+					if (res && res.statusCode == 200) {
+						const sentenceRes = res.data[0];
+						const temSen = {
+							...sentenceRes,
+							poem_title: sentenceRes.poem_title.split('/')[0],
+							titleArr: splitSentence(sentenceRes.title) || [],
+						};
+						timer = setTimeout(() => {
+							updateReload(false);
+							setSentence(temSen);
+							Taro.setStorageSync('home_senetnce', {
+								date: currentDate,
+								data: temSen,
+							});
+							clearTimeout(timer);
+						}, 800);
+					} else {
 						updateReload(false);
-						setSentence(temSen);
-						Taro.setStorageSync('home_senetnce', {
-							date: currentDate,
-							data: temSen,
-						});
-						clearTimeout(timer);
-					}, 800);
-				} else {
+					}
+				})
+				.catch((err) => {
+					console.log(err);
 					updateReload(false);
-				}
-			})
-			.catch((err) => {
-				console.log(err);
-				updateReload(false);
+				});
+		},
+		[queryParams]
+	);
+
+	const updateQueryParams = (params) => {
+		if(JSON.stringify(params) !== JSON.stringify(queryParams)) {
+			setQueryParams({
+				...queryParams,
+				...params,
 			});
-	}, []);
+		}
+	}
+
+	// useEffect(() => {
+	// 	fetchSentence();
+	// }, [fetchSentence]);
 
 	useEffect(() => {
-		fetchSentence();
-	}, [fetchSentence]);
-
+		console.log('queryParams:', queryParams);
+		fetchSentence(true);
+	}, [fetchSentence, queryParams]);
 	// 下载图片到本地
 	const handleDownload = () => {
 		console.log('点击生成图片');
@@ -157,13 +174,6 @@ const Index = () => {
 			});
 	};
 
-	const handleGlobalFontLoad = () => {
-		console.log('---字体加载成功通知');
-		updateConfig({
-			...posterConfig,
-		});
-	};
-
 	useLoad(() => {
 		Taro.getSystemInfo().then((sysRes) => {
 			setSafeArea(sysRes.safeArea || {});
@@ -178,11 +188,6 @@ const Index = () => {
 			});
 			return false;
 		}
-		events.on('loadFont', handleGlobalFontLoad);
-	});
-
-	useUnload(() => {
-		events.off('loadFont', handleGlobalFontLoad);
 	});
 
 	useShareAppMessage(() => {
@@ -235,6 +240,7 @@ const Index = () => {
 					>
 						<Image src={searchSvg} className='icon' mode='widthFix' />
 					</View>
+					<FilterModal handleSelect={updateQueryParams} />
 				</View>
 				{/* 画报 */}
 				<View
