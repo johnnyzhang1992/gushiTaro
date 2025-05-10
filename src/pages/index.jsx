@@ -132,7 +132,8 @@ const Index = () => {
 
 	useEffect(() => {
 		console.log('queryParams:', queryParams);
-		fetchSentence(true);
+		// 有筛选项再强制更新
+		fetchSentence(queryParams.author || queryParams.theme);
 	}, [fetchSentence, queryParams]);
 
 	// 下载图片到本地
