@@ -32,6 +32,9 @@
 	.at-tabs {
 		flex: 1;
 		height: auto;
+		.at-tabs__item {
+			font-weight: 500;
+		}
 		.at-tabs__body {
 			height: calc(100% - 84px);
 		}

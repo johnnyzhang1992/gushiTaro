@@ -1,4 +1,4 @@
-import { View, Image } from '@tarojs/components';
+import { View, Text, Image } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 
 import searchSvg from '../../images/svg/search.svg';
@@ -46,13 +46,15 @@ const PageHeader = (props) => {
 			{/* 返回按钮 */}
 			{showBack ? (
 				<View
-					className='search'
+					className='search back'
 					onClick={navigateBack}
 					style={{
 						height: (MenuRect.height || 32) + 'px',
 					}}
 				>
-					<View className='at-icon at-icon-chevron-left'></View>
+					<View className='at-icon at-icon-chevron-left'>
+						<Text className='text'>返回</Text>
+					</View>
 				</View>
 			) : null}
 			{props.children ? (
