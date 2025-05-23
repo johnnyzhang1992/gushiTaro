@@ -87,7 +87,7 @@ const LongTextCard = ({ showAll = false, text, title }) => {
 			<View className='textOperate'>
 				{!showAll && cacheText.length > limitLength ? (
 					<Button className='full-btn' plain size='mini' onClick={handleShow}>
-						阅读全文
+						阅读全文 &gt;
 					</Button>
 				) : null}
 			</View>

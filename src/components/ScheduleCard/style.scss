@@ -1,0 +1,58 @@
+.schedule-card {
+	padding: 20px 0;
+	position: relative;
+	padding-right: 100px;
+	.name {
+		font-size: 40px;
+		font-weight: 500;
+		line-height: 60px;
+		margin-bottom: 16px;
+	}
+	.process {
+		width: 100%;
+		background-color: #f8f8f8;
+		height: 8px;
+		position: relative;
+		margin-bottom: 16px;
+		.process_bar {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 0;
+			height: 100%;
+			background-color: #337ab7;
+			transition: all 0.5s;
+		}
+	}
+	.card_info {
+		display: flex;
+		align-items: center;
+		.info_item {
+			margin-right: 40px;
+			.info_top {
+				font-size: 28px;
+				margin-bottom: 12px;
+				.num {
+					font-weight: 500;
+					margin-right: 10px;
+					font-size: 1.1em;
+				}
+				.text {
+					font-size: 0.8em;
+				}
+			}
+			.desc {
+				color: #999;
+				font-size: 24px;
+			}
+		}
+	}
+	.more {
+		position: absolute;
+		right: 0;
+		top: 50%;
+		transform: translateY(-50%);
+		font-size: 36px;
+		color: #999;
+	}
+}

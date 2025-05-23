@@ -70,6 +70,11 @@
 	}
 	.sectionItems {
 		// margin-top: 20px;
+		&.schedule {
+			.item {
+				padding: 0;
+			}
+		}
 		.item {
 			display: flex;
 			justify-content: space-between;

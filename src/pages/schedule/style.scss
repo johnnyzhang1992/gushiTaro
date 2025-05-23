@@ -1,0 +1,33 @@
+.schedulePage {
+	.statsCard {
+		display: flex;
+		align-items: center;
+		padding: 20px 40px;
+		.card_item {
+			margin-right: 30px;
+			.top {
+				font-size: 32px;
+				margin-bottom: 12px;
+				.num {
+					font-weight: 500;
+					margin-right: 10px;
+					font-size: 1.2em;
+				}
+				.text {
+					font-size: 0.8em;
+				}
+			}
+			.info {
+				color: #999;
+				font-size: 28px;
+			}
+		}
+	}
+	.divider {
+		background-color: #f8f8f8;
+		height: 20px;
+	}
+	.listContainer {
+		padding: 20px 40px;
+	}
+}

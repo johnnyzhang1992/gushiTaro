@@ -261,6 +261,22 @@ const MeIndex = () => {
 						</Navigator>
 					</View>
 				</SectionCard>
+				{/* 我的计划 */}
+				<SectionCard title=''>
+					<View className='sectionItems schedule'>
+						<Navigator
+							className='item'
+							hoverClass='none'
+							url='/pages/schedule/index'
+						>
+							<View className='name'>学习计划</View>
+							<View className='num'>
+								{/* <Text>{userInfo.collection_count || 0}</Text> */}
+								<View className='at-icon at-icon-chevron-right'></View>
+							</View>
+						</Navigator>
+					</View>
+				</SectionCard>
 				{/* 关于我们 */}
 				<SectionCard
 					title='关于我们'

@@ -215,14 +215,14 @@ const DictionaryDetail = () => {
 					</View>
 					{/* 出处 */}
 					<View className='hor-item'>
-						<Text className='lable'>拼音</Text>
+						<Text className='lable'>出处</Text>
 						<Text className='value' userSelect selectable>
 							{detail.derivation}
 						</Text>
 					</View>
 					{/* 例子 */}
 					<View className='hor-item'>
-						<Text className='lable'>拼音</Text>
+						<Text className='lable'>例子</Text>
 						<Text className='value' userSelect selectable>
 							{detail.example}
 						</Text>

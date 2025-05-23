@@ -205,17 +205,13 @@ const CollectionModal = ({
 		if (modalType == 'create') {
 			setType('edit');
 		}
-		if (['edit_collection', 'create_collection'].includes( modalType)) {
+		if (['edit_collection', 'create_collection'].includes(modalType)) {
 			if (onClose && typeof onClose === 'function') {
 				onClose();
 			}
 			setShowModal(false);
 		}
 	};
-
-	useEffect(() => {
-		getCollections(targetId);
-	}, [targetId]);
 
 	useEffect(() => {
 		console.log('---show', show);
@@ -226,6 +222,9 @@ const CollectionModal = ({
 			description: '',
 			...initCollection,
 		});
+		if (show) {
+			getCollections(targetId);
+		}
 	}, [show]);
 
 	return (

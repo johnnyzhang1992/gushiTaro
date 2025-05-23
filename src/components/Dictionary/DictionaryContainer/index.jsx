@@ -1,4 +1,4 @@
-import { View, ScrollView } from '@tarojs/components';
+import { View } from '@tarojs/components';
 import { useEffect, useState, useRef } from 'react';
 import Taro from '@tarojs/taro';
 
@@ -25,7 +25,7 @@ const DictionaryContainer = (props) => {
 		queryFlag.current = true;
 		Taro.showLoading({
 			title: '加载中',
-		})
+		});
 		fetchDictionarySearch('GET', query || {})
 			.then((res) => {
 				console.log(res, 'res');
@@ -49,23 +49,15 @@ const DictionaryContainer = (props) => {
 					display: searchResult.wordList.length > 0 ? 'block' : 'none',
 				}}
 			>
-				<ScrollView
-					className='scrollContainer'
-					scrollX
-					scrollWithAnimation
-					enableFlex
-					showScrollbar={false}
-				>
-					{searchResult.wordList.splice(0, 10).map((item) => (
-						<WordCard
-							{...item}
-							key={item._id}
-							type='word'
-							pinyin={item.pinyin}
-							text={item.word}
-						/>
-					))}
-				</ScrollView>
+				{searchResult.wordList.map((item) => (
+					<WordCard
+						{...item}
+						key={item._id}
+						type='word'
+						pinyin={item.pinyin}
+						text={item.word}
+					/>
+				))}
 			</SectionCard>
 			{/* 词 */}
 			<SectionCard
@@ -74,23 +66,15 @@ const DictionaryContainer = (props) => {
 					display: searchResult.ciList.length > 0 ? 'block' : 'none',
 				}}
 			>
-				<ScrollView
-					className='scrollContainer'
-					scrollX
-					scrollWithAnimation
-					enableFlex
-					showScrollbar={false}
-				>
-					{searchResult.ciList.map((item) => (
-						<WordCard
-							{...item}
-							key={item._id}
-							type='ci'
-							pinyin={item.pinyin}
-							text={item.ci}
-						/>
-					))}
-				</ScrollView>
+				{searchResult.ciList.slice(0, 8).map((item) => (
+					<WordCard
+						{...item}
+						key={item._id}
+						type='ci'
+						pinyin={item.pinyin}
+						text={item.ci}
+					/>
+				))}
 			</SectionCard>
 			{/* 成语 */}
 			<SectionCard
@@ -99,23 +83,15 @@ const DictionaryContainer = (props) => {
 					display: searchResult.chengyuList.length > 0 ? 'block' : 'none',
 				}}
 			>
-				<ScrollView
-					className='scrollContainer'
-					scrollX
-					scrollWithAnimation
-					enableFlex
-					showScrollbar={false}
-				>
-					{searchResult.chengyuList.map((item) => (
-						<WordCard
-							{...item}
-							key={item._id}
-							type='chengyu'
-							pinyin={item.pinyin}
-							text={item.word}
-						/>
-					))}
-				</ScrollView>
+				{searchResult.chengyuList.map((item) => (
+					<WordCard
+						{...item}
+						key={item._id}
+						type='chengyu'
+						pinyin={item.pinyin}
+						text={item.word}
+					/>
+				))}
 			</SectionCard>
 		</View>
 	);
