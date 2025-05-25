@@ -23,7 +23,12 @@ const ScheduleDetail = () => {
 	});
 	const [status, setStatus] = useState(0);
 	const [scheduleDetail, setDetail] = useState({
-		detail: {},
+		detail: {
+			studyTotal: 0,
+			studyDays: 0,
+			poem_count: 0,
+			precent: 0,
+		},
 		list: [],
 	});
 
@@ -74,6 +79,46 @@ const ScheduleDetail = () => {
 		}
 	};
 
+	const handlePoemCallback = (options) => {
+		const { type = '', schedule_detail_id } = options;
+		const { detail, list = [] } = scheduleDetail;
+		if (type == 'check_in') {
+			const temList = list.filter((sche) => {
+				return sche._id !== schedule_detail_id;
+			});
+			const studyTotal = detail.studyTotal + 1;
+			setDetail({
+				...scheduleDetail,
+				list: temList,
+				detail: {
+					...detail,
+					studyTotal,
+					precent: Math.floor((studyTotal / detail.poem_count) * 100),
+				},
+			});
+		}
+		if (type == 'delete') {
+			// 更新detail.poem_count
+			// 更新detail.list
+			const temList = list.filter((sche) => {
+				return sche._id !== schedule_detail_id;
+			});
+			const poemCount = detail.poem_count - 1;
+			setDetail({
+				...scheduleDetail,
+				list: temList,
+				detail: {
+					...detail,
+					poem_count: poemCount,
+					precent:
+						poemCount > 0
+							? Math.floor((detail.studyTotal / poemCount) * 100)
+							: 0,
+				},
+			});
+		}
+	};
+
 	usePullDownRefresh(() => {
 		fetchDetail();
 		paginationRef.current = {
@@ -107,6 +152,7 @@ const ScheduleDetail = () => {
 					total_study={scheduleDetail.detail.studyTotal}
 					total_days={scheduleDetail.detail.studyDays}
 					navigate={false}
+					canSwiper={false}
 				/>
 			</View>
 			<View className='divider'></View>
@@ -120,12 +166,22 @@ const ScheduleDetail = () => {
 			>
 				<AtTabsPane current={status} index={0}>
 					{scheduleDetail.list.map((item) => (
-						<SchedulePoemCard key={item._id} {...item} status={0} />
+						<SchedulePoemCard
+							{...item}
+							key={item._id}
+							status={0}
+							onSuccess={handlePoemCallback}
+						/>
 					))}
 				</AtTabsPane>
 				<AtTabsPane current={status} index={1}>
 					{scheduleDetail.list.map((item) => (
-						<SchedulePoemCard key={item._id} {...item} status={1} />
+						<SchedulePoemCard
+							{...item}
+							key={item._id}
+							status={1}
+							onSuccess={handlePoemCallback}
+						/>
 					))}
 				</AtTabsPane>
 			</AtTabs>

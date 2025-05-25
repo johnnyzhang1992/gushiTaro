@@ -16,6 +16,7 @@ import './style.scss';
 const titleObj = {
 	create: '新建学习计划',
 	edit: '加入学习计划',
+	edit_schedule: '编辑学习计划',
 };
 
 const ScheduleItem = (props) => {
@@ -136,15 +137,8 @@ const ScheduleModal = ({
 			});
 		});
 		if (res && res.statusCode === 200) {
-			if (modalType == 'create_schedule') {
-				if (onSuccess && typeof onSuccess === 'function') {
-					onSuccess();
-				}
-				setShowModal(false);
-			} else {
-				await getschedules(targetId);
-				setType('edit');
-			}
+			await getschedules(targetId);
+			setType('edit');
 		}
 	};
 
@@ -159,7 +153,7 @@ const ScheduleModal = ({
 			});
 			return false;
 		}
-		await updateSchedule('POST', {
+		const res = await updateSchedule('POST', {
 			name: name,
 			id,
 		}).catch((err) => {
@@ -170,9 +164,11 @@ const ScheduleModal = ({
 				duration: 2000,
 			});
 		});
-		if (id) {
-			await getschedules(targetId);
-			setType('edit');
+		if (res && res.statusCode == 200) {
+			setShowModal(false);
+			if (onSuccess && typeof onSuccess === 'function') {
+				onSuccess();
+			}
 		}
 	};
 

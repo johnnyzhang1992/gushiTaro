@@ -2,6 +2,7 @@ import { View, Text } from '@tarojs/components';
 import Taro, { useLoad, usePullDownRefresh } from '@tarojs/taro';
 import { useEffect, useState } from 'react';
 
+import ScheduleModal from '../../components/ScheduleModal';
 import ScheduleCard from '../../components/ScheduleCard';
 
 import { fetchSchedules, fetchScheduleStats } from '../../services/global';
@@ -9,6 +10,9 @@ import { fetchSchedules, fetchScheduleStats } from '../../services/global';
 import './style.scss';
 
 const SchedulePage = () => {
+	const [currentSchedule, setSchedule] = useState({});
+	const [showModal, modalVisible] = useState(false);
+	const [modalType, setModalType] = useState('edit_schedule');
 	const [scheduleList, setList] = useState(null);
 	const [stats, setStats] = useState({
 		total_poem: 0, // 学习诗词数量
@@ -33,6 +37,36 @@ const SchedulePage = () => {
 		if (res && res.statusCode === 200) {
 			setStats(res.data);
 		}
+	};
+
+	const handleSchedleEditCallback = (id) => {
+		console.log(id, 'scheduleEdit');
+		const findSchedule = scheduleList.find((item) => {
+			return item.id == id;
+		});
+		setModalType('edit_schedule');
+		setSchedule({ ...findSchedule });
+		modalVisible(true);
+	};
+
+	const handleDeleteScheduleCallback = (id) => {
+		console.log(id, 'scheduleDelete');
+		const temList = scheduleList.filter((item) => {
+			return item.id != id;
+		});
+		setList(temList);
+		fetchStats();
+	};
+
+	const handleModalClose = () => {
+		modalVisible(false);
+		setSchedule({});
+	};
+
+	const handleCreateSuccess = () => {
+		modalVisible(false);
+		setSchedule({});
+		fetchList();
 	};
 
 	usePullDownRefresh(() => {
@@ -78,13 +112,28 @@ const SchedulePage = () => {
 				{scheduleList && scheduleList.length ? (
 					<View className='scheduleList'>
 						{scheduleList.map((item) => (
-							<ScheduleCard key={item.id} {...item} />
+							<ScheduleCard
+								{...item}
+								key={item.id}
+								canSwiper
+								navigate
+								onDelete={handleDeleteScheduleCallback}
+								onEdit={handleSchedleEditCallback}
+							/>
 						))}
 					</View>
 				) : (
 					<View className='empty'>暂无内容</View>
 				)}
 			</View>
+			{/* 计划弹窗 */}
+			<ScheduleModal
+				show={showModal}
+				initType={modalType}
+				initschedule={currentSchedule}
+				onSuccess={handleCreateSuccess}
+				onClose={handleModalClose}
+			/>
 		</View>
 	);
 };
