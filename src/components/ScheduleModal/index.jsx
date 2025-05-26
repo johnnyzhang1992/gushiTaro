@@ -98,9 +98,6 @@ const ScheduleModal = ({
 	const [showModal, setShowModal] = useState(false);
 
 	const getschedules = async (target_id) => {
-		if (!targetId) {
-			return false;
-		}
 		const res = await fetchSchedules('GET', {
 			poem_id: target_id || targetId || '',
 		});
@@ -118,9 +115,10 @@ const ScheduleModal = ({
 			return false;
 		}
 		const { name } = scheduleForm;
-		if (!name) {
+		if (!name || String(name).trim().length < 2) {
+			const message = !name ? '请输入标题' : '标题不能少于2个字';
 			Taro.showToast({
-				title: '请输入标题',
+				title: message,
 				icon: 'error',
 				duration: 2000,
 			});
@@ -139,15 +137,19 @@ const ScheduleModal = ({
 		if (res && res.statusCode === 200) {
 			await getschedules(targetId);
 			setType('edit');
+			if (onSuccess && typeof onSuccess === 'function') {
+				onSuccess();
+			}
 		}
 	};
 
 	const handleUpdateschedule = async () => {
 		const { name, id } = scheduleForm;
 		console.log('handleUpdateschedule', scheduleForm);
-		if (!name) {
+		if (!name || String(name).trim().length < 2) {
+			const message  = !name ? '请输入标题' : '标题不能少于2个字';
 			Taro.showToast({
-				title: '请输入标题',
+				title: message,
 				icon: 'error',
 				duration: 2000,
 			});

@@ -58,6 +58,12 @@ const SchedulePage = () => {
 		fetchStats();
 	};
 
+	const handleCreate = () => {
+		setModalType('create');
+		setSchedule({});
+		modalVisible(true);
+	}
+
 	const handleModalClose = () => {
 		modalVisible(false);
 		setSchedule({});
@@ -134,6 +140,10 @@ const SchedulePage = () => {
 				onSuccess={handleCreateSuccess}
 				onClose={handleModalClose}
 			/>
+			{/* 新建按钮 */}
+			<View className='createBtn' onClick={handleCreate}>
+				<View className='at-icon at-icon-add icon'></View>
+			</View>
 		</View>
 	);
 };

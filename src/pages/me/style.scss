@@ -70,11 +70,6 @@
 	}
 	.sectionItems {
 		// margin-top: 20px;
-		&.schedule {
-			.item {
-				padding: 0;
-			}
-		}
 		.item {
 			display: flex;
 			justify-content: space-between;
@@ -92,6 +87,31 @@
 			color: #999;
 			font-size: 28px;
 			// font-weight: 400;
+		}
+	}
+	.statsCard {
+		display: flex;
+		align-items: center;
+		padding: 20px 0;
+		.card_item {
+			margin-right: 40px;
+			.top {
+				font-size: 32px;
+				margin-bottom: 12px;
+				.num {
+					color: #333;
+					font-weight: 500;
+					margin-right: 6px;
+					font-size: 1.2em;
+				}
+				.text {
+					font-size: 0.8em;
+				}
+			}
+			.info {
+				color: #999;
+				font-size: 28px;
+			}
 		}
 	}
 	.imgContainer {

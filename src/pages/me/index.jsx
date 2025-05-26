@@ -5,7 +5,7 @@ import Taro, { useLoad, useDidShow, usePullDownRefresh } from '@tarojs/taro';
 import SectionCard from '../../components/SectionCard';
 
 import { fetchUserInfo } from './service';
-import { createUser } from '../../services/global';
+import { createUser, fetchScheduleStats } from '../../services/global';
 
 import './style.scss';
 
@@ -20,6 +20,11 @@ const initUser = {
 };
 const MeIndex = () => {
 	const [userInfo, setInfo] = useState(initUser);
+	const [scheduleStats, setScheduleStats] = useState({
+		total_poem: 0, // 学习诗词数量
+		continue_days: 0, // 连续打卡天数
+		total_days: 0, // 总打卡天数
+	});
 	const isCreate = useRef(false);
 
 	const fetchInfo = (id) => {
@@ -143,6 +148,16 @@ const MeIndex = () => {
 			});
 	};
 
+	const fetchStats = async (user = {}) => {
+		if (!user || !user.id) {
+			return false;
+		}
+		const res = await fetchScheduleStats('GET', {});
+		if (res && res.statusCode === 200) {
+			setScheduleStats(res.data);
+		}
+	};
+
 	const navigateToAbout = () => {
 		Taro.navigateTo({
 			url: '/pages/post/index?type=about',
@@ -152,7 +167,7 @@ const MeIndex = () => {
 	useLoad((options) => {
 		console.log(options);
 		const user = Taro.getStorageSync('user') || {};
-
+		fetchStats(user);
 		setInfo((pre) => ({
 			...pre,
 			...user,
@@ -167,6 +182,7 @@ const MeIndex = () => {
 			...pre,
 			...user,
 		}));
+		fetchStats(user);
 	});
 
 	usePullDownRefresh(() => {
@@ -275,6 +291,31 @@ const MeIndex = () => {
 								<View className='at-icon at-icon-chevron-right'></View>
 							</View>
 						</Navigator>
+						<View className='statsCard'>
+							<View className='card_item'>
+								<View className='top'>
+									<Text className='num'>{scheduleStats.total_poem || 0}</Text>
+									<Text className='text'>篇</Text>
+								</View>
+								<View className='info'>学习诗词</View>
+							</View>
+							<View className='card_item'>
+								<View className='top'>
+									<Text className='num'>
+										{scheduleStats.continue_days || 0}
+									</Text>
+									<Text className='text'>天</Text>
+								</View>
+								<View className='info'>连续打卡</View>
+							</View>
+							<View className='card_item'>
+								<View className='top'>
+									<Text className='num'>{scheduleStats.total_days || 0}</Text>
+									<Text className='text'>天</Text>
+								</View>
+								<View className='info'>总打卡</View>
+							</View>
+						</View>
 					</View>
 				</SectionCard>
 				{/* 关于我们 */}
