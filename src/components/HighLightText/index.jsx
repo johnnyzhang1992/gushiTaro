@@ -38,7 +38,9 @@ const HighLightText = ({ lightWord, text, className = '', style = {} }) => {
 						{t}
 					</Text>
 				) : (
-					t
+					<Text key={index} decode userSelect space='ensp' className='text'>
+						{t}
+					</Text>
 				)
 			)}
 		</Text>

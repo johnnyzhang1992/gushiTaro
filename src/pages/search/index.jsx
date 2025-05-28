@@ -1,6 +1,6 @@
 import { View, Text, Navigator, ScrollView } from '@tarojs/components';
 import { AtSearchBar } from 'taro-ui';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import Taro, {
 	useLoad,
 	useDidShow,
@@ -37,7 +37,7 @@ const initResult = {
 
 const limitMax = 5;
 const SearchPage = () => {
-	const [scrollHeight, updateHeight] = useState('auto');
+	// const [scrollHeight, updateHeight] = useState('auto');
 	const [type, setType] = useState('诗词');
 	const [keyword, setKeyword] = useState('');
 	const [dictParams, setDictParams] = useState({
@@ -198,24 +198,6 @@ const SearchPage = () => {
 		Taro.stopPullDownRefresh();
 	});
 
-	useEffect(() => {
-		Taro.createSelectorQuery()
-			.select('#ScrollContainer')
-			.fields(
-				{
-					dataset: true,
-					size: true,
-					scrollOffset: true,
-					properties: ['scrollX', 'scrollY'],
-				},
-				function (res) {
-					// console.log(res);
-					updateHeight(res.height || 500);
-				}
-			)
-			.exec();
-	}, []);
-
 	useShareAppMessage(() => {
 		return {
 			title: '搜索 | 古诗文小助手',
@@ -303,9 +285,6 @@ const SearchPage = () => {
 				showScrollbar={false}
 				enableBackToTop
 				refresherEnabled={false}
-				style={{
-					height: scrollHeight == 'auto' ? scrollHeight : scrollHeight + 'px',
-				}}
 			>
 				{type === '字典' ? (
 					<DictionaryContainer params={dictParams} />

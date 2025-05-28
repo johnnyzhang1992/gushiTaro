@@ -31,7 +31,6 @@ const ScheduleButton = (props) => {
 				targetId={id}
 				initType='edit'
 				show={showModal}
-				onSuccess={onClose}
 				onClose={onClose}
 			></ScheduleModal>
 		</View>

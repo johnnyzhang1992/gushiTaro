@@ -88,6 +88,11 @@
 			font-size: 28px;
 			// font-weight: 400;
 		}
+		&.schedule {
+			.item {
+				padding: 0 0 20px;
+			}
+		}
 	}
 	.statsCard {
 		display: flex;

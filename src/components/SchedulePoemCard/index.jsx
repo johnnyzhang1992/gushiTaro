@@ -92,6 +92,20 @@ const SchedulePoemCard = (props) => {
 		}
 	};
 
+	const handlePreDelete = () => {
+		Taro.showModal({
+			title: '提示',
+			content: `确定删除《${poem_info.title}》？`,
+			success: function (res) {
+				if (res.confirm) {
+					handleDelete();
+				} else if (res.cancel) {
+					console.log('用户点击取消');
+				}
+			},
+		});
+	};
+
 	const navigateToPoem = () => {
 		Taro.navigateTo({
 			url: '/pages/poem/detail?id=' + poem_id,
@@ -99,7 +113,7 @@ const SchedulePoemCard = (props) => {
 	};
 	return (
 		<View className='schedule-poem-card'>
-			<AtSwipeAction options={swiperOptions} onClick={handleDelete}>
+			<AtSwipeAction options={swiperOptions} onClick={handlePreDelete}>
 				<View className='card_content'>
 					{/* 诗词信息，点击调整详情 */}
 					<View className='poem_info' onClick={navigateToPoem}>

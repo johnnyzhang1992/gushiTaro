@@ -49,28 +49,42 @@ const ScheduleCard = (props) => {
 		if (text == '编辑') {
 			onEdit && onEdit(id);
 		} else if (text == '删除') {
-			deleteSchedule('POST', { id })
-				.then((res) => {
-					if (res && res.statusCode == 200) {
-						onDelete && onDelete(id);
-						Taro.showToast({
-							// 删除成功
-							title: '删除成功',
-							icon: 'success',
-							duration: 2000,
-						});
+			Taro.showModal({
+				title: '提示',
+				content: `确定删除「${name}」？`,
+				success: function (res) {
+					if (res.confirm) {
+						handleDelete();
+					} else if (res.cancel) {
+						console.log('用户点击取消');
 					}
-				})
-				.catch((err) => {
-					console.log(err, 'scheduleCard--delete');
+				},
+			});
+		}
+	};
+
+	const handleDelete = () => {
+		deleteSchedule('POST', { id })
+			.then((res) => {
+				if (res && res.statusCode == 200) {
+					onDelete && onDelete(id);
 					Taro.showToast({
 						// 删除成功
-						title: err.errmsg || '删除失败',
-						icon: 'none',
+						title: '删除成功',
+						icon: 'success',
 						duration: 2000,
 					});
+				}
+			})
+			.catch((err) => {
+				console.log(err, 'scheduleCard--delete');
+				Taro.showToast({
+					// 删除成功
+					title: err.errmsg || '删除失败',
+					icon: 'none',
+					duration: 2000,
 				});
-		}
+			});
 	};
 
 	return (

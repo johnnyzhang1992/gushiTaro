@@ -112,7 +112,6 @@ const SchedulePage = () => {
 					<View className='info'>总打卡</View>
 				</View>
 			</View>
-			<View className='divider'></View>
 			{/* 列表 */}
 			<View className='listContainer'>
 				{scheduleList && scheduleList.length ? (

@@ -1,11 +1,18 @@
 .schedulePage {
 	position: relative;
+	min-height: 100vh;
+	padding: 40px 0;
+	box-sizing: border-box;
+	background-color: #f8f8f8;
 	.statsCard {
 		display: flex;
 		align-items: center;
-		padding: 20px 40px;
+		margin: 0 40px 30px 40px;
+		padding: 20px 30px;
+		background-color: #fff;
+		border-radius: 12px;
 		.card_item {
-			margin-right: 30px;
+			margin-right: 40px;
 			.top {
 				font-size: 32px;
 				margin-bottom: 12px;
@@ -19,17 +26,26 @@
 				}
 			}
 			.info {
-				color: #999;
+				color: #bbb;
 				font-size: 28px;
 			}
 		}
 	}
-	.divider {
-		background-color: #f8f8f8;
-		height: 20px;
-	}
 	.listContainer {
-		padding: 20px 40px;
+		margin: 20px 40px;
+		background-color: #fff;
+		border-radius: 16px;
+		overflow: hidden;
+		.schedule-card {
+			box-sizing: border-box;
+			padding: 0;
+			background-color: #fff;
+		}
+		.schedule-card .card_content {
+			width: calc(100vw - 120px);
+			padding: 20px;
+			box-sizing: border-box;
+		}
 	}
 	.createBtn {
 		position: fixed;
@@ -38,11 +54,12 @@
 		width: 70px;
 		height: 70px;
 		background: #337ab7;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-		.icon  {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 50%;
+		z-index: 100;
+		.icon {
 			color: #fff;
 			font-size: 40px;
 		}

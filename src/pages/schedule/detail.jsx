@@ -7,6 +7,7 @@ import Taro, {
 import { useEffect, useRef, useState } from 'react';
 import { AtTabs, AtTabsPane } from 'taro-ui';
 
+import SchedulePoemModal from '../../components/SchedulePoemModal';
 import ScheduleCard from '../../components/ScheduleCard';
 import SchedulePoemCard from '../../components/SchedulePoemCard';
 
@@ -21,6 +22,7 @@ const ScheduleDetail = () => {
 		size: 15,
 		total: 0,
 	});
+	const [showModal, modalVisible] = useState(false)
 	const [status, setStatus] = useState(0);
 	const [scheduleDetail, setDetail] = useState({
 		detail: {
@@ -66,7 +68,6 @@ const ScheduleDetail = () => {
 				total,
 			};
 		}
-		console.log(res.data);
 	};
 
 	const handleStatusChange = (value) => {
@@ -117,7 +118,33 @@ const ScheduleDetail = () => {
 				},
 			});
 		}
+		if (type == 'add') {
+			const poemCount = detail.poem_count + 1;
+			setDetail({
+				...scheduleDetail,
+				detail: {
+					...detail,
+					poem_count: poemCount,
+					precent: Math.floor((detail.studyTotal / poemCount) * 100),
+				},
+			});
+			paginationRef.current = {
+				...paginationRef.current,
+				page: 1,
+				total: 0,
+			};
+			fetchDetail();
+		}
 	};
+
+	// 显示搜索弹窗
+	const handleShowModal = () => {
+		modalVisible(true)
+	};
+
+	const handleModalClose = () => {
+		modalVisible(false)
+	}
 
 	usePullDownRefresh(() => {
 		fetchDetail();
@@ -155,7 +182,6 @@ const ScheduleDetail = () => {
 					canSwiper={false}
 				/>
 			</View>
-			<View className='divider'></View>
 			{/* 诗词列表 */}
 			{/* 待学习，已学习 */}
 			<AtTabs
@@ -165,26 +191,50 @@ const ScheduleDetail = () => {
 				onClick={handleStatusChange}
 			>
 				<AtTabsPane current={status} index={0}>
-					{scheduleDetail.list.map((item) => (
-						<SchedulePoemCard
-							{...item}
-							key={item._id}
-							status={0}
-							onSuccess={handlePoemCallback}
-						/>
-					))}
+					{scheduleDetail.list.length > 0 ? (
+						scheduleDetail.list.map((item) => (
+							<SchedulePoemCard
+								{...item}
+								key={item._id}
+								status={0}
+								onSuccess={handlePoemCallback}
+							/>
+						))
+					) : (
+						<View className='empty'>
+							<View>已完成学习计划🎉</View>
+						</View>
+					)}
 				</AtTabsPane>
 				<AtTabsPane current={status} index={1}>
-					{scheduleDetail.list.map((item) => (
-						<SchedulePoemCard
-							{...item}
-							key={item._id}
-							status={1}
-							onSuccess={handlePoemCallback}
-						/>
-					))}
+					{scheduleDetail.list.length > 0 ? (
+						scheduleDetail.list.map((item) => (
+							<SchedulePoemCard
+								{...item}
+								key={item._id}
+								status={1}
+								onSuccess={handlePoemCallback}
+							/>
+						))
+					) : (
+						<View className='empty'>
+							<View>还没有内容</View>
+						</View>
+					)}
 				</AtTabsPane>
 			</AtTabs>
+			{/* 新增诗词按钮 */}
+			<View className='createBtn' onClick={handleShowModal}>
+				<View className='at-icon at-icon-add icon'></View>
+			</View>
+			{/* 诗词弹窗 */}
+			<SchedulePoemModal
+				show={showModal}
+				schedule_id={scheduleDetail.detail._id}
+				schedule_name={scheduleDetail.detail.name}
+				onSuccess={handlePoemCallback}
+				onClose={handleModalClose}
+			/>
 		</View>
 	);
 };

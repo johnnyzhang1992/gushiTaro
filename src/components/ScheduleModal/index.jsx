@@ -115,11 +115,15 @@ const ScheduleModal = ({
 			return false;
 		}
 		const { name } = scheduleForm;
-		if (!name || String(name).trim().length < 2) {
-			const message = !name ? '请输入标题' : '标题不能少于2个字';
+		if (!name) {
+			setType('edit')
+			return false
+		}
+		if (String(name).trim().length < 2) {
+			const message = '标题不能少于2个字';
 			Taro.showToast({
 				title: message,
-				icon: 'error',
+				icon: 'none',
 				duration: 2000,
 			});
 			return false;
@@ -267,19 +271,22 @@ const ScheduleModal = ({
 			>
 				{/* 标题 */}
 				<AtInput
+					focus
+					autoFocus
 					title=''
 					type='text'
 					className='name'
+					maxLength={10}
 					placeholderClass='placeholder'
 					placeholder='填写标题(10字以内)'
 					value={scheduleForm.name}
 					onChange={handleNameChange}
 				/>
 				{/* 其他创建方式 */}
-				<View className='extra'>
+				{/* <View className='extra'>
 					<Text>除了自定义学习计划</Text>
 					<Text>还可以从人物「诗词分类」或「收藏集」直接创建</Text>
-				</View>
+				</View> */}
 			</view>
 		</FloatLoayout>
 	);

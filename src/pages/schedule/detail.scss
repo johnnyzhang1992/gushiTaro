@@ -1,16 +1,13 @@
 .schedule-detail {
 	background-color: #f8f8f8;
-	padding: 20px 40px;
+	padding: 40px 40px;
 	min-height: 100vh;
 	box-sizing: border-box;
 	.detail-top {
 		padding: 20px 20px;
 		background-color: #fff;
 		border-radius: 12px;
-	}
-	.divider {
-		background-color: #f8f8f8;
-		height: 20px;
+		margin-bottom: 30px;
 	}
 	.at-tabs {
 		background-color: #fff;
@@ -24,6 +21,30 @@
 	}
 	.at-tabs-pane {
 		padding-top: 20px;
-		min-height: 100px;
+		min-height: 200px;
+	}
+	.empty {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: #999;
+		height: 200px;
+	}
+	.createBtn {
+		position: fixed;
+		bottom: 120px;
+		right: 40px;
+		z-index: 100;
+		width: 70px;
+		height: 70px;
+		background: #337ab7;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 50%;
+		.icon {
+			color: #fff;
+			font-size: 40px;
+		}
 	}
 }

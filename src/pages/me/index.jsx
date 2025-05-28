@@ -287,7 +287,6 @@ const MeIndex = () => {
 						>
 							<View className='name'>学习计划</View>
 							<View className='num'>
-								{/* <Text>{userInfo.collection_count || 0}</Text> */}
 								<View className='at-icon at-icon-chevron-right'></View>
 							</View>
 						</Navigator>
