@@ -271,8 +271,6 @@ const ScheduleModal = ({
 			>
 				{/* 标题 */}
 				<AtInput
-					focus
-					autoFocus
 					title=''
 					type='text'
 					className='name'

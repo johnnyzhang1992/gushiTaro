@@ -28,6 +28,8 @@
 }
 .modalScheduleContent {
 	padding-bottom: 60px;
+	min-height: 40vh;
+	box-sizing: border-box;
 	.at-modal__header {
 		font-size: 36px;
 		font-weight: 500;
