@@ -22,7 +22,7 @@ const ScheduleDetail = () => {
 		size: 15,
 		total: 0,
 	});
-	const [showModal, modalVisible] = useState(false)
+	const [showModal, modalVisible] = useState(false);
 	const [status, setStatus] = useState(0);
 	const [scheduleDetail, setDetail] = useState({
 		detail: {
@@ -37,7 +37,6 @@ const ScheduleDetail = () => {
 	useLoad(async (options) => {
 		console.log(options);
 		optionsRef.current = options;
-		await fetchDetail(options);
 	});
 
 	const fetchDetail = async (options) => {
@@ -135,16 +134,36 @@ const ScheduleDetail = () => {
 			};
 			fetchDetail();
 		}
+		if (type == 'add_again') {
+			const { poem_count, studyTotal } = detail;
+			const temList = list.filter((sche) => {
+				return sche._id !== schedule_detail_id;
+			});
+			setDetail({
+				...scheduleDetail,
+				lisy: temList,
+				detail: {
+					...detail,
+					precent: Math.floor((studyTotal - 1 / poem_count) * 100),
+				},
+			});
+			paginationRef.current = {
+				...paginationRef.current,
+				page: 1,
+				total: 0,
+			};
+			fetchDetail();
+		}
 	};
 
 	// 显示搜索弹窗
 	const handleShowModal = () => {
-		modalVisible(true)
+		modalVisible(true);
 	};
 
 	const handleModalClose = () => {
-		modalVisible(false)
-	}
+		modalVisible(false);
+	};
 
 	usePullDownRefresh(() => {
 		fetchDetail();
@@ -158,6 +177,7 @@ const ScheduleDetail = () => {
 
 	useReachBottom(() => {
 		const { page, size, total } = paginationRef.current;
+		console.log('reachBottom', page * size, total);
 		if (page * size < total) {
 			paginationRef.current = {
 				...paginationRef.current,

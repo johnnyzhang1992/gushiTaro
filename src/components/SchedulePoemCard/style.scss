@@ -46,6 +46,18 @@
 			border: 1px solid #337ab7;
 			padding: 10px 30px;
 			border-radius: 8px;
+			position: relative;
+			.check_count {
+				color: #fff;
+				font-size: 20px;
+				padding: 2px 12px;
+				border-radius: 12px;
+				background-color: #337ab7;
+				position: absolute;
+				top: -20px;
+				right: -18px;
+			}
+
 			&.disable {
 				color: #999;
 				border-color: #999;
@@ -54,7 +66,7 @@
 	}
 	.at-swipe-action__options {
 		right: 80px;
-		.at-swipe-action__option  {
+		.at-swipe-action__option {
 			justify-content: center;
 		}
 	}

@@ -186,6 +186,16 @@ export const addPoemToSchedule = (method = 'POST', data) => {
 };
 
 /**
+ * 变更计划中诗词状态，已学习改为待学习
+ * @param {*} method
+ * @param {*} data
+ * @returns
+ */
+export const addPoemToScheduleAgain = (method = 'POST', data) => {
+	return Request(`/api/schedule/add_poem_again`, data, method);
+};
+
+/**
  * 从计划中移除诗词
  * @param {*} method
  * @param {*} data

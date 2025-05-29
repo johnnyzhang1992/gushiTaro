@@ -72,9 +72,7 @@ const PoemItem = (props) => {
 							lightWord={keyWord}
 						/>
 					</View>
-					<View className='content'>
-						<HighLightText text={poem_info.content} lightWord={keyWord} />
-					</View>
+					<View className='content'>{poem_info.content}</View>
 				</View>
 				<View className='operate'>
 					{/* 打卡、已打卡 */}
@@ -121,33 +119,34 @@ const SchedulePoemModal = ({
 			return false;
 		}
 		isFetching.current = true;
-		fetchPoemData('GET', {
+		const res = await fetchPoemData('GET', {
 			keyWord,
 			page: Page,
 			size,
 			noCache: 1,
 			_type: 'schedule',
-			schedule_id
+			schedule_id,
 		})
-			.then((res) => {
-				if (res.statusCode == 200) {
-					const { list = [], current_page, last_page, total } = res.data;
-					const List = Page > 1 ? [...poemList, ...list] : list;
-					paginationRef.current = {
-						...paginationRef.current,
-						page: current_page,
-						last_page,
-						total,
-					};
-					setPoemList(List);
-				}
-			})
 			.catch((err) => {
 				console.log(err);
 			})
 			.finally(() => {
 				isFetching.current = false;
 			});
+		if (res.statusCode == 200) {
+			const { list = [], current_page, last_page, total } = res.data || {};
+			list.forEach((poem) => {
+				poem.content = String(poem.content).split(/[。？！]/)[0] + '。';
+			});
+			const List = Page > 1 ? [...poemList, ...list] : list;
+			paginationRef.current = {
+				...paginationRef.current,
+				page: current_page,
+				last_page,
+				total,
+			};
+			setPoemList(List);
+		}
 	};
 
 	const handleScrollToBottom = () => {
@@ -188,7 +187,7 @@ const SchedulePoemModal = ({
 		const { poem_id } = options || {};
 		const temList = poemList.map((item) => {
 			if (item.id == poem_id) {
-				item.isIn = true;
+				item.isInSchedule = true;
 			}
 			return item;
 		});
@@ -200,9 +199,6 @@ const SchedulePoemModal = ({
 
 	useEffect(() => {
 		setShowModal(show);
-		// if (show) {
-		// 	setIds([...initIds]);
-		// }
 	}, [show]);
 
 	return (
@@ -211,7 +207,6 @@ const SchedulePoemModal = ({
 				{/* 搜索部分 */}
 				<View className='searchTop'>
 					<AtSearchBar
-						focus
 						showActionButton
 						placeholder='搜索作品'
 						value={keyWord}
@@ -221,7 +216,6 @@ const SchedulePoemModal = ({
 						onActionClick={handleSearch}
 					/>
 				</View>
-
 				{/* 搜索筛选 */}
 				{/* 搜索记录 */}
 				{/* 列表 */}
