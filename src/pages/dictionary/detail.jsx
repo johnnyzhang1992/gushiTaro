@@ -62,6 +62,9 @@ const DictionaryDetail = () => {
 	};
 	const fetchDetail = (options) => {
 		if (typeArr.includes(options.type)) {
+			Taro.showLoading({
+				title: '加载中',
+			});
 			// 请求详情
 			fetchDictionaryDetail('GET', options)
 				.then((res) => {
@@ -76,6 +79,9 @@ const DictionaryDetail = () => {
 						title: '请求失败',
 						icon: 'none',
 					});
+				})
+				.finally(() => {
+					Taro.hideLoading();
 				});
 		}
 	};
