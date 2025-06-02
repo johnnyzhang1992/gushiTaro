@@ -1,0 +1,67 @@
+.schedulePage {
+	position: relative;
+	min-height: 100vh;
+	padding: 40px 0;
+	box-sizing: border-box;
+	background-color: #f8f8f8;
+	.statsCard {
+		display: flex;
+		align-items: center;
+		margin: 0 40px 30px 40px;
+		padding: 20px 30px;
+		background-color: #fff;
+		border-radius: 12px;
+		.card_item {
+			margin-right: 40px;
+			.top {
+				font-size: 32px;
+				margin-bottom: 12px;
+				.num {
+					font-weight: 500;
+					margin-right: 10px;
+					font-size: 1.2em;
+				}
+				.text {
+					font-size: 0.8em;
+				}
+			}
+			.info {
+				color: #bbb;
+				font-size: 28px;
+			}
+		}
+	}
+	.listContainer {
+		margin: 20px 40px;
+		background-color: #fff;
+		border-radius: 16px;
+		overflow: hidden;
+		.schedule-card {
+			box-sizing: border-box;
+			padding: 0;
+			background-color: #fff;
+		}
+		.schedule-card .card_content {
+			width: calc(100vw - 120px);
+			padding: 20px;
+			box-sizing: border-box;
+		}
+	}
+	.createBtn {
+		position: fixed;
+		bottom: 120px;
+		right: 40px;
+		width: 70px;
+		height: 70px;
+		background: #337ab7;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 50%;
+		z-index: 100;
+		.icon {
+			color: #fff;
+			font-size: 40px;
+		}
+	}
+}

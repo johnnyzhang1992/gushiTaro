@@ -20,6 +20,8 @@ export default {
 		'pages/library/detail',
 		'pages/type/index',
 		'pages/dictionary/detail',
+		'pages/schedule/index',
+		'pages/schedule/detail',
 	],
 	window: {
 		backgroundTextStyle: 'light',

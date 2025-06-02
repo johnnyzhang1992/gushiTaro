@@ -1,0 +1,84 @@
+.scheduleTitle {
+	color: #333;
+	font-size: 30px;
+	text-align: center;
+	padding-top: 20px;
+	display: flex;
+	align-items: center;
+	padding-bottom: 20px;
+	border-bottom: 2px solid #eee;
+	.title {
+		color: #999;
+		font-weight: 500;
+		flex: 1;
+		text-align: left;
+	}
+	.create {
+		color: #337ab7;
+	}
+	.btn {
+		padding: 10px 24px;
+		border: 1px solid #337ab7;
+		border-radius: 12px;
+		&.confirm {
+			background-color: #337ab7;
+			color: #fff;
+		}
+	}
+}
+.modalScheduleContent {
+	padding-bottom: 60px;
+	min-height: 40vh;
+	box-sizing: border-box;
+	.at-modal__header {
+		font-size: 36px;
+		font-weight: 500;
+	}
+	.sceduleLable {
+		color: #333;
+		font-weight: 500;
+		font-size: 32px;
+	}
+	.at-input {
+		margin-left: 0;
+		.input {
+			font-size: 28px;
+			padding-left: 20px;
+		}
+		.placeholder {
+			font-size: 28px;
+			color: #999;
+		}
+	}
+	.extra {
+		margin-top: 30px;
+		font-size: 28px;
+	}
+}
+.schedule-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 20px 10px;
+	.schedule-item__title {
+		font-size: 30px;
+		margin-bottom: 8px;
+	}
+	.schedule-item__poem_count {
+		color: #999;
+		font-size: 24px;
+	}
+	.schedule-item__btn {
+		// border: 1px solid #337ab7;
+		// border-radius: 12px;
+		padding: 10px 24px;
+		color: #337ab7;
+		font-size: 28px;
+	}
+	&.active {
+		.schedule-item__btn {
+			// border-color: #ddd;
+			color: #999;
+		}
+	}
+}

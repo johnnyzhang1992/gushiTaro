@@ -19,7 +19,6 @@ export const fetchUserCollect = (method, data) => {
 	return Request(`/api/getCollects/${data.user_id}`, data, method);
 };
 
-
 /**
  * 更新收藏状态
  * @param {String} method POST
@@ -112,4 +111,106 @@ export const createUser = (method, data) => {
  */
 export const updateUserInfo = (method, data) => {
 	return Request(`/api/user/updateInfo`, data, method);
+};
+
+// -- 学习计划相关API /api/schedule
+
+/**
+ * 获取学习计划列表
+ * @param {*} method
+ * @param {*} data
+ * @returns
+ */
+export const fetchSchedules = (method = 'GET', data) => {
+	return Request(`/api/schedule`, data, method);
+};
+
+/**
+ * 创建学习计划
+ * @param {*} method
+ * @param {*} data
+ * @returns
+ */
+export const createSchedule = (method = 'POST', data) => {
+	return Request(`/api/schedule/create`, data, method);
+};
+
+/**
+ * 更新学习计划
+ * @param {*} method
+ * @param {*} data
+ * @returns
+ */
+export const updateSchedule = (method = 'POST', data) => {
+	return Request(`/api/schedule/update`, data, method);
+};
+
+/**
+ * 删除计划
+ * @param {*} method
+ * @param {*} data
+ * @returns
+ */
+export const deleteSchedule = (method = 'POST', data) => {
+	return Request(`/api/schedule/delete`, data, method);
+};
+
+/**
+ * 获取计划详情
+ * @param {*} method
+ * @param {*} data
+ * @returns
+ */
+export const fetchScheduleDetail = (method = 'GET', data) => {
+	return Request(`/api/schedule/detail`, data, method);
+};
+
+/**
+ * 获取计划概况数据
+ * @param {*} method
+ * @param {*} data
+ * @returns
+ */
+export const fetchScheduleStats = (method = 'GET', data) => {
+	return Request(`/api/schedule/stats`, data, method);
+};
+
+/**
+ * 向计划中添加诗词
+ * @param {*} method
+ * @param {*} data
+ * @returns
+ */
+export const addPoemToSchedule = (method = 'POST', data) => {
+	return Request(`/api/schedule/add_poem`, data, method);
+};
+
+/**
+ * 变更计划中诗词状态，已学习改为待学习
+ * @param {*} method
+ * @param {*} data
+ * @returns
+ */
+export const addPoemToScheduleAgain = (method = 'POST', data) => {
+	return Request(`/api/schedule/add_poem_again`, data, method);
+};
+
+/**
+ * 从计划中移除诗词
+ * @param {*} method
+ * @param {*} data
+ * @returns
+ */
+export const removePoemToSchedule = (method = 'POST', data) => {
+	return Request(`/api/schedule/remove_poem`, data, method);
+};
+
+/**
+ * 诗词打卡
+ * @param {*} method
+ * @param {*} data
+ * @returns
+ */
+export const checkInPoemToSchedule = (method = 'POST', data) => {
+	return Request(`/api/schedule/check_in`, data, method);
 };

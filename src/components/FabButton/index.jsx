@@ -26,9 +26,9 @@ const FabButton = ({ style }) => {
 					url: '/pages/search/index',
 				});
 				break;
-			case 'collect':
-				Taro.navigateTo({
-					url: '/pages/me/collection',
+			case 'me':
+				Taro.switchTab({
+					url: '/pages/me/index',
 				});
 				break;
 			case 'return':
@@ -77,12 +77,12 @@ const FabButton = ({ style }) => {
 					</View>
 					<View
 						className='appItem'
-						data-type='collect'
+						data-type='me'
 						onClick={handleClick}
 					>
-						<Text className='text'>收藏</Text>
+						<Text className='text'>我的</Text>
 						<AtIcon
-							value='heart'
+							value='user'
 							size='20'
 							color='#fff'
 							className='icon'

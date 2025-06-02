@@ -62,6 +62,9 @@ const DictionaryDetail = () => {
 	};
 	const fetchDetail = (options) => {
 		if (typeArr.includes(options.type)) {
+			Taro.showLoading({
+				title: '加载中',
+			});
 			// 请求详情
 			fetchDictionaryDetail('GET', options)
 				.then((res) => {
@@ -76,6 +79,9 @@ const DictionaryDetail = () => {
 						title: '请求失败',
 						icon: 'none',
 					});
+				})
+				.finally(() => {
+					Taro.hideLoading();
 				});
 		}
 	};
@@ -215,14 +221,14 @@ const DictionaryDetail = () => {
 					</View>
 					{/* 出处 */}
 					<View className='hor-item'>
-						<Text className='lable'>拼音</Text>
+						<Text className='lable'>出处</Text>
 						<Text className='value' userSelect selectable>
 							{detail.derivation}
 						</Text>
 					</View>
 					{/* 例子 */}
 					<View className='hor-item'>
-						<Text className='lable'>拼音</Text>
+						<Text className='lable'>例子</Text>
 						<Text className='value' userSelect selectable>
 							{detail.example}
 						</Text>

@@ -1,6 +1,5 @@
 // @import "~taro-ui/dist/style/index.scss";
 @charset "UTF-8";
-$color-brand: #337ab7;
 @import '~taro-ui/dist/style/components/icon.scss';
 @import '~taro-ui/dist/style/components/float-layout.scss';
 @import '~taro-ui/dist/style/components/tag.scss';
@@ -16,6 +15,7 @@ $color-brand: #337ab7;
 @import "~taro-ui/dist/style/components/input.scss";
 @import "~taro-ui/dist/style/components/checkbox.scss";
 @import "~taro-ui/dist/style/components/radio.scss";
+@import "~taro-ui/dist/style/components/swipe-action.scss";
 
 page {
 	// line-height: 1.6;

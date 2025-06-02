@@ -6,6 +6,7 @@ import FloatLayout from '../../../../components/FloatLayout';
 import LongTextCard from '../../../../components/LongTextCard';
 import LikeButton from '../../../../components/LikeButton';
 import CollectButton from '../../../../components/CollectButton';
+import ScheduleButton from '../../../../components/ScheduleButton';
 
 import './style.scss';
 
@@ -60,6 +61,9 @@ const FixBottom = (props) => {
 				>
 					译文
 				</View>
+				<View className='tabItem'>
+					<ScheduleButton id={poem.id} showText />
+				</View>
 				<View className='right flex'>
 					<View className='tabItem like'>
 						<LikeButton
@@ -67,7 +71,7 @@ const FixBottom = (props) => {
 							id={poem.id}
 							count={poem.like_count}
 							status={poem.like_status}
-							showText
+							showText={false}
 						/>
 					</View>
 					<View className='tabItem like'>
@@ -76,7 +80,7 @@ const FixBottom = (props) => {
 							id={poem.id}
 							count={poem.collect_count}
 							status={poem.collect_status}
-							showText
+							showText={false}
 						/>
 					</View>
 					{/* <View className='tabItem like'>加入学习</View> */}

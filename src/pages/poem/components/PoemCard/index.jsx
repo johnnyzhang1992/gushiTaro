@@ -1,4 +1,4 @@
-import { View, Text, Image, Button } from '@tarojs/components';
+import { View, Text, Image } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import { useState, useRef } from 'react';
 
@@ -10,7 +10,6 @@ import PinyinText from '../../../../components/PinyinText';
 
 import { fetchPoemPinyin } from '../../../../services/global';
 import copySVg from '../../../../images/svg/copy_black.svg';
-import shareSvg from '../../../../images/svg/share_black.svg';
 import pinyinSvg from '../../../../images/svg/pinyin_black.svg';
 import pinyinActiveSvg from '../../../../images/svg/pinyin.svg';
 
@@ -36,7 +35,7 @@ const PoemCard = ({
 		title: '',
 		xu: '',
 		content: [],
-	})
+	});
 	const handleNavigateAuthor = () => {
 		if (author_id < 1) {
 			return false;
@@ -83,7 +82,7 @@ const PoemCard = ({
 		});
 		fetchPoemPinyin('POST', {
 			dictType: 'complete',
-			poem_id: poemId
+			poem_id: poemId,
 		})
 			.then((res) => {
 				const { pinyin } = res.data;
@@ -91,9 +90,9 @@ const PoemCard = ({
 					Taro.hideLoading();
 					Taro.showToast({
 						icon: 'none',
-						title: '转换失败，请重试！'
-					})
-					return false
+						title: '转换失败，请重试！',
+					});
+					return false;
 				}
 				const pinyinArr = pinyin.split('_');
 				const [p_title, p_xu, ...p_content] = pinyinArr;
@@ -139,18 +138,7 @@ const PoemCard = ({
 					<View className='operate-item' onClick={handleCopy}>
 						<Image src={copySVg} mode='widthFix' className='icon' />
 					</View>
-					<View className='operate-item'>
-						<Button openType='share' className='share-btn'>
-							<Image src={shareSvg} mode='widthFix' className='icon' />
-						</Button>
-					</View>
-					<View
-						className='operate-item'
-						onClick={getPinyin}
-						style={{
-							borderColor: Pinyin.title ? '#337ab7' : '#f8f8f8',
-						}}
-					>
+					<View className='operate-item' onClick={getPinyin}>
 						<Image
 							src={Pinyin.title ? pinyinActiveSvg : pinyinSvg}
 							mode='widthFix'

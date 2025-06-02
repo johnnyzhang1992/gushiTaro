@@ -22,7 +22,24 @@
 
 ### Taro 版本更新
 
+当前版本 3.6.25，升级后出现打包失败问题。
+
 `taro info` 查看当前 cli 和项目的版本。 使用 `taro update self [版本号]` 和 `taro update project [版本号]` 来更新 cli 和项目的 taro 版本。
+
+当taro版本>=3.5时，taro项目使用taro-ui的正确的配置方式是在config/index.js文件中排除taro-ui
+
+```js
+// config/index.js 
+module.exports = {
+  framework: 'react',
+  compiler: {
+    type: 'webpack5',
+    prebundle: {
+      exclude: ['taro-ui']
+    }
+  },
+}
+```
 
 ## 文件目录
 

@@ -1,0 +1,73 @@
+.schedule-poem-card {
+	flex: 1;
+	display: flex;
+	justify-content: space-between;
+	.card_content {
+		width: calc(100vw - 80px);
+		display: flex;
+	}
+	.poem_info {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: flex-start;
+		padding: 20px 40px 20px;
+		flex: 1;
+		box-sizing: border-box;
+		overflow: hidden;
+		.title,
+		.content {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			width: 100%;
+			display: block;
+			max-width: 100%;
+		}
+		.title {
+			color: #333;
+			font-size: 32px;
+			margin-bottom: 12px;
+		}
+		.content {
+			color: #666;
+			font-size: 28px;
+		}
+	}
+	.operate {
+		height: 100%;
+		display: flex;
+		align-items: center;
+		margin-right: 20px;
+		.btn {
+			color: #337ab7;
+			font-size: 24px;
+			text-align: center;
+			border: 1px solid #337ab7;
+			padding: 10px 30px;
+			border-radius: 8px;
+			position: relative;
+			.check_count {
+				color: #fff;
+				font-size: 20px;
+				padding: 2px 12px;
+				border-radius: 12px;
+				background-color: #337ab7;
+				position: absolute;
+				top: -20px;
+				right: -18px;
+			}
+
+			&.disable {
+				color: #999;
+				border-color: #999;
+			}
+		}
+	}
+	.at-swipe-action__options {
+		right: 80px;
+		.at-swipe-action__option {
+			justify-content: center;
+		}
+	}
+}

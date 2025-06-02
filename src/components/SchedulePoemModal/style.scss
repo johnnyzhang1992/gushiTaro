@@ -1,0 +1,81 @@
+.schedulePoemModal {
+	display: block;
+	.searchTop {
+		margin-bottom: 30px;
+		padding: 20px 0;
+		.at-search-bar {
+			&::after {
+				display: none;
+			}
+		}
+		.at-search-bar__placeholder-wrap {
+			justify-content: flex-start;
+		}
+	}
+	.schedulePoemList {
+		height: 70vh;
+	}
+	.poem-card {
+		.card_content {
+			display: flex;
+			align-items: center;
+		}
+		.poem_info {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: flex-start;
+			padding: 20px 40px 20px;
+			flex: 1;
+			box-sizing: border-box;
+			overflow: hidden;
+			.title,
+			.content {
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				width: 100%;
+				display: block;
+				max-width: 100%;
+			}
+			.lightText {
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				width: 100%;
+				display: block;
+				max-width: 100%;
+			}
+			.title {
+				color: #333;
+				font-size: 28px;
+				margin-bottom: 8px;
+			}
+			.content {
+				color: #666;
+				font-size: 24px;
+			}
+		}
+		.operate {
+			height: 100%;
+			display: flex;
+			align-items: center;
+			margin-right: 20px;
+			justify-content: flex-end;
+			.btn {
+				color: #337ab7;
+				font-size: 24px;
+				text-align: center;
+				border: 1px solid #337ab7;
+				padding: 10px 30px;
+				border-radius: 8px;
+				min-width: 140px;
+				box-sizing: border-box;
+				&.disable {
+					color: #999;
+					border-color: #999;
+				}
+			}
+		}
+	}
+}

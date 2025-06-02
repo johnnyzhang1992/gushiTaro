@@ -59,7 +59,7 @@ const request = (url, params, method = 'GET') => {
 				}
 			} else {
 				console.log('--请求报错：', res.data);
-				let errorText = '服务器报错，请稍后再试！'
+				let errorText = (res.data && res.data.errmsg) || '服务器报错，请稍后再试！';
 				if (res.statusCode == 503 || res.statusCode == 429) {
 					errorText = '当前IP访问频繁，稍后再试！'
 				}
