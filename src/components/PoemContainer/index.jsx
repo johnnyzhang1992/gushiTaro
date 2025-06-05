@@ -31,19 +31,6 @@ const PoemContainer = (props) => {
 			fetchList();
 		});
 	};
-	const pullDownRefresh = () => {
-		console.log('page-pullRefresh');
-		// 改变分页数据，自动触发 useFetchList hook
-		pagination.current = {
-			page: 1,
-			size: 15,
-			total: 0,
-			last_page: -1,
-		};
-		Taro.nextTick(() => {
-			fetchList();
-		});
-	};
 
 	const computeParams = (options) => {
 		const { type, from, code, keyWord, dynasty } = options;
@@ -106,7 +93,7 @@ const PoemContainer = (props) => {
 	};
 	useEffect(() => {
 		paramsRef.current = {
-			...(props.params || {})
+			...(props.params || {}),
 		};
 		pagination.current = {
 			...pagination.current,
@@ -145,9 +132,7 @@ const PoemContainer = (props) => {
 				enhanced
 				showScrollbar={false}
 				enableBackToTop
-				refresherEnabled
 				onScrollToLower={reachBottom}
-				onRefresherPulling={pullDownRefresh}
 				style={{
 					height: scrollHeight == 'auto' ? scrollHeight : scrollHeight + 'px',
 				}}
