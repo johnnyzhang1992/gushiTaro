@@ -59,7 +59,7 @@ export const CategoriesList = [
 		],
 	},
 	{
-		title: '课本',
+		title: '教科书',
 		list: [
 			{
 				name: '小学古诗词',

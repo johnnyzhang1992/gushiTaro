@@ -24,6 +24,8 @@ import SentenceCard from '../../components/SentenceCard';
 import FixBottom from './components/FixBottom';
 import TagsCard from '../../components/TagsCard';
 import FabButton from '../../components/FabButton';
+import CopyButton from '../../components/CopyButton';
+import PinyinButton from '../../components/PinyinButton';
 
 import './style.scss';
 
@@ -45,6 +47,7 @@ const PoemDetail = () => {
 	const [pageOptions, setOptions] = useState({
 		keyWord: '',
 	});
+	const [pinyin, updatePinyin] = useState({ title: '', xu: '', content: [] });
 	const cacheRef = useRef({
 		poemId: 48769,
 	});
@@ -55,8 +58,16 @@ const PoemDetail = () => {
 		let _detail = { ...(poemDetail || { yi: '', zhu: '' }) };
 		let _poem = { ...poem };
 		_poem.tagsArr = _poem.tags ? String(_poem.tags || '').split(',') : [];
+		const {
+			title = '',
+			dynasty = '',
+			author = '',
+			text_content = '',
+		} = poem || {};
 		setDetail({
 			...detail,
+			copy_text:
+				'《' + title + '》\n[' + dynasty + ']' + author + '\n' + text_content,
 			poem: _poem,
 			detail: _detail,
 			sentences,
@@ -126,7 +137,11 @@ const PoemDetail = () => {
 	return (
 		<View className='page poemDetail'>
 			{/* 诗词内容 */}
-			<PoemCard {...detail.poem} lightWord={pageOptions.keyWord} />
+			<PoemCard
+				{...detail.poem}
+				lightWord={pageOptions.keyWord}
+				Pinyin={pinyin}
+			/>
 			{/* 标签 */}
 			{detail.poem.tagsArr.length > 0 ? (
 				<SectionCard title=''>
@@ -177,7 +192,13 @@ const PoemDetail = () => {
 			{detail.detail.shangxi &&
 			detail.detail.shangxi.content &&
 			detail.detail.shangxi.content != 'ï»¿' ? (
-				<SectionCard title='赏析'>
+				<SectionCard
+					title='赏析'
+					style={{
+						display:
+							detail.detail.shangxi.content.length > 0 ? 'block' : 'none',
+					}}
+				>
 					<LongTextCard
 						title='赏析'
 						showAll={false}
@@ -189,6 +210,20 @@ const PoemDetail = () => {
 			{/* <View className='copyContainer' onClick={handlePlayAudio}>
 					<Image src={audioSvg} className='copy' />
 				</View> */}
+			<View
+				className='bottomOperate'
+				style={{
+					bottom: '150rpx',
+					paddingBottom: `env(safe-area-inset-bottom)`,
+				}}
+			>
+				<CopyButton className='copy' text={detail.copy_text || ''} />
+				<PinyinButton
+					className='pinyin'
+					poemId={detail.poem.id}
+					handlePinyinChange={updatePinyin}
+				/>
+			</View>
 			{/* 统计数据 -- 点赞、收藏人数*/}
 			{/* 注释，译文，摘录，学习计划 -- 半屏 */}
 			<FixBottom poem={detail.poem} poemDetail={detail.detail} />

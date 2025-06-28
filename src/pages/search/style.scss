@@ -40,6 +40,12 @@
 		position: sticky;
 		top: 0;
 		z-index: 99;
+		.at-search-bar__action {
+			background-color: #337ab7;
+			&:active {
+				background-color: #286090;
+			}
+		}
 	}
 	.hotKeys {
 		font-size: 28rpx;

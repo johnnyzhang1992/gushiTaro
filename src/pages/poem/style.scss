@@ -1,14 +1,17 @@
 .page.poemDetail {
 	background-color: #f5f5f5;
-	padding-bottom: 220px;
+	padding: 20px;
+	padding-bottom: 280px;
 	min-height: 100vh;
 	box-sizing: border-box;
 	.poemCard {
 		background-color: #fff;
+		border-radius: 12px 12px 0 0;
 	}
 	.SectionCard {
 		background-color: #fff;
 		margin-bottom: 20px;
+		border-radius: 12px 12px 0 0;
 		& > .title {
 			border-bottom: 2px solid #f5f5f5;
 		}
@@ -34,19 +37,20 @@
 	padding-bottom: const(safe-area-inset-bottom);
 	padding-bottom: env(safe-area-inset-bottom);
 }
-.copyContainer {
-	background-color: #337ab7;
+.bottomOperate {
 	position: fixed;
-	left: 24px;
+	left: 0;
+	right: 0;
 	padding: 16px;
-	border-radius: 100%;
 	bottom: 150px;
-	margin-bottom: env(safe-area-inset-bottom);
 	opacity: 0.9;
-	.copy {
-		width: 44px;
-		height: 44px;
-		display: block;
+	padding-left: 24px;
+	.copy, .pinyin {
+		margin-right: 16px;
+		display: inline-block;
+		background-color: #337ab7;
+		padding: 15px;
+		box-shadow: 0 6rpx 10rpx -2rpx rgba(0, 0, 0, 0.2), 0 12rpx 20rpx 0 rgba(0, 0, 0, 0.14), 0 2rpx 36rpx 0 rgba(0, 0, 0, 0.12);
 	}
 }
 .shreContainer {
