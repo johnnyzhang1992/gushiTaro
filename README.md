@@ -12,9 +12,7 @@
 
 ## 拼音转换
 
-使用的是这个库：[pinyin-pro](https://github.com/zh-lx/pinyin-pro) ，然后再腾讯云配合云函数实现的。
-
-拼音接口是按量收费的，恳请大家手下留情，不要暴力爬取！！！本来赚那点广告费，这样搞有些服务只能停掉了！！！
+使用的是这个库：[pinyin-pro](https://github.com/zh-lx/pinyin-pro)
 
 ## 关于 Taro
 
