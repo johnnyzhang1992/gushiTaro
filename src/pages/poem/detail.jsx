@@ -25,7 +25,7 @@ import FixBottom from './components/FixBottom';
 import TagsCard from '../../components/TagsCard';
 import FabButton from '../../components/FabButton';
 import CopyButton from '../../components/CopyButton';
-import PinyinButton from '../../components/PinyinButton';
+// import PinyinButton from '../../components/PinyinButton';
 
 import './style.scss';
 
@@ -47,7 +47,7 @@ const PoemDetail = () => {
 	const [pageOptions, setOptions] = useState({
 		keyWord: '',
 	});
-	const [pinyin, updatePinyin] = useState({ title: '', xu: '', content: [] });
+	// const [pinyin, updatePinyin] = useState({ title: '', xu: '', content: [] });
 	const cacheRef = useRef({
 		poemId: 48769,
 	});
@@ -140,7 +140,6 @@ const PoemDetail = () => {
 			<PoemCard
 				{...detail.poem}
 				lightWord={pageOptions.keyWord}
-				Pinyin={pinyin}
 			/>
 			{/* 标签 */}
 			{detail.poem.tagsArr.length > 0 ? (
@@ -218,11 +217,11 @@ const PoemDetail = () => {
 				}}
 			>
 				<CopyButton className='copy' text={detail.copy_text || ''} />
-				<PinyinButton
+				{/* <PinyinButton
 					className='pinyin'
 					poemId={detail.poem.id}
 					handlePinyinChange={updatePinyin}
-				/>
+				/> */}
 			</View>
 			{/* 统计数据 -- 点赞、收藏人数*/}
 			{/* 注释，译文，摘录，学习计划 -- 半屏 */}

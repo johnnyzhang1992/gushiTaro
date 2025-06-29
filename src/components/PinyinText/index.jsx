@@ -2,37 +2,41 @@ import { View, Text } from '@tarojs/components';
 
 import './style.scss';
 
-const convertChinesePunctuationToEnglish = (str) => {
-	// 中文标点与对应英文标点的映射
-	const map = {
-		'「': '[',
-		'」': ']',
-		'『': '{',
-		'』': '}',
-		'【': '<',
-		'】': '>',
-		'（': '(',
-		'）': ')',
-		// '：': ':',
-		// '；': ';',
-		// '，': ',',
-		// '。': '.',
-		'！': '!',
-		'？': '?',
-		// '「': '"',
-		// '」': '"',
-	};
+// const convertChinesePunctuationToEnglish = (str) => {
+// 	// 中文标点与对应英文标点的映射
+// 	const map = {
+// 		'「': '[',
+// 		'」': ']',
+// 		'『': '{',
+// 		'』': '}',
+// 		'【': '<',
+// 		'】': '>',
+// 		'（': '(',
+// 		'）': ')',
+// 		'：': ':',
+// 		'；': ';',
+// 		'，': ',',
+// 		'。': '.',
+// 		'！': '!',
+// 		'？': '?',
+// 		'、': '、',
+// 		// '「': '"',
+// 		// '」': '"',
+// 	};
 
-	// 遍历映射对象，将中文标点替换为英文标点
-	Object.keys(map).forEach(function (chinese) {
-		str = str.replace(new RegExp(chinese, 'g'), map[chinese]);
-	});
+// 	// 遍历映射对象，将中文标点替换为英文标点
+// 	Object.keys(map).forEach(function (chinese) {
+// 		str = str.replace(new RegExp(chinese, 'g'), map[chinese]);
+// 	});
 
-	return str;
-};
+// 	return str;
+// };
+
 const PinyinText = ({ text, pinyin }) => {
-	const textArr = text.replaceAll('&quot;', '"').split('');
-	const pinyinArr = convertChinesePunctuationToEnglish(pinyin)
+	const textArr = text
+		.replaceAll('&quot;', '"')
+		.split('');
+	const pinyinArr = pinyin
 		.trim()
 		.replaceAll('  ', ' ')
 		.split(' ');

@@ -1,6 +1,7 @@
 import Taro from '@tarojs/taro';
 import { View, Image } from '@tarojs/components';
 import { useState, useRef } from 'react';
+import { AtSwitch } from 'taro-ui';
 
 import { fetchPoemPinyin } from '../../services/global';
 import pinyinSvg from '../../images/svg/pinyin.svg';
@@ -28,6 +29,7 @@ import './style.scss';
  */
 const PinyinButton = (props) => {
 	const { className, poemId, handlePinyinChange } = props;
+	const [open, setOpen] = useState(false);
 	const [Pinyin, updatePinyin] = useState({
 		title: '',
 		xu: '',
@@ -113,11 +115,13 @@ const PinyinButton = (props) => {
 
 	return (
 		<View className={['pinyinButton', className]} onClick={getPinyin}>
-			<Image
-				src={pinyinSvg}
-				mode='widthFix'
-				className='icon'
+			<AtSwitch
+				color='#337ab7'
+				checked={open}
+				border={false}
+				onChange={() => setOpen(!open)}
 			/>
+			<Image src={pinyinSvg} mode='widthFix' className='icon' />
 		</View>
 	);
 };

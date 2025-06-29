@@ -3,14 +3,13 @@
 	flex-wrap: wrap;
 	.pinyin-text {
 		display: flex;
-		align-items: last baseline;
+		align-items: center;
 		flex-direction: column;
-		min-width: 58px;
+		min-width: 62px;
 		margin-bottom: 4px;
-		margin-right: 2px;
-		.text {
-			display: block;
-			text-align: center;
+		margin-right: 4px;
+		&:last-child {
+			margin-right: 0;
 		}
 		.hanzi {
 			font-size: 0.9em;

@@ -4,11 +4,22 @@
 	box-sizing: border-box;
 	border-radius: 50%;
 	// border: 2px solid #999;
-	padding: 8px;
+	// padding: 8px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 
 	.icon {
 		width: 40px;
 		height: 40px;
 		display: block;
+	}
+	.at-switch {
+		padding: 0px;
+		margin-left: 0;
+	}
+	.at-switch__switch {
+		font-size: 24px;
+		transform: scale(0.6) translateX(20px);
 	}
 }

@@ -1,12 +1,13 @@
 import { View, Text, Image } from '@tarojs/components';
 import Taro from '@tarojs/taro';
+import { useState } from 'react';
 
 import './style.scss';
 
 import PoemContent from '../PoemContent';
 import HighLightText from '../../../../components/HighLightText';
 import PinyinText from '../../../../components/PinyinText';
-
+import PinyinButton from '../../../../components/PinyinButton';
 
 const PoemCard = ({
 	author_id,
@@ -19,12 +20,9 @@ const PoemCard = ({
 	text_content,
 	lightWord = '',
 	author_avatar = '',
-	Pinyin = {
-		title: '',
-		xu: '',
-		content: [],
-	},
+	id,
 }) => {
+	const [Pinyin, updatePinyin] = useState({ title: '', xu: '', content: [] });
 
 	const handleNavigateAuthor = () => {
 		if (author_id < 1) {
@@ -55,6 +53,9 @@ const PoemCard = ({
 							{dynasty}
 						</Text>
 					) : null}
+				</View>
+				<View className='operate-list'>
+					<PinyinButton poemId={id} handlePinyinChange={updatePinyin} />
 				</View>
 			</View>
 			{/* 标题 */}
