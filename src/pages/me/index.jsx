@@ -2,6 +2,7 @@ import { View, Button, Image, Text, Navigator } from '@tarojs/components';
 import { useState, useRef } from 'react';
 import Taro, { useLoad, useDidShow, usePullDownRefresh } from '@tarojs/taro';
 
+import PageHeader from '../../components/PageHeader';
 import SectionCard from '../../components/SectionCard';
 
 import { fetchUserInfo } from './service';
@@ -11,6 +12,7 @@ import './style.scss';
 
 import xcxPng from '../../images/xcx.jpg';
 import poetPng from '../../images/svg/poet.svg';
+import ScanSvg from '../../images/svg/scan.svg';
 
 const initUser = {
 	poem_count: 0,
@@ -161,6 +163,26 @@ const MeIndex = () => {
 		}
 	};
 
+	// 扫码
+	const handleScan = () => {
+		Taro.scanCode({
+			onlyFromCamera: true,
+			scanType: ['wxCode', 'qrCode'],
+			success(res) {
+				console.log(res);
+				const { path } = res || {}
+				if (path) {
+					Taro.navigateTo({
+						url: '/'+path,
+					});
+				}
+			},
+			fail(err) {
+				console.log(err)
+			}
+		});
+	};
+
 	const navigateToAbout = () => {
 		Taro.navigateTo({
 			url: '/pages/post/index?type=about',
@@ -196,6 +218,12 @@ const MeIndex = () => {
 
 	return (
 		<View className='page mePage'>
+			<PageHeader showSearch={false} title='我的'>
+				<View className='customHeder'>
+					<Image src={ScanSvg} className='img' onClick={handleScan} />
+					<View className='title'>我的</View>
+				</View>
+			</PageHeader>
 			<View className='pageContainer'>
 				{/* 用户信息和登录 */}
 				<SectionCard>

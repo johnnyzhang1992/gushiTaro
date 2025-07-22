@@ -2,6 +2,23 @@
 	min-height: 100vh;
 	box-sizing: border-box;
 	background-color: #f8f8f8;
+	.customHeder {
+		display: flex;
+		position: relative;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		.img {
+			position: absolute;
+			left: 32px;
+			width: 48px;
+			height: 48px;;
+		}
+		.title {
+			color: #fff;
+			font-size: 32px;
+		}
+	}
 	.meTop {
 		color: #fff;
 		padding: 30px 30px;

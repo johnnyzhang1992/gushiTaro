@@ -65,5 +65,28 @@ export const updateUserInfo = (method, data) => {
  * @returns
  */
 export const uploadAvatar = (method, data) => {
-	return UploadFile(`/wxxcx/user/uploadAvatar`, data, method);
+	return UploadFile(`/api/user/updateAvatar`, data, method);
 };
+
+// -- 扫码登录相关
+
+/**
+ * 更新二维码状态
+ * @param {*} method
+ * @param {*} data {qrcode_token}
+ * @returns
+ */
+export const updateQRCodeStatus = (method = 'POST', data) => {
+	return Request(`/api/user/updateQRCodeStatus`, data, method);
+};
+
+/**
+ * 授权二维码登录
+ * @param {*} method
+ * @param {*} data {user_id, code, qrcode_token}
+ * @returns
+ */
+export const handleQRCodeLogin = (method = 'POST', data) => {
+	return Request(`/api/user/loginByQRCode`, data, method);
+}
+
