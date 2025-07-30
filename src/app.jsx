@@ -3,6 +3,7 @@ import Taro, { useLaunch, usePageNotFound } from '@tarojs/taro';
 import './app.scss';
 
 import { fetchUserInfo } from './services/global';
+import { getDeviceInfo } from './utils/tool';
 
 const App = (props) => {
 	// 用户登录
@@ -11,8 +12,10 @@ const App = (props) => {
 			success: (res) => {
 				// this.globalData.code = res.code;
 				// 发送 res.code 到后台换取 openId, sessionKey, unionId
+				const deviceInfo = getDeviceInfo();
 				fetchUserInfo('GET', {
 					code: res.code,
+					...deviceInfo,
 				})
 					.then((result) => {
 						if (result.data && !result.data.status) {

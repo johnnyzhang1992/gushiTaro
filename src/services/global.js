@@ -113,8 +113,7 @@ export const updateUserInfo = (method, data) => {
 	return Request(`/api/user/updateInfo`, data, method);
 };
 
-// -- 学习计划相关API /api/schedule
-
+// -- 学习计划相关API
 /**
  * 获取学习计划列表
  * @param {*} method
