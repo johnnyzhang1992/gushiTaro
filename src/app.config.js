@@ -6,6 +6,7 @@ export default {
 		'pages/me/collect',
 		'pages/me/collections',
 		'pages/me/setting',
+		'pages/me/qrcode_login',
 		'pages/search/index',
 		'pages/poet/index',
 		'pages/poet/detail',

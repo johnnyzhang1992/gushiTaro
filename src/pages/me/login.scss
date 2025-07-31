@@ -1,0 +1,42 @@
+.page {
+	padding: 20px;
+	.imgContainer {
+		margin-bottom: 40px;
+		text-align: center;
+		.img {
+			width: 300px;
+			height: 300px;
+		}
+	}
+	.loginContainer {
+		text-align: center;
+		.text {
+			font-size: 32px;
+			line-height: 42px;
+			&.success {
+				font-size: 44px;
+				font-weight: bold;
+				line-height: 56px;
+			}
+		}
+		.top {
+			margin-bottom: 60px;
+		}
+		.btns {
+			width: 80%;
+			margin: 0 auto;
+			.btn {
+				margin-bottom: 20px;
+			}
+			.at-button--primary  {
+				border-color: #337ab7;
+				background-color: #337ab7;
+
+			}
+			.at-button--secondary {
+				color: #337ab7;
+				border-color: #337ab7;
+			}
+		}
+	}
+}

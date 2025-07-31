@@ -144,7 +144,7 @@ const SettingPage = () => {
 							value={form.name}
 							type='nickname'
 							onNickNameReview={handleNickNameReview}
-							placeholder='自定义昵称'
+							placeholder='自定义昵称(最长14个字符)'
 						/>
 					</View>
 				</View>

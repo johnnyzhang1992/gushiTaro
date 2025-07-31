@@ -1,6 +1,6 @@
 import Taro from '@tarojs/taro';
 
-import { BaseUrl } from '../const/config';
+import { BaseUrl, WxAppVersion } from '../const/config';
 
 const request = (url, params, method = 'GET') => {
 	const user = Taro.getStorageSync('user') || {};
@@ -8,10 +8,12 @@ const request = (url, params, method = 'GET') => {
 	const { hostUrl, ...restParams } = params || {};
 	let data = {
 		...restParams,
+		platform: 'wxapp',
 		openId: user.openId || user.openid || '',
 		openid: user.openid || '',
 		wx_token: wxToken || '',
 		user_id: user.user_id || -1,
+		wxapp_version: WxAppVersion || '',
 	};
 	if (hostUrl) {
 		data = {
