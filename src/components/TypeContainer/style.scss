@@ -11,6 +11,9 @@
 		border-radius: 12px;
 		margin-top: 30px;
 		margin-bottom: 30px;
+		.content {
+			padding-bottom: 0;
+		}
 	}
 	.typeList {
 		display: flex;

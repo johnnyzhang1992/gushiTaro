@@ -1,12 +1,12 @@
 .cardItem {
-	font-size: 32px;
+	font-size: 30px;
 	width: 20.125%;
 	color: #333;
 	margin-right: 6.5%;
 	box-sizing: border-box;
 	padding: 20px 10px 0 10px;
-	margin-bottom: 20px;
-	max-height: 275px;
+	// margin-bottom: 10px;
+	max-height: 250px;
 	text-align: center;
 	position: relative;
 	display: flex;
@@ -40,7 +40,7 @@
 		letter-spacing: 4px;
 	}
 	.name {
-		font-size: 1.1rem;
+		font-size: 1rem;
 	}
 	.profile {
 		font-size: 0.7em;
