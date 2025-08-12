@@ -3,11 +3,30 @@
 	height: 100%;
 	overflow: hidden;
 	box-sizing: border-box;
+	position: relative;
 	.scrollContainer {
 		padding: 0 20px;
 		box-sizing: border-box;
 	}
 	.poemSmallCard {
 		margin: 20px 0;
+	}
+	.dynastyFilter {
+		position: absolute;
+		right: 0;
+		top: 50%;
+		min-width: 88rpx;
+		transform: translateY(-50%);
+		.dynastyFilterItem {
+			text-align: center;
+			color: #666;
+			font-size: 22rpx;
+			line-height: 2em;
+			&.active {
+				color: #337ab7;
+				font-weight: 600;
+				font-size: 0.9em;
+			}
+		}
 	}
 }

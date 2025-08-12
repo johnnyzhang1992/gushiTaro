@@ -54,6 +54,7 @@ const DictionaryContainer = (props) => {
 						{...item}
 						key={item._id}
 						type='word'
+						cellType='red'
 						pinyin={item.pinyin}
 						text={item.word}
 					/>
@@ -66,11 +67,12 @@ const DictionaryContainer = (props) => {
 					display: searchResult.ciList.length > 0 ? 'block' : 'none',
 				}}
 			>
-				{searchResult.ciList.slice(0, 8).map((item) => (
+				{searchResult.ciList.slice(0, 6).map((item) => (
 					<WordCard
 						{...item}
 						key={item._id}
 						type='ci'
+						cellType='red'
 						pinyin={item.pinyin}
 						text={item.ci}
 					/>
@@ -83,11 +85,12 @@ const DictionaryContainer = (props) => {
 					display: searchResult.chengyuList.length > 0 ? 'block' : 'none',
 				}}
 			>
-				{searchResult.chengyuList.map((item) => (
+				{searchResult.chengyuList.slice(0, 6).map((item) => (
 					<WordCard
 						{...item}
 						key={item._id}
 						type='chengyu'
+						cellType='red'
 						pinyin={item.pinyin}
 						text={item.word}
 					/>

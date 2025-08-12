@@ -8,6 +8,25 @@ import './style.scss';
 
 import { fetchPoemData } from '../../pages/poem/service';
 
+import { DynastyArr } from '../../const/config';
+
+const DynastyItem = ({ dynasty, active = false, onClick }) => {
+	const handleClick = () => {
+		if (onClick) {
+			onClick(dynasty);
+		}
+	};
+
+	return (
+		<View
+			className={['dynastyFilterItem', active ? 'active' : '']}
+			onClick={handleClick}
+		>
+			{dynasty}
+		</View>
+	);
+};
+
 const PoemContainer = (props) => {
 	const pagination = useRef({
 		page: 1,
@@ -20,6 +39,7 @@ const PoemContainer = (props) => {
 	const [poemList, setList] = useState([]);
 	const [error, setError] = useState('');
 	const [scrollHeight, updateHeight] = useState('auto');
+	const [activeDynasty, setDynasty] = useState('全部');
 
 	const reachBottom = () => {
 		console.log('--rearchBottom');
@@ -58,6 +78,7 @@ const PoemContainer = (props) => {
 		}
 		return params;
 	};
+
 	const fetchList = () => {
 		if (refreshFlag.current) {
 			return false;
@@ -69,6 +90,7 @@ const PoemContainer = (props) => {
 		refreshFlag.current = true;
 		const params = computeParams(paramsRef.current);
 		console.log(props.params, pagination.current);
+		Taro.showLoading({ title: '加载中' });
 		fetchPoemData('GET', { ...params, ...pagination.current })
 			.then((res) => {
 				if (res.data && res.statusCode == 200) {
@@ -89,8 +111,22 @@ const PoemContainer = (props) => {
 			.catch((err) => {
 				setError(err);
 				refreshFlag.current = false;
+			})
+			.finally(() => {
+				Taro.hideLoading();
 			});
 	};
+
+	const dynastyChange = (dynasty) => {
+		const next = activeDynasty == dynasty ? '全部' : dynasty;
+		paramsRef.current = {
+			...paramsRef.current,
+			dynasty: next,
+		};
+		setDynasty(next);
+		fetchList();
+	};
+
 	useEffect(() => {
 		paramsRef.current = {
 			...(props.params || {}),
@@ -149,6 +185,17 @@ const PoemContainer = (props) => {
 					);
 				})}
 			</ScrollView>
+			{/* 朝代筛选 */}
+			<View className='dynastyFilter'>
+				{DynastyArr.map((item) => (
+					<DynastyItem
+						key={item}
+						dynasty={item}
+						active={activeDynasty == item}
+						onClick={dynastyChange}
+					/>
+				))}
+			</View>
 			{error ? (
 				<View className='pageError'>
 					<View className='title'>接口请求报错：</View>

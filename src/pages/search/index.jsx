@@ -241,6 +241,14 @@ const SearchPage = () => {
 				<View className='header'>
 					<View className='typeContainer'>
 						<View
+							className={['typeItem', type == '诗词' ? 'active' : '']}
+							onClick={() => {
+								setType('诗词');
+							}}
+						>
+							诗词
+						</View>
+						<View
 							className={['typeItem', type == '字典' ? 'active' : '']}
 							onClick={() => {
 								setType('字典');
@@ -251,14 +259,6 @@ const SearchPage = () => {
 							}}
 						>
 							字典
-						</View>
-						<View
-							className={['typeItem', type == '诗词' ? 'active' : '']}
-							onClick={() => {
-								setType('诗词');
-							}}
-						>
-							诗词
 						</View>
 					</View>
 				</View>

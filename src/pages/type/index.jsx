@@ -32,7 +32,7 @@ const TypePage = () => {
 						{typeList.list.map((item) => (
 							<TypeCard
 								key={item.name}
-								type={item.type || (typeList.tag && 'tag')}
+								type={typeList.type || (typeList.tag && 'tag')}
 								{...item}
 							/>
 						))}
