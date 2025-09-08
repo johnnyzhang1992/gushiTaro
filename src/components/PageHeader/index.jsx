@@ -11,7 +11,7 @@ const PageHeader = (props) => {
 	const deviceInfo = Taro.getDeviceInfo();
 	// PC端样式比较特殊，且不支持图片导出
 	const isPc = ['mac', 'windows'].includes(deviceInfo.platform);
-	const LeaveTop = isPc ? 10 : MenuRect.top;
+	const LeaveTop = isPc ? 25 : MenuRect.top;
 
 	const navigateSearch = () => {
 		Taro.navigateTo({

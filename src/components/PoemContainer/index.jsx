@@ -158,6 +158,8 @@ const PoemContainer = (props) => {
 			.exec();
 	}, []);
 
+	const { showDynasty = false } = props;
+
 	return (
 		<View className='poemContainer' id='poemScrollContainer'>
 			{/* 诗词列表 */}
@@ -186,16 +188,18 @@ const PoemContainer = (props) => {
 				})}
 			</ScrollView>
 			{/* 朝代筛选 */}
-			<View className='dynastyFilter'>
-				{DynastyArr.map((item) => (
-					<DynastyItem
-						key={item}
-						dynasty={item}
-						active={activeDynasty == item}
-						onClick={dynastyChange}
-					/>
-				))}
-			</View>
+			{showDynasty && (
+				<View className='dynastyFilter'>
+					{DynastyArr.map((item) => (
+						<DynastyItem
+							key={item}
+							dynasty={item}
+							active={activeDynasty == item}
+							onClick={dynastyChange}
+						/>
+					))}
+				</View>
+			)}
 			{error ? (
 				<View className='pageError'>
 					<View className='title'>接口请求报错：</View>

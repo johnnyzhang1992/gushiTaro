@@ -49,7 +49,7 @@ const Index = () => {
 	const [isReload, updateReload] = useState(false);
 	const [queryParams, setQueryParams] = useState({
 		author: '',
-		theme: ''
+		theme: '',
 	});
 	const MenuRect = Taro.getMenuButtonBoundingClientRect();
 	const deviceInfo = Taro.getDeviceInfo();
@@ -118,13 +118,13 @@ const Index = () => {
 	);
 
 	const updateQueryParams = (params) => {
-		if(JSON.stringify(params) !== JSON.stringify(queryParams)) {
+		if (JSON.stringify(params) !== JSON.stringify(queryParams)) {
 			setQueryParams({
 				...queryParams,
 				...params,
 			});
 		}
-	}
+	};
 
 	// useEffect(() => {
 	// 	fetchSentence();
@@ -208,7 +208,7 @@ const Index = () => {
 
 	// PC端样式比较特殊，且不支持图片导出
 	const isPc = ['mac', 'windows'].includes(deviceInfo.platform);
-	const LeaveTop = isPc ? 10 : MenuRect.top;
+	const LeaveTop = isPc ? 25 : MenuRect.top;
 	// 根据设置的图片比例和实际的屏幕视图大小来计算最终的画报尺寸
 	let contentWidth = safeArea.width * 0.9;
 	const maxHeight = safeArea.height - LeaveTop - MenuRect.height - 60;
@@ -242,7 +242,7 @@ const Index = () => {
 					>
 						<Image src={searchSvg} className='icon' mode='widthFix' />
 					</View>
-					<FilterModal handleSelect={updateQueryParams} />
+					{!isPc && <FilterModal handleSelect={updateQueryParams} />}
 				</View>
 				{/* 画报 */}
 				<View

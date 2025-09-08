@@ -58,7 +58,7 @@ const Page = () => {
 				</AtTabsPane>
 				{/* 作品 */}
 				<AtTabsPane current={currentTab} index={1}>
-					<PoemContainer />
+					<PoemContainer showDynasty />
 				</AtTabsPane>
 				{/* 作者 */}
 				<AtTabsPane current={currentTab} index={2}>

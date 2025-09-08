@@ -96,7 +96,9 @@ const LibraryDetail = () => {
 			>
 				{/* 作品 */}
 				<AtTabsPane current={currentTab} index={0}>
-					{pageOptions.inited ? <PoemContainer params={pageOptions} /> : null}
+					{pageOptions.inited ? (
+						<PoemContainer params={pageOptions} showDynasty={false} />
+					) : null}
 				</AtTabsPane>
 				{/* 摘录 */}
 				<AtTabsPane current={currentTab} index={1}>
