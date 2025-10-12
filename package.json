@@ -52,6 +52,7 @@
 		"@tarojs/runtime": "3.6.25",
 		"@tarojs/shared": "3.6.25",
 		"@tarojs/taro": "3.6.25",
+		"crypto-js": "^4.2.0",
 		"global": "^4.4.0",
 		"react": "^18.0.0",
 		"react-dom": "^18.0.0",

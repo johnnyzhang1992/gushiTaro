@@ -1,5 +1,8 @@
 import { View, Text, Image } from '@tarojs/components';
 import Taro from '@tarojs/taro';
+import { useEffect, useState } from 'react';
+
+import { getAuthkey } from '../../utils/alioss';
 
 import './style.scss';
 
@@ -12,11 +15,25 @@ const PoetCard = ({
 	showAvatar = true,
 	hideBorder = false,
 }) => {
+	const [cdnAvatar, setAvatar] = useState('');
+
 	const handleNavigate = () => {
 		Taro.navigateTo({
 			url: '/pages/poet/detail?id=' + id,
 		});
 	};
+
+	const getCdnAvatar = async () => {
+		if (avatar) {
+			const authkey = await getAuthkey(avatar);
+			setAvatar(avatar + '?auth_key=' + authkey);
+		}
+	};
+
+	useEffect(() => {
+		getCdnAvatar();
+	});
+
 	return (
 		<View
 			className={`poetCard ${hideBorder ? 'hideBorder' : ''} ${
@@ -25,13 +42,13 @@ const PoetCard = ({
 			key={id}
 			onClick={handleNavigate}
 		>
-			{showAvatar && avatar ? (
+			{showAvatar && cdnAvatar ? (
 				<View className='avatar'>
 					<Image
 						lazyLoad
 						fadeIn
 						showMenuByLongpress
-						src={avatar}
+						src={cdnAvatar}
 						className='img'
 					/>
 				</View>
@@ -39,9 +56,7 @@ const PoetCard = ({
 			<View className='content'>
 				<View className='author'>
 					<Text className='name'>{author_name}</Text>
-					{dynasty ? (
-						<Text className='dynasty'>「{dynasty}」</Text>
-					) : null}
+					{dynasty ? <Text className='dynasty'>「{dynasty}」</Text> : null}
 				</View>
 				<View className='profile'>
 					<Text className='text'>{profile}</Text>

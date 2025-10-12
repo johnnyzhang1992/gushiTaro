@@ -32,6 +32,10 @@ const config = {
 		},
 	},
 	mini: {
+		 webpackChain (chain) {
+      // 小程序端也关，因为异步 chunk 对体积没帮助
+      chain.performance.hints(false)
+    },
 		postcss: {
 			pxtransform: {
 				enable: true,

@@ -7,3 +7,4 @@ node_modules/
 .swc
 yarn-error.log
 src/pages/admin/
+src/const/constants.js

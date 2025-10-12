@@ -7,6 +7,7 @@ import SectionCard from '../../components/SectionCard';
 
 import { fetchUserInfo } from './service';
 import { createUser, fetchScheduleStats } from '../../services/global';
+import { getAuthkey } from '../../utils/alioss';
 
 import './style.scss';
 
@@ -37,11 +38,16 @@ const MeIndex = () => {
 		fetchUserInfo('GET', {
 			user_id: id || user.user_id,
 		})
-			.then((res) => {
+			.then(async (res) => {
 				if (res && res.statusCode === 200) {
+					let avatar = res.data.avatarUrl || userInfo.avatarUrl;
+					if (avatar) {
+						avatar = await getCDNAvatar(avatar)
+					}
 					setInfo((pre) => ({
 						...pre,
 						...res.data,
+						avatarUrl: avatar
 					}));
 				}
 				// token 过期
@@ -163,6 +169,18 @@ const MeIndex = () => {
 		}
 	};
 
+	const getCDNAvatar = async (avatar) => {
+		try {
+			if (avatar) {
+				const authkey = await getAuthkey(avatar);
+				return avatar + '?auth_key=' + authkey;
+			}
+		} catch (error) {
+			console.log(error);
+			return avatar;
+		}
+	};
+
 	// 扫码
 	const handleScan = () => {
 		Taro.scanCode({
@@ -170,16 +188,16 @@ const MeIndex = () => {
 			scanType: ['wxCode', 'qrCode'],
 			success(res) {
 				console.log(res);
-				const { path } = res || {}
+				const { path } = res || {};
 				if (path) {
 					Taro.navigateTo({
-						url: '/'+path,
+						url: '/' + path,
 					});
 				}
 			},
 			fail(err) {
-				console.log(err)
-			}
+				console.log(err);
+			},
 		});
 	};
 

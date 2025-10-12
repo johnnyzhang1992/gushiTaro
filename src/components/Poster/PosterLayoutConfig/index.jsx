@@ -17,6 +17,7 @@ import {
 	postBgImages,
 } from '../../../const/posterConfig';
 import { colors } from '../../../const/color';
+import { getAuthkey } from '../../../utils/alioss';
 
 import './style.scss';
 
@@ -44,6 +45,7 @@ const PosterLayoutItem = (props) => {
 		</View>
 	);
 };
+
 const PostLayoutConfig = ({
 	update,
 	handleDownload,
@@ -56,6 +58,15 @@ const PostLayoutConfig = ({
 	});
 	const [secondaryBgColorArr, updateSecondarArr] = useState([]);
 	const [colorName, updateColorName] = useState('');
+	const [postBgImgs, setPostBgImgs] = useState(() => {
+		return postBgImages.map((img) => {
+			return {
+				img,
+				cdn_img: img,
+				auth_key: '',
+			};
+		});
+	});
 
 	const handleToggleBottom = () => {
 		updateConfig({
@@ -104,6 +115,19 @@ const PostLayoutConfig = ({
 		});
 	};
 
+	const updateImgs = async () => {
+		const newList = [];
+		for (let i = 0; i < postBgImgs.length; i++) {
+			const auth_key = await getAuthkey(postBgImgs[i].img);
+			newList.push({
+				...postBgImgs[i],
+				cdn_img: postBgImgs[i].cdn_img + '?auth_key=' + auth_key,
+				auth_key,
+			});
+		}
+		setPostBgImgs(newList);
+	};
+
 	const selecrRatio = (e) => {
 		const { ratio } = e.currentTarget.dataset;
 		updateConfig({
@@ -118,6 +142,7 @@ const PostLayoutConfig = ({
 			...posterConfig,
 			...cacheConfig,
 		});
+		updateImgs();
 	}, []);
 
 	useEffect(() => {
@@ -141,7 +166,7 @@ const PostLayoutConfig = ({
 									style={{
 										width: 30,
 										height: 40,
-										marginRight: 10
+										marginRight: 10,
 									}}
 									borderColor={layout.color}
 									letterBorder={layout.name}
@@ -202,7 +227,7 @@ const PostLayoutConfig = ({
 					return (
 						<View
 							key={color}
-							className={`color-item bgColor ${
+							className={`color-item fontBgColor ${
 								posterConfig.fontColor === color ? 'active' : ''
 							}`}
 							style={{
@@ -217,15 +242,17 @@ const PostLayoutConfig = ({
 			</PosterLayoutItem>
 			{/* 底纹图 */}
 			<PosterLayoutItem title='底纹' key='bgImg'>
-				{postBgImages.map((bg) => {
+				{(postBgImgs || []).map((bg) => {
 					return (
 						<View
-							className={`bgImg ${posterConfig.bgImg === bg ? 'active' : ''}`}
-							key={bg}
-							data-img={bg}
+							className={`bgImg ${
+								posterConfig.bgImg === bg.img ? 'active' : ''
+							}`}
+							key={bg.img}
+							data-img={bg.img}
 							onClick={selectBgImg}
 							style={{
-								backgroundImage: `url(${bg})`,
+								backgroundImage: `url(${bg.cdn_img})`,
 								width: 90,
 								height: 30,
 							}}
@@ -247,7 +274,7 @@ const PostLayoutConfig = ({
 						showScrollbar={false}
 						className='scrollContainer bgImgList'
 						style={{
-							height: 38,
+							height: isPc ? 66 : 44,
 							width: safeArea.width - 30,
 						}}
 					>
@@ -255,9 +282,10 @@ const PostLayoutConfig = ({
 							return (
 								<View
 									key={color.id}
-									className={`color-item bgColor  ${color.hex.replace('#', '')} ${
-										posterConfig.bgColor === color.hex ? 'active' : ''
-									}`}
+									className={`color-item bgColor  ${color.hex.replace(
+										'#',
+										''
+									)} ${posterConfig.bgColor === color.hex ? 'active' : ''}`}
 									data-color={color.hex}
 									data-name={color.name}
 									onClick={selectBgColor}
@@ -281,7 +309,7 @@ const PostLayoutConfig = ({
 							showScrollbar={false}
 							className='scrollContainer bgImgList'
 							style={{
-								height: 38,
+								height: isPc ? 66 : 44,
 								width: safeArea.width - 30,
 							}}
 						>

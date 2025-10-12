@@ -1,14 +1,16 @@
 import { View, Text, Image } from '@tarojs/components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import PoemPosterCard from '../PoemPoster';
 
 import xcxPng from '../../../images/xcx.jpg';
 import Utils from '../../../utils/util';
+import { getAuthkey } from '../../../utils/alioss';
 
 import './style.scss';
 
 const shenianDate = new Date('2025/01/29 00:00:00');
+
 const PosterSnapshot = (props) => {
 	const {
 		sentence,
@@ -22,7 +24,20 @@ const PosterSnapshot = (props) => {
 		return Utils.formatDate().join('/');
 	});
 
+	const [bgImg, setBgImg] = useState('');
+
 	const nongliText = new Date() > shenianDate ? '乙巳蛇年' : '甲辰龙年';
+
+	const updateBgImg = async (url) => {
+		const authKey = await getAuthkey(url);
+		setBgImg(url + '?auth_key=' + authKey);
+	};
+
+	useEffect(() => {
+		if (props.bgImg) {
+			updateBgImg(props.bgImg);
+		}
+	}, [props.bgImg]);
 
 	return (
 		<View
@@ -31,9 +46,7 @@ const PosterSnapshot = (props) => {
 				padding: 10,
 				backgroundColor: posterConfig.bgColor || '#fff',
 				color: posterConfig.fontColor || '#333',
-				backgroundImage: `${
-					posterConfig.bgImg ? `url(${posterConfig.bgImg})` : 'unset'
-				}`,
+				backgroundImage: `${bgImg ? `url(${bgImg})` : 'unset'}`,
 			}}
 		>
 			{/* 主体内容 */}

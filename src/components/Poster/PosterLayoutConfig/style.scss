@@ -1,11 +1,15 @@
 .poster-layout-config {
 	padding-top: 20px;
+	// background-color: inherit;
+	// .float-layout-body {
+	// 	background-color: inherit;
+	// }
 	.shareLayout {
-		margin-bottom: 20px;
+		margin-bottom: 24px;
 		& > .title {
 			font-size: 28px;
 			line-height: 36px;
-			margin-bottom: 12px;
+			margin-bottom: 16px;
 			// font-weight: 500;
 			white-space: nowrap;
 		}
@@ -19,28 +23,50 @@
 			.color-item {
 				box-sizing: border-box;
 				// border-radius: 50%;
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				justify-content: center;
+				display: block;
+				text-align: center;
+				// flex-direction: column;
+				// align-items: center;
+				// justify-content: center;
 				transition: all 0.6s ease 0s;
 				cursor: pointer;
 				margin-right: 16px;
 				position: relative;
 				// box-sizing: border-box;
-				border: 2px solid #333;
-				width: 90px;
-				height: 60px;
+				// border: 2px solid #333;
+				// width: 60px;
+				// height: 60px;
+				// border-radius: 20px;
+				// border: 1px solid #333;
+				.bgColor {
+					border-radius: 50%;
+					transform: translateX(8px);
+				}
+				&.fontBgColor {
+					width: 50px;
+					height: 50px;
+					border-radius: 50%;
+					border: 1px solid #333;
+					&.active {
+						border: 4px solid #337ab7;
+					}
+				}
 				.color-circle {
-					width: 100%;
-					height: 100%;
-					// border-radius: 50%;
+					width: 50px;
+					height: 50px;
+					border-radius: 50%;
+					display: block;
+					margin: 0 auto;
 				}
 				// &.bgColor {
 				// 	border: 1px solid #333;
 				// }
 				&.active {
-					border: 4px solid #337ab7;
+					.text {
+						color: #337ab7;
+						font-weight: bold;
+					}
+					// border: 4px solid #337ab7;
 				}
 				&[data-color='#ffffff'] {
 					.text {
@@ -57,10 +83,11 @@
 					text-align: center;
 					display: block;
 					font-size: 20px;
-					position: absolute;
-					left: 50%;
-					top: 50%;
-					transform: translateX(-50%) translateY(-50%);
+					margin-top: 8px;
+					// position: absolute;
+					// left: 50%;
+					// top: 50%;
+					// transform: translateX(-50%) translateY(-50%);
 				}
 			}
 			.ratio-item {
@@ -73,7 +100,7 @@
 					margin-right: 0;
 				}
 				&.active {
-					border-width: 2px;
+					border-width: 4px;
 					border-color: #337ab7;
 				}
 			}
@@ -84,7 +111,7 @@
 				flex-direction: row;
 				justify-content: flex-start;
 				align-items: center;
-				margin-bottom: 12px;
+				margin-bottom: 24px;
 			}
 			.bgImg {
 				display: flex;
@@ -97,8 +124,9 @@
 				// margin-bottom: 2px;
 				background-repeat: repeat;
 				margin-right: 16px;
+				border-radius: 20px;
 				&.active {
-					border-width: 2px;
+					border-width: 4px;
 					border-color: #337ab7;
 				}
 			}
