@@ -1,0 +1,112 @@
+.poem_accordion {
+	margin-bottom: 30px;
+	border: 2px solid #ddd;
+	border-radius: 20px;
+	box-shadow: 0px 1px 1px #ccc;
+	.accordion__header {
+		display: flex;
+		align-items: center;
+		width: 100%;
+		min-height: 30px;
+		color: #333;
+		font-size: 30px;
+		box-sizing: border-box;
+		position: relative;
+		transition: background-color 0.3s;
+	}
+	.accordion__thumb {
+		.thumb_image {
+			height: 202px;
+			max-width: 360px;
+			display: block;
+			max-height: 202px;
+		}
+	}
+	.accordion__info {
+		padding: 20px;
+		flex: 1;
+		text-align: left;
+		line-height: 1.6;
+	}
+	.info__note,
+	.info__title {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		line-height: 1.5;
+	}
+	.info__title {
+		color: #333;
+		font-weight: 600;
+		font-size: 34px;
+	}
+	.info__note {
+		color: rgb(132, 145, 165);
+		font-size: 30px;
+		margin-top: 20px;
+	}
+	.accordion__arrow {
+		color: #ccc;
+		font-size: 36px;
+		line-height: 1;
+		width: 56px;
+		height: 56px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: #337ab7;
+		border: 2px solid #337ab7;
+		border-radius: 50%;
+		transition: transform 0.2s ease;
+		transition: transform 0.2s ease, -webkit-transform 0.2s ease;
+		transform-origin: center;
+		margin-right: 30px;
+	}
+	.accordion__content {
+		width: 100%;
+		overflow: hidden;
+		-webkit-transition: height 500ms cubic-bezier(0.47, 0, 0.745, 0.715);
+		transition: height 500ms cubic-bezier(0.47, 0, 0.745, 0.715);
+		position: relative;
+		&.inactive {
+			position: absolute;
+			visibility: hidden;
+			height: 0;
+			z-index: -10;
+		}
+		.accordion_body {
+			padding: 20px;
+		}
+	}
+	.accordion__item {
+		position: relative;
+		padding: 16px 0;
+		display: flex;
+		justify-content: space-between;
+		.item__title {
+			z-index: 2;
+			padding: 0 16px;
+			font-size: 32px;
+			line-height: 44px;
+			background-color: #fff;
+		}
+		.item__source {
+			padding: 0 16px;
+			z-index: 2;
+			font-size: 28px;
+			line-height: 44px;
+			color: rgb(132, 145, 165);
+			background-color: #fff;
+			white-space: nowrap;
+		}
+		.item__line {
+			z-index: 1;
+			position: absolute;
+			left: 0;
+			top: 50%;
+			width: 100%;
+			transform: translateY(-50%);
+			border-bottom: 1px dotted #999;
+		}
+	}
+}

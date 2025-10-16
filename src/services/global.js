@@ -213,3 +213,25 @@ export const removePoemToSchedule = (method = 'POST', data) => {
 export const checkInPoemToSchedule = (method = 'POST', data) => {
 	return Request(`/api/schedule/check_in`, data, method);
 };
+
+// -- catalog 相关API ----
+
+/**
+ * 获取分类列表
+ * @param {*} method
+ * @param {*} data {page,size,tag}
+ * @returns
+ */
+export const fetchCatalogList = (method = 'GET', data) => {
+	return Request(`/api/catalog/list`, data, method);
+};
+
+/**
+ * 获取分类详情
+ * @param {*} method
+ * @param {*} data {catalog_id}
+ * @returns
+ */
+export const fetchCatalogDetail = (method = 'GET', data) => {
+	return Request(`/api/catalog/detail`, data, method);
+};

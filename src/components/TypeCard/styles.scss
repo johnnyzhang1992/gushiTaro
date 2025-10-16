@@ -30,6 +30,30 @@
 		// background-color: #337ab7;
 		background-color: #ddd;
 	}
+	&.catalog {
+		padding-top: 0;
+		width: auto;
+		margin-right: 30rpx;
+		margin-bottom: 40px;
+		&::before {
+			display: none;
+		}
+		.thumbnail {
+			height: 220px;
+			max-height: 220px;
+			max-width: 166px;
+		}
+		.name {
+			position: absolute;
+			top: 50%;
+			right: 8px;
+			transform: translateY(-50%);
+			background-color: rgba(255, 255, 255, 0.5);
+			padding: 20px 10px 10px;
+			font-size: 0.9rem;
+			box-sizing: border-box;
+		}
+	}
 	.name,
 	.profile {
 		/* width:calc(100% - 32px); */

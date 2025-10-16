@@ -19,6 +19,7 @@ export default {
 		'pages/find/index',
 		'pages/library/index',
 		'pages/library/detail',
+		'pages/library/catalog',
 		'pages/type/index',
 		'pages/dictionary/detail',
 		'pages/schedule/index',

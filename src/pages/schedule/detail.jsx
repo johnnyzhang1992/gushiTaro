@@ -43,6 +43,9 @@ const ScheduleDetail = () => {
 		const { id } = options || optionsRef.current;
 		const { page: currentPage, size: currentSize } = paginationRef.current;
 		console.log(id, 'id');
+		Taro.showLoading({
+			title: '加载中',
+		});
 		const res = await fetchScheduleDetail('GET', {
 			schedule_id: id,
 			page: currentPage,
@@ -50,6 +53,8 @@ const ScheduleDetail = () => {
 			status: status,
 		}).catch((err) => {
 			console.log(err);
+		}).finally(() => {
+			Taro.hideLoading()
 		});
 		if (res && res.statusCode === 200) {
 			const { detail = {}, page, size, total, list = [] } = res.data || {};

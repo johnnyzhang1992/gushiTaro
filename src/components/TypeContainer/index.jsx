@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Taro from '@tarojs/taro';
 import { View, ScrollView, Text, Navigator } from '@tarojs/components';
 
+import TypeCatalogSection from '../TypeCatalogSection';
 import SectionCard from '../../components/SectionCard';
 import TypeCard from '../../components/TypeCard';
 
@@ -46,13 +47,17 @@ const TypeContainer = () => {
 				}}
 			>
 				{/* 每个分类，最多展示12条，多余的展示多余 */}
+				<TypeCatalogSection tag='教科书' />
 				{CategoriesList.map((cat) => (
 					<SectionCard
 						key={cat.title}
 						title={cat.title}
 						extra={
 							cat.list.length > 8 ? (
-								<Navigator hoverClass='none' url={`/pages/type/index?title=${cat.title}`}>
+								<Navigator
+									hoverClass='none'
+									url={`/pages/type/index?title=${cat.title}`}
+								>
 									<Text>更多</Text>
 									<View className='icon at-icon at-icon-chevron-right' />
 								</Navigator>
