@@ -83,12 +83,23 @@
 		padding: 16px 0;
 		display: flex;
 		justify-content: space-between;
+		align-items: center;
 		.item__title {
 			z-index: 2;
 			padding: 0 16px;
 			font-size: 32px;
 			line-height: 44px;
 			background-color: #fff;
+			position: relative;
+			max-width: 55%;
+			.tag {
+				position: relative;
+				bottom: 0;
+				right: 0;
+				font-size: 0.6em;
+				margin-left: 4px;
+				color: #337ab7;
+			}
 		}
 		.item__source {
 			padding: 0 16px;

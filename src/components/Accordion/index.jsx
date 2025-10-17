@@ -1,4 +1,4 @@
-import { View, Image, Navigator } from '@tarojs/components';
+import { View, Image, Navigator,Text } from '@tarojs/components';
 import { useState, useEffect } from 'react';
 
 import { getAuthkey } from '../../utils/alioss';
@@ -9,14 +9,17 @@ const AccordionList = ({ children }) => {
 	return <View className='list'>{children}</View>;
 };
 
-const AccordionItem = ({ title, source, target_id }) => {
+const AccordionItem = ({ title, source, target_id, tag ='' }) => {
 	return (
 		<Navigator
 			url={`/pages/poem/detail?id=${target_id}`}
 			className='accordion__item'
 			hoverClass='none'
 		>
-			<View className='item__title'>{title}</View>
+			<View className='item__title'>
+				<Text>{title}</Text>
+				{tag && <Text className='tag'>{tag}</Text>}
+			</View>
 			<View className='item__source'>{source}</View>
 			<View className='item__line'></View>
 		</Navigator>

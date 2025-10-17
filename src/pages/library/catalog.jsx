@@ -102,6 +102,7 @@ const CatalogPage = () => {
 										title={doc.title}
 										source={`〔${doc.dynasty}〕${doc.author}`}
 										target_id={doc.target_id}
+										tag={doc.target_type || ''}
 									/>
 								);
 							})}
