@@ -24,6 +24,7 @@ const CatalogPage = () => {
 	});
 	const [detail, setDetail] = useState({
 		catalog_name: '',
+		fasc_title: '',
 		fasciculeList: [],
 	});
 
@@ -83,16 +84,18 @@ const CatalogPage = () => {
 		};
 	});
 
+	const { fasciculeList = [] } = detail;
 	return (
 		<View className='page catalogDetail'>
-			{detail.fasciculeList.map((fasc, index) => {
+			{fasciculeList.map((fasc, index) => {
 				return (
 					<Accordion
 						key={fasc._id}
 						thumbnail={fasc.thumbnail}
-						title='人教统编版'
+						title={detail.fasc_title || detail.catalog_name}
 						note={fasc.fascicule_name}
 						defaultOpen={index === 0}
+						showHeader={fasciculeList.length > 1}
 					>
 						<AccordionList>
 							{fasc.doc_list.map((doc) => {

@@ -1,4 +1,9 @@
 .typeList {
 	display: flex;
 	flex-wrap: wrap;
+	&.catalog {
+		.cardItem:nth-child(3n) {
+			margin-right: 0;
+		}
+	}
 }

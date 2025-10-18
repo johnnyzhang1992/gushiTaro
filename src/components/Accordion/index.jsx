@@ -1,4 +1,4 @@
-import { View, Image, Navigator,Text } from '@tarojs/components';
+import { View, Image, Navigator, Text } from '@tarojs/components';
 import { useState, useEffect } from 'react';
 
 import { getAuthkey } from '../../utils/alioss';
@@ -9,7 +9,7 @@ const AccordionList = ({ children }) => {
 	return <View className='list'>{children}</View>;
 };
 
-const AccordionItem = ({ title, source, target_id, tag ='' }) => {
+const AccordionItem = ({ title, source, target_id, tag = '' }) => {
 	return (
 		<Navigator
 			url={`/pages/poem/detail?id=${target_id}`}
@@ -29,6 +29,7 @@ const AccordionItem = ({ title, source, target_id, tag ='' }) => {
 // 手风琴
 const Accordion = ({
 	defaultOpen = false,
+	showHeader = true,
 	thumbnail,
 	title,
 	note,
@@ -54,24 +55,26 @@ const Accordion = ({
 
 	return (
 		<View className='poem_accordion'>
-			<View className='accordion__header'>
-				{cdnThumbnail && (
-					<View className='accordion__thumb'>
-						<Image
-							src={cdnThumbnail}
-							className='thumb_image'
-							mode='heightFix'
-						/>
+			{showHeader && (
+				<View className='accordion__header' onClick={toggleOpen}>
+					{cdnThumbnail && (
+						<View className='accordion__thumb'>
+							<Image
+								src={cdnThumbnail}
+								className='thumb_image'
+								mode='heightFix'
+							/>
+						</View>
+					)}
+					<View className='accordion__info'>
+						<View className='info__title'>{title}</View>
+						<View className='info__note'>{note}</View>
 					</View>
-				)}
-				<View className='accordion__info'>
-					<View className='info__title'>{title}</View>
-					<View className='info__note'>{note}</View>
+					<View className='accordion__arrow'>
+						<View className='at-icon at-icon-chevron-down' />
+					</View>
 				</View>
-				<View className='accordion__arrow' onClick={toggleOpen}>
-					<View className='at-icon at-icon-chevron-down' />
-				</View>
-			</View>
+			)}
 			<View className={`accordion__content ${isOpen ? '' : 'inactive'}`}>
 				<View className='accordion_body'>{children}</View>
 			</View>

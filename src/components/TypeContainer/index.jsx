@@ -47,7 +47,8 @@ const TypeContainer = () => {
 				}}
 			>
 				{/* 每个分类，最多展示12条，多余的展示多余 */}
-				<TypeCatalogSection tag='教科书' />
+				<TypeCatalogSection tag='教科书' key='教科书' />
+				<TypeCatalogSection tag='选集' key='选集' />
 				{CategoriesList.map((cat) => (
 					<SectionCard
 						key={cat.title}

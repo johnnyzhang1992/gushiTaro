@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import Taro from '@tarojs/taro';
 
-import { View, Text, Navigator } from '@tarojs/components';
+import { View } from '@tarojs/components';
 
 import { fetchCatalogList } from '../../services/global';
 import { getAuthkey } from '../../utils/alioss';
@@ -58,18 +58,8 @@ const TypeCatalogSection = (props) => {
 	}, [getList]);
 
 	return (
-		<SectionCard
-			title='教科书'
-			extra={
-				list.length > 8 ? (
-					<Navigator hoverClass='none' url='/pages/type/index?title=教科书'>
-						<Text>更多</Text>
-						<View className='icon at-icon at-icon-chevron-right' />
-					</Navigator>
-				) : null
-			}
-		>
-			<View className='typeList'>
+		<SectionCard title={tag}>
+			<View className='typeList catalog'>
 				{list.slice(0, 8).map((item) => (
 					<TypeCard
 						{...item}
