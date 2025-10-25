@@ -93,9 +93,8 @@ const CatalogPage = () => {
 						key={fasc._id}
 						thumbnail={fasc.thumbnail}
 						title={detail.fasc_title || detail.catalog_name}
-						note={fasc.fascicule_name}
+						note={fasciculeList.length >1 ? fasc.fascicule_name : ''}
 						defaultOpen={index === 0}
-						showHeader={fasciculeList.length > 1}
 					>
 						<AccordionList>
 							{fasc.doc_list.map((doc) => {

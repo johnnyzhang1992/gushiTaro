@@ -35,23 +35,25 @@
 		width: auto;
 		margin-right: 30rpx;
 		margin-bottom: 40px;
+		display: flex;
+		flex-direction: column;
 		&::before {
 			display: none;
 		}
 		.thumbnail {
-			height: 220px;
-			max-height: 220px;
-			max-width: 166px;
+			height: 260px;
+			max-height: 260px;
+			max-width: 196px;
+			width: auto;
 		}
 		.name {
-			position: absolute;
-			top: 50%;
-			left: 10px;
-			transform: translateY(-50%);
-			background-color: rgba(255, 255, 255, 0.5);
-			padding: 20px 10px 10px;
-			font-size: 0.9rem;
+			font-size: 0.8rem;
 			box-sizing: border-box;
+			height: auto;
+			width: 100%;
+			writing-mode: initial;
+			text-align: center;
+			padding-top: 8px;
 		}
 	}
 	.name,
