@@ -171,18 +171,18 @@ const CollectPage = () => {
 		updateUserCollect('POST', {
 			user_id: user.user_id,
 			type: optionRef.current.type || '',
-			target_id: params.id,
+			target_id: params.like_id,
+			status: 1,
+			type: params.type || 'poem',
 		}).then((res) => {
 			if (res && res.statusCode === 200) {
-				if (res.data.status) {
-					const newList = collectList.list.filter((item) => {
-						return item.id !== params.id;
-					});
-					setList({
-						...collectList,
-						list: newList,
-					});
-				}
+				const newList = collectList.list.filter((item) => {
+					return item.id !== params.id;
+				});
+				setList({
+					...collectList,
+					list: newList,
+				});
 			}
 		});
 	};
