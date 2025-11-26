@@ -80,7 +80,7 @@ export const updateCollection = (method = 'POST', data) => {
  * @param {Object} data {}
  */
 export const fetchPoemPinyin = (method, data) => {
-	return Request(`/api/pinyin`, data, method);
+	return Request(`/api/pinyin/poem`, data, method);
 };
 
 /**

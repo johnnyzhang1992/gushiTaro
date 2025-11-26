@@ -75,13 +75,13 @@ const PinyinButton = (props) => {
 			title: '转换中，请稍等',
 			icon: 'none',
 		});
-		fetchPoemPinyin('POST', {
+		fetchPoemPinyin('GET', {
 			dictType: 'complete',
 			poem_id: poemId,
 		})
 			.then((res) => {
-				const { pinyin } = res.data;
-				if (!pinyin) {
+				const { title, xu = '', content = [] } = res.data;
+				if (!res.data || res.data.code) {
 					Taro.hideLoading();
 					Taro.showToast({
 						icon: 'none',
@@ -89,22 +89,22 @@ const PinyinButton = (props) => {
 					});
 					return false;
 				}
-				const pinyinArr = pinyin.split('_');
-				const [p_title, p_xu, ...p_content] = pinyinArr;
+				const pinyinContent = content.map((item) => {
+					return item.join(' ');
+				});
+				const pinyinObj = {
+					title: title.join(' '),
+					xu: xu ? xu.join(' ') : '',
+					content: pinyinContent,
+				};
 				updatePinyin({
-					title: p_title,
-					xu: p_xu,
-					content: p_content,
+					...pinyinObj,
 				});
 				pinyinHistory.current = {
-					title: p_title,
-					xu: p_xu,
-					content: p_content,
+					...pinyinObj,
 				};
 				updatePinyinForParent({
-					title: p_title,
-					xu: p_xu,
-					content: p_content,
+					...pinyinObj,
 				});
 				Taro.hideLoading();
 			})
