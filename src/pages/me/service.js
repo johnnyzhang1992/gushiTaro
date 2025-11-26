@@ -64,7 +64,7 @@ export const updateUserInfo = (method, data) => {
  * @param {*} data
  * @returns
  */
-export const uploadAvatar = (method, data) => {
+export const uploadUserAvatar = (method, data) => {
 	return UploadFile(`/api/user/updateAvatar`, data, method);
 };
 

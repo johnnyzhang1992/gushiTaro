@@ -41,7 +41,7 @@ const MeIndex = () => {
 			.then(async (res) => {
 				if (res && res.statusCode === 200) {
 					let avatar = res.data.avatarUrl || userInfo.avatarUrl;
-					if (avatar) {
+					if (avatar && !avatar.includes('auth_key')) {
 						avatar = await getCDNAvatar(avatar)
 					}
 					setInfo((pre) => ({

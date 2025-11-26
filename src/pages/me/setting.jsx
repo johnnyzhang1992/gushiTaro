@@ -5,13 +5,15 @@ import {
 	Input,
 	Switch,
 	Button,
+	Image,
 } from '@tarojs/components';
 import { useState, useRef } from 'react';
 import Taro, { useDidShow, useLoad, usePullDownRefresh } from '@tarojs/taro';
 
-// import { updateUserInfo } from '../service';
 import { updateUserInfo } from '../../services/global';
+import { uploadUserAvatar } from './service';
 import { userIsLogin } from '../../utils/auth';
+import { getAuthkey } from '../../utils/alioss';
 
 import './setting.scss';
 
@@ -25,6 +27,19 @@ const SettingPage = () => {
 		name: '',
 	});
 
+	const updateAvatarUrl = async (_url) => {
+		const authKey = await getAuthkey(_url);
+		const cdnUrl = `${_url}?auth_key=${authKey}`;
+		updateForm((pre) => ({
+			...pre,
+			avatar: cdnUrl,
+		}));
+		formRef.current = {
+			...formRef.current,
+			avatar: cdnUrl,
+		};
+	};
+
 	useLoad(() => {
 		Taro.setNavigationBarTitle({ title: '用户信息设置' });
 		const user = Taro.getStorageSync('user');
@@ -36,6 +51,7 @@ const SettingPage = () => {
 			avatar: user.avatarUrl,
 			name: user.name || user.nickName,
 		});
+		user.avatarUrl && updateAvatarUrl(user.avatarUrl);
 	});
 
 	useDidShow(() => {
@@ -91,50 +107,53 @@ const SettingPage = () => {
 		});
 	};
 
-	// const updateAvatar = () => {
-	// 	Taro.chooseImage({
-	// 		count: 1,
-	// 		sizeType: ['compressed'],
-	// 		sourceType: ['album'],
-	// 		success: function (res) {
-	// 			// 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-	// 			var tempFilePath = res.tempFilePaths[0];
-	// 			uploadAvatar('POST', {
-	// 				name: 'file',
-	// 				filePath: tempFilePath,
-	// 			}).then((_res) => {
-	// 				if (_res && _res.statusCode === 200) {
-	// 					const user = Taro.getStorageSync('user');
-	// 					const { avatarUrl } = JSON.parse(_res.data);
-	// 					Taro.setStorageSync('user', {
-	// 						...user,
-	// 						avatar: avatarUrl,
-	// 						avatarUrl,
-	// 					});
-	// 					updateForm((pre) => ({
-	// 						...pre,
-	// 						avatar: avatarUrl,
-	// 					}));
-	// 				}
-	// 			});
-	// 		},
-	// 		fail: (err) => {
-	// 			console.log(err);
-	// 		},
-	// 	});
-	// };
+	const updateAvatar = () => {
+		Taro.chooseImage({
+			count: 1,
+			sizeType: ['compressed'],
+			sourceType: ['album'],
+			success: function (res) {
+				// 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+				var tempFilePath = res.tempFilePaths[0];
+				uploadUserAvatar('POST', {
+					name: 'file',
+					filePath: tempFilePath,
+				}).then((_res) => {
+					if (_res && _res.statusCode === 200) {
+						const user = Taro.getStorageSync('user');
+						const { cdn_url } = JSON.parse(_res.data);
+						updateAvatarUrl(cdn_url);
+						Taro.setStorageSync('user', {
+							...user,
+							avatar: cdn_url,
+							avatarUrl: cdn_url,
+						});
+						updateForm((pre) => ({
+							...pre,
+							avatar: cdn_url,
+						}));
+					}
+				});
+			},
+			fail: (err) => {
+				console.log(err);
+			},
+		});
+	};
 
 	return (
 		<View className='page settingPage'>
 			<Form onSubmit={handleSubmit}>
-				{/* <View className='formItem center noBottom'>
+				<View className='formItem center noBottom'>
 					<View className='formContent' onClick={updateAvatar}>
 						<View className='avatar'>
 							<Image src={form.avatar} className='avatarImg' />
 						</View>
 						<View className='intro'>设置头像</View>
+						<View className='intro text'>格式：支持JPG、PNG、JPEG</View>
+						<View className='intro text'>大小：5M以内</View>
 					</View>
-				</View> */}
+				</View>
 				<View className='formItem'>
 					<View className='label'>昵称</View>
 					<View className='formContent'>

@@ -21,11 +21,19 @@
 		.avatarImg {
 			width: 120px;
 			height: 120px;
+			border-radius: 100%;
 		}
 	}
 	.intro {
 		color: #337ab7;
 		font-size: 28px;
+		margin: 20px 0;
+		text-align: center;
+		&.text {
+			color: #999;
+			font-size: 24px;
+			margin: 8px 0;
+		}
 	}
 	.formBtns {
 		margin-top: 30px;
