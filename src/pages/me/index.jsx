@@ -30,6 +30,7 @@ const MeIndex = () => {
 	});
 	const isCreate = useRef(false);
 
+	// user stats
 	const fetchInfo = (id) => {
 		const user = Taro.getStorageSync('user');
 		if (!id && (!user || !user.user_id)) {
@@ -38,16 +39,11 @@ const MeIndex = () => {
 		fetchUserInfo('GET', {
 			user_id: id || user.user_id,
 		})
-			.then(async (res) => {
+			.then((res) => {
 				if (res && res.statusCode === 200) {
-					let avatar = res.data.avatarUrl || userInfo.avatarUrl;
-					if (avatar && !avatar.includes('auth_key')) {
-						avatar = await getCDNAvatar(avatar)
-					}
 					setInfo((pre) => ({
 						...pre,
 						...res.data,
-						avatarUrl: avatar
 					}));
 				}
 				// token 过期
@@ -169,12 +165,19 @@ const MeIndex = () => {
 		}
 	};
 
-	const getCDNAvatar = async (avatar) => {
+	const getCDNAvatar = async (avatar, update = false) => {
+		if (!avatar) {
+			return '';
+		}
 		try {
-			if (avatar) {
-				const authkey = await getAuthkey(avatar);
-				return avatar + '?auth_key=' + authkey;
+			const authkey = await getAuthkey(avatar);
+			if (update) {
+				setInfo((pre) => ({
+					...pre,
+					cdnAvatar: avatar + '?auth_key=' + authkey,
+				}));
 			}
+			return avatar + '?auth_key=' + authkey;
 		} catch (error) {
 			console.log(error);
 			return avatar;
@@ -211,6 +214,10 @@ const MeIndex = () => {
 		console.log(options);
 		const user = Taro.getStorageSync('user') || {};
 		fetchStats(user);
+		// cdnUrl 计算
+		if (user.avatarUrl) {
+			getCDNAvatar(user.avatarUrl, true);
+		}
 		setInfo((pre) => ({
 			...pre,
 			...user,
@@ -225,6 +232,10 @@ const MeIndex = () => {
 			...pre,
 			...user,
 		}));
+		// 若头像变更，则重新计算cdnUrl
+		if (user.avatarUrl && user.avatarUrl != userInfo.avatarUrl) {
+			getCDNAvatar(user.avatarUrl, true);
+		}
 		fetchStats(user);
 	});
 
@@ -252,7 +263,7 @@ const MeIndex = () => {
 							hoverClass='none'
 						>
 							<View className='avatar'>
-								<Image src={userInfo.avatarUrl || poetPng} className='img' />
+								<Image src={userInfo.cdnAvatar || poetPng} className='img' />
 							</View>
 							<View className='user_name'>
 								<Text className='text'>
