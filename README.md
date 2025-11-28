@@ -21,6 +21,19 @@
 
 [Taro](https://taro-docs.jd.com/) 是一个开放式跨端跨框架解决方案，支持使用 React/Vue/Nerv 等框架来开发 微信 / 京东 / 百度 / 支付宝 / 字节跳动 / QQ / 飞书 小程序 / H5 / RN 等应用。
 
+## 配置项
+
+`const/constant.js` 文件存在几个配置项，可以根据需要进行修改。主要是请求CDN资源(图片等)加了限制，链接后面需要加`auth_key`才可以正常访问。
+
+复制`const/constant.js.example`代码到 `const/constant.js` 文件中。
+
+```js
+// 阿里云 oss url 校验 key 
+export const OSS_URL_CHECK_KEY = ''
+// CDN 域名
+export const CDN_DOMAIN = ''
+```
+
 ### Taro 版本更新
 
 当前版本 3.6.25，升级后出现打包失败问题。
