@@ -4,10 +4,10 @@ import Taro, { useLoad, useDidShow, usePullDownRefresh } from '@tarojs/taro';
 
 import PageHeader from '../../components/PageHeader';
 import SectionCard from '../../components/SectionCard';
+import CdnImage from '../../components/CdnImage';
 
 import { fetchUserInfo } from './service';
 import { createUser, fetchScheduleStats } from '../../services/global';
-import { getAuthkey } from '../../utils/alioss';
 
 import './style.scss';
 
@@ -165,25 +165,6 @@ const MeIndex = () => {
 		}
 	};
 
-	const getCDNAvatar = async (avatar, update = false) => {
-		if (!avatar) {
-			return '';
-		}
-		try {
-			const authkey = await getAuthkey(avatar);
-			if (update) {
-				setInfo((pre) => ({
-					...pre,
-					cdnAvatar: avatar + '?auth_key=' + authkey,
-				}));
-			}
-			return avatar + '?auth_key=' + authkey;
-		} catch (error) {
-			console.log(error);
-			return avatar;
-		}
-	};
-
 	// 扫码
 	const handleScan = () => {
 		Taro.scanCode({
@@ -214,10 +195,6 @@ const MeIndex = () => {
 		console.log(options);
 		const user = Taro.getStorageSync('user') || {};
 		fetchStats(user);
-		// cdnUrl 计算
-		if (user.avatarUrl) {
-			getCDNAvatar(user.avatarUrl, true);
-		}
 		setInfo((pre) => ({
 			...pre,
 			...user,
@@ -232,10 +209,6 @@ const MeIndex = () => {
 			...pre,
 			...user,
 		}));
-		// 若头像变更，则重新计算cdnUrl
-		if (user.avatarUrl && user.avatarUrl != userInfo.avatarUrl) {
-			getCDNAvatar(user.avatarUrl, true);
-		}
 		fetchStats(user);
 	});
 
@@ -263,7 +236,7 @@ const MeIndex = () => {
 							hoverClass='none'
 						>
 							<View className='avatar'>
-								<Image src={userInfo.cdnAvatar || poetPng} className='img' />
+								<CdnImage src={userInfo.avatarUrl || poetPng} className='img' />
 							</View>
 							<View className='user_name'>
 								<Text className='text'>

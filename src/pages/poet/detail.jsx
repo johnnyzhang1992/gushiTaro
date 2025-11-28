@@ -6,29 +6,21 @@ import Taro, {
 	useShareTimeline,
 } from '@tarojs/taro';
 import { useNavigationBar } from 'taro-hooks';
-import {
-	View,
-	Image,
-	OfficialAccount,
-	Text,
-	Navigator,
-} from '@tarojs/components';
+import { View, OfficialAccount, Text, Navigator } from '@tarojs/components';
 
 import { fetchPoetDetail } from './service';
-import { getAuthkey } from '../../utils/alioss';
-
 
 import SectionCard from '../../components/SectionCard';
 import LongTextCard from '../../components/LongTextCard';
 import LikeButton from '../../components/LikeButton';
 import CollectButton from '../../components/CollectButton';
 import FabButton from '../../components/FabButton';
+import CdnImage from '../../components/CdnImage';
 
 import './style.scss';
 
 const PoetDetailPage = () => {
 	const { setTitle } = useNavigationBar({ title: '古诗文小助手' });
-	const [avatar, setAvatar] = useState('');
 	const [detail, setDetail] = useState({
 		poet: {
 			more_infos: [],
@@ -49,13 +41,6 @@ const PoetDetailPage = () => {
 		poemId: 48769,
 	});
 
-	const getCdnAvatar = async (_avatar) => {
-		if (_avatar) {
-			const authkey = await getAuthkey(_avatar);
-			setAvatar(_avatar + '?auth_key=' + authkey);
-		}
-	};
-
 	// 加载详情数据
 	const fetchDetail = (id) => {
 		const { poemId } = cacheRef.current;
@@ -74,9 +59,6 @@ const PoetDetailPage = () => {
 							more_infos: poet.more_infos || [],
 						},
 					});
-					if (poet.avatar) {
-						getCdnAvatar(poet.avatar);
-					}
 					setTitle(poet.author_name);
 				}
 			})
@@ -122,8 +104,12 @@ const PoetDetailPage = () => {
 		>
 			{/* 诗人图片 */}
 			<View className='avatarContainer'>
-				{avatar ? (
-					<Image src={avatar} className='avatar' mode='widthFix' />
+				{detail.poet.avatar ? (
+					<CdnImage
+						src={detail.poet.avatar}
+						className='avatar'
+						mode='widthFix'
+					/>
 				) : null}
 				<View className='author'>
 					<View className='name'>{detail.poet.author_name}</View>

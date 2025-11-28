@@ -170,10 +170,9 @@ const CollectPage = () => {
 	const handleCollectDelete = (params) => {
 		updateUserCollect('POST', {
 			user_id: user.user_id,
-			type: optionRef.current.type || '',
+			type: optionRef.current.type || 'poem',
 			target_id: params.like_id,
-			status: 1,
-			type: params.type || 'poem',
+			status: 1
 		}).then((res) => {
 			if (res && res.statusCode === 200) {
 				const newList = collectList.list.filter((item) => {

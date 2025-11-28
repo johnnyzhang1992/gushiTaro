@@ -1,6 +1,7 @@
-import { View, Image } from '@tarojs/components';
+import { View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 
+import CdnImage from '../CdnImage';
 import './styles.scss';
 
 const TypeCard = (props) => {
@@ -48,7 +49,7 @@ const TypeCard = (props) => {
 		>
 			{type === 'catalog' && thumbnail ? (
 				<>
-					<Image src={thumbnail} mode='heightFix' className='thumbnail' />
+					<CdnImage src={thumbnail} mode='heightFix' className='thumbnail' />
 					<View className='name'>{name}</View>
 				</>
 			) : (

@@ -4,7 +4,6 @@ import Taro from '@tarojs/taro';
 import { View } from '@tarojs/components';
 
 import { fetchCatalogList } from '../../services/global';
-import { getAuthkey } from '../../utils/alioss';
 
 import SectionCard from '../SectionCard';
 import TypeCard from '../TypeCard';
@@ -15,23 +14,11 @@ const TypeCatalogSection = (props) => {
 	const { tag = '' } = props;
 	const [list, setList] = useState([]);
 
-	const updateImgUrl = async (_list) => {
-		for (let i = 0; i < _list.length; i++) {
-			const item = _list[i];
-			const { thumbnail } = item;
-			if (thumbnail) {
-				const authKey = await getAuthkey(thumbnail);
-				item.thumbnail = thumbnail + '?auth_key=' + authKey;
-			}
-		}
-		setList(_list);
-	};
-
 	const getList = useCallback(async () => {
 		const cacheId = `catalog_${tag}`;
 		const cache = Taro.getStorageSync(cacheId);
 		if (cache) {
-			updateImgUrl(cache || []);
+			setList(cache || []);
 		}
 		const res = await fetchCatalogList('GET', {
 			tag,
@@ -46,10 +33,9 @@ const TypeCatalogSection = (props) => {
 		});
 		if (res && !res.code) {
 			if (res.data && res.data.list) {
-				updateImgUrl(res.data.list);
 				Taro.setStorageSync(cacheId, res.data.list);
+				setList(res.data.list);
 			}
-			console.log('res', res);
 		}
 	}, [tag]);
 

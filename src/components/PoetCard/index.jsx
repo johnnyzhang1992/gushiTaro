@@ -1,8 +1,7 @@
-import { View, Text, Image } from '@tarojs/components';
+import { View, Text } from '@tarojs/components';
 import Taro from '@tarojs/taro';
-import { useEffect, useState } from 'react';
 
-import { getAuthkey } from '../../utils/alioss';
+import CdnImage from '../CdnImage';
 
 import './style.scss';
 
@@ -15,24 +14,11 @@ const PoetCard = ({
 	showAvatar = true,
 	hideBorder = false,
 }) => {
-	const [cdnAvatar, setAvatar] = useState('');
-
 	const handleNavigate = () => {
 		Taro.navigateTo({
 			url: '/pages/poet/detail?id=' + id,
 		});
 	};
-
-	const getCdnAvatar = async () => {
-		if (avatar) {
-			const authkey = await getAuthkey(avatar);
-			setAvatar(avatar + '?auth_key=' + authkey);
-		}
-	};
-
-	useEffect(() => {
-		getCdnAvatar();
-	});
 
 	return (
 		<View
@@ -42,13 +28,13 @@ const PoetCard = ({
 			key={id}
 			onClick={handleNavigate}
 		>
-			{showAvatar && cdnAvatar ? (
+			{showAvatar && avatar ? (
 				<View className='avatar'>
-					<Image
+					<CdnImage
 						lazyLoad
 						fadeIn
 						showMenuByLongpress
-						src={cdnAvatar}
+						src={avatar}
 						className='img'
 					/>
 				</View>

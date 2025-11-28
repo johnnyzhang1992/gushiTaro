@@ -1,7 +1,7 @@
-import { View, Image, Navigator, Text } from '@tarojs/components';
-import { useState, useEffect } from 'react';
+import { View, Navigator, Text } from '@tarojs/components';
+import { useState } from 'react';
 
-import { getAuthkey } from '../../utils/alioss';
+import CdnImage from '../CdnImage';
 
 import './style.scss';
 
@@ -36,31 +36,19 @@ const Accordion = ({
 	children,
 }) => {
 	const [isOpen, setIsOpen] = useState(defaultOpen);
-	const [cdnThumbnail, setCdnThumbnail] = useState('');
 
 	const toggleOpen = () => {
 		setIsOpen(!isOpen);
 	};
 
-	const getCdnThumbnail = async (url) => {
-		const authkey = await getAuthkey(url);
-		setCdnThumbnail(`${thumbnail}?auth_key=${authkey}`);
-	};
-
-	useEffect(() => {
-		if (thumbnail) {
-			getCdnThumbnail(thumbnail);
-		}
-	}, [thumbnail]);
-
 	return (
 		<View className='poem_accordion'>
 			{showHeader && (
 				<View className='accordion__header' onClick={toggleOpen}>
-					{cdnThumbnail && (
+					{thumbnail && (
 						<View className='accordion__thumb'>
-							<Image
-								src={cdnThumbnail}
+							<CdnImage
+								src={thumbnail}
 								className='thumb_image'
 								mode='heightFix'
 							/>

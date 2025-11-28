@@ -15,7 +15,7 @@ const keyMap = new Map();
  * 获取签名
  * @returns
  */
-export const getAuthkey = async (fileName) => {
+export const getAuthkey = (fileName) => {
 	try {
 		if (!fileName || !fileName.startsWith(CDN_DOMAIN)) {
 			return '';
@@ -28,13 +28,17 @@ export const getAuthkey = async (fileName) => {
 		if (localKey && gap < 1800 && gap > 0) {
 			return authkey;
 		}
-		const authkeyNew = await computeAuthkey(file_name);
+		if (localKey && gap > 1800) {
+			keyMap.delete(file_name);
+		}
+		const authkeyNew = computeAuthkey(file_name);
 		if (authkeyNew.authkey) {
 			keyMap.set(file_name, authkeyNew);
 		}
 		return authkeyNew.authkey || '';
 	} catch (error) {
 		console.log(error);
+		return '';
 	}
 };
 
@@ -43,7 +47,7 @@ export const getAuthkey = async (fileName) => {
  * @param {*} filename
  * @returns
  */
-const computeAuthkey = async (filename) => {
+const computeAuthkey = (filename) => {
 	const timestamp = parseInt(new Date().getTime() / 1000);
 	const rand = 0;
 	const uid = 0;

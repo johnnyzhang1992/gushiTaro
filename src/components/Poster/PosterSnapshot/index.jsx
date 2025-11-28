@@ -28,8 +28,8 @@ const PosterSnapshot = (props) => {
 
 	const nongliText = new Date() > shenianDate ? '乙巳蛇年' : '甲辰龙年';
 
-	const updateBgImg = async (url) => {
-		const authKey = await getAuthkey(url);
+	const updateBgImg = (url) => {
+		const authKey = getAuthkey(url);
 		setBgImg(url + '?auth_key=' + authKey);
 	};
 

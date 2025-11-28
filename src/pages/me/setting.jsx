@@ -5,15 +5,14 @@ import {
 	Input,
 	Switch,
 	Button,
-	Image,
-} from '@tarojs/components';
+	} from '@tarojs/components';
 import { useState, useRef } from 'react';
 import Taro, { useDidShow, useLoad, usePullDownRefresh } from '@tarojs/taro';
 
+import CdnImage from '../../components/CdnImage';
 import { updateUserInfo } from '../../services/global';
 import { uploadUserAvatar } from './service';
 import { userIsLogin } from '../../utils/auth';
-import { getAuthkey } from '../../utils/alioss';
 
 import './setting.scss';
 
@@ -27,19 +26,6 @@ const SettingPage = () => {
 		name: '',
 	});
 
-	const updateAvatarUrl = async (_url) => {
-		const authKey = await getAuthkey(_url);
-		const cdnUrl = `${_url}?auth_key=${authKey}`;
-		updateForm((pre) => ({
-			...pre,
-			avatar: cdnUrl,
-		}));
-		formRef.current = {
-			...formRef.current,
-			avatar: cdnUrl,
-		};
-	};
-
 	useLoad(() => {
 		Taro.setNavigationBarTitle({ title: '用户信息设置' });
 		const user = Taro.getStorageSync('user');
@@ -51,7 +37,6 @@ const SettingPage = () => {
 			avatar: user.avatarUrl,
 			name: user.name || user.nickName,
 		});
-		user.avatarUrl && updateAvatarUrl(user.avatarUrl);
 	});
 
 	useDidShow(() => {
@@ -122,7 +107,6 @@ const SettingPage = () => {
 					if (_res && _res.statusCode === 200) {
 						const user = Taro.getStorageSync('user');
 						const { cdn_url } = JSON.parse(_res.data);
-						updateAvatarUrl(cdn_url);
 						Taro.setStorageSync('user', {
 							...user,
 							avatar: cdn_url,
@@ -147,7 +131,7 @@ const SettingPage = () => {
 				<View className='formItem center noBottom'>
 					<View className='formContent' onClick={updateAvatar}>
 						<View className='avatar'>
-							<Image src={form.avatar} className='avatarImg' />
+							<CdnImage src={form.avatar} className='avatarImg' />
 						</View>
 						<View className='intro'>设置头像</View>
 						<View className='intro text'>格式：支持JPG、PNG、JPEG</View>
