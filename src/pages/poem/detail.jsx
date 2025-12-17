@@ -97,18 +97,23 @@ const PoemDetail = () => {
 	};
 
 	useLoad((options) => {
-		const { id } = options;
+		const { id, scene } = options;
 		console.log('options', options);
-		cacheRef.current.poemId = id;
-		if (!id || id < 0) {
+		let poemId = id;
+		if (scene) {
+			poemId = decodeURIComponent(options.scene).split('=')[1];
+		}
+		cacheRef.current.poemId = poemId;
+		if (!poemId || poemId < 0) {
 			Taro.switchTab({
 				url: '/pages/index',
 			});
 		}
-		fetchDetail(id);
+		fetchDetail(poemId);
 		setOptions((pre) => ({
 			...pre,
 			...options,
+			id: poemId,
 		}));
 	});
 
@@ -137,10 +142,7 @@ const PoemDetail = () => {
 	return (
 		<View className='page poemDetail'>
 			{/* 诗词内容 */}
-			<PoemCard
-				{...detail.poem}
-				lightWord={pageOptions.keyWord}
-			/>
+			<PoemCard {...detail.poem} lightWord={pageOptions.keyWord} />
 			{/* 标签 */}
 			{detail.poem.tagsArr.length > 0 ? (
 				<SectionCard title=''>

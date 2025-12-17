@@ -38,14 +38,14 @@ const PoetDetailPage = () => {
 		poems: [],
 	});
 	const cacheRef = useRef({
-		poemId: 48769,
+		poetId: 48769,
 	});
 
 	// 加载详情数据
 	const fetchDetail = (id) => {
-		const { poemId } = cacheRef.current;
+		const { poetId } = cacheRef.current;
 		fetchPoetDetail('GET', {
-			id: id || poemId,
+			id: id || poetId,
 		})
 			.then((res) => {
 				if (res && res.statusCode === 200) {
@@ -68,10 +68,14 @@ const PoetDetailPage = () => {
 	};
 
 	useLoad((options) => {
-		const { id } = options;
+		const { id, scene } = options;
 		console.log('options', options);
-		cacheRef.current.poemId = id;
-		fetchDetail(id || 48769);
+		let poetId = id;
+		if (scene) {
+			poetId = decodeURIComponent(options.scene).split('=')[1];
+		}
+		cacheRef.current.poetId = poetId;
+		fetchDetail(poetId || 48769);
 	});
 
 	usePullDownRefresh(() => {

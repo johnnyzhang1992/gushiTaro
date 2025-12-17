@@ -165,8 +165,13 @@ const SentenceDetail = () => {
 
 	useLoad((options) => {
 		console.log('sentence--Detail:', options);
-		catchRef.current = options;
-		fetchDetail(options.id);
+		const { id, scene } = options || {};
+		let sentenceId = id;
+		if (scene) {
+			sentenceId = decodeURIComponent(options.scene).split('=')[1];
+		}
+		catchRef.current = { ...options, id: sentenceId };
+		fetchDetail(sentenceId);
 		setHList([...Taro.getCurrentPages()]);
 	});
 	usePullDownRefresh(() => {
