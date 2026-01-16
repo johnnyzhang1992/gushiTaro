@@ -235,3 +235,14 @@ export const fetchCatalogList = (method = 'GET', data) => {
 export const fetchCatalogDetail = (method = 'GET', data) => {
 	return Request(`/api/catalog/detail`, data, method);
 };
+
+// -- log ----
+/**
+ *
+ * @param {*} params {type, target_id, output_config, poster_config}
+ * @param {*} method
+ * @returns
+ */
+export const shareReport = (method = 'POST', data) => {
+	return Request(`/api/log/share_report`, data, method);
+};

@@ -1,6 +1,6 @@
 export const BaseUrl = 'https://api.xuegushi.com';
 // export const BaseUrl = 'http://127.0.0.1:3000';
-export const WxAppVersion = '6.0.3'
+export const WxAppVersion = '6.0.4'
 /**
  * 分类标签
  * { title: '分类标题',

@@ -8,3 +8,4 @@ node_modules/
 yarn-error.log
 src/pages/admin/
 src/const/constants.js
+git_stats.sh

@@ -13,7 +13,7 @@ import PosterSnapshot from '../components/Poster/PosterSnapshot';
 import FilterModal from '../components/FilterModal';
 
 import Utils from '../utils/util';
-import { fetchRandomSentence } from '../services/global';
+import { fetchRandomSentence, shareReport } from '../services/global';
 import { initConfig } from '../const/posterConfig';
 
 import searchSvg from '../images/svg/search.svg';
@@ -37,6 +37,7 @@ let timer = null;
 
 const Index = () => {
 	const [sentence, setSentence] = useState({
+		id: 0,
 		titleArr: [],
 	});
 	const [isOpen, setOpen] = useState(false);
@@ -136,6 +137,18 @@ const Index = () => {
 		fetchSentence(queryParams.author || queryParams.theme);
 	}, [fetchSentence, queryParams]);
 
+	// 保存上报
+	const handleShareReport = async () => {
+		await shareReport('POST',{
+			type: 'sentence',
+			target_id: sentence.id,
+			output_config: {type: 'png'},
+			poster_config: posterConfig,
+		}).catch((err) => {
+			console.log(err);
+		});
+	};
+
 	// 下载图片到本地
 	const handleDownload = () => {
 		console.log('点击生成图片');
@@ -152,6 +165,7 @@ const Index = () => {
 						const f = `${Taro.env.USER_DATA_PATH}/gushiPoemCard_${randomNum}.png`;
 						const fs = Taro.getFileSystemManager();
 						fs.writeFileSync(f, res1.data, 'binary');
+						// 保存成功后上报
 						Taro.saveImageToPhotosAlbum({
 							filePath: f,
 							success() {
@@ -159,6 +173,7 @@ const Index = () => {
 									icon: 'success',
 									title: '保存成功',
 								});
+								handleShareReport()
 							},
 							complete(res2) {
 								console.log('saveImageToPhotosAlbum:', res2);

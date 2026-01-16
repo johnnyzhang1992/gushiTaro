@@ -103,6 +103,7 @@ const SettingPage = () => {
 				uploadUserAvatar('POST', {
 					name: 'file',
 					filePath: tempFilePath,
+					platform: 'wxapp'
 				}).then((_res) => {
 					if (_res && _res.statusCode === 200) {
 						const user = Taro.getStorageSync('user');
