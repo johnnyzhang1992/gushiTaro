@@ -368,7 +368,7 @@ const MeIndex = () => {
 				{/* copyright */}
 				<View className='copyright'>
 					<Text className='text' decode userSelect>
-						2025 &copy; xuegushi.com
+						2026 &copy; xuegushi.com
 					</Text>
 				</View>
 			</View>

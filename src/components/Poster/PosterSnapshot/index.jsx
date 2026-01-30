@@ -9,7 +9,7 @@ import { getAuthkey } from '../../../utils/alioss';
 
 import './style.scss';
 
-const shenianDate = new Date('2025/01/29 00:00:00');
+const shenianDate = new Date('2026/02/17 00:00:00');
 
 const PosterSnapshot = (props) => {
 	const {
@@ -26,7 +26,7 @@ const PosterSnapshot = (props) => {
 
 	const [bgImg, setBgImg] = useState('');
 
-	const nongliText = new Date() > shenianDate ? '乙巳蛇年' : '甲辰龙年';
+	const nongliText = new Date() > shenianDate ? '丙午马年' : '乙巳蛇年';
 
 	const updateBgImg = (url) => {
 		const authKey = getAuthkey(url);
