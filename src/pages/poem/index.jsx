@@ -37,6 +37,7 @@ const Poem = () => {
 		type: undefined,
 		from: 'home',
 		inited: false,
+		_type: '',
 	});
 	const [pagination, updatePagination] = useState({
 		page: 1,
@@ -69,6 +70,18 @@ const Poem = () => {
 		});
 	};
 
+	const updateSearchType = (_type) => {
+		updateParams((pre) => ({
+			...pre,
+			_type,
+		}));
+		updatePagination({
+			page: 1,
+			size: 15,
+			total: 0,
+			last_page: -1,
+		});
+	};
 	useEffect(() => {
 		updatePagination((pre) => {
 			return {
@@ -202,7 +215,53 @@ const Poem = () => {
 							updateParams={updateParam}
 						/>
 					</View>
-				) : null}
+				) : (
+					<View className='filter_list '>
+						<Text className='filter_text'>筛选：</Text>
+						<View className='filter_content'>
+							<Text
+								className={`filter_item ${
+									fetchParams._type === 'title' ? 'active' : ''
+								}`}
+								onClick={() => {
+									updateSearchType('title');
+								}}
+							>
+								标题
+							</Text>
+							<Text
+								className={`filter_item ${
+									fetchParams._type === 'poem' ? 'active' : ''
+								}`}
+								onClick={() => {
+									updateSearchType('poem');
+								}}
+							>
+								诗词
+							</Text>
+							<Text
+								className={`filter_item ${
+									fetchParams._type === 'tag' ? 'active' : ''
+								}`}
+								onClick={() => {
+									updateSearchType('tag');
+								}}
+							>
+								标签
+							</Text>
+							<Text
+								className={`filter_item ${
+									fetchParams._type === 'author' ? 'active' : ''
+								}`}
+								onClick={() => {
+									updateSearchType('author');
+								}}
+							>
+								作者
+							</Text>
+						</View>
+					</View>
+				)}
 				{/* 诗词列表 */}
 				<View className='pageContainer safeBottom'>
 					{data.list.map((item) => {
@@ -212,7 +271,9 @@ const Poem = () => {
 								showCount
 								showBorder
 								key={item.id}
-								lightWord={pageOptions.from === 'search' ? pageOptions.keyWord : ''}
+								lightWord={
+									pageOptions.from === 'search' ? pageOptions.keyWord : ''
+								}
 							/>
 						);
 					})}

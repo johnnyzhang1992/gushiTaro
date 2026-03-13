@@ -9,6 +9,7 @@ const PageHeader = (props) => {
 	const { title, showSearch = true, showBack = false } = props;
 	const MenuRect = Taro.getMenuButtonBoundingClientRect();
 	const deviceInfo = Taro.getDeviceInfo();
+	const PageDeep = Taro.getCurrentPages().length;
 	// PC端样式比较特殊，且不支持图片导出
 	const isPc = ['mac', 'windows'].includes(deviceInfo.platform);
 	const LeaveTop = isPc ? 25 : MenuRect.top;
@@ -19,6 +20,11 @@ const PageHeader = (props) => {
 		});
 	};
 	const navigateBack = () => {
+		if (PageDeep === 1) {
+			Taro.switchTab({
+				url: '/pages/index',
+			});
+		}
 		Taro.navigateBack({
 			delta: 1,
 		});
