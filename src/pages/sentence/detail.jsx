@@ -224,7 +224,7 @@ const SentenceDetail = () => {
 				<View
 					className='topNavbar'
 					style={{
-						paddingTop: `${LeaveTop}px`,
+						paddingTop: `${isPc ? LeaveTop : 0}px`,
 					}}
 				>
 					<View

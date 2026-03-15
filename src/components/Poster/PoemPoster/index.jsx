@@ -42,7 +42,8 @@ const PoemPosterCard = (props) => {
 	}
 	if (type === 'horizontal') {
 		pSize = 30;
-		tSize = 12;
+		tSize = 14;
+		aSize = 14;
 	}
 	const minColumn = sentence.titleArr.length + 1; // 最小列数
 	const column = Math.round(width / 60); // 计算列数
@@ -82,7 +83,7 @@ const PoemPosterCard = (props) => {
 				id: i,
 				text: text,
 				type: 'title',
-				size: tSize * (0.9).toFixed(2),
+				size: tSize.toFixed(2),
 			});
 		}
 		if (i < gap && i > 1 && type !== 'center') {
