@@ -5,7 +5,7 @@ import Taro, {
 	useShareAppMessage,
 	useShareTimeline,
 } from '@tarojs/taro';
-import { AtTabs, AtTabsPane } from 'taro-ui';
+import { Tabs, TabPane } from '@nutui/nutui-react-taro';
 
 import SentenceContainer from '../../components/SentenceContainer';
 import PoemContainer from '../../components/PoemContainer';
@@ -18,15 +18,15 @@ const initOptions = {
 	title: '',
 	code: '',
 	profile: '',
-	from: 'home', // home 首页底部筛选 nav 导航 tag
+	from: 'home',
 	inited: false,
-	keyWord: '', // 关键词
+	keyWord: '',
 };
 const LibraryDetail = () => {
 	const [pageOptions, setOptions] = useState(initOptions);
 	const [currentTab, setTab] = useState(0);
-	const handleChangeTab = (index) => {
-		setTab(index);
+	const handleChangeTab = (index: string) => {
+		setTab(Number(index));
 	};
 
 	useLoad((options) => {
@@ -89,24 +89,18 @@ const LibraryDetail = () => {
 				</View>
 			) : null}
 			{/* tab 作品，摘录 */}
-			<AtTabs
-				current={currentTab}
-				tabList={[{ title: '作品' }, { title: '摘录' }]}
-				onClick={handleChangeTab}
-			>
-				{/* 作品 */}
-				<AtTabsPane current={currentTab} index={0}>
+			<Tabs value={currentTab} onChange={handleChangeTab}>
+				<TabPane title='作品'>
 					{pageOptions.inited ? (
 						<PoemContainer params={pageOptions} showDynasty={false} />
 					) : null}
-				</AtTabsPane>
-				{/* 摘录 */}
-				<AtTabsPane current={currentTab} index={1}>
+				</TabPane>
+				<TabPane title='摘录'>
 					{pageOptions.inited && currentTab == 1 ? (
 						<SentenceContainer params={pageOptions} />
 					) : null}
-				</AtTabsPane>
-			</AtTabs>
+				</TabPane>
+			</Tabs>
 		</View>
 	);
 };

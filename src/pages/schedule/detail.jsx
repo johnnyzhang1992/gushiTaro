@@ -5,7 +5,7 @@ import Taro, {
 	useReachBottom,
 } from '@tarojs/taro';
 import { useEffect, useRef, useState } from 'react';
-import { AtTabs, AtTabsPane } from 'taro-ui';
+import { Tabs, TabPane } from '@nutui/nutui-react-taro';
 
 import SchedulePoemModal from '../../components/SchedulePoemModal';
 import ScheduleCard from '../../components/ScheduleCard';
@@ -209,45 +209,44 @@ const ScheduleDetail = () => {
 			</View>
 			{/* 诗词列表 */}
 			{/* 待学习，已学习 */}
-			<AtTabs
-				swipeable={false}
-				current={status}
-				tabList={[{ title: '待学习' }, { title: '已学习' }]}
-				onClick={handleStatusChange}
-			>
-				<AtTabsPane current={status} index={0}>
-					{scheduleDetail.list.length > 0 ? (
-						scheduleDetail.list.map((item) => (
-							<SchedulePoemCard
-								{...item}
-								key={item._id}
-								status={0}
-								onSuccess={handlePoemCallback}
-							/>
-						))
-					) : (
-						<View className='empty'>
-							<View>已完成学习计划🎉</View>
-						</View>
-					)}
-				</AtTabsPane>
-				<AtTabsPane current={status} index={1}>
-					{scheduleDetail.list.length > 0 ? (
-						scheduleDetail.list.map((item) => (
-							<SchedulePoemCard
-								{...item}
-								key={item._id}
-								status={1}
-								onSuccess={handlePoemCallback}
-							/>
-						))
-					) : (
-						<View className='empty'>
-							<View>还没有内容</View>
-						</View>
-					)}
-				</AtTabsPane>
-			</AtTabs>
+			<Tabs value={status} onChange={handleStatusChange}>
+				<TabPane title='待学习'>
+					<View className='poemList'>
+						{scheduleDetail.list.length > 0 ? (
+							scheduleDetail.list.map((item) => (
+								<SchedulePoemCard
+									{...item}
+									key={item._id}
+									status={0}
+									onSuccess={handlePoemCallback}
+								/>
+							))
+						) : (
+							<View className='empty'>
+								<View>已完成学习计划🎉</View>
+							</View>
+						)}
+					</View>
+				</TabPane>
+				<TabPane title='已打卡'>
+					<View className='poemList'>
+						{scheduleDetail.list.length > 0 ? (
+							scheduleDetail.list.map((item) => (
+								<SchedulePoemCard
+									{...item}
+									key={item._id}
+									status={1}
+									onSuccess={handlePoemCallback}
+								/>
+							))
+						) : (
+							<View className='empty'>
+								<View>已完成学习计划🎉</View>
+							</View>
+						)}
+					</View>
+				</TabPane>
+			</Tabs>
 			{/* 新增诗词按钮 */}
 			<View className='createBtn' onClick={handleShowModal}>
 				<View className='at-icon at-icon-add icon'></View>

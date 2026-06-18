@@ -20,7 +20,7 @@ const config = {
 	compiler: {
 		type: 'webpack5',
 		prebundle: {
-			exclude: ['taro-ui'],
+			exclude: ['taro-ui', '@nutui/nutui-react-taro'],
 		},
 	},
 	cache: {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { View } from '@tarojs/components';
-import { AtTabs, AtTabsPane } from 'taro-ui';
+import { Tabs, TabPane } from '@nutui/nutui-react-taro';
 
 import FloatLayout from '../../../../components/FloatLayout';
 import LongTextCard from '../../../../components/LongTextCard';
@@ -96,25 +96,18 @@ const FixBottom = (props) => {
 				close={handleClickOverlay}
 				scrollY
 			>
-				<AtTabs
-					current={current}
-					tabList={tabList}
-					onClick={handleTabChange}
-					swipeable={false}
-					animated={false}
-					className='atTabs'
-				>
-					<AtTabsPane current={current} index={0}>
+				<Tabs value={current} onChange={handleTabChange}>
+					<TabPane title='注释'>
 						<View className='tabContent'>
 							<LongTextCard text={annotation} title='注释' showAll />
 						</View>
-					</AtTabsPane>
-					<AtTabsPane current={current} index={1}>
+					</TabPane>
+					<TabPane title='译文'>
 						<View className='tabContent'>
 							<LongTextCard text={translation} title='译文' showAll />
 						</View>
-					</AtTabsPane>
-				</AtTabs>
+					</TabPane>
+				</Tabs>
 			</FloatLayout>
 		</View>
 	);
