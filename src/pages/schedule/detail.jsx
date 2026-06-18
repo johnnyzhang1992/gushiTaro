@@ -249,7 +249,7 @@ const ScheduleDetail = () => {
 			</Tabs>
 			{/* 新增诗词按钮 */}
 			<View className='createBtn' onClick={handleShowModal}>
-				<View className='at-icon at-icon-add icon'></View>
+				<View className='add-icon icon'></View>
 			</View>
 			{/* 诗词弹窗 */}
 			<SchedulePoemModal

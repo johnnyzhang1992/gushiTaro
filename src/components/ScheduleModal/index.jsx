@@ -1,5 +1,5 @@
 import { View, Text, ScrollView } from '@tarojs/components';
-import { AtInput } from 'taro-ui';
+import { Input } from '@nutui/nutui-react-taro';
 import { useState, useEffect } from 'react';
 import Taro from '@tarojs/taro';
 
@@ -278,15 +278,12 @@ const ScheduleModal = ({
 				}}
 			>
 				{/* 标题 */}
-				<AtInput
-					title=''
-					type='text'
+				<Input
 					className='name'
 					maxLength={10}
-					placeholderClass='placeholder'
 					placeholder='填写标题(10字以内)'
 					value={scheduleForm.name}
-					onChange={handleNameChange}
+					onChange={(val) => handleNameChange(val)}
 				/>
 				{/* 其他创建方式 */}
 				{/* <View className='extra'>

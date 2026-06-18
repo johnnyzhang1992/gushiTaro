@@ -1,7 +1,7 @@
 import { View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 
-import { AtTag } from 'taro-ui';
+import { Tag } from '@nutui/nutui-react-taro';
 
 import './style.scss';
 
@@ -14,9 +14,7 @@ const TagItem = ({ tag }) => {
 
 	return (
 		<View className='tagItem'>
-			<AtTag size='small' onClick={handleClick}>
-				{tag}
-			</AtTag>
+			<Tag onClick={handleClick}>{tag}</Tag>
 		</View>
 	);
 };

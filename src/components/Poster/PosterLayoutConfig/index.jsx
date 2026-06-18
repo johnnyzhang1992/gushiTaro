@@ -1,5 +1,5 @@
 import { View, Text, Image, ScrollView } from '@tarojs/components';
-import { AtButton } from 'taro-ui';
+import { Button } from '@nutui/nutui-react-taro';
 import { useEffect, useState } from 'react';
 import Taro from '@tarojs/taro';
 
@@ -341,27 +341,27 @@ const PostLayoutConfig = ({
 			{/* 底部按钮 */}
 			<View className='shareBottom'>
 				{!isPc ? (
-					<AtButton
+					<Button
 						className='share-btn'
 						type='primary'
 						size='small'
-						circle
+						shape='round'
 						onClick={handleDownload}
 					>
 						<Image src={saveSvg} mode='widthFix' className='icon' />
 						<Text className='text'>保存</Text>
-					</AtButton>
+					</Button>
 				) : null}
-				<AtButton
+				<Button
 					className='share-btn'
-					type='secondary'
+					type='info'
 					size='small'
-					circle
+					shape='round'
 					openType='share'
 				>
 					<Image src={shareSvg} mode='widthFix' className='icon' />
 					<Text className='text'>分享</Text>
-				</AtButton>
+				</Button>
 			</View>
 		</View>
 	);

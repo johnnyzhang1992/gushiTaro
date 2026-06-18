@@ -146,7 +146,7 @@ const SchedulePage = () => {
 			/>
 			{/* 新建按钮 */}
 			<View className='createBtn' onClick={handleCreate}>
-				<View className='at-icon at-icon-add icon'></View>
+				<View className='add-icon icon'></View>
 			</View>
 		</View>
 	);

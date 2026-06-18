@@ -58,7 +58,7 @@ const PageHeader = (props) => {
 						height: (MenuRect.height || 32) + 'px',
 					}}
 				>
-					<View className='at-icon at-icon-chevron-left'></View>
+					<View className='chevron-left'></View>
 				</View>
 			) : null}
 			{props.children ? (

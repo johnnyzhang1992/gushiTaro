@@ -1,26 +1,5 @@
 import { View, Text, ScrollView } from '@tarojs/components';
-import { AtRadio } from 'taro-ui';
-import { useState, useEffect, useRef } from 'react';
-
-import FloatLayout from '../FloatLayout';
-
-import { fetchPoetData } from '../../pages/poet/service';
-
-import './style.scss';
-
-const themeList = [
-	'抒情',
-	'四季',
-	'山水',
-	'天气',
-	'人物',
-	'人生',
-	'生活',
-	'节日',
-	'动物',
-	'植物',
-	'食物',
-];
+import { RadioGroup, Radio } from '@nutui/nutui-react-taro';
 
 const FilterModal = (props) => {
 	const { handleSelect } = props;
@@ -32,12 +11,40 @@ const FilterModal = (props) => {
 	});
 	const initRef = useRef(false);
 
-	const handleAuthorChange = (value) => {
+	const handleAuthorChange = (value: string) => {
 		const { author = ''} = currentSelect
 		setSelect({
 			...currentSelect,
 			author: author == value ? '' : value,
 		});
+	};
+
+	const handleThemeSelect = (value: string) => {
+		const { theme = '' } = currentSelect;
+		setSelect({
+			...currentSelect,
+			theme: theme == value ? '' : value,
+		});
+	};
+
+	const handleClearSelect = (value: string) => {
+		setSelect({
+			author: '',
+			theme: '',
+		});
+	};
+
+	const getAuthorList = async () => {
+		const res = await fetchPoetData('GET', {});
+		if (res && res.data && res.data.poets) {
+			const options = res.data.poets.map((item) => {
+				return {
+					label: item.author_name,
+					value: item.author_name,
+				};
+			});
+			setList(options);
+		}
 	};
 
 	const handleThemeSelect = (value) => {
@@ -107,7 +114,7 @@ const FilterModal = (props) => {
 		<View className='filter-modal'>
 			{/* 按钮 */}
 			<View className='filter-btn' onClick={showModal}>
-				<View className='at-icon at-icon-filter'></View>
+				<Text className='filter-btn__icon'>⚙</Text>
 				<Text className='filter-btn__text'>{btnText}</Text>
 			</View>
 			{/* 弹窗 */}
@@ -115,33 +122,30 @@ const FilterModal = (props) => {
 				<ScrollView scrollY className='filter-layout-container'>
 					{/* 全部 */}
 					<View className='filter-card'>
-						{/* <View className='filter-card__title'>全部</View> */}
-						<AtRadio
-							className='filter-radio'
-							options={[{ label: '全部', value: 'all' }]}
+						<RadioGroup
 							value={currentSelect.theme || currentSelect.author ? '' : 'all'}
-							onClick={handleClearSelect}
-						/>
+							onChange={handleClearSelect}
+						>
+							<Radio value='all'>全部</Radio>
+						</RadioGroup>
 					</View>
 					{/* 作者 */}
 					<View className='filter-card'>
 						<View className='filter-card__title'>作者</View>
-						<AtRadio
-							className='filter-radio'
-							options={authorList}
-							value={currentSelect.author}
-							onClick={handleAuthorChange}
-						/>
+						<RadioGroup value={currentSelect.author} onChange={handleAuthorChange}>
+							{authorList.map((item) => (
+								<Radio key={item.value} value={item.value}>{item.label}</Radio>
+							))}
+						</RadioGroup>
 					</View>
 					{/* 主题 */}
 					<View className='filter-card'>
 						<View className='filter-card__title'>主题</View>
-						<AtRadio
-							className='filter-radio'
-							options={themeOptions}
-							value={currentSelect.theme}
-							onClick={handleThemeSelect}
-						/>
+						<RadioGroup value={currentSelect.theme} onChange={handleThemeSelect}>
+							{themeOptions.map((item) => (
+								<Radio key={item.value} value={item.value}>{item.label}</Radio>
+							))}
+						</RadioGroup>
 					</View>
 				</ScrollView>
 			</FloatLayout>

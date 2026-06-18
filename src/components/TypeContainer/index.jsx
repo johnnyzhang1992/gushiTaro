@@ -60,7 +60,7 @@ const TypeContainer = () => {
 									url={`/pages/type/index?title=${cat.title}`}
 								>
 									<Text>更多</Text>
-									<View className='icon at-icon at-icon-chevron-right' />
+									<View className='chevron'>‹ />
 								</Navigator>
 							) : null
 						}

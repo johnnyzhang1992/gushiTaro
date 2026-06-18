@@ -1,5 +1,5 @@
 import { View, Text } from '@tarojs/components';
-import { AtSwipeAction } from 'taro-ui';
+import { Swipe } from '@nutui/nutui-react-taro';
 import Taro from '@tarojs/taro';
 
 import {
@@ -189,9 +189,21 @@ const SchedulePoemCard = (props) => {
 	};
 	return (
 		<View className='schedule-poem-card'>
-			<AtSwipeAction options={swiperOptions} onClick={handleSwiperClick}>
+			<Swipe
+				rightAction={
+					<View style={{ display: 'flex', height: '100%' }}>
+						<View
+							className='swipe-btn edit'
+							onClick={() => handleSwiperClick({ text: '复习' })}
+						>复习</View>
+						<View
+							className='swipe-btn delete'
+							onClick={() => handleSwiperClick({ text: '删除' })}
+						>删除</View>
+					</View>
+				}
+			>
 				<View className='card_content'>
-					{/* 诗词信息，点击调整详情 */}
 					<View className='poem_info' onClick={navigateToPoem}>
 						<Text className='title'>
 							{poem_info.author}《{poem_info.title}》
@@ -201,7 +213,6 @@ const SchedulePoemCard = (props) => {
 						</Text>
 					</View>
 					<View className='operate'>
-						{/* 打卡、已打卡 */}
 						{status === 0 ? (
 							<View className='btn' onClick={handlePreCheckIn}>
 								打卡
@@ -216,7 +227,7 @@ const SchedulePoemCard = (props) => {
 						)}
 					</View>
 				</View>
-			</AtSwipeAction>
+			</Swipe>
 		</View>
 	);
 };

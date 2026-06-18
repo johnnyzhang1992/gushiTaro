@@ -2,7 +2,7 @@ import { View, Text, Button } from '@tarojs/components';
 import { useState, useRef, useEffect } from 'react';
 
 import SectionCard from '../../../../components/SectionCard';
-// <View className='at-icon at-icon-settings'></View>
+// <View className='settings-icon'></View>
 
 import { getHistoryKeys, removeKey, clearAll } from '../../historyUtil';
 
@@ -47,7 +47,7 @@ const SearchRecord = ({ handleSearch }) => {
 			<View className='recordItem' onClick={handleItemClick}>
 				<View className='text'>{text}</View>
 				<View
-					className='close at-icon at-icon-close'
+					className='close close-icon'
 					onClick={handleRemove}
 				></View>
 			</View>

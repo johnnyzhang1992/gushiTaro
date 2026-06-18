@@ -266,7 +266,7 @@ const MeIndex = () => {
 								</Text>
 								<View className='setting'>
 									<Text className='text'>编辑资料</Text>
-									<Text className='icon at-icon at-icon-settings'></Text>
+									<Text className='icon settings-icon'></Text>
 								</View>
 							</View>
 						</Navigator>
@@ -294,7 +294,7 @@ const MeIndex = () => {
 							<View className='name'>收藏集</View>
 							<View className='num'>
 								<Text>{userInfo.collection_count || 0}</Text>
-								<View className='at-icon at-icon-chevron-right'></View>
+								<View className='chevron-right'></View>
 							</View>
 						</Navigator>
 						<Navigator
@@ -305,7 +305,7 @@ const MeIndex = () => {
 							<View className='name'>作品</View>
 							<View className='num'>
 								<Text>{userInfo.poem_count}</Text>
-								<View className='at-icon at-icon-chevron-right'></View>
+								<View className='chevron-right'></View>
 							</View>
 						</Navigator>
 						<Navigator
@@ -316,7 +316,7 @@ const MeIndex = () => {
 							<View className='name'>摘录</View>
 							<View className='num'>
 								<Text>{userInfo.sentence_count}</Text>
-								<View className='at-icon at-icon-chevron-right'></View>
+								<View className='chevron-right'></View>
 							</View>
 						</Navigator>
 						<Navigator
@@ -327,7 +327,7 @@ const MeIndex = () => {
 							<View className='name'>作者</View>
 							<View className='num'>
 								<Text>{userInfo.poet_count}</Text>
-								<View className='at-icon at-icon-chevron-right'></View>
+								<View className='chevron-right'></View>
 							</View>
 						</Navigator>
 					</View>
@@ -342,7 +342,7 @@ const MeIndex = () => {
 						>
 							<View className='name'>学习计划</View>
 							<View className='num'>
-								<View className='at-icon at-icon-chevron-right'></View>
+								<View className='chevron-right'></View>
 							</View>
 						</Navigator>
 						<View className='statsCard'>
@@ -375,7 +375,7 @@ const MeIndex = () => {
 				{/* 关于我们 */}
 				<SectionCard
 					title='关于我们'
-					extra={<View className='icon at-icon at-icon-chevron-right' />}
+					extra={<View className='icon chevron-right' />}
 					titleClick={navigateToAbout}
 				>
 					<View className='imgContainer'>

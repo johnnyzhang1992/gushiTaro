@@ -1,5 +1,5 @@
 import { View, Text } from '@tarojs/components';
-import { AtFab, AtIcon } from 'taro-ui';
+import { Icon } from '@nutui/nutui-react-taro';
 import React, { useState } from 'react';
 import Taro from '@tarojs/taro';
 
@@ -50,13 +50,7 @@ const FabButton = ({ style }) => {
 						onClick={handleClick}
 					>
 						<Text className='text'>首页</Text>
-						<AtIcon
-							value='home'
-							size='20'
-							color='#fff'
-							className='icon'
-						/>
-						{/* <View className='at-icon at-icon-home'></View> */}
+						<Icon name='home' size='20' color='#fff' />
 					</View>
 					<View
 						className='appItem'
@@ -64,16 +58,7 @@ const FabButton = ({ style }) => {
 						onClick={handleClick}
 					>
 						<Text className='text'>搜索</Text>
-						<AtIcon
-							value='search'
-							size='20'
-							color='#fff'
-							className='icon'
-						/>
-						{/* <View
-							className='icon at-icon at-icon-search'
-							color=''
-						></View> */}
+						<Icon name='search' size='20' color='#fff' />
 					</View>
 					<View
 						className='appItem'
@@ -81,13 +66,7 @@ const FabButton = ({ style }) => {
 						onClick={handleClick}
 					>
 						<Text className='text'>我的</Text>
-						<AtIcon
-							value='user'
-							size='20'
-							color='#fff'
-							className='icon'
-						/>
-						{/* <View className='at-icon at-icon-heart'></View> */}
+						<Icon name='my' size='20' color='#fff' />
 					</View>
 					<View
 						className='appItem'
@@ -95,19 +74,13 @@ const FabButton = ({ style }) => {
 						onClick={handleClick}
 					>
 						<Text className='text'>返回</Text>
-						<AtIcon
-							value='chevron-left'
-							size='20'
-							color='#fff'
-							className='icon'
-						/>
-						{/* <View className='at-icon at-icon-chevron-left'></View> */}
+						<Icon name='arrow-left' size='20' color='#fff' />
 					</View>
 				</View>
 			) : null}
-			<AtFab size='small' onClick={handleFabClick}>
-				<Text className='at-fab__icon at-icon at-icon-menu'></Text>
-			</AtFab>
+			<View className='fab_btn' onClick={handleFabClick}>
+				<Icon name='menu' size='24' color='#fff' />
+			</View>
 		</View>
 	);
 };

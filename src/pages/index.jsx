@@ -292,11 +292,11 @@ const Index = () => {
 							className={`share-btn reload ${isReload ? 'active' : ''}`}
 							onClick={handleReload}
 						>
-							<View className='at-icon at-icon-reload'></View>
+							<View className='reload-icon'></View>
 							<Text className='text'>换一换</Text>
 						</View>
 						<View className='share-btn share' onClick={handleShow}>
-							<View className='at-icon at-icon-share-2'></View>
+							<View className='share-icon'></View>
 							<Text className='text'>分享</Text>
 						</View>
 					</View>

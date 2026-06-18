@@ -111,7 +111,7 @@ const CollectionsPage = () => {
 			<View className='header'>
 				<View className='list-button'>我创建的 {collections.length}</View>
 				<View className='list-create' onClick={hanldeCreate}>
-					<View className='at-icon at-icon-add'></View>
+					<View className='add-icon'></View>
 					<Text className='text'>新建收藏集</Text>
 				</View>
 			</View>

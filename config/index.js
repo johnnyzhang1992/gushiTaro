@@ -20,7 +20,7 @@ const config = {
 	compiler: {
 		type: 'webpack5',
 		prebundle: {
-			exclude: ['taro-ui', '@nutui/nutui-react-taro'],
+			exclude: ['@nutui/nutui-react-taro'],
 		},
 	},
 	cache: {
@@ -57,7 +57,7 @@ const config = {
 		},
 	},
 	h5: {
-		esnextModules: ['taro-ui'],
+		esnextModules: ['@nutui/nutui-react-taro'],
 		publicPath: '/',
 		staticDirectory: 'static',
 		postcss: {

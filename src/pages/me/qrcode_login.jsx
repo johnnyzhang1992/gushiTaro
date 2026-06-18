@@ -1,5 +1,5 @@
 import { View, Text, Image } from '@tarojs/components';
-import { AtButton } from 'taro-ui';
+import { Button } from '@nutui/nutui-react-taro';
 import Taro, { useLoad } from '@tarojs/taro';
 import { useState } from 'react';
 
@@ -148,20 +148,20 @@ const QrcodeLogin = () => {
 						</View>
 					</View>
 					<View className='btns'>
-						<AtButton
+						<Button
 							type='primary'
 							className='btn confirm'
 							onClick={handlePreLogin}
 						>
 							确认登录
-						</AtButton>
-						<AtButton
-							type='secondary'
+						</Button>
+						<Button
+							type='info'
 							className='btn cancel'
 							onClick={cancelLogin}
 						>
 							取消登录
-						</AtButton>
+						</Button>
 					</View>
 				</View>
 			)}

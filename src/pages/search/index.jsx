@@ -1,5 +1,5 @@
 import { View, Text, Navigator, ScrollView } from '@tarojs/components';
-import { AtSearchBar } from 'taro-ui';
+import { SearchBar } from '@nutui/nutui-react-taro';
 import { useState, useRef } from 'react';
 import Taro, {
 	useLoad,
@@ -265,14 +265,12 @@ const SearchPage = () => {
 			</PageHeader>
 			{/* 搜索框 */}
 			<View className='searchTop'>
-				<AtSearchBar
-					showActionButton
+				<SearchBar
 					placeholder={placeholder}
 					value={keyword}
-					onClear={handleClear}
-					onChange={handleChange}
-					onConfirm={handleSearch}
-					onActionClick={handleSearch}
+					onChange={(val) => handleChange(val)}
+					onSearch={() => handleSearch(keyword)}
+					maxLength={9}
 				/>
 			</View>
 			{/* 滚动内容区域 */}

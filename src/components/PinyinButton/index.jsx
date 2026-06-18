@@ -1,7 +1,7 @@
 import Taro from '@tarojs/taro';
 import { View, Image } from '@tarojs/components';
 import { useState, useRef } from 'react';
-import { AtSwitch } from 'taro-ui';
+import { Switch } from '@nutui/nutui-react-taro';
 
 import { fetchPoemPinyin } from '../../services/global';
 import pinyinSvg from '../../images/svg/pinyin.svg';
@@ -116,11 +116,9 @@ const PinyinButton = (props) => {
 
 	return (
 		<View className={['pinyinButton', className]} onClick={getPinyin}>
-			<AtSwitch
-				color='#337ab7'
+			<Switch
 				checked={open}
-				border={false}
-				onChange={() => setOpen(!open)}
+				onChange={(val: boolean) => setOpen(val)}
 			/>
 			<Image src={pinyinSvg} mode='widthFix' className='icon' />
 		</View>

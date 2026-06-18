@@ -34,7 +34,7 @@ const RandomSearch = () => {
 			<View className='randomTitle'>
 				<Text className='text'>为你推荐</Text>
 				<View className='right' onClick={fetchSearch}>
-					<View className='at-icon at-icon-reload'></View>
+					<View className='reload-icon'></View>
 					<Text className='text'>换一批</Text>
 				</View>
 			</View>

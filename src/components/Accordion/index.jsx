@@ -59,7 +59,7 @@ const Accordion = ({
 						<View className='info__note'>{note}</View>
 					</View>
 					<View className='accordion__arrow'>
-						<View className='at-icon at-icon-chevron-down' />
+						<Text className='arrow-down'>∨</Text>
 					</View>
 				</View>
 			)}

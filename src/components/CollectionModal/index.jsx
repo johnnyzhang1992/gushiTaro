@@ -1,5 +1,5 @@
 import { View, ScrollView } from '@tarojs/components';
-import { AtInput, AtCheckbox } from 'taro-ui';
+import { Input, Checkbox } from '@nutui/nutui-react-taro';
 import { useState, useEffect, useRef } from 'react';
 import Taro from '@tarojs/taro';
 
@@ -264,11 +264,19 @@ const CollectionModal = ({
 					}}
 				>
 					<View className='collectionList'>
-						<AtCheckbox
-							options={collections}
-							selectedList={collectionIds}
-							onChange={handleCollectionIdsChnage}
-						/>
+						<Checkbox.Group
+							value={collectionIds}
+							onChange={(val) => handleCollectionIdsChnage(val)}
+							direction='vertical'
+						>
+							{collections.map((item) => (
+								<Checkbox
+									key={item.value}
+									value={item.value}
+									label={item.label}
+								/>
+							))}
+						</Checkbox.Group>
 					</View>
 				</ScrollView>
 
@@ -299,14 +307,18 @@ const CollectionModal = ({
 			>
 				{/* 名称 */}
 				<View className='collectionLable'>名称</View>
-				<AtInput
-					title=''
-					type='text'
+				<Input
 					className='name'
-					placeholderClass='placeholder'
 					placeholder='收藏集名称（10字以内）'
 					value={collectionForm.collection_name}
-					onChange={handleNameChange}
+					onChange={(val) => handleNameChange(val)}
+				/>
+				<View className='collectionLable'>描述</View>
+				<Input
+					className='desc'
+					placeholder='收藏集描述'
+					value={collectionForm.description}
+					onChange={(val) => handleDescChange(val)}
 				/>
 				{/* 描述 */}
 				<View className='collectionLable'>描述</View>

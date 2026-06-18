@@ -1,6 +1,6 @@
 import { View, Text } from '@tarojs/components';
 import Taro from '@tarojs/taro';
-import { AtSwipeAction } from 'taro-ui';
+import { Swipe } from '@nutui/nutui-react-taro';
 
 import { deleteSchedule } from '../../services/global';
 
@@ -91,14 +91,19 @@ const ScheduleCard = (props) => {
 
 	return (
 		<View className='schedule-card'>
-			<AtSwipeAction
-				idOpened={canSwiper}
-				disabled={!canSwiper}
-				options={swiperOptions}
-				onClick={handleSwiperClick}
-				style={{
-					width: '335px',
-				}}
+			<Swipe
+				rightAction={
+					<View style={{ display: 'flex', height: '100%' }}>
+						<View
+							className='swipe-btn edit'
+							onClick={() => handleSwiperClick({ text: '编辑' })}
+						>编辑</View>
+						<View
+							className='swipe-btn delete'
+							onClick={() => handleSwiperClick({ text: '删除' })}
+						>删除</View>
+					</View>
+				}
 			>
 				<View className='card_content' onClick={navigateTo}>
 					<View className='name'>{name}</View>
@@ -139,10 +144,10 @@ const ScheduleCard = (props) => {
 						</View>
 					</View>
 					{navigate ? (
-						<View className='at-icon at-icon-chevron-right more'></View>
+						<Text className='more'> › </Text>
 					) : null}
 				</View>
-			</AtSwipeAction>
+			</Swipe>
 		</View>
 	);
 };

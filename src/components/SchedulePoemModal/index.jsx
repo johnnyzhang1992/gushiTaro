@@ -1,5 +1,5 @@
 import { View, ScrollView } from '@tarojs/components';
-import { AtSearchBar } from 'taro-ui';
+import { SearchBar } from '@nutui/nutui-react-taro';
 import { useState, useEffect, useRef } from 'react';
 import Taro from '@tarojs/taro';
 
@@ -206,14 +206,11 @@ const SchedulePoemModal = ({
 			<View className='schedulePoemModal'>
 				{/* 搜索部分 */}
 				<View className='searchTop'>
-					<AtSearchBar
-						showActionButton
+					<SearchBar
 						placeholder='搜索作品'
 						value={keyWord}
-						onClear={handleClear}
-						onChange={handleChange}
-						onConfirm={handleSearch}
-						onActionClick={handleSearch}
+						onChange={(val) => handleChange(val)}
+						onSearch={() => handleSearch(keyWord)}
 					/>
 				</View>
 				{/* 搜索筛选 */}

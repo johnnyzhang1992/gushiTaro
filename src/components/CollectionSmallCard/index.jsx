@@ -47,12 +47,12 @@ const CollectionSmallCard = (props) => {
 					}}
 				>
 					<View className='edit' onClick={handleEdit}>
-						<View className='at-icon at-icon-edit'></View>
+						<View className='edit-icon'></View>
 						<Text className='text'>编辑</Text>
 					</View>
 					<View className='delete' onClick={handleDelete}>
-						{/* <View className='at-icon at-icon-trash'></View> */}
-						<View className='at-icon at-icon-trash'></View>
+						{/* <View className='trash-icon'></View> */}
+						<View className='trash-icon'></View>
 						<Text className='text'>删除</Text>
 					</View>
 				</View>
