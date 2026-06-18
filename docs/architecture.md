@@ -1,51 +1,106 @@
 # 架构总览
 
-本项目为一个基于 Taro 的微信小程序（多端跨平台框架），使用 React 作为前端框架，并面向多端打包。代码组织和依赖旨在实现快速开发、组件化复用以及跨平台能力。
+## 技术栈
 
-## 技术栈要点
-- 运行时/框架：Taro（多端构建），React
-- UI 组件：Taro-UI
-- 生态工具：taro-hooks、eslint、stylelint、postcss、typescript（可选）
-- 构建目标：微信小程序、H5、以及其它 taro 支持的平台（如 alipay、jd、qq、swan、tt、rn、quickapp 等，依据 package.json 的脚本）
-- 语言与类型：JavaScript 为主，TypeScript 作为可选依赖（devDependencies 中包含 typescript）
+| 层 | 技术 | 版本 |
+|---|---|---|
+| 跨端框架 | Taro | 3.6.25 |
+| UI 框架 | React | 18.x |
+| UI 组件库 | taro-ui | 3.x |
+| Hooks 扩展 | taro-hooks | 2.x |
+| 样式 | SCSS | - |
+| 构建工具 | Webpack 5 | 5.78 |
+| 语言 | JavaScript | ES6+ |
 
-## 项目结构与职责
-- apis：统一的 API 请求入口与封装，负责与后端接口交互。
-- component：自定义组件集合，供页面复用。
-- const：全局或常量数据（如朝代、分类等数据源）。
-- images：静态资源，对应图标等资源图片。
-- hooks：自定义 React hooks，封装公共逻辑。
-- pages：小程序各页面及路由对应的实现。
-- services：请求实例与页面相关的服务层封装，便于集中管理。
-- utils：工具函数集合，提供通用方法。
-- 其它：config、scripts、样式等资源按 taro 的项目约定组织。
+## 目录结构
 
-以上目录结构摘自 README 的描述，是当前代码的核心分布，后续你如有新增模块也应遵循类似分层。
+```
+gushiTaro/
+├── config/                    # Taro 构建配置
+│   ├── index.js              # 主配置（设计宽度 750，webpack5）
+│   ├── dev.js                # 开发环境
+│   └── prod.js               # 生产环境
+├── src/
+│   ├── app.config.js         # 路由 + TabBar + 全局窗口配置
+│   ├── app.jsx               # 入口：登录、版本更新
+│   ├── app.scss              # 全局样式
+│   ├── apis/                 # HTTP 请求封装
+│   │   ├── request.js        # 统一请求方法（自动带 openId/token）
+│   │   └── uploadFile.js     # 文件上传
+│   ├── services/             # 业务 API 层
+│   │   └── global.js         # 全局 API（收藏、用户、计划、分类等）
+│   ├── components/           # 41 个自定义组件
+│   ├── pages/                # 页面（15 个页面模块，27 条路由）
+│   ├── hooks/                # 自定义 Hook
+│   │   └── useFetchList.js   # 分页列表通用 Hook
+│   ├── const/                # 常量与配置
+│   │   ├── config.js         # API 地址、分类数据、朝代、词牌名
+│   │   ├── constants.js      # OSS 签名 key、CDN 域名
+│   │   ├── color.js          # 中国传统颜色数据
+│   │   └── posterConfig.js   # 海报生成配置
+│   ├── utils/                # 工具函数
+│   │   ├── auth.js           # 登录态判断
+│   │   ├── tool.js           # 设备信息获取
+│   │   ├── util.js           # 日期格式化、时间差等
+│   │   └── alioss.js         # 阿里云 OSS 签名
+│   ├── layout/               # 页面布局容器
+│   └── images/               # 静态图片资源
+└── docs/                     # 项目文档
+```
 
-## 架构视角的工作流
-- 数据流：页面 -> 服务/接口 -> 数据模型 -> 页面渲染。网络请求集中在 apis/services 目录，页面直接消费封装好的接口。
-- 组件化：component 目录下的自定义组件在多页面间复用，减少重复代码。
-- 状态与副作用：基于 React 的组合式编程，优先使用自定义 hooks 来封装副作用和公共逻辑。
-- 构建目标：通过 npm 脚本提供多端构建能力，例如 build:weapp、build:h5、build:rn 等，dev:* 脚本用于本地开发监听与热更新。
+## 数据流
 
-## 构建与开发
-- 主要构建命令（在 package.json 中定义）
-  - build:weapp, build:h5, build:rn, build:tt, build:swan, build:alipay, build:qq, build:jd, build:quickapp
-- 本地开发以 watch 模式运行：dev:weapp 等
-- Node 版本要求：>= 12.0.0（package.json中的 engines 字段）
-- 依赖环境：nvm/npx/yarn/npm 均可，确保 taro 相关全局依赖正确安装
+```
+用户操作
+  ↓
+页面组件 (pages/)
+  ↓ 调用
+服务层 (services/global.js + 各页面 service.js)
+  ↓ 调用
+请求层 (apis/request.js)
+  ↓ Taro.request
+后端 API (https://api.xuegushi.com/api/...)
+  ↓ 返回
+页面组件更新状态 → 视图渲染
+```
 
-## 演进与扩展建议
-- 如要引入类型系统，确认现有代码对 TypeScript 的支持程度；可逐步迁移到 TS，添加 .tsx/.ts 文件，并在 tsconfig.json 中做相应配置。
-- 建立 docs 子文档，覆盖组件设计规范、路由/导航约束、网络请求错误处理、数据模型等。
-- 增加单元测试与端到端测试脚本，增强稳定性。
+## 状态管理
 
-## 现状与注意点
-- 该仓库为一个 Taro-based 小程序多端解决方案，当前 README 已描述目录分布，结合 package.json 的依赖可确定核心技术栈。
-- README 提供的目录结构示例是参考基线，实际开发中请以 project 的实际实现为准。
+项目 **没有使用** Redux/MobX 等状态管理库，状态管理方式为：
 
-如需，我可以进一步补充更多子文档，例如：
-- docs/development-guidelines.md
-- docs/api.md
-- docs/component-library.md
-- docs/setup.md
+1. **组件局部状态**：`useState` 管理页面级数据
+2. **Storage 持久化**：`Taro.setStorageSync` 存储用户信息、token、搜索历史等
+3. **全局 Hook**：`useFetchList` 封装分页列表的请求/加载/错误状态
+4. **组件 Props 透传**：父子组件通过 props 通信
+
+## 路由架构
+
+### TabBar 页面（3 个）
+| Tab | 路由 | 说明 |
+|-----|------|------|
+| 首页 | pages/index | 每日诗词画报 |
+| 文库 | pages/library/index | 分类/作品/作者 Tab |
+| 我 | pages/me/index | 个人中心 |
+
+### 普通页面（24 条路由）
+- **诗词**：pages/poem/index, pages/poem/detail, pages/poem/detail/index（重定向）
+- **诗人**：pages/poet/index, pages/poet/detail
+- **名句**：pages/sentence/index, pages/sentence/detail
+- **搜索**：pages/search/index
+- **文库**：pages/library/index, pages/library/detail, pages/library/catalog
+- **分类**：pages/type/index
+- **课本**：pages/book
+- **发现**：pages/find/index（已从 TabBar 注释掉）
+- **帖子**：pages/post/index
+- **字典**：pages/dictionary/detail
+- **学习计划**：pages/schedule/index, pages/schedule/detail
+- **个人**：pages/me/index, pages/me/collect, pages/me/collections, pages/me/setting, pages/me/qrcode_login
+
+## 全局配置
+
+`app.config.js` 关键配置：
+- 导航栏：蓝色背景 (#337ab7)，白色文字
+- 下拉刷新：已启用
+- 触底距离：40px
+- 懒加载：requiredComponents
+- 渲染引擎：Skyline（微信小程序）

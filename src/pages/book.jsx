@@ -47,10 +47,10 @@ const Page = () => {
 			name,
 		})
 			.then((res) => {
-				if (res && res.statusCode === 200) {
-					console.log(res.data);
-					// 拿到数据后，按照 book分类，然后渲染
-					computeBook(res.data.poems || []);
+				const apiData = res.data?.data || res.data;
+				if (res.statusCode === 200 && apiData) {
+					console.log(apiData);
+					computeBook(apiData.poems || []);
 				}
 				Taro.hideLoading();
 			})

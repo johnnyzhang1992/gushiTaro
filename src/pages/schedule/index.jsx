@@ -27,7 +27,11 @@ const SchedulePage = () => {
 	const fetchList = async () => {
 		const res = await fetchSchedules('GET', {});
 		if (res && res.statusCode === 200) {
-			const { list = [] } = res.data || {};
+			const apiData = res.data?.data || res.data;
+			// API 可能返回数组或 { list: [...] }
+			const list = Array.isArray(apiData) ? apiData : (apiData?.list || []);
+			console.log('[schedule] fetchList 数据:', list.length, '条');
+			console.log('[schedule] 第一条:', JSON.stringify(list[0]).substring(0, 100));
 			setList(list);
 		}
 	};
@@ -35,14 +39,15 @@ const SchedulePage = () => {
 	const fetchStats = async () => {
 		const res = await fetchScheduleStats('GET', {});
 		if (res && res.statusCode === 200) {
-			setStats(res.data);
+			const apiData = res.data?.data || res.data;
+			setStats(apiData);
 		}
 	};
 
 	const handleSchedleEditCallback = (id) => {
 		console.log(id, 'scheduleEdit');
 		const findSchedule = scheduleList.find((item) => {
-			return item.id == id;
+			return (item.id || item._id) == id;
 		});
 		setModalType('edit_schedule');
 		setSchedule({ ...findSchedule });
@@ -52,7 +57,7 @@ const SchedulePage = () => {
 	const handleDeleteScheduleCallback = (id) => {
 		console.log(id, 'scheduleDelete');
 		const temList = scheduleList.filter((item) => {
-			return item.id != id;
+			return (item.id || item._id) != id;
 		});
 		setList(temList);
 		fetchStats();

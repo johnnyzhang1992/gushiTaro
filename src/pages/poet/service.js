@@ -1,32 +1,16 @@
 import Request from "../../apis/request";
 
-//-----------------
-//------ 诗人 --
-//-----------------
-
-/**
- * 根据条件获取诗人列表
- * @param {String} method GET
- * @param {Object} data {}
- */
+// 获取诗人列表
 export const fetchPoetData = (method, data) => {
-	return Request(`/api/author/list?`, data, method);
+	return Request(`/api/authors`, data, method);
 };
 
-/**
- * 根据条件获取诗人的诗词列表
- * @param {String} method GET
- * @param {Object} data {}
- */
+// 获取诗人的诗词列表
 export const fetchPoetPoems = (method, data) => {
-	return Request(`/api/author/${data.id}/poems?`, data, method);
+	return Request(`/api/authors/${data.id}/poems`, data, method);
 };
 
-/**
- * 诗人详情
- * @param {String} method GET
- * @param {Object} data {}
- */
+// 诗人详情
 export const fetchPoetDetail = (method, data) => {
-	return Request(`/api/author/${data.id}`, data, method);
+	return Request(`/api/authors/${data.id}`, data, method);
 };

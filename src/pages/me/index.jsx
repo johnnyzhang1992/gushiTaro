@@ -20,6 +20,7 @@ const initUser = {
 	poet_count: 0,
 	sentence_count: 0,
 	user_id: -1,
+	uid: -1,
 };
 const MeIndex = () => {
 	const [userInfo, setInfo] = useState(initUser);
@@ -33,17 +34,18 @@ const MeIndex = () => {
 	// user stats
 	const fetchInfo = (id) => {
 		const user = Taro.getStorageSync('user');
-		if (!id && (!user || !user.user_id)) {
+		if (!id && (!user || (!user.user_id && !user.uid))) {
 			return false;
 		}
 		fetchUserInfo('GET', {
-			user_id: id || user.user_id,
+			user_id: id || user.user_id || user.uid,
 		})
 			.then((res) => {
-				if (res && res.statusCode === 200) {
+				const apiData = res.data?.data || res.data;
+				if (res.statusCode === 200 && apiData) {
 					setInfo((pre) => ({
 						...pre,
-						...res.data,
+						...apiData,
 					}));
 				}
 				// token 过期
@@ -98,21 +100,28 @@ const MeIndex = () => {
 	};
 
 	const handleCreateUser = (data) => {
-		// 向关联网站发送请求，解密、存储数据
 		const preLoginPath = Taro.getStorageSync('preLoginPath');
+		console.log('[login] 请求参数:', JSON.stringify(data).substring(0, 100));
 		createUser('POST', data)
 			.then((res) => {
-				if (res.data && res.data.user_id) {
-					console.log('----------success------------');
-					Taro.setStorageSync('user', res.data);
-					Taro.setStorageSync('wx_token', res.data.wx_token);
+				console.log('[login] API 返回:', JSON.stringify(res).substring(0, 200));
+				const apiData = res.data?.data || res.data;
+				console.log('[login] 解包后:', JSON.stringify(apiData).substring(0, 200));
+				if (apiData && (apiData.user_id || apiData.uid)) {
+					console.log('[login] ✅ 登录成功');
+					const token = apiData.token || apiData.wx_token;
+					const userData = { ...apiData, token };
+					console.log('[login] 存储数据:', JSON.stringify(userData).substring(0, 200));
+					Taro.setStorageSync('user', userData);
+					Taro.setStorageSync('wx_token', token);
+					console.log('[login] Storage 写入完成');
 					setInfo((pre) => ({
 						...pre,
-						...res.data,
+						...userData,
 					}));
-					fetchInfo(res.data.user_id);
+					fetchInfo(apiData.user_id || apiData.uid);
 					fetchStats({
-						id: res.data.user_id,
+						id: apiData.user_id || apiData.uid,
 					});
 					if (preLoginPath && !preLoginPath.includes('pages/me/index')) {
 						Taro.showModal({
@@ -156,7 +165,7 @@ const MeIndex = () => {
 	};
 
 	const fetchStats = async (user = {}) => {
-		if (!user || !user.id) {
+		if (!user || (!user.id && !user.uid && !user.user_id)) {
 			return false;
 		}
 		const res = await fetchScheduleStats('GET', {});
@@ -192,24 +201,37 @@ const MeIndex = () => {
 	};
 
 	useLoad((options) => {
-		console.log(options);
+		console.log('useLoad', options);
 		const user = Taro.getStorageSync('user') || {};
-		fetchStats(user);
-		setInfo((pre) => ({
-			...pre,
-			...user,
-		}));
+		// 过滤错误响应数据
+		if (user.status === false) {
+			Taro.removeStorageSync('user');
+			Taro.removeStorageSync('wx_token');
+		} else {
+			fetchStats(user);
+			setInfo((pre) => ({
+				...pre,
+				...user,
+			}));
+		}
 	});
 
 	useDidShow(() => {
 		console.log('--page--show');
-		fetchInfo();
 		const user = Taro.getStorageSync('user') || {};
-		setInfo((pre) => ({
-			...pre,
-			...user,
-		}));
-		fetchStats(user);
+		// 过滤错误响应数据
+		if (user.status === false) {
+			Taro.removeStorageSync('user');
+			Taro.removeStorageSync('wx_token');
+		} else {
+			console.log('useDidShow user:', JSON.stringify(user).substring(0, 100));
+			setInfo((pre) => ({
+				...pre,
+				...user,
+			}));
+			fetchInfo();
+			fetchStats(user);
+		}
 	});
 
 	usePullDownRefresh(() => {
@@ -229,7 +251,7 @@ const MeIndex = () => {
 			<View className='pageContainer'>
 				{/* 用户信息和登录 */}
 				<SectionCard>
-					{userInfo.user_id > 0 ? (
+					{userInfo.user_id > 0 || userInfo.uid > 0 ? (
 						<Navigator
 							className='userInfoCard'
 							url='/pages/me/setting'

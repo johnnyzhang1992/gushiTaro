@@ -32,8 +32,9 @@ const CatalogPage = () => {
 		const res = await fetchCatalogDetail('GET', {
 			catalog_id: _id || pageOptions.catalog_id,
 		});
-		if (res && res.data) {
-			setDetail(res.data);
+		const apiData = res.data?.data || res.data;
+		if (res.statusCode === 200 && apiData) {
+			setDetail(apiData);
 		}
 		console.log('res', res);
 	};
@@ -88,23 +89,24 @@ const CatalogPage = () => {
 	return (
 		<View className='page catalogDetail'>
 			{fasciculeList.map((fasc, index) => {
+				const docList = fasc.doc_list || [];
 				return (
 					<Accordion
 						key={fasc._id}
 						thumbnail={fasc.thumbnail}
 						title={detail.fasc_title || detail.catalog_name}
-						note={fasciculeList.length >1 ? fasc.fascicule_name : ''}
+						note={fasciculeList.length > 1 ? fasc.fascicule_name : ''}
 						defaultOpen={index === 0}
 					>
 						<AccordionList>
-							{fasc.doc_list.map((doc) => {
+							{docList.map((doc) => {
 								return (
 									<AccordionItem
 										key={doc._id}
 										title={doc.title}
 										source={`〔${doc.dynasty}〕${doc.author}`}
 										target_id={doc.target_id}
-										tag={doc.target_type || ''}
+										tag={doc.type || ''}
 									/>
 								);
 							})}

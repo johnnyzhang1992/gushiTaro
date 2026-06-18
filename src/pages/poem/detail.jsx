@@ -55,15 +55,28 @@ const PoemDetail = () => {
 	// 处理返回的数据， 特别是json 的解析
 	const computeData = (data) => {
 		const { poem, detail: poemDetail, sentences = [] } = data;
-		let _detail = { ...(poemDetail || { yi: '', zhu: '' }) };
-		let _poem = { ...poem };
+		// 兼容新旧格式：新 API 直接返回 poem 对象
+		const poemData = poem || data;
+		const hasDetail = poemDetail && (poemDetail.shangxi || poemDetail.translation || poemDetail.annotation || poemDetail.yi || poemDetail.zhu);
+		let _detail = {};
+		if (hasDetail) {
+			_detail = { ...poemDetail };
+		} else {
+			// 新格式：从 poem 对象中提取
+			_detail = {
+				shangxi: poemData.shangxi || '',
+				translation: poemData.translation || '',
+				annotation: poemData.annotation || '',
+			};
+		}
+		let _poem = { ...poemData };
 		_poem.tagsArr = _poem.tags ? String(_poem.tags || '').split(',') : [];
 		const {
 			title = '',
 			dynasty = '',
 			author = '',
 			text_content = '',
-		} = poem || {};
+		} = poemData || {};
 		setDetail({
 			...detail,
 			copy_text:
@@ -82,10 +95,14 @@ const PoemDetail = () => {
 			id: id || poemId,
 		})
 			.then((res) => {
-				if (res && res.statusCode === 200) {
-					const { poem } = res.data;
-					computeData(res.data);
-					setTitle(poem.title);
+				const apiData = res.data?.data || res.data;
+				if (res.statusCode === 200 && apiData) {
+					// 兼容新旧格式
+					const poemData = apiData.poem || apiData;
+					const detailData = apiData.detail || {};
+					const sentencesData = apiData.sentences || [];
+					computeData({ poem: poemData, detail: detailData, sentences: sentencesData });
+					setTitle(poemData.title);
 				}
 			})
 			.finally(() => {
@@ -190,16 +207,8 @@ const PoemDetail = () => {
 				</SectionCard>
 			) : null}
 			{/* 赏析 */}
-			{detail.detail.shangxi &&
-			detail.detail.shangxi.content &&
-			detail.detail.shangxi.content != 'ï»¿' ? (
-				<SectionCard
-					title='赏析'
-					style={{
-						display:
-							detail.detail.shangxi.content.length > 0 ? 'block' : 'none',
-					}}
-				>
+			{detail.detail.shangxi ? (
+				<SectionCard title='赏析'>
 					<LongTextCard
 						title='赏析'
 						showAll={false}

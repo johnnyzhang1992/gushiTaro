@@ -69,21 +69,25 @@ const SentenceDetail = () => {
 		fetchSentenceDetail('GET', {
 			id: sId,
 		}).then((res) => {
-			if (res && res.statusCode === 200) {
-				const { sentence = {}, author = {}, poem = {} } = res.data;
+			const apiData = res.data?.data || res.data;
+			if (res.statusCode === 200 && apiData) {
+				// 兼容新旧格式
+				const sentenceData = apiData.sentence || apiData;
+				const authorData = apiData.author || {};
+				const poemData = apiData.poem || {};
 				setDetail({
-					author: author || {},
-					poem,
+					author: authorData,
+					poem: poemData,
 					sentence: {
-						...sentence,
-						author: poem.author,
-						poem_id: poem.id,
-						dynasty: poem.dynasty,
-						poem_title: poem.title.split('/')[0],
-						titleArr: splitSentence(sentence.title || ''),
+						...sentenceData,
+						author: poemData.author || sentenceData.author,
+						poem_id: poemData.id || sentenceData.target_id,
+						dynasty: poemData.dynasty || '',
+						poem_title: (poemData.title || '').split('/')[0],
+						titleArr: splitSentence(sentenceData.title || ''),
 					},
 				});
-				const { title } = sentence || {};
+				const { title } = sentenceData || {};
 				Taro.setNavigationBarTitle({
 					title: title,
 				});

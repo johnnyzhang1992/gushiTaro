@@ -9,7 +9,7 @@ const splitStringWithPunctuation = (_str, type) => {
 	if (type && type === '文言文') {
 		return _str;
 	}
-	const str = _str.join('').replaceAll('&quot;', '"');
+	const str = _str.join('').replace(/&quot;/g, '"');
 	// 定义标点符号的正则表达式
 	const punctuationRegex = /[.，。？；,!！?;]/g;
 

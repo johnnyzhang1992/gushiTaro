@@ -1,23 +1,11 @@
 import Request from "../../apis/request";
 
-//-----------------
-//------ 名句 --
-//-----------------
-
-/**
- * 根据条件获取名句的列表
- * @param {String} method GET
- * @param {Object} data {}
- */
+// 获取名句列表
 export const fetchSentenceData = (method, data) => {
-	return Request(`/api/sentence/list`, data, method);
+	return Request(`/api/sentences`, data, method);
 };
 
-/**
- * 获取名句详情
- * @param {String} method GET
- * @param {Object} data {}
- */
+// 获取名句详情
 export const fetchSentenceDetail = (method, data) => {
-	return Request(`/api/sentence/${data.id}`, data, method);
+	return Request(`/api/sentences/${data.id}`, data, method);
 };

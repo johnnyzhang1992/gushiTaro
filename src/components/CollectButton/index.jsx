@@ -1,9 +1,11 @@
 import { View, Image, Text } from '@tarojs/components';
 import React, { useState, useEffect } from 'react';
+import Taro from '@tarojs/taro';
 
-import CollectionModal from '../CollectionModal';
 import collectSvg from '../../images/svg/collect.svg';
 import collectActiveSvg from '../../images/svg/collect_active.svg';
+import { updateUserCollect } from '../../services/global';
+import { userIsLogin } from '../../utils/auth';
 
 import './style.scss';
 
@@ -18,26 +20,33 @@ const CollectButton = (props) => {
 		updateStatus,
 	} = props;
 
-	// type 来源类型 poem author sentence
-	// status 初始状态 0 未收藏 1 已收藏
-	// count 喜爱或者收藏数量
 	const [collectStatus, setStatus] = useState(status);
 	const [collectCount, setCount] = useState(count || 0);
-	const [showModal, setShowModal] = useState(false);
-	const handleModalShow = () => {
-		setShowModal(true);
-	};
-	const onSuccess = (resStatus, resCount) => {
-		setStatus(resStatus);
-		setCount(resCount);
-		setShowModal(false);
-		if (typeof updateStatus === 'function') {
-			updateStatus(resStatus, resCount);
+
+	const handleToggle = async () => {
+		if (!userIsLogin()) return;
+
+		const res = await updateUserCollect('POST', {
+			target_id: String(id),
+			target_type: type,
+		}).catch(() => null);
+
+		if (res && res.statusCode === 200) {
+			const apiData = res.data?.data || res.data;
+			const newStatus = apiData?.isFavorited !== undefined ? apiData.isFavorited : apiData?.status;
+			setStatus(newStatus);
+			setCount(newStatus ? collectCount + 1 : Math.max(0, collectCount - 1));
+			if (typeof updateStatus === 'function') {
+				updateStatus(newStatus, newStatus ? collectCount + 1 : Math.max(0, collectCount - 1));
+			}
+			Taro.showToast({
+				title: newStatus ? '收藏成功' : '已取消收藏',
+				icon: 'none',
+				duration: 1500,
+			});
 		}
 	};
-	const onClose = () => {
-		setShowModal(false);
-	};
+
 	useEffect(() => {
 		setCount(props.count);
 	}, [props.count]);
@@ -48,7 +57,7 @@ const CollectButton = (props) => {
 
 	return (
 		<View className={`collectButton ${collectStatus ? 'active' : ''}`}>
-			<View className='buttonContainer collect' onClick={handleModalShow}>
+			<View className='buttonContainer collect' onClick={handleToggle}>
 				<Image
 					src={collectStatus ? collectSvg : collectActiveSvg}
 					className='icon'
@@ -58,15 +67,6 @@ const CollectButton = (props) => {
 				) : null}
 				<Text className='count'>{collectCount}</Text>
 			</View>
-			{/* 收藏集弹窗 */}
-			<CollectionModal
-				targetId={id}
-				type={type}
-				initType='edit'
-				show={showModal}
-				onSuccess={onSuccess}
-				onClose={onClose}
-			></CollectionModal>
 		</View>
 	);
 };

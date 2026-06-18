@@ -1,248 +1,137 @@
 import Request from '../apis/request';
 
-/**
- * 首页 每日一诗词
- * @param {*} method GET
- * @param {*} data
- * @returns
- */
+// ======== 首页 ========
+
+// 每日一诗词
 export const fetchRandomSentence = (method, data) => {
-	return Request(`/api/sentence/random`, data, method);
+	return Request(`/api/sentences/random`, data, method);
 };
 
-/**
- * 获取我的收藏信息(诗词、名句、诗人)
- * @param {String} method GET
- * @param {Object} data
- */
+// ======== 收藏/点赞 ========
+
+// 获取我的收藏
 export const fetchUserCollect = (method, data) => {
-	return Request(`/api/getCollects/${data.user_id}`, data, method);
+	return Request(`/api/favorites`, data, method);
 };
 
-/**
- * 更新收藏状态
- * @param {String} method POST
- * @param {number} id
- * @param {number} user_id
- * @param {poem,sentence,author} type
- */
+// 切换收藏
 export const updateUserCollect = (method, data) => {
-	return Request(`/api/updateCollect`, data, method);
+	return Request(`/api/favorites/toggle`, data, method);
 };
 
-/**
- * 更新喜爱状态
- * @param {String} method POST
- * @param {number} id
- * @param {number} user_id
- * @param {poem,sentence,author} type
- */
+// 切换点赞
 export const updateUserLike = (method, data) => {
-	console.log(method, data);
-	return Request(`/api/updateLike`, data, method);
+	return Request(`/api/likes/toggle`, data, method);
 };
 
-// --- 收藏集相关
+// ======== 收藏集/诗单 ========
 
-/**
- * 获取收藏集列表
- * @param {*} method
- * @param {*} data
- * @returns
- */
+// 获取收藏集列表
 export const fetchCollections = (method, data) => {
 	return Request(`/api/collections`, data, method);
 };
 
-/**
- * 创建收藏集
- * @param {*} method
- * @param {*} data
- * @returns
- */
+// 创建收藏集
 export const createCollection = (method = 'POST', data) => {
 	return Request(`/api/collections/create`, data, method);
 };
 
-/**
- * 更新收藏集
- * @param {*} method
- * @param {*} data
- * @returns
- */
+// 更新收藏集
 export const updateCollection = (method = 'POST', data) => {
 	return Request(`/api/collections/update`, data, method);
 };
 
-/**
- * 获取诗词的 pinyin
- * @param {String} method POST
- * @param {Object} data {}
- */
+// ======== 拼音 ========
+
+// 获取诗词拼音
 export const fetchPoemPinyin = (method, data) => {
 	return Request(`/api/pinyin/poem`, data, method);
 };
 
-/**
- * 获取用户信息
- * @param {*} method
- * @param {*} data
- * @returns
- */
+// ======== 用户 ========
+
+// 获取用户信息
 export const fetchUserInfo = (method, data = {}) => {
 	return Request(`/api/user/userInfo`, data, method);
 };
 
-/**
- * 创建用户
- * @param {*} method
- * @param {*} data
- * @returns
- */
+// 创建用户
 export const createUser = (method, data) => {
 	return Request('/api/user/create', data, method);
 };
 
-/**
- * 更新用户信息
- * @param {*} method
- * @param {*} data {nickName, avatar}
- * @returns
- */
+// 更新用户信息
 export const updateUserInfo = (method, data) => {
 	return Request(`/api/user/updateInfo`, data, method);
 };
 
-// -- 学习计划相关API
-/**
- * 获取学习计划列表
- * @param {*} method
- * @param {*} data
- * @returns
- */
+// ======== 学习计划 ========
+
+// 获取学习计划列表
 export const fetchSchedules = (method = 'GET', data) => {
-	return Request(`/api/schedule`, data, method);
+	return Request(`/api/study-plans`, data, method);
 };
 
-/**
- * 创建学习计划
- * @param {*} method
- * @param {*} data
- * @returns
- */
+// 创建学习计划
 export const createSchedule = (method = 'POST', data) => {
-	return Request(`/api/schedule/create`, data, method);
+	return Request(`/api/study-plans`, data, method);
 };
 
-/**
- * 更新学习计划
- * @param {*} method
- * @param {*} data
- * @returns
- */
+// 更新学习计划
 export const updateSchedule = (method = 'POST', data) => {
-	return Request(`/api/schedule/update`, data, method);
+	return Request(`/api/study-plans/${data.id}`, data, method);
 };
 
-/**
- * 删除计划
- * @param {*} method
- * @param {*} data
- * @returns
- */
+// 删除计划
 export const deleteSchedule = (method = 'POST', data) => {
-	return Request(`/api/schedule/delete`, data, method);
+	return Request(`/api/study-plans/${data.id}`, data, method);
 };
 
-/**
- * 获取计划详情
- * @param {*} method
- * @param {*} data
- * @returns
- */
+// 获取计划详情
 export const fetchScheduleDetail = (method = 'GET', data) => {
-	return Request(`/api/schedule/detail`, data, method);
+	return Request(`/api/study-plans/${data.id}`, data, method);
 };
 
-/**
- * 获取计划概况数据
- * @param {*} method
- * @param {*} data
- * @returns
- */
+// 获取计划概况
 export const fetchScheduleStats = (method = 'GET', data) => {
-	return Request(`/api/schedule/stats`, data, method);
+	return Request(`/api/study-plans/stats`, data, method);
 };
 
-/**
- * 向计划中添加诗词
- * @param {*} method
- * @param {*} data
- * @returns
- */
+// 向计划中添加诗词
 export const addPoemToSchedule = (method = 'POST', data) => {
-	return Request(`/api/schedule/add_poem`, data, method);
+	return Request(`/api/study-plans/${data.schedule_id || data.id}/poems`, data, method);
 };
 
-/**
- * 变更计划中诗词状态，已学习改为待学习
- * @param {*} method
- * @param {*} data
- * @returns
- */
+// 变更计划中诗词状态
 export const addPoemToScheduleAgain = (method = 'POST', data) => {
-	return Request(`/api/schedule/add_poem_again`, data, method);
+	return Request(`/api/study-plans/${data.schedule_id || data.id}/poems/relearn`, data, method);
 };
 
-/**
- * 从计划中移除诗词
- * @param {*} method
- * @param {*} data
- * @returns
- */
+// 从计划中移除诗词
 export const removePoemToSchedule = (method = 'POST', data) => {
-	return Request(`/api/schedule/remove_poem`, data, method);
+	return Request(`/api/study-plans/${data.schedule_id || data.id}/poems/${data.poem_id || data.poemId}`, data, method);
 };
 
-/**
- * 诗词打卡
- * @param {*} method
- * @param {*} data
- * @returns
- */
+// 诗词打卡
 export const checkInPoemToSchedule = (method = 'POST', data) => {
-	return Request(`/api/schedule/check_in`, data, method);
+	return Request(`/api/study-plans/${data.schedule_id || data.id}/checkin`, data, method);
 };
 
-// -- catalog 相关API ----
+// ======== 分类 ========
 
-/**
- * 获取分类列表
- * @param {*} method
- * @param {*} data {page,size,tag}
- * @returns
- */
+// 获取分类列表
 export const fetchCatalogList = (method = 'GET', data) => {
 	return Request(`/api/catalog/list`, data, method);
 };
 
-/**
- * 获取分类详情
- * @param {*} method
- * @param {*} data {catalog_id}
- * @returns
- */
+// 获取分类详情
 export const fetchCatalogDetail = (method = 'GET', data) => {
 	return Request(`/api/catalog/detail`, data, method);
 };
 
-// -- log ----
-/**
- *
- * @param {*} params {type, target_id, output_config, poster_config}
- * @param {*} method
- * @returns
- */
+// ======== 日志 ========
+
+// 分享上报
 export const shareReport = (method = 'POST', data) => {
 	return Request(`/api/log/share_report`, data, method);
 };

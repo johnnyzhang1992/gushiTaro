@@ -1,6 +1,5 @@
 import { View, Image, Text } from '@tarojs/components';
 import React, { useState, useEffect } from 'react';
-import Taro from '@tarojs/taro';
 
 import likeSvg from '../../images/svg/like.svg';
 import likeActiveSvg from '../../images/svg/like_active.svg';
@@ -34,31 +33,21 @@ const LikeButton = (props) => {
 		}
 		updateUserLike('POST', {
 			status: likeStatus ? 1 : 0,
-			type,
+			target_type: type,
 			target_id: id,
 		}).then((res) => {
+			const apiData = res.data?.data || res.data;
 			if (res && res.statusCode === 200) {
-				const {
-					status: resStatus,
-					num: resCount,
-					errors,
-					error_code,
-				} = res.data;
-				if (!error_code) {
-					setStatus(resStatus);
-					setCount(resCount);
-					if (typeof updateStatus === 'function') {
-						updateStatus(resStatus, resCount);
-					}
-				} else {
-					Taro.showToast({
-						title: errors || '操作失败',
-						icon: 'none',
-						duration: 2000,
-					});
+				// 兼容新旧格式
+				const newStatus = apiData?.isLiked !== undefined ? apiData.isLiked : apiData?.status;
+				const newCount = apiData?.num !== undefined ? apiData.num : (likeCount + (newStatus ? 1 : -1));
+				setStatus(newStatus);
+				setCount(newCount);
+				if (typeof updateStatus === 'function') {
+					updateStatus(newStatus, newCount);
 				}
 			}
-		});
+		})
 	};
 
 	useEffect(() => {

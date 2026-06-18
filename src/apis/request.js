@@ -4,16 +4,10 @@ import { BaseUrl, WxAppVersion } from '../const/config';
 
 const request = (url, params, method = 'GET') => {
 	const user = Taro.getStorageSync('user') || {};
-	const wxToken = Taro.getStorageSync('wx_token');
+	const token = user.token;
 	const { hostUrl, ...restParams } = params || {};
 	let data = {
 		...restParams,
-		platform: 'wxapp',
-		openId: user.openId || user.openid || '',
-		openid: user.openid || '',
-		wx_token: wxToken || '',
-		user_id: user.user_id || -1,
-		wxapp_version: WxAppVersion || '',
 	};
 	if (hostUrl) {
 		data = {
@@ -23,13 +17,14 @@ const request = (url, params, method = 'GET') => {
 	}
 	console.log('--api--request:', url, method, hostUrl);
 	return Taro.request({
-		url: (hostUrl || BaseUrl) + url, //仅为示例，并非真实的接口地址
-		enableCache: true, // API 支持度: weapp, tt
-		credentials: true, // 设置是否携带 Cookie API 支持度: h5
+		url: (hostUrl || BaseUrl) + url,
+		enableCache: true,
+		credentials: true,
 		data: data,
 		method: method,
 		header: {
-			'content-type': 'application/json', // 默认值,
+			'content-type': 'application/json',
+			'Authorization': token ? `Bearer ${token}` : '',
 		},
 		success: (res) => {
 			if (res && [200, 401].includes(res.statusCode)) {
@@ -45,7 +40,6 @@ const request = (url, params, method = 'GET') => {
 						confirmText: '去登录',
 						success: function (_res) {
 							if (_res.confirm) {
-								console.log('用户点击确定');
 								Taro.setStorageSync(
 									'preLoginPath',
 									pages[pages.length - 1]['$taroPath']
@@ -53,8 +47,6 @@ const request = (url, params, method = 'GET') => {
 								Taro.switchTab({
 									url: '/pages/me/index',
 								});
-							} else if (_res.cancel) {
-								console.log('用户点击取消');
 							}
 						},
 					});

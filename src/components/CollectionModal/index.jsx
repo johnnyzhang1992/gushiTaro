@@ -45,19 +45,25 @@ const CollectionModal = ({
 			return false;
 		}
 		const res = await fetchCollections('GET', {
-			type,
+			mine: true,
 			target_id: target_id || targetId || '',
 		});
 		if (res && res.statusCode === 200) {
-			const checkboxOptions = res.data.collections.map((item) => ({
+			const apiData = res.data?.data || res.data;
+			const collectionList = apiData.collections || apiData.list || [];
+			const checkboxOptions = collectionList.map((item) => ({
 				...item,
 				value: item._id,
 				label: item.collection_name,
 				desc: `作品数量：${item.poem_count}`,
 			}));
+			// 通过 has_poem 字段获取已包含当前诗词的收藏集
+			const existCollectionIds = collectionList
+				.filter((item) => item.has_poem)
+				.map((item) => item._id);
 			setCollections(checkboxOptions);
-			setIds(res.data.existCollections || []);
-			oldIds.current = res.data.existCollections || [];
+			setIds(existCollectionIds);
+			oldIds.current = existCollectionIds;
 		}
 	};
 
@@ -111,26 +117,28 @@ const CollectionModal = ({
 			return false;
 		}
 		updateUserCollect('POST', {
-			type,
+			target_type: type,
 			target_id: targetId,
 			collection_id: _ids.join(','),
 		})
-			.then((res) => {
-				if (res && res.statusCode === 200) {
-					const { status: resStatus, num: resCount, msg = '' } = res.data;
-					console.log(resCount, 'resCount');
-					oldIds.current = [..._ids];
-					// 通知上级组件
-					if (onSuccess && typeof onSuccess === 'function') {
-						onSuccess(resStatus, resCount < 0 ? 0 : resCount);
-					}
-					Taro.showToast({
-						title: msg || '收藏成功！记得常常温习哦',
-						icon: 'none',
-						duration: 2000,
-					});
+		.then((res) => {
+			const apiData = res.data?.data || res.data;
+			if (res && res.statusCode === 200) {
+				const resStatus = apiData?.isFavorited !== undefined ? apiData.isFavorited : apiData?.status;
+				const resCount = apiData?.num !== undefined ? apiData.num : 0;
+				const msg = apiData?.msg || '';
+				console.log(resCount, 'resCount');
+				oldIds.current = [..._ids];
+				if (onSuccess && typeof onSuccess === 'function') {
+					onSuccess(resStatus, resCount < 0 ? 0 : resCount);
 				}
-			})
+				Taro.showToast({
+					title: msg || '收藏成功！记得常常温习哦',
+					icon: 'none',
+					duration: 2000,
+				});
+			}
+		})
 			.catch((err) => {
 				console.log('updateUserCollect', err);
 				Taro.showToast({

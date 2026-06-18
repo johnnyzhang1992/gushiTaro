@@ -18,22 +18,30 @@ const LongTextCard = ({ showAll = false, text, title }) => {
 	// 对象结构{ content: [], reference: { title: '', content:[] } }
 	const cacheText = useMemo(() => {
 		let cText = '';
-		if (typeof text !== 'string') {
-			const { content = [], reference: propRef = {} } = text;
+		if (text && typeof text !== 'string') {
+			// 支持两种对象格式：
+			// 1. { content: [...], reference: {...} }
+			// 2. { reference: { title, content } } — poem_detail 格式
+			const { content: topContent, reference: propRef } = text;
+			const refContent = propRef?.content;
+			const contentArr = (Array.isArray(topContent) && topContent.length > 0)
+				? topContent
+				: (Array.isArray(refContent) ? refContent : (typeof refContent === 'string' ? [refContent] : []));
+
 			if (propRef) {
 				setReference((pre) => ({
 					...pre,
 					...propRef,
-					content: Array.isArray(propRef.content) ? propRef.content : [],
+					content: Array.isArray(propRef.content) ? propRef.content : (typeof propRef.content === 'string' ? [propRef.content] : []),
 				}));
 			}
-			content.forEach((item = '') => {
+			contentArr.forEach((item = '') => {
 				cText +=
-					(item || '').replaceAll('<strong>', '【').replaceAll('</strong>', '】') +
+					(item || '').replace(/<strong>/g, '【').replace(/<\/strong>/g, '】') +
 					'\n';
 			});
 		} else {
-			cText = text;
+			cText = text || '';
 		}
 		return cText;
 	}, [text]);

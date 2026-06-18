@@ -1,5 +1,5 @@
-export const BaseUrl = 'https://api.xuegushi.com';
-// export const BaseUrl = 'http://127.0.0.1:3000';
+export const BaseUrl = 'http://127.0.0.1:3000';
+// export const BaseUrl = 'https://api.xuegushi.com';
 export const WxAppVersion = '6.1.5'
 /**
  * 分类标签

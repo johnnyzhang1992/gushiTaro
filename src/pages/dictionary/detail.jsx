@@ -51,7 +51,7 @@ const DictionaryDetail = () => {
 			const firstWord = index > 0 ? word : '';
 			return (firstWord + item).split(`\n${word}`).map((_item, _index) => {
 				const word1 = _index > 0 ? word : '';
-				return (word1 + _item).replaceAll('\n', '');
+				return (word1 + _item).replace(/\n/g, '');
 			});
 		});
 		return {

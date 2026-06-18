@@ -20,11 +20,12 @@ import './style.scss';
 const typeObj = {
 	poem: '作品',
 	sentence: '摘录',
+	excerpt: '摘录',
 	author: '作者',
 };
 
 const CollectItem = (props) => {
-	const { type = 'poem' } = props;
+	const type = props.type || props.target_type || 'poem';
 	const handleDelete = () => {
 		Taro.showModal({
 			title: '提示',
@@ -45,6 +46,7 @@ const CollectItem = (props) => {
 			TabItem = PoemSmallCard;
 			break;
 		case 'sentence':
+		case 'excerpt':
 			TabItem = SentenceCard;
 			break;
 		case 'author':
@@ -150,11 +152,12 @@ const CollectPage = () => {
 			setLoading(false);
 		});
 		if (res && res.statusCode === 200) {
-			const { list = [], current_page, last_page } = res.data;
+			const apiData = res.data?.data || res.data;
+			const { list = [], current_page, last_page } = apiData;
 			if (current_page === 1) {
-				setList(res.data);
+				setList(apiData);
 			} else {
-				setList((pre) => ({ ...res.data, list: [...pre.list, ...list] }));
+				setList((pre) => ({ ...apiData, list: [...pre.list, ...list] }));
 			}
 			setError(null);
 			pagination.current = {

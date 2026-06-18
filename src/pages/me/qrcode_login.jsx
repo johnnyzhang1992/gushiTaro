@@ -102,9 +102,10 @@ const QrcodeLogin = () => {
 		});
 		console.log(res, 'handleQRCodeLogin');
 		if (res && res.statusCode == 200) {
-			const { code, wx_token } = res.data || {}
-			if (wx_token) {
-				Taro.setStorageSync('wx_token', wx_token);
+			const { code, wx_token, token } = res.data || {}
+			const authToken = token || wx_token;
+			if (authToken) {
+				Taro.setStorageSync('wx_token', authToken);
 			}
 			if (code == 200) {
 				Taro.showToast({

@@ -22,10 +22,11 @@ const CollectionsPage = () => {
 		try {
 			const response = await fetchCollections('GET');
 			console.log('queryCollections', response);
-			if (!response.statusCode == 200) {
+			if (response.statusCode !== 200) {
 				throw new Error('Network response was not ok');
 			}
-			setCollections(response.data.collections || []);
+			const apiData = response.data?.data || response.data;
+			setCollections(apiData.list || apiData.collections || []);
 		} catch (err) {
 			setError(err);
 		} finally {

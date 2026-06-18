@@ -93,6 +93,7 @@ const ScheduleModal = ({
 	const [scheduleForm, setForm] = useState({
 		name: '',
 		...initschedule,
+		id: initschedule.id || initschedule._id,
 	});
 	const [modalType, setType] = useState(initType); // create edit
 	const [showModal, setShowModal] = useState(false);
@@ -102,9 +103,16 @@ const ScheduleModal = ({
 			poem_id: target_id || targetId || '',
 		});
 		if (res && res.statusCode === 200) {
-			const { existIds = [], list = [] } = res.data || {};
-			setschedules(list);
-			setIds(existIds);
+			const apiData = res.data?.data || res.data;
+			// API 返回数组或 { existIds, list }
+			if (Array.isArray(apiData)) {
+				setschedules(apiData);
+				setIds([]);
+			} else {
+				const { existIds = [], list = [] } = apiData || {};
+				setschedules(list);
+				setIds(existIds);
+			}
 		}
 	};
 

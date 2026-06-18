@@ -80,8 +80,9 @@ const PinyinButton = (props) => {
 			poem_id: poemId,
 		})
 			.then((res) => {
-				const { title, xu = '', content = [] } = res.data;
-				if (!res.data || res.data.code) {
+				const apiData = res.data?.data || res.data;
+				const { title, xu = '', content = [] } = apiData || {};
+				if (!apiData || apiData.code) {
 					Taro.hideLoading();
 					Taro.showToast({
 						icon: 'none',

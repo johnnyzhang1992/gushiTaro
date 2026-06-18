@@ -63,8 +63,9 @@ const SentenceContainer = (props) => {
 		const params = computeParams(paramsRef.current);
 		fetchSentenceData('GET', { ...params, ...pagination.current })
 			.then((res) => {
-				if (res.data && res.statusCode == 200) {
-					const { list = [], current_page, last_page, total } = res.data;
+				const apiData = res.data?.data || res.data;
+				if (res.statusCode == 200 && apiData) {
+					const { list = [], current_page, last_page, total } = apiData;
 					pagination.current = {
 						...pagination.current,
 						page: parseInt(current_page),

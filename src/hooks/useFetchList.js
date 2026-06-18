@@ -69,16 +69,9 @@ const useFetchList = (fetchFn, params, pgConfig) => {
 			page,
 		})
 			.then((res) => {
-				if (res.data && res.statusCode == 200) {
-					// let _pgConfig = {};
-					// if (requestType === 'poem') {
-					// 	_pgConfig = res.data.poems;
-					// } else if (requestType === 'poet') {
-					// 	_pgConfig = res.data.poets;
-					// } else if (requestType === 'collect') {
-					// 	_pgConfig = res.data.data;
-					// }
-					const { list=[], current_page, last_page, total } = res.data;
+				const apiData = res.data?.data || res.data;
+				if (res.statusCode == 200 && apiData) {
+					const { list=[], current_page, last_page, total } = apiData;
 					dataRef.current = {
 						...cachePg,
 						page: current_page,

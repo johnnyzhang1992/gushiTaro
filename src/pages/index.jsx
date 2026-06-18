@@ -83,18 +83,23 @@ const Index = () => {
 				const temSen = localSentence.data;
 				setSentence({
 					...temSen,
-					poem_title: temSen.poem_title.split('/')[0],
+					poem_title: (temSen.poem_title || '').split('/')[0],
 					titleArr: temSen.titleArr || splitSentence(temSen.title),
 				});
 				return false;
 			}
 			fetchRandomSentence('GET', queryParams)
 				.then((res) => {
-					if (res && res.statusCode == 200) {
-						const sentenceRes = res.data[0];
+					const apiData = res.data?.data || res.data;
+					if (res.statusCode == 200 && apiData) {
+						const sentenceRes = Array.isArray(apiData) ? apiData[0] : apiData;
+						if (!sentenceRes) {
+							updateReload(false);
+							return;
+						}
 						const temSen = {
 							...sentenceRes,
-							poem_title: sentenceRes.poem_title.split('/')[0],
+							poem_title: (sentenceRes.poem_title || '').split('/')[0],
 							titleArr: splitSentence(sentenceRes.title) || [],
 						};
 						timer = setTimeout(() => {
@@ -200,7 +205,7 @@ const Index = () => {
 		if (localSentence && temSen) {
 			setSentence({
 				...temSen,
-				poem_title: temSen.poem_title.split('/')[0],
+				poem_title: (temSen.poem_title || '').split('/')[0],
 				titleArr: temSen.titleArr || splitSentence(temSen.title),
 			});
 			return false;

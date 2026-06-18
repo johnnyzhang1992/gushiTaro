@@ -48,18 +48,20 @@ const PoetDetailPage = () => {
 			id: id || poetId,
 		})
 			.then((res) => {
-				if (res && res.statusCode === 200) {
-					console.log(res.data);
-					// computeData(res.data);
-					const { poet, poems } = res.data;
+				const apiData = res.data?.data || res.data;
+				if (res.statusCode === 200 && apiData) {
+					// 兼容新旧格式
+					const poetData = apiData.poet || apiData;
+					const poemsData = apiData.poems || [];
+					console.log(poetData);
 					setDetail({
-						poems,
+						poems: poemsData,
 						poet: {
-							...poet,
-							more_infos: poet.more_infos || [],
+							...poetData,
+							more_infos: poetData.more_infos || [],
 						},
 					});
-					setTitle(poet.author_name);
+					setTitle(poetData.author_name);
 				}
 			})
 			.catch((err) => {

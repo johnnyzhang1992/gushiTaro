@@ -34,11 +34,11 @@ import './style.scss';
 
 const PinyinText = ({ text, pinyin }) => {
 	const textArr = text
-		.replaceAll('&quot;', '"')
+		.replace(/&quot;/g, '"')
 		.split('');
 	const pinyinArr = pinyin
 		.trim()
-		.replaceAll('  ', ' ')
+		.replace(/  /g, ' ')
 		.split(' ');
 	return (
 		<View className='pinyin-text-container'>

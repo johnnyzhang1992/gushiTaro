@@ -32,9 +32,10 @@ const TypeCatalogSection = (props) => {
 			});
 		});
 		if (res && !res.code) {
-			if (res.data && res.data.list) {
-				Taro.setStorageSync(cacheId, res.data.list);
-				setList(res.data.list);
+			const apiData = res.data?.data || res.data;
+			if (apiData && apiData.list) {
+				Taro.setStorageSync(cacheId, apiData.list);
+				setList(apiData.list);
 			}
 		}
 	}, [tag]);

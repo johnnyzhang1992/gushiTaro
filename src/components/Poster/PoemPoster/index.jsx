@@ -119,7 +119,7 @@ const PoemPosterCard = (props) => {
 
 	return (
 		<Navigator
-			url={`/pages/poem/detail?id=${sentence.poem_id}`}
+			url={`/pages/poem/detail?id=${sentence.target_id || sentence.poem_id || sentence.id}`}
 			hoverClass='none'
 			className={`postCard ${type} ${letterBorder}`}
 		>

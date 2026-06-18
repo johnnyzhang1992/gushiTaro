@@ -23,7 +23,8 @@ const swiperOptions = [
 
 const ScheduleCard = (props) => {
 	const {
-		id,
+		id: rawId,
+		_id,
 		name,
 		total_study = 0,
 		total_days = 0,
@@ -34,6 +35,7 @@ const ScheduleCard = (props) => {
 		onEdit,
 		onDelete,
 	} = props;
+	const id = rawId || _id;
 	const navigateTo = () => {
 		if (!navigate) {
 			return false;

@@ -1,52 +1,125 @@
-# 组件设计与使用
+# 组件清单
 
-## 规范与约定
-- 组件应放在 components 子目录下，按功能域拆分，例如 components/Button、components/Card。
-- 每个组件目录应包含 index.jsx/index.tsx、index.less、README.md（可选）等。
-- 使用 BEM 风格的类名，样式采用 LESS 变量，支持主题切换。
+共 41 个自定义组件，位于 `src/components/`。
 
-## Props 与类型
-- 优先使用 TypeScript 定义 Props 接口并在组件中应用。
-- 对必填项标注，并提供合理的默认值。
-- 对外暴露的 API 尽量简洁且向后兼容。
+## 布局与容器类
 
-## 风格与主题
-- 组件应具备对主题的适配能力，尽量通过 CSS 变量实现切换。
-- 提供一个可覆盖的主题入口，确保暗黑模式等主题切换的可用性。
+| 组件 | 用途 | 使用页面 |
+|------|------|----------|
+| **Layout** | 页面布局容器，包裹子组件 | 首页、诗词列表 |
+| **FloatLayout** | 半屏弹出层（从底部滑出） | 首页（海报配置） |
+| **PageHeader** | 页面顶部导航栏 | 文库、个人中心、搜索、发现 |
+| **SectionCard** | 带标题的卡片容器 | 个人中心、搜索 |
 
-## 可维护性与测试
-- 将复杂逻辑抽离为自定义 Hooks，减少组件耦合。
-- 提供基本的单元测试覆盖组件行为，确保回归可控。
-- 在组件 README 中给出用法示例与 Props 说明。
+## 诗词相关
 
-## 新建组件的工作流程
-1) 在 components 目录中新建组件文件夹，例如 components/MyWidget
-2) 实现 UI（index.jsx/tsx）与样式（index.less）
-3) 编写 README.md 说明 Props、用法、示例
-4) 在需要的页面中导入并使用该组件
+| 组件 | 用途 | 使用页面 |
+|------|------|----------|
+| **PoemSmallCard** | 诗词小卡片（标题+作者+朝代） | 诗词列表、搜索结果 |
+| **PoemContainer** | 诗词列表容器（含分页） | 文库-作品 Tab |
+| **PoemContainer** | 诗人相关诗词展示 | 诗人详情 |
+| **SentenceCard** | 名句卡片 | 名句列表、搜索结果 |
+| **SentenceContainer** | 名句列表容器 | 名句相关页面 |
+| **LongTextCard** | 长文本展示卡片 | 诗词详情 |
 
-## 示例
-```jsx
-// components/MyButton/index.jsx
-import React from 'react'
-import './index.less'
+## 诗人相关
 
-export default function MyButton({ label, onClick, type = 'default' }) {
-  return (
-    <button className={`mybtn mybtn--${type}`} onClick={onClick}>
-      {label}
-    </button>
-  )
-}
+| 组件 | 用途 | 使用页面 |
+|------|------|----------|
+| **PoetCard** | 诗人信息卡片 | 诗人列表、搜索结果 |
+| **PoetContainer** | 诗人列表容器 | 文库-作者 Tab |
+| **PoetSmallCard** | 诗人小卡片 | 诗人详情 |
+
+## 交互组件
+
+| 组件 | 用途 | 使用页面 |
+|------|------|----------|
+| **CollectButton** | 收藏按钮（切换收藏状态） | 诗词/诗人/名句详情 |
+| **LikeButton** | 点赞按钮 | 诗词/诗人/名句详情 |
+| **CopyButton** | 复制按钮 | 诗词详情 |
+| **PinyinButton** | 拼音按钮（切换拼音显示） | 诗词详情 |
+| **PinyinText** | 拼音文本组件 | 诗词详情 |
+| **ScheduleButton** | 加入学习计划按钮 | 诗词详情 |
+| **FabButton** | 浮动操作按钮 | 各页面 |
+| **FilterCard** | 筛选卡片（下拉选择） | 诗词列表、诗人列表 |
+| **FilterModal** | 筛选弹窗 | 首页 |
+
+## 弹窗与模态
+
+| 组件 | 用途 | 使用页面 |
+|------|------|----------|
+| **CollectionModal** | 收藏操作弹窗 | 诗词/诗人/名句详情 |
+| **ScheduleModal** | 学习计划弹窗（创建/编辑） | 学习计划 |
+| **SchedulePoemModal** | 计划诗词操作弹窗 | 计划详情 |
+| **CollectionSmallCard** | 收藏集小卡片 | 收藏集列表 |
+
+## 计划相关
+
+| 组件 | 用途 | 使用页面 |
+|------|------|----------|
+| **ScheduleCard** | 学习计划卡片 | 计划列表 |
+| **SchedulePoemCard** | 计划中的诗词卡片 | 计划详情 |
+
+## 展示组件
+
+| 组件 | 用途 | 使用页面 |
+|------|------|----------|
+| **BookCard** | 课本卡片（含诗词列表） | 课本页 |
+| **BookCover** | 课本封面 | 课本页 |
+| **TagsCard** | 标签列表 | 搜索结果 |
+| **TypeCard** | 分类卡片 | 分类页、文库 |
+| **TypeCatalogSection** | 分类目录区域 | 文库分类 |
+| **TypeContainer** | 分类列表容器 | 文库-分类 Tab |
+| **HomeNavs** | 首页导航入口 | 首页 |
+| **FindHeader** | 发现页头部 | 发现页 |
+| **Dictionary** | 字典组件（含 WordCard） | 搜索-字典 Tab、发现页 |
+| **WordCell** | 字典词单元格 | 字典详情 |
+
+## 媒体与分享
+
+| 组件 | 用途 | 使用页面 |
+|------|------|----------|
+| **CdnImage** | CDN 图片（自动加签名） | 个人中心、各页面 |
+| **Poster** | 海报生成 | 诗词详情 |
+| **Skeleton** | 骨架屏加载 | 各列表页 |
+| **HighLightText** | 高亮文本（搜索关键词） | 搜索结果 |
+| **Accordion** | 手风琴折叠面板 | 各详情页 |
+
+## 组件依赖关系图
+
 ```
+首页 (index)
+├── Layout
+├── FloatLayout
+├── PosterSnapshot → PosterLayoutConfig
+└── FilterModal
 
-```less
-/* components/MyButton/index.less */
-.mybtn {
-  padding: 8px 12px;
-  border: none;
-  border-radius: 4px;
-  &--primary { background: #1e90ff; color: #fff; }
-  &--default { background: #eee; color: #333; }
-}
+文库 (library)
+├── PageHeader
+├── TypeContainer → TypeCard
+├── PoemContainer → PoemSmallCard
+└── PoetContainer → PoetCard
+
+个人中心 (me)
+├── PageHeader
+├── SectionCard
+└── CdnImage
+
+搜索 (search)
+├── PageHeader
+├── DictionaryContainer → WordCard
+├── TagsCard
+├── SentenceCard
+├── PoemSmallCard
+├── PoetCard
+└── SearchRecord, RandomSearch
+
+诗词列表 (poem)
+├── Layout
+├── FilterCard
+└── PoemSmallCard
+
+计划 (schedule)
+├── ScheduleCard
+└── ScheduleModal
 ```

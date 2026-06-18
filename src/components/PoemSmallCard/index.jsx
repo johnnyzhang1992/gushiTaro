@@ -5,14 +5,16 @@ import HighLightText from '../HighLightText';
 import './style.scss';
 
 const removeSpecialText = (text) => {
+	if (!text || typeof text !== 'string') return '';
 	return text
-		.replaceAll('<storng', '')
-		.replaceAll('</strong', '')
-		.replaceAll('&quot;', '');
+		.replace(/<storng/g, '')
+		.replace(/<\/strong/g, '')
+		.replace(/&quot;/g, '');
 };
 const PoemSmallCard = ({
 	id,
 	content,
+	text_content,
 	dynasty,
 	author,
 	title,
@@ -23,10 +25,14 @@ const PoemSmallCard = ({
 	lightWord,
 	hideAudio = false,
 }) => {
-	const _content = removeSpecialText(content)
+	const rawContent = text_content || (typeof content === 'string'
+		? content
+		: (content?.content?.join?.('') || ''));
+	const _content = removeSpecialText(rawContent)
 		.split('。')
+		.filter(t => t.trim())
 		.map((text) => {
-			return text.replaceAll('　', '') + '。';
+			return text.replace(/　/g, '') + '。';
 		})
 		.slice(0, 2);
 
