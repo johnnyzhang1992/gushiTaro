@@ -289,17 +289,6 @@ const MeIndex = () => {
 						<Navigator
 							className='item'
 							hoverClass='none'
-							url='/pages/me/collections'
-						>
-							<View className='name'>收藏集</View>
-							<View className='num'>
-								<Text>{userInfo.collection_count || 0}</Text>
-								<View className='chevron-right'></View>
-							</View>
-						</Navigator>
-						<Navigator
-							className='item'
-							hoverClass='none'
 							url='/pages/me/collect?type=poem'
 						>
 							<View className='name'>作品</View>
@@ -327,6 +316,23 @@ const MeIndex = () => {
 							<View className='name'>作者</View>
 							<View className='num'>
 								<Text>{userInfo.poet_count}</Text>
+								<View className='chevron-right'></View>
+							</View>
+						</Navigator>
+					</View>
+				</SectionCard>
+				{/* 我的诗单 */}
+				<SectionCard title=''>
+					<View className='sectionItems schedule'>
+						<Navigator
+							className='item'
+							hoverClass='none'
+							url='/pages/me/collections'
+						>
+							<View className='name'>我的诗单</View>
+							<View className='num'>
+								<Text>{userInfo.collection_count || 0}</Text>
+								<Text className='text'>个</Text>
 								<View className='chevron-right'></View>
 							</View>
 						</Navigator>
