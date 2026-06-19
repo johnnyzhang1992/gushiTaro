@@ -12,7 +12,7 @@ import './style.scss';
 
 const Page = () => {
 	const [currentTab, setTab] = useState(0);
-	const handleChangeTab = (index: string) => {
+	const handleChangeTab = (index) => {
 		setTab(Number(index));
 	};
 

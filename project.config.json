@@ -33,7 +33,6 @@
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},
   "condition": {},
-  "srcMiniprogramRoot": "dist/",
   "editorSetting": {
     "tabIndent": "auto",
     "tabSize": 2

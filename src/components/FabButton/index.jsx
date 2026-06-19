@@ -1,5 +1,5 @@
 import { View, Text } from '@tarojs/components';
-import { Icon } from '@nutui/nutui-react-taro';
+import { Home, Search, User, ArrowLeft, List2 } from '@nutui/icons-react-taro';
 import React, { useState } from 'react';
 import Taro from '@tarojs/taro';
 
@@ -50,7 +50,7 @@ const FabButton = ({ style }) => {
 						onClick={handleClick}
 					>
 						<Text className='text'>首页</Text>
-						<Icon name='home' size='20' color='#fff' />
+						<Home size='20' color='#fff' />
 					</View>
 					<View
 						className='appItem'
@@ -58,7 +58,7 @@ const FabButton = ({ style }) => {
 						onClick={handleClick}
 					>
 						<Text className='text'>搜索</Text>
-						<Icon name='search' size='20' color='#fff' />
+						<Search size='20' color='#fff' />
 					</View>
 					<View
 						className='appItem'
@@ -66,7 +66,7 @@ const FabButton = ({ style }) => {
 						onClick={handleClick}
 					>
 						<Text className='text'>我的</Text>
-						<Icon name='my' size='20' color='#fff' />
+						<User size='20' color='#fff' />
 					</View>
 					<View
 						className='appItem'
@@ -74,12 +74,12 @@ const FabButton = ({ style }) => {
 						onClick={handleClick}
 					>
 						<Text className='text'>返回</Text>
-						<Icon name='arrow-left' size='20' color='#fff' />
+						<ArrowLeft size='20' color='#fff' />
 					</View>
 				</View>
 			) : null}
 			<View className='fab_btn' onClick={handleFabClick}>
-				<Icon name='menu' size='24' color='#fff' />
+				<List2 size='24' color='#fff' />
 			</View>
 		</View>
 	);

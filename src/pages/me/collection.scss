@@ -1,20 +1,26 @@
-.collections-page {
-	padding: 20px;
-	.header {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		.list-button {
-			background: #f2f3f5;
-			font-size: 28px;
-			line-height: 60px;
-			padding: 0 24px;
-			border-radius: 80px;
-			color: #8a919f;
-		}
-		.list-create {
-			color: #337ab7;
-			font-size: 28px;
-		}
-	}
+.playlists-page {
+  padding: 20px;
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+
+    .list-count {
+      font-size: 28px;
+      color: #8a919f;
+    }
+
+    .create-btn {
+      font-size: 26px;
+    }
+  }
+
+  .empty {
+    text-align: center;
+    padding: 80px 0;
+    color: #c0c4cc;
+    font-size: 28px;
+  }
 }

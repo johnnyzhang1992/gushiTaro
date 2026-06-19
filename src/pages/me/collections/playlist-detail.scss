@@ -1,0 +1,25 @@
+.playlist-detail-page {
+  padding: 20px;
+
+  .header-info {
+    padding: 16px 0 20px;
+    border-bottom: 1px solid rgba(228, 230, 235, 0.5);
+    margin-bottom: 8px;
+
+    .count {
+      font-size: 26px;
+      color: #8a919f;
+    }
+  }
+
+  .empty {
+    text-align: center;
+    padding: 100px 0;
+    color: #c0c4cc;
+    font-size: 28px;
+  }
+
+  .poem-item {
+    padding: 8px 0;
+  }
+}

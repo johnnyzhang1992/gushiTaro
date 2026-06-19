@@ -42,6 +42,7 @@
 		"@tarojs/components": "3.6.25",
 		"@tarojs/helper": "3.6.25",
 		"@tarojs/plugin-framework-react": "3.6.25",
+		"@tarojs/plugin-html": "^3.6.25",
 		"@tarojs/plugin-platform-alipay": "3.6.25",
 		"@tarojs/plugin-platform-h5": "3.6.25",
 		"@tarojs/plugin-platform-jd": "3.6.25",

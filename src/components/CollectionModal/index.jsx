@@ -316,21 +316,9 @@ const CollectionModal = ({
 				<View className='collectionLable'>描述</View>
 				<Input
 					className='desc'
-					placeholder='收藏集描述'
+					placeholder='收藏集描述（50字以内）'
 					value={collectionForm.description}
 					onChange={(val) => handleDescChange(val)}
-				/>
-				{/* 描述 */}
-				<View className='collectionLable'>描述</View>
-				<AtInput
-					title=''
-					type='text'
-					className='desc'
-					placeholderClass='placeholder'
-					value={collectionForm.description}
-					onChange={handleDescChange}
-					maxLength={50}
-					placeholder='收藏描述(限50字，选填)'
 				/>
 				<View className='modalCollectionsFooter createFooter'>
 					<View className='cancel btn' onClick={handleCancel}>

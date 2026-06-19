@@ -1,5 +1,15 @@
 import { View, Text, ScrollView } from '@tarojs/components';
-import { RadioGroup, Radio } from '@nutui/nutui-react-taro';
+import { useState, useEffect, useRef } from 'react';
+import FloatLayout from '../../components/FloatLayout';
+import { fetchPoetData } from '../../pages/poet/service';
+
+const themeList = [
+	'茶', '酒', '爱情', '友情', '战争', '离别', '悼亡', '思乡',
+	'孤独', '壮志', '田园', '乡村', '边塞', '羁旅', '哲理', '怀古',
+	'母亲', '老师', '儿童', '爱国', '思念', '伤感', '闺怨', '励志',
+	'青春', '读书', '春天', '夏天', '秋天', '冬天', '风', '花',
+	'雪', '月', '山水', '写景', '咏物', '抒情', '送别', '节日',
+];
 
 const FilterModal = (props) => {
 	const { handleSelect } = props;
@@ -11,63 +21,24 @@ const FilterModal = (props) => {
 	});
 	const initRef = useRef(false);
 
-	const handleAuthorChange = (value: string) => {
-		const { author = ''} = currentSelect
+	const handleAuthorChange = (value) => {
+		const author = currentSelect.author || '';
 		setSelect({
 			...currentSelect,
-			author: author == value ? '' : value,
+			author: author === value ? '' : value,
 		});
-	};
-
-	const handleThemeSelect = (value: string) => {
-		const { theme = '' } = currentSelect;
-		setSelect({
-			...currentSelect,
-			theme: theme == value ? '' : value,
-		});
-	};
-
-	const handleClearSelect = (value: string) => {
-		setSelect({
-			author: '',
-			theme: '',
-		});
-	};
-
-	const getAuthorList = async () => {
-		const res = await fetchPoetData('GET', {});
-		if (res && res.data && res.data.poets) {
-			const options = res.data.poets.map((item) => {
-				return {
-					label: item.author_name,
-					value: item.author_name,
-				};
-			});
-			setList(options);
-		}
 	};
 
 	const handleThemeSelect = (value) => {
-		const { theme = '' } = currentSelect;
+		const theme = currentSelect.theme || '';
 		setSelect({
 			...currentSelect,
-			theme: theme == value ? '' : value,
+			theme: theme === value ? '' : value,
 		});
 	};
 
 	const handleClearSelect = () => {
-		setSelect({
-			author: '',
-			theme: '',
-		});
-	};
-
-	const showModal = () => {
-		setOpen(true);
-	};
-
-	const handleClose = () => {
-		setOpen(false);
+		setSelect({ author: '', theme: '' });
 	};
 
 	const queryAuthorList = async () => {
@@ -75,25 +46,16 @@ const FilterModal = (props) => {
 			console.log(err);
 		});
 		if (res && res.statusCode == 200) {
-			const { list = [] } = res.data || {};
-			const temList = list.map((item) => {
-				return {
-					...item,
-					label: item.author_name,
-					value: item.author_name,
-				};
-			});
+			const apiData = res.data?.data || res.data;
+			const list = apiData?.list || apiData?.poets || [];
+			const temList = list.map((item) => ({
+				label: item.author_name,
+				value: item.author_name,
+			}));
 			setList(temList);
 		}
 		initRef.current = true;
 	};
-
-	const themeOptions = themeList.map((item) => {
-		return {
-			label: item,
-			value: item,
-		};
-	});
 
 	const btnText =
 		!currentSelect.author && !currentSelect.theme
@@ -105,47 +67,50 @@ const FilterModal = (props) => {
 	}, []);
 
 	useEffect(() => {
-		if (initRef && handleSelect && typeof handleSelect === 'function') {
+		if (initRef.current && handleSelect) {
 			handleSelect(currentSelect);
 		}
 	}, [currentSelect, handleSelect]);
 
+	const isAll = !currentSelect.theme && !currentSelect.author;
+
 	return (
 		<View className='filter-modal'>
-			{/* 按钮 */}
-			<View className='filter-btn' onClick={showModal}>
-				<Text className='filter-btn__icon'>⚙</Text>
+			<View className='filter-btn' onClick={() => setOpen(true)}>
+				<Text className='filter-btn__icon'>&#x2699;</Text>
 				<Text className='filter-btn__text'>{btnText}</Text>
 			</View>
-			{/* 弹窗 */}
-			<FloatLayout title='选择摘录范围' isOpen={isOpen} close={handleClose}>
+			<FloatLayout title='选择摘录范围' isOpen={isOpen} close={() => setOpen(false)}>
 				<ScrollView scrollY className='filter-layout-container'>
-					{/* 全部 */}
-					<View className='filter-card'>
-						<RadioGroup
-							value={currentSelect.theme || currentSelect.author ? '' : 'all'}
-							onChange={handleClearSelect}
-						>
-							<Radio value='all'>全部</Radio>
-						</RadioGroup>
+					<View
+						className={`filter-row ${isAll ? 'active' : ''}`}
+						onClick={handleClearSelect}
+					>
+						<Text className='filter-row-text'>全部</Text>
 					</View>
-					{/* 作者 */}
-					<View className='filter-card'>
-						<View className='filter-card__title'>作者</View>
-						<RadioGroup value={currentSelect.author} onChange={handleAuthorChange}>
-							{authorList.map((item) => (
-								<Radio key={item.value} value={item.value}>{item.label}</Radio>
-							))}
-						</RadioGroup>
+					<View className='filter-section'>
+						<View className='filter-section-title'>作者</View>
+						{authorList.map((item) => (
+							<View
+								key={item.value}
+								className={`filter-row ${currentSelect.author === item.value ? 'active' : ''}`}
+								onClick={() => handleAuthorChange(item.value)}
+							>
+								<Text className='filter-row-text'>{item.label}</Text>
+							</View>
+						))}
 					</View>
-					{/* 主题 */}
-					<View className='filter-card'>
-						<View className='filter-card__title'>主题</View>
-						<RadioGroup value={currentSelect.theme} onChange={handleThemeSelect}>
-							{themeOptions.map((item) => (
-								<Radio key={item.value} value={item.value}>{item.label}</Radio>
-							))}
-						</RadioGroup>
+					<View className='filter-section'>
+						<View className='filter-section-title'>主题</View>
+						{themeList.map((item) => (
+							<View
+								key={item}
+								className={`filter-row ${currentSelect.theme === item ? 'active' : ''}`}
+								onClick={() => handleThemeSelect(item)}
+							>
+								<Text className='filter-row-text'>{item}</Text>
+							</View>
+						))}
 					</View>
 				</ScrollView>
 			</FloatLayout>

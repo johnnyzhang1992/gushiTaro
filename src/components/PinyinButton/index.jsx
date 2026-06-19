@@ -118,7 +118,7 @@ const PinyinButton = (props) => {
 		<View className={['pinyinButton', className]} onClick={getPinyin}>
 			<Switch
 				checked={open}
-				onChange={(val: boolean) => setOpen(val)}
+				onChange={(val) => setOpen(val)}
 			/>
 			<Image src={pinyinSvg} mode='widthFix' className='icon' />
 		</View>

@@ -25,7 +25,7 @@ const initOptions = {
 const LibraryDetail = () => {
 	const [pageOptions, setOptions] = useState(initOptions);
 	const [currentTab, setTab] = useState(0);
-	const handleChangeTab = (index: string) => {
+	const handleChangeTab = (index) => {
 		setTab(Number(index));
 	};
 

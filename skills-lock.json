@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "miniprogram-development": {
+      "source": "tencentcloudbase/skills",
+      "sourceType": "github",
+      "skillPath": "skills/miniprogram-development/SKILL.md",
+      "computedHash": "56434241a72fe12ce61638cfb0a06b94582160019225de09c5b5579a5099bbcc"
+    }
+  }
+}

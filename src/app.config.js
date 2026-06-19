@@ -5,6 +5,7 @@ export default {
 		'pages/me/index',
 		'pages/me/collect',
 		'pages/me/collections',
+		'pages/me/collections/playlist-detail',
 		'pages/me/setting',
 		'pages/me/qrcode_login',
 		'pages/search/index',

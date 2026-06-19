@@ -7,29 +7,35 @@
 		font-size: 28px;
 		padding: 5px 20px;
 		border-radius: 6px;
-		// background-color: #f8f8f8;
 		display: flex;
 		align-items: center;
-		.filter-btn__text {
-			margin-left: 10px;
-		}
+		.filter-btn__text { margin-left: 10px; }
 	}
 	.float-layout-container {
 		padding: 0 0 20px 0;
-		.float-layout-header {
-			margin: 0;
-		}
+		.float-layout-header { margin: 0; }
 	}
 	.filter-layout-container {
-		height: 75vh;
-		.filter-card {
-			.filter-card__title {
+		height: 60vh;
+		.filter-section {
+			.filter-section-title {
 				color: #666;
-				padding: 10px 20px;
-				background-color: rgba(239, 239, 244);
+				font-size: 28rpx;
+				font-weight: 500;
+				padding: 24px 20px 12px;
+				background-color: #f7f8fc;
 			}
-			.at-radio__option-wrap {
-				padding: 20px 32px 20px 0;
+		}
+		.filter-row {
+			padding: 24px 20px;
+			border-bottom: 1px solid #f0f0f0;
+			&.active {
+				color: #337ab7;
+				.filter-row-text { color: #337ab7; }
+			}
+			.filter-row-text {
+				font-size: 30rpx;
+				color: #252933;
 			}
 		}
 	}

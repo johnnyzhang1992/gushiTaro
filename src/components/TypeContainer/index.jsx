@@ -58,9 +58,10 @@ const TypeContainer = () => {
 								<Navigator
 									hoverClass='none'
 									url={`/pages/type/index?title=${cat.title}`}
+									className='more-btn'
 								>
 									<Text>更多</Text>
-									<View className='chevron'>‹ />
+									<View className='chevron'>&rsaquo;</View>
 								</Navigator>
 							) : null
 						}

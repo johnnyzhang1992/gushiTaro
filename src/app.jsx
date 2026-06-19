@@ -2,6 +2,9 @@ import Taro, { useLaunch, usePageNotFound } from '@tarojs/taro';
 
 import './app.scss';
 
+// 单独导入 NutUI CSS，确保 pxtransform 能识别文件路径
+import '@nutui/nutui-react-taro/dist/style.css';
+
 import Request from './apis/request';
 import { getDeviceInfo } from './utils/tool';
 

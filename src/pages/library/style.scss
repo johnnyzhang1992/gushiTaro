@@ -3,90 +3,16 @@
 	display: flex;
 	flex-direction: column;
 	background-color: #f8f8f8;
-	.header {
+	.nut-tabs {
+		flex: 1;
 		display: flex;
-		align-items: center;
-		justify-content: center;
-		height: 100%;
-		.typeContainer {
-			padding: 8px 12px;
-			background-color: #ebedf0;
-			display: flex;
-			align-items: center;
-			border-radius: 14px;
-			.typeItem {
-				color: #333;
-				flex: 1;
-				padding: 4px 14px;
-				border-radius: 10px;
-				&.active {
-					color: #000;
-					background-color: #fff;
-				}
-			}
+		flex-direction: column;
+		min-height: 0;
+		.nut-tabs-content-wrap {
+			flex: 1;
+			overflow-y: auto;
+			-webkit-overflow-scrolling: touch;
+			min-height: 0;
 		}
-	}
-	.at-search-bar {
-		padding: 18px 18px;
-	}
-	.at-tabs {
-		flex: 1;
-		height: auto;
-		.at-tabs__body {
-			height: calc(100% - 84px);
-		}
-		.at-tabs-pane--active,
-		.at-tabs-pane {
-			height: 100%;
-			box-sizing: border-box;
-		}
-	}
-	.tabs {
-		padding: 20px 30px 10px 30px;
-		box-sizing: border-box;
-		margin-top: 20px;
-	}
-	.tabContainer {
-		height: 100%;
-		box-sizing: border-box;
-	}
-}
-.libraryDetail {
-	height: 100vh;
-	background-color: #f8f8f8;
-	box-sizing: border-box;
-	display: flex;
-	flex-direction: column;
-	.poemTitle {
-		font-size: 40px;
-		padding: 30px 30px 20px;
-		width: 100%;
-		box-sizing: border-box;
-		text-align: center;
-		background-color: #fff;
-		.title {
-			color: #333;
-		}
-		.profile {
-			color: #888;
-			font-size: 0.7em;
-		}
-	}
-	.at-tabs {
-		flex: 1;
-		height: auto;
-		.at-tabs__body {
-			height: calc(100% - 84px);
-		}
-		.at-tabs-pane--active,
-		.at-tabs-pane {
-			height: 100%;
-			box-sizing: border-box;
-		}
-	}
-	.tabs {
-		padding: 20px 30px 10px 30px;
-		box-sizing: border-box;
-		margin-top: 20px;
 	}
 }
