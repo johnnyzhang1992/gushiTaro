@@ -111,6 +111,69 @@
 			}
 		}
 	}
+	.checkin-section {
+		display: block;
+		background: #fff;
+		border-radius: 16px;
+		padding: 24px 24px 20px;
+		margin-bottom: 30px;
+		.checkin-header {
+			display: flex;
+			align-items: center;
+			margin-bottom: 20px;
+			.title {
+				font-size: 30px;
+				font-weight: 600;
+				color: #333;
+			}
+			.tag {
+			margin-left: auto;
+			font-size: 22px;
+			color: #999;
+			padding: 4px 14px;
+			border-radius: 20px;
+			border: 2px solid #ddd;
+			&.checked {
+				color: #337ab7;
+				border-color: #337ab7;
+				background: #e8f0fa;
+			}
+		}
+		.arrow {
+			margin-left: 8px;
+			font-size: 36px;
+			color: #ccc;
+			font-weight: 300;
+		}
+		}
+		.checkin-week {
+			display: flex;
+			align-items: center;
+			.day-item {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				margin-right: 10px;
+				.day-block {
+					width: 32px;
+					height: 32px;
+					border-radius: 8px;
+					background: #eee;
+					&.checked {
+						background: #337ab7;
+						box-shadow: 0 2px 6px rgba(51,122,183,0.3);
+					}
+				}
+			}
+			.week-hint {
+				flex: 1;
+				text-align: right;
+				margin-left: 16px;
+				font-size: 24px;
+				color: #bbb;
+			}
+		}
+	}
 	.statsCard {
 		display: flex;
 		align-items: center;
@@ -125,6 +188,9 @@
 					font-weight: 500;
 					margin-right: 6px;
 					font-size: 1.2em;
+					&.checked {
+						color: #52c41a;
+					}
 				}
 				.text {
 					font-size: 0.8em;

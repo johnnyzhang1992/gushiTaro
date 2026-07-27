@@ -7,7 +7,7 @@ import SectionCard from '../../components/SectionCard';
 import CdnImage from '../../components/CdnImage';
 
 import { fetchUserInfo } from './service';
-import { createUser, fetchScheduleStats } from '../../services/global';
+import { createUser, fetchScheduleStats, fetchPointsStats } from '../../services/global';
 
 import './style.scss';
 
@@ -19,7 +19,6 @@ const initUser = {
 	poem_count: 0,
 	poet_count: 0,
 	sentence_count: 0,
-	user_id: -1,
 	uid: -1,
 };
 const MeIndex = () => {
@@ -29,16 +28,32 @@ const MeIndex = () => {
 		continue_days: 0, // 连续打卡天数
 		total_days: 0, // 总打卡天数
 	});
+	const [checkinStats, setCheckinStats] = useState({
+		todayChecked: false,
+		checkinDays: 0,
+		checkinStreak: 0,
+		last7: [],
+	});
+
+	const getMotd = (streak, total) => {
+		if (total === 0) return '今天开始签到吧';
+		if (streak >= 30) return '三十日磨一剑，锋芒初现';
+		if (streak >= 7) return '坚持一周，渐入佳境';
+		if (streak >= 3) return '三日不辍，已有小成';
+		if (total >= 30) return '积少成多，未来可期';
+		return '日积跬步，以至千里';
+	};
 	const isCreate = useRef(false);
 
 	// user stats
 	const fetchInfo = (id) => {
 		const user = Taro.getStorageSync('user');
-		if (!id && (!user || (!user.user_id && !user.uid))) {
+		const userId = id || user?.uid || user?.user_id;
+		if (!userId) {
 			return false;
 		}
 		fetchUserInfo('GET', {
-			user_id: id || user.user_id || user.uid,
+			user_id: userId,
 		})
 			.then((res) => {
 				const apiData = res.data?.data || res.data;
@@ -107,7 +122,7 @@ const MeIndex = () => {
 				console.log('[login] API 返回:', JSON.stringify(res).substring(0, 200));
 				const apiData = res.data?.data || res.data;
 				console.log('[login] 解包后:', JSON.stringify(apiData).substring(0, 200));
-				if (apiData && (apiData.user_id || apiData.uid)) {
+				if (apiData && apiData.uid) {
 					console.log('[login] ✅ 登录成功');
 					const token = apiData.token || apiData.wx_token;
 					const userData = { ...apiData, token };
@@ -119,10 +134,11 @@ const MeIndex = () => {
 						...pre,
 						...userData,
 					}));
-					fetchInfo(apiData.user_id || apiData.uid);
+					fetchInfo(apiData.uid);
 					fetchStats({
-						id: apiData.user_id || apiData.uid,
+						id: apiData.uid,
 					});
+					fetchCheckinStats();
 					if (preLoginPath && !preLoginPath.includes('pages/me/index')) {
 						Taro.showModal({
 							title: '提示',
@@ -164,8 +180,34 @@ const MeIndex = () => {
 			});
 	};
 
+	const fetchCheckinStats = async () => {
+		try {
+			const res = await fetchPointsStats('GET', {});
+			const d = res.data?.data || res.data;
+			if (d && d.totalPoints !== undefined) {
+				const checkedSet = new Set(d.monthlyCheckins || []);
+				const todayStr = new Date().toISOString().slice(0, 10);
+				const days = [];
+				for (let i = 6; i >= 0; i--) {
+					const d = new Date();
+					d.setDate(d.getDate() - i);
+					const ds = d.toISOString().slice(0, 10);
+					days.push({ dateStr: ds, checked: checkedSet.has(ds) });
+				}
+				setCheckinStats({
+					todayChecked: checkedSet.has(todayStr),
+					checkinDays: d.checkinDays || 0,
+					checkinStreak: d.checkinStreak || 0,
+					last7: days,
+				});
+			}
+		} catch (e) {
+			console.log(e);
+		}
+	};
+
 	const fetchStats = async (user = {}) => {
-		if (!user || (!user.id && !user.uid && !user.user_id)) {
+		if (!user || (!user.id && !user.uid)) {
 			return false;
 		}
 		const res = await fetchScheduleStats('GET', {});
@@ -209,6 +251,7 @@ const MeIndex = () => {
 			Taro.removeStorageSync('wx_token');
 		} else {
 			fetchStats(user);
+			fetchCheckinStats();
 			setInfo((pre) => ({
 				...pre,
 				...user,
@@ -229,8 +272,12 @@ const MeIndex = () => {
 				...pre,
 				...user,
 			}));
-			fetchInfo();
+			if (!fetchInfo()) {
+				// 用户数据还没就绪（自动登录未完成），延迟重试
+				setTimeout(() => fetchInfo(), 1000);
+			}
 			fetchStats(user);
+			fetchCheckinStats();
 		}
 	});
 
@@ -251,18 +298,18 @@ const MeIndex = () => {
 			<View className='pageContainer'>
 				{/* 用户信息和登录 */}
 				<SectionCard>
-					{userInfo.user_id > 0 || userInfo.uid > 0 ? (
+					{userInfo.uid > 0 ? (
 						<Navigator
 							className='userInfoCard'
 							url='/pages/me/setting'
 							hoverClass='none'
 						>
 							<View className='avatar'>
-								<CdnImage src={userInfo.avatarUrl || poetPng} className='img' />
+								<CdnImage src={userInfo.avatar || poetPng} className='img' />
 							</View>
 							<View className='user_name'>
 								<Text className='text'>
-									{userInfo.name || userInfo.nickName}
+									{userInfo.name || userInfo.nickName || userInfo.nickname}
 								</Text>
 								<View className='setting'>
 									<Text className='text'>编辑资料</Text>
@@ -283,6 +330,24 @@ const MeIndex = () => {
 						</View>
 					)}
 				</SectionCard>
+				{/* 我的签到 */}
+				<Navigator className='checkin-section' hoverClass='none' url='/pages/me/checkin'>
+					<View className='checkin-header'>
+						<Text className='title'>我的签到</Text>
+						<View className={`tag ${checkinStats.todayChecked ? 'checked' : ''}`}>
+							{checkinStats.todayChecked ? '已签到' : '未签到'}
+						</View>
+						<View className='arrow'>›</View>
+					</View>
+					<View className='checkin-week'>
+						{checkinStats.last7.map((day, i) => (
+							<View key={i} className='day-item'>
+								<View className={`day-block ${day.checked ? 'checked' : ''}`} />
+							</View>
+						))}
+						<View className='week-hint'>{getMotd(checkinStats.checkinStreak, checkinStats.checkinDays)}</View>
+					</View>
+				</Navigator>
 				{/* 我的收藏 */}
 				<SectionCard title='我的收藏'>
 					<View className='sectionItems'>
