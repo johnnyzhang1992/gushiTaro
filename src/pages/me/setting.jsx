@@ -30,11 +30,11 @@ const SettingPage = () => {
 		Taro.setNavigationBarTitle({ title: '用户信息设置' });
 		const user = Taro.getStorageSync('user');
 		formRef.current = {
-			avatar: user.avatarUrl,
+			avatar: user.avatar,
 			name: user.name || user.nickName,
 		};
 		updateForm({
-			avatar: user.avatarUrl,
+			avatar: user.avatar,
 			name: user.name || user.nickName,
 		});
 	});

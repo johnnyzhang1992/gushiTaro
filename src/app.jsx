@@ -23,9 +23,9 @@ const App = (props) => {
 				}, 'GET')
 					.then((result) => {
 						const apiData = result.data?.data || result.data;
-						console.log('[app-login] userInfo 返回:', apiData?.uid || apiData?.user_id || '无用户');
+						console.log('[app-login] userInfo 返回:', apiData?.uid || '无用户');
 						
-						if (apiData && (apiData.user_id || apiData.uid)) {
+						if (apiData && apiData.uid) {
 							// 用户存在，直接登录
 							console.log('[app-login] ✅ 用户已存在，登录成功');
 							const token = apiData.token || apiData.wx_token;
@@ -45,9 +45,9 @@ const App = (props) => {
 						}, 'POST')
 							.then((regResult) => {
 								const regData = regResult.data?.data || regResult.data;
-								console.log('[app-login] register 返回:', regData?.uid || regData?.user_id || '注册失败');
+								console.log('[app-login] register 返回:', regData?.uid || '注册失败');
 								
-								if (regData && (regData.user_id || regData.uid)) {
+								if (regData && regData.uid) {
 									console.log('[app-login] ✅ 注册成功');
 									const token = regData.token || regData.wx_token;
 									const userData = { ...regData, token };

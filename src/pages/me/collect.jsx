@@ -138,7 +138,7 @@ const CollectPage = () => {
 		const { type = '', collection_id } = optionRef.current;
 		let params = {
 			page,
-			user_id: user.user_id,
+			uid: user.uid,
 		};
 		if (type) {
 			params.type = type;
@@ -172,7 +172,7 @@ const CollectPage = () => {
 	// 收藏删除，加一层提醒
 	const handleCollectDelete = (params) => {
 		updateUserCollect('POST', {
-			user_id: user.user_id,
+			uid: user.uid,
 			type: optionRef.current.type || 'poem',
 			target_id: params.like_id,
 			status: 1

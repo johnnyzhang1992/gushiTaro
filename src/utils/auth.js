@@ -8,7 +8,7 @@ export const userIsLogin = () => {
 	const user = Taro.getStorageSync('user') || {};
 	const pages = Taro.getCurrentPages() || [];
 	console.log(pages);
-	if (!user.user_id) {
+	if (!user.uid) {
 		Taro.showModal({
 			title: '提示',
 			content: '您当前还未登录哦！',

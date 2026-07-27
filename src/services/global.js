@@ -41,6 +41,80 @@ export const updateCollection = (method = 'POST', data) => {
 	return Request(`/api/collections/update`, data, method);
 };
 
+// 获取收藏集详情（含诗词列表）
+export const fetchCollectionDetail = (method = 'GET', data) => {
+	return Request(`/api/collections/${data.id}`, data, method);
+};
+
+// 删除收藏集
+export const deleteCollection = (method = 'DELETE', data) => {
+	return Request(`/api/collections/${data.id}`, data, method);
+};
+
+// 向收藏集添加诗词
+export const addPoemsToCollection = (method = 'POST', data) => {
+	return Request(`/api/collections/${data.id}/poems`, { poem_ids: data.poem_ids }, method);
+};
+
+// 从收藏集移除诗词
+export const removePoemFromCollection = (method = 'DELETE', data) => {
+	return Request(`/api/collections/${data.id}/poems/${data.poem_id}`, data, method);
+};
+
+// 复制收藏集
+export const copyCollection = (method = 'POST', data) => {
+	return Request(`/api/collections/${data.id}/copy`, data, method);
+};
+
+// ======== 收藏集分组 ========
+
+// 获取分组列表
+export const fetchCollectionGroups = (method = 'GET', data) => {
+	return Request(`/api/collection-groups`, data, method);
+};
+
+// 获取分组详情
+export const fetchCollectionGroupDetail = (method = 'GET', data) => {
+	return Request(`/api/collection-groups/${data.id}`, data, method);
+};
+
+// 创建分组
+export const createCollectionGroup = (method = 'POST', data) => {
+	return Request(`/api/collection-groups`, data, method);
+};
+
+// 更新分组
+export const updateCollectionGroup = (method = 'PUT', data) => {
+	return Request(`/api/collection-groups/${data.id}`, data, method);
+};
+
+// 删除分组
+export const deleteCollectionGroup = (method = 'DELETE', data) => {
+	return Request(`/api/collection-groups/${data.id}`, data, method);
+};
+
+// ======== 签到/积分 ========
+
+// 获取积分统计
+export const fetchPointsStats = (method = 'GET', data) => {
+	return Request(`/api/points/stats`, data, method);
+};
+
+// 获取指定月份签到日期
+export const fetchMonthlyCheckins = (method = 'GET', data) => {
+	return Request(`/api/points/checkins`, data, method);
+};
+
+// 每日签到
+export const doCheckin = (method = 'POST', data) => {
+	return Request(`/api/points/checkin`, data, method);
+};
+
+// 补签
+export const doMakeup = (method = 'POST', data) => {
+	return Request(`/api/points/makeup`, data, method);
+};
+
 // ======== 拼音 ========
 
 // 获取诗词拼音

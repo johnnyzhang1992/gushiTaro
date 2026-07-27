@@ -37,8 +37,28 @@ const config = {
 		},
 	},
 	mini: {
-		 webpackChain (chain) {
+      css: {
+        extract: {
+          ignoreOrder: true,
+        },
+      },
+		 webpackChain (chain, webpack) {
       chain.performance.hints(false)
+      // 通过自定义插件抑制 CSS 顺序警告
+      chain.plugin('css-order-fix').use({
+        apply (compiler) {
+          compiler.hooks.afterPlugins.tap('CssOrderFix', () => {
+            compiler.options.plugins.forEach(p => {
+              if (p && p.constructor && p.constructor.name === 'MiniCssExtractPlugin') {
+                const opts = p.options || {}
+                if (opts.ignoreOrder !== true) {
+                  opts.ignoreOrder = true
+                }
+              }
+            })
+          })
+        }
+      })
     },
 		postcss: {
 			pxtransform: {

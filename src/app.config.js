@@ -8,6 +8,7 @@ export default {
 		'pages/me/collections/playlist-detail',
 		'pages/me/setting',
 		'pages/me/qrcode_login',
+		'pages/me/checkin',
 		'pages/search/index',
 		'pages/poet/index',
 		'pages/poet/detail',
