@@ -176,17 +176,16 @@
 	}
 	.statsCard {
 		display: flex;
-		align-items: center;
 		padding: 20px 0;
 		.card_item {
-			margin-right: 40px;
+			flex: 1;
+			text-align: center;
 			.top {
 				font-size: 32px;
 				margin-bottom: 12px;
 				.num {
 					color: #333;
 					font-weight: 500;
-					margin-right: 6px;
 					font-size: 1.2em;
 					&.checked {
 						color: #52c41a;

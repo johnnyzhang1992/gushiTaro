@@ -349,41 +349,50 @@ const MeIndex = () => {
 					</View>
 				</Navigator>
 				{/* 我的收藏 */}
-				<SectionCard title='我的收藏'>
-					<View className='sectionItems'>
+				<SectionCard title=''>
+					<View className='sectionItems schedule'>
 						<Navigator
 							className='item'
 							hoverClass='none'
-							url='/pages/me/collect?type=poem'
+							url='/pages/me/collections'
 						>
-							<View className='name'>作品</View>
+							<View className='name'>我的收藏</View>
 							<View className='num'>
-								<Text>{userInfo.poem_count}</Text>
 								<View className='chevron-right'></View>
 							</View>
 						</Navigator>
-						<Navigator
-							className='item'
-							hoverClass='none'
-							url='/pages/me/collect?type=sentence'
-						>
-							<View className='name'>摘录</View>
-							<View className='num'>
-								<Text>{userInfo.sentence_count}</Text>
-								<View className='chevron-right'></View>
-							</View>
-						</Navigator>
-						<Navigator
-							className='item'
-							hoverClass='none'
-							url='/pages/me/collect?type=author'
-						>
-							<View className='name'>作者</View>
-							<View className='num'>
-								<Text>{userInfo.poet_count}</Text>
-								<View className='chevron-right'></View>
-							</View>
-						</Navigator>
+						<View className='statsCard'>
+							<Navigator
+								className='card_item'
+								hoverClass='none'
+								url='/pages/me/collect?type=poem'
+							>
+								<View className='top'>
+									<Text className='num'>{userInfo.poem_count || 0}</Text>
+								</View>
+								<View className='info'>作品</View>
+							</Navigator>
+							<Navigator
+								className='card_item'
+								hoverClass='none'
+								url='/pages/me/collect?type=sentence'
+							>
+								<View className='top'>
+									<Text className='num'>{userInfo.sentence_count || 0}</Text>
+								</View>
+								<View className='info'>摘录</View>
+							</Navigator>
+							<Navigator
+								className='card_item'
+								hoverClass='none'
+								url='/pages/me/collect?type=author'
+							>
+								<View className='top'>
+									<Text className='num'>{userInfo.poet_count || 0}</Text>
+								</View>
+								<View className='info'>作者</View>
+							</Navigator>
+						</View>
 					</View>
 				</SectionCard>
 				{/* 我的诗单 */}
