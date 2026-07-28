@@ -29,9 +29,6 @@ importers:
       '@tarojs/plugin-framework-react':
         specifier: 3.6.25
         version: 3.6.25(@pmmmwh/react-refresh-webpack-plugin@0.5.17(react-refresh@0.11.0)(type-fest@2.19.0)(webpack-dev-server@4.11.1(webpack@5.78.0(@swc/core@1.3.96(@swc/helpers@0.5.23))(postcss@8.5.23)))(webpack@5.78.0(@swc/core@1.3.96(@swc/helpers@0.5.23))(postcss@8.5.23)))(@swc/helpers@0.5.23)(@tarojs/runtime@3.6.25(@tarojs/shared@3.6.25))(@tarojs/shared@3.6.25)(@tarojs/taro@3.6.25(@tarojs/helper@3.6.25(@swc/helpers@0.5.23))(@tarojs/runtime@3.6.25(@tarojs/shared@3.6.25))(@types/react@18.3.31)(postcss@8.5.23))(react-refresh@0.11.0)(react@18.0.0)
-      '@tarojs/plugin-html':
-        specifier: ^3.6.25
-        version: 3.6.40(@swc/helpers@0.5.23)(@tarojs/taro@3.6.25(@tarojs/helper@3.6.25(@swc/helpers@0.5.23))(@tarojs/runtime@3.6.25(@tarojs/shared@3.6.25))(@types/react@18.3.31)(postcss@8.5.23))
       '@tarojs/plugin-platform-alipay':
         specifier: 3.6.25
         version: 3.6.25(@swc/helpers@0.5.23)(@tarojs/components@3.6.25(@tarojs/helper@3.6.25(@swc/helpers@0.5.23))(@tarojs/runtime@3.6.25(@tarojs/shared@3.6.25))(@tarojs/shared@3.6.25)(@types/react@18.3.31)(postcss@8.5.23)(react@18.0.0))(@tarojs/taro@3.6.25(@tarojs/helper@3.6.25(@swc/helpers@0.5.23))(@tarojs/runtime@3.6.25(@tarojs/shared@3.6.25))(@types/react@18.3.31)(postcss@8.5.23))
@@ -1593,9 +1590,6 @@ packages:
       react-refresh:
         optional: true
 
-  '@tarojs/plugin-html@3.6.40':
-    resolution: {integrity: sha512-FgzotZ01umooJi1W8vOLzsLODskwSq0SKE+29OIi68n7qE9olQWbm+QHuIFnZGBi/z/JsE/g84sERLozVZxSCg==}
-
   '@tarojs/plugin-platform-alipay@3.6.25':
     resolution: {integrity: sha512-1wdNB9az6cjMkQ+jVxFGKjq178ixZ2fLhrc0ADAV0o85VBd4Pc6mvWu7Cpt6YXfFXt/4AbD753SqNUsrHj0/rA==}
     peerDependencies:
@@ -1654,11 +1648,6 @@ packages:
     peerDependencies:
       '@tarojs/shared': ~3.6.25
 
-  '@tarojs/runtime@3.6.40':
-    resolution: {integrity: sha512-rxHid/LETotmtnblb8Sd7XQRtDompsZdfVtJ7jNzPOGxtslb8NbtkGhZlxklXOqcYjE0djMdQH0/44krxZp/lg==}
-    peerDependencies:
-      '@tarojs/shared': ~3.6.40
-
   '@tarojs/service@3.6.25':
     resolution: {integrity: sha512-USKCu2G5KeQZ86Fj3QMM1usMh9gOZiyz7y7iJFuacYjdPvNfiQewAJPHs/CznvdpDdaIWvg7oV17ywDsgtZl6A==}
     peerDependencies:
@@ -1673,9 +1662,6 @@ packages:
 
   '@tarojs/shared@3.6.25':
     resolution: {integrity: sha512-hu2iyN+iqK+LObeDglZjmM+WKuIT5Jc8RBrw+aQwG9h4cJwjjr0Ci0UbbIQiBqiFlsfUWhtrlnmz5m6ym49HMA==}
-
-  '@tarojs/shared@3.6.40':
-    resolution: {integrity: sha512-EuLahU7sm9fwAL/YbtzIHQZDlFzKo/T5dW2N5f10xSi4MfNTEVP/Xs9f3MALepHk7/y2i/wkSju7nY2lCSE2vQ==}
 
   '@tarojs/taro-h5@3.6.25':
     resolution: {integrity: sha512-FrhFc6MSyD2s8E/aAomNmkrJwCy+Mb16aV2jw60qhdKbqX5wbZB110m/kiBZ+s+urKCnOSzsfdHwx9moVyGS8w==}
@@ -10466,20 +10452,6 @@ snapshots:
       - '@tarojs/taro'
       - supports-color
 
-  '@tarojs/plugin-html@3.6.40(@swc/helpers@0.5.23)(@tarojs/taro@3.6.25(@tarojs/helper@3.6.25(@swc/helpers@0.5.23))(@tarojs/runtime@3.6.25(@tarojs/shared@3.6.25))(@types/react@18.3.31)(postcss@8.5.23))':
-    dependencies:
-      '@babel/generator': 7.29.7
-      '@babel/parser': 7.29.7
-      '@babel/traverse': 7.29.7
-      '@babel/types': 7.29.7
-      '@tarojs/runtime': 3.6.40(@tarojs/shared@3.6.40)
-      '@tarojs/service': 3.6.40(@swc/helpers@0.5.23)(@tarojs/shared@3.6.40)(@tarojs/taro@3.6.25(@tarojs/helper@3.6.25(@swc/helpers@0.5.23))(@tarojs/runtime@3.6.25(@tarojs/shared@3.6.25))(@types/react@18.3.31)(postcss@8.5.23))
-      '@tarojs/shared': 3.6.40
-    transitivePeerDependencies:
-      - '@swc/helpers'
-      - '@tarojs/taro'
-      - supports-color
-
   '@tarojs/plugin-platform-alipay@3.6.25(@swc/helpers@0.5.23)(@tarojs/components@3.6.25(@tarojs/helper@3.6.25(@swc/helpers@0.5.23))(@tarojs/runtime@3.6.25(@tarojs/shared@3.6.25))(@tarojs/shared@3.6.25)(@types/react@18.3.31)(postcss@8.5.23)(react@18.0.0))(@tarojs/taro@3.6.25(@tarojs/helper@3.6.25(@swc/helpers@0.5.23))(@tarojs/runtime@3.6.25(@tarojs/shared@3.6.25))(@types/react@18.3.31)(postcss@8.5.23))':
     dependencies:
       '@tarojs/components': 3.6.25(@tarojs/helper@3.6.25(@swc/helpers@0.5.23))(@tarojs/runtime@3.6.25(@tarojs/shared@3.6.25))(@tarojs/shared@3.6.25)(@types/react@18.3.31)(postcss@8.5.23)(react@18.0.0)
@@ -10620,12 +10592,6 @@ snapshots:
       lodash-es: 4.17.21
       tslib: 2.8.1
 
-  '@tarojs/runtime@3.6.40(@tarojs/shared@3.6.40)':
-    dependencies:
-      '@tarojs/shared': 3.6.40
-      lodash-es: 4.17.21
-      tslib: 2.8.1
-
   '@tarojs/service@3.6.25(@swc/helpers@0.5.23)(@tarojs/shared@3.6.25)(@tarojs/taro@3.6.25(@tarojs/helper@3.6.25(@swc/helpers@0.5.23))(@tarojs/runtime@3.6.25(@tarojs/shared@3.6.25))(@types/react@18.3.31)(postcss@8.5.23))':
     dependencies:
       '@tarojs/helper': 3.6.25(@swc/helpers@0.5.23)
@@ -10656,24 +10622,7 @@ snapshots:
       - '@swc/helpers'
       - supports-color
 
-  '@tarojs/service@3.6.40(@swc/helpers@0.5.23)(@tarojs/shared@3.6.40)(@tarojs/taro@3.6.25(@tarojs/helper@3.6.25(@swc/helpers@0.5.23))(@tarojs/runtime@3.6.25(@tarojs/shared@3.6.25))(@types/react@18.3.31)(postcss@8.5.23))':
-    dependencies:
-      '@tarojs/helper': 3.6.40(@swc/helpers@0.5.23)
-      '@tarojs/shared': 3.6.40
-      '@tarojs/taro': 3.6.25(@tarojs/helper@3.6.25(@swc/helpers@0.5.23))(@tarojs/runtime@3.6.25(@tarojs/shared@3.6.25))(@types/react@18.3.31)(postcss@8.5.23)
-      joi: 17.13.4
-      lodash: 4.18.1
-      ora: 5.0.0
-      resolve: 1.22.12
-      tapable: 1.1.3
-      webpack-merge: 4.2.2
-    transitivePeerDependencies:
-      - '@swc/helpers'
-      - supports-color
-
   '@tarojs/shared@3.6.25': {}
-
-  '@tarojs/shared@3.6.40': {}
 
   '@tarojs/taro-h5@3.6.25(@tarojs/components@3.6.25(@tarojs/helper@3.6.25(@swc/helpers@0.5.23))(@tarojs/runtime@3.6.25(@tarojs/shared@3.6.25))(@tarojs/shared@3.6.25)(@types/react@18.3.31)(postcss@8.5.23)(react@18.0.0))(@tarojs/taro@3.6.25(@tarojs/helper@3.6.25(@swc/helpers@0.5.23))(@tarojs/runtime@3.6.25(@tarojs/shared@3.6.25))(@types/react@18.3.31)(postcss@8.5.23))':
     dependencies:

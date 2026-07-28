@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View } from '@tarojs/components';
+import { View, ScrollView } from '@tarojs/components';
 import { Tabs, TabPane } from '@nutui/nutui-react-taro';
 
 import FloatLayout from '../../../../components/FloatLayout';
@@ -7,6 +7,7 @@ import LongTextCard from '../../../../components/LongTextCard';
 import LikeButton from '../../../../components/LikeButton';
 import CollectButton from '../../../../components/CollectButton';
 import ScheduleButton from '../../../../components/ScheduleButton';
+import RootFixed from '../../../../components/RootFixed';
 
 import './style.scss';
 
@@ -47,7 +48,8 @@ const FixBottom = (props) => {
 	};
 
 	return (
-		<View className='fixBottom'>
+		<RootFixed>
+			<View className='fixBottom'>
 			<View className='bottomTabs flex'>
 				<View
 					className='tabItem'
@@ -98,18 +100,19 @@ const FixBottom = (props) => {
 			>
 				<Tabs value={current} onChange={handleTabChange}>
 					<TabPane title='注释'>
-						<View className='tabContent'>
+						<ScrollView className='tabContent' scrollY>
 							<LongTextCard text={annotation} title='注释' showAll />
-						</View>
+						</ScrollView>
 					</TabPane>
 					<TabPane title='译文'>
-						<View className='tabContent'>
+						<ScrollView className='tabContent' scrollY>
 							<LongTextCard text={translation} title='译文' showAll />
-						</View>
+						</ScrollView>
 					</TabPane>
 				</Tabs>
 			</FloatLayout>
 		</View>
+		</RootFixed>
 	);
 };
 

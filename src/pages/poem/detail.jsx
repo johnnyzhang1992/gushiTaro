@@ -26,6 +26,8 @@ import TagsCard from '../../components/TagsCard';
 import FabButton from '../../components/FabButton';
 import CopyButton from '../../components/CopyButton';
 // import PinyinButton from '../../components/PinyinButton';
+import { isSkyline } from '../../utils/env';
+import RootFixed from '../../components/RootFixed';
 
 import './style.scss';
 
@@ -167,7 +169,7 @@ const PoemDetail = () => {
 				</SectionCard>
 			) : null}
 			{/* 公众号 */}
-			<OfficialAccount />
+			{!isSkyline() && <OfficialAccount />}
 			{/* 摘录 */}
 			{detail.sentences.length > 0 ? (
 				<SectionCard title='摘录'>
@@ -220,6 +222,7 @@ const PoemDetail = () => {
 			{/* <View className='copyContainer' onClick={handlePlayAudio}>
 					<Image src={audioSvg} className='copy' />
 				</View> */}
+			<RootFixed>
 			<View
 				className='bottomOperate'
 				style={{
@@ -234,6 +237,7 @@ const PoemDetail = () => {
 					handlePinyinChange={updatePinyin}
 				/> */}
 			</View>
+			</RootFixed>
 			{/* 统计数据 -- 点赞、收藏人数*/}
 			{/* 注释，译文，摘录，学习计划 -- 半屏 */}
 			<FixBottom poem={detail.poem} poemDetail={detail.detail} />

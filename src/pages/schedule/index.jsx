@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 
 import ScheduleModal from '../../components/ScheduleModal';
 import ScheduleCard from '../../components/ScheduleCard';
+import RootFixed from '../../components/RootFixed';
 
 import { fetchSchedules, fetchScheduleStats } from '../../services/global';
 
@@ -145,9 +146,11 @@ const SchedulePage = () => {
 				onClose={handleModalClose}
 			/>
 			{/* 新建按钮 */}
+			<RootFixed>
 			<View className='createBtn' onClick={handleCreate}>
 				<View className='add-icon icon'></View>
 			</View>
+			</RootFixed>
 		</View>
 	);
 };

@@ -16,6 +16,8 @@ import LikeButton from '../../components/LikeButton';
 import CollectButton from '../../components/CollectButton';
 import FabButton from '../../components/FabButton';
 import CdnImage from '../../components/CdnImage';
+import { isSkyline } from '../../utils/env';
+import RootFixed from '../../components/RootFixed';
 
 import './style.scss';
 
@@ -140,7 +142,7 @@ const PoetDetailPage = () => {
 					</Navigator>
 				</View>
 			</View>
-			<OfficialAccount />
+			{!isSkyline() && <OfficialAccount />}
 			{/* 介绍 */}
 			<SectionCard title='简介'>
 				<View className='poetProfile'>
@@ -156,6 +158,7 @@ const PoetDetailPage = () => {
 				</SectionCard>
 			))}
 			{/* 底部 */}
+			<RootFixed>
 			<View className='fixBottom'>
 				<View className='buttonContainer'>
 					<View className='btnItem'>
@@ -178,6 +181,7 @@ const PoetDetailPage = () => {
 					</View>
 				</View>
 			</View>
+			</RootFixed>
 			{/* 悬浮按钮 */}
 			<FabButton
 				style={{

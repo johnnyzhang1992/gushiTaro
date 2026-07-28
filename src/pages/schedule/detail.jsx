@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Tabs, TabPane } from '@nutui/nutui-react-taro';
 
 import SchedulePoemModal from '../../components/SchedulePoemModal';
+import RootFixed from '../../components/RootFixed';
 import ScheduleCard from '../../components/ScheduleCard';
 import SchedulePoemCard from '../../components/SchedulePoemCard';
 
@@ -248,9 +249,11 @@ const ScheduleDetail = () => {
 				</TabPane>
 			</Tabs>
 			{/* 新增诗词按钮 */}
+			<RootFixed>
 			<View className='createBtn' onClick={handleShowModal}>
 				<View className='add-icon icon'></View>
 			</View>
+			</RootFixed>
 			{/* 诗词弹窗 */}
 			<SchedulePoemModal
 				show={showModal}

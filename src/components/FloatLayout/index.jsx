@@ -3,6 +3,7 @@ import { View, Image, ScrollView } from '@tarojs/components';
 import './style.scss';
 
 import closeSvg from '../../images/svg/close.svg';
+import RootFixed from '../RootFixed';
 
 const FloatLayout = (props) => {
 	const {
@@ -23,44 +24,46 @@ const FloatLayout = (props) => {
 	};
 
 	return (
-		<View
-			className={`float-layout ${className} ${isOpen ? 'active' : 'hide'}`}
-			style={{
-				...style,
-				visibility: isOpen ? 'visible' : 'hidden',
-			}}
-		>
-			<View className='float-layout__overlay' onClick={handleClose}></View>
+		<RootFixed>
 			<View
-				className='float-layout-container safeBottom'
+				className={`float-layout ${className} ${isOpen ? 'active' : 'hide'}`}
 				style={{
-					...containerStyle,
+					...style,
+					visibility: isOpen ? 'visible' : 'hidden',
 				}}
 			>
-				{showTitle ? (
-					<View
-						className='float-layout-header'
-						style={{
-							display: title ? 'flex' : 'none',
-						}}
-					>
-						<View className='layout-header__title'>{title}</View>
-						<View className='layout-header__btn_close' onClick={handleClose}>
-							<Image className='svg' mode='widthFix' src={closeSvg} />
+				<View className='float-layout__overlay' onClick={handleClose}></View>
+				<View
+					className='float-layout-container safeBottom'
+					style={{
+						...containerStyle,
+					}}
+				>
+					{showTitle ? (
+						<View
+							className='float-layout-header'
+							style={{
+								display: title ? 'flex' : 'none',
+							}}
+						>
+							<View className='layout-header__title'>{title}</View>
+							<View className='layout-header__btn_close' onClick={handleClose}>
+								<Image className='svg' mode='widthFix' src={closeSvg} />
+							</View>
 						</View>
+					) : null}
+					<View className='float-layout-body'>
+						{scrollY ? (
+							<ScrollView scrollY className='float-layout-body__scroll-view'>
+								{props.children}
+							</ScrollView>
+						) : (
+							props.children
+						)}
 					</View>
-				) : null}
-				<View className='float-layout-body'>
-					{scrollY ? (
-						<ScrollView scrollY className='float-layout-body__scroll-view'>
-							{props.children}
-						</ScrollView>
-					) : (
-						props.children
-					)}
 				</View>
 			</View>
-		</View>
+		</RootFixed>
 	);
 };
 

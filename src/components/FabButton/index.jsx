@@ -2,6 +2,7 @@ import { View, Text } from '@tarojs/components';
 import { Home, Search, User, ArrowLeft, List2 } from '@nutui/icons-react-taro';
 import React, { useState } from 'react';
 import Taro from '@tarojs/taro';
+import RootFixed from '../RootFixed';
 
 import './style.scss';
 
@@ -41,47 +42,49 @@ const FabButton = ({ style }) => {
 		}
 	};
 	return (
-		<View className='fabButton' style={style}>
-			{show ? (
-				<View className='apps'>
-					<View
-						className='appItem'
-						data-type='home'
-						onClick={handleClick}
-					>
-						<Text className='text'>首页</Text>
-						<Home size='20' color='#fff' />
+		<RootFixed>
+			<View className='fabButton' style={style}>
+				{show ? (
+					<View className='apps'>
+						<View
+							className='appItem'
+							data-type='home'
+							onClick={handleClick}
+						>
+							<Text className='text'>首页</Text>
+							<Home size='20' color='#fff' />
+						</View>
+						<View
+							className='appItem'
+							data-type='search'
+							onClick={handleClick}
+						>
+							<Text className='text'>搜索</Text>
+							<Search size='20' color='#fff' />
+						</View>
+						<View
+							className='appItem'
+							data-type='me'
+							onClick={handleClick}
+						>
+							<Text className='text'>我的</Text>
+							<User size='20' color='#fff' />
+						</View>
+						<View
+							className='appItem'
+							data-type='return'
+							onClick={handleClick}
+						>
+							<Text className='text'>返回</Text>
+							<ArrowLeft size='20' color='#fff' />
+						</View>
 					</View>
-					<View
-						className='appItem'
-						data-type='search'
-						onClick={handleClick}
-					>
-						<Text className='text'>搜索</Text>
-						<Search size='20' color='#fff' />
-					</View>
-					<View
-						className='appItem'
-						data-type='me'
-						onClick={handleClick}
-					>
-						<Text className='text'>我的</Text>
-						<User size='20' color='#fff' />
-					</View>
-					<View
-						className='appItem'
-						data-type='return'
-						onClick={handleClick}
-					>
-						<Text className='text'>返回</Text>
-						<ArrowLeft size='20' color='#fff' />
-					</View>
+				) : null}
+				<View className='fab_btn' onClick={handleFabClick}>
+					<List2 size='24' color='#fff' />
 				</View>
-			) : null}
-			<View className='fab_btn' onClick={handleFabClick}>
-				<List2 size='24' color='#fff' />
 			</View>
-		</View>
+		</RootFixed>
 	);
 };
 
