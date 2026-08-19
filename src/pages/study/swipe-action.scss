@@ -1,0 +1,37 @@
+.swipe-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12rpx;
+  margin-bottom: 12rpx;
+}
+
+.swipe-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  transition: transform 0.3s ease;
+}
+
+.swipe-content {
+  flex-shrink: 0;
+  width: 100%;
+  background: #fff;
+}
+
+.swipe-actions {
+  flex-shrink: 0;
+  display: flex;
+}
+
+.swipe-btn-delete {
+  width: 120px;
+  height: 100%;
+  background-color: #ff4d4f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.swipe-btn-text {
+  color: #fff;
+  font-size: 28px;
+}

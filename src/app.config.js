@@ -2,6 +2,8 @@ export default {
 	pages: [
 		'pages/index',
 		'pages/book',
+		'pages/study/index',
+		'pages/study/detail',
 		'pages/me/index',
 		'pages/me/collect',
 		'pages/me/collections',
@@ -51,12 +53,12 @@ export default {
 				iconPath: 'images/icon/library.png',
 				selectedIconPath: 'images/icon/library_active.png',
 			},
-			// {
-			// 	pagePath: 'pages/find/index',
-			// 	text: '探索',
-			// 	iconPath: 'images/icon/find.png',
-			// 	selectedIconPath: 'images/icon/find_active.png',
-			// },
+			{
+				pagePath: 'pages/study/index',
+				text: '学习',
+				iconPath: 'images/icon/study.png',
+				selectedIconPath: 'images/icon/study_active.png',
+			},
 			{
 				pagePath: 'pages/me/index',
 				text: '我',

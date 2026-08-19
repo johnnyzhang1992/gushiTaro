@@ -412,46 +412,7 @@ const MeIndex = () => {
 						</Navigator>
 					</View>
 				</SectionCard>
-				{/* 我的计划 */}
-				<SectionCard title=''>
-					<View className='sectionItems schedule'>
-						<Navigator
-							className='item'
-							hoverClass='none'
-							url='/pages/schedule/index'
-						>
-							<View className='name'>学习计划</View>
-							<View className='num'>
-								<View className='chevron-right'></View>
-							</View>
-						</Navigator>
-						<View className='statsCard'>
-							<View className='card_item'>
-								<View className='top'>
-									<Text className='num'>{scheduleStats.total_poem || 0}</Text>
-									<Text className='text'>篇</Text>
-								</View>
-								<View className='info'>学习诗词</View>
-							</View>
-							<View className='card_item'>
-								<View className='top'>
-									<Text className='num'>
-										{scheduleStats.continue_days || 0}
-									</Text>
-									<Text className='text'>天</Text>
-								</View>
-								<View className='info'>连续打卡</View>
-							</View>
-							<View className='card_item'>
-								<View className='top'>
-									<Text className='num'>{scheduleStats.total_days || 0}</Text>
-									<Text className='text'>天</Text>
-								</View>
-								<View className='info'>总打卡</View>
-							</View>
-						</View>
-					</View>
-				</SectionCard>
+
 				{/* 关于我们 */}
 				<SectionCard
 					title='关于我们'
