@@ -9,6 +9,7 @@ import './style.scss';
 import { fetchPoemData } from '../../pages/poem/service';
 
 import { DynastyArr } from '../../const/config';
+import { getDynastyOptions } from '../../utils/dynasty';
 
 const DynastyItem = ({ dynasty, active = false, onClick }) => {
 	const handleClick = () => {
@@ -40,6 +41,7 @@ const PoemContainer = (props) => {
 	const [error, setError] = useState('');
 	const [scrollHeight, updateHeight] = useState('auto');
 	const [activeDynasty, setDynasty] = useState('全部');
+	const [dynastyList, setDynastyList] = useState(DynastyArr);
 
 	const reachBottom = () => {
 		console.log('--rearchBottom');
@@ -94,7 +96,7 @@ const PoemContainer = (props) => {
 		fetchPoemData('GET', { ...params, ...pagination.current })
 			.then((res) => {
 				const apiData = res.data?.data || res.data;
-				if (res.statusCode == 200 && apiData) {
+				if ((res.status || res.statusCode == 200) && apiData) {
 					const { list = [], current_page, last_page, total } = apiData;
 					pagination.current = {
 						...pagination.current,
@@ -142,21 +144,18 @@ const PoemContainer = (props) => {
 		console.log(props.params, 'params');
 	}, [props.params]);
 
+	// 获取容器高度，用于 ScrollView 滚动
 	useEffect(() => {
 		Taro.createSelectorQuery()
 			.select('#poemScrollContainer')
-			.fields(
-				{
-					dataset: true,
-					size: true,
-					scrollOffset: true,
-					properties: ['scrollX', 'scrollY'],
-				},
-				function (res) {
-					updateHeight(res.height || 500);
-				}
-			)
+			.fields({ size: true }, (rect) => {
+				if (rect) updateHeight(rect.height || 500);
+			})
 			.exec();
+		// 从后端拉取朝代列表并缓存
+		getDynastyOptions().then((list) => {
+			if (list && list.length > 0) setDynastyList(list);
+		});
 	}, []);
 
 	const { showDynasty = false } = props;
@@ -172,9 +171,7 @@ const PoemContainer = (props) => {
 				showScrollbar={false}
 				enableBackToTop
 				onScrollToLower={reachBottom}
-				style={{
-					height: scrollHeight == 'auto' ? scrollHeight : scrollHeight + 'px',
-				}}
+				style={{ height: scrollHeight == 'auto' ? scrollHeight : scrollHeight + 'px' }}
 			>
 				{poemList.map((item) => {
 					return (
@@ -190,8 +187,10 @@ const PoemContainer = (props) => {
 			</ScrollView>
 			{/* 朝代筛选 */}
 			{showDynasty && (
-				<View className='dynastyFilter'>
-					{DynastyArr.map((item) => (
+				<View
+					className='dynastyFilter'
+				>
+					{dynastyList.map((item) => (
 						<DynastyItem
 							key={item}
 							dynasty={item}

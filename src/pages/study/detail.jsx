@@ -156,7 +156,7 @@ export default function StudyDetailPage() {
     try {
       const user = Taro.getStorageSync('user') || {};
       const token = user.token;
-      const baseUrl = 'http://127.0.0.1:3000';
+      const baseUrl = 'http://192.168.31.138:3000';
       const res = await Taro.request({
         url: `${baseUrl}/api/poems/${poemId}`,
         method: 'GET',

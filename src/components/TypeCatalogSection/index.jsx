@@ -20,6 +20,10 @@ const TypeCatalogSection = (props) => {
 		if (cache) {
 			setList(cache || []);
 		}
+		// 只有无缓存时才显示 loading
+		if (!cache) {
+			Taro.showLoading({ title: '加载中' });
+		}
 		const res = await fetchCatalogList('GET', {
 			tag,
 			page: 1,
@@ -31,6 +35,7 @@ const TypeCatalogSection = (props) => {
 				icon: 'none',
 			});
 		});
+		Taro.hideLoading();
 		if (res && !res.code) {
 			const apiData = res.data?.data || res.data;
 			if (apiData && apiData.list) {

@@ -29,7 +29,7 @@ const PlaylistDetail = () => {
   const fetchDetail = async (id) => {
     setLoading(true);
     const res = await fetchCollections('GET', { id });
-    if (res && res.statusCode === 200) {
+    if (res && (res.status || res.statusCode === 200)) {
       const apiData = res.data?.data || res.data;
       setPoems(apiData.poems || []);
     }

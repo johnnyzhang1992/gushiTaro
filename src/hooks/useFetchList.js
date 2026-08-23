@@ -69,8 +69,10 @@ const useFetchList = (fetchFn, params, pgConfig) => {
 			page,
 		})
 			.then((res) => {
-				const apiData = res.data?.data || res.data;
-				if (res.statusCode == 200 && apiData) {
+				console.log('列表接口返回:', res);
+				// request.js 返回格式: { status: true, data: {...} }
+				const apiData = res?.data || res;
+				if ((res.status || res.statusCode == 200) && apiData) {
 					const { list=[], current_page, last_page, total } = apiData;
 					dataRef.current = {
 						...cachePg,

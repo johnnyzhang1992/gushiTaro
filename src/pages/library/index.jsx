@@ -7,6 +7,7 @@ import PageHeader from '../../components/PageHeader';
 import TypeContainer from '../../components/TypeContainer';
 import PoemContainer from '../../components/PoemContainer';
 import PoetContainer from '../../components/PoetContainer';
+import AllusionContainer from '../../components/AllusionContainer';
 
 import './style.scss';
 
@@ -32,6 +33,9 @@ const Page = () => {
 				</TabPane>
 				<TabPane title='作者'>
 					<PoetContainer />
+				</TabPane>
+				<TabPane title='典故'>
+					<AllusionContainer />
 				</TabPane>
 			</Tabs>
 		</View>

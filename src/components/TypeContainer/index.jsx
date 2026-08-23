@@ -11,24 +11,8 @@ import './style.scss';
 import { CategoriesList } from '../../const/config';
 
 const TypeContainer = () => {
-	const [scrollHeight, updateHeight] = useState('auto');
 
 	useEffect(() => {
-		Taro.createSelectorQuery()
-			.select('#typeScrollContainer')
-			.fields(
-				{
-					dataset: true,
-					size: true,
-					scrollOffset: true,
-					properties: ['scrollX', 'scrollY'],
-				},
-				function (res) {
-					// console.log(res);
-					updateHeight(res.height || 500);
-				}
-			)
-			.exec();
 	}, []);
 
 	return (
@@ -42,9 +26,7 @@ const TypeContainer = () => {
 				showScrollbar={false}
 				enableBackToTop
 				refresherEnabled={false}
-				style={{
-					height: scrollHeight == 'auto' ? scrollHeight : scrollHeight + 'px',
-				}}
+				
 			>
 				{/* 每个分类，最多展示12条，多余的展示多余 */}
 				<TypeCatalogSection tag='教科书' key='教科书' />

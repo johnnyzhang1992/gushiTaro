@@ -33,7 +33,7 @@ const CatalogPage = () => {
 			catalog_id: _id || pageOptions.catalog_id,
 		});
 		const apiData = res.data?.data || res.data;
-		if (res.statusCode === 200 && apiData) {
+		if ((res.status || res.statusCode === 200) && apiData) {
 			setDetail(apiData);
 		}
 		console.log('res', res);

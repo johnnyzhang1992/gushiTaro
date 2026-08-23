@@ -1,0 +1,56 @@
+.allusionContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  .scrollContainer {
+    flex: 1;
+    height: 100%;
+  }
+}
+
+.allusionCard {
+  background: #fff;
+  margin: 0 24rpx 16rpx;
+  padding: 24rpx;
+  border-radius: 12rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+
+  &:active {
+    background: #f8f8f8;
+  }
+}
+
+.allusionName {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 12rpx;
+}
+
+.allusionPeople {
+  font-size: 24rpx;
+  color: #666;
+  margin-bottom: 8rpx;
+}
+
+.allusionAliases {
+  font-size: 22rpx;
+  color: #999;
+  display: flex;
+  align-items: center;
+
+  .label {
+    color: #999;
+    margin-right: 8rpx;
+  }
+}
+
+.loading,
+.empty {
+  padding: 60rpx;
+  text-align: center;
+  color: #999;
+  font-size: 28rpx;
+}

@@ -70,7 +70,7 @@ const SentenceDetail = () => {
 			id: sId,
 		}).then((res) => {
 			const apiData = res.data?.data || res.data;
-			if (res.statusCode === 200 && apiData) {
+			if ((res.status || res.statusCode === 200) && apiData) {
 				// 兼容新旧格式
 				const sentenceData = apiData.sentence || apiData;
 				const authorData = apiData.author || {};

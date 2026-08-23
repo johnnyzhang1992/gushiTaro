@@ -57,7 +57,7 @@ const ScheduleDetail = () => {
 		}).finally(() => {
 			Taro.hideLoading()
 		});
-		if (res && res.statusCode === 200) {
+		if (res && (res.status || res.statusCode === 200)) {
 			const { detail = {}, page, size, total, list = [] } = res.data || {};
 			Taro.setNavigationBarTitle({
 				title: detail.name,

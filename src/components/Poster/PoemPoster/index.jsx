@@ -117,9 +117,43 @@ const PoemPosterCard = (props) => {
 	poemStyle.title[styleName] = type === 'horizontal' ? maxPoemHeight : 'auto';
 	poemStyle.poem[styleName] = maxPoemHeight;
 
+	// 计算跳转 id：优先 target_id（诗词），否则句子自带的 id；无效时不生成链接
+	const targetId = sentence.target_id || sentence.id;
+	const hasTarget = targetId !== undefined && targetId !== null && targetId !== '';
+
+	if (!hasTarget) {
+		// 无有效跳转目标（如古籍摘录），仅作展示卡片，不可点击
+		return (
+			<View
+				hoverClass='none'
+				className={`postCard ${type} ${letterBorder}`}
+			>
+				{textArr.map((item) => {
+					return (
+						<View className={`postItem ${item.type}`} key={item.id}>
+							{item.type === 'author' ? (
+								<View className='poem-container' style={poemStyle['author']}>
+									<TextItem {...item} />
+								</View>
+							) : item.type === 'title' ? (
+								<View className='poem-container' style={poemStyle['title']}>
+									<TextItem {...item} />
+								</View>
+							) : (
+								<View className='poem-container' style={poemStyle['poem']}>
+									<TextItem {...item} />
+								</View>
+							)}
+						</View>
+					);
+				})}
+			</View>
+		);
+	}
+
 	return (
 		<Navigator
-			url={`/pages/poem/detail?id=${sentence.target_id || sentence.poem_id || sentence.id}`}
+			url={`/pages/poem/detail?id=${targetId}`}
 			hoverClass='none'
 			className={`postCard ${type} ${letterBorder}`}
 		>

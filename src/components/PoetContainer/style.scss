@@ -1,42 +1,51 @@
 .poetContainer {
 	height: 100%;
-	overflow: hidden;
 	display: flex;
-	.scrollContainer,
+	overflow: hidden;
+	background: #fff;
+
 	.dynastyContainer {
-		padding: 0 20px;
-		box-sizing: border-box;
+		width: 150px;
+		flex-shrink: 0;
+		height: 100%;
 		background: #fff;
-		margin-top: 20rpx;
+		border-right: 1rpx solid #f0f0f0;
+
+		.dynastyItem {
+			color: #999;
+			padding: 20px 0;
+			text-align: center;
+			font-size: 26rpx;
+			white-space: nowrap;
+
+			&.active {
+				color: #337ab7;
+				background: #f8f8f8;
+				font-weight: 600;
+			}
+		}
 	}
+
 	.scrollContainer {
+		flex: 1;
+		height: 100%;
 		padding: 20px;
-		padding-bottom: 40rpx;
+		box-sizing: border-box;
+
 		.poetSmallCard {
 			width: 50%;
 			float: left;
+
 			&:nth-child(2n) {
 				padding-left: 10px;
 			}
+
 			&:nth-child(2n + 1) {
 				padding-right: 10px;
 			}
 		}
 	}
 
-	.dynastyContainer {
-		width: 150px;
-		padding: 0;
-		border-right: 1px solid #f5f5f5;
-		.dynastyItem {
-			color: #999;
-			padding: 20px 0;
-			text-align: center;
-			&.active {
-				color: #333;
-			}
-		}
-	}
 	.poetCard {
 		background-color: #fff;
 		border-bottom: unset;

@@ -24,6 +24,7 @@ export default {
 		'pages/library/index',
 		'pages/library/detail',
 		'pages/library/catalog',
+		'pages/library/allusion-detail',
 		'pages/type/index',
 		'pages/dictionary/detail',
 		'pages/schedule/index',

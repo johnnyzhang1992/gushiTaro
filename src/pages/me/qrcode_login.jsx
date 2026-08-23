@@ -101,7 +101,7 @@ const QrcodeLogin = () => {
 			});
 		});
 		console.log(res, 'handleQRCodeLogin');
-		if (res && res.statusCode == 200) {
+		if (res && (res.status || res.statusCode == 200)) {
 			const { code, wx_token, token } = res.data || {}
 			const authToken = token || wx_token;
 			if (authToken) {

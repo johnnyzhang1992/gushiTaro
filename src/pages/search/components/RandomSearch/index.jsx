@@ -18,8 +18,10 @@ const RandomSearch = () => {
 	});
 	const fetchSearch = () => {
 		fetchRandomSearch('GET', {}).then((res) => {
-			if (res && res.statusCode === 200) {
-				const { poems = [], poets = [], sentences = [] } = res.data || {};
+			console.log('随机推荐响应:', res);
+			// API 返回格式: { status: true, data: { poems, poets, sentences } }
+			if (res && res.status && res.data) {
+				const { poems = [], poets = [], sentences = [] } = res.data;
 				updateSearch({ poems, poets, sentences });
 			}
 		});

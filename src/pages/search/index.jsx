@@ -118,7 +118,9 @@ const SearchPage = () => {
 			key: KeyWord,
 		})
 			.then((res) => {
-				if (res && res.statusCode === 200) {
+				console.log('搜索结果:', res);
+				// API 返回格式: { status: true, data: { poems, poets, sentences, tags, ... } }
+				if (res && res.status && res.data) {
 					addKey(KeyWord);
 					const {
 						poems,
@@ -156,7 +158,9 @@ const SearchPage = () => {
 
 	const fetchHotKeys = () => {
 		fetchHotSearch('GET', {}).then((res) => {
-			if (res && res.statusCode === 200) {
+			console.log('热词响应:', res);
+			// API 返回格式: { status: true, data: [...] }
+			if (res && res.status && res.data) {
 				// 去重
 				updateHot([...new Set(res.data || [])]);
 			}
@@ -378,7 +382,7 @@ const SearchPage = () => {
 						{/* 匹配名句 */}
 						{searchResult.sentences.length > 0 ? (
 							<SectionCard
-								title='名句'
+								title='名句' className='sentenceSection'
 								style={sectionCardStyle}
 								extra={
 									searchResult.sentences_count > limitMax ? (
@@ -406,7 +410,7 @@ const SearchPage = () => {
 						{/* 匹配诗词 */}
 						{searchResult.poems.length > 0 ? (
 							<SectionCard
-								title='诗词'
+								title='诗词' className='poemSection'
 								style={sectionCardStyle}
 								extra={
 									searchResult.poems_count > limitMax ? (

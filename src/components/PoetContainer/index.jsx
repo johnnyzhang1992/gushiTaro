@@ -7,6 +7,7 @@ import PoetSmallCard from '../../components/PoetSmallCard';
 import './style.scss';
 import { DynastyArr } from '../../const/config';
 import { fetchPoetData } from '../../pages/poet/service';
+import { getDynastyOptions } from '../../utils/dynasty';
 
 const DynastyItem = (props) => {
 	const { handleClick, dynasty, currentDynasty } = props;
@@ -42,6 +43,7 @@ const PoetContainer = () => {
 	const [poetList, setList] = useState([]);
 	const [error, setError] = useState('');
 	const [scrollHeight, updateHeight] = useState('auto');
+	const [dynastyList, setDynastyList] = useState(DynastyArr);
 
 	const reachBottom = () => {
 		console.log('--rearchBottom');
@@ -85,7 +87,7 @@ const PoetContainer = () => {
 		fetchPoetData('GET', params)
 			.then((res) => {
 				const apiData = res.data?.data || res.data;
-				if (res.statusCode == 200 && apiData) {
+				if ((res.status || res.statusCode == 200) && apiData) {
 					const { list = [], current_page, last_page, total } = apiData;
 					pagination.current = {
 						...pagination.current,
@@ -109,19 +111,14 @@ const PoetContainer = () => {
 		fetchList();
 		Taro.createSelectorQuery()
 			.select('#poetScrollContainer')
-			.fields(
-				{
-					dataset: true,
-					size: true,
-					scrollOffset: true,
-					properties: ['scrollX', 'scrollY'],
-				},
-				function (res) {
-					// console.log(res);
-					updateHeight(res.height || 500);
-				}
-			)
+			.fields({ size: true }, (res) => {
+				updateHeight(res.height || 500);
+			})
 			.exec();
+		// 从后端拉取朝代列表并缓存
+		getDynastyOptions().then((list) => {
+			if (list && list.length > 0) setDynastyList(list);
+		});
 	}, []);
 
 	return (
@@ -135,9 +132,7 @@ const PoetContainer = () => {
 				showScrollbar={false}
 				enableBackToTop
 				refresherEnabled={false}
-				style={{
-					height: scrollHeight == 'auto' ? scrollHeight : scrollHeight + 'px',
-				}}
+				style={{ height: scrollHeight == 'auto' ? scrollHeight : scrollHeight + 'px' }}
 			>
 				<DynastyItem
 					key='精选'
@@ -145,7 +140,7 @@ const PoetContainer = () => {
 					currentDynasty={dynastyRef.current}
 					dynasty='精选'
 				/>
-				{DynastyArr.map((item) => {
+				{dynastyList.map((item) => {
 					return (
 						<DynastyItem
 							key={item}
@@ -164,11 +159,8 @@ const PoetContainer = () => {
 				enhanced
 				showScrollbar={false}
 				enableBackToTop
-				refresherEnabled={false}
 				onScrollToLower={reachBottom}
-				style={{
-					height: scrollHeight == 'auto' ? scrollHeight : scrollHeight + 'px',
-				}}
+				style={{ height: scrollHeight == 'auto' ? scrollHeight : scrollHeight + 'px' }}
 			>
 				{poetList.map((item) => {
 					return (

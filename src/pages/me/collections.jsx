@@ -18,7 +18,7 @@ const PlaylistsPage = () => {
   const queryPlaylists = async () => {
     try {
       const res = await fetchCollections('GET', { mine: true });
-      if (res.statusCode !== 200) throw new Error('Network response was not ok');
+      if (!res.status && res.statusCode !== 200) throw new Error('Network response was not ok');
       const apiData = res.data?.data || res.data;
       setPlaylists(apiData.list || apiData.collections || []);
     } catch (err) {

@@ -1,54 +1,104 @@
 .randomContainer {
-	// background-color: #fff;
-	margin: 0 20rpx;
-	border-radius: 12rpx;
-	.SectionCard {
-		border-radius: 12px;
-		background-color: #fff;
-		margin-bottom: 20px;
-		& > .title {
-			font-size: 32rpx;
-			border-bottom: 2px solid #f5f5f5;
-		}
-	}
-	.randomTitle {
-		color: #333;
-		font-size: 34px;
-		font-weight: 600;
-		padding: 20px 12px;
-		display: flex;
-		justify-content: space-between;
-		border-bottom: 2px solid #f5f5f5;
-		.right {
-			font-size: 30px;
-			display: flex;
-			align-items: center;
-			& > .text {
-				padding-left: 6px;
-			}
-		}
-	}
-	.extraNav {
-		font-size: 28px;
-	}
-	.hotPoemsSwiper.poets {
-		height: 200rpx;
-		.poetCard {
-			padding: 0;
-		}
-	}
-	.hotPoemsSwiper.sentences {
-		height: 130rpx;
-		.sentenceCard {
-			padding: 0;
-		}
-	}
-	.hotPoemsSwiper.poems {
-		height: 305px;
-		.poemSmallCard {
-			margin-top: 0;
-			padding: 0;
-			border-bottom: unset;
-		}
-	}
+  margin: 0 24rpx;
+  border-radius: 16rpx;
+
+  .SectionCard {
+    border-radius: 16rpx;
+    background-color: #fff;
+    margin-bottom: 24rpx;
+    overflow: hidden;
+    box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+
+    & > .title {
+      font-size: 30rpx;
+      font-weight: 600;
+      padding: 28rpx 28rpx 20rpx;
+      color: #333;
+      border-bottom: 2rpx solid #f5f7fa;
+    }
+  }
+
+  .randomTitle {
+    color: #333;
+    font-size: 34rpx;
+    font-weight: 600;
+    padding: 28rpx 24rpx 20rpx;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .right {
+      font-size: 26rpx;
+      display: flex;
+      align-items: center;
+      color: #337ab7;
+      padding: 14rpx 24rpx;
+      background: #e8f0fa;
+      border-radius: 32rpx;
+      transition: all 0.2s;
+
+      &:active {
+        background: #337ab7;
+        color: #fff;
+      }
+
+      & > .text {
+        padding-left: 8rpx;
+      }
+    }
+  }
+
+  .extraNav {
+    font-size: 26rpx;
+    color: #337ab7;
+  }
+
+  .hotPoemsSwiper {
+    // 覆盖 swiper dots 样式
+    :global {
+      .swiper-pagination {
+        bottom: 10rpx !important;
+      }
+      .swiper-dot {
+        width: 12rpx !important;
+        height: 12rpx !important;
+        border-radius: 50% !important;
+        background: #ddd !important;
+        opacity: 0.5;
+        transition: all 0.3s;
+        &.active {
+          width: 24rpx !important;
+          border-radius: 6rpx !important;
+          background: #337ab7 !important;
+          opacity: 1;
+        }
+      }
+    }
+
+    &.poets {
+      height: 220rpx;
+
+      .poetCard {
+        padding: 0 24rpx;
+      }
+    }
+
+    &.sentences {
+      height: 180rpx;
+
+      .sentenceCard {
+        padding: 0 24rpx;
+      }
+    }
+
+    &.poems {
+      height: 300rpx;
+
+      .poemSmallCard {
+        margin-top: 0;
+        padding: 0 24rpx;
+        border-bottom: none;
+      }
+    }
+  }
 }

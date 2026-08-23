@@ -97,8 +97,10 @@ const PoemDetail = () => {
 			id: id || poemId,
 		})
 			.then((res) => {
-				const apiData = res.data?.data || res.data;
-				if (res.statusCode === 200 && apiData) {
+				console.log('诗词详情返回:', res);
+				// request.js 返回格式: { status: true, data: {...} }
+				const apiData = res?.data || res;
+				if ((res.status || res.statusCode === 200) && apiData) {
 					// 兼容新旧格式
 					const poemData = apiData.poem || apiData;
 					const detailData = apiData.detail || {};

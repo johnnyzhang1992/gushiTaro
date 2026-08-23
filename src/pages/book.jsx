@@ -48,7 +48,7 @@ const Page = () => {
 		})
 			.then((res) => {
 				const apiData = res.data?.data || res.data;
-				if (res.statusCode === 200 && apiData) {
+				if ((res.status || res.statusCode === 200) && apiData) {
 					console.log(apiData);
 					computeBook(apiData.poems || []);
 				}

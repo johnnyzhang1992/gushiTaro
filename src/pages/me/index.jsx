@@ -57,7 +57,7 @@ const MeIndex = () => {
 		})
 			.then((res) => {
 				const apiData = res.data?.data || res.data;
-				if (res.statusCode === 200 && apiData) {
+				if ((res.status || res.statusCode === 200) && apiData) {
 					setInfo((pre) => ({
 						...pre,
 						...apiData,
@@ -211,7 +211,7 @@ const MeIndex = () => {
 			return false;
 		}
 		const res = await fetchScheduleStats('GET', {});
-		if (res && res.statusCode === 200) {
+		if (res && (res.status || res.statusCode === 200)) {
 			setScheduleStats(res.data);
 		}
 	};

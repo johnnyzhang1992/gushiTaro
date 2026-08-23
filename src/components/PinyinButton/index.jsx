@@ -77,7 +77,7 @@ const PinyinButton = (props) => {
 		});
 		fetchPoemPinyin('GET', {
 			dictType: 'complete',
-			poem_id: poemId,
+			id: poemId,
 		})
 			.then((res) => {
 				const apiData = res.data?.data || res.data;

@@ -1,4 +1,4 @@
-export const BaseUrl = 'http://127.0.0.1:3000';
+export const BaseUrl = 'http://192.168.31.138:3000';
 // export const BaseUrl = 'https://api.xuegushi.com';
 export const WxAppVersion = '6.1.5'
 /**

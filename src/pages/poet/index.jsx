@@ -16,11 +16,20 @@ import useFetchList from '../../hooks/useFetchList';
 
 import { fetchPoetData } from './service';
 import { DynastyArr } from '../../const/config';
+import { getDynastyOptions } from '../../utils/dynasty';
 
 import './style.scss';
 
 const PoetPage = () => {
 	const { setTitle } = useNavigationBar({ title: '古诗文小助手' });
+	const [dynastyOptions, setDynastyOptions] = useState(DynastyArr);
+
+	// 从后端拉取朝代列表并缓存
+	useEffect(() => {
+		getDynastyOptions().then((list) => {
+			if (list && list.length > 0) setDynastyOptions(list);
+		});
+	}, []);
 	const [fetchParams, updateParams] = useState({
 		dynasty: '全部',
 		from: 'home',
@@ -121,7 +130,7 @@ const PoetPage = () => {
 				<FilterCard
 					name='dynasty'
 					title='朝代'
-					filters={DynastyArr}
+					filters={dynastyOptions}
 					updateParams={updateParam}
 				/>
 			</View>

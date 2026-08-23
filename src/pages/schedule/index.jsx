@@ -27,7 +27,7 @@ const SchedulePage = () => {
 
 	const fetchList = async () => {
 		const res = await fetchSchedules('GET', {});
-		if (res && res.statusCode === 200) {
+		if (res && (res.status || res.statusCode === 200)) {
 			const apiData = res.data?.data || res.data;
 			// API 可能返回数组或 { list: [...] }
 			const list = Array.isArray(apiData) ? apiData : (apiData?.list || []);
@@ -39,7 +39,7 @@ const SchedulePage = () => {
 
 	const fetchStats = async () => {
 		const res = await fetchScheduleStats('GET', {});
-		if (res && res.statusCode === 200) {
+		if (res && (res.status || res.statusCode === 200)) {
 			const apiData = res.data?.data || res.data;
 			setStats(apiData);
 		}

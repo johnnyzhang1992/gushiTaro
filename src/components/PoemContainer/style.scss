@@ -1,31 +1,43 @@
 .poemContainer {
-	// padding: 0 20px;
 	height: 100%;
-	overflow: hidden;
-	box-sizing: border-box;
 	position: relative;
+	overflow: hidden;
+
 	.scrollContainer {
-		padding: 0 20px;
+		height: 100%;
 		box-sizing: border-box;
+		width: 100%;
 	}
+
 	.poemSmallCard {
-		margin: 20px 0;
+		margin: 20rpx 20rpx;
 	}
+
+	/* 朝代筛选 - absolute 相对 poemContainer，随 tab 切换移动，不占布局位置 */
 	.dynastyFilter {
 		position: absolute;
 		right: 0;
-		top: 50%;
-		min-width: 88rpx;
-		transform: translateY(-50%);
+		top: 0;
+		bottom: 0;
+		width: 100rpx;
+		z-index: 100;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
+
 		.dynastyFilterItem {
 			text-align: center;
 			color: #666;
 			font-size: 22rpx;
 			line-height: 2em;
+			padding: 8rpx 0;
+			white-space: nowrap;
+
 			&.active {
 				color: #337ab7;
 				font-weight: 600;
-				font-size: 0.9em;
 			}
 		}
 	}

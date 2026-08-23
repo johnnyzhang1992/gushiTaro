@@ -19,6 +19,7 @@ import useFetchList from '../../hooks/useFetchList';
 
 import { fetchHomeData, fetchPoemData } from './service';
 import { PoemTypes, DynastyArr } from '../../const/config';
+import { getDynastyOptions } from '../../utils/dynasty';
 
 const Poem = () => {
 	const { setTitle } = useNavigationBar({ title: '古诗文小助手' });
@@ -46,6 +47,14 @@ const Poem = () => {
 		last_page: 1,
 	});
 	const cacheOptions = useRef({});
+	const [dynastyOptions, setDynastyOptions] = useState(DynastyArr);
+
+	// 从后端拉取朝代列表并缓存
+	useEffect(() => {
+		getDynastyOptions().then((list) => {
+			if (list && list.length > 0) setDynastyOptions(list);
+		});
+	}, []);
 
 	// 使用自定义hook 获取诗词分页数据
 	const { data, error, loading } = useFetchList(
@@ -211,7 +220,7 @@ const Poem = () => {
 							name='dynasty'
 							title='朝代'
 							initValue={pageOptions.dynasty || '全部'}
-							filters={DynastyArr}
+							filters={dynastyOptions}
 							updateParams={updateParam}
 						/>
 					</View>

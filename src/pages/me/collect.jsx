@@ -151,7 +151,7 @@ const CollectPage = () => {
 			setError(err);
 			setLoading(false);
 		});
-		if (res && res.statusCode === 200) {
+		if (res && (res.status || res.statusCode === 200)) {
 			const apiData = res.data?.data || res.data;
 			const { list = [], current_page, last_page } = apiData;
 			if (current_page === 1) {
@@ -177,7 +177,7 @@ const CollectPage = () => {
 			target_id: params.like_id,
 			status: 1
 		}).then((res) => {
-			if (res && res.statusCode === 200) {
+			if (res && (res.status || res.statusCode === 200)) {
 				const newList = collectList.list.filter((item) => {
 					return item.id !== params.id;
 				});

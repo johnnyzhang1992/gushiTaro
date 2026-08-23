@@ -72,7 +72,7 @@ const SettingPage = () => {
 			return false;
 		}
 		updateUserInfo('POST', formObj).then((res) => {
-			if (res && res.statusCode === 200) {
+			if (res && (res.status || res.statusCode === 200)) {
 				Taro.showToast({
 					title: '更新成功',
 					icon: 'success',
@@ -105,7 +105,7 @@ const SettingPage = () => {
 					filePath: tempFilePath,
 					platform: 'wxapp'
 				}).then((_res) => {
-					if (_res && _res.statusCode === 200) {
+					if (_res && _(res.status || res.statusCode === 200)) {
 						const user = Taro.getStorageSync('user');
 						const { cdn_url } = JSON.parse(_res.data);
 						Taro.setStorageSync('user', {
