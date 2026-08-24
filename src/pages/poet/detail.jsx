@@ -113,6 +113,27 @@ const AuthorDetail = () => {
 					<Text className='sectionText'>{author.laterEvaluation}</Text>
 				</View>
 			) : null}
+
+			{/* 更多信息 more_infos */}
+			{author.more_infos && author.more_infos.length > 0 ? (
+				author.more_infos.map((item, idx) => {
+					if (!item.title || !item.content) return null;
+					// content 是数组，取前 3 段，去掉 HTML 标签
+					const lines = (Array.isArray(item.content) ? item.content : [item.content])
+						.slice(0, 5)
+						.map((c) => c.replace(/<[^>]+>/g, '').replace(/\u3000/g, '').trim())
+						.filter(Boolean);
+					if (lines.length === 0) return null;
+					return (
+						<View key={`${item.title}_${idx}`} className='section'>
+							<Text className='sectionTitle'>{item.title}</Text>
+							{lines.map((line, i) => (
+								<Text key={i} className='sectionText'>{line}</Text>
+							))}
+						</View>
+					);
+				})
+			) : null}
 		</View>
 	);
 };
