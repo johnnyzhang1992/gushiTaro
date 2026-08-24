@@ -1,6 +1,7 @@
 .authorDetailPage {
 	min-height: 100vh;
 	background: #f5f7fa;
+	padding-bottom: calc(40rpx + env(safe-area-inset-bottom));
 }
 
 .authorInfo {
