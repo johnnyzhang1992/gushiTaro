@@ -10,7 +10,6 @@ import { useNavigationBar } from 'taro-hooks';
 import { View, Text, ScrollView, Input } from '@tarojs/components';
 
 import PageHeader from '../../components/PageHeader';
-import FilterCard from '../../components/FilterCard';
 import PoemSmallCard from '../../components/PoemSmallCard';
 
 import './style.scss';
@@ -117,7 +116,8 @@ const Poem = () => {
 		};
 		// 支持直接传 author 参数（从作者详情页跳转）
 		if (author) {
-			params['author'] = author;
+			params['keyWord'] = author;
+			params['_type'] = 'author';
 		}
 		if (type) {
 			// tag 对应 标签筛选
@@ -246,71 +246,6 @@ const Poem = () => {
 						</View>
 					</View>
 				) : null}
-				{/* 默认筛选项 */}
-				{!pageOptions.from ? (
-					<View className='filterContainer'>
-						<FilterCard
-							name='type'
-							title='形式'
-							initValue={pageOptions.type || '全部'}
-							filters={PoemTypes}
-							updateParams={updateParam}
-						/>
-						<FilterCard
-							name='dynasty'
-							title='朝代'
-							initValue={pageOptions.dynasty || '全部'}
-							filters={dynastyOptions}
-							updateParams={updateParam}
-						/>
-					</View>
-				) : (
-					<View className='filter_list '>
-						<Text className='filter_text'>筛选：</Text>
-						<View className='filter_content'>
-							<Text
-								className={`filter_item ${
-									fetchParams._type === 'title' ? 'active' : ''
-								}`}
-								onClick={() => {
-									updateSearchType('title');
-								}}
-							>
-								标题
-							</Text>
-							<Text
-								className={`filter_item ${
-									fetchParams._type === 'poem' ? 'active' : ''
-								}`}
-								onClick={() => {
-									updateSearchType('poem');
-								}}
-							>
-								诗词
-							</Text>
-							<Text
-								className={`filter_item ${
-									fetchParams._type === 'tag' ? 'active' : ''
-								}`}
-								onClick={() => {
-									updateSearchType('tag');
-								}}
-							>
-								标签
-							</Text>
-							<Text
-								className={`filter_item ${
-									fetchParams._type === 'author' ? 'active' : ''
-								}`}
-								onClick={() => {
-									updateSearchType('author');
-								}}
-							>
-								作者
-							</Text>
-						</View>
-					</View>
-				)}
 				{/* 诗词列表 */}
 				<View className='pageContainer safeBottom'>
 					{data.list.map((item) => {
