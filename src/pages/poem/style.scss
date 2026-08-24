@@ -47,22 +47,21 @@
 
 /* 朝代筛选 */
 .dynastyFilter {
-	display: flex;
-	white-space: nowrap;
-	padding: 16rpx 24rpx;
-	gap: 12rpx;
+	padding: 16rpx 0;
 	background: #fff;
 	border-bottom: 1rpx solid #f0f2f5;
+	white-space: nowrap;
 	width: 100%;
 	box-sizing: border-box;
 
 	.dynastyFilterItem {
+		display: inline-block;
 		padding: 8rpx 24rpx;
 		font-size: 24rpx;
 		color: #666;
 		background: #f5f7fa;
 		border-radius: 24rpx;
-		flex-shrink: 0;
+		margin-left: 12rpx;
 
 		&.active {
 			color: #fff;
