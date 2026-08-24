@@ -218,13 +218,19 @@ const Poem = () => {
 			</View>
 			{/* 搜索范围 */}
 			<View className='searchScope'>
+				<Text
+					className={`scopeItem ${!fetchParams._type ? 'active' : ''}`}
+					onClick={() => updateParams({ _type: '' })}
+				>
+					全部
+				</Text>
 				{['标题', '作者', '标签', '内容'].map((item, idx) => {
 					const types = ['title', 'author', 'tag', 'poem'];
 					return (
 						<Text
 							key={item}
 							className={`scopeItem ${fetchParams._type === types[idx] ? 'active' : ''}`}
-							onClick={() => updateParams({ _type: fetchParams._type === types[idx] ? '' : types[idx] })}
+							onClick={() => updateParams({ _type: types[idx] })}
 						>
 							{item}
 						</Text>
@@ -244,7 +250,7 @@ const Poem = () => {
 				))}
 			</View>
 			{/* 朝代筛选 */}
-			<View className='dynastyFilter'>
+			<ScrollView className='dynastyFilter' scrollX showScrollbar={false}>
 				{dynastyOptions.map((d) => (
 					<View
 						key={d}
@@ -254,7 +260,7 @@ const Poem = () => {
 						{d}
 					</View>
 				))}
-			</View>
+			</ScrollView>
 			<ScrollView
 				className='poemScrollView'
 				scrollY
