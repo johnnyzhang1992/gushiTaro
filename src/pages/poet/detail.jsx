@@ -1,5 +1,5 @@
 import { View, Text } from '@tarojs/components';
-import Taro, { useRouter, useLoad } from '@tarojs/taro';
+import Taro, { useRouter, useLoad, usePullDownRefresh } from '@tarojs/taro';
 import { useState } from 'react';
 
 import PageHeader from '../../components/PageHeader';
@@ -25,6 +25,10 @@ const AuthorDetail = () => {
 				}
 			})
 			.finally(() => Taro.hideLoading());
+	});
+
+	usePullDownRefresh(() => {
+		Taro.stopPullDownRefresh();
 	});
 
 	if (!author) return null;

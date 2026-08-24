@@ -12,9 +12,11 @@
 
 	.avatar {
 		width: 104rpx;
+		max-width: 104rpx;
 		background-color: rgba(255, 255, 255, 0.15);
 		margin-right: 24rpx;
 		flex-shrink: 0;
+		overflow: hidden;
 	}
 
 	.info {
