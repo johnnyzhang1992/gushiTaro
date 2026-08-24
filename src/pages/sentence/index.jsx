@@ -7,7 +7,7 @@ import Taro, {
 	useShareTimeline,
 } from '@tarojs/taro';
 import { useNavigationBar } from 'taro-hooks';
-import { View, Text, ScrollView } from '@tarojs/components';
+import { View, Text, ScrollView, Input } from '@tarojs/components';
 
 // import FilterContainer from './components/FilterContainer';
 import SentenceCard from '../../components/SentenceCard';
@@ -142,6 +142,19 @@ const SentencePage = () => {
 	return (
 		<View className='sentencePage'>
 			<PageHeader showBack showSearch={false} title={fetchParams.author || fetchParams.keyWord || '名句'} />
+			<View className='searchBar'>
+				<Input
+					className='searchInput'
+					placeholder='搜索名句内容/作者'
+					placeholderClass='searchPlaceholder'
+					value={fetchParams.keyWord || ''}
+					onInput={(e) => {
+						const val = e.detail.value;
+						updateParams({ keyWord: val });
+						updatePagination({ page: 1 });
+					}}
+				/>
+			</View>
 			<ScrollView className='sentenceScrollView' scrollY scrollWithAnimation>
 			<View className='page sentenceIndex'>
 			{/* 列表显示区域 */}

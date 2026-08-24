@@ -7,7 +7,7 @@ import Taro, {
 	useShareTimeline,
 } from '@tarojs/taro';
 import { useNavigationBar } from 'taro-hooks';
-import { View, Text, ScrollView } from '@tarojs/components';
+import { View, Text, ScrollView, Input } from '@tarojs/components';
 
 import FilterCard from '../../components/FilterCard';
 import PoetCard from '../../components/PoetCard';
@@ -127,6 +127,19 @@ const PoetPage = () => {
 	return (
 		<View className='poetPage'>
 			<PageHeader showBack showSearch={false} title='诗人' />
+			<View className='searchBar'>
+				<Input
+					className='searchInput'
+					placeholder='搜索诗人名字'
+					placeholderClass='searchPlaceholder'
+					value={fetchParams.keyWord || ''}
+					onInput={(e) => {
+						const val = e.detail.value;
+						updateParams({ keyWord: val });
+						updatePagination({ page: 1 });
+					}}
+				/>
+			</View>
 			<ScrollView className='poetScrollView' scrollY scrollWithAnimation>
 			<View className='page poetIndex'>
 			{/* 筛选 */}

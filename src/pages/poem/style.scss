@@ -1,3 +1,22 @@
+
+.searchBar {
+	padding: 16rpx 24rpx;
+	background: #fff;
+
+	.searchInput {
+		height: 72rpx;
+		background: #f5f7fa;
+		border-radius: 36rpx;
+		padding: 0 28rpx;
+		font-size: 26rpx;
+		box-sizing: border-box;
+	}
+
+	.searchPlaceholder {
+		color: #aaa;
+	}
+}
+
 .page.poemDetail {
 	background-color: #f5f5f5;
 	padding: 20px;
