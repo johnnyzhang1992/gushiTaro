@@ -1,0 +1,121 @@
+.feihuaDetailPage {
+	min-height: 100vh;
+	background: #f5f7fa;
+
+	.fdHeader {
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 16px;
+		display: flex;
+		align-items: baseline;
+		justify-content: center;
+		gap: 12rpx;
+		pointer-events: none;
+
+		.title {
+			font-size: 34px;
+			color: #fff;
+			font-weight: 600;
+		}
+
+		.sub {
+			font-size: 22px;
+			color: rgba(255, 255, 255, 0.8);
+		}
+	}
+}
+
+.fdContainer {
+	padding: 20rpx 24rpx 40rpx;
+	box-sizing: border-box;
+}
+
+.sortBar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 20rpx;
+
+	.totalText {
+		font-size: 26rpx;
+		color: #666;
+	}
+
+	.sortBtns {
+		display: flex;
+		gap: 12rpx;
+
+		.sortBtn {
+			padding: 10rpx 28rpx;
+			font-size: 24rpx;
+			color: #666;
+			background: #fff;
+			border-radius: 28rpx;
+			border: 1rpx solid #e5e7eb;
+
+			&.active {
+				color: #fff;
+				background: #337ab7;
+				border-color: #337ab7;
+			}
+		}
+	}
+}
+
+.loadingTip {
+	padding: 120rpx 0;
+	text-align: center;
+	font-size: 26rpx;
+	color: #aaa;
+}
+
+.sentenceList {
+	background: #fff;
+	border-radius: 16rpx;
+	padding: 8rpx 28rpx;
+	box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+
+	.sentenceItem {
+		padding: 24rpx 0;
+		border-bottom: 1rpx dashed #eee;
+
+		&:last-child {
+			border-bottom: none;
+		}
+
+		&:active {
+			background: #fafbfc;
+		}
+
+		.sentenceTitle {
+			display: block;
+			font-size: 30rpx;
+			color: #333;
+			line-height: 1.7;
+			font-family: serif;
+
+			.hlChar {
+				color: #b45309;
+				font-weight: 600;
+				background: rgba(245, 158, 11, 0.2);
+				border-radius: 4rpx;
+				padding: 0 2rpx;
+			}
+		}
+
+		.sentenceOrigin {
+			display: block;
+			font-size: 22rpx;
+			color: #999;
+			margin-top: 8rpx;
+		}
+	}
+}
+
+.loadMore {
+	padding: 24rpx 0;
+	text-align: center;
+	font-size: 22rpx;
+	color: #999;
+}

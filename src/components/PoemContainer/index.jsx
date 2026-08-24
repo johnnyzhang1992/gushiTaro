@@ -38,6 +38,7 @@ const PoemContainer = (props) => {
 	const refreshFlag = useRef(false);
 	const paramsRef = useRef(props.params || {});
 	const [poemList, setList] = useState([]);
+	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState('');
 	const [scrollHeight, updateHeight] = useState('auto');
 	const [activeDynasty, setDynasty] = useState('全部');
@@ -178,14 +179,17 @@ const PoemContainer = (props) => {
 				onScrollToLower={reachBottom}
 				style={{ height: scrollHeight == 'auto' ? scrollHeight : scrollHeight + 'px' }}
 			>
-				{poemList.map((item) => {
+				{loading && poemList.length === 0 ? (
+				<Skeleton rows={6} />
+			) : null}
+			{poemList.map((item, idx) => {
 					return (
 						<PoemSmallCard
 							{...item}
 							showCount
 							showBorder
 							lightWord=''
-							key={item.id}
+							key={`${item._id}_${idx}`}
 						/>
 					);
 				})}

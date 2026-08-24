@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Taro from '@tarojs/taro';
 import { View, Text, ScrollView } from '@tarojs/components';
+import Skeleton from '../Skeleton';
 
 import './style.scss';
 
@@ -34,9 +35,6 @@ const AllusionContainer = (props) => {
     if (page > lastPage) return;
 
     refreshFlag.current = true;
-    if (page === 1) {
-      Taro.showLoading({ title: '加载中' });
-    }
 
     const reqData = { page, size: 20 }
     if (searchRef.current) reqData['keyword'] = searchRef.current
@@ -63,7 +61,7 @@ const AllusionContainer = (props) => {
       })
       .finally(() => {
         refreshFlag.current = false;
-        Taro.hideLoading();
+        setLoading(false);
       });
   };
 
@@ -118,10 +116,8 @@ const AllusionContainer = (props) => {
             ) : null}
           </View>
         ))}
-        {loading ? (
-          <View className='loading'>
-            <Text>加载中...</Text>
-          </View>
+        {loading && allusionList.length === 0 ? (
+          <Skeleton rows={6} />
         ) : null}
         {!loading && allusionList.length === 0 ? (
           <View className='empty'>

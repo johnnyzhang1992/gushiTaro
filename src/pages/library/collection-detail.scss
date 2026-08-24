@@ -1,0 +1,66 @@
+.collectionDetailPage {
+	min-height: 100vh;
+	background: #f5f7fa;
+
+	.cdHeader {
+		.title {
+			font-size: 34px;
+			color: #fff;
+			font-weight: 600;
+		}
+	}
+}
+
+.cdContainer {
+	padding: 20rpx 24rpx 40rpx;
+	box-sizing: border-box;
+}
+
+/* 头部信息大卡 */
+.detailHero {
+	background: linear-gradient(135deg, #e8f0fa, #f4f8fd);
+	border: 1rpx solid #d8e6f5;
+	border-radius: 24rpx;
+	padding: 36rpx 32rpx;
+	margin-bottom: 28rpx;
+
+	.heroName {
+		font-size: 40rpx;
+		font-weight: 700;
+		color: #2c3e50;
+		display: block;
+		margin-bottom: 12rpx;
+		font-family: serif;
+	}
+
+	.heroDesc {
+		font-size: 24rpx;
+		color: #6b7a8d;
+		line-height: 1.6;
+		display: block;
+		margin-bottom: 16rpx;
+	}
+
+	.heroStats {
+		display: flex;
+		gap: 32rpx;
+
+		text {
+			font-size: 24rpx;
+			color: #337ab7;
+		}
+	}
+}
+
+.poemGrid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr); /* 2 列网格 */
+	gap: 20rpx;
+}
+
+.emptyTip {
+	padding: 120rpx 0;
+	text-align: center;
+	font-size: 26rpx;
+	color: #aaa;
+}

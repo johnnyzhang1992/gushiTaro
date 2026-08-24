@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import Taro from '@tarojs/taro';
 
 import SentenceCard from '../../components/SentenceCard';
+import Skeleton from '../Skeleton';
 
 import './style.scss';
 
@@ -19,6 +20,7 @@ const SentenceContainer = (props) => {
 	const refreshFlag = useRef(false);
 	const paramsRef = useRef(props.params || {});
 	const [sentenceList, setList] = useState([]);
+	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState('');
 	const [scrollHeight, updateHeight] = useState('auto');
 
@@ -63,6 +65,7 @@ const SentenceContainer = (props) => {
 			return false;
 		}
 		refreshFlag.current = true;
+		setLoading(page === 1);
 		const params = computeParams(paramsRef.current);
 		fetchSentenceData('GET', { ...params, ...pagination.current })
 			.then((res) => {
@@ -85,6 +88,9 @@ const SentenceContainer = (props) => {
 			.catch((err) => {
 				setError(err);
 				refreshFlag.current = false;
+			})
+			.finally(() => {
+				setLoading(false);
 			});
 	};
 
@@ -138,7 +144,10 @@ const SentenceContainer = (props) => {
 					height: scrollHeight == 'auto' ? scrollHeight : scrollHeight + 'px',
 				}}
 			>
-				{sentenceList.map((sentence) => (
+				{loading && sentenceList.length === 0 ? (
+				<Skeleton rows={6} />
+			) : null}
+			{sentenceList.map((sentence) => (
 					<SentenceCard {...sentence} showCount key={sentence.id} />
 				))}
 			</ScrollView>

@@ -282,6 +282,51 @@
 		}
 	}
 
+	/* ===== 4.5 飞花令入口 ===== */
+	.feihuaCard {
+		background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 100%);
+		border: 1rpx solid #fde68a;
+
+		.feihuaBody {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			padding: 36rpx 30rpx;
+			position: relative;
+
+			.feihuaTag {
+				font-size: 22rpx;
+				color: #b45309;
+				background: rgba(245, 158, 11, 0.15);
+				padding: 4rpx 20rpx;
+				border-radius: 20rpx;
+				margin-bottom: 12rpx;
+			}
+
+			.feihuaTitle {
+				font-size: 36rpx;
+				font-weight: 700;
+				color: #92400e;
+				font-family: serif;
+				margin-bottom: 8rpx;
+			}
+
+			.feihuaDesc {
+				font-size: 24rpx;
+				color: #a16207;
+			}
+
+			.feihuaArrow {
+				position: absolute;
+				right: 30rpx;
+				top: 50%;
+				transform: translateY(-50%);
+				font-size: 40rpx;
+				color: #b45309;
+			}
+		}
+	}
+
 	/* ===== 5. 为你推荐 ===== */
 	.recommendCard {
 		.recommend-header {

@@ -1,0 +1,112 @@
+.collectionContainer {
+	height: 100%;
+	overflow: hidden;
+
+	.scrollContainer {
+		height: 100%;
+		padding: 20rpx;
+		box-sizing: border-box;
+	}
+}
+
+.emptyTip {
+	padding: 120rpx 0;
+	text-align: center;
+	font-size: 26rpx;
+	color: #aaa;
+}
+
+.groupSection {
+	margin-bottom: 36rpx;
+
+	.groupHeader {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 8rpx 4rpx 16rpx;
+
+		.groupName {
+			font-size: 32rpx;
+			font-weight: 600;
+			color: #333;
+			font-family: serif;
+		}
+
+		.groupMore {
+			font-size: 24rpx;
+			color: #337ab7;
+		}
+	}
+
+	.collectionScroll {
+		white-space: nowrap;
+		width: 100%;
+
+		/* 确保横向不换行（小程序 ScrollView scrollX 需要） */
+		.bookCard {
+			display: inline-block;
+			white-space: normal; /* 卡片内部允许换行 */
+			vertical-align: top;
+			width: 150rpx;     /* 固定宽 */
+			padding: 0 10rpx;  /* 卡片间左右间距 */
+			box-sizing: border-box;
+		}
+	}
+}
+
+/* 诗单封面卡：书名/数量竖排（从左到右两列），底部色条 */
+.bookCover {
+	width: 100%;
+	height: 200rpx;
+	box-sizing: border-box;
+	background: #fff;
+	border: 1rpx solid #e5e7eb;
+	border-radius: 12rpx;
+	box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+
+	.coverBody {
+		flex: 1;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		gap: 16rpx;
+		padding: 20rpx 16rpx 12rpx;
+		min-height: 0;
+
+		.coverName {
+			writing-mode: vertical-lr;
+			text-orientation: mixed;
+			font-size: 26rpx;
+			font-weight: 600;
+			color: #333;
+			font-family: serif;
+			line-height: 34rpx;
+			align-self: flex-start;
+			max-height: 100%;
+			overflow: hidden;
+			white-space: nowrap;
+		}
+
+		.coverCount {
+			writing-mode: vertical-lr;
+			text-orientation: mixed;
+			font-size: 20rpx;
+			color: #999;
+			line-height: 28rpx;
+			align-self: flex-end;
+			max-height: 100%;
+			overflow: hidden;
+			white-space: nowrap;
+		}
+	}
+
+	.coverBar {
+		height: 8rpx;
+		background: #e5e7eb;
+		flex-shrink: 0;
+	}
+}

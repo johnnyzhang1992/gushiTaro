@@ -359,6 +359,19 @@ const HomePage = () => {
 				)}
 			</View>
 
+			{/* ===== 4.5 飞花令入口 ===== */}
+			<View
+				className='card feihuaCard'
+				onClick={() => Taro.navigateTo({ url: '/pages/find/feihua' })}
+			>
+				<View className='feihuaBody'>
+					<Text className='feihuaTag'>飞花令</Text>
+					<Text className='feihuaTitle'>春城无处不飞花</Text>
+					<Text className='feihuaDesc'>选择一个字，寻遍含它的千古名句</Text>
+					<Text className='feihuaArrow'>›</Text>
+				</View>
+			</View>
+
 			{/* ===== 5. 为你推荐 ===== */}
 			{recommendList.length > 0 ? (
 				<View className='card recommendCard'>

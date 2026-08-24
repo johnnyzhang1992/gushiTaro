@@ -3,6 +3,7 @@ import Taro from '@tarojs/taro';
 import { View, Text, ScrollView } from '@tarojs/components';
 
 import PoetSmallCard from '../../components/PoetSmallCard';
+import Skeleton from '../Skeleton';
 
 import './style.scss';
 import { DynastyArr } from '../../const/config';
@@ -36,6 +37,7 @@ const PoetContainer = (props) => {
 	const searchRef = useRef(props.keyWord || '');
 	const refreshFlag = useRef(false);
 	const [poetList, setList] = useState([]);
+	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState('');
 	const [dynastyList, setDynastyList] = useState(DynastyArr);
 
@@ -79,6 +81,7 @@ const PoetContainer = (props) => {
 			return false;
 		}
 		refreshFlag.current = true;
+		setLoading(page === 1);
 		fetchPoetData('GET', params)
 			.then((res) => {
 				const apiData = res.data?.data || res.data;
@@ -99,6 +102,9 @@ const PoetContainer = (props) => {
 			.catch((err) => {
 				setError(err);
 				refreshFlag.current = false;
+			})
+			.finally(() => {
+				setLoading(false);
 			});
 	};
 
@@ -154,14 +160,17 @@ const PoetContainer = (props) => {
 				enableBackToTop
 				onScrollToLower={reachBottom}
 			>
-				{poetList.map((item) => {
+				{loading && poetList.length === 0 ? (
+				<Skeleton rows={6} />
+			) : null}
+			{poetList.map((item, idx) => {
 					return (
 						<PoetSmallCard
 							{...item}
 							showCount
 							showBorder
 							lightWord=''
-							key={item.id}
+							key={`${item._id}_${idx}`}
 						/>
 					);
 				})}
