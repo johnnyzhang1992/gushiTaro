@@ -63,8 +63,9 @@
 
 			.statItem {
 				display: flex;
-				flex-direction: column;
+				flex-direction: row;
 				align-items: center;
+				gap: 8rpx;
 				padding: 8rpx 20rpx;
 				border-radius: 12rpx;
 
