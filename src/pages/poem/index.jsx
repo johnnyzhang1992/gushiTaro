@@ -231,6 +231,18 @@ const Poem = () => {
 					);
 				})}
 			</View>
+			{/* 诗词类型 */}
+			<View className='typeFilter'>
+				{PoemTypes.map((t) => (
+					<View
+						key={t}
+						className={`typeFilterItem ${(fetchParams.type || '全部') === t ? 'active' : ''}`}
+						onClick={() => updateParams({ type: t === fetchParams.type ? '全部' : t })}
+					>
+						{t}
+					</View>
+				))}
+			</View>
 			{/* 朝代筛选 */}
 			<View className='dynastyFilter'>
 				{dynastyOptions.map((d) => (
