@@ -24,7 +24,7 @@ import PageHeader from '../components/PageHeader';
 // 随机推荐（诗人/诗词/摘录混合）
 const fetchRandomRecommend = () => {
 	return Taro.request({
-		url: `http://192.168.31.138:3000/api/search/random`,
+		url: `https://api.xuegushi.com/miniapp/api/search/random`,
 		method: 'GET',
 	}).then((res) => {
 		if (res.data && res.data.status) return res.data.data;
@@ -213,7 +213,10 @@ const HomePage = () => {
 			<PageHeader title='首页' />
 			<View className='home-content'>
 			{/* ===== 1. 农历卡片 ===== */}
-			<View className='card calendarCard'>
+			<View
+				className='card calendarCard'
+				onClick={() => Taro.navigateTo({ url: '/pages/find/today' })}
+			>
 				<View className='card-body'>
 					<View className='lunar-left'>
 						<Text className='lunar-tag'>

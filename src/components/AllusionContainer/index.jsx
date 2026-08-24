@@ -41,7 +41,7 @@ const AllusionContainer = (props) => {
     const reqData = { page, size: 20 }
     if (searchRef.current) reqData['keyword'] = searchRef.current
     Taro.request({
-      url: `${Taro.getStorageSync('BaseUrl') || 'http://192.168.31.138:3000'}/api/allusions`,
+      url: `${Taro.getStorageSync('BaseUrl') || 'https://api.xuegushi.com'}/miniapp/api/allusions`,
       data: reqData,
     })
       .then((res) => {

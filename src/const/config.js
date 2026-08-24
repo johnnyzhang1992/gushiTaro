@@ -1,5 +1,11 @@
-export const BaseUrl = 'http://192.168.31.138:3000';
-// export const BaseUrl = 'https://api.xuegushi.com';
+// 开发环境走本地服务，生产环境走线上
+// npm run dev:weapp  -> development
+// npm run build:weapp -> production
+const DEV_BASE_URL = 'http://192.168.31.138:3000';
+const PROD_BASE_URL = 'https://api.xuegushi.com';
+
+export const BaseUrl =
+	process.env.NODE_ENV === 'development' ? DEV_BASE_URL : PROD_BASE_URL;
 export const WxAppVersion = '6.1.5'
 /**
  * 分类标签

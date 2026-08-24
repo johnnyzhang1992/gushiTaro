@@ -15,7 +15,7 @@ const AllusionDetail = () => {
     Taro.showLoading({ title: '加载中' });
 
     Taro.request({
-      url: `${Taro.getStorageSync('BaseUrl') || 'http://192.168.31.138:3000'}/api/allusions/${id}`,
+      url: `${Taro.getStorageSync('BaseUrl') || 'https://api.xuegushi.com'}/miniapp/api/allusions/${id}`,
     })
       .then((res) => {
         if (res.data && res.data.status) {

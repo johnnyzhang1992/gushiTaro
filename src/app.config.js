@@ -21,6 +21,7 @@ export default {
 		'pages/sentence/detail',
 		'pages/post/index',
 		'pages/find/index',
+		'pages/find/today',
 		'pages/library/index',
 		'pages/library/detail',
 		'pages/library/catalog',

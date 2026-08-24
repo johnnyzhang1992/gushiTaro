@@ -156,9 +156,9 @@ export default function StudyDetailPage() {
     try {
       const user = Taro.getStorageSync('user') || {};
       const token = user.token;
-      const baseUrl = 'http://192.168.31.138:3000';
+      const baseUrl = 'https://api.xuegushi.com';
       const res = await Taro.request({
-        url: `${baseUrl}/api/poems/${poemId}`,
+        url: `${baseUrl}/miniapp/api/poems/${poemId}`,
         method: 'GET',
         header: {
           'Authorization': token ? `Bearer ${token}` : '',
