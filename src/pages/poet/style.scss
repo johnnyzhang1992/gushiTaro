@@ -82,10 +82,12 @@
 	}
 	.filterContainer {
 		position: sticky;
-		top: 0;
+		top: env(safe-area-inset-top);
+		z-index: 10;
 		background-color: #fff;
 		opacity: 0.9;
 		padding: 20px 30px;
+		/* 吸顶时考虑顶部安全区域 */
 		z-index: 99;
 		box-shadow: 0 1px 3px hsla (0, 0%, 7%, 0.1);
 	}
