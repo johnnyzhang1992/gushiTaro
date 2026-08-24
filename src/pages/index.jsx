@@ -246,7 +246,7 @@ const HomePage = () => {
 					</View>
 				</View>
 				{(calendar.festivals?.length > 0 ||
-					calendar.solarTerm?.next ||
+					calendar.solarTerm?.previous ||
 					calendar.timePeriod) && (
 					<View className='card-footer'>
 						{calendar.festivals && calendar.festivals.length > 0 ? (
@@ -259,9 +259,14 @@ const HomePage = () => {
 								{calendar.timePeriod.dizhi}时 · {calendar.timePeriod.shengxiao}
 							</Text>
 						) : null}
-						{calendar.solarTerm?.next ? (
+						{calendar.solarTerm?.previous || calendar.solarTerm?.next ? (
 							<Text className='meta-item solar-term'>
-								节气 {calendar.solarTerm.next.name}
+								{[
+									calendar.solarTerm.previous?.name,
+									calendar.solarTerm.next?.name,
+								]
+									.filter(Boolean)
+									.join(' → ')}
 							</Text>
 						) : null}
 					</View>
