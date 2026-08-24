@@ -1,120 +1,318 @@
-.bookPage {
-	background-color: #f5f5f5;
-	padding: 30px;
-}
-.wrapper {
-	display: flex;
-	flex-direction: column;
-}
-.sectionCard {
-	box-sizing: border-box;
-	padding: 20px 20px;
-	overflow: hidden;
-	.cardTitle {
-		font-size: 34px;
-		color: #333;
-		font-weight: 500;
-		padding-bottom: 12px;
-		margin-bottom: 26px;
-		border-bottom: 1px solid #ddd;
-	}
-}
-.cardContent {
-	width: 100%;
-	margin-top: 10px;
-	display: flex;
-	flex-wrap: wrap;
-}
 .homePage {
-	box-sizing: border-box;
-	height: 100vh;
-	// padding: 88px 28px 28px;
-	background: #f8f8f8;
-	display: flex;
-	align-items: center;
-	justify-content: flex-start;
-	flex-direction: column;
-	// font-family: GushiFont, serif;
-	.topShare {
-		padding-left: 32px;
-		padding-right: 32px;
+	padding: 0;
+	background-color: #f5f7fa;
+	min-height: 100vh;
+
+	.home-content {
+		padding: 20rpx 24rpx 40rpx;
+	}
+
+	/* ===== 通用卡片 ===== */
+	.card {
+		background: #fff;
+		border-radius: 24rpx;
+		box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.05);
+		margin-bottom: 24rpx;
+		overflow: hidden;
+	}
+
+	.card-body {
+		padding: 28rpx 30rpx;
+	}
+
+	.card-footer {
 		display: flex;
-		width: 100%;
 		align-items: center;
-		background-color: #337ab7;
-		padding-bottom: 16px;
-		position: relative;
-		.search {
+		gap: 20rpx;
+		padding: 20rpx 30rpx;
+		border-top: 1rpx solid #f0f2f5;
+		font-size: 24rpx;
+		color: #666;
+		flex-wrap: wrap;
+
+		.meta-item {
+			display: inline-flex;
+			align-items: center;
+			padding: 4rpx 16rpx;
+			border-radius: 8rpx;
+			background: #f5f7fa;
+		}
+
+		.festival {
+			background: #e8f0fa;
+			color: #337ab7;
+			font-weight: 500;
+		}
+
+		.solar-term {
+			color: #337ab7;
+			background: #e8f0fa;
+		}
+	}
+
+	/* ===== 1. 农历卡片 ===== */
+	.calendarCard {
+		background: linear-gradient(135deg, #e8f0fa 0%, #f4f8fd 100%);
+		border: 1rpx solid #d8e6f5;
+
+		.card-body {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.lunar-left {
+			display: flex;
+			flex-direction: column;
+
+			.lunar-tag {
+				font-size: 22rpx;
+				color: #337ab7;
+				margin-bottom: 8rpx;
+			}
+
+			.lunar-date {
+				font-size: 52rpx;
+				font-weight: 700;
+				color: #2c3e50;
+				line-height: 1.2;
+				margin-bottom: 8rpx;
+			}
+
+			.lunar-sub {
+				font-size: 24rpx;
+				color: #6b7a8d;
+			}
+		}
+
+		.solar-right {
+			display: flex;
+			flex-direction: column;
+			align-items: flex-end;
+
+			.solar-tag {
+				font-size: 22rpx;
+				color: #337ab7;
+				margin-bottom: 8rpx;
+			}
+
+			.solar-date {
+				font-size: 32rpx;
+				font-weight: 600;
+				color: #2c3e50;
+				margin-bottom: 6rpx;
+			}
+
+			.solar-clock {
+				font-size: 26rpx;
+				color: #6b7a8d;
+				font-variant-numeric: tabular-nums;
+			}
+		}
+	}
+
+	/* ===== 2. 每日诗词 ===== */
+	.dailyPoemCard {
+		.card-body.poem-row {
+			display: flex;
+			align-items: center;
+			gap: 20rpx;
+		}
+
+		.poem-quote {
+			font-size: 56rpx;
+			color: #337ab7;
+			line-height: 1;
+		}
+
+		.poem-info {
+			flex: 1;
+			max-width: 100%;
+			display: flex;
+			flex-direction: column;
+			min-width: 0;
+
+			.poem-title {
+				font-size: 28rpx;
+				font-weight: 600;
+				color: #333;
+				margin-bottom: 6rpx;
+				display: block;
+				width: 100%;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
+
+			.poem-preview {
+				font-size: 26rpx;
+				color: #888;
+				margin-bottom: 6rpx;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
+
+			.poem-author {
+				font-size: 22rpx;
+				color: #aaa;
+			}
+		}
+
+		.poem-arrow {
+			font-size: 40rpx;
+			color: #ccc;
+		}
+	}
+
+	/* ===== 3. 签到卡片 ===== */
+	.checkinCard {
+		display: flex;
+
+		.checkin-body {
+			flex: 1;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 30rpx;
+		}
+
+		.checkin-info {
+			display: flex;
+			flex-direction: column;
+
+			.checkin-title {
+				font-size: 30rpx;
+				font-weight: 600;
+				color: #333;
+				margin-bottom: 8rpx;
+			}
+
+			.checkin-desc {
+				font-size: 24rpx;
+				color: #999;
+			}
+		}
+
+		.checkin-btn {
 			display: flex;
 			align-items: center;
 			justify-content: center;
+			min-width: 140rpx;
+			height: 64rpx;
+			padding: 0 28rpx;
+			border-radius: 32rpx;
+			background: #337ab7;
 			color: #fff;
-			font-size: 32px;
-			padding: 0 14px;
-		}
-		.icon {
-			width: 36px;
-			height: 36px;
+			font-size: 28rpx;
+			font-weight: 500;
+
+			&.done {
+				background: #e8f0fa;
+				color: #337ab7;
+			}
 		}
 	}
-	.share-btn {
-		display: flex;
-		align-items: center;
-		padding-right: 44px;
-		height: 100%;
-		// &.share {
-		// 	color: #337ab7;
-		// }
-		.text {
-			font-size: 24px;
-			margin-left: 12px;
-		}
-		&:last-child {
-			margin-right: 0;
-		}
-		.at-icon {
-			width: 40px;
-			height: 40px;
-			font-size: 40px;
-			color: #636366;
-		}
-		&.reload {
-			.icon {
-				transform-origin: 50% 50%;
-				transition: all 0.6s ease 0;
+
+	/* ===== 4. 学习计划 ===== */
+	.planCard {
+		.plan-header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 28rpx 30rpx 16rpx;
+
+			.plan-title {
+				font-size: 30rpx;
+				font-weight: 600;
+				color: #333;
 			}
-			&.active {
+
+			.plan-more {
+				font-size: 24rpx;
 				color: #337ab7;
-				.icon {
-					transform: rotateZ(180deg);
+			}
+		}
+
+		.plan-stats {
+			display: flex;
+			padding: 20rpx 30rpx 30rpx;
+
+			.plan-stat {
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+
+				.plan-num {
+					font-size: 36rpx;
+					font-weight: 700;
+					color: #333;
+					margin-bottom: 6rpx;
+
+					&.mastered {
+						color: #52c41a;
+					}
+
+					&.due {
+						color: #faad14;
+					}
+
+					&.rate {
+						color: #337ab7;
+					}
+				}
+
+				.plan-label {
+					font-size: 22rpx;
+					color: #999;
 				}
 			}
 		}
-	}
-	.post-container {
-		flex: 1;
-		display: flex;
-		align-items: center;
-		flex-direction: column;
-		justify-content: center;
-		.post-bottom {
+
+		.plan-empty {
+			padding: 40rpx 30rpx 50rpx;
 			display: flex;
 			justify-content: center;
-			align-items: center;
-			padding: 40px 10px 0 10px;
+
+			.plan-empty-text {
+				font-size: 26rpx;
+				color: #aaa;
+			}
 		}
 	}
-	.poemShot {
-		width: 100%;
-		box-sizing: border-box;
-		background-repeat: repeat;
-		width: 80vw;
-		height: 65vh;
-		// font-family: GushiFont, serif;
-	}
-}
-.postFloatLayout {
-	.float-layout-container {
-		background-color: #f5f5f5;
+
+	/* ===== 5. 为你推荐 ===== */
+	.recommendCard {
+		.recommend-header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 28rpx 30rpx 16rpx;
+
+			.recommend-title {
+				font-size: 30rpx;
+				font-weight: 600;
+				color: #333;
+			}
+
+			.recommend-refresh {
+				font-size: 24rpx;
+				color: #337ab7;
+				padding: 8rpx 16rpx;
+				background: #e8f0fa;
+				border-radius: 24rpx;
+			}
+		}
+
+		.recommend-list {
+			padding: 10rpx 30rpx 20rpx;
+
+			.poemSmallCard {
+				border: none;
+				border-bottom: 2rpx solid #f0f2f5;
+				margin-bottom: 0;
+			}
+		}
 	}
 }

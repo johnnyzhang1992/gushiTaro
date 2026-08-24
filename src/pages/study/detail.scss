@@ -259,14 +259,38 @@
   margin-bottom: 20rpx;
 }
 
+.search-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
 .search-input {
   width: 100%;
   height: 72rpx;
   background: #f5f5f5;
   border-radius: 8rpx;
-  padding: 0 20rpx;
+  padding: 0 60rpx 0 20rpx;
   font-size: 28rpx;
   box-sizing: border-box;
+}
+
+.search-clear {
+  position: absolute;
+  right: 16rpx;
+  width: 40rpx;
+  height: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #d8dde3;
+}
+
+.search-clear-icon {
+  font-size: 26rpx;
+  color: #fff;
+  line-height: 1;
 }
 
 .search-results {

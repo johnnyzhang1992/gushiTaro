@@ -535,14 +535,24 @@ export default function StudyDetailPage() {
             </View>
             <View className="modal-body">
               <View className="search-box">
-                <Input
-                  className="search-input"
-                  placeholder="搜索诗词名称或作者"
-                  value={searchKeyword}
-                  onInput={(e) => setSearchKeyword(e.detail.value)}
-                  onConfirm={handleSearch}
-                  confirmType="search"
-                />
+                <View className="search-input-wrap">
+                  <Input
+                    className="search-input"
+                    placeholder="搜索诗词名称或作者"
+                    value={searchKeyword}
+                    onInput={(e) => setSearchKeyword(e.detail.value)}
+                    onConfirm={handleSearch}
+                    confirmType="search"
+                  />
+                  {searchKeyword ? (
+                    <View
+                      className="search-clear"
+                      onClick={() => setSearchKeyword('')}
+                    >
+                      <Text className="search-clear-icon">×</Text>
+                    </View>
+                  ) : null}
+                </View>
               </View>
               <View className="search-results">
                 {searchResults.length === 0 && searchKeyword && !searching ? (

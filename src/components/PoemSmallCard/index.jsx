@@ -33,8 +33,7 @@ const PoemSmallCard = ({
 		.filter(t => t.trim())
 		.map((text) => {
 			return text.replace(/　/g, '') + '。';
-		})
-		.slice(0, 2);
+		});
 
 	return (
 		<View
@@ -54,13 +53,12 @@ const PoemSmallCard = ({
 					<Text className='author'>{author}</Text>
 				</View>
 				<View className='content'>
-					{/* 一句话介绍，第一个句号前 */}
+					{/* 全部内容 */}
 					{_content.map((text) => {
 						return (
 							<HighLightText key={text} text={text} lightWord={lightWord} />
 						);
 					})}
-					<HighLightText key='other' text='......' />
 				</View>
 			</Navigator>
 			<View

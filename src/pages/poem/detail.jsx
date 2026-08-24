@@ -210,6 +210,26 @@ const PoemDetail = () => {
 					/>
 				</SectionCard>
 			) : null}
+			{/* 注释（直接铺开展示） */}
+			{detail.detail.annotation || detail.detail.zhu ? (
+				<SectionCard title='注释'>
+					<LongTextCard
+						title='注释'
+						showAll={false}
+						text={detail.detail.annotation || detail.detail.zhu || ''}
+					/>
+				</SectionCard>
+			) : null}
+			{/* 译文（直接铺开展示） */}
+			{detail.detail.translation || detail.detail.yi ? (
+				<SectionCard title='译文'>
+					<LongTextCard
+						title='译文'
+						showAll={false}
+						text={detail.detail.translation || detail.detail.yi || ''}
+					/>
+				</SectionCard>
+			) : null}
 			{/* 赏析 */}
 			{detail.detail.shangxi ? (
 				<SectionCard title='赏析'>

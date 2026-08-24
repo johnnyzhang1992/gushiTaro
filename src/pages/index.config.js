@@ -1,18 +1,11 @@
 export default {
   navigationBarTitleText: '首页',
   navigationBarTextStyle: 'white',
-  enablePullDownRefresh: false,
+  navigationBarBackgroundColor: '#337ab7',
+  enablePullDownRefresh: true,
   enableShareAppMessage: true,
-	enableShareTimeline: true,
-	renderer: 'skyline',
+  enableShareTimeline: true,
   navigationStyle: 'custom',
   componentFramework: 'glass-easel',
   component: true,
-  styleIsolation: 'apply-shared',
-  rendererOptions: {
-    skyline: {
-      defaultDisplayBlock: true,
-      styleIsolation: 'apply-shared',
-    },
-  },
 };

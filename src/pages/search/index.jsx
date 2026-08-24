@@ -129,7 +129,7 @@ const SearchPage = () => {
 						poets_count,
 						sentences,
 						sentences_count,
-						tags,
+						tags = [],
 					} = res.data;
 					updateResult({
 						poems: poems || [],
@@ -138,7 +138,7 @@ const SearchPage = () => {
 						poets_count: poets_count,
 						sentences: sentences || [],
 						sentences_count: sentences_count,
-						tags,
+						tags: tags || [],
 					});
 					cacheRef.current[KeyWord] = {
 						poems: poems || [],
@@ -147,7 +147,7 @@ const SearchPage = () => {
 						poets_count: poets_count,
 						sentences: sentences || [],
 						sentences_count: sentences_count,
-						tags,
+						tags: tags || [],
 					};
 				}
 			})

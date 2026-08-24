@@ -34,20 +34,23 @@ const SentenceContainer = (props) => {
 	};
 
 	const computeParams = (options) => {
-		const { name = '', type } = options;
+		const { name = '', type, keyWord, theme, source_type } = options;
 		let params = {};
 		if (type && type == 'tag') {
 			params = {
 				...params,
 				type: name,
 			};
-		} else {
+		} else if (name) {
 			params = {
 				...params,
 				title: name,
 				keyWord: name
 			};
 		}
+		if (keyWord) params['keyWord'] = keyWord;
+		if (theme && theme !== '全部') params['theme'] = theme;
+		if (source_type) params['source_type'] = source_type;
 		return params;
 	};
 
@@ -88,6 +91,10 @@ const SentenceContainer = (props) => {
 	useEffect(() => {
 		paramsRef.current = {
 			...(props.params || {}),
+			keyWord: props.keyWord || '',
+			theme: props.theme || '',
+			source_type: props.source_type || '',
+			type: props.type && props.type !== '全部' ? props.type : '',
 		};
 		pagination.current = {
 			...pagination.current,
@@ -97,7 +104,7 @@ const SentenceContainer = (props) => {
 		refreshFlag.current = false;
 		fetchList();
 		console.log(props.params, 'params');
-	}, [props.params]);
+	}, [props.params, props.keyWord, props.theme, props.type, props.source_type]);
 
 	useEffect(() => {
 		Taro.createSelectorQuery()

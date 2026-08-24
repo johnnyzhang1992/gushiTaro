@@ -69,6 +69,10 @@ const PoemContainer = (props) => {
 				params['type'] = type;
 			}
 		}
+		// 搜索范围 field：title/author/poem/tag -> _type
+		if (options.field && ['title', 'author', 'poem', 'tag'].includes(options.field)) {
+			params['_type'] = options.field;
+		}
 		if (keyWord) {
 			params['keyWord'] = keyWord;
 		}
@@ -133,6 +137,7 @@ const PoemContainer = (props) => {
 	useEffect(() => {
 		paramsRef.current = {
 			...(props.params || {}),
+			keyWord: props.keyWord || '',
 		};
 		pagination.current = {
 			...pagination.current,
@@ -142,7 +147,7 @@ const PoemContainer = (props) => {
 		refreshFlag.current = false;
 		fetchList();
 		console.log(props.params, 'params');
-	}, [props.params]);
+	}, [props.params, props.keyWord]);
 
 	// 获取容器高度，用于 ScrollView 滚动
 	useEffect(() => {

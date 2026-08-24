@@ -24,6 +24,13 @@
 		padding: 4px 14px;
 		box-sizing: border-box;
 	}
+	.chevron-left {
+		width: 20px;
+		height: 20px;
+		border-left: 4px solid #fff;
+		border-bottom: 4px solid #fff;
+		transform: rotate(45deg);
+	}
 }
 .header-title {
 	font-size: 32px;

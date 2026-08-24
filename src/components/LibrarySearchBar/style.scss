@@ -1,0 +1,109 @@
+.librarySearchArea {
+	background: #fff;
+	padding: 16rpx 24rpx 8rpx;
+	border-bottom: 1rpx solid #f0f2f5;
+	box-sizing: border-box;
+}
+
+.searchRow {
+	display: flex;
+	align-items: center;
+	gap: 16rpx;
+	margin-bottom: 12rpx;
+}
+
+.searchInputWrap {
+	flex: 1;
+	position: relative;
+	display: flex;
+	align-items: center;
+}
+
+.searchInput {
+	flex: 1;
+	height: 64rpx;
+	background: #f5f7fa;
+	border-radius: 32rpx;
+	padding: 0 60rpx 0 28rpx;
+	font-size: 26rpx;
+	box-sizing: border-box;
+}
+
+.searchClear {
+	position: absolute;
+	right: 16rpx;
+	width: 40rpx;
+	height: 40rpx;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	background: #d8dde3;
+}
+
+.searchClearIcon {
+	font-size: 26rpx;
+	color: #fff;
+	line-height: 1;
+}
+
+.searchPlaceholder {
+	color: #aaa;
+}
+
+.searchBtn {
+	flex-shrink: 0;
+	height: 64rpx;
+	padding: 0 32rpx;
+	border-radius: 32rpx;
+	background: #337ab7;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.searchBtnText {
+	color: #fff;
+	font-size: 26rpx;
+}
+
+/* 筛选项行 */
+.filterRow {
+	white-space: nowrap;
+	margin-bottom: 12rpx;
+
+	&.static {
+		display: flex;
+		align-items: center;
+		gap: 16rpx;
+		overflow: hidden;
+	}
+}
+
+.filterGroup {
+	display: flex;
+	align-items: center;
+	gap: 12rpx;
+	flex-shrink: 0;
+}
+
+.filterChip {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 10rpx 22rpx;
+	border-radius: 28rpx;
+	background: #f5f7fa;
+	color: #666;
+	font-size: 24rpx;
+	margin-right: 12rpx;
+
+	&:last-child {
+		margin-right: 0;
+	}
+
+	&.active {
+		background: #337ab7;
+		color: #fff;
+	}
+}

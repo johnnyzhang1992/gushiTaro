@@ -4,7 +4,8 @@ import { View, Text, ScrollView } from '@tarojs/components';
 
 import './style.scss';
 
-const AllusionContainer = () => {
+const AllusionContainer = (props) => {
+  const searchRef = useRef(props.keyWord || '');
   const [allusionList, setList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -37,9 +38,11 @@ const AllusionContainer = () => {
       Taro.showLoading({ title: '加载中' });
     }
 
+    const reqData = { page, size: 20 }
+    if (searchRef.current) reqData['keyword'] = searchRef.current
     Taro.request({
       url: `${Taro.getStorageSync('BaseUrl') || 'http://192.168.31.138:3000'}/api/allusions`,
-      data: { page, size: 20 },
+      data: reqData,
     })
       .then((res) => {
         if (res.data && res.data.status) {
@@ -73,6 +76,18 @@ const AllusionContainer = () => {
   useEffect(() => {
     fetchList();
   }, []);
+
+  // 搜索参数变化时重新查询
+  useEffect(() => {
+    const newKey = props.keyWord || '';
+    if (newKey !== searchRef.current) {
+      searchRef.current = newKey;
+      pagination.current = { ...pagination.current, page: 1, last_page: 2 };
+      refreshFlag.current = false;
+      setList([]);
+      fetchList();
+    }
+  }, [props.keyWord]);
 
   return (
     <View className='allusionContainer' id='allusionScrollContainer'>

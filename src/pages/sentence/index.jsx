@@ -23,6 +23,7 @@ const SentencePage = () => {
 	const [fetchParams, updateParams] = useState({
 		theme: '全部',
 		type: '全部',
+		source_type: '',
 		inited: false,
 	});
 	const [pagination, updatePagination] = useState({
@@ -57,6 +58,7 @@ const SentencePage = () => {
 			keyWord = '',
 			author_source_id = '',
 			author = '',
+			source_type = '',
 		} = options;
 		console.log('options', options);
 		cacheObj.current = { ...options, count: 0 };
@@ -66,6 +68,7 @@ const SentencePage = () => {
 				keyWord: keyWord && keyWord !== 'undefined' ? keyWord : '',
 				theme: theme && theme !== 'undefined' ? theme : '全部',
 				type: type && type !== 'undefined' ? type : '全部',
+				source_type: source_type && source_type !== 'undefined' ? source_type : '',
 				inited: true,
 				author_source_id,
 				author,

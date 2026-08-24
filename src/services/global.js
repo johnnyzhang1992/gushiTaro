@@ -93,6 +93,20 @@ export const deleteCollectionGroup = (method = 'DELETE', data) => {
 	return Request(`/api/collection-groups/${data.id}`, data, method);
 };
 
+// ======== 日历/农历 ========
+
+// 获取今日农历信息
+export const fetchCalendarToday = (method = 'GET', data) => {
+	return Request(`/api/calendar/today`, data, method);
+};
+
+// ======== 每日诗词 ========
+
+// 获取每日诗词（当天全用户同诗）
+export const fetchDailyPoem = (method = 'GET', data) => {
+	return Request(`/api/poems/daily`, data, method);
+};
+
 // ======== 签到/积分 ========
 
 // 获取积分统计
@@ -113,6 +127,11 @@ export const doCheckin = (method = 'POST', data) => {
 // 补签
 export const doMakeup = (method = 'POST', data) => {
 	return Request(`/api/points/makeup`, data, method);
+};
+
+// 积分获取记录（分页）
+export const fetchPointRecords = (method = 'GET', data) => {
+	return Request(`/api/points/records`, data, method);
 };
 
 // ======== 拼音 ========

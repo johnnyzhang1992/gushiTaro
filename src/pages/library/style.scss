@@ -4,25 +4,63 @@
 	flex-direction: column;
 	background-color: #f8f8f8;
 
-	.nut-tabs {
+	/* 自研 TAB 标题栏 */
+	.customTabs {
+		display: flex;
+		background: #fff;
+		border-bottom: 1rpx solid #f0f2f5;
+		flex-shrink: 0;
+	}
+
+	.customTab {
 		flex: 1;
 		display: flex;
 		flex-direction: column;
-		min-height: 0;
+		align-items: center;
+		justify-content: center;
+		position: relative;
+		padding: 22rpx 0;
+	}
 
-		.nut-tabs-content-wrap {
+	.customTabText {
+		font-size: 28rpx;
+		color: #666;
+	}
+
+	.customTab.active .customTabText {
+		color: #337ab7;
+		font-weight: 600;
+	}
+
+	.customTabLine {
+		position: absolute;
+		bottom: 0;
+		width: 48rpx;
+		height: 6rpx;
+		border-radius: 3rpx;
+		background: #337ab7;
+	}
+
+	/* 内容区：flex 撑满，内部 pane 自己滚动 */
+	.tabContentArea {
+		flex: 1;
+		min-height: 0;
+		overflow: hidden;
+
+		.tabPane {
+			height: 100%;
+		}
+	}
+
+	/* 内容 tab 布局：搜索栏在上，列表容器填充剩余 */
+	.tabPaneContent {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+
+		.containerWrap {
 			flex: 1;
 			min-height: 0;
-			overflow: hidden;
-
-			.nut-tabs-content {
-				height: 100%;
-				display: flex;
-
-				.nut-tabpane {
-					height: 100%;
-				}
-			}
 		}
 	}
 }

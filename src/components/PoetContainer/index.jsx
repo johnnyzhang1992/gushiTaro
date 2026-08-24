@@ -14,13 +14,7 @@ const DynastyItem = (props) => {
 	const dynastyClick = () => {
 		handleClick(dynasty);
 	};
-	let isActive = false;
-	if (['精选','全部'].includes(currentDynasty) && dynasty == '精选') {
-		isActive = true;
-	}
-	if (currentDynasty == dynasty) {
-		isActive = true;
-	}
+	let isActive = currentDynasty == dynasty;
 	return (
 		<View
 			className={`dynastyItem ${isActive ? 'active' : ''}`}
@@ -30,7 +24,7 @@ const DynastyItem = (props) => {
 		</View>
 	);
 };
-const PoetContainer = () => {
+const PoetContainer = (props) => {
 	const pagination = useRef({
 		page: 1,
 		size: 20,
@@ -39,10 +33,10 @@ const PoetContainer = () => {
 	});
 
 	const dynastyRef = useRef('全部');
+	const searchRef = useRef(props.keyWord || '');
 	const refreshFlag = useRef(false);
 	const [poetList, setList] = useState([]);
 	const [error, setError] = useState('');
-	const [scrollHeight, updateHeight] = useState('auto');
 	const [dynastyList, setDynastyList] = useState(DynastyArr);
 
 	const reachBottom = () => {
@@ -71,13 +65,14 @@ const PoetContainer = () => {
 		if (refreshFlag.current) {
 			return false;
 		}
-		const dynasty = dynastyRef.current == '精选' ? '' : dynastyRef.current;
+		const dynasty = dynastyRef.current;
 		const params = {
 			...pagination.current,
 			dynasty: dynasty,
 		};
+		if (searchRef.current) params['keyWord'] = searchRef.current;
 		const { page, last_page: lastPage } = pagination.current;
-		if (['精选', '全部'].includes(dynastyRef.current) && page > 1) {
+		if (dynastyRef.current === '全部' && page > 1) {
 			return false;
 		}
 		if (page > lastPage) {
@@ -109,17 +104,22 @@ const PoetContainer = () => {
 
 	useEffect(() => {
 		fetchList();
-		Taro.createSelectorQuery()
-			.select('#poetScrollContainer')
-			.fields({ size: true }, (res) => {
-				updateHeight(res.height || 500);
-			})
-			.exec();
 		// 从后端拉取朝代列表并缓存
 		getDynastyOptions().then((list) => {
 			if (list && list.length > 0) setDynastyList(list);
 		});
 	}, []);
+
+	// 搜索参数变化时重新查询
+	useEffect(() => {
+		const newKey = props.keyWord || '';
+		if (newKey !== searchRef.current) {
+			searchRef.current = newKey;
+			pagination.current = { ...pagination.current, page: 1, last_page: 2 };
+			refreshFlag.current = false;
+			fetchList();
+		}
+	}, [props.keyWord]);
 
 	return (
 		<View className='poetContainer' id='poetScrollContainer'>
@@ -132,14 +132,7 @@ const PoetContainer = () => {
 				showScrollbar={false}
 				enableBackToTop
 				refresherEnabled={false}
-				style={{ height: scrollHeight == 'auto' ? scrollHeight : scrollHeight + 'px' }}
 			>
-				<DynastyItem
-					key='精选'
-					handleClick={handleClick}
-					currentDynasty={dynastyRef.current}
-					dynasty='精选'
-				/>
 				{dynastyList.map((item) => {
 					return (
 						<DynastyItem
@@ -160,7 +153,6 @@ const PoetContainer = () => {
 				showScrollbar={false}
 				enableBackToTop
 				onScrollToLower={reachBottom}
-				style={{ height: scrollHeight == 'auto' ? scrollHeight : scrollHeight + 'px' }}
 			>
 				{poetList.map((item) => {
 					return (

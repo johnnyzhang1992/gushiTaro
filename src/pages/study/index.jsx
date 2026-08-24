@@ -462,13 +462,20 @@ export default function StudyPage() {
             <View className="modal-body">
               <View className="input-group">
                 <View className="input-label">计划名称</View>
-                <Input
-                  className="input-field"
-                  placeholder="请输入计划名称"
-                  value={newPlanName}
-                  onInput={(e) => setNewPlanName(e.detail.value)}
-                  maxlength={20}
-                />
+                <View className="input-field-wrap">
+                  <Input
+                    className="input-field"
+                    placeholder="请输入计划名称"
+                    value={newPlanName}
+                    onInput={(e) => setNewPlanName(e.detail.value)}
+                    maxlength={20}
+                  />
+                  {newPlanName ? (
+                    <View className="input-clear" onClick={() => setNewPlanName('')}>
+                      <Text className="input-clear-icon">×</Text>
+                    </View>
+                  ) : null}
+                </View>
               </View>
             </View>
             <View className="modal-footer">

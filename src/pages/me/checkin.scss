@@ -2,6 +2,7 @@
   min-height: 100vh;
   background: linear-gradient(180deg, #337ab7 0%, #4a90c4 30%, #f5f5f5 30%);
   padding: 30px;
+  box-sizing: border-box;
 
   .header {
     display: flex;
@@ -85,38 +86,100 @@
     }
   }
 
+  /* 签到按钮：日历下方全宽按钮 */
+  .checkin-btn-wrap {
+    margin-bottom: 30px;
+  }
+
   .checkin-btn {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
+    height: 96px;
+    border-radius: 48px;
     background: linear-gradient(135deg, #337ab7, #4a90c4);
     color: #fff;
-    font-size: 36px;
+    font-size: 34px;
+    font-weight: 600;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto;
-    box-shadow: 0 4px 20px rgba(51,122,183,0.4);
+    box-shadow: 0 4px 20px rgba(51,122,183,0.35);
     &.done {
       background: #ccc;
       box-shadow: none;
+      .btn-text { color: #fff; }
     }
   }
 
-  .bonus-list {
-    margin-top: 30px;
+  /* 积分获取记录列表 */
+  .records-section {
     background: #fff;
-    border-radius: 12px;
-    padding: 20px;
-    .bonus-item {
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 40px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+
+    .records-title {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      padding: 12px 0;
-      font-size: 28px;
-      border-bottom: 1px solid #f0f0f0;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #f0f2f5;
+      .title-text {
+        font-size: 32px;
+        font-weight: 600;
+        color: #333;
+      }
+      .total-text {
+        font-size: 24px;
+        color: #999;
+      }
+    }
+
+    .record-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0;
+      border-bottom: 1px solid #f5f7fa;
       &:last-child { border-bottom: none; }
-      .desc { color: #333; }
-      .pts { color: #337ab7; font-weight: 600; }
+
+      .record-left {
+        display: flex;
+        flex-direction: column;
+        .record-desc {
+          font-size: 28px;
+          color: #333;
+          margin-bottom: 6px;
+        }
+        .record-time {
+          font-size: 22px;
+          color: #999;
+        }
+      }
+      .record-pts {
+        font-size: 32px;
+        color: #337ab7;
+        font-weight: 700;
+      }
+    }
+
+    .records-empty {
+      padding: 60px 0;
+      text-align: center;
+      .empty-text {
+        font-size: 26px;
+        color: #aaa;
+      }
+    }
+
+    .records-loading,
+    .records-end {
+      padding: 24px 0;
+      text-align: center;
+      .loading-text,
+      .end-text {
+        font-size: 24px;
+        color: #999;
+      }
     }
   }
 }
