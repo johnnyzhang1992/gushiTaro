@@ -201,6 +201,7 @@ const Poem = () => {
 		<Layout>
 			<PageHeader
 				showBack
+				showSearch={false}
 				title={pageOptions.title || fetchParams.author || '诗词'}
 			/>
 			<View className='page poemIndex'>
