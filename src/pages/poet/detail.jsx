@@ -55,7 +55,7 @@ const AuthorDetail = () => {
 					<View className='stats'>
 						<View
 							className='statItem clickable'
-							onClick={() => Taro.navigateTo({ url: '/pages/poem/index?author=' + encodeURIComponent(author.author_name || '') })}
+							onClick={() => Taro.navigateTo({ url: '/pages/poem/index?author=' + (author.author_name || '') })}
 						>
 							<Text className='statNum'>{author.poem_count ?? '-'}</Text>
 							<Text className='statLabel'>作品</Text>
