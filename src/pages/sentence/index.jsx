@@ -11,6 +11,7 @@ import { View, Text } from '@tarojs/components';
 
 // import FilterContainer from './components/FilterContainer';
 import SentenceCard from '../../components/SentenceCard';
+import PageHeader from '../../components/PageHeader';
 
 import useFetchList from '../../hooks/useFetchList';
 
@@ -140,6 +141,7 @@ const SentencePage = () => {
 
 	return (
 		<View className='page sentenceIndex'>
+			<PageHeader showBack title={fetchParams.author || fetchParams.keyWord || '名句'} />
 			{/* 列表显示区域 */}
 			<View className='pageContainer safeBottom'>
 				{data.list.map((sentence) => (

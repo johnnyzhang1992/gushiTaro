@@ -11,6 +11,7 @@ import { View, Text } from '@tarojs/components';
 
 import FilterCard from '../../components/FilterCard';
 import PoetCard from '../../components/PoetCard';
+import PageHeader from '../../components/PageHeader';
 
 import useFetchList from '../../hooks/useFetchList';
 
@@ -125,6 +126,7 @@ const PoetPage = () => {
 	});
 	return (
 		<View className='page poetIndex'>
+			<PageHeader showBack title='诗人' />
 			{/* 筛选 */}
 			<View className='filterContainer'>
 				<FilterCard

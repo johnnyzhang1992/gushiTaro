@@ -10,6 +10,7 @@ import { useNavigationBar } from 'taro-hooks';
 import { View, Text } from '@tarojs/components';
 
 import Layout from '../../layout';
+import PageHeader from '../../components/PageHeader';
 import FilterCard from '../../components/FilterCard';
 import PoemSmallCard from '../../components/PoemSmallCard';
 
@@ -101,10 +102,10 @@ const Poem = () => {
 	}, [data]);
 
 	useLoad((options) => {
-		const { type, name, from, code, keyWord, dynasty } = options;
+		const { type, name, from, code, keyWord, dynasty, author } = options;
 		cacheOptions.current = { ...options };
 		console.log(type, name, from, options);
-		setTitle(name || keyWord || '诗词文言');
+		setTitle(name || keyWord || author || '诗词文言');
 		setOptions({
 			...options,
 			title: name,
@@ -115,6 +116,10 @@ const Poem = () => {
 			from: from || 'home',
 			inited: true,
 		};
+		// 支持直接传 author 参数（从作者详情页跳转）
+		if (author) {
+			params['author'] = author;
+		}
 		if (type) {
 			// tag 对应 标签筛选
 			// author 对应作者筛选，仅加载该作者的诗词
@@ -194,9 +199,13 @@ const Poem = () => {
 	});
 	return (
 		<Layout>
+			<PageHeader
+				showBack
+				title={pageOptions.title || fetchParams.author || '诗词'}
+			/>
 			<View className='page poemIndex'>
 				{/* 页面顶部 -- 来自首页底部筛选 */}
-				{pageOptions.from === 'home' ? (
+				{pageOptions.from === 'home' && !fetchParams.author ? (
 					<View className='poemTitle'>
 						<View className='title'>
 							<Text>{pageOptions.title}</Text>
