@@ -118,10 +118,20 @@ const AuthorDetail = () => {
 			{author.more_infos && author.more_infos.length > 0 ? (
 				author.more_infos.map((item, idx) => {
 					if (!item.title || !item.content) return null;
-					// content 是数组，取前 3 段，去掉 HTML 标签
+					// content 是数组，取前 5 段，清理 HTML 标签和特殊字符
 					const lines = (Array.isArray(item.content) ? item.content : [item.content])
 						.slice(0, 5)
-						.map((c) => c.replace(/<[^>]+>/g, '').replace(/\u3000/g, '').trim())
+						.map((c) => c
+							.replace(/<[^>]+>/g, '')        // 去 HTML 标签
+							.replace(/&quot;/g, '"')        // "
+							.replace(/&apos;/g, "'")        // '
+							.replace(/&lt;/g, '<')          // <
+							.replace(/&gt;/g, '>')          // >
+							.replace(/&amp;/g, '&')         // &
+							.replace(/&nbsp;/g, ' ')        // 空格
+							.replace(/\u3000/g, '')        // 全角空格
+							.trim()
+						)
 						.filter(Boolean);
 					if (lines.length === 0) return null;
 					return (
