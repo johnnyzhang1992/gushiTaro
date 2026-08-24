@@ -183,6 +183,15 @@
 		}
 	}
 }
+/* 固定 PageHeader */
+.sentenceIndex :global(.custome-page-header) {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 999;
+}
+
 .sentenceIndex {
 	min-height: 100vh;
 	background-color: #f8f8f8;

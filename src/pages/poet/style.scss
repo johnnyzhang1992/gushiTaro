@@ -74,6 +74,15 @@
 .hotPoemsSwiper {
 	height: 305px;
 }
+/* 固定 PageHeader */
+.poetIndex :global(.custome-page-header) {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 999;
+}
+
 .poetIndex {
 	min-height: 100vh;
 	background-color: #f8f8f8;

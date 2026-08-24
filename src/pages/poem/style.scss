@@ -80,6 +80,15 @@
 		}
 	}
 }
+/* 固定 PageHeader */
+.poemIndex :global(.custome-page-header) {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 999;
+}
+
 .poemIndex {
 	min-height: 100vh;
 	background-color: #f8f8f8;
