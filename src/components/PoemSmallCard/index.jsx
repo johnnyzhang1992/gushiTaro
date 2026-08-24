@@ -9,7 +9,8 @@ const removeSpecialText = (text) => {
 	return text
 		.replace(/<storng/g, '')
 		.replace(/<\/strong/g, '')
-		.replace(/&quot;/g, '');
+		.replace(/&quot;/g, '')
+		.trim();
 };
 const PoemSmallCard = ({
 	id,
