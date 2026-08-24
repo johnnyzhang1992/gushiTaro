@@ -1,0 +1,90 @@
+.authorDetailPage {
+	min-height: 100vh;
+	background: #f5f7fa;
+}
+
+.authorInfo {
+	display: flex;
+	padding: 20rpx 24rpx 24rpx;
+	background: linear-gradient(135deg, #337ab7 0%, #286090 100%);
+	margin: 0 0 20rpx;
+	box-sizing: border-box;
+
+	.avatar {
+		width: 100rpx;
+		height: 100rpx;
+		border-radius: 50%;
+		border: 4rpx solid rgba(255, 255, 255, 0.4);
+		margin-right: 24rpx;
+		flex-shrink: 0;
+	}
+
+	.avatarPlaceholder {
+		background: rgba(255, 255, 255, 0.2);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		.avatarText {
+			font-size: 40rpx;
+			color: #fff;
+			font-weight: 600;
+		}
+	}
+
+	.info {
+		flex: 1;
+		min-width: 0;
+
+		.name {
+			font-size: 36rpx;
+			font-weight: 600;
+			color: #fff;
+			display: block;
+			margin-bottom: 6rpx;
+		}
+
+		.dynasty {
+			font-size: 24rpx;
+			color: rgba(255, 255, 255, 0.8);
+			display: block;
+			margin-bottom: 16rpx;
+		}
+
+		.stats {
+			display: flex;
+			gap: 36rpx;
+
+			.statItem {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+
+				.statNum {
+					font-size: 32rpx;
+					font-weight: 600;
+					color: #fff;
+				}
+
+				.statLabel {
+					font-size: 20rpx;
+					color: rgba(255, 255, 255, 0.7);
+					margin-top: 4rpx;
+				}
+			}
+		}
+	}
+}
+
+.authorBio {
+	margin: 0 24rpx 20rpx;
+	background: #fff;
+	border-radius: 16rpx;
+	padding: 24rpx;
+
+	.bioText {
+		font-size: 26rpx;
+		color: #666;
+		line-height: 1.8;
+	}
+}
