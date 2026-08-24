@@ -53,17 +53,20 @@ const AuthorDetail = () => {
 						) : null}
 					</View>
 					<View className='stats'>
-						<View className='statItem'>
+						<View
+							className='statItem clickable'
+							onClick={() => Taro.navigateTo({ url: '/pages/poem/index?author=' + encodeURIComponent(author.author_name || '') })}
+						>
 							<Text className='statNum'>{author.poem_count ?? '-'}</Text>
 							<Text className='statLabel'>作品</Text>
 						</View>
-						<View className='statItem'>
+						<View className='dividerV' />
+						<View
+							className='statItem clickable'
+							onClick={() => Taro.navigateTo({ url: '/pages/sentence/index?author_source_id=' + (author.source_id || '') })}
+						>
 							<Text className='statNum'>{author.sentence_count ?? '-'}</Text>
 							<Text className='statLabel'>摘录</Text>
-						</View>
-						<View className='statItem'>
-							<Text className='statNum'>{author.pv_count ?? 0}</Text>
-							<Text className='statLabel'>浏览</Text>
 						</View>
 					</View>
 				</View>
