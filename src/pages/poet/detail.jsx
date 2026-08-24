@@ -1,8 +1,9 @@
-import { View, Text, Image } from '@tarojs/components';
+import { View, Text } from '@tarojs/components';
 import Taro, { useRouter, useLoad } from '@tarojs/taro';
 import { useState } from 'react';
 
 import PageHeader from '../../components/PageHeader';
+import CdnImage from '../../components/CdnImage';
 import { fetchPoetDetail } from './service';
 
 import './detail.scss';
@@ -35,14 +36,8 @@ const AuthorDetail = () => {
 			{/* 作者头部信息 */}
 			<View className='authorInfo'>
 				{author.avatar ? (
-					<Image className='avatar' src={author.avatar} mode='aspectFill' />
-				) : (
-					<View className='avatar avatarPlaceholder'>
-						<Text className='avatarText'>
-							{(author.author_name || '').slice(0, 1)}
-						</Text>
-					</View>
-				)}
+					<CdnImage className='avatar' src={author.avatar} mode='widthFix' lazyLoad fadeIn />
+				) : null}
 				<View className='info'>
 					<Text className='name'>{author.author_name}</Text>
 					<View className='meta'>

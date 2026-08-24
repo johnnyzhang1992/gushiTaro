@@ -11,25 +11,10 @@
 	box-sizing: border-box;
 
 	.avatar {
-		width: 100rpx;
-		height: 100rpx;
-		border-radius: 50%;
-		border: 4rpx solid rgba(255, 255, 255, 0.4);
+		width: 104rpx;
+		background-color: rgba(255, 255, 255, 0.15);
 		margin-right: 24rpx;
 		flex-shrink: 0;
-	}
-
-	.avatarPlaceholder {
-		background: rgba(255, 255, 255, 0.2);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-
-		.avatarText {
-			font-size: 40rpx;
-			color: #fff;
-			font-weight: 600;
-		}
 	}
 
 	.info {
