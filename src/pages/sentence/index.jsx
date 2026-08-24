@@ -141,7 +141,7 @@ const SentencePage = () => {
 
 	return (
 		<View className='page sentenceIndex'>
-			<PageHeader showBack title={fetchParams.author || fetchParams.keyWord || '名句'} />
+			<PageHeader showBack showSearch={false} title={fetchParams.author || fetchParams.keyWord || '名句'} />
 			{/* 列表显示区域 */}
 			<View className='pageContainer safeBottom'>
 				{data.list.map((sentence) => (

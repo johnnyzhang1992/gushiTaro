@@ -126,7 +126,7 @@ const PoetPage = () => {
 	});
 	return (
 		<View className='page poetIndex'>
-			<PageHeader showBack title='诗人' />
+			<PageHeader showBack showSearch={false} title='诗人' />
 			{/* 筛选 */}
 			<View className='filterContainer'>
 				<FilterCard
