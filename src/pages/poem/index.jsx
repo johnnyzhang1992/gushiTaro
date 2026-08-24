@@ -216,6 +216,18 @@ const Poem = () => {
 					}}
 				/>
 			</View>
+			{/* 朝代筛选 */}
+			<View className='dynastyFilter'>
+				{dynastyOptions.map((d) => (
+					<View
+						key={d}
+						className={`dynastyFilterItem ${fetchParams.dynasty === d ? 'active' : ''}`}
+						onClick={() => updateParams({ dynasty: d === fetchParams.dynasty ? '全部' : d })}
+					>
+						{d}
+					</View>
+				))}
+			</View>
 			<ScrollView
 				className='poemScrollView'
 				scrollY
