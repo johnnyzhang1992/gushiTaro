@@ -216,6 +216,21 @@ const Poem = () => {
 					}}
 				/>
 			</View>
+			{/* 搜索范围 */}
+			<View className='searchScope'>
+				{['标题', '作者', '标签', '内容'].map((item, idx) => {
+					const types = ['title', 'author', 'tag', 'poem'];
+					return (
+						<Text
+							key={item}
+							className={`scopeItem ${fetchParams._type === types[idx] ? 'active' : ''}`}
+							onClick={() => updateParams({ _type: fetchParams._type === types[idx] ? '' : types[idx] })}
+						>
+							{item}
+						</Text>
+					);
+				})}
+			</View>
 			{/* 朝代筛选 */}
 			<View className='dynastyFilter'>
 				{dynastyOptions.map((d) => (

@@ -1,4 +1,27 @@
 
+/* 搜索范围 */
+.searchScope {
+	display: flex;
+	padding: 16rpx 24rpx;
+	gap: 20rpx;
+	background: #fff;
+	border-bottom: 1rpx solid #f0f2f5;
+
+	.scopeItem {
+		padding: 8rpx 24rpx;
+		font-size: 24rpx;
+		color: #666;
+		background: #f5f7fa;
+		border-radius: 24rpx;
+
+		&.active {
+			color: #fff;
+			background: #337ab7;
+		}
+	}
+}
+
+
 /* 朝代筛选 */
 .dynastyFilter {
 	display: flex;
