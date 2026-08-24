@@ -3,9 +3,6 @@ import Taro, { useRouter, useLoad } from '@tarojs/taro';
 import { useState } from 'react';
 
 import PageHeader from '../../components/PageHeader';
-import PoemSmallCard from '../../components/PoemSmallCard';
-import SentenceCard from '../../components/SentenceCard';
-import SectionCard from '../../components/SectionCard';
 import { fetchPoetDetail } from './service';
 
 import './detail.scss';
@@ -15,7 +12,6 @@ const AuthorDetail = () => {
 	const id = router.params.id;
 
 	const [author, setAuthor] = useState(null);
-	const [tab, setTab] = useState('poems'); // poems | sentences
 
 	useLoad(() => {
 		if (!id) return;
@@ -36,6 +32,7 @@ const AuthorDetail = () => {
 		<View className='page authorDetailPage'>
 			<PageHeader showSearch={false} showBack />
 
+			{/* 作者头部信息 */}
 			<View className='authorInfo'>
 				{author.avatar ? (
 					<Image className='avatar' src={author.avatar} mode='aspectFill' />
@@ -48,9 +45,14 @@ const AuthorDetail = () => {
 				)}
 				<View className='info'>
 					<Text className='name'>{author.author_name}</Text>
-					{author.dynasty ? (
-						<Text className='dynasty'>{author.dynasty}</Text>
-					) : null}
+					<View className='meta'>
+						{author.dynasty ? (
+							<Text className='dynasty'>{author.dynasty}</Text>
+						) : null}
+						{author.title ? (
+							<Text className='titleTag'>「{author.title}」</Text>
+						) : null}
+					</View>
 					<View className='stats'>
 						<View className='statItem'>
 							<Text className='statNum'>{author.poem_count ?? '-'}</Text>
@@ -68,9 +70,52 @@ const AuthorDetail = () => {
 				</View>
 			</View>
 
-			{author.styled ? (
-				<View className='authorBio'>
-					<Text className='bioText'>{author.styled}</Text>
+			{/* 生平简介 */}
+			{author.profile ? (
+				<View className='section'>
+					<Text className='sectionTitle'>生平简介</Text>
+					<Text className='sectionText'>{author.profile}</Text>
+				</View>
+			) : null}
+
+			{/* 基本信息 */}
+			{(author.styled || author.hao || author.birthplace || author.era) ? (
+				<View className='section'>
+					<Text className='sectionTitle'>基本信息</Text>
+					<View className='infoGrid'>
+						{author.styled ? (
+							<View className='infoRow'>
+								<Text className='infoLabel'>字</Text>
+								<Text className='infoValue'>{author.styled}</Text>
+							</View>
+						) : null}
+						{author.hao ? (
+							<View className='infoRow'>
+								<Text className='infoLabel'>号</Text>
+								<Text className='infoValue'>{author.hao}</Text>
+							</View>
+						) : null}
+						{author.era ? (
+							<View className='infoRow'>
+								<Text className='infoLabel'>时代</Text>
+								<Text className='infoValue'>{author.era}</Text>
+							</View>
+						) : null}
+						{author.birthplace ? (
+							<View className='infoRow'>
+								<Text className='infoLabel'>故里</Text>
+								<Text className='infoValue'>{author.birthplace}</Text>
+							</View>
+						) : null}
+					</View>
+				</View>
+			) : null}
+
+			{/* 后人评价 */}
+			{author.laterEvaluation ? (
+				<View className='section'>
+					<Text className='sectionTitle'>后人评价</Text>
+					<Text className='sectionText'>{author.laterEvaluation}</Text>
 				</View>
 			) : null}
 		</View>
