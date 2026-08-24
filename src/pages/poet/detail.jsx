@@ -30,7 +30,7 @@ const AuthorDetail = () => {
 
 	return (
 		<View className='page authorDetailPage'>
-			<PageHeader showSearch={false} showBack />
+			<PageHeader showSearch={false} showBack title={author.author_name || '诗人详情'} />
 
 			{/* 作者头部信息 */}
 			<View className='authorInfo'>
