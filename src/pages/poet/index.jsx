@@ -129,7 +129,6 @@ const PoetPage = () => {
 			<PageHeader showBack showSearch={false} title='诗人' />
 			<ScrollView className='poetScrollView' scrollY scrollWithAnimation>
 			<View className='page poetIndex'>
-			<PageHeader showBack showSearch={false} title='诗人' />
 			{/* 筛选 */}
 			<View className='filterContainer'>
 				<FilterCard
