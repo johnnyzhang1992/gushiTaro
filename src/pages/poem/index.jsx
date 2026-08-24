@@ -7,9 +7,8 @@ import Taro, {
 	useShareTimeline,
 } from '@tarojs/taro';
 import { useNavigationBar } from 'taro-hooks';
-import { View, Text } from '@tarojs/components';
+import { View, Text, ScrollView } from '@tarojs/components';
 
-import Layout from '../../layout';
 import PageHeader from '../../components/PageHeader';
 import FilterCard from '../../components/FilterCard';
 import PoemSmallCard from '../../components/PoemSmallCard';
@@ -198,12 +197,18 @@ const Poem = () => {
 		};
 	});
 	return (
-		<Layout>
+		<View className='poemPage'>
 			<PageHeader
 				showBack
 				showSearch={false}
 				title={pageOptions.title || fetchParams.author || '诗词'}
 			/>
+			<ScrollView
+				className='poemScrollView'
+				scrollY
+				scrollWithAnimation
+				onScrollToLower={useReachBottom}
+			>
 			<View className='page poemIndex'>
 				{/* 页面顶部 -- 来自首页底部筛选 */}
 				{pageOptions.from === 'home' && !fetchParams.author ? (
@@ -309,7 +314,8 @@ const Poem = () => {
 					</View>
 				) : null}
 			</View>
-		</Layout>
+			</ScrollView>
+		</View>
 	);
 };
 

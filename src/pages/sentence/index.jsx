@@ -7,7 +7,7 @@ import Taro, {
 	useShareTimeline,
 } from '@tarojs/taro';
 import { useNavigationBar } from 'taro-hooks';
-import { View, Text } from '@tarojs/components';
+import { View, Text, ScrollView } from '@tarojs/components';
 
 // import FilterContainer from './components/FilterContainer';
 import SentenceCard from '../../components/SentenceCard';
@@ -140,7 +140,10 @@ const SentencePage = () => {
 	});
 
 	return (
-		<View className='page sentenceIndex'>
+		<View className='sentencePage'>
+			<PageHeader showBack showSearch={false} title={fetchParams.author || fetchParams.keyWord || '名句'} />
+			<ScrollView className='sentenceScrollView' scrollY scrollWithAnimation>
+			<View className='page sentenceIndex'>
 			<PageHeader showBack showSearch={false} title={fetchParams.author || fetchParams.keyWord || '名句'} />
 			{/* 列表显示区域 */}
 			<View className='pageContainer safeBottom'>
@@ -165,6 +168,8 @@ const SentencePage = () => {
 					<Text>{error}</Text>
 				</View>
 			) : null}
+			</View>
+			</ScrollView>
 		</View>
 	);
 };

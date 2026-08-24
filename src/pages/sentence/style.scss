@@ -192,6 +192,18 @@
 	z-index: 999;
 }
 
+.sentencePage {
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	background-color: #f5f7fa;
+}
+
+.sentenceScrollView {
+	flex: 1;
+	overflow: hidden;
+}
+
 .sentenceIndex {
 	min-height: 100vh;
 	background-color: #f8f8f8;

@@ -83,6 +83,18 @@
 	z-index: 999;
 }
 
+.poetPage {
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	background-color: #f5f7fa;
+}
+
+.poetScrollView {
+	flex: 1;
+	overflow: hidden;
+}
+
 .poetIndex {
 	min-height: 100vh;
 	background-color: #f8f8f8;
@@ -90,8 +102,8 @@
 		background-color: #fff;
 	}
 	.filterContainer {
-		position: sticky;
-		top: env(safe-area-inset-top);
+		/* position: sticky; */
+		top: 0;
 		z-index: 10;
 		background-color: #fff;
 		opacity: 0.9;
