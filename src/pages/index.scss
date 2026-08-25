@@ -295,24 +295,25 @@
 			position: relative;
 
 			.feihuaTag {
-				font-size: 22rpx;
+				font-size: 36rpx;
 				color: #b45309;
 				background: rgba(245, 158, 11, 0.15);
-				padding: 4rpx 20rpx;
+				padding: 8rpx 24rpx;
 				border-radius: 20rpx;
 				margin-bottom: 12rpx;
+				font-weight: 700;
 			}
 
 			.feihuaTitle {
-				font-size: 36rpx;
-				font-weight: 700;
+				font-size: 26rpx;
+				font-weight: 600;
 				color: #92400e;
 				font-family: serif;
 				margin-bottom: 8rpx;
 			}
 
 			.feihuaDesc {
-				font-size: 24rpx;
+				font-size: 22rpx;
 				color: #a16207;
 			}
 

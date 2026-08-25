@@ -74,7 +74,7 @@ const AuthorDetail = () => {
 			{author.profile ? (
 				<View className='section'>
 					<Text className='sectionTitle'>生平简介</Text>
-					<Text className='sectionText'>{author.profile}</Text>
+					<Text className='sectionText' selectable>{author.profile}</Text>
 				</View>
 			) : null}
 
@@ -86,25 +86,25 @@ const AuthorDetail = () => {
 						{author.styled ? (
 							<View className='infoRow'>
 								<Text className='infoLabel'>字</Text>
-								<Text className='infoValue'>{author.styled}</Text>
+								<Text className='infoValue' selectable>{author.styled}</Text>
 							</View>
 						) : null}
 						{author.hao ? (
 							<View className='infoRow'>
 								<Text className='infoLabel'>号</Text>
-								<Text className='infoValue'>{author.hao}</Text>
+								<Text className='infoValue' selectable>{author.hao}</Text>
 							</View>
 						) : null}
 						{author.era ? (
 							<View className='infoRow'>
 								<Text className='infoLabel'>时代</Text>
-								<Text className='infoValue'>{author.era}</Text>
+								<Text className='infoValue' selectable>{author.era}</Text>
 							</View>
 						) : null}
 						{author.birthplace ? (
 							<View className='infoRow'>
 								<Text className='infoLabel'>故里</Text>
-								<Text className='infoValue'>{author.birthplace}</Text>
+								<Text className='infoValue' selectable>{author.birthplace}</Text>
 							</View>
 						) : null}
 					</View>
@@ -143,7 +143,7 @@ const AuthorDetail = () => {
 						<View key={`${item.title}_${idx}`} className='section'>
 							<Text className='sectionTitle'>{item.title}</Text>
 							{lines.map((line, i) => (
-								<Text key={i} className='sectionText'>{line}</Text>
+								<Text key={i} className='sectionText' selectable>{line}</Text>
 							))}
 						</View>
 					);

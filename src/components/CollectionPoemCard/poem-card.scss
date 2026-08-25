@@ -5,6 +5,7 @@
 	padding: 24rpx;
 	box-sizing: border-box;
 	transition: all 0.2s;
+	min-height: 160rpx;
 
 	&:active {
 		transform: translateY(-2rpx);

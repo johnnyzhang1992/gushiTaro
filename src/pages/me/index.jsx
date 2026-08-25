@@ -401,11 +401,23 @@ const MeIndex = () => {
 						<Navigator
 							className='item'
 							hoverClass='none'
-							url='/pages/me/collections'
+							url='/pages/me/collections?type=created'
 						>
-							<View className='name'>我的诗单</View>
+							<View className='name'>我创建的</View>
 							<View className='num'>
 								<Text>{userInfo.collection_count || 0}</Text>
+								<Text className='text'>个</Text>
+								<View className='chevron-right'></View>
+							</View>
+						</Navigator>
+						<Navigator
+							className='item'
+							hoverClass='none'
+							url='/pages/me/collections?type=favorited'
+						>
+							<View className='name'>我收藏的</View>
+							<View className='num'>
+								<Text>{userInfo.collection_fav_count || 0}</Text>
 								<Text className='text'>个</Text>
 								<View className='chevron-right'></View>
 							</View>

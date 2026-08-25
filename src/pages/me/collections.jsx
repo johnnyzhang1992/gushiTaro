@@ -1,99 +1,113 @@
-import { View, Text } from '@tarojs/components';
+import { View, Text, ScrollView } from '@tarojs/components';
 import { useState, useEffect } from 'react';
-import Taro, { usePullDownRefresh } from '@tarojs/taro';
-import { Button } from '@nutui/nutui-react-taro';
+import Taro, { useRouter, useLoad, usePullDownRefresh } from '@tarojs/taro';
 
 import PoemPlaylistCard from '../../components/PoemPlaylistCard';
-import { fetchCollections, createCollection } from '../../services/global';
-import CollectionModal from '../../components/CollectionModal';
+import Request from '../../apis/request';
 
 import './collection.scss';
 
-const PlaylistsPage = () => {
-  const [playlists, setPlaylists] = useState([]);
+const CollectionsPage = () => {
+  const router = useRouter();
+  const [currentTab, setCurrentTab] = useState('created');
+  const [createdList, setCreatedList] = useState([]);
+  const [favoritedList, setFavoritedList] = useState([]);
   const [isLoading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [showCreate, setShowCreate] = useState(false);
 
-  const queryPlaylists = async () => {
-    try {
-      const res = await fetchCollections('GET', { mine: true });
-      if (!res.status && res.statusCode !== 200) throw new Error('Network response was not ok');
-      const apiData = res.data?.data || res.data;
-      setPlaylists(apiData.list || apiData.collections || []);
-    } catch (err) {
-      setError(err);
-    } finally {
-      setLoading(false);
-      Taro.stopPullDownRefresh();
+  // 加载创建的诗单
+  const loadCreated = () => {
+    return Request('/api/collections', { mine: true }, 'GET')
+      .then((res) => {
+        if (res && res.status && res.data) {
+          const list = res.data.list || res.data.collections || [];
+          setCreatedList(list);
+        }
+      })
+      .catch(() => {});
+  };
+
+  // 加载收藏的诗单
+  const loadFavorited = () => {
+    return Request('/api/favorites', { target_type: 'collection', size: 50 }, 'GET')
+      .then((res) => {
+        if (res && res.status && res.data) {
+          setFavoritedList(res.data.list || []);
+        }
+      })
+      .catch(() => {});
+  };
+
+  // 加载数据
+  const loadData = () => {
+    setLoading(true);
+    Promise.all([loadCreated(), loadFavorited()])
+      .finally(() => {
+        setLoading(false);
+        Taro.stopPullDownRefresh();
+      });
+  };
+
+  useLoad((options) => {
+    if (options.type === 'favorited') {
+      setCurrentTab('favorited');
     }
-  };
-
-  const handleCreate = () => {
-    setShowCreate(true);
-  };
-
-  usePullDownRefresh(() => {
-    queryPlaylists();
   });
 
   useEffect(() => {
-    queryPlaylists();
+    loadData();
   }, []);
 
-  if (isLoading) {
-    return (
-      <View className='page playlists-page'>
-        <View className='loading'>加载中...</View>
-      </View>
-    );
-  }
+  usePullDownRefresh(() => {
+    loadData();
+  });
 
-  if (error) {
-    return (
-      <View className='page playlists-page'>
-        <View className='pageError'>Error: {error.message}</View>
-      </View>
-    );
-  }
+  const tabs = [
+    { key: 'created', label: '我创建的', count: createdList.length },
+    { key: 'favorited', label: '我收藏的', count: favoritedList.length },
+  ];
+
+  const currentList = currentTab === 'created' ? createdList : favoritedList;
 
   return (
-    <View className='page playlists-page'>
-      <View className='header'>
-        <View className='list-count'>诗单 {playlists.length}</View>
-        <Button
-          className='create-btn'
-          type='primary'
-          size='small'
-          onClick={handleCreate}
-        >
-          + 新建诗单
-        </Button>
+    <View className='page collectionsPage'>
+      {/* Tab 切换 */}
+      <View className='tabs'>
+        {tabs.map((tab) => (
+          <View
+            key={tab.key}
+            className={`tabItem ${currentTab === tab.key ? 'active' : ''}`}
+            onClick={() => setCurrentTab(tab.key)}
+          >
+            <Text className='tabText'>{tab.label}</Text>
+            <Text className='tabCount'>{tab.count}</Text>
+            {currentTab === tab.key ? <View className='tabLine' /> : null}
+          </View>
+        ))}
       </View>
 
-      {playlists.length === 0 ? (
+      {/* 列表内容 */}
+      {isLoading ? (
+        <View className='loading'>
+          <Text>加载中...</Text>
+        </View>
+      ) : currentList.length === 0 ? (
         <View className='empty'>
-          <Text>暂无诗单，点击右上角创建</Text>
+          <Text>{currentTab === 'created' ? '暂无创建的诗单' : '暂无收藏的诗单'}</Text>
         </View>
       ) : (
-        <View className='playlist-list'>
-          {playlists.map((item) => (
-            <PoemPlaylistCard key={item.id} playlist={item} />
-          ))}
-        </View>
+        <ScrollView className='listScroll' scrollY>
+          <View className='listContainer'>
+            {currentList.map((item) => (
+              <PoemPlaylistCard
+                key={item.id || item.target_id}
+                playlist={currentTab === 'created' ? item : item}
+              />
+            ))}
+          </View>
+        </ScrollView>
       )}
-
-      <CollectionModal
-        show={showCreate}
-        initType='create_collection'
-        onSuccess={() => {
-          setShowCreate(false);
-          queryPlaylists();
-        }}
-        onClose={() => setShowCreate(false)}
-      />
     </View>
   );
 };
 
-export default PlaylistsPage;
+export default CollectionsPage;

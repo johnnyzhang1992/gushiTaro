@@ -44,10 +44,32 @@
 	.heroStats {
 		display: flex;
 		gap: 32rpx;
+		margin-bottom: 20rpx;
 
 		text {
 			font-size: 24rpx;
 			color: #337ab7;
+		}
+	}
+
+	.heroActions {
+		.collectBtn {
+			background: #fff;
+			border: 1rpx solid #337ab7;
+			color: #337ab7;
+			font-size: 26rpx;
+			padding: 12rpx 40rpx;
+			border-radius: 32rpx;
+			line-height: 1.5;
+
+			&::after {
+				border: none;
+			}
+
+			&.collected {
+				background: #337ab7;
+				color: #fff;
+			}
 		}
 	}
 }
