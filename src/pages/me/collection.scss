@@ -11,8 +11,9 @@
 	.tabItem {
 		flex: 1;
 		display: flex;
-		flex-direction: column;
 		align-items: center;
+		justify-content: center;
+		gap: 8rpx;
 		padding: 24rpx 0 20rpx;
 		position: relative;
 
@@ -21,10 +22,13 @@
 			color: #666;
 		}
 
-		.tabCount {
-			font-size: 22rpx;
-			color: #999;
-			margin-top: 4rpx;
+		.badge {
+			font-size: 20rpx;
+			color: #fff;
+			background: #999;
+			padding: 2rpx 12rpx;
+			border-radius: 16rpx;
+			line-height: 1.4;
 		}
 
 		.tabLine {
@@ -42,8 +46,8 @@
 				font-weight: 600;
 			}
 
-			.tabCount {
-				color: #337ab7;
+			.badge {
+				background: #337ab7;
 			}
 		}
 	}

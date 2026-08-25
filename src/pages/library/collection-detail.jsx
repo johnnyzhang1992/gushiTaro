@@ -113,17 +113,15 @@ const CollectionDetailPage = () => {
                 <Text className='heroDesc'>{detail.collection_description}</Text>
               ) : null}
               <View className='heroStats'>
-                <Text>{detail.totalPoems || detail.poem_count || 0} 首</Text>
-                <Text>{detail.pv_count || 0} 浏览</Text>
-              </View>
-              {/* 收藏按钮 */}
-              <View className='heroActions'>
-                <Button
-                  className={`collectBtn ${isFavorited ? 'collected' : ''}`}
-                  onClick={handleToggleFavorite}
-                >
-                  {isFavorited ? '★ 已收藏' : '☆ 收藏'}
-                </Button>
+                <View className='statsRight'>
+                  <Text className='poemCount'>{detail.totalPoems || detail.poem_count || 0} 首</Text>
+                  <Button
+                    className={`collectBtn ${isFavorited ? 'collected' : ''}`}
+                    onClick={handleToggleFavorite}
+                  >
+                    {isFavorited ? '★ 已收藏' : '☆ 收藏'}
+                  </Button>
+                </View>
               </View>
             </View>
 

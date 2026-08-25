@@ -354,7 +354,7 @@ const MeIndex = () => {
 						<Navigator
 							className='item'
 							hoverClass='none'
-							url='/pages/me/collections'
+							url='/pages/me/collect'
 						>
 							<View className='name'>我的收藏</View>
 							<View className='num'>
@@ -401,27 +401,35 @@ const MeIndex = () => {
 						<Navigator
 							className='item'
 							hoverClass='none'
-							url='/pages/me/collections?type=created'
+							url='/pages/me/collections'
 						>
-							<View className='name'>我创建的</View>
+							<View className='name'>我的诗单</View>
 							<View className='num'>
-								<Text>{userInfo.collection_count || 0}</Text>
-								<Text className='text'>个</Text>
 								<View className='chevron-right'></View>
 							</View>
 						</Navigator>
-						<Navigator
-							className='item'
-							hoverClass='none'
-							url='/pages/me/collections?type=favorited'
-						>
-							<View className='name'>我收藏的</View>
-							<View className='num'>
-								<Text>{userInfo.collection_fav_count || 0}</Text>
-								<Text className='text'>个</Text>
-								<View className='chevron-right'></View>
-							</View>
-						</Navigator>
+						<View className='statsCard'>
+							<Navigator
+								className='card_item'
+								hoverClass='none'
+								url='/pages/me/collections?type=created'
+							>
+								<View className='top'>
+									<Text className='num'>{userInfo.collection_count || 0}</Text>
+								</View>
+								<View className='info'>创建</View>
+							</Navigator>
+							<Navigator
+								className='card_item'
+								hoverClass='none'
+								url='/pages/me/collections?type=favorited'
+							>
+								<View className='top'>
+									<Text className='num'>{userInfo.collection_fav_count || 0}</Text>
+								</View>
+								<View className='info'>收藏</View>
+							</Navigator>
+						</View>
 					</View>
 				</SectionCard>
 

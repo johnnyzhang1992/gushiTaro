@@ -1,0 +1,146 @@
+/* 标题区域 */
+.popup-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 20rpx 24rpx;
+
+	.popup-title {
+		font-size: 32rpx;
+		font-weight: 600;
+		color: #333;
+	}
+
+	.create-btn {
+		padding: 8rpx 20rpx;
+		background: transparent;
+
+		.text {
+			font-size: 28rpx;
+			color: #337ab7;
+		}
+	}
+}
+
+.add-to-collection {
+	padding: 20rpx 0;
+
+	.loading {
+		padding: 60rpx 0;
+		text-align: center;
+		font-size: 26rpx;
+		color: #999;
+	}
+
+	.create-form {
+		padding: 0 24rpx;
+		margin-bottom: 20rpx;
+
+		.input-row {
+			display: flex;
+			align-items: center;
+			gap: 16rpx;
+
+			.input {
+				flex: 1;
+				height: 72rpx;
+				background: #f5f7fa;
+				border-radius: 8rpx;
+				padding: 0 20rpx;
+				font-size: 28rpx;
+			}
+
+			.btns {
+				display: flex;
+				gap: 12rpx;
+
+				.btn {
+					padding: 16rpx 24rpx;
+					font-size: 26rpx;
+					border-radius: 8rpx;
+
+					&.cancel {
+						background: #f5f7fa;
+						color: #666;
+					}
+
+					&.confirm {
+						background: #337ab7;
+						color: #fff;
+					}
+				}
+			}
+		}
+	}
+
+	.collection-list {
+		max-height: 60vh;
+
+		.empty {
+			padding: 60rpx 0;
+			text-align: center;
+			font-size: 26rpx;
+			color: #999;
+		}
+
+		.collection-item {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 24rpx;
+			margin: 0 24rpx 16rpx;
+			background: #fff;
+			border-radius: 12rpx;
+			border: 1rpx solid #f0f2f5;
+
+			&.selected {
+				background: #f0f7ff;
+				border-color: #337ab7;
+			}
+
+			.info {
+				flex: 1;
+				min-width: 0;
+
+				.name {
+					display: block;
+					font-size: 28rpx;
+					color: #333;
+					margin-bottom: 4rpx;
+				}
+
+				.count {
+					font-size: 22rpx;
+					color: #999;
+				}
+			}
+
+			.actions {
+				margin-left: 16rpx;
+
+				.add-btn {
+					padding: 8rpx 20rpx;
+					border-radius: 20rpx;
+					background: #337ab7;
+
+					.add-text {
+						font-size: 22rpx;
+						color: #fff;
+					}
+				}
+
+				.remove-btn {
+					padding: 8rpx 20rpx;
+					border-radius: 20rpx;
+					background: #fff;
+					border: 1rpx solid #e64340;
+
+					.remove-text {
+						font-size: 22rpx;
+						color: #e64340;
+					}
+				}
+			}
+		}
+	}
+}

@@ -43,24 +43,30 @@
 
 	.heroStats {
 		display: flex;
-		gap: 32rpx;
-		margin-bottom: 20rpx;
+		justify-content: flex-end;
 
-		text {
-			font-size: 24rpx;
-			color: #337ab7;
+		.statsRight {
+			display: flex;
+			align-items: center;
+			gap: 16rpx;
+
+			.poemCount {
+				font-size: 24rpx;
+				color: #337ab7;
+			}
 		}
-	}
 
-	.heroActions {
 		.collectBtn {
 			background: #fff;
 			border: 1rpx solid #337ab7;
 			color: #337ab7;
-			font-size: 26rpx;
-			padding: 12rpx 40rpx;
-			border-radius: 32rpx;
+			font-size: 22rpx;
+			padding: 6rpx 16rpx;
+			border-radius: 20rpx;
 			line-height: 1.5;
+			margin: 0;
+			width: auto !important;
+			min-width: 0 !important;
 
 			&::after {
 				border: none;

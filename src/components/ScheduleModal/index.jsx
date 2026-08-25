@@ -13,6 +13,11 @@ import {
 
 import './style.scss';
 
+// 删除学习计划中的诗词
+const removePoemFromSchedule = (method = 'DELETE', data) => {
+	return Request(`/api/study-plans/${data.schedule_id || data.id}/items/${data.poem_id || data.poemId}`, data, method);
+};
+
 const titleObj = {
 	create: '新建学习计划',
 	edit: '加入学习计划',
@@ -25,21 +30,50 @@ const ScheduleItem = (props) => {
 		poem_id,
 		poem_count,
 		name,
+		has_poem = false,
 		activeIds = [],
 		onSuccess,
 	} = props;
-	// 直接选中某个计划
+	
+	const isAdded = has_poem || activeIds.includes(schedule_id);
+	
+	const handleRemovePoem = () => {
+		Taro.showModal({
+			title: '确认移除',
+			content: `确定要从「${name}」中移除这首诗吗？`,
+			confirmColor: '#e64340',
+			success: (res) => {
+				if (res.confirm) {
+					removePoemFromSchedule('DELETE', {
+						schedule_id,
+						poem_id,
+					}).then((res) => {
+						if (res && res.status) {
+							Taro.showToast({ title: '已移除', icon: 'success' });
+							if (onSuccess && typeof onSuccess === 'function') {
+								onSuccess([]);
+							}
+						}
+					}).catch(() => {
+						Taro.showToast({ title: '移除失败', icon: 'none' });
+					});
+				}
+			},
+		});
+	};
+
 	const handleAddPoem = async () => {
-		if (activeIds.includes(schedule_id)) {
-			return false;
+		if (isAdded) {
+			Taro.showToast({ title: '已加入该计划', icon: 'none' });
+			return;
 		}
 		addPoemToSchedule('POST', {
-			poem_id,
+			poem_ids: [poem_id],
 			schedule_id,
 			schedule_name: name,
 		})
 			.then((res) => {
-				if (res && res.statusCode === 200) {
+				if (res && res.status) {
 					Taro.showToast({
 						title: '加入成功！记得打卡哦',
 						icon: 'none',
@@ -61,9 +95,7 @@ const ScheduleItem = (props) => {
 	};
 	return (
 		<View
-			className={`schedule-item ${
-				activeIds.includes(schedule_id) ? 'active' : ''
-			}`}
+			className={`schedule-item ${isAdded ? 'active' : ''}`}
 		>
 			<View className='schedule-item__content'>
 				<View className='schedule-item__title'>
@@ -73,8 +105,8 @@ const ScheduleItem = (props) => {
 					<Text>{poem_count || 0}篇</Text>
 				</View>
 			</View>
-			<View className='schedule-item__btn' onClick={handleAddPoem}>
-				<Text>{activeIds.includes(schedule_id) ? '已加入' : '加入'}</Text>
+			<View className='schedule-item__btn' onClick={isAdded ? handleRemovePoem : handleAddPoem}>
+				<Text>{isAdded ? '移除' : '加入'}</Text>
 			</View>
 		</View>
 	);
@@ -100,9 +132,9 @@ const ScheduleModal = ({
 
 	const getschedules = async (target_id) => {
 		const res = await fetchSchedules('GET', {
-			poem_id: target_id || targetId || '',
+			poem_id: targetId || '',
 		});
-		if (res && res.statusCode === 200) {
+		if (res && res.status) {
 			const apiData = res.data?.data || res.data;
 			// API 返回数组或 { existIds, list }
 			if (Array.isArray(apiData)) {
@@ -146,7 +178,7 @@ const ScheduleModal = ({
 				duration: 2000,
 			});
 		});
-		if (res && res.statusCode === 200) {
+		if (res && res.status) {
 			await getschedules(targetId);
 			setType('edit');
 			if (onSuccess && typeof onSuccess === 'function') {
@@ -178,7 +210,7 @@ const ScheduleModal = ({
 				duration: 2000,
 			});
 		});
-		if (res && res.statusCode == 200) {
+		if (res && res.status) {
 			setShowModal(false);
 			if (onSuccess && typeof onSuccess === 'function') {
 				onSuccess();
@@ -255,11 +287,12 @@ const ScheduleModal = ({
 					{/* 计划列表 */}
 					{schedules.map((item) => (
 						<ScheduleItem
-							key={item.id}
+							key={item._id || item.id}
 							poem_id={targetId}
-							schedule_id={item.id}
+							schedule_id={item._id || item.id}
 							name={item.name}
 							poem_count={item.poem_count}
+							has_poem={item.has_poem}
 							activeIds={scheduleIds}
 							onSuccess={updateIds}
 						/>

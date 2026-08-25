@@ -4,7 +4,7 @@ import Taro, { useLoad, usePullDownRefresh } from '@tarojs/taro';
 import { Button } from '@nutui/nutui-react-taro';
 
 import PoemSmallCard from '../../../components/PoemSmallCard';
-import { fetchCollections } from '../../../services/global';
+import Request from '../../../apis/request';
 
 import './playlist-detail.scss';
 
@@ -16,8 +16,9 @@ const PlaylistDetail = () => {
 
   useLoad((options) => {
     idRef.current = options.id;
-    setPlaylistName(options.name || '诗单详情');
-    Taro.setNavigationBarTitle({ title: options.name || '诗单详情' });
+    const name = decodeURIComponent(options.name || '诗单详情');
+    setPlaylistName(name);
+    Taro.setNavigationBarTitle({ title: name });
     fetchDetail(options.id);
   });
 
@@ -28,10 +29,18 @@ const PlaylistDetail = () => {
 
   const fetchDetail = async (id) => {
     setLoading(true);
-    const res = await fetchCollections('GET', { id });
-    if (res && (res.status || res.statusCode === 200)) {
-      const apiData = res.data?.data || res.data;
-      setPoems(apiData.poems || []);
+    try {
+      const res = await Request(`/api/collections/${id}`, {}, 'GET');
+      if (res && res.status && res.data) {
+        setPoems(res.data.poems || []);
+        // 如果 URL 没有传 name，从接口获取
+        if (!idRef.current || !playlistName) {
+          setPlaylistName(res.data.collection_name || '诗单详情');
+          Taro.setNavigationBarTitle({ title: res.data.collection_name || '诗单详情' });
+        }
+      }
+    } catch (err) {
+      console.error('加载失败:', err);
     }
     setLoading(false);
   };
@@ -52,15 +61,18 @@ const PlaylistDetail = () => {
       {poems.length === 0 ? (
         <View className='empty'>诗单还没有作品，去首页逛逛吧</View>
       ) : (
-        poems.map((poem, index) => (
-          <View
-            key={poem.id || poem._id}
-            className='poem-item'
-            style={index < poems.length - 1 ? { borderBottom: '1px solid rgba(228,230,235,0.5)' } : {}}
-          >
-            <PoemSmallCard {...poem} hideBorder showBorder={false} />
-          </View>
-        ))
+        poems.map((item, index) => {
+          const poem = item.poem || item;
+          return (
+            <View
+              key={poem._id || poem.id || index}
+              className='poem-item'
+              style={index < poems.length - 1 ? { borderBottom: '1px solid rgba(228,230,235,0.5)' } : {}}
+            >
+              <PoemSmallCard {...poem} hideBorder showBorder={false} />
+            </View>
+          );
+        })
       )}
     </View>
   );

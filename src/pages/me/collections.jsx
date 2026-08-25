@@ -79,7 +79,7 @@ const CollectionsPage = () => {
             onClick={() => setCurrentTab(tab.key)}
           >
             <Text className='tabText'>{tab.label}</Text>
-            <Text className='tabCount'>{tab.count}</Text>
+            <View className='badge'>{tab.count}</View>
             {currentTab === tab.key ? <View className='tabLine' /> : null}
           </View>
         ))}
@@ -97,9 +97,9 @@ const CollectionsPage = () => {
       ) : (
         <ScrollView className='listScroll' scrollY>
           <View className='listContainer'>
-            {currentList.map((item) => (
+            {currentList.map((item, index) => (
               <PoemPlaylistCard
-                key={item.id || item.target_id}
+                key={item._id || item.id || item.target_id || index}
                 playlist={currentTab === 'created' ? item : item}
               />
             ))}

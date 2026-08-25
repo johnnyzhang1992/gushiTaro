@@ -192,17 +192,17 @@ export const fetchScheduleStats = (method = 'GET', data) => {
 
 // 向计划中添加诗词
 export const addPoemToSchedule = (method = 'POST', data) => {
-	return Request(`/api/study-plans/${data.schedule_id || data.id}/poems`, data, method);
+	return Request(`/api/study-plans/${data.schedule_id || data.id}/items`, data, method);
 };
 
 // 变更计划中诗词状态
 export const addPoemToScheduleAgain = (method = 'POST', data) => {
-	return Request(`/api/study-plans/${data.schedule_id || data.id}/poems/relearn`, data, method);
+	return Request(`/api/study-plans/${data.schedule_id || data.id}/items/relearn`, data, method);
 };
 
 // 从计划中移除诗词
 export const removePoemToSchedule = (method = 'POST', data) => {
-	return Request(`/api/study-plans/${data.schedule_id || data.id}/poems/${data.poem_id || data.poemId}`, data, method);
+	return Request(`/api/study-plans/${data.schedule_id || data.id}/items/${data.poem_id || data.poemId}`, data, method);
 };
 
 // 诗词打卡

@@ -3,7 +3,8 @@ import './style.scss';
 
 const PoemPlaylistCard = (props) => {
   const { playlist = {}, simple } = props;
-  const { collection_name, poem_count, cover_url, id, update_time } = playlist;
+  const { collection_name, poem_count, cover_url, _id, id: playlistId, update_time } = playlist;
+  const id = playlistId || _id;
 
   if (simple) {
     return (

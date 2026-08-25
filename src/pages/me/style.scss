@@ -176,13 +176,15 @@
 	}
 	.statsCard {
 		display: flex;
-		padding: 20px 0;
+		padding: 16px 0 12px;
 		.card_item {
 			flex: 1;
-			text-align: center;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 8px;
 			.top {
-				font-size: 32px;
-				margin-bottom: 12px;
+				font-size: 28px;
 				.num {
 					color: #333;
 					font-weight: 500;
@@ -197,7 +199,7 @@
 			}
 			.info {
 				color: #999;
-				font-size: 28px;
+				font-size: 24px;
 			}
 		}
 	}
@@ -256,13 +258,45 @@
 	background-color: #f8f8f8;
 	min-height: 100vh;
 	box-sizing: border-box;
-	padding-top: 20px;
-	.at-tabs__header {
-		position: sticky;
-		top: 0;
-		display: none;
+
+	.tabs {
+		display: flex;
+		background: #fff;
+		border-bottom: 1rpx solid #f0f2f5;
+
+		.tabItem {
+			flex: 1;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 24rpx 0 20rpx;
+			position: relative;
+
+			.tabText {
+				font-size: 28rpx;
+				color: #666;
+			}
+
+			.tabLine {
+				position: absolute;
+				bottom: 0;
+				width: 60rpx;
+				height: 4rpx;
+				background: #337ab7;
+				border-radius: 2rpx;
+			}
+
+			&.active {
+				.tabText {
+					color: #337ab7;
+					font-weight: 600;
+				}
+			}
+		}
 	}
+
 	.collectContainer {
+		padding: 20rpx 0;
 		padding: 0 20px 20px;
 		.collectItem {
 			padding: 0 20px 20px;

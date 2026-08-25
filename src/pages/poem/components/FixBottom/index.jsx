@@ -1,14 +1,17 @@
-import { View } from '@tarojs/components';
+import { View, Text } from '@tarojs/components';
+import { useState } from 'react';
 
 import LikeButton from '../../../../components/LikeButton';
 import CollectButton from '../../../../components/CollectButton';
 import ScheduleButton from '../../../../components/ScheduleButton';
+import AddToCollectionPopup from '../../../../components/AddToCollectionPopup';
 import RootFixed from '../../../../components/RootFixed';
 
 import './style.scss';
 
 const FixBottom = (props) => {
 	const { poem = {} } = props;
+	const [showCollectionPopup, setShowCollectionPopup] = useState(false);
 
 	const poemId = poem.id || poem._id;
 
@@ -18,6 +21,10 @@ const FixBottom = (props) => {
 				<View className='bottomTabs flex'>
 					<View className='tabItem'>
 						<ScheduleButton id={poemId} showText />
+					</View>
+					<View className='tabItem collection-btn' onClick={() => setShowCollectionPopup(true)}>
+						<Text className='icon'>📖</Text>
+						<Text className='text'>诗单</Text>
 					</View>
 					<View className='right flex'>
 						<View className='tabItem like'>
@@ -41,6 +48,14 @@ const FixBottom = (props) => {
 					</View>
 				</View>
 			</View>
+
+			{/* 加入诗单弹窗 */}
+			<AddToCollectionPopup
+				visible={showCollectionPopup}
+				poemId={String(poemId)}
+				onClose={() => setShowCollectionPopup(false)}
+				onSuccess={() => setShowCollectionPopup(false)}
+			/>
 		</RootFixed>
 	);
 };
