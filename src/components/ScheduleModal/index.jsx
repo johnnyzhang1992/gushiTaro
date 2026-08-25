@@ -2,6 +2,7 @@ import { View, Text, ScrollView } from '@tarojs/components';
 import { Input } from '@nutui/nutui-react-taro';
 import { useState, useEffect } from 'react';
 import Taro from '@tarojs/taro';
+import Request from '../../apis/request';
 
 import FloatLoayout from '../../components/FloatLayout';
 import {

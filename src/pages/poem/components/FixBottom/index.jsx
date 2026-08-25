@@ -54,7 +54,7 @@ const FixBottom = (props) => {
 				visible={showCollectionPopup}
 				poemId={String(poemId)}
 				onClose={() => setShowCollectionPopup(false)}
-				onSuccess={() => setShowCollectionPopup(false)}
+				
 			/>
 		</RootFixed>
 	);
