@@ -344,7 +344,7 @@ const PostLayoutConfig = ({
 					<Button
 						className='share-btn'
 						type='primary'
-						size='small'
+						size='normal'
 						shape='round'
 						onClick={handleDownload}
 					>
@@ -355,7 +355,7 @@ const PostLayoutConfig = ({
 				<Button
 					className='share-btn'
 					type='info'
-					size='small'
+					size='normal'
 					shape='round'
 					openType='share'
 				>

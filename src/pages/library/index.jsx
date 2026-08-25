@@ -23,9 +23,17 @@ const TABS = [
 
 const Page = () => {
 	const [currentTab, setTab] = useState(0);
+	const [searchParams, setSearchParams] = useState({});
+	// 每个 TAB 独立的搜索参数，切换 TAB 时不会丢失
+	const [tabParams, setTabParams] = useState({0: {}, 1: {}, 2: {}, 3: {}, 4: {}});
 
 	const handleChangeTab = (index) => {
 		setTab(index);
+	};
+
+	const handleSearch = (params) => {
+		setSearchParams(params);
+		setTabParams(prev => ({ ...prev, [currentTab]: params }));
 	};
 
 	useLoad((options) => {
@@ -35,9 +43,9 @@ const Page = () => {
 	// 内容类 tab 包装：搜索筛选栏 + 列表容器
 	const renderContentTab = (tabIndex, ContainerEl, extraProps) => (
 		<View className='tabPaneContent'>
-			<LibrarySearchBar tab={tabIndex} />
+			<LibrarySearchBar tab={tabIndex} onSearch={handleSearch} />
 			<View className='containerWrap'>
-				<ContainerEl {...extraProps} />
+				<ContainerEl {...extraProps} params={tabParams[tabIndex] || {}} />
 			</View>
 		</View>
 	);

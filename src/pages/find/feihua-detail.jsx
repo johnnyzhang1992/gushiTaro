@@ -2,7 +2,6 @@ import { View, Text } from '@tarojs/components';
 import Taro, { useRouter, useLoad, useReachBottom } from '@tarojs/taro';
 import { useState } from 'react';
 
-import PageHeader from '../../components/PageHeader';
 import { fetchFeihuaSentences } from './feihua.service';
 
 import './feihua-detail.scss';
@@ -51,7 +50,9 @@ const FeihuaDetailPage = () => {
 		})
 			.then((res) => {
 				if (res && res.status && res.data) {
-					setList(res.data.list || []);
+					const newList = res.data.list || [];
+					// page > 1 时追加数据，否则覆盖
+					setList(prev => p > 1 ? [...prev, ...newList] : newList);
 					setTotal(res.data.total || 0);
 					setPage(res.data.current_page || 1);
 					setTotalPages(res.data.last_page || 1);
@@ -65,6 +66,7 @@ const FeihuaDetailPage = () => {
 	};
 
 	useLoad(() => {
+		Taro.setNavigationBarTitle({ title: `「${char}」飞花令` });
 		loadData(1, sort);
 	});
 
@@ -93,12 +95,6 @@ const FeihuaDetailPage = () => {
 
 	return (
 		<View className='page feihuaDetailPage'>
-			<PageHeader showSearch={false} showBack>
-				<View className='fdHeader'>
-					<Text className='title'>「{char}」飞花令</Text>
-					<Text className='sub'>共 {total} 条名句</Text>
-				</View>
-			</PageHeader>
 
 			<View className='fdContainer'>
 				{/* 排序操作栏 */}

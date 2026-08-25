@@ -48,32 +48,45 @@ const LibrarySearchBar = ({ tab, onSearch }) => {
 		}
 	}, [tab]);
 
+	// 筛选项变化时自动搜索
+	useEffect(() => {
+		if (tab === 0 && dynastyList.length > 0) {
+			handleSearch();
+		}
+	}, [dynasty, poemType, field]);
+
+	useEffect(() => {
+		if (tab === 1 && (sentenceThemes.length > 0 || sentenceTypes.length > 0)) {
+			console.log('摘录筛选项变化:', { sTheme, sType });
+			handleSearch();
+		}
+	}, [sTheme, sType]);
+
 	const handleSearch = () => {
 		const key = keyword.trim();
-		if (!key) {
-			Taro.showToast({ title: '请输入搜索内容', icon: 'none' });
-			return;
-		}
 		// 组装当前 tab 的查询参数，回调父组件在当前页查询（不跳转）
-		const params = { keyWord: key };
+		const params = {};
+		if (key) params['keyWord'] = key;
+		console.log('handleSearch:', tab, { sTheme, sType, dynasty, poemType, field });
 		switch (tab) {
-			case 1: // 作品
+			case 0: // 作品
 				if (dynasty !== '全部') params['dynasty'] = dynasty;
 				if (poemType !== '全部') params['type'] = poemType;
 				if (field !== 'all') params['field'] = field;
 				break;
-			case 2: // 摘录
+			case 1: // 摘录
 				params['source_type'] = '古诗摘录';
 				if (sTheme !== '全部') params['theme'] = sTheme;
 				if (sType !== '全部') params['type'] = sType;
 				break;
-			case 3: // 作者（朝代由左侧栏筛选）
+			case 2: // 作者
 				break;
 			case 4: // 典故
 				break;
 			default:
 				return;
 		}
+		console.log('onSearch params:', params);
 		if (onSearch && typeof onSearch === 'function') {
 			onSearch(params);
 		}
@@ -134,7 +147,7 @@ const LibrarySearchBar = ({ tab, onSearch }) => {
 				</ScrollView>
 			) : null}
 			{/* 摘录：主题 + 类型筛选项 */}
-			{tab === 0 ? (
+			{tab === 1 ? (
 				<View className='filterRows'>
 					{sentenceThemes.length > 0 ? (
 						<ScrollView className='filterRow' scrollX showScrollbar={false}>
@@ -207,11 +220,13 @@ const LibrarySearchBar = ({ tab, onSearch }) => {
 					</View>
 				</View>
 			) : null}
-			{/* 收起/展开按钮 */}
-			<View className='toggleBtn' onClick={() => setCollapsed(!collapsed)}>
-				<Text className='toggleText'>{collapsed ? '展开' : '收起'}</Text>
-				<Text className='toggleArrow'>{collapsed ? '▼' : '▲'}</Text>
-			</View>
+			{/* 收起/展开按钮（仅作品 TAB）*/}
+			{tab === 0 ? (
+				<View className='toggleBtn' onClick={() => setCollapsed(!collapsed)}>
+					<Text className='toggleText'>{collapsed ? '展开' : '收起'}</Text>
+					<Text className='toggleArrow'>{collapsed ? '▼' : '▲'}</Text>
+				</View>
+			) : null}
 		</View>
 	);
 };

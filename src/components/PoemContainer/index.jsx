@@ -177,7 +177,6 @@ const PoemContainer = (props) => {
 				showScrollbar={false}
 				enableBackToTop
 				onScrollToLower={reachBottom}
-				style={{ height: scrollHeight == 'auto' ? scrollHeight : scrollHeight + 'px' }}
 			>
 				{loading && poemList.length === 0 ? (
 				<Skeleton rows={6} />

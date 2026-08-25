@@ -183,6 +183,12 @@
 	}
 	.shareBottom {
 		display: flex;
+		padding: 20px 0;
+		gap: 20px;
+
+		.nut-button {
+			height: 80rpx !important;
+		}
 	}
 	.share-btn {
 		flex: 1;
