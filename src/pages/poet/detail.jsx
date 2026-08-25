@@ -2,7 +2,6 @@ import { View, Text } from '@tarojs/components';
 import Taro, { useRouter, useLoad, usePullDownRefresh } from '@tarojs/taro';
 import { useState } from 'react';
 
-import PageHeader from '../../components/PageHeader';
 import CdnImage from '../../components/CdnImage';
 import { fetchPoetDetail } from './service';
 
@@ -35,7 +34,6 @@ const AuthorDetail = () => {
 
 	return (
 		<View className='page authorDetailPage'>
-			<PageHeader showSearch={false} showBack title={author.author_name || '诗人详情'} />
 
 			{/* 作者头部信息 */}
 			<View className='authorInfo'>

@@ -298,28 +298,28 @@ const HomePage = () => {
 				</Navigator>
 			) : null}
 
-			{/* ===== 3. 签到卡片 ===== */}
-			<View className='card checkinCard'>
-				<View className='checkin-body'>
-					{/* 左侧：点击跳转签到详情页 */}
-					<View
-						className='checkin-info'
-						onClick={() => Taro.navigateTo({ url: '/pages/me/checkin' })}
-					>
-						<Text className='checkin-title'>
-							{checkedIn ? '今日已签到' : '每日签到'}
-						</Text>
-						<Text className='checkin-desc'>
-							连续签到 {checkinStats?.checkinStreak || 0} 天
-							{checkinStats?.totalPoints ? ` · 积分 ${checkinStats.totalPoints}` : ''}
-						</Text>
-					</View>
-					{/* 右侧：直接签到 */}
-					<View className={`checkin-btn ${checkedIn ? 'done' : ''}`} onClick={handleCheckin}>
-						{checkedIn ? '✓ 已签到' : '去签到'}
+			{/* ===== 3. 签到卡片（今日未签到才显示）===== */}
+			{!checkedIn ? (
+				<View className='card checkinCard'>
+					<View className='checkin-body'>
+						{/* 左侧：点击跳转签到详情页 */}
+						<View
+							className='checkin-info'
+							onClick={() => Taro.navigateTo({ url: '/pages/me/checkin' })}
+						>
+							<Text className='checkin-title'>每日签到</Text>
+							<Text className='checkin-desc'>
+								连续签到 {checkinStats?.checkinStreak || 0} 天
+								{checkinStats?.totalPoints ? ` · 积分 ${checkinStats.totalPoints}` : ''}
+							</Text>
+						</View>
+						{/* 右侧：直接签到 */}
+						<View className='checkin-btn' onClick={handleCheckin}>
+							去签到
+						</View>
 					</View>
 				</View>
-			</View>
+			) : null}
 
 			{/* ===== 4. 学习计划进度 ===== */}
 			<View className='card planCard'>

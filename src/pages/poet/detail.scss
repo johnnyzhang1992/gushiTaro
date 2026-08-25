@@ -18,6 +18,7 @@
 		margin-right: 24rpx;
 		flex-shrink: 0;
 		overflow: hidden;
+		border-radius: 12rpx;
 	}
 
 	.info {
@@ -53,6 +54,7 @@
 			display: flex;
 			align-items: center;
 			gap: 0;
+			justify-content: flex-end;
 
 			.dividerV {
 				width: 1rpx;

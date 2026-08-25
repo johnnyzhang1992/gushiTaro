@@ -54,7 +54,7 @@
 
 .poemGrid {
 	display: grid;
-	grid-template-columns: repeat(2, 1fr); /* 2 列网格 */
+	grid-template-columns: 1fr; /* 单列 */
 	gap: 20rpx;
 }
 

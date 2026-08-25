@@ -2,7 +2,6 @@ import { View, Text, Navigator } from '@tarojs/components';
 import Taro, { useRouter, useLoad, usePullDownRefresh } from '@tarojs/taro';
 import { useState } from 'react';
 
-import PageHeader from '../../components/PageHeader';
 import CollectionPoemCard from '../../components/CollectionPoemCard';
 import Request from '../../apis/request';
 
@@ -42,11 +41,6 @@ const CollectionDetailPage = () => {
 
   return (
     <View className='page collectionDetailPage'>
-      <PageHeader showSearch={false} showBack>
-        <View className='cdHeader'>
-          <Text className='title'>诗单详情</Text>
-        </View>
-      </PageHeader>
 
       <View className='cdContainer'>
         {loading && !detail ? (

@@ -28,16 +28,17 @@ const LibrarySearchBar = ({ tab, onSearch }) => {
 	const [sentenceTypes, setSentenceTypes] = useState([]);
 	const [sTheme, setSTheme] = useState('全部');
 	const [sType, setSType] = useState('全部');
+	const [collapsed, setCollapsed] = useState(false);
 
 	// 拉取朝代（仅作品 tab 需要，作者 tab 左侧已有朝代筛选）
 	useEffect(() => {
-		if (tab === 1) {
+		if (tab === 0) {
 			getDynastyOptions().then((list) => {
 				if (list && list.length > 0) setDynastyList(list);
 			});
 		}
 		// 拉取摘录筛选项（主题/类型）
-		if (tab === 2) {
+		if (tab === 1) {
 			fetchSentenceFilters('GET', {}).then((res) => {
 				if (res && res.status && res.data) {
 					setSentenceThemes(res.data.themes || []);
@@ -87,14 +88,14 @@ const LibrarySearchBar = ({ tab, onSearch }) => {
 	};
 
 	const placeholder = {
-		1: '搜索诗词标题、内容',
-		2: '搜索名句、出处',
-		3: '搜索诗人',
+		0: '搜索诗词标题、内容',
+		1: '搜索名句、出处',
+		2: '搜索诗人',
 		4: '搜索典故',
 	}[tab];
 
 	return (
-		<View className='librarySearchArea'>
+		<View className={`librarySearchArea ${collapsed ? 'collapsed' : ''}`}>
 			{/* 搜索行 */}
 			<View className='searchRow'>
 				<View className='searchInputWrap'>
@@ -119,7 +120,7 @@ const LibrarySearchBar = ({ tab, onSearch }) => {
 			</View>
 			{/* 筛选项 */}
 			{/* 朝代（作品） */}
-			{tab === 1 && dynastyList.length > 0 ? (
+			{tab === 0 && dynastyList.length > 0 ? (
 				<ScrollView className='filterRow' scrollX showScrollbar={false}>
 					{dynastyList.map((d) => (
 						<Text
@@ -133,7 +134,7 @@ const LibrarySearchBar = ({ tab, onSearch }) => {
 				</ScrollView>
 			) : null}
 			{/* 摘录：主题 + 类型筛选项 */}
-			{tab === 2 ? (
+			{tab === 0 ? (
 				<View className='filterRows'>
 					{sentenceThemes.length > 0 ? (
 						<ScrollView className='filterRow' scrollX showScrollbar={false}>
@@ -176,7 +177,7 @@ const LibrarySearchBar = ({ tab, onSearch }) => {
 				</View>
 			) : null}
 			{/* 类型 + 字段（作品），各自单独一行 */}
-			{tab === 1 ? (
+			{tab === 0 ? (
 				<View className='filterRows'>
 					<View className='filterRow static'>
 						<View className='filterGroup'>
@@ -206,6 +207,11 @@ const LibrarySearchBar = ({ tab, onSearch }) => {
 					</View>
 				</View>
 			) : null}
+			{/* 收起/展开按钮 */}
+			<View className='toggleBtn' onClick={() => setCollapsed(!collapsed)}>
+				<Text className='toggleText'>{collapsed ? '展开' : '收起'}</Text>
+				<Text className='toggleArrow'>{collapsed ? '▼' : '▲'}</Text>
+			</View>
 		</View>
 	);
 };
