@@ -64,19 +64,19 @@ export const searchPoems = (method = 'GET', data) => {
   return Request('/api/search', data, method);
 };
 
-// ======== 推荐计划（收藏集/诗单） ========
+// ======== 推荐计划（诗单/诗单） ========
 
-// 获取收藏集分组列表
+// 获取诗单分组列表
 export const fetchCollectionGroups = (method = 'GET', data) => {
   return Request('/api/collection-groups', data, method);
 };
 
-// 获取分组下的收藏集列表
+// 获取分组下的诗单列表
 export const fetchCollections = (method = 'GET', data) => {
   return Request('/api/collections', data, method);
 };
 
-// 从收藏集创建学习计划
+// 从诗单创建学习计划
 export const createStudyPlanFromCollection = (method = 'POST', data) => {
   return Request('/api/study-plans', data, method);
 };

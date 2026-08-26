@@ -31,7 +31,7 @@ const CollectButton = (props) => {
 			target_type: type,
 		}).catch(() => null);
 
-		if (res && res.statusCode === 200) {
+		if (res && res && res.status) {
 			const apiData = res.data?.data || res.data;
 			const newStatus = apiData?.isFavorited !== undefined ? apiData.isFavorited : apiData?.status;
 			setStatus(newStatus);

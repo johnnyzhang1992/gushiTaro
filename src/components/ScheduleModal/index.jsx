@@ -270,7 +270,7 @@ const ScheduleModal = ({
 					</View>
 				)}
 			</View>
-			{/* 编辑收藏集 */}
+			{/* 编辑诗单 */}
 			<view
 				className='modalScheduleContent'
 				style={{
@@ -322,7 +322,7 @@ const ScheduleModal = ({
 				{/* 其他创建方式 */}
 				{/* <View className='extra'>
 					<Text>除了自定义学习计划</Text>
-					<Text>还可以从人物「诗词分类」或「收藏集」直接创建</Text>
+					<Text>还可以从人物「诗词分类」或「诗单」直接创建</Text>
 				</View> */}
 			</view>
 		</FloatLoayout>

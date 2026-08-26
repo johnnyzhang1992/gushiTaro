@@ -58,7 +58,7 @@ const SchedulePoemCard = (props) => {
 		}).catch((err) => {
 			handleError(err, '打卡失败');
 		});
-		if (res && res.statusCode == 200) {
+		if (res && res && res.status) {
 			Taro.showToast({
 				title: '打卡成功',
 				icon: 'success',
@@ -101,7 +101,7 @@ const SchedulePoemCard = (props) => {
 		}).catch((err) => {
 			handleError(err, '删除失败');
 		});
-		if (res && res.statusCode == 200) {
+		if (res && res && res.status) {
 			Taro.showToast({
 				title: '删除成功',
 				icon: 'success',
@@ -142,7 +142,7 @@ const SchedulePoemCard = (props) => {
 		}).catch((err) => {
 			handleError(err, '操作失败');
 		});
-		if (res && res.statusCode == 200) {
+		if (res && res && res.status) {
 			Taro.showToast({
 				title: '操作成功',
 				icon: 'success',
