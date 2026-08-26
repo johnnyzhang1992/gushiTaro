@@ -37,6 +37,22 @@ const CollectionsPage = () => {
       .catch(() => {});
   };
 
+  // 移除诗单
+  const handleRemove = (id) => {
+    const api = currentTab === 'created' 
+      ? Request(`/api/collections/${id}`, {}, 'DELETE')
+      : Request('/api/favorites/toggle', { target_id: id, target_type: 'collection' }, 'POST');
+    
+    api.then((res) => {
+      if (res && res.status) {
+        Taro.showToast({ title: '已移除', icon: 'success' });
+        loadData();
+      }
+    }).catch(() => {
+      Taro.showToast({ title: '移除失败', icon: 'none' });
+    });
+  };
+
   // 加载数据
   const loadData = () => {
     setLoading(true);
@@ -100,7 +116,9 @@ const CollectionsPage = () => {
             {currentList.map((item, index) => (
               <PoemPlaylistCard
                 key={item._id || item.id || item.target_id || index}
-                playlist={currentTab === 'created' ? item : item}
+                playlist={item}
+                showRemove={true}
+                onRemove={handleRemove}
               />
             ))}
           </View>

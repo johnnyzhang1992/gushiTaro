@@ -88,11 +88,8 @@ const DictionaryDetail = () => {
 	useLoad((options) => {
 		console.log('DictionaryPage loaded', options);
 		optionsRef.current = options;
+		fetchDetail(options);
 	});
-
-	useEffect(() => {
-		fetchDetail(optionsRef.current);
-	}, []);
 
 	return (
 		<View className='page dictionaryDetailPage'>

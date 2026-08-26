@@ -32,6 +32,7 @@ export default {
 		'pages/library/collection-detail',
 		'pages/type/index',
 		'pages/dictionary/detail',
+		'pages/dictionary/list',
 		'pages/schedule/index',
 		'pages/schedule/detail',
 	],

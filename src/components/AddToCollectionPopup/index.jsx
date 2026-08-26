@@ -13,13 +13,11 @@ const AddToCollectionPopup = ({ visible, poemId, onClose, onSuccess }) => {
 	const [showCreate, setShowCreate] = useState(false);
 	const [newName, setNewName] = useState('');
 
-	// 加载用户创建的诗单列表
 	const loadCollections = () => {
 		if (!visible || !poemId) return;
 		setLoading(true);
 		Request('/api/collections', { mine: true, target_id: poemId, size: 50 }, 'GET')
 			.then((res) => {
-				console.log('collections response:', res);
 				if (res && res.status && res.data) {
 					setCollections(res.data.list || []);
 				}
@@ -32,15 +30,11 @@ const AddToCollectionPopup = ({ visible, poemId, onClose, onSuccess }) => {
 		loadCollections();
 	}, [visible, poemId]);
 
-	// 添加诗词到诗单
 	const handleAddToCollection = (collectionId, hasPoem, collectionName) => {
 		if (hasPoem) {
-			// 已添加，提示用户
 			Taro.showToast({ title: '已加入该诗单', icon: 'none' });
 			return;
 		}
-
-		// 添加
 		Request(`/api/collections/${collectionId}/poems`, { poem_ids: [poemId] }, 'POST')
 			.then((res) => {
 				if (res && res.status) {
@@ -54,7 +48,6 @@ const AddToCollectionPopup = ({ visible, poemId, onClose, onSuccess }) => {
 			});
 	};
 
-	// 移除诗词（需要二次确认）
 	const handleRemoveFromCollection = (collectionId, collectionName) => {
 		Taro.showModal({
 			title: '确认移除',
@@ -78,7 +71,6 @@ const AddToCollectionPopup = ({ visible, poemId, onClose, onSuccess }) => {
 		});
 	};
 
-	// 创建新诗单
 	const handleCreate = () => {
 		if (!newName.trim()) {
 			Taro.showToast({ title: '请输入诗单名称', icon: 'none' });
@@ -90,7 +82,6 @@ const AddToCollectionPopup = ({ visible, poemId, onClose, onSuccess }) => {
 					Taro.showToast({ title: '创建成功', icon: 'success' });
 					setNewName('');
 					setShowCreate(false);
-					// 添加到新创建的诗单
 					if (res.data._id) {
 						handleAddToCollection(res.data._id, false, newName.trim());
 					}
@@ -104,7 +95,6 @@ const AddToCollectionPopup = ({ visible, poemId, onClose, onSuccess }) => {
 
 	return (
 		<FloatLayout isOpen={visible} close={onClose} title=''>
-			{/* 自定义标题 */}
 			<View className='popup-header'>
 				<Text className='popup-title'>加入诗单</Text>
 				{!showCreate ? (
@@ -121,7 +111,6 @@ const AddToCollectionPopup = ({ visible, poemId, onClose, onSuccess }) => {
 					</View>
 				) : (
 					<>
-						{/* 创建新诗单表单 */}
 						{showCreate ? (
 							<View className='create-form'>
 								<View className='input-row'>
@@ -143,7 +132,6 @@ const AddToCollectionPopup = ({ visible, poemId, onClose, onSuccess }) => {
 							</View>
 						) : null}
 
-						{/* 诗单列表 */}
 						<ScrollView className='collection-list' scrollY>
 							{collections.length === 0 ? (
 								<View className='empty'>
@@ -155,14 +143,11 @@ const AddToCollectionPopup = ({ visible, poemId, onClose, onSuccess }) => {
 										key={item._id}
 										className={`collection-item ${item.has_poem ? 'selected' : ''}`}
 									>
-										<View
-											className='info'
-											onClick={() => handleAddToCollection(item._id, item.has_poem, item.collection_name)}
-										>
+										<View className='info'>
 											<Text className='name'>{item.collection_name}</Text>
-											<Text className='count'>{item.poem_count || 0} 首</Text>
 										</View>
-										<View className='actions'>
+										<View className='bottom-row'>
+											<Text className='count'>{item.poem_count || 0} 首</Text>
 											{item.has_poem ? (
 												<View
 													className='remove-btn'

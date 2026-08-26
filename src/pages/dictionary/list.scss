@@ -1,0 +1,50 @@
+.dictionaryListPage {
+	background-color: #f5f7fa;
+	min-height: 100vh;
+
+	.searchBar {
+		display: flex;
+		align-items: center;
+		padding: 20rpx 24rpx;
+		background: #fff;
+		border-bottom: 1rpx solid #f0f2f5;
+
+		.searchInput {
+			flex: 1;
+			height: 72rpx;
+			background: #f5f7fa;
+			border-radius: 36rpx;
+			padding: 0 28rpx;
+			font-size: 26rpx;
+		}
+
+		.searchPlaceholder {
+			color: #aaa;
+		}
+
+		.searchBtn {
+			padding: 16rpx 32rpx;
+			background: #337ab7;
+			border-radius: 36rpx;
+			margin-left: 16rpx;
+
+			.searchBtnText {
+				color: #fff;
+				font-size: 26rpx;
+			}
+		}
+	}
+
+	.listContainer {
+		padding: 20rpx;
+	}
+
+	.loading,
+	.empty,
+	.noMore {
+		text-align: center;
+		padding: 40rpx 0;
+		font-size: 26rpx;
+		color: #999;
+	}
+}

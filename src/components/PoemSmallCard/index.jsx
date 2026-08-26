@@ -26,6 +26,7 @@ const PoemSmallCard = ({
 	collect_count,
 	lightWord,
 	hideAudio = false,
+	footerSlot = null,
 }) => {
 	// 优先使用 content.content 数组格式
 	const _content = useMemo(() => {
@@ -74,10 +75,12 @@ const PoemSmallCard = ({
 			<View
 				className='bottom'
 				style={{
-					display: hideAudio && !showCount ? 'none' : 'flex',
+					display: (hideAudio && !showCount && !footerSlot) ? 'none' : 'flex',
 				}}
 			>
-				{showCount ? (
+				{footerSlot ? (
+					footerSlot
+				) : showCount ? (
 					<View className='count'>
 						<Text className='num'>喜欢 {like_count || 0}</Text>
 						<Text className='num'>收藏 {collect_count || 0}</Text>

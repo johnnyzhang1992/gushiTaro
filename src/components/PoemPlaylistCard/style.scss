@@ -1,93 +1,59 @@
 .poem-playlist-card {
-  display: flex;
-  padding: 24px 0;
-  border-bottom: 1px solid rgba(228, 230, 235, 0.5);
+	padding: 24rpx;
+	margin: 0 24rpx 16rpx;
+	background: #fff;
+	border-radius: 12rpx;
 
-  .card-cover {
-    width: 120px;
-    height: 120px;
-    border-radius: 12px;
-    overflow: hidden;
-    flex-shrink: 0;
-    margin-right: 20px;
+	.card-content {
+		.card-title {
+			display: block;
+			font-size: 30rpx;
+			color: #333;
+			font-weight: 500;
+			margin-bottom: 12rpx;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
 
-    .cover-img {
-      width: 100%;
-      height: 100%;
-    }
+		.card-meta {
+			display: flex;
+			align-items: center;
 
-    .cover-placeholder {
-      width: 100%;
-      height: 100%;
-      background: #f2f3f5;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+			.poem-count {
+				font-size: 24rpx;
+				color: #999;
+			}
 
-      .placeholder-icon {
-        font-size: 40px;
-      }
-    }
-  }
+			.create-time {
+				font-size: 24rpx;
+				color: #999;
+				margin-left: 8rpx;
+			}
 
-  .card-info {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+			.chevron-right {
+				width: 16rpx;
+				height: 16rpx;
+				border-top: 2rpx solid #ccc;
+				border-right: 2rpx solid #ccc;
+				transform: rotate(45deg);
+				margin-left: auto;
+			}
 
-    .card-title {
-      font-size: 32px;
-      font-weight: 500;
-      color: #252933;
-      margin-bottom: 12px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+			.remove-btn {
+				padding: 6rpx 16rpx;
+				margin-left: auto;
+				flex-shrink: 0;
 
-    .card-meta {
-      display: flex;
-      align-items: center;
-      font-size: 24px;
-      color: #8a919f;
-    }
-  }
+				.remove-text {
+					font-size: 24rpx;
+					color: #999;
+				}
+			}
+		}
+	}
 
-  &.simple {
-    align-items: center;
-
-    .card-cover {
-      width: 80px;
-      height: 80px;
-    }
-
-    .card-title {
-      margin-bottom: 6px;
-      font-size: 28px;
-    }
-
-    .poem-count {
-      font-size: 24px;
-      color: #8a919f;
-    }
-
-    .chevron-right {
-      width: 40px;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-
-      &::after {
-        content: '';
-        display: block;
-        width: 16px;
-        height: 16px;
-        border-top: 2px solid #c0c4cc;
-        border-right: 2px solid #c0c4cc;
-        transform: rotate(45deg);
-      }
-    }
-  }
+	&:active {
+		background: #f8f8f8;
+	}
 }

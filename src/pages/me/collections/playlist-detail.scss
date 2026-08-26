@@ -1,25 +1,94 @@
 .playlist-detail-page {
-  padding: 20px;
+	background: #f5f7fa;
+	min-height: 100vh;
 
-  .header-info {
-    padding: 16px 0 20px;
-    border-bottom: 1px solid rgba(228, 230, 235, 0.5);
-    margin-bottom: 8px;
+	.loading {
+		padding: 120rpx 0;
+		text-align: center;
+		font-size: 26rpx;
+		color: #999;
+	}
 
-    .count {
-      font-size: 26px;
-      color: #8a919f;
-    }
-  }
+	.header-info {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 24rpx;
+		background: #fff;
+		border-bottom: 1rpx solid #f0f2f5;
 
-  .empty {
-    text-align: center;
-    padding: 100px 0;
-    color: #c0c4cc;
-    font-size: 28px;
-  }
+		.header-left {
+			flex: 1;
 
-  .poem-item {
-    padding: 8px 0;
-  }
+			.count {
+				font-size: 26rpx;
+				color: #8a919f;
+			}
+		}
+
+		.copy-btn {
+			padding: 10rpx 24rpx;
+			background: #f5f7fa;
+			border-radius: 24rpx;
+
+			.copy-text {
+				font-size: 24rpx;
+				color: #337ab7;
+			}
+		}
+	}
+
+	.empty {
+		text-align: center;
+		padding: 200rpx 0;
+		color: #c0c4cc;
+		font-size: 28rpx;
+	}
+
+	.poem-list {
+		padding: 20rpx 0;
+	}
+
+	.poem-item {
+		background: #fff;
+		margin: 0 24rpx 16rpx;
+		border-radius: 12rpx;
+		overflow: hidden;
+
+		.poemSmallCard {
+			padding-bottom: 0;
+		}
+
+		.poem-content {
+			padding: 0;
+		}
+
+		.poem-footer {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 12rpx 24rpx 8rpx;
+			width: 100%;
+			box-sizing: border-box;
+
+
+			.added-time {
+				font-size: 22rpx;
+				color: #999;
+			}
+
+			.remove-btn {
+				padding: 6rpx 16rpx;
+
+				.remove-text {
+					font-size: 24rpx;
+					color: #999;
+				}
+
+				&:active {
+					opacity: 0.6;
+				}
+			}
+		}
+	}
 }
