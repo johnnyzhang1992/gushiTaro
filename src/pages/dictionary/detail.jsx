@@ -234,28 +234,6 @@ const DictionaryDetail = () => {
 			) : null}
 			{/* ----推荐---- */}
 			{/* 相同部首 */}
-			{detail.relatedWords && detail.relatedWords.length > 0 ? (
-				<SectionCard title='相同部首'>
-					<ScrollView
-						className='scrollContainer ci'
-						scrollX
-						scrollWithAnimation
-						enableFlex
-						showScrollbar={false}
-					>
-						{detail.relatedWords.map((item) => (
-							<WordCard
-								{...item}
-								key={item._id}
-								type='word'
-								pinyin={item.pinyin}
-								text={item.word}
-							/>
-						))}
-					</ScrollView>
-				</SectionCard>
-			) : null}
-			{/* 相同部首 */}
 			{optionsRef.current.type === 'word' && detail.relatedRadicals && detail.relatedRadicals.length > 0 ? (
 				<SectionCard title='相同部首'>
 					<ScrollView
