@@ -1,4 +1,4 @@
-import { View, Text } from '@tarojs/components';
+import { View, Text, Input } from '@tarojs/components';
 import { useState, useRef } from 'react';
 import Taro, { useLoad, usePullDownRefresh } from '@tarojs/taro';
 
@@ -28,6 +28,16 @@ const PlaylistDetail = () => {
 	const [isOwner, setIsOwner] = useState(false);
 	const idRef = useRef(null);
 	const user = Taro.getStorageSync('user');
+
+	// 添加诗词相关
+	const [showAddModal, setShowAddModal] = useState(false);
+	const [searchKeyword, setSearchKeyword] = useState('');
+	const [searchResults, setSearchResults] = useState([]);
+	const [searching, setSearching] = useState(false);
+	const [addingPoem, setAddingPoem] = useState(null);
+	const [searchPage, setSearchPage] = useState(1);
+	const [hasMore, setHasMore] = useState(true);
+	const [loadingMore, setLoadingMore] = useState(false);
 
 	useLoad((options) => {
 		idRef.current = options.id;
@@ -91,6 +101,63 @@ const PlaylistDetail = () => {
 		});
 	};
 
+	// 搜索诗词
+	const handleSearch = async (isLoadMore = false) => {
+		if (!searchKeyword.trim()) return;
+		if (isLoadMore) {
+			setLoadingMore(true);
+		} else {
+			setSearching(true);
+			setSearchPage(1);
+			setHasMore(true);
+		}
+		try {
+			const page = isLoadMore ? searchPage + 1 : 1;
+			const res = await Request('/api/poems', { keyWord: searchKeyword, page, size: 20 }, 'GET');
+			if (res && res.status && res.data) {
+				const list = res.data.list || [];
+				setSearchResults(prev => isLoadMore ? [...prev, ...list] : list);
+				setSearchPage(page);
+				setHasMore(list.length >= 20);
+			} else {
+				setHasMore(false);
+			}
+		} catch (err) {
+			console.error('搜索失败:', err);
+		} finally {
+			setSearching(false);
+			setLoadingMore(false);
+		}
+	};
+
+	// 加载更多
+	const handleLoadMore = () => {
+		if (!loadingMore && hasMore && searchResults.length > 0) {
+			handleSearch(true);
+		}
+	};
+
+	// 添加诗词到诗单
+	const handleAddPoem = async (poem) => {
+		setAddingPoem(poem._id);
+		try {
+			const res = await Request(`/api/collections/${collectionId}/poems`, {
+				poem_id: poem.id || poem._id,
+			}, 'POST');
+			if (res && res.status) {
+				Taro.showToast({ title: '添加成功', icon: 'success' });
+				fetchDetail(collectionId);
+			} else {
+				Taro.showToast({ title: res?.msg || '添加失败', icon: 'none' });
+			}
+		} catch (err) {
+			console.error('添加诗词失败:', err);
+			Taro.showToast({ title: '添加失败', icon: 'none' });
+		} finally {
+			setAddingPoem(null);
+		}
+	};
+
 	// 从诗单移除诗词
 	const handleRemovePoem = (poemId, poemTitle) => {
 		Taro.showModal({
@@ -128,11 +195,15 @@ const PlaylistDetail = () => {
 				<View className='header-left'>
 					<Text className='count'>共 {poems.length} 首 · {playlistName}</Text>
 				</View>
-				{!isOwner ? (
+				{isOwner ? (
+					<View className='add-btn' onClick={() => setShowAddModal(true)}>
+						<Text className='add-text'>+ 添加</Text>
+					</View>
+				) : (
 					<View className='copy-btn' onClick={handleCopyCollection}>
 						<Text className='copy-text'>复制为我的诗单</Text>
 					</View>
-				) : null}
+				)}
 			</View>
 			{poems.length === 0 ? (
 				<View className='empty'>诗单还没有作品，去首页逛逛吧</View>
@@ -168,6 +239,82 @@ const PlaylistDetail = () => {
 							</View>
 						);
 					})}
+				</View>
+			)}
+
+			{/* 添加诗词底部弹窗 */}
+			{showAddModal && (
+				<View className='bottom-sheet-mask' onClick={() => setShowAddModal(false)}>
+					<View className='bottom-sheet' onClick={(e) => e.stopPropagation()}>
+						<View className='bottom-sheet-header'>
+							<View className='bottom-sheet-drag-bar' />
+							<View className='bottom-sheet-title-row'>
+								<Text className='bottom-sheet-title'>添加诗词</Text>
+								<Text className='bottom-sheet-close' onClick={() => setShowAddModal(false)}>×</Text>
+							</View>
+						</View>
+						<View className='bottom-sheet-body'>
+							<View className='search-box'>
+								<View className='search-input-wrap'>
+									<Input
+										className='search-input'
+										placeholder='搜索诗词名称或作者'
+										value={searchKeyword}
+										onInput={(e) => setSearchKeyword(e.detail.value)}
+										onConfirm={() => handleSearch(false)}
+										confirmType='search'
+									/>
+									{searchKeyword ? (
+										<View className='search-clear' onClick={() => setSearchKeyword('')}>
+											<Text className='search-clear-icon'>×</Text>
+										</View>
+									) : null}
+								</View>
+								<View className='search-btn' onClick={() => handleSearch(false)}>
+									<Text className='search-btn-text'>搜索</Text>
+								</View>
+							</View>
+							<View className='search-results'>
+								{searchResults.length === 0 && searchKeyword && !searching ? (
+									<View className='empty-state'>
+										<Text className='empty-text'>未找到相关诗词</Text>
+									</View>
+								) : (
+									<>
+										{searchResults.map((poem) => {
+											const isAdded = poems.some((p) => {
+												const poemData = p.poem || p;
+												return poemData.id === poem.id || poemData._id === poem._id;
+											});
+											return (
+												<View className='search-item' key={poem._id || poem.id}>
+													<View className='search-item-info'>
+														<View className='search-item-title'>{poem.title}</View>
+														<View className='search-item-author'>
+															{poem.author} · {poem.dynasty}
+														</View>
+													</View>
+													<View
+														className={`search-item-btn ${isAdded || addingPoem === poem._id ? 'added' : ''}`}
+														onClick={() => !isAdded && handleAddPoem(poem)}
+													>
+														{isAdded ? '已添加' : addingPoem === poem._id ? '添加中...' : '添加'}
+													</View>
+												</View>
+											);
+										})}
+										{searchResults.length > 0 && (
+											<View className='load-more' onClick={handleLoadMore}>
+												<Text className='load-more-text'>
+													{loadingMore ? '加载中...' : hasMore ? '加载更多' : '没有更多了'}
+												</Text>
+											</View>
+										)}
+									</>
+								)}
+							</View>
+						</View>
+					</View>
 				</View>
 			)}
 		</View>
