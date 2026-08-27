@@ -142,7 +142,7 @@ const PlaylistDetail = () => {
 		setAddingPoem(poem._id);
 		try {
 			const res = await Request(`/api/collections/${collectionId}/poems`, {
-				poem_ids: [poem.id || poem._id],
+				poem_ids: [String(poem.id || poem._id)],
 			}, 'POST');
 			if (res && res.status) {
 				Taro.showToast({ title: '添加成功', icon: 'success' });
