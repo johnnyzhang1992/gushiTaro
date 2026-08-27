@@ -1,14 +1,6 @@
 .collectionGroupPage {
 	min-height: 100vh;
 	background: #f5f7fa;
-
-	.cgHeader {
-		.title {
-			font-size: 34px;
-			color: #fff;
-			font-weight: 600;
-		}
-	}
 }
 
 .cgContainer {
@@ -65,15 +57,15 @@
 	}
 }
 
-/* 诗单封面卡：书名/数量竖排（从左到右两列），底部色条 */
+/* 诗单封面卡：复用 CollectionContainer 样式 */
 .bookCover {
 	width: 100%;
 	height: 200rpx;
+	box-sizing: border-box;
 	background: #fff;
 	border: 1rpx solid #e5e7eb;
 	border-radius: 12rpx;
 	box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
-	box-sizing: border-box;
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
@@ -120,7 +112,6 @@
 		flex-shrink: 0;
 	}
 }
-
 
 .emptyTip {
 	padding: 120rpx 0;

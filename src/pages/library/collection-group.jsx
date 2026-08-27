@@ -2,7 +2,6 @@ import { View, Text, Navigator } from '@tarojs/components';
 import Taro, { useRouter, useLoad, usePullDownRefresh } from '@tarojs/taro';
 import { useState } from 'react';
 
-import PageHeader from '../../components/PageHeader';
 import { fetchCollectionGroups, fetchCollections } from '../../services/study';
 
 import './collection-group.scss';
@@ -59,15 +58,6 @@ const numToChinese = (n) => {
 	return String(n)
 }
 
-// 竖排分列：每列 perCol 个字，列间从左到右（古籍排版）
-const splitColumns = (chars, perCol = 5) => {
-	const cols = []
-	for (let i = 0; i < chars.length; i += perCol) {
-		cols.push(chars.slice(i, i + perCol))
-	}
-	return cols
-}
-
 // 名称处理：剥掉分组名前缀
   const displayName = (name = '') => {
     let n = name || '';
@@ -86,12 +76,6 @@ const splitColumns = (chars, perCol = 5) => {
 
   return (
     <View className='page collectionGroupPage'>
-      <PageHeader showSearch={false} showBack>
-        <View className='cgHeader'>
-          <Text className='title'>诗单分组</Text>
-        </View>
-      </PageHeader>
-
       <View className='cgContainer'>
         {/* 分组头部大卡 */}
         <View className='groupHero'>
@@ -124,33 +108,15 @@ const splitColumns = (chars, perCol = 5) => {
                 url={`/pages/library/collection-detail?id=${c._id}`}
               >
                 <View className='bookCover'>
-                  <View className='bookTitle'>
-                    {splitColumns(
-                      displayName(c.collection_name).slice(0, 10).split(''),
-                      5
-                    ).map((col, ci) => (
-                      <View key={`${c._id}_col_${ci}`} className='titleCol'>
-                        {col.map((ch, i) => (
-                          <Text
-                            key={`${c._id}_char_${ci}_${i}`}
-                            className='bookChar'
-                          >
-                            {ch}
-                          </Text>
-                        ))}
-                      </View>
-                    ))}
+                  <View className='coverBody'>
+                    <Text className='coverName'>
+                      {displayName(c.collection_name)}
+                    </Text>
+                    <Text className='coverCount'>
+                      {numToChinese(c.poem_count)}首
+                    </Text>
                   </View>
-                  <View className='bookBar' />
-                  <View className='bookCount'>
-                    {`${c.poem_count > 99 ? '99+' : c.poem_count}首`
-                      .split('')
-                      .map((ch, i) => (
-                        <Text key={`${c._id}_cnt_${i}`} className='countChar'>
-                          {ch}
-                        </Text>
-                      ))}
-                  </View>
+                  <View className='coverBar' />
                 </View>
               </Navigator>
             ))}
