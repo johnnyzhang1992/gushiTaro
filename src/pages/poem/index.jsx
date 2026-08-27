@@ -204,17 +204,29 @@ const Poem = () => {
 				title={pageOptions.title || fetchParams.author || '诗词'}
 			/>
 			<View className='searchBar'>
-				<Input
-					className='searchInput'
-					placeholder='搜索诗词标题/作者/内容'
-					placeholderClass='searchPlaceholder'
-					value={fetchParams.keyWord || ''}
-					onInput={(e) => {
-						const val = e.detail.value;
-						updateParams({ keyWord: val });
-						updatePagination({ page: 1 });
-					}}
-				/>
+				<View className='searchInputWrap'>
+					<Input
+						className='searchInput'
+						placeholder='搜索诗词标题/作者/内容'
+						placeholderClass='searchPlaceholder'
+						value={fetchParams.keyWord || ''}
+						onInput={(e) => {
+							const val = e.detail.value;
+							updateParams({ keyWord: val });
+						}}
+						onConfirm={() => {
+							updatePagination({ page: 1 });
+						}}
+					/>
+					{fetchParams.keyWord ? (
+						<View className='searchClear' onClick={() => updateParams({ keyWord: '' })}>
+							<Text className='searchClearIcon'>×</Text>
+						</View>
+					) : null}
+				</View>
+				<View className='searchBtn' onClick={() => updatePagination({ page: 1 })}>
+					<Text className='searchBtnText'>搜索</Text>
+				</View>
 			</View>
 			{/* 搜索范围 */}
 			<View className='searchScope'>

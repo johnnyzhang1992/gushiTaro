@@ -128,17 +128,29 @@ const PoetPage = () => {
 		<View className='poetPage'>
 			<PageHeader showBack showSearch={false} title='诗人' />
 			<View className='searchBar'>
-				<Input
-					className='searchInput'
-					placeholder='搜索诗人名字'
-					placeholderClass='searchPlaceholder'
-					value={fetchParams.keyWord || ''}
-					onInput={(e) => {
-						const val = e.detail.value;
-						updateParams({ keyWord: val });
-						updatePagination({ page: 1 });
-					}}
-				/>
+				<View className='searchInputWrap'>
+					<Input
+						className='searchInput'
+						placeholder='搜索诗人名字'
+						placeholderClass='searchPlaceholder'
+						value={fetchParams.keyWord || ''}
+						onInput={(e) => {
+							const val = e.detail.value;
+							updateParams({ keyWord: val });
+						}}
+						onConfirm={() => {
+							updatePagination({ page: 1 });
+						}}
+					/>
+					{fetchParams.keyWord ? (
+						<View className='searchClear' onClick={() => updateParams({ keyWord: '' })}>
+							<Text className='searchClearIcon'>×</Text>
+						</View>
+					) : null}
+				</View>
+				<View className='searchBtn' onClick={() => updatePagination({ page: 1 })}>
+					<Text className='searchBtnText'>搜索</Text>
+				</View>
 			</View>
 			<ScrollView className='poetScrollView' scrollY scrollWithAnimation>
 			<View className='page poetIndex'>

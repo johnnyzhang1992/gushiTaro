@@ -143,17 +143,29 @@ const SentencePage = () => {
 		<View className='sentencePage'>
 			<PageHeader showBack showSearch={false} title={fetchParams.author || fetchParams.keyWord || '名句'} />
 			<View className='searchBar'>
-				<Input
-					className='searchInput'
-					placeholder='搜索名句内容/作者'
-					placeholderClass='searchPlaceholder'
-					value={fetchParams.keyWord || ''}
-					onInput={(e) => {
-						const val = e.detail.value;
-						updateParams({ keyWord: val });
-						updatePagination({ page: 1 });
-					}}
-				/>
+				<View className='searchInputWrap'>
+					<Input
+						className='searchInput'
+						placeholder='搜索名句内容/作者'
+						placeholderClass='searchPlaceholder'
+						value={fetchParams.keyWord || ''}
+						onInput={(e) => {
+							const val = e.detail.value;
+							updateParams({ keyWord: val });
+						}}
+						onConfirm={() => {
+							updatePagination({ page: 1 });
+						}}
+					/>
+					{fetchParams.keyWord ? (
+						<View className='searchClear' onClick={() => updateParams({ keyWord: '' })}>
+							<Text className='searchClearIcon'>×</Text>
+						</View>
+					) : null}
+				</View>
+				<View className='searchBtn' onClick={() => updatePagination({ page: 1 })}>
+					<Text className='searchBtnText'>搜索</Text>
+				</View>
 			</View>
 			<ScrollView className='sentenceScrollView' scrollY scrollWithAnimation>
 			<View className='page sentenceIndex'>
