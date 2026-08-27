@@ -47,6 +47,7 @@ const Poem = () => {
 	});
 	const cacheOptions = useRef({});
 	const [dynastyOptions, setDynastyOptions] = useState(DynastyArr);
+	const [filterCollapsed, setFilterCollapsed] = useState(false);
 
 	// 从后端拉取朝代列表并缓存
 	useEffect(() => {
@@ -232,51 +233,59 @@ const Poem = () => {
 					<Text className='searchBtnText'>搜索</Text>
 				</View>
 			</View>
-			{/* 搜索范围 */}
-			<View className='searchScope'>
-				<Text
-					className={`scopeItem ${!fetchParams._type ? 'active' : ''}`}
-					onClick={() => updateParams({ _type: '' })}
-				>
-					全部
-				</Text>
-				{['标题', '作者', '标签', '内容'].map((item, idx) => {
-					const types = ['title', 'author', 'tag', 'poem'];
-					return (
-						<Text
-							key={item}
-							className={`scopeItem ${fetchParams._type === types[idx] ? 'active' : ''}`}
-							onClick={() => updateParams({ _type: types[idx] })}
+			{/* 筛选区域 */}
+			<View className={`filterArea ${filterCollapsed ? 'collapsed' : ''}`}>
+				{/* 搜索范围 */}
+				<View className='searchScope'>
+					<Text
+						className={`scopeItem ${!fetchParams._type ? 'active' : ''}`}
+						onClick={() => updateParams({ _type: '' })}
+					>
+						全部
+					</Text>
+					{['标题', '作者', '标签', '内容'].map((item, idx) => {
+						const types = ['title', 'author', 'tag', 'poem'];
+						return (
+							<Text
+								key={item}
+								className={`scopeItem ${fetchParams._type === types[idx] ? 'active' : ''}`}
+								onClick={() => updateParams({ _type: types[idx] })}
+							>
+								{item}
+							</Text>
+						);
+					})}
+				</View>
+				{/* 诗词类型 */}
+				<View className='typeFilter'>
+					{PoemTypes.map((t) => (
+						<View
+							key={t}
+							className={`typeFilterItem ${(fetchParams.type || '全部') === t ? 'active' : ''}`}
+							onClick={() => updateParams({ type: t === fetchParams.type ? '全部' : t })}
 						>
-							{item}
-						</Text>
-					);
-				})}
+							{t}
+						</View>
+					))}
+				</View>
+				{/* 朝代筛选 */}
+				<ScrollView className='dynastyFilter' scrollX showScrollbar={false}>
+					{dynastyOptions.map((d) => (
+						<View
+							key={d}
+							className={`dynastyFilterItem ${fetchParams.dynasty === d ? 'active' : ''}`}
+							onClick={() => updateParams({ dynasty: d === fetchParams.dynasty ? '全部' : d })}
+						>
+							{d}
+						</View>
+					))}
+				</ScrollView>
+				{/* 收起/展开按钮 */}
+				<View className='toggleBtn' onClick={() => setFilterCollapsed(!filterCollapsed)}>
+					<Text className='toggleText'>{filterCollapsed ? '展开' : '收起'}</Text>
+					<Text className='toggleArrow'>{filterCollapsed ? '▼' : '▲'}</Text>
+				</View>
 			</View>
-			{/* 诗词类型 */}
-			<View className='typeFilter'>
-				{PoemTypes.map((t) => (
-					<View
-						key={t}
-						className={`typeFilterItem ${(fetchParams.type || '全部') === t ? 'active' : ''}`}
-						onClick={() => updateParams({ type: t === fetchParams.type ? '全部' : t })}
-					>
-						{t}
-					</View>
-				))}
-			</View>
-			{/* 朝代筛选 */}
-			<ScrollView className='dynastyFilter' scrollX showScrollbar={false}>
-				{dynastyOptions.map((d) => (
-					<View
-						key={d}
-						className={`dynastyFilterItem ${fetchParams.dynasty === d ? 'active' : ''}`}
-						onClick={() => updateParams({ dynasty: d === fetchParams.dynasty ? '全部' : d })}
-					>
-						{d}
-					</View>
-				))}
-			</ScrollView>
 			<ScrollView
 				className='poemScrollView'
 				scrollY

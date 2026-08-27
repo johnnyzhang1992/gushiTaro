@@ -58,14 +58,21 @@ const DictionaryList = () => {
 		<View className='page dictionaryListPage'>
 			{/* 搜索框 */}
 			<View className='searchBar'>
-				<Input
-					className='searchInput'
-					placeholder='搜索...'
-					placeholderClass='searchPlaceholder'
-					value={keyWord}
-					onInput={(e) => setKeyWord(e.detail.value)}
-					onConfirm={handleSearch}
-				/>
+				<View className='searchInputWrapper'>
+					<Input
+						className='searchInput'
+						placeholder='搜索...'
+						placeholderClass='searchPlaceholder'
+						value={keyWord}
+						onInput={(e) => setKeyWord(e.detail.value)}
+						onConfirm={handleSearch}
+					/>
+					{keyWord ? (
+						<View className='clearIcon' onClick={() => setKeyWord('')}>
+							<Text className='clearText'>×</Text>
+						</View>
+					) : null}
+				</View>
 				<View className='searchBtn' onClick={handleSearch}>
 					<Text className='searchBtnText'>搜索</Text>
 				</View>

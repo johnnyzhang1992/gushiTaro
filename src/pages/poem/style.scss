@@ -13,13 +13,46 @@
 }
 
 
+/* 筛选区域 */
+.filterArea {
+	background: #fff;
+	border-bottom: 1rpx solid #f0f2f5;
+
+	&.collapsed {
+		.searchScope,
+		.typeFilter,
+		.dynastyFilter {
+			display: none;
+		}
+	}
+}
+
+/* 收起/展开按钮 */
+.toggleBtn {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 8rpx;
+	padding: 10rpx 0;
+	border-top: 1rpx solid #f0f2f5;
+
+	.toggleText {
+		font-size: 22rpx;
+		color: #888;
+	}
+
+	.toggleArrow {
+		font-size: 18rpx;
+		color: #888;
+	}
+}
+
 /* 诗词类型 */
 .typeFilter {
 	display: flex;
 	padding: 16rpx 24rpx;
 	gap: 16rpx;
 	background: #fff;
-	border-bottom: 1rpx solid #f0f2f5;
 
 	.typeFilterItem {
 		padding: 8rpx 24rpx;
@@ -42,7 +75,6 @@
 	padding: 16rpx 24rpx;
 	gap: 20rpx;
 	background: #fff;
-	border-bottom: 1rpx solid #f0f2f5;
 
 	.scopeItem {
 		padding: 8rpx 24rpx;
@@ -63,7 +95,6 @@
 .dynastyFilter {
 	padding: 16rpx 0;
 	background: #fff;
-	border-bottom: 1rpx solid #f0f2f5;
 	white-space: nowrap;
 	width: 100%;
 	box-sizing: border-box;

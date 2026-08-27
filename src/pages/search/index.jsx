@@ -1,5 +1,4 @@
-import { View, Text, Navigator, ScrollView } from '@tarojs/components';
-import { SearchBar } from '@nutui/nutui-react-taro';
+import { View, Text, Navigator, ScrollView, Input } from '@tarojs/components';
 import { useState, useRef } from 'react';
 import Taro, {
 	useLoad,
@@ -51,19 +50,6 @@ const SearchPage = () => {
 	const [isSearch, updateStatus] = useState(false);
 	const cacheRef = useRef({});
 	const [showTips, tipsVisible] = useState(false);
-	const handleChange = (val) => {
-		console.log('搜索词变化：', val);
-		if (keyword === val.trim()) {
-			return false;
-		}
-		setKeyword(val.trim());
-		if (!val.trim()) {
-			updateStatus(false);
-			updateResult({
-				...initResult,
-			});
-		}
-	};
 
 	const handleClear = () => {
 		setKeyword('');
@@ -71,6 +57,10 @@ const SearchPage = () => {
 			...initResult,
 		});
 		updateStatus(false);
+		setDictParams({
+			keyWord: '',
+			type: '',
+		});
 	};
 
 	const handleTipsClose = () => {
@@ -269,13 +259,27 @@ const SearchPage = () => {
 			</PageHeader>
 			{/* 搜索框 */}
 			<View className='searchTop'>
-				<SearchBar
-					placeholder={placeholder}
-					value={keyword}
-					onChange={(val) => handleChange(val)}
-					onSearch={() => handleSearch(keyword)}
-					maxLength={9}
-				/>
+				<View className='searchBar'>
+					<View className='searchInputWrapper'>
+						<Input
+							className='searchInput'
+							placeholder={placeholder}
+							placeholderClass='searchPlaceholder'
+							value={keyword}
+							onInput={(e) => setKeyword(e.detail.value)}
+							onConfirm={() => handleSearch(keyword)}
+							maxLength={9}
+						/>
+						{keyword ? (
+							<View className='clearIcon' onClick={handleClear}>
+								<Text className='clearText'>×</Text>
+							</View>
+						) : null}
+					</View>
+					<View className='searchBtn' onClick={() => handleSearch(keyword)}>
+						<Text className='searchBtnText'>搜索</Text>
+					</View>
+				</View>
 			</View>
 			{/* 滚动内容区域 */}
 			<ScrollView

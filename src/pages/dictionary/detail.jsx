@@ -133,8 +133,26 @@ const DictionaryDetail = () => {
 							</Text>
 						</View>
 					) : null}
+					{/* 统一码 */}
+					{detail.unified ? (
+						<View className='hor-item'>
+							<Text className='lable'>统一码</Text>
+							<Text className='value' userSelect selectable>
+								{detail.unified}
+							</Text>
+						</View>
+					) : null}
+					{/* 五笔 */}
+					{detail.wubi ? (
+						<View className='hor-item'>
+							<Text className='lable'>五笔</Text>
+							<Text className='value' userSelect selectable>
+								{detail.wubi}
+							</Text>
+						</View>
+					) : null}
 					{/* 基本解释 */}
-					<SectionCard className='explanation' title='解释'>
+					<SectionCard className='explanation' title='基本解释'>
 						<View className='exp_content'>
 							{detail.explanationObj && detail.explanationObj.length > 0
 								? detail.explanationObj.map((items, index) => {
@@ -153,6 +171,36 @@ const DictionaryDetail = () => {
 								: null}
 						</View>
 					</SectionCard>
+					{/* 详细解释 */}
+					{detail.moreObj && detail.moreObj.length > 0 ? (
+						<SectionCard className='explanation' title='详细解释'>
+							<View className='exp_content'>
+								{detail.moreObj.map((items, index) => {
+									return (
+										<View className='more_item' key={index}>
+											{items.map((item, _index) => (
+												<View className='exp_item' key={_index}>
+													<Text className='lable' userSelect selectable>
+														{item}
+													</Text>
+												</View>
+											))}
+										</View>
+									);
+								})}
+							</View>
+						</SectionCard>
+					) : null}
+					{/* 字源 */}
+					{detail.etymology ? (
+						<SectionCard className='explanation' title='字源'>
+							<View className='exp_content'>
+								<Text className='lable' userSelect selectable>
+									{detail.etymology}
+								</Text>
+							</View>
+						</SectionCard>
+					) : null}
 				</View>
 			) : null}
 			{/* 词语详情 */}
@@ -192,7 +240,7 @@ const DictionaryDetail = () => {
 						</View>
 					) : null}
 					{/* 基本解释 */}
-					<SectionCard className='explanation' title='解释'>
+					<SectionCard className='explanation' title='基本解释'>
 						<View className='exp_content'>
 							{detail.explanationObj && detail.explanationObj.length > 0
 								? detail.explanationObj.map((item, index) => {
@@ -209,6 +257,25 @@ const DictionaryDetail = () => {
 								: null}
 						</View>
 					</SectionCard>
+					{/* 详细解释 */}
+					{detail.more ? (
+						<SectionCard className='explanation' title='详细解释'>
+							<View className='exp_content'>
+								<Text className='lable' userSelect selectable>
+									{detail.more}
+								</Text>
+							</View>
+						</SectionCard>
+					) : null}
+					{/* 出处 */}
+					{detail.source ? (
+						<View className='hor-item'>
+							<Text className='lable'>出处</Text>
+							<Text className='value' userSelect selectable>
+								{detail.source}
+							</Text>
+						</View>
+					) : null}
 				</View>
 			) : null}
 			{/* 成语详情 */}
@@ -263,6 +330,60 @@ const DictionaryDetail = () => {
 							{detail.example}
 						</Text>
 					</View>
+					{/* 典故 */}
+					{detail.story ? (
+						<View className='hor-item'>
+							<Text className='lable'>典故</Text>
+							<Text className='value' userSelect selectable>
+								{detail.story}
+							</Text>
+						</View>
+					) : null}
+					{/* 近义词 */}
+					{detail.synonym ? (
+						<View className='hor-item'>
+							<Text className='lable'>近义词</Text>
+							<Text className='value' userSelect selectable>
+								{detail.synonym}
+							</Text>
+						</View>
+					) : null}
+					{/* 反义词 */}
+					{detail.antonym ? (
+						<View className='hor-item'>
+							<Text className='lable'>反义词</Text>
+							<Text className='value' userSelect selectable>
+								{detail.antonym}
+							</Text>
+						</View>
+					) : null}
+					{/* 用法 */}
+					{detail.usage ? (
+						<View className='hor-item'>
+							<Text className='lable'>用法</Text>
+							<Text className='value' userSelect selectable>
+								{detail.usage}
+							</Text>
+						</View>
+					) : null}
+					{/* 语法 */}
+					{detail.grammar ? (
+						<View className='hor-item'>
+							<Text className='lable'>语法</Text>
+							<Text className='value' userSelect selectable>
+								{detail.grammar}
+							</Text>
+						</View>
+					) : null}
+					{/* 感情色彩 */}
+					{detail.emotion ? (
+						<View className='hor-item'>
+							<Text className='lable'>感情色彩</Text>
+							<Text className='value' userSelect selectable>
+								{detail.emotion}
+							</Text>
+						</View>
+					) : null}
 				</View>
 			) : null}
 			{/* ----推荐---- */}

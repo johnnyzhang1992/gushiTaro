@@ -5,33 +5,38 @@
 	box-sizing: border-box;
 
 	.top_title {
-		padding: 24rpx;
+		padding: 32rpx 24rpx;
 		background: #fff;
 		margin-bottom: 20rpx;
-		border-radius: 12rpx;
+		border-radius: 16rpx;
 		display: flex;
 		align-items: center;
+		justify-content: center;
+		box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
 	}
 
 	.wordCell {
-		margin-bottom: 30rpx;
+		margin-bottom: 20rpx;
 	}
 
 	.hor-item {
 		display: flex;
 		align-items: center;
-		margin-bottom: 20rpx;
-		padding: 20rpx 24rpx;
+		margin-bottom: 16rpx;
+		padding: 22rpx 28rpx;
 		background: #fff;
-		border-radius: 12rpx;
+		border-radius: 14rpx;
+		box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.03);
 
 		.lable {
-			padding: 8rpx 20rpx;
+			padding: 8rpx 18rpx;
 			margin-right: 20rpx;
-			background-color: #f5f7fa;
+			background: linear-gradient(135deg, #f5f7fa, #eef1f5);
 			color: #666;
-			border-radius: 8rpx;
+			border-radius: 10rpx;
 			font-size: 24rpx;
+			font-weight: 500;
+			white-space: nowrap;
 		}
 
 		.value {
@@ -42,7 +47,25 @@
 		}
 	}
 
+	.wordDetail {
+		.hor-item {
+			.lable {
+				background: linear-gradient(135deg, #f5f7fa, #eef1f5);
+			}
+		}
+	}
+
+	.ciDetail {
+		.top_title {
+			padding: 40rpx 24rpx;
+		}
+	}
+
 	.chengyuDetail {
+		.top_title {
+			padding: 36rpx 24rpx;
+		}
+
 		.hor-item {
 			align-items: flex-start;
 
@@ -51,7 +74,10 @@
 			}
 
 			.lable {
-				background-color: unset;
+				background: transparent;
+				color: #888;
+				padding: 8rpx 0;
+				min-width: 140rpx;
 			}
 
 			.value {
@@ -62,25 +88,44 @@
 	}
 
 	.explanation {
+		margin-top: 8rpx;
 		font-size: 28rpx;
 
 		.more_item {
-			margin-bottom: 20rpx;
+			margin-bottom: 24rpx;
+
+			&:last-child {
+				margin-bottom: 0;
+			}
 
 			.exp_item {
-				margin-bottom: 20rpx;
-				line-height: 36rpx;
+				margin-bottom: 16rpx;
+				line-height: 40rpx;
+
+				&:last-child {
+					margin-bottom: 0;
+				}
+
+				.lable {
+					color: #444;
+				}
 			}
 		}
 	}
 
 	.SectionCard {
-		margin-bottom: 20rpx;
+		margin-bottom: 24rpx;
 		background-color: #fff;
-		border-radius: 12rpx;
+		border-radius: 16rpx;
+		overflow: hidden;
+		box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
 
 		.title {
-			padding: 20rpx 24rpx 0;
+			padding: 24rpx 28rpx 16rpx;
+			font-size: 30rpx;
+			font-weight: 600;
+			color: #333;
+			border-bottom: 2rpx solid #f5f7fa;
 		}
 
 		.content {
@@ -90,16 +135,23 @@
 
 		.scrollContainer {
 			white-space: nowrap;
+			padding: 8rpx 0;
 
 			&.ci {
 				.wordCard {
-					background-color: unset;
-					padding: 20rpx 0;
+					background-color: transparent;
+					padding: 16rpx 0;
+					box-shadow: none;
 				}
 			}
 
 			.wordCard {
 				margin-right: 20rpx;
+				margin-bottom: 0;
+
+				&:last-child {
+					margin-right: 0;
+				}
 			}
 
 			.wordCell {
