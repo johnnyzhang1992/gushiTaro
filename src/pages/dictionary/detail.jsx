@@ -255,6 +255,28 @@ const DictionaryDetail = () => {
 					</ScrollView>
 				</SectionCard>
 			) : null}
+			{/* 相同部首 */}
+			{optionsRef.current.type === 'word' && detail.relatedRadicals && detail.relatedRadicals.length > 0 ? (
+				<SectionCard title='相同部首'>
+					<ScrollView
+						className='scrollContainer ci'
+						scrollX
+						scrollWithAnimation
+						enableFlex
+						showScrollbar={false}
+					>
+						{detail.relatedRadicals.map((item) => (
+							<WordCard
+								{...item}
+								key={item._id}
+								type='word'
+								pinyin={item.pinyin}
+								text={item.word}
+							/>
+						))}
+					</ScrollView>
+				</SectionCard>
+			) : null}
 			{/* 关联的字（成语详情显示） */}
 			{optionsRef.current.type === 'chengyu' && detail.relatedWords && detail.relatedWords.length > 0 ? (
 				<SectionCard title='相关字'>
