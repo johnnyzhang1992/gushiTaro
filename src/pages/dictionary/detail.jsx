@@ -124,6 +124,15 @@ const DictionaryDetail = () => {
 							{detail.strokes}
 						</Text>
 					</View>
+					{/* 多音字 */}
+					{detail.isPolyphone && detail.pinyinMultiple && detail.pinyinMultiple.length > 0 ? (
+						<View className='hor-item'>
+							<Text className='lable'>多音字</Text>
+							<Text className='value' userSelect selectable>
+								{detail.pinyinMultiple.join(' / ')}
+							</Text>
+						</View>
+					) : null}
 					{/* 基本解释 */}
 					<SectionCard className='explanation' title='解释'>
 						<View className='exp_content'>
@@ -166,6 +175,22 @@ const DictionaryDetail = () => {
 							{detail.pinyin}
 						</Text>
 					</View>
+					{detail.pinyinNum ? (
+						<View className='hor-item'>
+							<Text className='lable'>声调</Text>
+							<Text className='value' userSelect selectable>
+								{detail.pinyinNum}
+							</Text>
+						</View>
+					) : null}
+					{detail.firstCharPinyin && detail.lastCharPinyin ? (
+						<View className='hor-item'>
+							<Text className='lable'>首尾拼音</Text>
+							<Text className='value' userSelect selectable>
+								{detail.firstCharPinyin} ... {detail.lastCharPinyin}
+							</Text>
+						</View>
+					) : null}
 					{/* 基本解释 */}
 					<SectionCard className='explanation' title='解释'>
 						<View className='exp_content'>
@@ -208,9 +233,17 @@ const DictionaryDetail = () => {
 
 						<Text className='lable center'>拼音缩写</Text>
 						<Text className='value' userSelect selectable>
-							{detail.abbreviation}
+							{detail.abbreviation || detail.pinyinShort}
 						</Text>
 					</View>
+					{detail.firstCharPinyin && detail.lastCharPinyin ? (
+						<View className='hor-item'>
+							<Text className='lable'>首尾拼音</Text>
+							<Text className='value' userSelect selectable>
+								{detail.firstCharPinyin} ... {detail.lastCharPinyin}
+							</Text>
+						</View>
+					) : null}
 					{/* 解释 */}
 					<View className='hor-item'>
 						<Text className='lable'>解释</Text>
