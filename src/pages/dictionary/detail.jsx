@@ -234,7 +234,7 @@ const DictionaryDetail = () => {
 			) : null}
 			{/* ----推荐---- */}
 			{/* 相同部首 */}
-			{detail.radicalsList && detail.radicalsList.length > 0 ? (
+			{detail.relatedWords && detail.relatedWords.length > 0 ? (
 				<SectionCard title='相同部首'>
 					<ScrollView
 						className='scrollContainer ci'
@@ -243,7 +243,7 @@ const DictionaryDetail = () => {
 						enableFlex
 						showScrollbar={false}
 					>
-						{detail.radicalsList.map((item) => (
+						{detail.relatedWords.map((item) => (
 							<WordCard
 								{...item}
 								key={item._id}
@@ -255,8 +255,52 @@ const DictionaryDetail = () => {
 					</ScrollView>
 				</SectionCard>
 			) : null}
-			{/* 相关词语 */}
-			{detail.ciList && detail.ciList.length > 0 ? (
+			{/* 关联的字（成语详情显示） */}
+			{optionsRef.current.type === 'chengyu' && detail.relatedWords && detail.relatedWords.length > 0 ? (
+				<SectionCard title='相关字'>
+					<ScrollView
+						className='scrollContainer ci'
+						scrollX
+						scrollWithAnimation
+						enableFlex
+						showScrollbar={false}
+					>
+						{detail.relatedWords.map((item) => (
+							<WordCard
+								{...item}
+								key={item._id}
+								type='word'
+								pinyin={item.pinyin}
+								text={item.word}
+							/>
+						))}
+					</ScrollView>
+				</SectionCard>
+			) : null}
+			{/* 关联的字（词语详情显示） */}
+			{optionsRef.current.type === 'ci' && detail.relatedWords && detail.relatedWords.length > 0 ? (
+				<SectionCard title='相关字'>
+					<ScrollView
+						className='scrollContainer ci'
+						scrollX
+						scrollWithAnimation
+						enableFlex
+						showScrollbar={false}
+					>
+						{detail.relatedWords.map((item) => (
+							<WordCard
+								{...item}
+								key={item._id}
+								type='word'
+								pinyin={item.pinyin}
+								text={item.word}
+							/>
+						))}
+					</ScrollView>
+				</SectionCard>
+			) : null}
+			{/* 关联的词语（字详情显示） */}
+			{optionsRef.current.type === 'word' && detail.relatedWords && detail.relatedWords.length > 0 ? (
 				<SectionCard title='相关词语'>
 					<ScrollView
 						className='scrollContainer'
@@ -265,42 +309,20 @@ const DictionaryDetail = () => {
 						enableFlex
 						showScrollbar={false}
 					>
-						{detail.ciList.map((item) => (
+						{detail.relatedWords.map((item) => (
 							<WordCard
 								{...item}
 								key={item._id}
 								type='ci'
 								pinyin={item.pinyin}
-								text={item.ci}
+								text={item.word}
 							/>
 						))}
 					</ScrollView>
 				</SectionCard>
 			) : null}
-			{/* 相似词语 */}
-			{detail.smilarList && detail.smilarList.length > 0 ? (
-				<SectionCard title='相似词语'>
-					<ScrollView
-						className='scrollContainer'
-						scrollX
-						scrollWithAnimation
-						enableFlex
-						showScrollbar={false}
-					>
-						{detail.smilarList.map((item) => (
-							<WordCard
-								{...item}
-								key={item._id}
-								type='ci'
-								pinyin={item.pinyin}
-								text={item.ci}
-							/>
-						))}
-					</ScrollView>
-				</SectionCard>
-			) : null}
-			{/* 相关成语 */}
-			{detail.chengyuList && detail.chengyuList.length > 0 ? (
+			{/* 关联的成语（字/词语详情显示） */}
+			{(optionsRef.current.type === 'word' || optionsRef.current.type === 'ci') && detail.relatedIdioms && detail.relatedIdioms.length > 0 ? (
 				<SectionCard title='相关成语'>
 					<ScrollView
 						className='scrollContainer'
@@ -309,11 +331,33 @@ const DictionaryDetail = () => {
 						enableFlex
 						showScrollbar={false}
 					>
-						{detail.chengyuList.map((item) => (
+						{detail.relatedIdioms.map((item) => (
 							<WordCard
 								{...item}
 								key={item._id}
 								type='chengyu'
+								pinyin={item.pinyin}
+								text={item.word}
+							/>
+						))}
+					</ScrollView>
+				</SectionCard>
+			) : null}
+			{/* 关联的词语（成语详情显示） */}
+			{optionsRef.current.type === 'chengyu' && detail.relatedIdioms && detail.relatedIdioms.length > 0 ? (
+				<SectionCard title='相关词语'>
+					<ScrollView
+						className='scrollContainer'
+						scrollX
+						scrollWithAnimation
+						enableFlex
+						showScrollbar={false}
+					>
+						{detail.relatedIdioms.map((item) => (
+							<WordCard
+								{...item}
+								key={item._id}
+								type='ci'
 								pinyin={item.pinyin}
 								text={item.word}
 							/>
