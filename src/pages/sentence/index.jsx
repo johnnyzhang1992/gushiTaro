@@ -151,7 +151,7 @@ const SentencePage = () => {
 						value={fetchParams.keyWord || ''}
 						onInput={(e) => {
 							const val = e.detail.value;
-							updateParams({ keyWord: val });
+							updateParams((pre) => ({ ...pre, keyWord: val, inited: true }));
 						}}
 						onConfirm={() => {
 							updatePagination({ page: 1 });
@@ -163,7 +163,10 @@ const SentencePage = () => {
 						</View>
 					) : null}
 				</View>
-				<View className='searchBtn' onClick={() => updatePagination({ page: 1 })}>
+				<View className='searchBtn' onClick={() => {
+						updateParams((pre) => ({ ...pre, inited: true }));
+						updatePagination({ page: 1 });
+					}}>
 					<Text className='searchBtnText'>搜索</Text>
 				</View>
 			</View>
@@ -171,14 +174,20 @@ const SentencePage = () => {
 			<View className='page sentenceIndex'>
 			{/* 列表显示区域 */}
 			<View className='pageContainer safeBottom'>
-				{data.list.map((sentence) => (
-					<SentenceCard
-						{...sentence}
-						showCount
-						key={sentence.id}
-						lightWord={fetchParams.keyWord}
-					/>
-				))}
+				{data.list.length > 0 ? (
+					data.list.map((sentence) => (
+						<SentenceCard
+							{...sentence}
+							showCount
+							key={sentence.id}
+							lightWord={fetchParams.keyWord}
+						/>
+					))
+				) : (
+					<View className='emptyState'>
+						<Text className='emptyText'>暂无数据</Text>
+					</View>
+				)}
 			</View>
 			{/* loading */}
 			{loading ? (

@@ -1,4 +1,18 @@
 
+.emptyState {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 100rpx 0;
+
+	.emptyText {
+		font-size: 28rpx;
+		color: #999;
+	}
+}
+
+
 /* 诗词类型 */
 .typeFilter {
 	display: flex;

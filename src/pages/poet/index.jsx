@@ -57,6 +57,7 @@ const PoetPage = () => {
 			return {
 				...pre,
 				...filterParams,
+				inited: true,
 			};
 		});
 		updatePagination({
@@ -136,7 +137,7 @@ const PoetPage = () => {
 						value={fetchParams.keyWord || ''}
 						onInput={(e) => {
 							const val = e.detail.value;
-							updateParams({ keyWord: val });
+							updateParams((pre) => ({ ...pre, keyWord: val, inited: true }));
 						}}
 						onConfirm={() => {
 							updatePagination({ page: 1 });
@@ -148,7 +149,10 @@ const PoetPage = () => {
 						</View>
 					) : null}
 				</View>
-				<View className='searchBtn' onClick={() => updatePagination({ page: 1 })}>
+				<View className='searchBtn' onClick={() => {
+						updateParams((pre) => ({ ...pre, inited: true }));
+						updatePagination({ page: 1 });
+					}}>
 					<Text className='searchBtnText'>搜索</Text>
 				</View>
 			</View>
@@ -179,15 +183,19 @@ const PoetPage = () => {
 			</View> */}
 			{/* 列表 */}
 			<View className='pageContainer safeBottom'>
-				{data.list.map((item) => {
-					return (
+				{data.list.length > 0 ? (
+					data.list.map((item) => (
 						<PoetCard
 							{...item}
 							key={item.id}
 							lightWord={fetchParams.keyWord}
 						/>
-					);
-				})}
+					))
+				) : (
+					<View className='emptyState'>
+						<Text className='emptyText'>暂无数据</Text>
+					</View>
+				)}
 			</View>
 			{loading ? (
 				<View className='loading'>
