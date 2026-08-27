@@ -86,10 +86,11 @@ export default function StudyDetailPage() {
     if (!searchKeyword.trim()) return;
     setSearching(true);
     try {
-      const res = await searchPoems('GET', { keyword: searchKeyword });
+      const res = await searchPoems('GET', { keyWord: searchKeyword });
       console.log('搜索结果:', res);
       if (res && res.status && res.data) {
-        setSearchResults(res.data || []);
+        // 诗词列表接口返回 { list: [...], ... }
+        setSearchResults(res.data.list || []);
       } else if (res && res.data) {
         // 兼容直接返回数组的情况
         setSearchResults(Array.isArray(res.data) ? res.data : []);

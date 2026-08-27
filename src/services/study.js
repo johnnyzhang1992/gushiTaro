@@ -61,7 +61,7 @@ export const fetchStudyPlanStats = (method = 'GET', data) => {
 
 // 搜索诗词（用于添加到计划）
 export const searchPoems = (method = 'GET', data) => {
-  return Request('/api/search', data, method);
+  return Request('/api/poems', { ...data, size: 20 }, method);
 };
 
 // ======== 推荐计划（诗单/诗单） ========
