@@ -562,7 +562,7 @@ export default function StudyDetailPage() {
                     placeholder="搜索诗词名称或作者"
                     value={searchKeyword}
                     onInput={(e) => setSearchKeyword(e.detail.value)}
-                    onConfirm={handleSearch}
+                    onConfirm={() => handleSearch(false)}
                     confirmType="search"
                   />
                   {searchKeyword ? (
@@ -573,6 +573,9 @@ export default function StudyDetailPage() {
                       <Text className="search-clear-icon">×</Text>
                     </View>
                   ) : null}
+                </View>
+                <View className="search-btn" onClick={() => handleSearch(false)}>
+                  <Text className="search-btn-text">搜索</Text>
                 </View>
               </View>
               <View className="search-results">
