@@ -63,11 +63,6 @@ const SearchRecord = ({ handleSearch }) => {
 		<SectionCard
 			title='搜索记录'
 			className='searchRecordSection'
-			style={{
-				backgroundColor: 'unset',
-				margin: '0 20rpx 0 20rpx',
-				borderRadius: '12rpx',
-			}}
 			extra={
 				<Text className='clearAll' onClick={handleClearAll}>
 					清空
