@@ -201,8 +201,8 @@
   color: #666;
 }
 
-/* 弹窗 */
-.modal-mask {
+/* 底部弹窗 */
+.bottom-sheet-mask {
   position: fixed;
   top: 0;
   left: 0;
@@ -211,43 +211,68 @@
   background: rgba(0, 0, 0, 0.5);
   z-index: 999;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
 }
 
-.modal-content {
+.bottom-sheet {
   background: #fff;
-  border-radius: 16rpx;
-  width: 85%;
-  max-height: 80vh;
-  overflow: hidden;
+  border-radius: 24rpx 24rpx 0 0;
+  width: 100%;
+  max-height: 85vh;
   display: flex;
   flex-direction: column;
+  animation: slideUp 0.3s ease;
 }
 
-.modal-header {
-  padding: 30rpx;
-  border-bottom: 1rpx solid #f0f0f0;
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.bottom-sheet-header {
+  padding: 20rpx 30rpx 0;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
 }
 
-.modal-title {
+.bottom-sheet-drag-bar {
+  width: 60rpx;
+  height: 8rpx;
+  background: #e0e0e0;
+  border-radius: 4rpx;
+  margin-bottom: 20rpx;
+}
+
+.bottom-sheet-title-row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.bottom-sheet-title {
   font-size: 32rpx;
   font-weight: bold;
 }
 
-.modal-close {
-  font-size: 40rpx;
+.bottom-sheet-close {
+  font-size: 44rpx;
   color: #999;
   padding: 10rpx;
 }
 
-.modal-body {
-  padding: 20rpx;
-  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+.bottom-sheet-body {
   flex: 1;
+  padding: 20rpx 30rpx;
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
   overflow-y: auto;
 }
 

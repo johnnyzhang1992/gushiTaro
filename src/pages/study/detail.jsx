@@ -523,17 +523,18 @@ export default function StudyDetailPage() {
         )}
       </View>
 
-      {/* 添加诗词弹窗 */}
+      {/* 添加诗词底部弹窗 */}
       {showAddModal && (
-        <View className="modal-mask" onClick={() => setShowAddModal(false)}>
-          <View className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <View className="modal-header">
-              <Text className="modal-title">添加诗词</Text>
-              <Text className="modal-close" onClick={() => setShowAddModal(false)}>
-                ×
-              </Text>
+        <View className="bottom-sheet-mask" onClick={() => setShowAddModal(false)}>
+          <View className="bottom-sheet" onClick={(e) => e.stopPropagation()}>
+            <View className="bottom-sheet-header">
+              <View className="bottom-sheet-drag-bar" />
+              <View className="bottom-sheet-title-row">
+                <Text className="bottom-sheet-title">添加诗词</Text>
+                <Text className="bottom-sheet-close" onClick={() => setShowAddModal(false)}>×</Text>
+              </View>
             </View>
-            <View className="modal-body">
+            <View className="bottom-sheet-body">
               <View className="search-box">
                 <View className="search-input-wrap">
                   <Input
