@@ -1,12 +1,14 @@
 import { View, Text, Navigator } from '@tarojs/components';
 import Taro, { useRouter, useLoad, usePullDownRefresh } from '@tarojs/taro';
 import { useState } from 'react';
+import { useNavigationBar } from 'taro-hooks';
 
 import { fetchCollectionGroups, fetchCollections } from '../../services/study';
 
 import './collection-group.scss';
 
 const CollectionGroupPage = () => {
+  const { setTitle } = useNavigationBar({ title: '古诗文小助手' });
   const router = useRouter();
   const groupId = router.params.id;
   const groupName = decodeURIComponent(router.params.name || '诗单分组');
@@ -37,7 +39,10 @@ const CollectionGroupPage = () => {
       .finally(() => setLoading(false));
   };
 
-  useLoad(() => loadData());
+  useLoad(() => {
+    setTitle(groupName || '诗单分组');
+    loadData();
+  });
   usePullDownRefresh(() => {
     loadData();
     Taro.stopPullDownRefresh();
