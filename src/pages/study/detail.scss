@@ -219,7 +219,7 @@
   background: #fff;
   border-radius: 24rpx 24rpx 0 0;
   width: 100%;
-  max-height: 85vh;
+  height: 75vh;
   display: flex;
   flex-direction: column;
   animation: slideUp 0.3s ease;
@@ -273,7 +273,9 @@
   flex: 1;
   padding: 20rpx 30rpx;
   padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
-  overflow-y: auto;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 /* 添加诗词搜索 */
@@ -319,8 +321,19 @@
 }
 
 .search-results {
-  max-height: 60vh;
+  flex: 1;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.load-more {
+  padding: 24rpx 0;
+  text-align: center;
+}
+
+.load-more-text {
+  font-size: 24rpx;
+  color: #999;
 }
 
 .search-item {

@@ -27,6 +27,9 @@ export default function StudyDetailPage() {
   const [searchResults, setSearchResults] = useState([]);
   const [searching, setSearching] = useState(false);
   const [addingPoem, setAddingPoem] = useState(null);
+  const [searchPage, setSearchPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
 
   // 学习相关
   const [showStudyModal, setShowStudyModal] = useState(false);
@@ -82,23 +85,39 @@ export default function StudyDetailPage() {
   });
 
   // 搜索诗词
-  const handleSearch = async () => {
+  const handleSearch = async (isLoadMore = false) => {
     if (!searchKeyword.trim()) return;
-    setSearching(true);
+    if (isLoadMore) {
+      setLoadingMore(true);
+    } else {
+      setSearching(true);
+      setSearchPage(1);
+      setHasMore(true);
+    }
     try {
-      const res = await searchPoems('GET', { keyWord: searchKeyword });
+      const page = isLoadMore ? searchPage + 1 : 1;
+      const res = await searchPoems('GET', { keyWord: searchKeyword, page, size: 20 });
       console.log('搜索结果:', res);
       if (res && res.status && res.data) {
-        // 诗词列表接口返回 { list: [...], ... }
-        setSearchResults(res.data.list || []);
-      } else if (res && res.data) {
-        // 兼容直接返回数组的情况
-        setSearchResults(Array.isArray(res.data) ? res.data : []);
+        const list = res.data.list || [];
+        setSearchResults(prev => isLoadMore ? [...prev, ...list] : list);
+        setSearchPage(page);
+        setHasMore(list.length >= 20);
+      } else {
+        setHasMore(false);
       }
     } catch (err) {
       console.error('搜索失败:', err);
     } finally {
       setSearching(false);
+      setLoadingMore(false);
+    }
+  };
+
+  // 加载更多
+  const handleLoadMore = () => {
+    if (!loadingMore && hasMore && searchResults.length > 0) {
+      handleSearch(true);
     }
   };
 
@@ -562,25 +581,34 @@ export default function StudyDetailPage() {
                     <Text className="empty-text">未找到相关诗词</Text>
                   </View>
                 ) : (
-                  searchResults.map((poem) => {
-                    const isAdded = items.some((i) => i.poem_id === poem._id);
-                    return (
-                      <View className="search-item" key={poem._id}>
-                        <View className="search-item-info">
-                          <View className="search-item-title">{poem.title}</View>
-                          <View className="search-item-author">
-                            {poem.author} · {poem.dynasty}
+                  <>
+                    {searchResults.map((poem) => {
+                      const isAdded = items.some((i) => i.poem_id === poem._id);
+                      return (
+                        <View className="search-item" key={poem._id}>
+                          <View className="search-item-info">
+                            <View className="search-item-title">{poem.title}</View>
+                            <View className="search-item-author">
+                              {poem.author} · {poem.dynasty}
+                            </View>
+                          </View>
+                          <View
+                            className={`search-item-btn ${isAdded || addingPoem === poem._id ? 'added' : ''}`}
+                            onClick={() => !isAdded && handleAddPoem(poem)}
+                          >
+                            {isAdded ? '已添加' : addingPoem === poem._id ? '添加中...' : '添加'}
                           </View>
                         </View>
-                        <View
-                          className={`search-item-btn ${isAdded || addingPoem === poem._id ? 'added' : ''}`}
-                          onClick={() => !isAdded && handleAddPoem(poem)}
-                        >
-                          {isAdded ? '已添加' : addingPoem === poem._id ? '添加中...' : '添加'}
-                        </View>
+                      );
+                    })}
+                    {searchResults.length > 0 && (
+                      <View className="load-more" onClick={handleLoadMore}>
+                        <Text className="load-more-text">
+                          {loadingMore ? '加载中...' : hasMore ? '加载更多' : '没有更多了'}
+                        </Text>
                       </View>
-                    );
-                  })
+                    )}
+                  </>
                 )}
               </View>
             </View>
