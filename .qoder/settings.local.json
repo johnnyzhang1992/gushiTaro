@@ -76,7 +76,10 @@
       "Bash(cd /Users/johnnyzhang/extra_gushi/gushiTaro && wc -c dist/pages/me/setting.wxml && grep -c \"avatarMask\\\\|inputPlaceholder\" dist/pages/me/setting.js)",
       "Bash(cd /Users/johnnyzhang/extra_gushi/gushiTaro && git status --short && echo \"=== BRANCH ===\" && git status -sb | head -2 && echo \"=== LOG ===\" && git log --oneline -5)",
       "Bash(cd /Users/johnnyzhang/extra_gushi/gushi_api && git status --short && echo \"=== BRANCH ===\" && git status -sb | head -2 && echo \"=== LOG ===\" && git log --oneline -5)",
-      "Bash(cd /Users/johnnyzhang/extra_gushi/gushiTaro && git diff --stat src/ && echo \"=== study ===\" && git diff src/pages/study/index.scss)"
+      "Bash(cd /Users/johnnyzhang/extra_gushi/gushiTaro && git diff --stat src/ && echo \"=== study ===\" && git diff src/pages/study/index.scss)",
+      "Bash(cd /Users/johnnyzhang/extra_gushi/gushiTaro && grep -rn \"scanCode\\\\|handleScan\\\\|ScanSvg\" src/ | head -20)",
+      "Bash(cd /Users/johnnyzhang/extra_gushi/gushi_api && grep -rn \"qrcode\\\\|qrCode\\\\|createwxa\\\\|wxa/qrcode\\\\|getUnlimited\\\\|小程序码\" src/ --include=*.ts | head -30)",
+      "Bash(cd /Users/johnnyzhang/extra_gushi && grep -rln \"getwxacodeunlimit\\\\|wxacode\\\\|createQRCode\" --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=dist --exclude-dir=unpackage . 2>/dev/null | head -20)"
     ]
   }
 }

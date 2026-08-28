@@ -3,6 +3,7 @@ import Taro, { useRouter, useLoad, usePullDownRefresh } from '@tarojs/taro';
 import { useState } from 'react';
 
 import CdnImage from '../../components/CdnImage';
+import LongTextCard from '../../components/LongTextCard';
 import { fetchPoetDetail } from './service';
 
 import './detail.scss';
@@ -74,7 +75,7 @@ const AuthorDetail = () => {
 			{author.profile ? (
 				<View className='section'>
 					<Text className='sectionTitle'>生平简介</Text>
-					<Text className='sectionText' selectable>{author.profile}</Text>
+					<LongTextCard text={author.profile} title='生平简介' showAll={false} />
 				</View>
 			) : null}
 
@@ -115,36 +116,24 @@ const AuthorDetail = () => {
 			{author.laterEvaluation ? (
 				<View className='section'>
 					<Text className='sectionTitle'>后人评价</Text>
-					<Text className='sectionText'>{author.laterEvaluation}</Text>
+					<LongTextCard text={author.laterEvaluation} title='后人评价' showAll={false} />
 				</View>
 			) : null}
 
-			{/* 更多信息 more_infos */}
+						{/* 更多信息 more_infos */}
 			{author.more_infos && author.more_infos.length > 0 ? (
 				author.more_infos.map((item, idx) => {
 					if (!item.title || !item.content) return null;
-					// content 是数组，取前 5 段，清理 HTML 标签和特殊字符
-					const lines = (Array.isArray(item.content) ? item.content : [item.content])
-						.slice(0, 5)
-						.map((c) => c
-							.replace(/<[^>]+>/g, '')        // 去 HTML 标签
-							.replace(/&quot;/g, '"')        // "
-							.replace(/&apos;/g, "'")        // '
-							.replace(/&lt;/g, '<')          // <
-							.replace(/&gt;/g, '>')          // >
-							.replace(/&amp;/g, '&')         // &
-							.replace(/&nbsp;/g, ' ')        // 空格
-							.replace(/\u3000/g, '')        // 全角空格
-							.trim()
-						)
+					// 清理 HTML 标签
+					const cleanedContent = (Array.isArray(item.content) ? item.content : [item.content])
+						.map((c) => c.replace(/<[^>]+>/g, '').replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ').trim())
 						.filter(Boolean);
-					if (lines.length === 0) return null;
+					if (cleanedContent.length === 0) return null;
+					const fullText = cleanedContent.join('\n');
 					return (
 						<View key={`${item.title}_${idx}`} className='section'>
 							<Text className='sectionTitle'>{item.title}</Text>
-							{lines.map((line, i) => (
-								<Text key={i} className='sectionText' selectable>{line}</Text>
-							))}
+							<LongTextCard text={fullText} title={item.title} showAll={false} />
 						</View>
 					);
 				})
