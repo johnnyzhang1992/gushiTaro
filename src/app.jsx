@@ -35,31 +35,8 @@ const App = (props) => {
 							return;
 						}
 						
-						// 第二步：用户不存在，走注册逻辑
-						console.log('[app-login] 用户不存在，开始注册...');
-						Request('/api/user/create', {
-							code: res.code,
-							iv: '',
-							encryptedData: '',
-							systemInfo: JSON.stringify(deviceInfo),
-						}, 'POST')
-							.then((regResult) => {
-								const regData = regResult.data?.data || regResult.data;
-								console.log('[app-login] register 返回:', regData?.uid || '注册失败');
-								
-								if (regData && regData.uid) {
-									console.log('[app-login] ✅ 注册成功');
-									const token = regData.token || regData.wx_token;
-									const userData = { ...regData, token };
-									Taro.setStorageSync('user', userData);
-									Taro.setStorageSync('wx_token', token);
-								} else {
-									console.log('[app-login] ❌ 注册失败');
-								}
-							})
-							.catch((err) => {
-								console.log('[app-login] 注册请求失败:', err);
-							});
+						// 用户不存在，不自动注册，由用户在个人中心手动点击登录/注册
+						console.log('[app-login] 用户不存在，等待用户手动登录');
 					})
 					.catch((err) => {
 						console.log('[app-login] 获取用户信息失败:', err);

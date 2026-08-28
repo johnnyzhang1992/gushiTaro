@@ -181,18 +181,30 @@ const MeIndex = () => {
 	};
 
 	const fetchCheckinStats = async () => {
+		const user = Taro.getStorageSync('user');
+		if (!user || !user.token) {
+			return false;
+		}
 		try {
 			const res = await fetchPointsStats('GET', {});
 			const d = res.data?.data || res.data;
 			if (d && d.totalPoints !== undefined) {
 				const checkedSet = new Set(d.monthlyCheckins || []);
 				const todayStr = new Date().toISOString().slice(0, 10);
+				const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
 				const days = [];
 				for (let i = 6; i >= 0; i--) {
-					const d = new Date();
-					d.setDate(d.getDate() - i);
-					const ds = d.toISOString().slice(0, 10);
-					days.push({ dateStr: ds, checked: checkedSet.has(ds) });
+					const date = new Date();
+					date.setDate(date.getDate() - i);
+					const ds = date.toISOString().slice(0, 10);
+					const dayIndex = date.getDay();
+					const isToday = ds === todayStr;
+					days.push({
+						dateStr: ds,
+						checked: checkedSet.has(ds),
+						label: isToday ? '今' : weekDays[dayIndex],
+						isToday,
+					});
 				}
 				setCheckinStats({
 					todayChecked: checkedSet.has(todayStr),
@@ -307,18 +319,20 @@ const MeIndex = () => {
 							<View className='avatar'>
 								<CdnImage src={userInfo.avatar || poetPng} className='img' />
 							</View>
-							<View className='user_name'>
-								<Text className='text'>
+							<View className='userInfo'>
+								<Text className='name' numberOfLines={1}>
 									{userInfo.name || userInfo.nickName || userInfo.nickname}
 								</Text>
-								<View className='setting'>
-									<Text className='text'>编辑资料</Text>
-									<Text className='icon settings-icon'></Text>
-								</View>
+							</View>
+							<View className='editBtn'>
+								<Text className='editText'>编辑资料</Text>
+								<Text className='editArrow'>›</Text>
 							</View>
 						</Navigator>
 					) : (
 						<View className='loginCard'>
+							<Text className='loginTitle'>欢迎来到古诗文小助手</Text>
+							<Text className='loginDesc'>登录后开启您的诗词之旅</Text>
 							<Button
 								className='loginBtn'
 								size='mini'
@@ -331,105 +345,103 @@ const MeIndex = () => {
 					)}
 				</SectionCard>
 				{/* 我的签到 */}
-				<Navigator className='checkin-section' hoverClass='none' url='/pages/me/checkin'>
-					<View className='checkin-header'>
-						<Text className='title'>我的签到</Text>
-						<View className={`tag ${checkinStats.todayChecked ? 'checked' : ''}`}>
+				<SectionCard
+					title='我的签到'
+					extra={
+						<View className={`checkin-tag ${checkinStats.todayChecked ? 'checked' : ''}`}>
 							{checkinStats.todayChecked ? '已签到' : '未签到'}
 						</View>
-						<View className='arrow'>›</View>
-					</View>
-					<View className='checkin-week'>
-						{checkinStats.last7.map((day, i) => (
-							<View key={i} className='day-item'>
-								<View className={`day-block ${day.checked ? 'checked' : ''}`} />
+					}
+					titleClick={() => Taro.navigateTo({ url: '/pages/me/checkin' })}
+				>
+					<View className='checkin-section'>
+						<View className='checkin-streak'>
+							<View className='streak-item primary'>
+								<Text className='streak-num'>{checkinStats.checkinStreak}</Text>
+								<Text className='streak-label'>连续签到</Text>
 							</View>
-						))}
-						<View className='week-hint'>{getMotd(checkinStats.checkinStreak, checkinStats.checkinDays)}</View>
-					</View>
-				</Navigator>
-				{/* 我的收藏 */}
-				<SectionCard title=''>
-					<View className='sectionItems schedule'>
-						<Navigator
-							className='item'
-							hoverClass='none'
-							url='/pages/me/collect'
-						>
-							<View className='name'>我的收藏</View>
-							<View className='num'>
-								<View className='chevron-right'></View>
+							<View className='streak-item'>
+								<Text className='streak-num'>{checkinStats.checkinDays}</Text>
+								<Text className='streak-label'>累计签到</Text>
 							</View>
-						</Navigator>
-						<View className='statsCard'>
-							<Navigator
-								className='card_item'
-								hoverClass='none'
-								url='/pages/me/collect?type=poem'
-							>
-								<View className='top'>
-									<Text className='num'>{userInfo.poem_count || 0}</Text>
+						</View>
+						<View className='checkin-week'>
+							{checkinStats.last7.map((day, i) => (
+								<View key={i} className='day-item'>
+									<Text className='day-label'>{day.label}</Text>
+									<Text className='day-date'>{parseInt(day.dateStr.slice(8, 10), 10)}</Text>
+									<View className={`day-dot ${day.checked ? 'checked' : ''} ${day.isToday ? 'today' : ''}`} />
 								</View>
-								<View className='info'>作品</View>
-							</Navigator>
-							<Navigator
-								className='card_item'
-								hoverClass='none'
-								url='/pages/me/collect?type=sentence'
-							>
-								<View className='top'>
-									<Text className='num'>{userInfo.sentence_count || 0}</Text>
-								</View>
-								<View className='info'>摘录</View>
-							</Navigator>
-							<Navigator
-								className='card_item'
-								hoverClass='none'
-								url='/pages/me/collect?type=author'
-							>
-								<View className='top'>
-									<Text className='num'>{userInfo.poet_count || 0}</Text>
-								</View>
-								<View className='info'>作者</View>
-							</Navigator>
+							))}
 						</View>
 					</View>
 				</SectionCard>
-				{/* 我的诗单 */}
-				<SectionCard title=''>
-					<View className='sectionItems schedule'>
+				{/* 我的收藏 */}
+				<SectionCard
+					title='我的收藏'
+					extra={<View className='icon chevron-right' />}
+					titleClick={() => Taro.navigateTo({ url: '/pages/me/collect' })}
+				>
+					<View className='statsCard'>
 						<Navigator
-							className='item'
+							className='card_item'
 							hoverClass='none'
-							url='/pages/me/collections'
+							url='/pages/me/collect?type=poem'
 						>
-							<View className='name'>我的诗单</View>
-							<View className='num'>
-								<View className='chevron-right'></View>
+							<View className='top'>
+								<Text className='num'>{userInfo.poem_count || 0}</Text>
 							</View>
+							<View className='info'>作品</View>
 						</Navigator>
-						<View className='statsCard'>
-							<Navigator
-								className='card_item'
-								hoverClass='none'
-								url='/pages/me/collections?type=created'
-							>
-								<View className='top'>
-									<Text className='num'>{userInfo.collection_count || 0}</Text>
-								</View>
-								<View className='info'>创建</View>
-							</Navigator>
-							<Navigator
-								className='card_item'
-								hoverClass='none'
-								url='/pages/me/collections?type=favorited'
-							>
-								<View className='top'>
-									<Text className='num'>{userInfo.collection_fav_count || 0}</Text>
-								</View>
-								<View className='info'>收藏</View>
-							</Navigator>
-						</View>
+						<Navigator
+							className='card_item'
+							hoverClass='none'
+							url='/pages/me/collect?type=sentence'
+						>
+							<View className='top'>
+								<Text className='num'>{userInfo.sentence_count || 0}</Text>
+							</View>
+							<View className='info'>摘录</View>
+						</Navigator>
+						<Navigator
+							className='card_item'
+							hoverClass='none'
+							url='/pages/me/collect?type=author'
+						>
+							<View className='top'>
+								<Text className='num'>{userInfo.poet_count || 0}</Text>
+							</View>
+							<View className='info'>作者</View>
+						</Navigator>
+					</View>
+				</SectionCard>
+				{/* 我的诗单 */}
+				<SectionCard
+					title='我的诗单'
+					extra={<View className='icon chevron-right' />}
+					titleClick={() => Taro.navigateTo({ url: '/pages/me/collections' })}
+				>
+					<View className='statsCard'>
+						<Navigator
+							className='card_item'
+							hoverClass='none'
+							url='/pages/me/collections?type=created'
+						>
+							<View className='top'>
+								<Text className='num'>{userInfo.collection_count || 0}</Text>
+							</View>
+							<View className='info'>创建</View>
+						</Navigator>
+						<Navigator
+							className='card_item'
+							hoverClass='none'
+							url='/pages/me/collections?type=favorited'
+						>
+							<View className='top'>
+								<Text className='num'>{userInfo.collection_fav_count || 0}</Text>
+							</View>
+							<View className='info'>收藏</View>
+						</Navigator>
 					</View>
 				</SectionCard>
 

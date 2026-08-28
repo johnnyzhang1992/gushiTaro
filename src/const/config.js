@@ -1,11 +1,26 @@
 // 开发环境走本地服务，生产环境走线上
-// npm run dev:weapp  -> development
-// npm run build:weapp -> production
+// 小程序环境下根据 envVersion 自动判断：develop/trial/release
+import Taro from '@tarojs/taro';
+
 const DEV_BASE_URL = 'http://192.168.31.138:3000';
 const PROD_BASE_URL = 'https://api.xuegushi.com';
 
-export const BaseUrl =
-	process.env.NODE_ENV === 'development' ? DEV_BASE_URL : PROD_BASE_URL;
+const getBaseUrl = () => {
+	let envVersion = 'release';
+	try {
+		const accountInfo = Taro.getAccountInfoSync();
+		envVersion = accountInfo?.miniProgram?.envVersion || 'release';
+	} catch (e) {
+		// 非小程序环境（如 H5）使用 NODE_ENV 兜底
+	}
+
+	if (envVersion === 'develop') {
+		return DEV_BASE_URL;
+	}
+	return PROD_BASE_URL;
+};
+
+export const BaseUrl = getBaseUrl();
 export const WxAppVersion = '6.1.5'
 /**
  * 分类标签

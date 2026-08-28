@@ -1,6 +1,7 @@
 import {
 	View,
 	Navigator,
+	Text,
 	Form,
 	Input,
 	Switch,
@@ -13,6 +14,8 @@ import CdnImage from '../../components/CdnImage';
 import { updateUserInfo } from '../../services/global';
 import { uploadUserAvatar } from './service';
 import { userIsLogin } from '../../utils/auth';
+
+import poetPng from '../../images/svg/poet.svg';
 
 import './setting.scss';
 
@@ -57,10 +60,11 @@ const SettingPage = () => {
 		const formObj = { nickName: name };
 		if (!name) {
 			Taro.showToast({
-				title: '姓名不能为空',
+				title: '昵称不能为空',
 				icon: 'none',
 				duration: 2000,
 			});
+			return false;
 		}
 		console.log(formObj);
 		if (!agree) {
@@ -105,7 +109,7 @@ const SettingPage = () => {
 					filePath: tempFilePath,
 					platform: 'wxapp'
 				}).then((_res) => {
-					if (_res && _(res.status || res.statusCode === 200)) {
+					if (_res && (_res.status || _res.statusCode === 200)) {
 						const user = Taro.getStorageSync('user');
 						const { cdn_url } = JSON.parse(_res.data);
 						Taro.setStorageSync('user', {
@@ -129,31 +133,37 @@ const SettingPage = () => {
 	return (
 		<View className='page settingPage'>
 			<Form onSubmit={handleSubmit}>
-				<View className='formItem center noBottom'>
-					<View className='formContent' onClick={updateAvatar}>
-						<View className='avatar'>
-							<CdnImage src={form.avatar} className='avatarImg' />
+				<View className='formCard'>
+					<View className='avatarSection' onClick={updateAvatar}>
+						<View className='avatarWrap'>
+							<CdnImage src={form.avatar || poetPng} className='avatarImg' />
+							<View className='avatarMask'>
+								<Text className='maskText'>更换</Text>
+							</View>
 						</View>
-						<View className='intro'>设置头像</View>
-						<View className='intro text'>格式：支持JPG、PNG、JPEG</View>
-						<View className='intro text'>大小：5M以内</View>
+						<Text className='avatarTitle'>点击更换头像</Text>
+						<Text className='avatarHint'>支持 JPG、PNG、JPEG，5M 以内</Text>
 					</View>
 				</View>
-				<View className='formItem'>
-					<View className='label'>昵称</View>
-					<View className='formContent'>
+				<View className='formCard'>
+					<View className='fieldRow'>
+						<Text className='fieldLabel'>昵称</Text>
 						<Input
 							controlled={false}
+							className='fieldInput'
 							name='name'
 							value={form.name}
 							type='nickname'
+							maxlength={14}
 							onNickNameReview={handleNickNameReview}
-							placeholder='自定义昵称(最长14个字符)'
+							placeholder='请输入昵称'
+							placeholderClass='inputPlaceholder'
 						/>
 					</View>
 				</View>
 				<View className='agressContainer'>
 					<Switch name='agree' type='checkbox' controlled={false} />
+					<Text className='agreeLabel'>已阅读并同意</Text>
 					<Navigator
 						url='/pages/post/index?type=privateRule'
 						className='navigator'
@@ -164,7 +174,7 @@ const SettingPage = () => {
 				</View>
 				<View className='formBtns'>
 					<Button
-						size='small'
+						size='default'
 						type='primary'
 						formType='submit'
 						className='submitBtn'
@@ -173,6 +183,7 @@ const SettingPage = () => {
 					</Button>
 				</View>
 			</Form>
+			<View className='tipText'>修改后返回个人中心即可查看最新资料</View>
 		</View>
 	);
 };

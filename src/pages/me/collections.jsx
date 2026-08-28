@@ -1,9 +1,10 @@
-import { View, Text, ScrollView } from '@tarojs/components';
+import { View, Text, ScrollView, Input } from '@tarojs/components';
 import { useState, useEffect } from 'react';
 import Taro, { useRouter, useLoad, usePullDownRefresh } from '@tarojs/taro';
 
 import PoemPlaylistCard from '../../components/PoemPlaylistCard';
 import Request from '../../apis/request';
+import { createCollection } from '../../services/global';
 
 import './collection.scss';
 
@@ -13,6 +14,12 @@ const CollectionsPage = () => {
   const [createdList, setCreatedList] = useState([]);
   const [favoritedList, setFavoritedList] = useState([]);
   const [isLoading, setLoading] = useState(true);
+
+  // 创建诗单弹窗
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [collectionName, setCollectionName] = useState('');
+  const [collectionDesc, setCollectionDesc] = useState('');
+  const [creating, setCreating] = useState(false);
 
   // 加载创建的诗单
   const loadCreated = () => {
@@ -51,6 +58,40 @@ const CollectionsPage = () => {
     }).catch(() => {
       Taro.showToast({ title: '移除失败', icon: 'none' });
     });
+  };
+
+  // 创建诗单
+  const handleCreate = async () => {
+    if (!collectionName.trim()) {
+      Taro.showToast({ title: '请输入诗单名称', icon: 'none' });
+      return;
+    }
+    setCreating(true);
+    try {
+      const res = await createCollection('POST', {
+        collection_name: collectionName.trim(),
+        collection_description: collectionDesc.trim(),
+      });
+      if (res && res.status) {
+        Taro.showToast({ title: '创建成功', icon: 'success' });
+        setShowCreateModal(false);
+        setCollectionName('');
+        setCollectionDesc('');
+        loadData();
+      } else {
+        Taro.showToast({ title: res?.msg || '创建失败', icon: 'none' });
+      }
+    } catch (err) {
+      Taro.showToast({ title: '创建失败', icon: 'none' });
+    } finally {
+      setCreating(false);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setShowCreateModal(false);
+    setCollectionName('');
+    setCollectionDesc('');
   };
 
   // 加载数据
@@ -99,6 +140,12 @@ const CollectionsPage = () => {
             {currentTab === tab.key ? <View className='tabLine' /> : null}
           </View>
         ))}
+        {currentTab === 'created' && (
+          <View className='createEntry' onClick={() => setShowCreateModal(true)}>
+            <Text className='createIcon'>+</Text>
+            <Text className='createText'>新建</Text>
+          </View>
+        )}
       </View>
 
       {/* 列表内容 */}
@@ -123,6 +170,49 @@ const CollectionsPage = () => {
             ))}
           </View>
         </ScrollView>
+      )}
+
+      {/* 创建诗单弹窗 */}
+      {showCreateModal && (
+        <View className='modalMask' onClick={handleCloseModal}>
+          <View className='modalContent' onClick={(e) => e.stopPropagation()}>
+            <View className='modalHeader'>
+              <Text className='modalTitle'>新建诗单</Text>
+              <Text className='modalClose' onClick={handleCloseModal}>×</Text>
+            </View>
+            <View className='modalBody'>
+              <View className='inputGroup'>
+                <Text className='inputLabel'>诗单名称</Text>
+                <Input
+                  className='inputField'
+                  placeholder='请输入诗单名称'
+                  value={collectionName}
+                  onInput={(e) => setCollectionName(e.detail.value)}
+                  maxlength={20}
+                />
+              </View>
+              <View className='inputGroup'>
+                <Text className='inputLabel'>诗单描述</Text>
+                <Input
+                  className='inputField'
+                  placeholder='请输入诗单描述（选填）'
+                  value={collectionDesc}
+                  onInput={(e) => setCollectionDesc(e.detail.value)}
+                  maxlength={100}
+                />
+              </View>
+            </View>
+            <View className='modalFooter'>
+              <View className='modalBtn cancel' onClick={handleCloseModal}>取消</View>
+              <View
+                className={`modalBtn confirm ${creating ? 'disabled' : ''}`}
+                onClick={handleCreate}
+              >
+                {creating ? '创建中...' : '创建'}
+              </View>
+            </View>
+          </View>
+        </View>
       )}
     </View>
   );

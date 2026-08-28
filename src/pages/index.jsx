@@ -280,20 +280,23 @@ const HomePage = () => {
 					url={`/pages/poem/detail?id=${dailyPoem.id || dailyPoem._id}`}
 					hoverClass='none'
 				>
-					<View className='card-body poem-row'>
-						<Text className='poem-quote'>❝</Text>
-						<View className='poem-info'>
-							<Text className='poem-title' numberOfLines={1}>
-								{dailyPoem.title}
-							</Text>
-							<Text className='poem-preview' numberOfLines={1}>
-								{poemPreview}
-							</Text>
-							<Text className='poem-author'>
+					<View className='dailyPoem-header'>
+						<Text className='dailyPoem-tag'>每日诗词</Text>
+						<Text className='dailyPoem-arrow'>›</Text>
+					</View>
+					<View className='dailyPoem-body'>
+						<Text className='dailyPoem-title' numberOfLines={1}>
+							{dailyPoem.title}
+						</Text>
+						<Text className='dailyPoem-preview' numberOfLines={2}>
+							{poemPreview}
+						</Text>
+						<View className='dailyPoem-meta'>
+							<Text className='dailyPoem-author'>
 								{dailyPoem.dynasty} · {dailyPoem.author}
 							</Text>
+							<Text className='dailyPoem-quote'>❝</Text>
 						</View>
-						<Text className='poem-arrow'>›</Text>
 					</View>
 				</Navigator>
 			) : null}
@@ -366,8 +369,10 @@ const HomePage = () => {
 			>
 				<View className='feihuaBody'>
 					<Text className='feihuaTag'>飞花令</Text>
-					<Text className='feihuaTitle'>春城无处不飞花</Text>
-					<Text className='feihuaDesc'>选择一个字，寻遍含它的千古名句</Text>
+					<View className='feihuaText'>
+						<Text className='feihuaTitle'>春城无处不飞花</Text>
+						<Text className='feihuaDesc'>选择一个字，寻遍含它的千古名句</Text>
+					</View>
 					<Text className='feihuaArrow'>›</Text>
 				</View>
 			</View>
