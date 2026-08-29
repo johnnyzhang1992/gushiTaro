@@ -272,7 +272,7 @@ export default function StudyPage() {
           <View className="empty-state">
             <Text className="empty-icon">📚</Text>
             <Text className="empty-text">还没有学习计划</Text>
-            <View className="empty-btn" onClick={() => setActiveTab('recommended')}>
+            <View className="empty-btn" onClick={() => handleTabChange('recommended')}>
               去看看推荐
             </View>
           </View>
