@@ -23,7 +23,8 @@ const CollectionsPage = () => {
 
   // 加载创建的诗单
   const loadCreated = () => {
-    return Request('/api/collections', { mine: true }, 'GET')
+    const user = Taro.getStorageSync('user') || {};
+    return Request('/api/collections', { mine: true, uid: user.uid }, 'GET')
       .then((res) => {
         if (res && res.status && res.data) {
           const list = res.data.list || res.data.collections || [];
@@ -35,7 +36,8 @@ const CollectionsPage = () => {
 
   // 加载收藏的诗单
   const loadFavorited = () => {
-    return Request('/api/favorites', { target_type: 'collection', size: 50 }, 'GET')
+    const user = Taro.getStorageSync('user') || {};
+    return Request('/api/favorites', { target_type: 'collection', size: 50, uid: user.uid }, 'GET')
       .then((res) => {
         if (res && res.status && res.data) {
           setFavoritedList(res.data.list || []);
