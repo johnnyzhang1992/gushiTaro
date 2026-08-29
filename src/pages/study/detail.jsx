@@ -10,6 +10,7 @@ import {
   submitReview,
   searchPoems,
 } from '../../services/study';
+import SwipeAction from './swipe-action';
 import './detail.scss';
 
 export default function StudyDetailPage() {
@@ -507,20 +508,25 @@ export default function StudyDetailPage() {
           </View>
         ) : (
           filteredItems.map((item) => (
-            <View className="poem-card" key={item._id || item.poem_id}>
-              <View className={`poem-status ${getStageClass(item)}`}>
-                {item.stage >= 6 ? '✓' : item.stage > 0 ? '↻' : '○'}
-              </View>
-              <View className="poem-info">
-                <View className="poem-title">{item.poem_title}</View>
-                <View className="poem-author">
-                  {item.poem_author} · {item.poem_dynasty}
+            <SwipeAction key={item._id || item.poem_id} onDelete={() => handleRemovePoem(item)}>
+              <View
+                className="poem-card"
+                onClick={() => Taro.navigateTo({ url: `/pages/poem/detail?id=${item.poem_id}` })}
+              >
+                <View className={`poem-status ${getStageClass(item)}`}>
+                  {item.stage >= 6 ? '✓' : item.stage > 0 ? '↻' : '○'}
+                </View>
+                <View className="poem-info">
+                  <View className="poem-title">{item.poem_title}</View>
+                  <View className="poem-author">
+                    {item.poem_author} · {item.poem_dynasty}
+                  </View>
+                </View>
+                <View className={`poem-stage ${getStageClass(item)}`}>
+                  {getStageText(item.stage)}
                 </View>
               </View>
-              <View className={`poem-stage ${getStageClass(item)}`}>
-                {getStageText(item.stage)}
-              </View>
-            </View>
+            </SwipeAction>
           ))
         )}
       </View>
