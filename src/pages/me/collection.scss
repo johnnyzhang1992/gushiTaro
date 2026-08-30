@@ -69,30 +69,32 @@
 	padding: 20rpx 24rpx;
 }
 
-.createEntry {
+/* 浮动新建按钮 */
+.fabBtn {
+	position: fixed;
+	right: 40rpx;
+	bottom: calc(120rpx + env(safe-area-inset-bottom));
+	width: 96rpx;
+	height: 96rpx;
+	background: linear-gradient(135deg, #337ab7, #2d6da3);
+	border-radius: 50%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: 0 24rpx;
+	box-shadow: 0 8rpx 24rpx rgba(51, 122, 183, 0.4);
+	z-index: 50;
+	transition: transform 0.2s;
 
-	.createIcon {
-		font-size: 24rpx;
-		color: #fff;
-		background: #337ab7;
-		width: 32rpx;
-		height: 32rpx;
-		border-radius: 50%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		margin-right: 8rpx;
+	&:active {
+		transform: scale(0.9);
 	}
+}
 
-	.createText {
-		font-size: 26rpx;
-		color: #337ab7;
-		font-weight: 500;
-	}
+.fabIcon {
+	font-size: 48rpx;
+	color: #fff;
+	line-height: 1;
+	font-weight: 300;
 }
 
 /* 创建诗单弹窗 */

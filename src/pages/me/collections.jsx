@@ -142,12 +142,6 @@ const CollectionsPage = () => {
             {currentTab === tab.key ? <View className='tabLine' /> : null}
           </View>
         ))}
-        {currentTab === 'created' && (
-          <View className='createEntry' onClick={() => setShowCreateModal(true)}>
-            <Text className='createIcon'>+</Text>
-            <Text className='createText'>新建</Text>
-          </View>
-        )}
       </View>
 
       {/* 列表内容 */}
@@ -172,6 +166,13 @@ const CollectionsPage = () => {
             ))}
           </View>
         </ScrollView>
+      )}
+
+      {/* 浮动新建按钮 - 仅我创建的显示 */}
+      {currentTab === 'created' && (
+        <View className='fabBtn' onClick={() => setShowCreateModal(true)}>
+          <Text className='fabIcon'>+</Text>
+        </View>
       )}
 
       {/* 创建诗单弹窗 */}
