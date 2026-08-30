@@ -13,6 +13,54 @@
 
 > 移除诗词朗读功能。（官方解释：小程序服务内容涉及【有声读物】，属个人主体尚未开放服务类目
 
+## 后端接口
+
+API 服务由独立仓库 [gushi_api](https://github.com/xuegushi/gushi_mini_api)（Fastify + TypeScript + MongoDB）提供，所有接口统一挂载在 `/miniapp/api/*` 前缀下：
+
+| 模块 | 路由前缀 | 说明 |
+|------|---------|------|
+| 诗词 | `/miniapp/api/poems` | 列表、详情、搜索（支持 `_type=title\|author\|tag\|content\|poem` 单字段/全文匹配） |
+| 诗人 | `/miniapp/api/poets` | 诗人列表、朝代筛选 |
+| 名句 | `/miniapp/api/sentences` | 名句列表、筛选（`filters` 返回按主题分组的类型列表 `categories: [{theme_name, types[]}]`） |
+| 诗单 | `/miniapp/api/collections` | 创建、删除、收藏 |
+| 学习计划 | `/miniapp/api/study-plans` | 计划 CRUD、进度统计 |
+| 用户 | `/miniapp/api/users` | 登录、信息更新 |
+| 收藏/点赞 | `/miniapp/api/favorites` | 通用收藏接口（支持 poem/collection 等 target_type） |
+
+本地开发默认请求 `http://192.168.31.138:3000`，生产环境为 `api.xuegushi.com`。具体配置见 `services/global.ts` / `apis/request.js`。
+
+## 主要页面与组件
+
+### 页面
+
+| 路径 | 说明 |
+|------|------|
+| `pages/index` | 首页（推荐诗词、底部筛选入口） |
+| `pages/poem/index` | 诗词列表页（搜索范围 + 类型 + 朝代三级筛选，收起/展开） |
+| `pages/poet/index` | 诗人列表页（作者 TAB 内嵌朝代筛选） |
+| `pages/sentence/index` | 名句列表页（主题 → 类型层级联动筛选） |
+| `pages/library/index` | 文库页（作品/诗人/名句/摘录/典故 5 个 TAB） |
+| `pages/me/index` | 个人中心 |
+| `pages/me/collections` | 我的诗单（我创建的/我收藏的，浮动新建按钮） |
+| `pages/study/index` | 学习计划（我的计划/推荐计划，浮动创建按钮） |
+
+### 核心组件
+
+| 组件 | 说明 |
+|------|------|
+| `FilterCard` | 横向滚动 pill chip 筛选卡片（全部选项自动加分类前缀：`朝代：全部`、`类型：全部` 等） |
+| `LibrarySearchBar` | 文库搜索栏（含搜索输入 + 朝代/类型/主题 筛选项；摘录 TAB 使用主题→类型层级联动） |
+| `PoemSmallCard` | 诗词小卡片（content 字号 28px） |
+| `PoemPlaylistCard` | 诗单卡片 |
+| `SentenceCard` | 名句卡片 |
+
+## 筛选体系设计要点
+
+- **全部选项显示分类前缀**：`朝代：全部`、`类型：全部`、`范围：全部`、`主题：全部` —— 仅渲染层变化，内部值保持 `'全部'` 以兼容后端 11 处 `!== '全部'` 守卫逻辑
+- **主题→类型层级联动**：选中主题时类型自动重置为全部，类型列表随主题动态变化；未选主题时仅显示"全部"
+- **搜索范围精确匹配**：`_type=title|author|tag|content` 对应单字段正则，`_type=poem` 或缺省为标题+内容 `$or` 全文检索
+- **FilterCard 默认选中兜底**：当初始 params 不含某筛选 key 时，`|| '全部'` 确保首 chip 高亮（已修复三处遗漏：mount effect、poem type row、poem dynasty row）
+
 ## 拼音转换
 
 使用的是这个库：[pinyin-pro](https://github.com/zh-lx/pinyin-pro)
