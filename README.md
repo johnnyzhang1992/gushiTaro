@@ -13,22 +13,6 @@
 
 > 移除诗词朗读功能。（官方解释：小程序服务内容涉及【有声读物】，属个人主体尚未开放服务类目
 
-## 后端接口
-
-API 服务由独立仓库 [gushi_api](https://github.com/xuegushi/gushi_mini_api)（Fastify + TypeScript + MongoDB）提供，所有接口统一挂载在 `/miniapp/api/*` 前缀下：
-
-| 模块 | 路由前缀 | 说明 |
-|------|---------|------|
-| 诗词 | `/miniapp/api/poems` | 列表、详情、搜索（支持 `_type=title\|author\|tag\|content\|poem` 单字段/全文匹配） |
-| 诗人 | `/miniapp/api/poets` | 诗人列表、朝代筛选 |
-| 名句 | `/miniapp/api/sentences` | 名句列表、筛选（`filters` 返回按主题分组的类型列表 `categories: [{theme_name, types[]}]`） |
-| 诗单 | `/miniapp/api/collections` | 创建、删除、收藏 |
-| 学习计划 | `/miniapp/api/study-plans` | 计划 CRUD、进度统计 |
-| 用户 | `/miniapp/api/users` | 登录、信息更新 |
-| 收藏/点赞 | `/miniapp/api/favorites` | 通用收藏接口（支持 poem/collection 等 target_type） |
-
-本地开发默认请求 `http://192.168.31.138:3000`，生产环境为 `api.xuegushi.com`。具体配置见 `services/global.ts` / `apis/request.js`。
-
 ## 主要页面与组件
 
 ### 页面
