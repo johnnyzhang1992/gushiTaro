@@ -93,6 +93,23 @@ export const deleteCollectionGroup = (method = 'DELETE', data) => {
 	return Request(`/api/collection-groups/${data.id}`, data, method);
 };
 
+// ======== 首页聚合接口 ========
+
+// 首页初始化数据（农历 + 每日诗词）
+export const fetchHomeInit = (method = 'GET', data) => {
+	return Request(`/api/home/init`, data, method);
+};
+
+// 用户仪表盘（签到统计 + 学习计划列表）
+export const fetchUserDashboard = (method = 'GET', data) => {
+	return Request(`/api/user/dashboard`, data, method);
+};
+
+// 用户个人资料（用户信息 + 学习统计 + 签到统计）
+export const fetchUserProfile = (method = 'GET', data) => {
+	return Request(`/api/user/profile`, data, method);
+};
+
 // ======== 日历/农历 ========
 
 // 获取今日农历信息

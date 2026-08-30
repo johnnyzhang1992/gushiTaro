@@ -9,9 +9,8 @@ import Taro, {
 import { useState, useEffect } from 'react';
 
 import {
-	fetchCalendarToday,
-	fetchDailyPoem,
-	fetchPointsStats,
+	fetchHomeInit,
+	fetchUserDashboard,
 	doCheckin,
 } from '../services/global';
 import { fetchStudyPlans } from '../services/study';
@@ -56,36 +55,36 @@ const HomePage = () => {
 		return () => clearInterval(timer);
 	}, []);
 
-	// 拉取农历
-	const loadCalendar = () => {
-		return fetchCalendarToday('GET', {})
+	// 拉取首页初始化数据（农历 + 每日诗词）
+	const loadHomeInit = () => {
+		return fetchHomeInit('GET', {})
 			.then((res) => {
-				if (res && res.status && res.data) setCalendar(res.data);
+				if (res && res.status && res.data) {
+					const { calendar, dailyPoem } = res.data;
+					if (calendar) setCalendar(calendar);
+					if (dailyPoem) setDailyPoem(dailyPoem);
+				}
 			})
 			.catch(() => {});
 	};
 
-	// 拉取每日诗词
-	const loadDailyPoem = () => {
-		return fetchDailyPoem('GET', {})
-			.then((res) => {
-				if (res && res.status && res.data) setDailyPoem(res.data);
-			})
-			.catch(() => {});
-	};
-
-	// 拉取签到统计（需登录）
-	const loadCheckin = () => {
+	// 拉取用户仪表盘（签到统计 + 学习计划列表）
+	const loadDashboard = () => {
 		const user = Taro.getStorageSync('user') || {};
 		if (!user.token) {
 			setIsLogin(false);
 			setCheckinStats(null);
+			setPlans([]);
 			return Promise.resolve();
 		}
 		setIsLogin(true);
-		return fetchPointsStats('GET', {})
+		return fetchUserDashboard('GET', {})
 			.then((res) => {
-				if (res && res.status && res.data) setCheckinStats(res.data);
+				if (res && res.status && res.data) {
+					const { pointsStats, studyPlans } = res.data;
+					if (pointsStats) setCheckinStats(pointsStats);
+					if (studyPlans) setPlans(studyPlans);
+				}
 			})
 			.catch(() => {});
 	};
@@ -120,19 +119,17 @@ const HomePage = () => {
 	};
 
 	useLoad(() => {
-		loadCalendar();
-		loadDailyPoem();
+		loadHomeInit();
 		loadRecommend();
 	});
 
 	useDidShow(() => {
-		loadCheckin();
-		loadPlans();
+		loadDashboard();
 	});
 
 	// 下拉刷新：重新拉取所有数据
 	usePullDownRefresh(() => {
-		Promise.all([loadCalendar(), loadDailyPoem(), loadCheckin(), loadPlans(), loadRecommend()]).finally(
+		Promise.all([loadHomeInit(), loadDashboard(), loadRecommend()]).finally(
 			() => {
 				Taro.stopPullDownRefresh();
 			}
@@ -164,8 +161,7 @@ const HomePage = () => {
 			.then((res) => {
 				if (res && res.status) {
 					Taro.showToast({ title: '签到成功', icon: 'success' });
-					loadCheckin();
-					loadPlans();
+					loadDashboard();
 				}
 			})
 			.catch(() => {

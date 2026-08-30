@@ -6,8 +6,7 @@ import PageHeader from '../../components/PageHeader';
 import SectionCard from '../../components/SectionCard';
 import CdnImage from '../../components/CdnImage';
 
-import { fetchUserInfo } from './service';
-import { createUser, fetchScheduleStats, fetchPointsStats } from '../../services/global';
+import { fetchUserProfile, createUser } from '../../services/global';
 
 import './style.scss';
 
@@ -45,23 +44,47 @@ const MeIndex = () => {
 	};
 	const isCreate = useRef(false);
 
-	// user stats
-	const fetchInfo = (id) => {
+	// 拉取用户完整资料（一次请求获取用户信息 + 学习统计 + 签到统计）
+	const loadUserProfile = () => {
 		const user = Taro.getStorageSync('user');
-		const userId = id || user?.uid || user?.user_id;
-		if (!userId) {
-			return false;
-		}
-		fetchUserInfo('GET', {
-			user_id: userId,
-		})
+		const userId = user?.uid || user?.user_id;
+		if (!userId) return false;
+
+		fetchUserProfile('GET', {})
 			.then((res) => {
 				const apiData = res.data?.data || res.data;
 				if ((res.status || res.statusCode === 200) && apiData) {
-					setInfo((pre) => ({
-						...pre,
-						...apiData,
-					}));
+					const { userInfo, scheduleStats, pointsStats } = apiData;
+					// 更新用户信息
+					setInfo((pre) => ({ ...pre, ...userInfo }));
+					// 更新学习统计
+					if (scheduleStats) setScheduleStats(scheduleStats);
+					// 更新签到统计
+					if (pointsStats) {
+						const checkedSet = new Set(pointsStats.monthlyCheckins || []);
+						const todayStr = new Date().toISOString().slice(0, 10);
+						const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
+						const days = [];
+						for (let i = 6; i >= 0; i--) {
+							const date = new Date();
+							date.setDate(date.getDate() - i);
+							const ds = date.toISOString().slice(0, 10);
+							const dayIndex = date.getDay();
+							const isToday = ds === todayStr;
+							days.push({
+								dateStr: ds,
+								checked: checkedSet.has(ds),
+								label: isToday ? '今' : weekDays[dayIndex],
+								isToday,
+							});
+						}
+						setCheckinStats({
+							todayChecked: checkedSet.has(todayStr),
+							checkinDays: pointsStats.checkinDays || 0,
+							checkinStreak: pointsStats.checkinStreak || 0,
+							last7: days,
+						});
+					}
 				}
 				// token 过期
 				if (res.statusCode == 401) {
@@ -71,6 +94,7 @@ const MeIndex = () => {
 			.catch((err) => {
 				console.log(err);
 			});
+		return true;
 	};
 
 	const getUserProfile = () => {
@@ -134,11 +158,7 @@ const MeIndex = () => {
 						...pre,
 						...userData,
 					}));
-					fetchInfo(apiData.uid);
-					fetchStats({
-						id: apiData.uid,
-					});
-					fetchCheckinStats();
+					loadUserProfile();
 					if (preLoginPath && !preLoginPath.includes('pages/me/index')) {
 						Taro.showModal({
 							title: '提示',
@@ -180,54 +200,6 @@ const MeIndex = () => {
 			});
 	};
 
-	const fetchCheckinStats = async () => {
-		const user = Taro.getStorageSync('user');
-		if (!user || !user.token) {
-			return false;
-		}
-		try {
-			const res = await fetchPointsStats('GET', {});
-			const d = res.data?.data || res.data;
-			if (d && d.totalPoints !== undefined) {
-				const checkedSet = new Set(d.monthlyCheckins || []);
-				const todayStr = new Date().toISOString().slice(0, 10);
-				const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
-				const days = [];
-				for (let i = 6; i >= 0; i--) {
-					const date = new Date();
-					date.setDate(date.getDate() - i);
-					const ds = date.toISOString().slice(0, 10);
-					const dayIndex = date.getDay();
-					const isToday = ds === todayStr;
-					days.push({
-						dateStr: ds,
-						checked: checkedSet.has(ds),
-						label: isToday ? '今' : weekDays[dayIndex],
-						isToday,
-					});
-				}
-				setCheckinStats({
-					todayChecked: checkedSet.has(todayStr),
-					checkinDays: d.checkinDays || 0,
-					checkinStreak: d.checkinStreak || 0,
-					last7: days,
-				});
-			}
-		} catch (e) {
-			console.log(e);
-		}
-	};
-
-	const fetchStats = async (user = {}) => {
-		if (!user || (!user.id && !user.uid)) {
-			return false;
-		}
-		const res = await fetchScheduleStats('GET', {});
-		if (res && (res.status || res.statusCode === 200)) {
-			setScheduleStats(res.data);
-		}
-	};
-
 	// 扫码
 	const handleScan = () => {
 		Taro.scanCode({
@@ -262,8 +234,7 @@ const MeIndex = () => {
 			Taro.removeStorageSync('user');
 			Taro.removeStorageSync('wx_token');
 		} else {
-			fetchStats(user);
-			fetchCheckinStats();
+			loadUserProfile();
 			setInfo((pre) => ({
 				...pre,
 				...user,
@@ -284,18 +255,13 @@ const MeIndex = () => {
 				...pre,
 				...user,
 			}));
-			if (!fetchInfo()) {
-				// 用户数据还没就绪（自动登录未完成），延迟重试
-				setTimeout(() => fetchInfo(), 1000);
-			}
-			fetchStats(user);
-			fetchCheckinStats();
+			loadUserProfile();
 		}
 	});
 
 	usePullDownRefresh(() => {
 		console.log('page-pullRefresh');
-		fetchInfo();
+		loadUserProfile();
 		Taro.stopPullDownRefresh();
 	});
 
