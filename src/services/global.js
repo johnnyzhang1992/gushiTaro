@@ -102,12 +102,12 @@ export const fetchHomeInit = (method = 'GET', data) => {
 
 // 用户仪表盘（签到统计 + 学习计划列表）
 export const fetchUserDashboard = (method = 'GET', data) => {
-	return Request(`/api/user/dashboard`, data, method);
+	return Request(`/api/home/dashboard`, data, method);
 };
 
 // 用户个人资料（用户信息 + 学习统计 + 签到统计）
 export const fetchUserProfile = (method = 'GET', data) => {
-	return Request(`/api/user/profile`, data, method);
+	return Request(`/api/home/profile`, data, method);
 };
 
 // ======== 日历/农历 ========
