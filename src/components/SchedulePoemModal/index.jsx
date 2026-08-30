@@ -30,7 +30,7 @@ const PoemItem = (props) => {
 			schedule_name,
 		})
 			.then((res) => {
-				if (res && res.statusCode === 200) {
+				if (res && res && res.status) {
 					Taro.showToast({
 						title: '加入成功！记得打卡哦',
 						icon: 'none',
@@ -133,7 +133,7 @@ const SchedulePoemModal = ({
 			.finally(() => {
 				isFetching.current = false;
 			});
-		if (res.statusCode == 200) {
+		if (res && res.status) {
 			const { list = [], current_page, last_page, total } = res.data || {};
 			list.forEach((poem) => {
 				poem.content = String(poem.content).split(/[。？！]/)[0] + '。';

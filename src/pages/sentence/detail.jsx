@@ -24,6 +24,26 @@ import copyPng from '../../images/svg/copy.svg';
 
 import './style.scss';
 
+// 解析 origin 字段，拆分作者和标题
+const parseOrigin = (origin) => {
+	if (!origin) return { author: '', title: '' };
+	
+	// 匹配 "作者《标题》" 格式
+	const match1 = origin.match(/^(.+?)《(.+?)》$/);
+	if (match1) {
+		return { author: match1[1], title: match1[2] };
+	}
+	
+	// 匹配 "作者·标题" 格式
+	const match2 = origin.match(/^(.+?)·(.+)$/);
+	if (match2) {
+		return { author: match2[1], title: match2[2] };
+	}
+	
+	// 无法解析，返回原文
+	return { author: '', title: origin };
+};
+
 // 拆分词句
 const splitSentence = (sentence) => {
 	// 替代特殊符号 。。
@@ -75,15 +95,17 @@ const SentenceDetail = () => {
 				const sentenceData = apiData.sentence || apiData;
 				const authorData = apiData.author || {};
 				const poemData = apiData.poem || {};
+				// 解析 origin 字段
+				const originInfo = parseOrigin(sentenceData.origin || '');
 				setDetail({
 					author: authorData,
 					poem: poemData,
 					sentence: {
 						...sentenceData,
-						author: poemData.author || sentenceData.author,
+						author: originInfo.author || poemData.author || sentenceData.author,
 						poem_id: poemData.id || sentenceData.target_id,
 						dynasty: poemData.dynasty || '',
-						poem_title: (poemData.title || '').split('/')[0],
+						poem_title: originInfo.title || (poemData.title || '').split('/')[0],
 						titleArr: splitSentence(sentenceData.title || ''),
 					},
 				});

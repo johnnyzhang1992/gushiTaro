@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import Taro from '@tarojs/taro';
 
 import SentenceCard from '../../components/SentenceCard';
+import Skeleton from '../Skeleton';
 
 import './style.scss';
 
@@ -19,6 +20,7 @@ const SentenceContainer = (props) => {
 	const refreshFlag = useRef(false);
 	const paramsRef = useRef(props.params || {});
 	const [sentenceList, setList] = useState([]);
+	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState('');
 	const [scrollHeight, updateHeight] = useState('auto');
 
@@ -50,6 +52,7 @@ const SentenceContainer = (props) => {
 		}
 		if (keyWord) params['keyWord'] = keyWord;
 		if (theme && theme !== '全部') params['theme'] = theme;
+		if (type && type !== 'tag' && type !== '全部') params['type'] = type;
 		if (source_type) params['source_type'] = source_type;
 		return params;
 	};
@@ -63,8 +66,10 @@ const SentenceContainer = (props) => {
 			return false;
 		}
 		refreshFlag.current = true;
+		setLoading(page === 1);
+		setError('');
 		const params = computeParams(paramsRef.current);
-		fetchSentenceData('GET', { ...params, ...pagination.current })
+		fetchSentenceData('GET', { ...params, page, size: pagination.current.size })
 			.then((res) => {
 				const apiData = res.data?.data || res.data;
 				if ((res.status || res.statusCode == 200) && apiData) {
@@ -85,16 +90,20 @@ const SentenceContainer = (props) => {
 			.catch((err) => {
 				setError(err);
 				refreshFlag.current = false;
+			})
+			.finally(() => {
+				setLoading(false);
 			});
 	};
 
 	useEffect(() => {
+		const p = props.params || {};
 		paramsRef.current = {
-			...(props.params || {}),
-			keyWord: props.keyWord || '',
-			theme: props.theme || '',
-			source_type: props.source_type || '',
-			type: props.type && props.type !== '全部' ? props.type : '',
+			...p,
+			keyWord: p.keyWord || props.keyWord || '',
+			theme: p.theme || props.theme || '',
+			source_type: p.source_type || props.source_type || '',
+			type: p.type || (props.type && props.type !== '全部' ? props.type : ''),
 		};
 		pagination.current = {
 			...pagination.current,
@@ -103,7 +112,7 @@ const SentenceContainer = (props) => {
 		};
 		refreshFlag.current = false;
 		fetchList();
-		console.log(props.params, 'params');
+		console.log('SentenceContainer params:', paramsRef.current);
 	}, [props.params, props.keyWord, props.theme, props.type, props.source_type]);
 
 	useEffect(() => {
@@ -134,11 +143,11 @@ const SentenceContainer = (props) => {
 				showScrollbar={false}
 				enableBackToTop
 				onScrollToLower={reachBottom}
-				style={{
-					height: scrollHeight == 'auto' ? scrollHeight : scrollHeight + 'px',
-				}}
 			>
-				{sentenceList.map((sentence) => (
+				{loading && sentenceList.length === 0 ? (
+				<Skeleton rows={6} />
+			) : null}
+			{sentenceList.map((sentence) => (
 					<SentenceCard {...sentence} showCount key={sentence.id} />
 				))}
 			</ScrollView>

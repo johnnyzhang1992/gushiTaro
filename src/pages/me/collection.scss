@@ -1,26 +1,199 @@
-.playlists-page {
-  padding: 20px;
+.collectionsPage {
+	min-height: 100vh;
+	background: #f5f7fa;
+}
 
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 8px;
+.tabs {
+	display: flex;
+	background: #fff;
+	border-bottom: 1rpx solid #f0f2f5;
 
-    .list-count {
-      font-size: 28px;
-      color: #8a919f;
-    }
+	.tabItem {
+		flex: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8rpx;
+		padding: 24rpx 0 20rpx;
+		position: relative;
 
-    .create-btn {
-      font-size: 26px;
-    }
-  }
+		.tabText {
+			font-size: 28rpx;
+			color: #666;
+		}
 
-  .empty {
-    text-align: center;
-    padding: 80px 0;
-    color: #c0c4cc;
-    font-size: 28px;
-  }
+		.badge {
+			font-size: 20rpx;
+			color: #fff;
+			background: #999;
+			padding: 2rpx 12rpx;
+			border-radius: 16rpx;
+			line-height: 1.4;
+		}
+
+		.tabLine {
+			position: absolute;
+			bottom: 0;
+			width: 60rpx;
+			height: 4rpx;
+			background: #337ab7;
+			border-radius: 2rpx;
+		}
+
+		&.active {
+			.tabText {
+				color: #337ab7;
+				font-weight: 600;
+			}
+
+			.badge {
+				background: #337ab7;
+			}
+		}
+	}
+}
+
+.loading,
+.empty {
+	padding: 120rpx 0;
+	text-align: center;
+	font-size: 26rpx;
+	color: #aaa;
+}
+
+.listScroll {
+	height: calc(100vh - 100rpx);
+}
+
+.listContainer {
+	padding: 20rpx 24rpx;
+}
+
+/* 浮动新建按钮 */
+.fabBtn {
+	position: fixed;
+	right: 40rpx;
+	bottom: calc(120rpx + env(safe-area-inset-bottom));
+	width: 96rpx;
+	height: 96rpx;
+	background: linear-gradient(135deg, #337ab7, #2d6da3);
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 8rpx 24rpx rgba(51, 122, 183, 0.4);
+	z-index: 50;
+	transition: transform 0.2s;
+
+	&:active {
+		transform: scale(0.9);
+	}
+}
+
+.fabIcon {
+	font-size: 48rpx;
+	color: #fff;
+	line-height: 1;
+	font-weight: 300;
+}
+
+/* 创建诗单弹窗 */
+.modalMask {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.5);
+	z-index: 999;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	.modalContent {
+		background: #fff;
+		border-radius: 24rpx;
+		width: 80%;
+		overflow: hidden;
+
+		.modalHeader {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 30rpx;
+			border-bottom: 1rpx solid #f5f5f5;
+
+			.modalTitle {
+				font-size: 32rpx;
+				font-weight: 600;
+				color: #333;
+			}
+
+			.modalClose {
+				font-size: 40rpx;
+				color: #999;
+				padding: 0 10rpx;
+			}
+		}
+
+		.modalBody {
+			padding: 30rpx;
+
+			.inputGroup {
+				margin-bottom: 24rpx;
+
+				&:last-child {
+					margin-bottom: 0;
+				}
+
+				.inputLabel {
+					font-size: 26rpx;
+					color: #666;
+					margin-bottom: 12rpx;
+					display: block;
+				}
+
+				.inputField {
+					width: 100%;
+					height: 80rpx;
+					border: 1rpx solid #e0e0e0;
+					border-radius: 12rpx;
+					padding: 0 20rpx;
+					font-size: 28rpx;
+					box-sizing: border-box;
+
+					&:focus {
+						border-color: #337ab7;
+					}
+				}
+			}
+		}
+
+		.modalFooter {
+			display: flex;
+			justify-content: flex-end;
+			gap: 20rpx;
+			padding: 20rpx 30rpx 30rpx;
+
+			.modalBtn {
+				padding: 16rpx 40rpx;
+				border-radius: 8rpx;
+				font-size: 28rpx;
+
+				&.cancel {
+					background: #f5f5f5;
+					color: #666;
+				}
+
+				&.confirm {
+					background: #337ab7;
+					color: #fff;
+
+					&.disabled {
+						background: #ccc;
+					}
+				}
+			}
+		}
+	}
 }

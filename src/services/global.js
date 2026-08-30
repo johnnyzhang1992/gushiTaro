@@ -24,49 +24,49 @@ export const updateUserLike = (method, data) => {
 	return Request(`/api/likes/toggle`, data, method);
 };
 
-// ======== 收藏集/诗单 ========
+// ======== 诗单/诗单 ========
 
-// 获取收藏集列表
+// 获取诗单列表
 export const fetchCollections = (method, data) => {
 	return Request(`/api/collections`, data, method);
 };
 
-// 创建收藏集
+// 创建诗单
 export const createCollection = (method = 'POST', data) => {
 	return Request(`/api/collections/create`, data, method);
 };
 
-// 更新收藏集
+// 更新诗单
 export const updateCollection = (method = 'POST', data) => {
 	return Request(`/api/collections/update`, data, method);
 };
 
-// 获取收藏集详情（含诗词列表）
+// 获取诗单详情（含诗词列表）
 export const fetchCollectionDetail = (method = 'GET', data) => {
 	return Request(`/api/collections/${data.id}`, data, method);
 };
 
-// 删除收藏集
+// 删除诗单
 export const deleteCollection = (method = 'DELETE', data) => {
 	return Request(`/api/collections/${data.id}`, data, method);
 };
 
-// 向收藏集添加诗词
+// 向诗单添加诗词
 export const addPoemsToCollection = (method = 'POST', data) => {
 	return Request(`/api/collections/${data.id}/poems`, { poem_ids: data.poem_ids }, method);
 };
 
-// 从收藏集移除诗词
+// 从诗单移除诗词
 export const removePoemFromCollection = (method = 'DELETE', data) => {
 	return Request(`/api/collections/${data.id}/poems/${data.poem_id}`, data, method);
 };
 
-// 复制收藏集
+// 复制诗单
 export const copyCollection = (method = 'POST', data) => {
 	return Request(`/api/collections/${data.id}/copy`, data, method);
 };
 
-// ======== 收藏集分组 ========
+// ======== 诗单分组 ========
 
 // 获取分组列表
 export const fetchCollectionGroups = (method = 'GET', data) => {
@@ -192,17 +192,17 @@ export const fetchScheduleStats = (method = 'GET', data) => {
 
 // 向计划中添加诗词
 export const addPoemToSchedule = (method = 'POST', data) => {
-	return Request(`/api/study-plans/${data.schedule_id || data.id}/poems`, data, method);
+	return Request(`/api/study-plans/${data.schedule_id || data.id}/items`, data, method);
 };
 
 // 变更计划中诗词状态
 export const addPoemToScheduleAgain = (method = 'POST', data) => {
-	return Request(`/api/study-plans/${data.schedule_id || data.id}/poems/relearn`, data, method);
+	return Request(`/api/study-plans/${data.schedule_id || data.id}/items/relearn`, data, method);
 };
 
 // 从计划中移除诗词
 export const removePoemToSchedule = (method = 'POST', data) => {
-	return Request(`/api/study-plans/${data.schedule_id || data.id}/poems/${data.poem_id || data.poemId}`, data, method);
+	return Request(`/api/study-plans/${data.schedule_id || data.id}/items/${data.poem_id || data.poemId}`, data, method);
 };
 
 // 诗词打卡

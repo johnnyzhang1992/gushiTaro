@@ -52,8 +52,8 @@
 
 	/* ===== 1. 农历卡片 ===== */
 	.calendarCard {
-		background: linear-gradient(135deg, #e8f0fa 0%, #f4f8fd 100%);
-		border: 1rpx solid #d8e6f5;
+		background: #fff;
+		border: 1rpx solid #f0f0f0;
 
 		.card-body {
 			display: flex;
@@ -113,55 +113,71 @@
 
 	/* ===== 2. 每日诗词 ===== */
 	.dailyPoemCard {
-		.card-body.poem-row {
+		background: #fff;
+		border: 1rpx solid #f0f0f0;
+		overflow: hidden;
+
+		.dailyPoem-header {
 			display: flex;
 			align-items: center;
-			gap: 20rpx;
-		}
+			justify-content: space-between;
+			padding: 24rpx 30rpx 16rpx;
+			border-bottom: 1rpx solid #f5f5f5;
 
-		.poem-quote {
-			font-size: 56rpx;
-			color: #337ab7;
-			line-height: 1;
-		}
-
-		.poem-info {
-			flex: 1;
-			max-width: 100%;
-			display: flex;
-			flex-direction: column;
-			min-width: 0;
-
-			.poem-title {
-				font-size: 28rpx;
+			.dailyPoem-tag {
+				font-size: 24rpx;
 				font-weight: 600;
-				color: #333;
-				margin-bottom: 6rpx;
-				display: block;
-				width: 100%;
-				overflow: hidden;
-				white-space: nowrap;
-				text-overflow: ellipsis;
+				color: #fff;
+				background: linear-gradient(135deg, #337ab7 0%, #5a9fd4 100%);
+				padding: 6rpx 16rpx;
+				border-radius: 20rpx;
 			}
 
-			.poem-preview {
-				font-size: 26rpx;
-				color: #888;
-				margin-bottom: 6rpx;
-				overflow: hidden;
-				white-space: nowrap;
-				text-overflow: ellipsis;
-			}
-
-			.poem-author {
-				font-size: 22rpx;
-				color: #aaa;
+			.dailyPoem-arrow {
+				font-size: 36rpx;
+				color: #337ab7;
+				line-height: 1;
 			}
 		}
 
-		.poem-arrow {
-			font-size: 40rpx;
-			color: #ccc;
+		.dailyPoem-body {
+			padding: 24rpx 30rpx 30rpx;
+			position: relative;
+
+			.dailyPoem-title {
+				font-size: 32rpx;
+				font-weight: 700;
+				color: #2c3e50;
+				margin-bottom: 14rpx;
+				line-height: 1.4;
+			}
+
+			.dailyPoem-preview {
+				font-size: 28rpx;
+				color: #6b7a8d;
+				line-height: 1.6;
+				margin-bottom: 20rpx;
+			}
+
+			.dailyPoem-meta {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+
+				.dailyPoem-author {
+					font-size: 22rpx;
+					color: #337ab7;
+					background: rgba(51, 122, 183, 0.08);
+					padding: 6rpx 14rpx;
+					border-radius: 16rpx;
+				}
+
+				.dailyPoem-quote {
+					font-size: 64rpx;
+					color: rgba(51, 122, 183, 0.12);
+					line-height: 1;
+				}
+			}
 		}
 	}
 
@@ -282,6 +298,55 @@
 		}
 	}
 
+	/* ===== 4.5 飞花令入口 ===== */
+	.feihuaCard {
+		background: #fff;
+		border: 1rpx solid #f0f0f0;
+
+		.feihuaBody {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			padding: 30rpx;
+			position: relative;
+
+			.feihuaTag {
+				font-size: 30rpx;
+				color: #fff;
+				background: linear-gradient(135deg, #337ab7 0%, #5a9fd4 100%);
+				padding: 10rpx 24rpx;
+				border-radius: 24rpx;
+				margin-right: 24rpx;
+				font-weight: 600;
+				box-shadow: 0 4rpx 12rpx rgba(51, 122, 183, 0.25);
+			}
+
+			.feihuaText {
+				display: flex;
+				flex-direction: column;
+				flex: 1;
+
+				.feihuaTitle {
+					font-size: 28rpx;
+					font-weight: 600;
+					color: #2c3e50;
+					margin-bottom: 8rpx;
+				}
+
+				.feihuaDesc {
+					font-size: 22rpx;
+					color: #6b7a8d;
+				}
+			}
+
+			.feihuaArrow {
+				font-size: 40rpx;
+				color: #337ab7;
+				margin-left: 20rpx;
+			}
+		}
+	}
+
 	/* ===== 5. 为你推荐 ===== */
 	.recommendCard {
 		.recommend-header {
@@ -306,7 +371,7 @@
 		}
 
 		.recommend-list {
-			padding: 10rpx 30rpx 20rpx;
+			padding: 10rpx 10rpx 20rpx;
 
 			.poemSmallCard {
 				border: none;

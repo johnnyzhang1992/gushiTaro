@@ -90,7 +90,6 @@
   margin-bottom: 16rpx;
   display: flex;
   align-items: center;
-  box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.05);
 }
 
 .poem-status {
@@ -201,8 +200,8 @@
   color: #666;
 }
 
-/* 弹窗 */
-.modal-mask {
+/* 底部弹窗 */
+.bottom-sheet-mask {
   position: fixed;
   top: 0;
   left: 0;
@@ -211,68 +210,115 @@
   background: rgba(0, 0, 0, 0.5);
   z-index: 999;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
 }
 
-.modal-content {
+.bottom-sheet {
   background: #fff;
-  border-radius: 16rpx;
-  width: 85%;
-  max-height: 80vh;
+  border-radius: 24rpx 24rpx 0 0;
+  width: 100%;
+  height: 75vh;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.bottom-sheet-header {
+  padding: 20rpx 30rpx 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bottom-sheet-drag-bar {
+  width: 60rpx;
+  height: 8rpx;
+  background: #e0e0e0;
+  border-radius: 4rpx;
+  margin-bottom: 20rpx;
+}
+
+.bottom-sheet-title-row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.bottom-sheet-title {
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.bottom-sheet-close {
+  font-size: 44rpx;
+  color: #999;
+  padding: 10rpx;
+}
+
+.bottom-sheet-body {
+  flex: 1;
+  padding: 20rpx 30rpx;
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
   overflow: hidden;
   display: flex;
   flex-direction: column;
 }
 
-.modal-header {
-  padding: 30rpx;
-  border-bottom: 1rpx solid #f0f0f0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.modal-title {
-  font-size: 32rpx;
-  font-weight: bold;
-}
-
-.modal-close {
-  font-size: 40rpx;
-  color: #999;
-  padding: 10rpx;
-}
-
-.modal-body {
-  padding: 20rpx;
-  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
-  flex: 1;
-  overflow-y: auto;
-}
-
 /* 添加诗词搜索 */
 .search-box {
-  background: #f5f5f5;
-  border-radius: 12rpx;
-  padding: 16rpx;
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
   margin-bottom: 20rpx;
 }
 
 .search-input-wrap {
+  flex: 1;
   position: relative;
   display: flex;
   align-items: center;
+  background: #f5f5f5;
+  border-radius: 12rpx;
+  padding: 0 16rpx;
 }
 
 .search-input {
-  width: 100%;
+  flex: 1;
   height: 72rpx;
-  background: #f5f5f5;
+  background: transparent;
   border-radius: 8rpx;
   padding: 0 60rpx 0 20rpx;
   font-size: 28rpx;
   box-sizing: border-box;
+}
+
+.search-btn {
+  flex-shrink: 0;
+  height: 72rpx;
+  padding: 0 32rpx;
+  background: #337ab7;
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-btn-text {
+  color: #fff;
+  font-size: 28rpx;
 }
 
 .search-clear {
@@ -294,8 +340,19 @@
 }
 
 .search-results {
-  max-height: 60vh;
+  flex: 1;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.load-more {
+  padding: 24rpx 0;
+  text-align: center;
+}
+
+.load-more-text {
+  font-size: 24rpx;
+  color: #999;
 }
 
 .search-item {

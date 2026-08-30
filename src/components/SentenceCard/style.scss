@@ -1,5 +1,5 @@
 .sentenceCard {
-	padding: 16px 0;
+	padding: 16px 20px;
 	position: relative;
 	border-bottom: 2px solid #f5f5f5;
 	&.hideBorder {
@@ -17,6 +17,19 @@
 		text-overflow: ellipsis;
 		white-space: nowrap;
 		overflow: hidden;
+
+		.originAuthor {
+			color: #337ab7;
+		}
+
+		.originDot {
+			margin: 0 8px;
+			color: #999;
+		}
+
+		.originTitle {
+			color: #65645F;
+		}
 		display: block;
 		margin-top: 8px;
 	}

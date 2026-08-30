@@ -1,5 +1,4 @@
 export default {
-	navigationBarTitleText: '我的收藏集',
-	enableShareAppMessage: false,
-	enableShareTimeline: false,
+	navigationBarTitleText: '我的诗单',
+	enablePullDownRefresh: true,
 };

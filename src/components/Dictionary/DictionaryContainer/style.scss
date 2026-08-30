@@ -1,3 +1,33 @@
 .dictionaryContainer {
-	padding-bottom: 40px;
+	padding: 0 20rpx 40rpx;
+
+	.SectionCard {
+		background-color: #fff;
+		border-radius: 16rpx;
+		margin-bottom: 24rpx;
+		overflow: hidden;
+		box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+
+		.title {
+			padding: 24rpx 28rpx 16rpx;
+			font-size: 30rpx;
+			font-weight: 600;
+			color: #333;
+			border-bottom: 2rpx solid #f5f7fa;
+		}
+
+		.content {
+			padding: 20rpx 24rpx 8rpx;
+			display: flex;
+			flex-wrap: wrap;
+		}
+	}
+
+	.more {
+		font-size: 24rpx;
+		color: #337ab7;
+		padding: 8rpx 16rpx;
+		background: rgba(51, 122, 183, 0.08);
+		border-radius: 20rpx;
+	}
 }

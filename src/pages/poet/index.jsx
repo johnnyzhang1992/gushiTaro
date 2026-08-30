@@ -7,10 +7,11 @@ import Taro, {
 	useShareTimeline,
 } from '@tarojs/taro';
 import { useNavigationBar } from 'taro-hooks';
-import { View, Text } from '@tarojs/components';
+import { View, Text, ScrollView, Input } from '@tarojs/components';
 
 import FilterCard from '../../components/FilterCard';
 import PoetCard from '../../components/PoetCard';
+import PageHeader from '../../components/PageHeader';
 
 import useFetchList from '../../hooks/useFetchList';
 
@@ -44,7 +45,7 @@ const PoetPage = () => {
 	});
 
 	// 使用自定义hook 获取诗词分页数据
-	const { data, error, loading } = useFetchList(
+	const { data, error, loading, loaded } = useFetchList(
 		fetchPoetData,
 		fetchParams,
 		pagination
@@ -56,6 +57,7 @@ const PoetPage = () => {
 			return {
 				...pre,
 				...filterParams,
+				inited: true,
 			};
 		});
 		updatePagination({
@@ -124,7 +126,38 @@ const PoetPage = () => {
 		};
 	});
 	return (
-		<View className='page poetIndex'>
+		<View className='poetPage'>
+			<PageHeader showBack showSearch={false} title='诗人' />
+			<View className='searchBar'>
+				<View className='searchInputWrap'>
+					<Input
+						className='searchInput'
+						placeholder='搜索诗人名字'
+						placeholderClass='searchPlaceholder'
+						value={fetchParams.keyWord || ''}
+						onInput={(e) => {
+							const val = e.detail.value;
+							updateParams((pre) => ({ ...pre, keyWord: val, inited: true }));
+						}}
+						onConfirm={() => {
+							updatePagination({ page: 1 });
+						}}
+					/>
+					{fetchParams.keyWord ? (
+						<View className='searchClear' onClick={() => updateParam({ keyWord: '' })}>
+							<Text className='searchClearIcon'>×</Text>
+						</View>
+					) : null}
+				</View>
+				<View className='searchBtn' onClick={() => {
+						updateParams((pre) => ({ ...pre, inited: true }));
+						updatePagination({ page: 1 });
+					}}>
+					<Text className='searchBtnText'>搜索</Text>
+				</View>
+			</View>
+			<ScrollView className='poetScrollView' scrollY scrollWithAnimation>
+			<View className='page poetIndex'>
 			{/* 筛选 */}
 			<View className='filterContainer'>
 				<FilterCard
@@ -150,15 +183,19 @@ const PoetPage = () => {
 			</View> */}
 			{/* 列表 */}
 			<View className='pageContainer safeBottom'>
-				{data.list.map((item) => {
-					return (
+				{data.list.length > 0 ? (
+					data.list.map((item) => (
 						<PoetCard
 							{...item}
 							key={item.id}
 							lightWord={fetchParams.keyWord}
 						/>
-					);
-				})}
+					))
+				) : !loading && loaded ? (
+					<View className='emptyState'>
+						<Text className='emptyText'>暂无数据</Text>
+					</View>
+				) : null}
 			</View>
 			{loading ? (
 				<View className='loading'>
@@ -171,6 +208,8 @@ const PoetPage = () => {
 					<Text>{error}</Text>
 				</View>
 			) : null}
+			</View>
+			</ScrollView>
 		</View>
 	);
 };

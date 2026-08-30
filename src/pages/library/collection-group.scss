@@ -1,0 +1,121 @@
+.collectionGroupPage {
+	min-height: 100vh;
+	background: #f5f7fa;
+}
+
+.cgContainer {
+	padding: 20rpx 24rpx 40rpx;
+	box-sizing: border-box;
+}
+
+/* 分组头部大卡 */
+.groupHero {
+	background: linear-gradient(135deg, #e8f0fa, #f4f8fd);
+	border: 1rpx solid #d8e6f5;
+	border-radius: 24rpx;
+	padding: 36rpx 32rpx;
+	margin-bottom: 28rpx;
+
+	.heroName {
+		font-size: 40rpx;
+		font-weight: 700;
+		color: #2c3e50;
+		display: block;
+		margin-bottom: 12rpx;
+		font-family: serif;
+	}
+
+	.heroDesc {
+		font-size: 24rpx;
+		color: #6b7a8d;
+		line-height: 1.6;
+		display: block;
+		margin-bottom: 16rpx;
+	}
+
+	.heroStats {
+		display: flex;
+		gap: 32rpx;
+
+		text {
+			font-size: 24rpx;
+			color: #337ab7;
+		}
+	}
+}
+
+/* 诗单网格（4 列） */
+.collectionGrid {
+	display: flex;
+	flex-wrap: wrap;
+
+	.bookCard {
+		width: 25%; /* 参考 web 端 grid-cols-4 */
+		box-sizing: border-box;
+		padding-right: 20rpx;
+		margin-bottom: 24rpx;
+	}
+}
+
+/* 诗单封面卡：复用 CollectionContainer 样式 */
+.bookCover {
+	width: 100%;
+	height: 200rpx;
+	box-sizing: border-box;
+	background: #fff;
+	border: 1rpx solid #e5e7eb;
+	border-radius: 12rpx;
+	box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+
+	.coverBody {
+		flex: 1;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		gap: 16rpx;
+		padding: 20rpx 16rpx 12rpx;
+		min-height: 0;
+
+		.coverName {
+			writing-mode: vertical-lr;
+			text-orientation: mixed;
+			font-size: 26rpx;
+			font-weight: 600;
+			color: #333;
+			font-family: serif;
+			line-height: 34rpx;
+			align-self: flex-start;
+			max-height: 100%;
+			overflow: hidden;
+			white-space: nowrap;
+		}
+
+		.coverCount {
+			writing-mode: vertical-lr;
+			text-orientation: mixed;
+			font-size: 20rpx;
+			color: #999;
+			line-height: 28rpx;
+			align-self: flex-end;
+			max-height: 100%;
+			overflow: hidden;
+			white-space: nowrap;
+		}
+	}
+
+	.coverBar {
+		height: 8rpx;
+		background: #e5e7eb;
+		flex-shrink: 0;
+	}
+}
+
+.emptyTip {
+	padding: 120rpx 0;
+	text-align: center;
+	font-size: 26rpx;
+	color: #aaa;
+}

@@ -7,11 +7,11 @@ import Taro, {
 	useShareTimeline,
 } from '@tarojs/taro';
 import { useNavigationBar } from 'taro-hooks';
-import { View, Text } from '@tarojs/components';
+import { View, Text, ScrollView, Input } from '@tarojs/components';
 
-import Layout from '../../layout';
-import FilterCard from '../../components/FilterCard';
+import PageHeader from '../../components/PageHeader';
 import PoemSmallCard from '../../components/PoemSmallCard';
+import Skeleton from '../../components/Skeleton';
 
 import './style.scss';
 
@@ -48,6 +48,7 @@ const Poem = () => {
 	});
 	const cacheOptions = useRef({});
 	const [dynastyOptions, setDynastyOptions] = useState(DynastyArr);
+	const [filterCollapsed, setFilterCollapsed] = useState(false);
 
 	// 从后端拉取朝代列表并缓存
 	useEffect(() => {
@@ -56,8 +57,8 @@ const Poem = () => {
 		});
 	}, []);
 
-	// 使用自定义hook 获取诗词分页数据
-	const { data, error, loading } = useFetchList(
+	// 使用自定义hook 获取诗词分页数据（_type 搜索范围由后端 /api/poems 处理）
+	const { data, error, loading, loaded } = useFetchList(
 		fetchParams.name ? fetchHomeData : fetchPoemData,
 		fetchParams,
 		pagination
@@ -69,6 +70,7 @@ const Poem = () => {
 			return {
 				...pre,
 				...filterParams,
+				inited: true,
 			};
 		});
 		updatePagination({
@@ -101,10 +103,10 @@ const Poem = () => {
 	}, [data]);
 
 	useLoad((options) => {
-		const { type, name, from, code, keyWord, dynasty } = options;
+		const { type, name, from, code, keyWord, dynasty, author } = options;
 		cacheOptions.current = { ...options };
 		console.log(type, name, from, options);
-		setTitle(name || keyWord || '诗词文言');
+		setTitle(name || keyWord || author || '诗词文言');
 		setOptions({
 			...options,
 			title: name,
@@ -115,11 +117,14 @@ const Poem = () => {
 			from: from || 'home',
 			inited: true,
 		};
+		// 支持直接传 author 参数（从作者详情页跳转）
+		if (author) {
+			params['keyWord'] = author;
+			params['_type'] = 'author';
+		}
 		if (type) {
-			// tag 对应 标签筛选
-			// author 对应作者筛选，仅加载该作者的诗词
-			// poem 标题和内容匹配
-			if (['tag', 'author', 'poem'].includes(type)) {
+			// tag/author/title/content 对应搜索范围，poem = 标题+内容全文
+			if (['tag', 'author', 'poem', 'title', 'content'].includes(type)) {
 				params['_type'] = type;
 			} else {
 				params['type'] = type;
@@ -193,10 +198,102 @@ const Poem = () => {
 		};
 	});
 	return (
-		<Layout>
+		<View className='poemPage'>
+			<PageHeader
+				showBack
+				showSearch={false}
+				title={pageOptions.title || fetchParams.author || '诗词'}
+			/>
+			<View className='searchBar'>
+				<View className='searchInputWrap'>
+					<Input
+						className='searchInput'
+						placeholder='搜索诗词标题/作者/内容'
+						placeholderClass='searchPlaceholder'
+						value={fetchParams.keyWord || ''}
+						onInput={(e) => {
+							const val = e.detail.value;
+							updateParams((pre) => ({ ...pre, keyWord: val, inited: true }));
+						}}
+						onConfirm={() => {
+							updatePagination({ page: 1 });
+						}}
+					/>
+					{fetchParams.keyWord ? (
+						<View className='searchClear' onClick={() => updateParam({ keyWord: '' })}>
+							<Text className='searchClearIcon'>×</Text>
+						</View>
+					) : null}
+				</View>
+				<View className='searchBtn' onClick={() => {
+						updateParams((pre) => ({ ...pre, inited: true }));
+						updatePagination({ page: 1 });
+					}}>
+					<Text className='searchBtnText'>搜索</Text>
+				</View>
+			</View>
+			{/* 筛选区域 */}
+			<View className={`filterArea ${filterCollapsed ? 'collapsed' : ''}`}>
+				{/* 搜索范围 */}
+				<View className='searchScope'>
+					<Text
+						className={`scopeItem ${!fetchParams._type ? 'active' : ''}`}
+						onClick={() => updateSearchType('')}
+					>
+						范围：全部
+					</Text>
+					{['标题', '作者', '标签', '内容'].map((item, idx) => {
+						const types = ['title', 'author', 'tag', 'content'];
+						return (
+							<Text
+								key={item}
+								className={`scopeItem ${fetchParams._type === types[idx] ? 'active' : ''}`}
+								onClick={() => updateSearchType(types[idx])}
+							>
+								{item}
+							</Text>
+						);
+					})}
+				</View>
+				{/* 诗词类型 */}
+				<View className='typeFilter'>
+					{PoemTypes.map((t) => (
+						<View
+							key={t}
+							className={`typeFilterItem ${(fetchParams.type || '全部') === t ? 'active' : ''}`}
+							onClick={() => updateParam({ type: t === fetchParams.type ? '全部' : t })}
+						>
+							{t === '全部' ? '类型：全部' : t}
+						</View>
+					))}
+				</View>
+				{/* 朝代筛选 */}
+				<ScrollView className='dynastyFilter' scrollX showScrollbar={false}>
+					{dynastyOptions.map((d) => (
+						<View
+							key={d}
+							className={`dynastyFilterItem ${(fetchParams.dynasty || '全部') === d ? 'active' : ''}`}
+							onClick={() => updateParam({ dynasty: d === fetchParams.dynasty ? '全部' : d })}
+						>
+							{d === '全部' ? '朝代：全部' : d}
+						</View>
+					))}
+				</ScrollView>
+				{/* 收起/展开按钮 */}
+				<View className='toggleBtn' onClick={() => setFilterCollapsed(!filterCollapsed)}>
+					<Text className='toggleText'>{filterCollapsed ? '展开' : '收起'}</Text>
+					<Text className='toggleArrow'>{filterCollapsed ? '▼' : '▲'}</Text>
+				</View>
+			</View>
+			<ScrollView
+				className='poemScrollView'
+				scrollY
+				scrollWithAnimation
+				onScrollToLower={useReachBottom}
+			>
 			<View className='page poemIndex'>
 				{/* 页面顶部 -- 来自首页底部筛选 */}
-				{pageOptions.from === 'home' ? (
+				{pageOptions.from === 'home' && !fetchParams.author ? (
 					<View className='poemTitle'>
 						<View className='title'>
 							<Text>{pageOptions.title}</Text>
@@ -206,74 +303,9 @@ const Poem = () => {
 						</View>
 					</View>
 				) : null}
-				{/* 默认筛选项 */}
-				{!pageOptions.from ? (
-					<View className='filterContainer'>
-						<FilterCard
-							name='type'
-							title='形式'
-							initValue={pageOptions.type || '全部'}
-							filters={PoemTypes}
-							updateParams={updateParam}
-						/>
-						<FilterCard
-							name='dynasty'
-							title='朝代'
-							initValue={pageOptions.dynasty || '全部'}
-							filters={dynastyOptions}
-							updateParams={updateParam}
-						/>
-					</View>
-				) : (
-					<View className='filter_list '>
-						<Text className='filter_text'>筛选：</Text>
-						<View className='filter_content'>
-							<Text
-								className={`filter_item ${
-									fetchParams._type === 'title' ? 'active' : ''
-								}`}
-								onClick={() => {
-									updateSearchType('title');
-								}}
-							>
-								标题
-							</Text>
-							<Text
-								className={`filter_item ${
-									fetchParams._type === 'poem' ? 'active' : ''
-								}`}
-								onClick={() => {
-									updateSearchType('poem');
-								}}
-							>
-								诗词
-							</Text>
-							<Text
-								className={`filter_item ${
-									fetchParams._type === 'tag' ? 'active' : ''
-								}`}
-								onClick={() => {
-									updateSearchType('tag');
-								}}
-							>
-								标签
-							</Text>
-							<Text
-								className={`filter_item ${
-									fetchParams._type === 'author' ? 'active' : ''
-								}`}
-								onClick={() => {
-									updateSearchType('author');
-								}}
-							>
-								作者
-							</Text>
-						</View>
-					</View>
-				)}
 				{/* 诗词列表 */}
 				<View className='pageContainer safeBottom'>
-					{data.list.map((item) => {
+					{data.list.length > 0 ? data.list.map((item) => {
 						return (
 							<PoemSmallCard
 								{...item}
@@ -285,9 +317,14 @@ const Poem = () => {
 								}
 							/>
 						);
-					})}
+					}) : !loading && loaded ? (
+						<View className='emptyState'>
+							<Text className='emptyText'>暂无数据</Text>
+						</View>
+					) : null}
 				</View>
-				{loading ? (
+				{loading && data.list.length === 0 ? <Skeleton rows={6} /> : null}
+				{loading && data.list.length > 0 ? (
 					<View className='loading'>
 						<Text>内容加载中...</Text>
 					</View>
@@ -299,7 +336,8 @@ const Poem = () => {
 					</View>
 				) : null}
 			</View>
-		</Layout>
+			</ScrollView>
+		</View>
 	);
 };
 

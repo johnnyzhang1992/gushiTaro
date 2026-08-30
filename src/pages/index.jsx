@@ -280,46 +280,49 @@ const HomePage = () => {
 					url={`/pages/poem/detail?id=${dailyPoem.id || dailyPoem._id}`}
 					hoverClass='none'
 				>
-					<View className='card-body poem-row'>
-						<Text className='poem-quote'>❝</Text>
-						<View className='poem-info'>
-							<Text className='poem-title' numberOfLines={1}>
-								{dailyPoem.title}
-							</Text>
-							<Text className='poem-preview' numberOfLines={1}>
-								{poemPreview}
-							</Text>
-							<Text className='poem-author'>
+					<View className='dailyPoem-header'>
+						<Text className='dailyPoem-tag'>每日诗词</Text>
+						<Text className='dailyPoem-arrow'>›</Text>
+					</View>
+					<View className='dailyPoem-body'>
+						<Text className='dailyPoem-title' numberOfLines={1}>
+							{dailyPoem.title}
+						</Text>
+						<Text className='dailyPoem-preview' numberOfLines={2}>
+							{poemPreview}
+						</Text>
+						<View className='dailyPoem-meta'>
+							<Text className='dailyPoem-author'>
 								{dailyPoem.dynasty} · {dailyPoem.author}
 							</Text>
+							<Text className='dailyPoem-quote'>❝</Text>
 						</View>
-						<Text className='poem-arrow'>›</Text>
 					</View>
 				</Navigator>
 			) : null}
 
-			{/* ===== 3. 签到卡片 ===== */}
-			<View className='card checkinCard'>
-				<View className='checkin-body'>
-					{/* 左侧：点击跳转签到详情页 */}
-					<View
-						className='checkin-info'
-						onClick={() => Taro.navigateTo({ url: '/pages/me/checkin' })}
-					>
-						<Text className='checkin-title'>
-							{checkedIn ? '今日已签到' : '每日签到'}
-						</Text>
-						<Text className='checkin-desc'>
-							连续签到 {checkinStats?.checkinStreak || 0} 天
-							{checkinStats?.totalPoints ? ` · 积分 ${checkinStats.totalPoints}` : ''}
-						</Text>
-					</View>
-					{/* 右侧：直接签到 */}
-					<View className={`checkin-btn ${checkedIn ? 'done' : ''}`} onClick={handleCheckin}>
-						{checkedIn ? '✓ 已签到' : '去签到'}
+			{/* ===== 3. 签到卡片（今日未签到才显示）===== */}
+			{!checkedIn ? (
+				<View className='card checkinCard'>
+					<View className='checkin-body'>
+						{/* 左侧：点击跳转签到详情页 */}
+						<View
+							className='checkin-info'
+							onClick={() => Taro.navigateTo({ url: '/pages/me/checkin' })}
+						>
+							<Text className='checkin-title'>每日签到</Text>
+							<Text className='checkin-desc'>
+								连续签到 {checkinStats?.checkinStreak || 0} 天
+								{checkinStats?.totalPoints ? ` · 积分 ${checkinStats.totalPoints}` : ''}
+							</Text>
+						</View>
+						{/* 右侧：直接签到 */}
+						<View className='checkin-btn' onClick={handleCheckin}>
+							去签到
+						</View>
 					</View>
 				</View>
-			</View>
+			) : null}
 
 			{/* ===== 4. 学习计划进度 ===== */}
 			<View className='card planCard'>
@@ -357,6 +360,21 @@ const HomePage = () => {
 						</Text>
 					</View>
 				)}
+			</View>
+
+			{/* ===== 4.5 飞花令入口 ===== */}
+			<View
+				className='card feihuaCard'
+				onClick={() => Taro.navigateTo({ url: '/pages/find/feihua' })}
+			>
+				<View className='feihuaBody'>
+					<Text className='feihuaTag'>飞花令</Text>
+					<View className='feihuaText'>
+						<Text className='feihuaTitle'>春城无处不飞花</Text>
+						<Text className='feihuaDesc'>选择一个字，寻遍含它的千古名句</Text>
+					</View>
+					<Text className='feihuaArrow'>›</Text>
+				</View>
 			</View>
 
 			{/* ===== 5. 为你推荐 ===== */}

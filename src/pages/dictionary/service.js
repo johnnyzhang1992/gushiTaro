@@ -21,10 +21,13 @@ export const fetchDictionarySearch = (method, data) => {
  * @returns
  */
 export const fetchDictionaryDetail = (method, data) => {
-	const { type = '' } = data || {};
+	const { type = '', id } = data || {};
 	let path = `/api/xinhua`;
 	if (type && ['ci', 'word', 'chengyu'].includes(type)) {
 		path = `${path}/${type}`;
 	}
-	return Request(path, data, method);
+	if (id) {
+		path = `${path}/${id}`;
+	}
+	return Request(path, {}, method);
 };

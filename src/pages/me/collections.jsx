@@ -1,99 +1,224 @@
-import { View, Text } from '@tarojs/components';
+import { View, Text, ScrollView, Input } from '@tarojs/components';
 import { useState, useEffect } from 'react';
-import Taro, { usePullDownRefresh } from '@tarojs/taro';
-import { Button } from '@nutui/nutui-react-taro';
+import Taro, { useRouter, useLoad, usePullDownRefresh } from '@tarojs/taro';
 
 import PoemPlaylistCard from '../../components/PoemPlaylistCard';
-import { fetchCollections, createCollection } from '../../services/global';
-import CollectionModal from '../../components/CollectionModal';
+import Request from '../../apis/request';
+import { createCollection } from '../../services/global';
 
 import './collection.scss';
 
-const PlaylistsPage = () => {
-  const [playlists, setPlaylists] = useState([]);
+const CollectionsPage = () => {
+  const router = useRouter();
+  const [currentTab, setCurrentTab] = useState('created');
+  const [createdList, setCreatedList] = useState([]);
+  const [favoritedList, setFavoritedList] = useState([]);
   const [isLoading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [showCreate, setShowCreate] = useState(false);
 
-  const queryPlaylists = async () => {
+  // 创建诗单弹窗
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [collectionName, setCollectionName] = useState('');
+  const [collectionDesc, setCollectionDesc] = useState('');
+  const [creating, setCreating] = useState(false);
+
+  // 加载创建的诗单
+  const loadCreated = () => {
+    const user = Taro.getStorageSync('user') || {};
+    return Request('/api/collections', { mine: true, uid: user.uid }, 'GET')
+      .then((res) => {
+        if (res && res.status && res.data) {
+          const list = res.data.list || res.data.collections || [];
+          setCreatedList(list);
+        }
+      })
+      .catch(() => {});
+  };
+
+  // 加载收藏的诗单
+  const loadFavorited = () => {
+    const user = Taro.getStorageSync('user') || {};
+    return Request('/api/favorites', { target_type: 'collection', size: 50, uid: user.uid }, 'GET')
+      .then((res) => {
+        if (res && res.status && res.data) {
+          setFavoritedList(res.data.list || []);
+        }
+      })
+      .catch(() => {});
+  };
+
+  // 移除诗单
+  const handleRemove = (id) => {
+    const api = currentTab === 'created' 
+      ? Request(`/api/collections/${id}`, {}, 'DELETE')
+      : Request('/api/favorites/toggle', { target_id: id, target_type: 'collection' }, 'POST');
+    
+    api.then((res) => {
+      if (res && res.status) {
+        Taro.showToast({ title: '已移除', icon: 'success' });
+        loadData();
+      }
+    }).catch(() => {
+      Taro.showToast({ title: '移除失败', icon: 'none' });
+    });
+  };
+
+  // 创建诗单
+  const handleCreate = async () => {
+    if (!collectionName.trim()) {
+      Taro.showToast({ title: '请输入诗单名称', icon: 'none' });
+      return;
+    }
+    setCreating(true);
     try {
-      const res = await fetchCollections('GET', { mine: true });
-      if (!res.status && res.statusCode !== 200) throw new Error('Network response was not ok');
-      const apiData = res.data?.data || res.data;
-      setPlaylists(apiData.list || apiData.collections || []);
+      const res = await createCollection('POST', {
+        collection_name: collectionName.trim(),
+        collection_description: collectionDesc.trim(),
+      });
+      if (res && res.status) {
+        Taro.showToast({ title: '创建成功', icon: 'success' });
+        setShowCreateModal(false);
+        setCollectionName('');
+        setCollectionDesc('');
+        loadData();
+      } else {
+        Taro.showToast({ title: res?.msg || '创建失败', icon: 'none' });
+      }
     } catch (err) {
-      setError(err);
+      Taro.showToast({ title: '创建失败', icon: 'none' });
     } finally {
-      setLoading(false);
-      Taro.stopPullDownRefresh();
+      setCreating(false);
     }
   };
 
-  const handleCreate = () => {
-    setShowCreate(true);
+  const handleCloseModal = () => {
+    setShowCreateModal(false);
+    setCollectionName('');
+    setCollectionDesc('');
   };
 
-  usePullDownRefresh(() => {
-    queryPlaylists();
+  // 加载数据
+  const loadData = () => {
+    setLoading(true);
+    Promise.all([loadCreated(), loadFavorited()])
+      .finally(() => {
+        setLoading(false);
+        Taro.stopPullDownRefresh();
+      });
+  };
+
+  useLoad((options) => {
+    if (options.type === 'favorited') {
+      setCurrentTab('favorited');
+    }
   });
 
   useEffect(() => {
-    queryPlaylists();
+    loadData();
   }, []);
 
-  if (isLoading) {
-    return (
-      <View className='page playlists-page'>
-        <View className='loading'>加载中...</View>
-      </View>
-    );
-  }
+  usePullDownRefresh(() => {
+    loadData();
+  });
 
-  if (error) {
-    return (
-      <View className='page playlists-page'>
-        <View className='pageError'>Error: {error.message}</View>
-      </View>
-    );
-  }
+  const tabs = [
+    { key: 'created', label: '我创建的', count: createdList.length },
+    { key: 'favorited', label: '我收藏的', count: favoritedList.length },
+  ];
+
+  const currentList = currentTab === 'created' ? createdList : favoritedList;
 
   return (
-    <View className='page playlists-page'>
-      <View className='header'>
-        <View className='list-count'>诗单 {playlists.length}</View>
-        <Button
-          className='create-btn'
-          type='primary'
-          size='small'
-          onClick={handleCreate}
-        >
-          + 新建诗单
-        </Button>
+    <View className='page collectionsPage'>
+      {/* Tab 切换 */}
+      <View className='tabs'>
+        {tabs.map((tab) => (
+          <View
+            key={tab.key}
+            className={`tabItem ${currentTab === tab.key ? 'active' : ''}`}
+            onClick={() => setCurrentTab(tab.key)}
+          >
+            <Text className='tabText'>{tab.label}</Text>
+            <View className='badge'>{tab.count}</View>
+            {currentTab === tab.key ? <View className='tabLine' /> : null}
+          </View>
+        ))}
       </View>
 
-      {playlists.length === 0 ? (
+      {/* 列表内容 */}
+      {isLoading ? (
+        <View className='loading'>
+          <Text>加载中...</Text>
+        </View>
+      ) : currentList.length === 0 ? (
         <View className='empty'>
-          <Text>暂无诗单，点击右上角创建</Text>
+          <Text>{currentTab === 'created' ? '暂无创建的诗单' : '暂无收藏的诗单'}</Text>
         </View>
       ) : (
-        <View className='playlist-list'>
-          {playlists.map((item) => (
-            <PoemPlaylistCard key={item.id} playlist={item} />
-          ))}
+        <ScrollView className='listScroll' scrollY>
+          <View className='listContainer'>
+            {currentList.map((item, index) => (
+              <PoemPlaylistCard
+                key={item._id || item.id || item.target_id || index}
+                playlist={item}
+                showRemove={true}
+                onRemove={handleRemove}
+              />
+            ))}
+          </View>
+        </ScrollView>
+      )}
+
+      {/* 浮动新建按钮 - 仅我创建的显示 */}
+      {currentTab === 'created' && (
+        <View className='fabBtn' onClick={() => setShowCreateModal(true)}>
+          <Text className='fabIcon'>+</Text>
         </View>
       )}
 
-      <CollectionModal
-        show={showCreate}
-        initType='create_collection'
-        onSuccess={() => {
-          setShowCreate(false);
-          queryPlaylists();
-        }}
-        onClose={() => setShowCreate(false)}
-      />
+      {/* 创建诗单弹窗 */}
+      {showCreateModal && (
+        <View className='modalMask' onClick={handleCloseModal}>
+          <View className='modalContent' onClick={(e) => e.stopPropagation()}>
+            <View className='modalHeader'>
+              <Text className='modalTitle'>新建诗单</Text>
+              <Text className='modalClose' onClick={handleCloseModal}>×</Text>
+            </View>
+            <View className='modalBody'>
+              <View className='inputGroup'>
+                <Text className='inputLabel'>诗单名称</Text>
+                <Input
+                  className='inputField'
+                  placeholder='请输入诗单名称'
+                  value={collectionName}
+                  onInput={(e) => setCollectionName(e.detail.value)}
+                  maxlength={20}
+                />
+              </View>
+              <View className='inputGroup'>
+                <Text className='inputLabel'>诗单描述</Text>
+                <Input
+                  className='inputField'
+                  placeholder='请输入诗单描述（选填）'
+                  value={collectionDesc}
+                  onInput={(e) => setCollectionDesc(e.detail.value)}
+                  maxlength={100}
+                />
+              </View>
+            </View>
+            <View className='modalFooter'>
+              <View className='modalBtn cancel' onClick={handleCloseModal}>取消</View>
+              <View
+                className={`modalBtn confirm ${creating ? 'disabled' : ''}`}
+                onClick={handleCreate}
+              >
+                {creating ? '创建中...' : '创建'}
+              </View>
+            </View>
+          </View>
+        </View>
+      )}
     </View>
   );
 };
 
-export default PlaylistsPage;
+export default CollectionsPage;

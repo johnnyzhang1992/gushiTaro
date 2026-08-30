@@ -3,6 +3,7 @@ import Taro from '@tarojs/taro';
 import { View, Text, ScrollView } from '@tarojs/components';
 
 import PoetSmallCard from '../../components/PoetSmallCard';
+import Skeleton from '../Skeleton';
 
 import './style.scss';
 import { DynastyArr } from '../../const/config';
@@ -36,6 +37,7 @@ const PoetContainer = (props) => {
 	const searchRef = useRef(props.keyWord || '');
 	const refreshFlag = useRef(false);
 	const [poetList, setList] = useState([]);
+	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState('');
 	const [dynastyList, setDynastyList] = useState(DynastyArr);
 
@@ -66,19 +68,22 @@ const PoetContainer = (props) => {
 			return false;
 		}
 		const dynasty = dynastyRef.current;
+		const { page, last_page: lastPage } = pagination.current;
 		const params = {
-			...pagination.current,
+			page,
+			size: pagination.current.size,
 			dynasty: dynasty,
 		};
 		if (searchRef.current) params['keyWord'] = searchRef.current;
-		const { page, last_page: lastPage } = pagination.current;
-		if (dynastyRef.current === '全部' && page > 1) {
+		if (dynasty === '全部' && page > 1) {
 			return false;
 		}
 		if (page > lastPage) {
 			return false;
 		}
 		refreshFlag.current = true;
+		setLoading(page === 1);
+		setError('');
 		fetchPoetData('GET', params)
 			.then((res) => {
 				const apiData = res.data?.data || res.data;
@@ -99,6 +104,9 @@ const PoetContainer = (props) => {
 			.catch((err) => {
 				setError(err);
 				refreshFlag.current = false;
+			})
+			.finally(() => {
+				setLoading(false);
 			});
 	};
 
@@ -110,16 +118,16 @@ const PoetContainer = (props) => {
 		});
 	}, []);
 
-	// 搜索参数变化时重新查询
+	// 搜索参数变化时重新查询（文库传入 params 对象，兼容外部直接传 keyWord）
 	useEffect(() => {
-		const newKey = props.keyWord || '';
+		const newKey = props.params?.keyWord ?? (props.keyWord || '');
 		if (newKey !== searchRef.current) {
 			searchRef.current = newKey;
 			pagination.current = { ...pagination.current, page: 1, last_page: 2 };
 			refreshFlag.current = false;
 			fetchList();
 		}
-	}, [props.keyWord]);
+	}, [props.params, props.keyWord]);
 
 	return (
 		<View className='poetContainer' id='poetScrollContainer'>
@@ -154,14 +162,17 @@ const PoetContainer = (props) => {
 				enableBackToTop
 				onScrollToLower={reachBottom}
 			>
-				{poetList.map((item) => {
+				{loading && poetList.length === 0 ? (
+				<Skeleton rows={6} />
+			) : null}
+			{poetList.map((item, idx) => {
 					return (
 						<PoetSmallCard
 							{...item}
 							showCount
 							showBorder
 							lightWord=''
-							key={item.id}
+							key={`${item._id}_${idx}`}
 						/>
 					);
 				})}

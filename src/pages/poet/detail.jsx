@@ -1,195 +1,145 @@
-import { useState, useRef } from 'react';
-import Taro, {
-	useLoad,
-	usePullDownRefresh,
-	useShareAppMessage,
-	useShareTimeline,
-} from '@tarojs/taro';
-import { useNavigationBar } from 'taro-hooks';
-import { View, OfficialAccount, Text, Navigator } from '@tarojs/components';
+import { View, Text } from '@tarojs/components';
+import Taro, { useRouter, useLoad, usePullDownRefresh } from '@tarojs/taro';
+import { useState } from 'react';
 
+import CdnImage from '../../components/CdnImage';
+import LongTextCard from '../../components/LongTextCard';
 import { fetchPoetDetail } from './service';
 
-import SectionCard from '../../components/SectionCard';
-import LongTextCard from '../../components/LongTextCard';
-import LikeButton from '../../components/LikeButton';
-import CollectButton from '../../components/CollectButton';
-import FabButton from '../../components/FabButton';
-import CdnImage from '../../components/CdnImage';
-import { isSkyline } from '../../utils/env';
-import RootFixed from '../../components/RootFixed';
+import './detail.scss';
 
-import './style.scss';
+const AuthorDetail = () => {
+	const router = useRouter();
+	const id = router.params.id;
 
-const PoetDetailPage = () => {
-	const { setTitle } = useNavigationBar({ title: '古诗文小助手' });
-	const [detail, setDetail] = useState({
-		poet: {
-			more_infos: [],
-			author_name: '',
-			dynasty: '',
-			avatar: null,
-			profile: '',
-			like_count: 0,
-			like_status: false,
-			collect_count: 0,
-			collect_status: false,
-			poems_count: 0,
-			sentences_count: 0,
-		},
-		poems: [],
-	});
-	const cacheRef = useRef({
-		poetId: 48769,
-	});
+	const [author, setAuthor] = useState(null);
 
-	// 加载详情数据
-	const fetchDetail = (id) => {
-		const { poetId } = cacheRef.current;
-		fetchPoetDetail('GET', {
-			id: id || poetId,
-		})
+	useLoad(() => {
+		if (!id) return;
+		Taro.showLoading({ title: '加载中' });
+		fetchPoetDetail('GET', { id })
 			.then((res) => {
-				const apiData = res.data?.data || res.data;
-				if ((res.status || res.statusCode === 200) && apiData) {
-					// 兼容新旧格式
-					const poetData = apiData.poet || apiData;
-					const poemsData = apiData.poems || [];
-					console.log(poetData);
-					setDetail({
-						poems: poemsData,
-						poet: {
-							...poetData,
-							more_infos: poetData.more_infos || [],
-						},
-					});
-					setTitle(poetData.author_name);
+				if (res && res.status && res.data) {
+					setAuthor(res.data);
+					Taro.setNavigationBarTitle({ title: res.data.author_name || '诗人详情' });
 				}
 			})
-			.catch((err) => {
-				console.log(err);
-			});
-	};
-
-	useLoad((options) => {
-		const { id, scene } = options;
-		console.log('options', options);
-		let poetId = id;
-		if (scene) {
-			poetId = decodeURIComponent(options.scene).split('=')[1];
-		}
-		cacheRef.current.poetId = poetId;
-		fetchDetail(poetId || 48769);
+			.finally(() => Taro.hideLoading());
 	});
 
 	usePullDownRefresh(() => {
-		fetchDetail();
-		console.log('page-pullRefresh');
 		Taro.stopPullDownRefresh();
 	});
 
-	useShareAppMessage(() => {
-		const { poet } = detail;
-		return {
-			title: poet.author_name || '诗人详情',
-			path: '/pages/poet/detail?id=' + poet.id,
-		};
-	});
-	useShareTimeline(() => {
-		const { poet } = detail;
-		return {
-			title: poet.author_name || '诗人详情',
-			path: '/pages/poet/detail?id=' + poet.id,
-		};
-	});
+	if (!author) return null;
 
 	return (
-		<View
-			className='page poetDetail'
-			style={{
-				display: detail.poet.id ? 'block' : 'none',
-			}}
-		>
-			{/* 诗人图片 */}
-			<View className='avatarContainer'>
-				{detail.poet.avatar ? (
-					<CdnImage
-						src={detail.poet.avatar}
-						className='avatar'
-						mode='widthFix'
-					/>
+		<View className='page authorDetailPage'>
+
+			{/* 作者头部信息 */}
+			<View className='authorInfo'>
+				{author.avatar ? (
+					<CdnImage className='avatar' src={author.avatar} mode='widthFix' lazyLoad fadeIn />
 				) : null}
-				<View className='author'>
-					<View className='name'>{detail.poet.author_name}</View>
-					{detail.poet.dynasty ? (
-						<View className='dynasty'>{detail.poet.dynasty}</View>
-					) : null}
-				</View>
-				<View className='data'>
-					<Navigator
-						className='navigator'
-						hoverClass='none'
-						url={`/pages/poem/index?from=poet&type=author&keyWord=${detail.poet.author_name}`}
-					>
-						<Text>作品：{detail.poet.poems_count}</Text>
-					</Navigator>
-					<Navigator
-						className='navigator'
-						hoverClass='none'
-						url={`/pages/sentence/index?from=poet&author=${detail.poet.author_name}&author_source_id=${detail.poet.source_id}`}
-					>
-						<Text>摘录：{detail.poet.sentences_count}</Text>
-					</Navigator>
-				</View>
-			</View>
-			{!isSkyline() && <OfficialAccount />}
-			{/* 介绍 */}
-			<SectionCard title='简介'>
-				<View className='poetProfile'>
-					<Text className='text' decode userSelect>
-						{detail.poet.profile}
-					</Text>
-				</View>
-			</SectionCard>
-			{/* 其他信息 */}
-			{detail.poet.more_infos.map((info) => (
-				<SectionCard title={info.title} key={info.title}>
-					<LongTextCard title={info.title} showAll={false} text={info || ''} />
-				</SectionCard>
-			))}
-			{/* 底部 */}
-			<RootFixed>
-			<View className='fixBottom'>
-				<View className='buttonContainer'>
-					<View className='btnItem'>
-						<LikeButton
-							type='author'
-							id={detail.poet.id}
-							count={detail.poet.like_count}
-							status={detail.poet.like_status}
-							showText
-						/>
+				<View className='info'>
+					<Text className='name'>{author.author_name}</Text>
+					<View className='meta'>
+						{author.dynasty ? (
+							<Text className='dynasty'>{author.dynasty}</Text>
+						) : null}
+						{author.title ? (
+							<Text className='titleTag'>「{author.title}」</Text>
+						) : null}
 					</View>
-					<View className='btnItem'>
-						<CollectButton
-							type='author'
-							id={detail.poet.id}
-							count={detail.poet.collect_count}
-							status={detail.poet.collect_status}
-							showText
-						/>
+					<View className='stats'>
+						<View
+							className='statItem clickable'
+							onClick={() => Taro.navigateTo({ url: '/pages/poem/index?author=' + (author.author_name || '') })}
+						>
+							<Text className='statNum'>{author.poem_count ?? '-'}</Text>
+							<Text className='statLabel'>作品</Text>
+						</View>
+						<View className='dividerV' />
+						<View
+							className='statItem clickable'
+							onClick={() => Taro.navigateTo({ url: '/pages/sentence/index?author_source_id=' + (author.source_id || '') })}
+						>
+							<Text className='statNum'>{author.sentence_count ?? '-'}</Text>
+							<Text className='statLabel'>摘录</Text>
+						</View>
 					</View>
 				</View>
 			</View>
-			</RootFixed>
-			{/* 悬浮按钮 */}
-			<FabButton
-				style={{
-					bottom: '240rpx',
-				}}
-			/>
+
+			{/* 生平简介 */}
+			{author.profile ? (
+				<View className='section'>
+					<Text className='sectionTitle'>生平简介</Text>
+					<LongTextCard text={author.profile} title='生平简介' showAll={false} />
+				</View>
+			) : null}
+
+			{/* 基本信息 */}
+			{(author.styled || author.hao || author.birthplace || author.era) ? (
+				<View className='section'>
+					<Text className='sectionTitle'>基本信息</Text>
+					<View className='infoGrid'>
+						{author.styled ? (
+							<View className='infoRow'>
+								<Text className='infoLabel'>字</Text>
+								<Text className='infoValue' selectable>{author.styled}</Text>
+							</View>
+						) : null}
+						{author.hao ? (
+							<View className='infoRow'>
+								<Text className='infoLabel'>号</Text>
+								<Text className='infoValue' selectable>{author.hao}</Text>
+							</View>
+						) : null}
+						{author.era ? (
+							<View className='infoRow'>
+								<Text className='infoLabel'>时代</Text>
+								<Text className='infoValue' selectable>{author.era}</Text>
+							</View>
+						) : null}
+						{author.birthplace ? (
+							<View className='infoRow'>
+								<Text className='infoLabel'>故里</Text>
+								<Text className='infoValue' selectable>{author.birthplace}</Text>
+							</View>
+						) : null}
+					</View>
+				</View>
+			) : null}
+
+			{/* 后人评价 */}
+			{author.laterEvaluation ? (
+				<View className='section'>
+					<Text className='sectionTitle'>后人评价</Text>
+					<LongTextCard text={author.laterEvaluation} title='后人评价' showAll={false} />
+				</View>
+			) : null}
+
+						{/* 更多信息 more_infos */}
+			{author.more_infos && author.more_infos.length > 0 ? (
+				author.more_infos.map((item, idx) => {
+					if (!item.title || !item.content) return null;
+					// 清理 HTML 标签
+					const cleanedContent = (Array.isArray(item.content) ? item.content : [item.content])
+						.map((c) => c.replace(/<[^>]+>/g, '').replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ').trim())
+						.filter(Boolean);
+					if (cleanedContent.length === 0) return null;
+					const fullText = cleanedContent.join('\n');
+					return (
+						<View key={`${item.title}_${idx}`} className='section'>
+							<Text className='sectionTitle'>{item.title}</Text>
+							<LongTextCard text={fullText} title={item.title} showAll={false} />
+						</View>
+					);
+				})
+			) : null}
 		</View>
 	);
 };
 
-export default PoetDetailPage;
+export default AuthorDetail;

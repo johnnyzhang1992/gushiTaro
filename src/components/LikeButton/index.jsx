@@ -37,7 +37,7 @@ const LikeButton = (props) => {
 			target_id: id,
 		}).then((res) => {
 			const apiData = res.data?.data || res.data;
-			if (res && res.statusCode === 200) {
+			if (res && res && res.status) {
 				// 兼容新旧格式
 				const newStatus = apiData?.isLiked !== undefined ? apiData.isLiked : apiData?.status;
 				const newCount = apiData?.num !== undefined ? apiData.num : (likeCount + (newStatus ? 1 : -1));

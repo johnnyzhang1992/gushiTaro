@@ -88,11 +88,8 @@ const DictionaryDetail = () => {
 	useLoad((options) => {
 		console.log('DictionaryPage loaded', options);
 		optionsRef.current = options;
+		fetchDetail(options);
 	});
-
-	useEffect(() => {
-		fetchDetail(optionsRef.current);
-	}, []);
 
 	return (
 		<View className='page dictionaryDetailPage'>
@@ -127,8 +124,35 @@ const DictionaryDetail = () => {
 							{detail.strokes}
 						</Text>
 					</View>
+					{/* 多音字 */}
+					{detail.isPolyphone && detail.pinyinMultiple && detail.pinyinMultiple.length > 0 ? (
+						<View className='hor-item'>
+							<Text className='lable'>多音字</Text>
+							<Text className='value' userSelect selectable>
+								{detail.pinyinMultiple.join(' / ')}
+							</Text>
+						</View>
+					) : null}
+					{/* 统一码 */}
+					{detail.unified ? (
+						<View className='hor-item'>
+							<Text className='lable'>统一码</Text>
+							<Text className='value' userSelect selectable>
+								{detail.unified}
+							</Text>
+						</View>
+					) : null}
+					{/* 五笔 */}
+					{detail.wubi ? (
+						<View className='hor-item'>
+							<Text className='lable'>五笔</Text>
+							<Text className='value' userSelect selectable>
+								{detail.wubi}
+							</Text>
+						</View>
+					) : null}
 					{/* 基本解释 */}
-					<SectionCard className='explanation' title='解释'>
+					<SectionCard className='explanation' title='基本解释'>
 						<View className='exp_content'>
 							{detail.explanationObj && detail.explanationObj.length > 0
 								? detail.explanationObj.map((items, index) => {
@@ -147,6 +171,36 @@ const DictionaryDetail = () => {
 								: null}
 						</View>
 					</SectionCard>
+					{/* 详细解释 */}
+					{detail.moreObj && detail.moreObj.length > 0 ? (
+						<SectionCard className='explanation' title='详细解释'>
+							<View className='exp_content'>
+								{detail.moreObj.map((items, index) => {
+									return (
+										<View className='more_item' key={index}>
+											{items.map((item, _index) => (
+												<View className='exp_item' key={_index}>
+													<Text className='lable' userSelect selectable>
+														{item}
+													</Text>
+												</View>
+											))}
+										</View>
+									);
+								})}
+							</View>
+						</SectionCard>
+					) : null}
+					{/* 字源 */}
+					{detail.etymology ? (
+						<SectionCard className='explanation' title='字源'>
+							<View className='exp_content'>
+								<Text className='lable' userSelect selectable>
+									{detail.etymology}
+								</Text>
+							</View>
+						</SectionCard>
+					) : null}
 				</View>
 			) : null}
 			{/* 词语详情 */}
@@ -169,8 +223,24 @@ const DictionaryDetail = () => {
 							{detail.pinyin}
 						</Text>
 					</View>
+					{detail.pinyinNum ? (
+						<View className='hor-item'>
+							<Text className='lable'>声调</Text>
+							<Text className='value' userSelect selectable>
+								{detail.pinyinNum}
+							</Text>
+						</View>
+					) : null}
+					{detail.firstCharPinyin && detail.lastCharPinyin ? (
+						<View className='hor-item'>
+							<Text className='lable'>首尾拼音</Text>
+							<Text className='value' userSelect selectable>
+								{detail.firstCharPinyin} ... {detail.lastCharPinyin}
+							</Text>
+						</View>
+					) : null}
 					{/* 基本解释 */}
-					<SectionCard className='explanation' title='解释'>
+					<SectionCard className='explanation' title='基本解释'>
 						<View className='exp_content'>
 							{detail.explanationObj && detail.explanationObj.length > 0
 								? detail.explanationObj.map((item, index) => {
@@ -187,6 +257,25 @@ const DictionaryDetail = () => {
 								: null}
 						</View>
 					</SectionCard>
+					{/* 详细解释 */}
+					{detail.more ? (
+						<SectionCard className='explanation' title='详细解释'>
+							<View className='exp_content'>
+								<Text className='lable' userSelect selectable>
+									{detail.more}
+								</Text>
+							</View>
+						</SectionCard>
+					) : null}
+					{/* 出处 */}
+					{detail.source ? (
+						<View className='hor-item'>
+							<Text className='lable'>出处</Text>
+							<Text className='value' userSelect selectable>
+								{detail.source}
+							</Text>
+						</View>
+					) : null}
 				</View>
 			) : null}
 			{/* 成语详情 */}
@@ -211,9 +300,17 @@ const DictionaryDetail = () => {
 
 						<Text className='lable center'>拼音缩写</Text>
 						<Text className='value' userSelect selectable>
-							{detail.abbreviation}
+							{detail.abbreviation || detail.pinyinShort}
 						</Text>
 					</View>
+					{detail.firstCharPinyin && detail.lastCharPinyin ? (
+						<View className='hor-item'>
+							<Text className='lable'>首尾拼音</Text>
+							<Text className='value' userSelect selectable>
+								{detail.firstCharPinyin} ... {detail.lastCharPinyin}
+							</Text>
+						</View>
+					) : null}
 					{/* 解释 */}
 					<View className='hor-item'>
 						<Text className='lable'>解释</Text>
@@ -233,11 +330,65 @@ const DictionaryDetail = () => {
 							{detail.example}
 						</Text>
 					</View>
+					{/* 典故 */}
+					{detail.story ? (
+						<View className='hor-item'>
+							<Text className='lable'>典故</Text>
+							<Text className='value' userSelect selectable>
+								{detail.story}
+							</Text>
+						</View>
+					) : null}
+					{/* 近义词 */}
+					{detail.synonym ? (
+						<View className='hor-item'>
+							<Text className='lable'>近义词</Text>
+							<Text className='value' userSelect selectable>
+								{detail.synonym}
+							</Text>
+						</View>
+					) : null}
+					{/* 反义词 */}
+					{detail.antonym ? (
+						<View className='hor-item'>
+							<Text className='lable'>反义词</Text>
+							<Text className='value' userSelect selectable>
+								{detail.antonym}
+							</Text>
+						</View>
+					) : null}
+					{/* 用法 */}
+					{detail.usage ? (
+						<View className='hor-item'>
+							<Text className='lable'>用法</Text>
+							<Text className='value' userSelect selectable>
+								{detail.usage}
+							</Text>
+						</View>
+					) : null}
+					{/* 语法 */}
+					{detail.grammar ? (
+						<View className='hor-item'>
+							<Text className='lable'>语法</Text>
+							<Text className='value' userSelect selectable>
+								{detail.grammar}
+							</Text>
+						</View>
+					) : null}
+					{/* 感情色彩 */}
+					{detail.emotion ? (
+						<View className='hor-item'>
+							<Text className='lable'>感情色彩</Text>
+							<Text className='value' userSelect selectable>
+								{detail.emotion}
+							</Text>
+						</View>
+					) : null}
 				</View>
 			) : null}
 			{/* ----推荐---- */}
 			{/* 相同部首 */}
-			{detail.radicalsList && detail.radicalsList.length > 0 ? (
+			{optionsRef.current.type === 'word' && detail.relatedRadicals && detail.relatedRadicals.length > 0 ? (
 				<SectionCard title='相同部首'>
 					<ScrollView
 						className='scrollContainer ci'
@@ -246,7 +397,7 @@ const DictionaryDetail = () => {
 						enableFlex
 						showScrollbar={false}
 					>
-						{detail.radicalsList.map((item) => (
+						{detail.relatedRadicals.map((item) => (
 							<WordCard
 								{...item}
 								key={item._id}
@@ -258,8 +409,52 @@ const DictionaryDetail = () => {
 					</ScrollView>
 				</SectionCard>
 			) : null}
-			{/* 相关词语 */}
-			{detail.ciList && detail.ciList.length > 0 ? (
+			{/* 关联的字（成语详情显示） */}
+			{optionsRef.current.type === 'chengyu' && detail.relatedWords && detail.relatedWords.length > 0 ? (
+				<SectionCard title='相关字'>
+					<ScrollView
+						className='scrollContainer ci'
+						scrollX
+						scrollWithAnimation
+						enableFlex
+						showScrollbar={false}
+					>
+						{detail.relatedWords.map((item) => (
+							<WordCard
+								{...item}
+								key={item._id}
+								type='word'
+								pinyin={item.pinyin}
+								text={item.word}
+							/>
+						))}
+					</ScrollView>
+				</SectionCard>
+			) : null}
+			{/* 关联的字（词语详情显示） */}
+			{optionsRef.current.type === 'ci' && detail.relatedWords && detail.relatedWords.length > 0 ? (
+				<SectionCard title='相关字'>
+					<ScrollView
+						className='scrollContainer ci'
+						scrollX
+						scrollWithAnimation
+						enableFlex
+						showScrollbar={false}
+					>
+						{detail.relatedWords.map((item) => (
+							<WordCard
+								{...item}
+								key={item._id}
+								type='word'
+								pinyin={item.pinyin}
+								text={item.word}
+							/>
+						))}
+					</ScrollView>
+				</SectionCard>
+			) : null}
+			{/* 关联的词语（字详情显示） */}
+			{optionsRef.current.type === 'word' && detail.relatedWords && detail.relatedWords.length > 0 ? (
 				<SectionCard title='相关词语'>
 					<ScrollView
 						className='scrollContainer'
@@ -268,42 +463,20 @@ const DictionaryDetail = () => {
 						enableFlex
 						showScrollbar={false}
 					>
-						{detail.ciList.map((item) => (
+						{detail.relatedWords.map((item) => (
 							<WordCard
 								{...item}
 								key={item._id}
 								type='ci'
 								pinyin={item.pinyin}
-								text={item.ci}
+								text={item.word}
 							/>
 						))}
 					</ScrollView>
 				</SectionCard>
 			) : null}
-			{/* 相似词语 */}
-			{detail.smilarList && detail.smilarList.length > 0 ? (
-				<SectionCard title='相似词语'>
-					<ScrollView
-						className='scrollContainer'
-						scrollX
-						scrollWithAnimation
-						enableFlex
-						showScrollbar={false}
-					>
-						{detail.smilarList.map((item) => (
-							<WordCard
-								{...item}
-								key={item._id}
-								type='ci'
-								pinyin={item.pinyin}
-								text={item.ci}
-							/>
-						))}
-					</ScrollView>
-				</SectionCard>
-			) : null}
-			{/* 相关成语 */}
-			{detail.chengyuList && detail.chengyuList.length > 0 ? (
+			{/* 关联的成语（字/词语详情显示） */}
+			{(optionsRef.current.type === 'word' || optionsRef.current.type === 'ci') && detail.relatedIdioms && detail.relatedIdioms.length > 0 ? (
 				<SectionCard title='相关成语'>
 					<ScrollView
 						className='scrollContainer'
@@ -312,11 +485,33 @@ const DictionaryDetail = () => {
 						enableFlex
 						showScrollbar={false}
 					>
-						{detail.chengyuList.map((item) => (
+						{detail.relatedIdioms.map((item) => (
 							<WordCard
 								{...item}
 								key={item._id}
 								type='chengyu'
+								pinyin={item.pinyin}
+								text={item.word}
+							/>
+						))}
+					</ScrollView>
+				</SectionCard>
+			) : null}
+			{/* 关联的词语（成语详情显示） */}
+			{optionsRef.current.type === 'chengyu' && detail.relatedIdioms && detail.relatedIdioms.length > 0 ? (
+				<SectionCard title='相关词语'>
+					<ScrollView
+						className='scrollContainer'
+						scrollX
+						scrollWithAnimation
+						enableFlex
+						showScrollbar={false}
+					>
+						{detail.relatedIdioms.map((item) => (
+							<WordCard
+								{...item}
+								key={item._id}
+								type='ci'
 								pinyin={item.pinyin}
 								text={item.word}
 							/>

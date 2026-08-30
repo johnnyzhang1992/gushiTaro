@@ -1,0 +1,136 @@
+/* 标题区域 */
+.popup-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 20rpx 24rpx;
+	border-bottom: 1rpx solid #f0f2f5;
+
+	.popup-title {
+		font-size: 32rpx;
+		font-weight: 600;
+		color: #333;
+	}
+
+	.create-btn {
+		padding: 8rpx 20rpx;
+		background: transparent;
+
+		.text {
+			font-size: 28rpx;
+			color: #337ab7;
+		}
+	}
+}
+
+.add-to-collection {
+	padding: 20rpx 0;
+
+	.loading {
+		padding: 60rpx 0;
+		text-align: center;
+		font-size: 26rpx;
+		color: #999;
+	}
+
+	.create-form {
+		padding: 0 24rpx;
+		margin-bottom: 20rpx;
+
+		.input-row {
+			display: flex;
+			align-items: center;
+			gap: 16rpx;
+
+			.input {
+				flex: 1;
+				height: 72rpx;
+				background: #f5f7fa;
+				border-radius: 8rpx;
+				padding: 0 20rpx;
+				font-size: 28rpx;
+			}
+
+			.btns {
+				display: flex;
+				gap: 12rpx;
+
+				.btn {
+					padding: 16rpx 24rpx;
+					font-size: 26rpx;
+					border-radius: 8rpx;
+
+					&.cancel {
+						background: #f5f7fa;
+						color: #666;
+					}
+
+					&.confirm {
+						background: #337ab7;
+						color: #fff;
+					}
+				}
+			}
+		}
+	}
+
+	.collection-list {
+		height: 60vh;
+
+		.empty {
+			padding: 60rpx 0;
+			text-align: center;
+			font-size: 26rpx;
+			color: #999;
+		}
+
+		.collection-item {
+			padding: 20rpx 24rpx;
+			margin: 0 24rpx;
+			border-bottom: 1rpx solid #f0f2f5;
+
+			&:last-child {
+				border-bottom: none;
+			}
+
+			.info {
+				margin-bottom: 12rpx;
+
+				.name {
+					font-size: 28rpx;
+					color: #333;
+				}
+			}
+
+			.bottom-row {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+
+				.count {
+					font-size: 24rpx;
+					color: #999;
+				}
+
+				.add-btn {
+					padding: 6rpx 20rpx;
+
+					.add-text {
+						font-size: 24rpx;
+						color: #337ab7;
+					}
+				}
+
+				.remove-btn {
+					padding: 6rpx 20rpx;
+					
+
+					.remove-text {
+						font-size: 22rpx;
+						color: #e64340;
+					}
+				}
+			}
+		}
+	}
+}

@@ -10,6 +10,7 @@ import {
   submitReview,
   searchPoems,
 } from '../../services/study';
+import SwipeAction from './swipe-action';
 import './detail.scss';
 
 export default function StudyDetailPage() {
@@ -27,6 +28,9 @@ export default function StudyDetailPage() {
   const [searchResults, setSearchResults] = useState([]);
   const [searching, setSearching] = useState(false);
   const [addingPoem, setAddingPoem] = useState(null);
+  const [searchPage, setSearchPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
 
   // 学习相关
   const [showStudyModal, setShowStudyModal] = useState(false);
@@ -82,22 +86,39 @@ export default function StudyDetailPage() {
   });
 
   // 搜索诗词
-  const handleSearch = async () => {
+  const handleSearch = async (isLoadMore = false) => {
     if (!searchKeyword.trim()) return;
-    setSearching(true);
+    if (isLoadMore) {
+      setLoadingMore(true);
+    } else {
+      setSearching(true);
+      setSearchPage(1);
+      setHasMore(true);
+    }
     try {
-      const res = await searchPoems('GET', { keyword: searchKeyword });
+      const page = isLoadMore ? searchPage + 1 : 1;
+      const res = await searchPoems('GET', { keyWord: searchKeyword, page, size: 20 });
       console.log('搜索结果:', res);
       if (res && res.status && res.data) {
-        setSearchResults(res.data || []);
-      } else if (res && res.data) {
-        // 兼容直接返回数组的情况
-        setSearchResults(Array.isArray(res.data) ? res.data : []);
+        const list = res.data.list || [];
+        setSearchResults(prev => isLoadMore ? [...prev, ...list] : list);
+        setSearchPage(page);
+        setHasMore(list.length >= 20);
+      } else {
+        setHasMore(false);
       }
     } catch (err) {
       console.error('搜索失败:', err);
     } finally {
       setSearching(false);
+      setLoadingMore(false);
+    }
+  };
+
+  // 加载更多
+  const handleLoadMore = () => {
+    if (!loadingMore && hasMore && searchResults.length > 0) {
+      handleSearch(true);
     }
   };
 
@@ -487,20 +508,25 @@ export default function StudyDetailPage() {
           </View>
         ) : (
           filteredItems.map((item) => (
-            <View className="poem-card" key={item._id || item.poem_id}>
-              <View className={`poem-status ${getStageClass(item)}`}>
-                {item.stage >= 6 ? '✓' : item.stage > 0 ? '↻' : '○'}
-              </View>
-              <View className="poem-info">
-                <View className="poem-title">{item.poem_title}</View>
-                <View className="poem-author">
-                  {item.poem_author} · {item.poem_dynasty}
+            <SwipeAction key={item._id || item.poem_id} onDelete={() => handleRemovePoem(item)}>
+              <View
+                className="poem-card"
+                onClick={() => Taro.navigateTo({ url: `/pages/poem/detail?id=${item.poem_id}` })}
+              >
+                <View className={`poem-status ${getStageClass(item)}`}>
+                  {item.stage >= 6 ? '✓' : item.stage > 0 ? '↻' : '○'}
+                </View>
+                <View className="poem-info">
+                  <View className="poem-title">{item.poem_title}</View>
+                  <View className="poem-author">
+                    {item.poem_author} · {item.poem_dynasty}
+                  </View>
+                </View>
+                <View className={`poem-stage ${getStageClass(item)}`}>
+                  {getStageText(item.stage)}
                 </View>
               </View>
-              <View className={`poem-stage ${getStageClass(item)}`}>
-                {getStageText(item.stage)}
-              </View>
-            </View>
+            </SwipeAction>
           ))
         )}
       </View>
@@ -523,17 +549,18 @@ export default function StudyDetailPage() {
         )}
       </View>
 
-      {/* 添加诗词弹窗 */}
+      {/* 添加诗词底部弹窗 */}
       {showAddModal && (
-        <View className="modal-mask" onClick={() => setShowAddModal(false)}>
-          <View className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <View className="modal-header">
-              <Text className="modal-title">添加诗词</Text>
-              <Text className="modal-close" onClick={() => setShowAddModal(false)}>
-                ×
-              </Text>
+        <View className="bottom-sheet-mask" onClick={() => setShowAddModal(false)}>
+          <View className="bottom-sheet" onClick={(e) => e.stopPropagation()}>
+            <View className="bottom-sheet-header">
+              <View className="bottom-sheet-drag-bar" />
+              <View className="bottom-sheet-title-row">
+                <Text className="bottom-sheet-title">添加诗词</Text>
+                <Text className="bottom-sheet-close" onClick={() => setShowAddModal(false)}>×</Text>
+              </View>
             </View>
-            <View className="modal-body">
+            <View className="bottom-sheet-body">
               <View className="search-box">
                 <View className="search-input-wrap">
                   <Input
@@ -541,7 +568,7 @@ export default function StudyDetailPage() {
                     placeholder="搜索诗词名称或作者"
                     value={searchKeyword}
                     onInput={(e) => setSearchKeyword(e.detail.value)}
-                    onConfirm={handleSearch}
+                    onConfirm={() => handleSearch(false)}
                     confirmType="search"
                   />
                   {searchKeyword ? (
@@ -553,6 +580,9 @@ export default function StudyDetailPage() {
                     </View>
                   ) : null}
                 </View>
+                <View className="search-btn" onClick={() => handleSearch(false)}>
+                  <Text className="search-btn-text">搜索</Text>
+                </View>
               </View>
               <View className="search-results">
                 {searchResults.length === 0 && searchKeyword && !searching ? (
@@ -560,25 +590,34 @@ export default function StudyDetailPage() {
                     <Text className="empty-text">未找到相关诗词</Text>
                   </View>
                 ) : (
-                  searchResults.map((poem) => {
-                    const isAdded = items.some((i) => i.poem_id === poem._id);
-                    return (
-                      <View className="search-item" key={poem._id}>
-                        <View className="search-item-info">
-                          <View className="search-item-title">{poem.title}</View>
-                          <View className="search-item-author">
-                            {poem.author} · {poem.dynasty}
+                  <>
+                    {searchResults.map((poem) => {
+                      const isAdded = items.some((i) => i.poem_id === poem._id);
+                      return (
+                        <View className="search-item" key={poem._id}>
+                          <View className="search-item-info">
+                            <View className="search-item-title">{poem.title}</View>
+                            <View className="search-item-author">
+                              {poem.author} · {poem.dynasty}
+                            </View>
+                          </View>
+                          <View
+                            className={`search-item-btn ${isAdded || addingPoem === poem._id ? 'added' : ''}`}
+                            onClick={() => !isAdded && handleAddPoem(poem)}
+                          >
+                            {isAdded ? '已添加' : addingPoem === poem._id ? '添加中...' : '添加'}
                           </View>
                         </View>
-                        <View
-                          className={`search-item-btn ${isAdded || addingPoem === poem._id ? 'added' : ''}`}
-                          onClick={() => !isAdded && handleAddPoem(poem)}
-                        >
-                          {isAdded ? '已添加' : addingPoem === poem._id ? '添加中...' : '添加'}
-                        </View>
+                      );
+                    })}
+                    {searchResults.length > 0 && (
+                      <View className="load-more" onClick={handleLoadMore}>
+                        <Text className="load-more-text">
+                          {loadingMore ? '加载中...' : hasMore ? '加载更多' : '没有更多了'}
+                        </Text>
                       </View>
-                    );
-                  })
+                    )}
+                  </>
                 )}
               </View>
             </View>

@@ -66,7 +66,7 @@ const PoemPosterCard = (props) => {
 		if (0 === i) {
 			textArr.push({
 				id: i,
-				text: sentence.author,
+				text: sentence.author || '佚名',
 				type: 'author',
 				size: aSize.toFixed(2),
 			});
@@ -77,7 +77,7 @@ const PoemPosterCard = (props) => {
 				text = '︽' + sentence.poem_title + '︾';
 			}
 			if (type === 'horizontal') {
-				text = sentence.author + '《' + sentence.poem_title + '》';
+				text = (sentence.author || '佚名') + '《' + sentence.poem_title + '》';
 			}
 			textArr.push({
 				id: i,

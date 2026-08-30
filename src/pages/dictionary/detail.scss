@@ -1,77 +1,159 @@
 .dictionaryDetailPage {
-	padding: 20px;
+	min-height: 100vh;
+	background-color: #f5f7fa;
+	padding: 20rpx;
+	box-sizing: border-box;
+
 	.top_title {
+		padding: 32rpx 24rpx;
+		background: #fff;
+		margin-bottom: 20rpx;
+		border-radius: 16rpx;
 		display: flex;
 		align-items: center;
+		justify-content: center;
+		box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
 	}
+
 	.wordCell {
-		margin-bottom: 30px;
+		margin-bottom: 20rpx;
 	}
+
 	.hor-item {
 		display: flex;
 		align-items: center;
-		margin-bottom: 20px;
-		line-height: 32px;
-		font-size: 28px;
+		margin-bottom: 16rpx;
+		padding: 22rpx 28rpx;
+		background: #fff;
+		border-radius: 14rpx;
+		box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.03);
+
 		.lable {
-			padding: 4px 12px;
-			margin: 0 20px 0 0;
-			background-color: #dee0dd;
-			color: #605b45;
-			border-radius: 8px;
+			padding: 8rpx 18rpx;
+			margin-right: 20rpx;
+			background: linear-gradient(135deg, #f5f7fa, #eef1f5);
+			color: #666;
+			border-radius: 10rpx;
+			font-size: 24rpx;
+			font-weight: 500;
+			white-space: nowrap;
 		}
+
 		.value {
-			margin-right: 20px;
+			flex: 1;
+			font-size: 28rpx;
+			color: #333;
+			line-height: 1.6;
 		}
 	}
+
+	.wordDetail {
+		.hor-item {
+			.lable {
+				background: linear-gradient(135deg, #f5f7fa, #eef1f5);
+			}
+		}
+	}
+
+	.ciDetail {
+		.top_title {
+			padding: 40rpx 24rpx;
+		}
+	}
+
 	.chengyuDetail {
+		.top_title {
+			padding: 36rpx 24rpx;
+		}
+
 		.hor-item {
 			align-items: flex-start;
+
 			&.center {
 				align-items: center;
 			}
+
 			.lable {
-				background-color: unset;
+				background: transparent;
+				color: #888;
+				padding: 8rpx 0;
+				min-width: 140rpx;
 			}
+
 			.value {
 				flex: 1;
 				flex-wrap: wrap;
 			}
 		}
 	}
+
 	.explanation {
-		font-size: 28px;
+		margin-top: 8rpx;
+		font-size: 28rpx;
+
 		.more_item {
-			margin-bottom: 20px;
+			margin-bottom: 24rpx;
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+
 			.exp_item {
-				margin-bottom: 20px;
-				line-height: 36px;
+				margin-bottom: 16rpx;
+				line-height: 40rpx;
+
+				&:last-child {
+					margin-bottom: 0;
+				}
+
+				.lable {
+					color: #444;
+				}
 			}
 		}
 	}
+
 	.SectionCard {
-		margin-bottom: 20px;
-		background-color: #f5f5f5;
-		border-radius: 12px;
+		margin-bottom: 24rpx;
+		background-color: #fff;
+		border-radius: 16rpx;
+		overflow: hidden;
+		box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+
 		.title {
-			padding: 20px 20px 0;
-			// border-bottom: 1px solid #ccc;
+			padding: 24rpx 28rpx 16rpx;
+			font-size: 30rpx;
+			font-weight: 600;
+			color: #333;
+			border-bottom: 2rpx solid #f5f7fa;
 		}
+
 		.content {
-			padding: 20px;
+			padding: 20rpx 24rpx;
 			box-sizing: border-box;
 		}
+
 		.scrollContainer {
 			white-space: nowrap;
+			padding: 8rpx 0;
+
 			&.ci {
 				.wordCard {
-					background-color: unset;
-					padding: 20px 0;
+					background-color: transparent;
+					padding: 16rpx 0;
+					box-shadow: none;
 				}
 			}
+
 			.wordCard {
-				margin-right: 20px;
+				margin-right: 20rpx;
+				margin-bottom: 0;
+
+				&:last-child {
+					margin-right: 0;
+				}
 			}
+
 			.wordCell {
 				margin-bottom: 0;
 			}

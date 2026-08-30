@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Taro from '@tarojs/taro';
 import { View, Text, ScrollView } from '@tarojs/components';
+import Skeleton from '../Skeleton';
 
 import './style.scss';
 
@@ -34,9 +35,8 @@ const AllusionContainer = (props) => {
     if (page > lastPage) return;
 
     refreshFlag.current = true;
-    if (page === 1) {
-      Taro.showLoading({ title: '加载中' });
-    }
+    setLoading(page === 1);
+    setError('');
 
     const reqData = { page, size: 20 }
     if (searchRef.current) reqData['keyword'] = searchRef.current
@@ -63,7 +63,7 @@ const AllusionContainer = (props) => {
       })
       .finally(() => {
         refreshFlag.current = false;
-        Taro.hideLoading();
+        setLoading(false);
       });
   };
 
@@ -77,9 +77,9 @@ const AllusionContainer = (props) => {
     fetchList();
   }, []);
 
-  // 搜索参数变化时重新查询
+  // 搜索参数变化时重新查询（文库传入 params 对象，兼容外部直接传 keyWord）
   useEffect(() => {
-    const newKey = props.keyWord || '';
+    const newKey = props.params?.keyWord ?? (props.keyWord || '');
     if (newKey !== searchRef.current) {
       searchRef.current = newKey;
       pagination.current = { ...pagination.current, page: 1, last_page: 2 };
@@ -87,7 +87,7 @@ const AllusionContainer = (props) => {
       setList([]);
       fetchList();
     }
-  }, [props.keyWord]);
+  }, [props.params, props.keyWord]);
 
   return (
     <View className='allusionContainer' id='allusionScrollContainer'>
@@ -118,10 +118,8 @@ const AllusionContainer = (props) => {
             ) : null}
           </View>
         ))}
-        {loading ? (
-          <View className='loading'>
-            <Text>加载中...</Text>
-          </View>
+        {loading && allusionList.length === 0 ? (
+          <Skeleton rows={6} />
         ) : null}
         {!loading && allusionList.length === 0 ? (
           <View className='empty'>

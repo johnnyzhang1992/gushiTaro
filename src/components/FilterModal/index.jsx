@@ -45,7 +45,7 @@ const FilterModal = (props) => {
 		const res = await fetchPoetData('GET', { size: 8 }).catch((err) => {
 			console.log(err);
 		});
-		if (res && res.statusCode == 200) {
+		if (res && res && res.status) {
 			const apiData = res.data?.data || res.data;
 			const list = apiData?.list || apiData?.poets || [];
 			const temList = list.map((item) => ({

@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { View, Text, Navigator } from '@tarojs/components';
 
 import HighLightText from '../HighLightText';
@@ -9,7 +10,8 @@ const removeSpecialText = (text) => {
 	return text
 		.replace(/<storng/g, '')
 		.replace(/<\/strong/g, '')
-		.replace(/&quot;/g, '');
+		.replace(/&quot;/g, '')
+		.trim();
 };
 const PoemSmallCard = ({
 	id,
@@ -24,16 +26,25 @@ const PoemSmallCard = ({
 	collect_count,
 	lightWord,
 	hideAudio = false,
+	footerSlot = null,
 }) => {
-	const rawContent = text_content || (typeof content === 'string'
-		? content
-		: (content?.content?.join?.('') || ''));
-	const _content = removeSpecialText(rawContent)
-		.split('。')
-		.filter(t => t.trim())
-		.map((text) => {
-			return text.replace(/　/g, '') + '。';
-		});
+	// 优先使用 content.content 数组格式
+	const _content = useMemo(() => {
+		// 如果 content 是对象且有 content 数组，直接使用
+		if (content && typeof content === 'object' && Array.isArray(content.content)) {
+			return content.content
+				.filter(t => t && t.trim())
+				.map(t => removeSpecialText(t.replace(/　/g, '').trim()));
+		}
+		// 否则使用 text_content 或合并 content
+		const rawContent = text_content || (typeof content === 'string'
+			? content
+			: (content?.content?.join?.('') || ''));
+		return removeSpecialText(rawContent)
+			.split('。')
+			.filter(t => t.trim())
+			.map((text) => text.replace(/　/g, '') + '。');
+	}, [text_content, content]);
 
 	return (
 		<View
@@ -64,10 +75,12 @@ const PoemSmallCard = ({
 			<View
 				className='bottom'
 				style={{
-					display: hideAudio && !showCount ? 'none' : 'flex',
+					display: (hideAudio && !showCount && !footerSlot) ? 'none' : 'flex',
 				}}
 			>
-				{showCount ? (
+				{footerSlot ? (
+					footerSlot
+				) : showCount ? (
 					<View className='count'>
 						<Text className='num'>喜欢 {like_count || 0}</Text>
 						<Text className='num'>收藏 {collect_count || 0}</Text>

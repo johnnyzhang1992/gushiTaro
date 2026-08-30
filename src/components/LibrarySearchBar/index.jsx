@@ -9,10 +9,10 @@ import './style.scss';
 
 // 作品字段（参考 web 端），默认全部
 const FIELD_OPTIONS = [
-  { value: 'all', label: '全部' },
+  { value: 'all', label: '范围：全部' },
   { value: 'title', label: '标题' },
   { value: 'author', label: '作者' },
-  { value: 'poem', label: '内容' },
+  { value: 'content', label: '内容' },
   { value: 'tag', label: '标签' },
 ];
 
@@ -25,54 +25,70 @@ const LibrarySearchBar = ({ tab, onSearch }) => {
 	const [field, setField] = useState('all');
 	const [dynastyList, setDynastyList] = useState([]);
 	const [sentenceThemes, setSentenceThemes] = useState([]);
-	const [sentenceTypes, setSentenceTypes] = useState([]);
+	const [sentenceCategoryMap, setSentenceCategoryMap] = useState({});
 	const [sTheme, setSTheme] = useState('全部');
 	const [sType, setSType] = useState('全部');
+	const [collapsed, setCollapsed] = useState(false);
 
 	// 拉取朝代（仅作品 tab 需要，作者 tab 左侧已有朝代筛选）
 	useEffect(() => {
-		if (tab === 1) {
+		if (tab === 0) {
 			getDynastyOptions().then((list) => {
 				if (list && list.length > 0) setDynastyList(list);
 			});
 		}
 		// 拉取摘录筛选项（主题/类型）
-		if (tab === 2) {
+		if (tab === 1) {
 			fetchSentenceFilters('GET', {}).then((res) => {
 				if (res && res.status && res.data) {
 					setSentenceThemes(res.data.themes || []);
-					setSentenceTypes(res.data.types || []);
+					const map = {};
+					(res.data.categories || []).forEach((c) => { map[c.theme_name] = c.types || []; });
+					setSentenceCategoryMap(map);
 				}
 			}).catch(() => {});
 		}
 	}, [tab]);
 
+	// 筛选项变化时自动搜索
+	useEffect(() => {
+		if (tab === 0 && dynastyList.length > 0) {
+			handleSearch();
+		}
+	}, [dynasty, poemType, field]);
+
+	useEffect(() => {
+		if (tab === 1 && sentenceThemes.length > 0) {
+			console.log('摘录筛选项变化:', { sTheme, sType });
+			handleSearch();
+		}
+	}, [sTheme, sType]);
+
 	const handleSearch = () => {
 		const key = keyword.trim();
-		if (!key) {
-			Taro.showToast({ title: '请输入搜索内容', icon: 'none' });
-			return;
-		}
 		// 组装当前 tab 的查询参数，回调父组件在当前页查询（不跳转）
-		const params = { keyWord: key };
+		const params = {};
+		if (key) params['keyWord'] = key;
+		console.log('handleSearch:', tab, { sTheme, sType, dynasty, poemType, field });
 		switch (tab) {
-			case 1: // 作品
+			case 0: // 作品
 				if (dynasty !== '全部') params['dynasty'] = dynasty;
 				if (poemType !== '全部') params['type'] = poemType;
 				if (field !== 'all') params['field'] = field;
 				break;
-			case 2: // 摘录
+			case 1: // 摘录
 				params['source_type'] = '古诗摘录';
 				if (sTheme !== '全部') params['theme'] = sTheme;
 				if (sType !== '全部') params['type'] = sType;
 				break;
-			case 3: // 作者（朝代由左侧栏筛选）
+			case 2: // 作者
 				break;
 			case 4: // 典故
 				break;
 			default:
 				return;
 		}
+		console.log('onSearch params:', params);
 		if (onSearch && typeof onSearch === 'function') {
 			onSearch(params);
 		}
@@ -86,15 +102,18 @@ const LibrarySearchBar = ({ tab, onSearch }) => {
 		}
 	};
 
+	// 类型列表跟随主题：未选主题时仅「全部」
+	const sentenceTypeOptions = ['全部', ...(sTheme !== '全部' ? sentenceCategoryMap[sTheme] || [] : [])];
+
 	const placeholder = {
-		1: '搜索诗词标题、内容',
-		2: '搜索名句、出处',
-		3: '搜索诗人',
+		0: '搜索诗词标题、内容',
+		1: '搜索名句、出处',
+		2: '搜索诗人',
 		4: '搜索典故',
 	}[tab];
 
 	return (
-		<View className='librarySearchArea'>
+		<View className={`librarySearchArea ${collapsed ? 'collapsed' : ''}`}>
 			{/* 搜索行 */}
 			<View className='searchRow'>
 				<View className='searchInputWrap'>
@@ -119,7 +138,7 @@ const LibrarySearchBar = ({ tab, onSearch }) => {
 			</View>
 			{/* 筛选项 */}
 			{/* 朝代（作品） */}
-			{tab === 1 && dynastyList.length > 0 ? (
+			{tab === 0 && dynastyList.length > 0 ? (
 				<ScrollView className='filterRow' scrollX showScrollbar={false}>
 					{dynastyList.map((d) => (
 						<Text
@@ -127,42 +146,42 @@ const LibrarySearchBar = ({ tab, onSearch }) => {
 							className={`filterChip ${dynasty === d ? 'active' : ''}`}
 							onClick={() => setDynasty(d)}
 						>
-							{d}
+							{d === '全部' ? '朝代：全部' : d}
 						</Text>
 					))}
 				</ScrollView>
 			) : null}
 			{/* 摘录：主题 + 类型筛选项 */}
-			{tab === 2 ? (
+			{tab === 1 ? (
 				<View className='filterRows'>
 					{sentenceThemes.length > 0 ? (
 						<ScrollView className='filterRow' scrollX showScrollbar={false}>
 							<Text
 								className={`filterChip ${sTheme === '全部' ? 'active' : ''}`}
-								onClick={() => setSTheme('全部')}
+								onClick={() => { setSTheme('全部'); setSType('全部'); }}
 							>
-								全部
+								主题：全部
 							</Text>
 							{sentenceThemes.map((t) => (
 								<Text
 									key={t}
 									className={`filterChip ${sTheme === t ? 'active' : ''}`}
-									onClick={() => setSTheme(t)}
+									onClick={() => { setSTheme(t); setSType('全部'); }}
 								>
 									{t}
 								</Text>
 							))}
 						</ScrollView>
 					) : null}
-					{sentenceTypes.length > 0 ? (
+					{sentenceThemes.length > 0 ? (
 						<ScrollView className='filterRow' scrollX showScrollbar={false}>
 							<Text
 								className={`filterChip ${sType === '全部' ? 'active' : ''}`}
 								onClick={() => setSType('全部')}
 							>
-								全部
+								类型：全部
 							</Text>
-							{sentenceTypes.map((t) => (
+							{sentenceTypeOptions.slice(1).map((t) => (
 								<Text
 									key={t}
 									className={`filterChip ${sType === t ? 'active' : ''}`}
@@ -176,7 +195,7 @@ const LibrarySearchBar = ({ tab, onSearch }) => {
 				</View>
 			) : null}
 			{/* 类型 + 字段（作品），各自单独一行 */}
-			{tab === 1 ? (
+			{tab === 0 ? (
 				<View className='filterRows'>
 					<View className='filterRow static'>
 						<View className='filterGroup'>
@@ -186,7 +205,7 @@ const LibrarySearchBar = ({ tab, onSearch }) => {
 									className={`filterChip ${poemType === t ? 'active' : ''}`}
 									onClick={() => setPoemType(t)}
 								>
-									{t}
+									{t === '全部' ? '类型：全部' : t}
 								</Text>
 							))}
 						</View>
@@ -204,6 +223,13 @@ const LibrarySearchBar = ({ tab, onSearch }) => {
 							))}
 						</View>
 					</View>
+				</View>
+			) : null}
+			{/* 收起/展开按钮（仅作品 TAB）*/}
+			{tab === 0 ? (
+				<View className='toggleBtn' onClick={() => setCollapsed(!collapsed)}>
+					<Text className='toggleText'>{collapsed ? '展开' : '收起'}</Text>
+					<Text className='toggleArrow'>{collapsed ? '▼' : '▲'}</Text>
 				</View>
 			) : null}
 		</View>

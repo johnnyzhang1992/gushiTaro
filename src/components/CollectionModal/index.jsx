@@ -14,10 +14,10 @@ import {
 import './style.scss';
 
 const titleObj = {
-	create: '新建收藏集',
-	edit: '选择收藏集',
-	create_collection: '新建收藏集',
-	edit_collection: '编辑收藏集',
+	create: '新建诗单',
+	edit: '选择诗单',
+	create_collection: '新建诗单',
+	edit_collection: '编辑诗单',
 };
 const CollectionModal = ({
 	show = 'false',
@@ -48,7 +48,7 @@ const CollectionModal = ({
 			mine: true,
 			target_id: target_id || targetId || '',
 		});
-		if (res && res.statusCode === 200) {
+		if (res && res && res.status) {
 			const apiData = res.data?.data || res.data;
 			const collectionList = apiData.collections || apiData.list || [];
 			const checkboxOptions = collectionList.map((item) => ({
@@ -57,7 +57,7 @@ const CollectionModal = ({
 				label: item.collection_name,
 				desc: `作品数量：${item.poem_count}`,
 			}));
-			// 通过 has_poem 字段获取已包含当前诗词的收藏集
+			// 通过 has_poem 字段获取已包含当前诗词的诗单
 			const existCollectionIds = collectionList
 				.filter((item) => item.has_poem)
 				.map((item) => item._id);
@@ -76,7 +76,7 @@ const CollectionModal = ({
 		const { collection_name, description } = collectionForm;
 		if (!collection_name) {
 			Taro.showToast({
-				title: '请输入收藏集名称',
+				title: '请输入诗单名称',
 				icon: 'error',
 				duration: 2000,
 			});
@@ -107,10 +107,10 @@ const CollectionModal = ({
 
 	const handleUpdateCollect = async () => {
 		const _ids = collectionIds.filter((item) => item);
-		// 若未收藏，且没有选择收藏集
+		// 若未收藏，且没有选择诗单
 		if (oldIds.current.length == 0 && _ids.length < 1) {
 			Taro.showToast({
-				title: '请选中一个收藏集',
+				title: '请选中一个诗单',
 				icon: 'none',
 				duration: 2000,
 			});
@@ -123,7 +123,7 @@ const CollectionModal = ({
 		})
 		.then((res) => {
 			const apiData = res.data?.data || res.data;
-			if (res && res.statusCode === 200) {
+			if (res && res && res.status) {
 				const resStatus = apiData?.isFavorited !== undefined ? apiData.isFavorited : apiData?.status;
 				const resCount = apiData?.num !== undefined ? apiData.num : 0;
 				const msg = apiData?.msg || '';
@@ -154,7 +154,7 @@ const CollectionModal = ({
 		console.log('handleUpdateCollection', collectionForm);
 		if (!collection_name) {
 			Taro.showToast({
-				title: '请输入收藏集名称',
+				title: '请输入诗单名称',
 				icon: 'error',
 				duration: 2000,
 			});
@@ -238,24 +238,24 @@ const CollectionModal = ({
 	return (
 		<FloatLoayout isOpen={showModal} showTitle={false} close={handleClose}>
 			<View className='collectionTitle'>
-				<View className='title'>{titleObj[modalType] || '选择收藏集'}</View>
+				<View className='title'>{titleObj[modalType] || '选择诗单'}</View>
 				<View
 					className='collectionDesc'
 					style={{
 						display: modalType == 'edit' ? 'block' : 'none',
 					}}
 				>
-					选择或创建你想添加的收藏集
+					选择或创建你想添加的诗单
 				</View>
 			</View>
-			{/* 编辑收藏集 */}
+			{/* 编辑诗单 */}
 			<view
 				className='modalCollectionContent'
 				style={{
 					display: modalType == 'edit' ? 'block' : 'none',
 				}}
 			>
-				{/* 收藏集选择列表列表 */}
+				{/* 诗单选择列表列表 */}
 				<ScrollView
 					className='collectionListContainer'
 					scrollY
@@ -287,14 +287,14 @@ const CollectionModal = ({
 							setType('create');
 						}}
 					>
-						新建收藏集
+						新建诗单
 					</View>
 					<View className='confirm btn' onClick={handleUpdateCollect}>
 						确定
 					</View>
 				</View>
 			</view>
-			{/* 新建收藏集 */}
+			{/* 新建诗单 */}
 			<view
 				className='modalCollectionContent'
 				style={{
@@ -309,14 +309,14 @@ const CollectionModal = ({
 				<View className='collectionLable'>名称</View>
 				<Input
 					className='name'
-					placeholder='收藏集名称（10字以内）'
+					placeholder='诗单名称（10字以内）'
 					value={collectionForm.collection_name}
 					onChange={(val) => handleNameChange(val)}
 				/>
 				<View className='collectionLable'>描述</View>
 				<Input
 					className='desc'
-					placeholder='收藏集描述（50字以内）'
+					placeholder='诗单描述（50字以内）'
 					value={collectionForm.description}
 					onChange={(val) => handleDescChange(val)}
 				/>

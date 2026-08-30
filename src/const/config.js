@@ -1,11 +1,26 @@
 // 开发环境走本地服务，生产环境走线上
-// npm run dev:weapp  -> development
-// npm run build:weapp -> production
+// 小程序环境下根据 envVersion 自动判断：develop/trial/release
+import Taro from '@tarojs/taro';
+
 const DEV_BASE_URL = 'http://192.168.31.138:3000';
 const PROD_BASE_URL = 'https://api.xuegushi.com';
 
-export const BaseUrl =
-	process.env.NODE_ENV === 'development' ? DEV_BASE_URL : PROD_BASE_URL;
+const getBaseUrl = () => {
+	let envVersion = 'release';
+	try {
+		const accountInfo = Taro.getAccountInfoSync();
+		envVersion = accountInfo?.miniProgram?.envVersion || 'release';
+	} catch (e) {
+		// 非小程序环境（如 H5）使用 NODE_ENV 兜底
+	}
+
+	if (envVersion === 'develop') {
+		return DEV_BASE_URL;
+	}
+	return PROD_BASE_URL;
+};
+
+export const BaseUrl = getBaseUrl();
 export const WxAppVersion = '6.1.5'
 /**
  * 分类标签
@@ -1258,4 +1273,59 @@ export const CiPaiArr = [
 ];
 
 // 飞花令
-export const FeiHuaConfig = [];
+// 飞花令主题字分类（参考 web 端 Feihua.tsx）
+export const FeiHuaConfig = [
+	{
+		name: '自然景物',
+		icon: '🌿',
+		items: ['花', '月', '风', '云', '雨', '雪', '山', '水', '江', '海', '湖', '河', '春', '秋', '夜', '日', '星', '天', '地', '林'],
+	},
+	{
+		name: '四季时令',
+		icon: '🌸',
+		items: ['春', '夏', '秋', '冬', '寒', '暖', '凉', '露', '霜', '霞', '雾', '风', '雪', '雨', '雷', '光', '影'],
+	},
+	{
+		name: '数字',
+		icon: '🔢',
+		items: ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '百', '千', '万'],
+	},
+	{
+		name: '颜色',
+		icon: '🎨',
+		items: ['红', '绿', '青', '蓝', '紫', '白', '黑', '黄', '翠', '碧', '丹', '朱'],
+	},
+	{
+		name: '植物花卉',
+		icon: '🌺',
+		items: ['花', '草', '树', '梅', '兰', '竹', '菊', '柳', '桃', '杏', '梨', '荷', '莲', '松', '桂', '枫', '叶', '木'],
+	},
+	{
+		name: '飞禽走兽',
+		icon: '🐦',
+		items: ['鸟', '雁', '鹤', '莺', '燕', '蝶', '蜂', '马', '牛', '羊', '犬', '兔', '龙', '凤', '鱼', '蝉'],
+	},
+	{
+		name: '情感心绪',
+		icon: '💭',
+		items: ['愁', '思', '情', '心', '梦', '恨', '喜', '悲', '爱', '念', '忧', '醉', '笑', '泪', '孤', '愁'],
+	},
+	{
+		name: '人文器物',
+		icon: '🏮',
+		items: ['书', '琴', '酒', '茶', '舟', '楼', '亭', '桥', '门', '窗', '灯', '钟', '棋', '画', '剑', '笛', '箫', '衣'],
+	},
+	{
+		name: '方位地名',
+		icon: '🧭',
+		items: ['东', '南', '西', '北', '上', '下', '中', '前', '后', '边', '城', '关', '州', '京', '洛', '秦', '楚', '吴'],
+	},
+	{
+		name: '身体动作',
+		icon: '👋',
+		items: ['手', '足', '头', '心', '目', '泪', '笑', '歌', '舞', '行', '立', '坐', '望', '看', '听', '问', '别', '归'],
+	},
+];
+
+// 飞花令热门字
+export const HotFeiHua = ['花', '月', '风', '雪', '春', '雨', '云', '山', '水', '酒', '江', '夜', '秋', '人', '心', '梦', '愁', '马', '雁', '龙', '一', '万', '千', '白'];

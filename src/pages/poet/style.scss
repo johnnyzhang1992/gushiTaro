@@ -1,3 +1,85 @@
+
+.emptyState {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 100rpx 0;
+
+	.emptyText {
+		font-size: 28rpx;
+		color: #999;
+	}
+}
+
+
+.searchBar {
+	display: flex;
+	align-items: center;
+	padding: 16rpx 24rpx;
+	background: #fff;
+	border-bottom: 1rpx solid #f0f2f5;
+
+	.searchInputWrap {
+		flex: 1;
+		position: relative;
+		display: flex;
+		align-items: center;
+
+		.searchInput {
+			flex: 1;
+			height: 64rpx;
+			background: #f5f7fa;
+			border-radius: 32rpx;
+			padding: 0 60rpx 0 28rpx;
+			font-size: 26rpx;
+			box-sizing: border-box;
+		}
+
+		.searchClear {
+			position: absolute;
+			right: 16rpx;
+			width: 40rpx;
+			height: 40rpx;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border-radius: 50%;
+			background: #d8dde3;
+
+			.searchClearIcon {
+				font-size: 26rpx;
+				color: #fff;
+				line-height: 1;
+			}
+		}
+	}
+
+	.searchPlaceholder {
+		color: #aaa;
+	}
+
+	.searchBtn {
+		flex-shrink: 0;
+		height: 64rpx;
+		padding: 0 32rpx;
+		border-radius: 32rpx;
+		background: #337ab7;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		.searchBtnText {
+			color: #fff;
+			font-size: 26rpx;
+		}
+	}
+
+	.searchPlaceholder {
+		color: #aaa;
+	}
+}
+
 .poetDetail {
 	min-height: 100vh;
 	padding-bottom: 220px;
@@ -74,6 +156,27 @@
 .hotPoemsSwiper {
 	height: 305px;
 }
+/* 固定 PageHeader */
+.poetIndex :global(.custome-page-header) {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 999;
+}
+
+.poetPage {
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	background-color: #f5f7fa;
+}
+
+.poetScrollView {
+	flex: 1;
+	overflow: hidden;
+}
+
 .poetIndex {
 	min-height: 100vh;
 	background-color: #f8f8f8;
@@ -81,11 +184,13 @@
 		background-color: #fff;
 	}
 	.filterContainer {
-		position: sticky;
+		/* position: sticky; */
 		top: 0;
+		z-index: 10;
 		background-color: #fff;
 		opacity: 0.9;
 		padding: 20px 30px;
+		/* 吸顶时考虑顶部安全区域 */
 		z-index: 99;
 		box-shadow: 0 1px 3px hsla (0, 0%, 7%, 0.1);
 	}

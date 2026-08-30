@@ -7,14 +7,15 @@ import Taro, {
 	useShareTimeline,
 } from '@tarojs/taro';
 import { useNavigationBar } from 'taro-hooks';
-import { View, Text } from '@tarojs/components';
+import { View, Text, ScrollView, Input } from '@tarojs/components';
 
-// import FilterContainer from './components/FilterContainer';
+import FilterCard from '../../components/FilterCard';
 import SentenceCard from '../../components/SentenceCard';
+import PageHeader from '../../components/PageHeader';
 
 import useFetchList from '../../hooks/useFetchList';
 
-import { fetchSentenceData } from './service';
+import { fetchSentenceData, fetchSentenceFilters } from './service';
 
 import './style.scss';
 
@@ -33,9 +34,11 @@ const SentencePage = () => {
 		last_page: 1,
 	});
 	const cacheObj = useRef({ count: 0 });
+	const [themeOptions, setThemeOptions] = useState(['全部']);
+	const [categoryMap, setCategoryMap] = useState({});
 
 	// 使用自定义hook 获取诗词分页数据
-	const { data, error, loading } = useFetchList(
+	const { data, error, loading, loaded } = useFetchList(
 		fetchSentenceData,
 		fetchParams,
 		pagination
@@ -49,6 +52,28 @@ const SentencePage = () => {
 			};
 		});
 	}, [data]);
+
+	// 摘录筛选选项（主题/类型），来自后端 /api/sentences/filters
+	useEffect(() => {
+		fetchSentenceFilters('GET', {}).then((res) => {
+			if (res && res.status && res.data) {
+				setThemeOptions(['全部', ...(res.data.themes || [])]);
+				const map = {};
+				(res.data.categories || []).forEach((c) => { map[c.theme_name] = c.types || []; });
+				setCategoryMap(map);
+			}
+		}).catch(() => {});
+	}, []);
+
+	// 类型跟随主题：切换主题后类型列表随之变化，类型重置为全部
+	const handleFilterSelect = (name, value) => {
+		const filterParams = name === 'theme' ? { theme: value, type: '全部' } : { type: value };
+		updateParams((pre) => ({ ...pre, ...filterParams, inited: true }));
+		updatePagination({ page: 1, size: 15, total: 0, last_page: -1 });
+	};
+
+	// 类型列表跟随主题：未选主题时仅「全部」
+	const typeOptions = ['全部', ...(fetchParams.theme !== '全部' ? categoryMap[fetchParams.theme] || [] : [])];
 
 	console.log(data, error, loading);
 	useLoad((options) => {
@@ -139,17 +164,69 @@ const SentencePage = () => {
 	});
 
 	return (
-		<View className='page sentenceIndex'>
+		<View className='sentencePage'>
+			<PageHeader showBack showSearch={false} title={fetchParams.author || fetchParams.keyWord || '名句'} />
+			<View className='searchBar'>
+				<View className='searchInputWrap'>
+					<Input
+						className='searchInput'
+						placeholder='搜索名句内容/作者'
+						placeholderClass='searchPlaceholder'
+						value={fetchParams.keyWord || ''}
+						onInput={(e) => {
+							const val = e.detail.value;
+							updateParams((pre) => ({ ...pre, keyWord: val, inited: true }));
+						}}
+						onConfirm={() => {
+							updatePagination({ page: 1 });
+						}}
+					/>
+					{fetchParams.keyWord ? (
+						<View className='searchClear' onClick={() => updateParams((pre) => ({ ...pre, keyWord: '' }))}>
+							<Text className='searchClearIcon'>×</Text>
+						</View>
+					) : null}
+				</View>
+				<View className='searchBtn' onClick={() => {
+						updateParams((pre) => ({ ...pre, inited: true }));
+						updatePagination({ page: 1 });
+					}}>
+					<Text className='searchBtnText'>搜索</Text>
+				</View>
+			</View>
+			<ScrollView className='sentenceScrollView' scrollY scrollWithAnimation>
+			<View className='page sentenceIndex'>
+			{/* 筛选区域：主题/类型（互斥） */}
+			<FilterCard
+				name='theme'
+				title='主题'
+				filters={themeOptions}
+				initValue={fetchParams.theme}
+				updateParams={(obj) => handleFilterSelect('theme', obj.theme)}
+			/>
+			<FilterCard
+				name='type'
+				title='类型'
+				filters={typeOptions}
+				initValue={fetchParams.type}
+				updateParams={(obj) => handleFilterSelect('type', obj.type)}
+			/>
 			{/* 列表显示区域 */}
 			<View className='pageContainer safeBottom'>
-				{data.list.map((sentence) => (
-					<SentenceCard
-						{...sentence}
-						showCount
-						key={sentence.id}
-						lightWord={fetchParams.keyWord}
-					/>
-				))}
+				{data.list.length > 0 ? (
+					data.list.map((sentence) => (
+						<SentenceCard
+							{...sentence}
+							showCount
+							key={sentence.id}
+							lightWord={fetchParams.keyWord}
+						/>
+					))
+				) : !loading && loaded ? (
+					<View className='emptyState'>
+						<Text className='emptyText'>暂无数据</Text>
+					</View>
+				) : null}
 			</View>
 			{/* loading */}
 			{loading ? (
@@ -163,6 +240,8 @@ const SentencePage = () => {
 					<Text>{error}</Text>
 				</View>
 			) : null}
+			</View>
+			</ScrollView>
 		</View>
 	);
 };

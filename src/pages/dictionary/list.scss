@@ -1,0 +1,113 @@
+.dictionaryListPage {
+	background-color: #f5f7fa;
+	min-height: 100vh;
+
+	.searchBar {
+		display: flex;
+		align-items: center;
+		padding: 20rpx 24rpx;
+		background: #fff;
+		box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+
+		.searchInputWrapper {
+			flex: 1;
+			position: relative;
+			display: flex;
+			align-items: center;
+			background: #f5f7fa;
+			border-radius: 36rpx;
+
+			.searchInput {
+				flex: 1;
+				height: 64rpx;
+				padding: 0 70rpx 0 28rpx;
+				font-size: 26rpx;
+				background: transparent;
+				border-radius: 36rpx;
+			}
+
+			.searchPlaceholder {
+				color: #aaa;
+			}
+
+			.clearIcon {
+				position: absolute;
+				right: 16rpx;
+				width: 40rpx;
+				height: 40rpx;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				background: #d0d0d0;
+				border-radius: 50%;
+
+				.clearText {
+					font-size: 28rpx;
+					color: #fff;
+					line-height: 1;
+				}
+			}
+		}
+
+		.searchBtn {
+			flex-shrink: 0;
+			height: 64rpx;
+			padding: 0 32rpx;
+			border-radius: 32rpx;
+			background: #337ab7;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-left: 16rpx;
+
+			.searchBtnText {
+				color: #fff;
+				font-size: 26rpx;
+			}
+		}
+	}
+
+	.listContainer {
+		padding: 24rpx 20rpx;
+		display: flex;
+		flex-wrap: wrap;
+		align-content: flex-start;
+	}
+
+	.loading,
+	.empty,
+	.noMore {
+		width: 100%;
+		text-align: center;
+		padding: 60rpx 0;
+		font-size: 26rpx;
+		color: #999;
+	}
+
+	.empty {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		&::before {
+			content: '∅';
+			font-size: 80rpx;
+			color: #ddd;
+			margin-bottom: 20rpx;
+		}
+	}
+
+	.noMore {
+		color: #bbb;
+		font-size: 24rpx;
+
+		&::after {
+			content: '';
+			display: block;
+			width: 120rpx;
+			height: 2rpx;
+			background: #e8e8e8;
+			margin: 16rpx auto 0;
+		}
+	}
+}

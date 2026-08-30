@@ -31,7 +31,7 @@
 		bottom: 0;
 		width: 100%;
 		border-radius: 20px 20px 0 0;
-		padding: 0 30px 20px 30px;
+		padding: 0 30px calc(20px + env(safe-area-inset-bottom)) 30px;
 		box-sizing: border-box;
 		background-color: #fff;
 		transform: translate3d(0, 100%, 0);

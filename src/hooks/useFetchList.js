@@ -18,6 +18,8 @@ const useFetchList = (fetchFn, params, pgConfig) => {
 	});
 	const [error, setError] = useState(null);
 	const [loading, updateLoading] = useState(false);
+	// 是否已有请求结束（成功或失败），用于区分「未请求过」和「请求完成但数据为空」
+	const [loaded, updateLoaded] = useState(false);
 	const dataRef = useRef({
 		page: 0,
 		last_page: 0,
@@ -29,7 +31,7 @@ const useFetchList = (fetchFn, params, pgConfig) => {
 	const fetchData = useCallback(() => {
 		// 缓存分页信息
 		const cachePg = dataRef.current;
-		const { requestType = 'poem' } = params;
+		const { requestType = 'poem', inited, from, ...requestParams } = params;
 		const { page, last_page: lastPage } = pgConfig;
 		if (requestType === 'collect' && !Taro.getStorageSync('wx_token')) {
 			setError('登录后，才能获取数据哦！');
@@ -65,11 +67,12 @@ const useFetchList = (fetchFn, params, pgConfig) => {
 		console.log('---分页数据不同，发起请求：', page, cachePg.page);
 
 		fetchFn('GET', {
-			...params,
+			...requestParams,
 			page,
 		})
 			.then((res) => {
 				console.log('列表接口返回:', res);
+				updateLoaded(true);
 				// request.js 返回格式: { status: true, data: {...} }
 				const apiData = res?.data || res;
 				if ((res.status || res.statusCode == 200) && apiData) {
@@ -106,6 +109,7 @@ const useFetchList = (fetchFn, params, pgConfig) => {
 				console.log('----请求失败--进入 catch 回调函数');
 				console.log(err);
 				setError(err);
+				updateLoaded(true);
 				loadRef.current = false;
 				updateLoading(false);
 			});
@@ -119,6 +123,7 @@ const useFetchList = (fetchFn, params, pgConfig) => {
 		error,
 		data,
 		loading,
+		loaded,
 		setData,
 	};
 };

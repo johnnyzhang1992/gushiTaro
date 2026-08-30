@@ -68,7 +68,7 @@ const ScheduleCard = (props) => {
 	const handleDelete = () => {
 		deleteSchedule('POST', { id })
 			.then((res) => {
-				if (res && res.statusCode == 200) {
+				if (res && res && res.status) {
 					onDelete && onDelete(id);
 					Taro.showToast({
 						// 删除成功
