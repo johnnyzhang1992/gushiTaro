@@ -1,35 +1,29 @@
 .filterCard {
-	font-size: 28px;
-	display: flex;
-	margin-bottom: 10px;
+	margin-bottom: 16rpx;
+}
+
+.filterList {
+	white-space: nowrap;
+	width: 100%;
+}
+
+.filterItem {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 10rpx 22rpx;
+	border-radius: 28rpx;
+	background: #f5f7fa;
+	color: #666;
+	font-size: 24rpx;
+	margin-right: 12rpx;
+
 	&:last-child {
-		margin-bottom: 0;
+		margin-right: 0;
 	}
-	&>.title {
-		font-weight: 600;
-		padding: 4px 0;
-		padding-left: 14px;
-		position: relative;
-		&::before {
-			content: ' ';
-			width: 6px;
-			height: 28px;
-			position: absolute;
-			left: 0;
-			top: 10px;
-			background-color: #337ba7;
-		}
-	}
-	.filterList {
-		flex: 1;
-		display: flex;
-		flex-wrap: wrap;
-	}
-	.filterItem {
-		padding: 4px 8px;
-		margin-right: 12px;
-		&.active {
-			color: #337ba7;
-		}
+
+	&.active {
+		background: #337ab7;
+		color: #fff;
 	}
 }

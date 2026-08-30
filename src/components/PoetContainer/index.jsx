@@ -68,13 +68,14 @@ const PoetContainer = (props) => {
 			return false;
 		}
 		const dynasty = dynastyRef.current;
+		const { page, last_page: lastPage } = pagination.current;
 		const params = {
-			...pagination.current,
+			page,
+			size: pagination.current.size,
 			dynasty: dynasty,
 		};
 		if (searchRef.current) params['keyWord'] = searchRef.current;
-		const { page, last_page: lastPage } = pagination.current;
-		if (dynastyRef.current === '全部' && page > 1) {
+		if (dynasty === '全部' && page > 1) {
 			return false;
 		}
 		if (page > lastPage) {
@@ -82,6 +83,7 @@ const PoetContainer = (props) => {
 		}
 		refreshFlag.current = true;
 		setLoading(page === 1);
+		setError('');
 		fetchPoetData('GET', params)
 			.then((res) => {
 				const apiData = res.data?.data || res.data;
@@ -116,16 +118,16 @@ const PoetContainer = (props) => {
 		});
 	}, []);
 
-	// 搜索参数变化时重新查询
+	// 搜索参数变化时重新查询（文库传入 params 对象，兼容外部直接传 keyWord）
 	useEffect(() => {
-		const newKey = props.keyWord || '';
+		const newKey = props.params?.keyWord ?? (props.keyWord || '');
 		if (newKey !== searchRef.current) {
 			searchRef.current = newKey;
 			pagination.current = { ...pagination.current, page: 1, last_page: 2 };
 			refreshFlag.current = false;
 			fetchList();
 		}
-	}, [props.keyWord]);
+	}, [props.params, props.keyWord]);
 
 	return (
 		<View className='poetContainer' id='poetScrollContainer'>

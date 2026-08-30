@@ -45,7 +45,7 @@ const PoetPage = () => {
 	});
 
 	// 使用自定义hook 获取诗词分页数据
-	const { data, error, loading } = useFetchList(
+	const { data, error, loading, loaded } = useFetchList(
 		fetchPoetData,
 		fetchParams,
 		pagination
@@ -144,7 +144,7 @@ const PoetPage = () => {
 						}}
 					/>
 					{fetchParams.keyWord ? (
-						<View className='searchClear' onClick={() => updateParams({ keyWord: '' })}>
+						<View className='searchClear' onClick={() => updateParam({ keyWord: '' })}>
 							<Text className='searchClearIcon'>×</Text>
 						</View>
 					) : null}
@@ -191,11 +191,11 @@ const PoetPage = () => {
 							lightWord={fetchParams.keyWord}
 						/>
 					))
-				) : (
+				) : !loading && loaded ? (
 					<View className='emptyState'>
 						<Text className='emptyText'>暂无数据</Text>
 					</View>
-				)}
+				) : null}
 			</View>
 			{loading ? (
 				<View className='loading'>

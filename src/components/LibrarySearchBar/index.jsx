@@ -9,10 +9,10 @@ import './style.scss';
 
 // 作品字段（参考 web 端），默认全部
 const FIELD_OPTIONS = [
-  { value: 'all', label: '全部' },
+  { value: 'all', label: '范围：全部' },
   { value: 'title', label: '标题' },
   { value: 'author', label: '作者' },
-  { value: 'poem', label: '内容' },
+  { value: 'content', label: '内容' },
   { value: 'tag', label: '标签' },
 ];
 
@@ -25,7 +25,7 @@ const LibrarySearchBar = ({ tab, onSearch }) => {
 	const [field, setField] = useState('all');
 	const [dynastyList, setDynastyList] = useState([]);
 	const [sentenceThemes, setSentenceThemes] = useState([]);
-	const [sentenceTypes, setSentenceTypes] = useState([]);
+	const [sentenceCategoryMap, setSentenceCategoryMap] = useState({});
 	const [sTheme, setSTheme] = useState('全部');
 	const [sType, setSType] = useState('全部');
 	const [collapsed, setCollapsed] = useState(false);
@@ -42,7 +42,9 @@ const LibrarySearchBar = ({ tab, onSearch }) => {
 			fetchSentenceFilters('GET', {}).then((res) => {
 				if (res && res.status && res.data) {
 					setSentenceThemes(res.data.themes || []);
-					setSentenceTypes(res.data.types || []);
+					const map = {};
+					(res.data.categories || []).forEach((c) => { map[c.theme_name] = c.types || []; });
+					setSentenceCategoryMap(map);
 				}
 			}).catch(() => {});
 		}
@@ -56,7 +58,7 @@ const LibrarySearchBar = ({ tab, onSearch }) => {
 	}, [dynasty, poemType, field]);
 
 	useEffect(() => {
-		if (tab === 1 && (sentenceThemes.length > 0 || sentenceTypes.length > 0)) {
+		if (tab === 1 && sentenceThemes.length > 0) {
 			console.log('摘录筛选项变化:', { sTheme, sType });
 			handleSearch();
 		}
@@ -100,6 +102,9 @@ const LibrarySearchBar = ({ tab, onSearch }) => {
 		}
 	};
 
+	// 类型列表跟随主题：未选主题时仅「全部」
+	const sentenceTypeOptions = ['全部', ...(sTheme !== '全部' ? sentenceCategoryMap[sTheme] || [] : [])];
+
 	const placeholder = {
 		0: '搜索诗词标题、内容',
 		1: '搜索名句、出处',
@@ -141,7 +146,7 @@ const LibrarySearchBar = ({ tab, onSearch }) => {
 							className={`filterChip ${dynasty === d ? 'active' : ''}`}
 							onClick={() => setDynasty(d)}
 						>
-							{d}
+							{d === '全部' ? '朝代：全部' : d}
 						</Text>
 					))}
 				</ScrollView>
@@ -153,30 +158,30 @@ const LibrarySearchBar = ({ tab, onSearch }) => {
 						<ScrollView className='filterRow' scrollX showScrollbar={false}>
 							<Text
 								className={`filterChip ${sTheme === '全部' ? 'active' : ''}`}
-								onClick={() => setSTheme('全部')}
+								onClick={() => { setSTheme('全部'); setSType('全部'); }}
 							>
-								全部
+								主题：全部
 							</Text>
 							{sentenceThemes.map((t) => (
 								<Text
 									key={t}
 									className={`filterChip ${sTheme === t ? 'active' : ''}`}
-									onClick={() => setSTheme(t)}
+									onClick={() => { setSTheme(t); setSType('全部'); }}
 								>
 									{t}
 								</Text>
 							))}
 						</ScrollView>
 					) : null}
-					{sentenceTypes.length > 0 ? (
+					{sentenceThemes.length > 0 ? (
 						<ScrollView className='filterRow' scrollX showScrollbar={false}>
 							<Text
 								className={`filterChip ${sType === '全部' ? 'active' : ''}`}
 								onClick={() => setSType('全部')}
 							>
-								全部
+								类型：全部
 							</Text>
-							{sentenceTypes.map((t) => (
+							{sentenceTypeOptions.slice(1).map((t) => (
 								<Text
 									key={t}
 									className={`filterChip ${sType === t ? 'active' : ''}`}
@@ -200,7 +205,7 @@ const LibrarySearchBar = ({ tab, onSearch }) => {
 									className={`filterChip ${poemType === t ? 'active' : ''}`}
 									onClick={() => setPoemType(t)}
 								>
-									{t}
+									{t === '全部' ? '类型：全部' : t}
 								</Text>
 							))}
 						</View>

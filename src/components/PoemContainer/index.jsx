@@ -3,6 +3,7 @@ import Taro from '@tarojs/taro';
 import { View, Text, ScrollView } from '@tarojs/components';
 
 import PoemSmallCard from '../../components/PoemSmallCard';
+import Skeleton from '../Skeleton';
 
 import './style.scss';
 
@@ -56,22 +57,18 @@ const PoemContainer = (props) => {
 	};
 
 	const computeParams = (options) => {
-		const { type, from, code, keyWord, dynasty } = options;
-		let params = {
-			from: from || 'home',
-		};
+		const { type, code, keyWord, dynasty } = options;
+		let params = {};
 		if (type) {
-			// tag 对应 标签筛选
-			// author 对应作者筛选，仅加载该作者的诗词
-			// poem 标题和内容匹配
-			if (['tag', 'author', 'poem'].includes(type)) {
+			// tag/author/title/content 对应搜索范围，poem = 标题+内容全文
+			if (['tag', 'author', 'poem', 'title', 'content'].includes(type)) {
 				params['_type'] = type;
 			} else {
 				params['type'] = type;
 			}
 		}
-		// 搜索范围 field：title/author/poem/tag -> _type
-		if (options.field && ['title', 'author', 'poem', 'tag'].includes(options.field)) {
+		// 搜索范围 field：title/author/content/tag -> _type
+		if (options.field && ['title', 'author', 'content', 'tag'].includes(options.field)) {
 			params['_type'] = options.field;
 		}
 		if (keyWord) {
@@ -95,10 +92,12 @@ const PoemContainer = (props) => {
 			return false;
 		}
 		refreshFlag.current = true;
+		setLoading(page === 1);
+		setError('');
 		const params = computeParams(paramsRef.current);
 		console.log(props.params, pagination.current);
 		Taro.showLoading({ title: '加载中' });
-		fetchPoemData('GET', { ...params, ...pagination.current })
+		fetchPoemData('GET', { ...params, page, size: pagination.current.size })
 			.then((res) => {
 				const apiData = res.data?.data || res.data;
 				if ((res.status || res.statusCode == 200) && apiData) {
@@ -122,6 +121,7 @@ const PoemContainer = (props) => {
 			})
 			.finally(() => {
 				Taro.hideLoading();
+				setLoading(false);
 			});
 	};
 
@@ -138,7 +138,7 @@ const PoemContainer = (props) => {
 	useEffect(() => {
 		paramsRef.current = {
 			...(props.params || {}),
-			keyWord: props.keyWord || '',
+			...(props.keyWord ? { keyWord: props.keyWord } : {}),
 		};
 		pagination.current = {
 			...pagination.current,

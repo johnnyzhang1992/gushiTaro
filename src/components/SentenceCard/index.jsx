@@ -27,7 +27,8 @@ const parseOrigin = (origin) => {
 };
 
 const SentenceCard = ({
-	id,
+	id: propId,
+	_id,
 	title,
 	origin,
 	showCount = false,
@@ -37,6 +38,7 @@ const SentenceCard = ({
 	lightWord = '',
 }) => {
 	const handleNavigate = () => {
+		const id = propId || _id;
 		Taro.navigateTo({
 			url: `/pages/sentence/detail?keyWord=${lightWord || ''}&id=${id}`,
 		});

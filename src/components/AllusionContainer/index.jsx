@@ -35,6 +35,8 @@ const AllusionContainer = (props) => {
     if (page > lastPage) return;
 
     refreshFlag.current = true;
+    setLoading(page === 1);
+    setError('');
 
     const reqData = { page, size: 20 }
     if (searchRef.current) reqData['keyword'] = searchRef.current
@@ -75,9 +77,9 @@ const AllusionContainer = (props) => {
     fetchList();
   }, []);
 
-  // 搜索参数变化时重新查询
+  // 搜索参数变化时重新查询（文库传入 params 对象，兼容外部直接传 keyWord）
   useEffect(() => {
-    const newKey = props.keyWord || '';
+    const newKey = props.params?.keyWord ?? (props.keyWord || '');
     if (newKey !== searchRef.current) {
       searchRef.current = newKey;
       pagination.current = { ...pagination.current, page: 1, last_page: 2 };
@@ -85,7 +87,7 @@ const AllusionContainer = (props) => {
       setList([]);
       fetchList();
     }
-  }, [props.keyWord]);
+  }, [props.params, props.keyWord]);
 
   return (
     <View className='allusionContainer' id='allusionScrollContainer'>

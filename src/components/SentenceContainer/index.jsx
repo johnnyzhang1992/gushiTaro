@@ -67,8 +67,9 @@ const SentenceContainer = (props) => {
 		}
 		refreshFlag.current = true;
 		setLoading(page === 1);
+		setError('');
 		const params = computeParams(paramsRef.current);
-		fetchSentenceData('GET', { ...params, ...pagination.current })
+		fetchSentenceData('GET', { ...params, page, size: pagination.current.size })
 			.then((res) => {
 				const apiData = res.data?.data || res.data;
 				if ((res.status || res.statusCode == 200) && apiData) {

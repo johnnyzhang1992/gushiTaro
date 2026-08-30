@@ -11,6 +11,7 @@ import { View, Text, ScrollView, Input } from '@tarojs/components';
 
 import PageHeader from '../../components/PageHeader';
 import PoemSmallCard from '../../components/PoemSmallCard';
+import Skeleton from '../../components/Skeleton';
 
 import './style.scss';
 
@@ -56,8 +57,8 @@ const Poem = () => {
 		});
 	}, []);
 
-	// 使用自定义hook 获取诗词分页数据
-	const { data, error, loading } = useFetchList(
+	// 使用自定义hook 获取诗词分页数据（_type 搜索范围由后端 /api/poems 处理）
+	const { data, error, loading, loaded } = useFetchList(
 		fetchParams.name ? fetchHomeData : fetchPoemData,
 		fetchParams,
 		pagination
@@ -122,10 +123,8 @@ const Poem = () => {
 			params['_type'] = 'author';
 		}
 		if (type) {
-			// tag 对应 标签筛选
-			// author 对应作者筛选，仅加载该作者的诗词
-			// poem 标题和内容匹配
-			if (['tag', 'author', 'poem'].includes(type)) {
+			// tag/author/title/content 对应搜索范围，poem = 标题+内容全文
+			if (['tag', 'author', 'poem', 'title', 'content'].includes(type)) {
 				params['_type'] = type;
 			} else {
 				params['type'] = type;
@@ -221,7 +220,7 @@ const Poem = () => {
 						}}
 					/>
 					{fetchParams.keyWord ? (
-						<View className='searchClear' onClick={() => updateParams({ keyWord: '' })}>
+						<View className='searchClear' onClick={() => updateParam({ keyWord: '' })}>
 							<Text className='searchClearIcon'>×</Text>
 						</View>
 					) : null}
@@ -239,17 +238,17 @@ const Poem = () => {
 				<View className='searchScope'>
 					<Text
 						className={`scopeItem ${!fetchParams._type ? 'active' : ''}`}
-						onClick={() => updateParams({ _type: '' })}
+						onClick={() => updateSearchType('')}
 					>
-						全部
+						范围：全部
 					</Text>
 					{['标题', '作者', '标签', '内容'].map((item, idx) => {
-						const types = ['title', 'author', 'tag', 'poem'];
+						const types = ['title', 'author', 'tag', 'content'];
 						return (
 							<Text
 								key={item}
 								className={`scopeItem ${fetchParams._type === types[idx] ? 'active' : ''}`}
-								onClick={() => updateParams({ _type: types[idx] })}
+								onClick={() => updateSearchType(types[idx])}
 							>
 								{item}
 							</Text>
@@ -262,9 +261,9 @@ const Poem = () => {
 						<View
 							key={t}
 							className={`typeFilterItem ${(fetchParams.type || '全部') === t ? 'active' : ''}`}
-							onClick={() => updateParams({ type: t === fetchParams.type ? '全部' : t })}
+							onClick={() => updateParam({ type: t === fetchParams.type ? '全部' : t })}
 						>
-							{t}
+							{t === '全部' ? '类型：全部' : t}
 						</View>
 					))}
 				</View>
@@ -273,10 +272,10 @@ const Poem = () => {
 					{dynastyOptions.map((d) => (
 						<View
 							key={d}
-							className={`dynastyFilterItem ${fetchParams.dynasty === d ? 'active' : ''}`}
-							onClick={() => updateParams({ dynasty: d === fetchParams.dynasty ? '全部' : d })}
+							className={`dynastyFilterItem ${(fetchParams.dynasty || '全部') === d ? 'active' : ''}`}
+							onClick={() => updateParam({ dynasty: d === fetchParams.dynasty ? '全部' : d })}
 						>
-							{d}
+							{d === '全部' ? '朝代：全部' : d}
 						</View>
 					))}
 				</ScrollView>
@@ -318,13 +317,14 @@ const Poem = () => {
 								}
 							/>
 						);
-					}) : (
+					}) : !loading && loaded ? (
 						<View className='emptyState'>
 							<Text className='emptyText'>暂无数据</Text>
 						</View>
-					)}
+					) : null}
 				</View>
-				{loading ? (
+				{loading && data.list.length === 0 ? <Skeleton rows={6} /> : null}
+				{loading && data.list.length > 0 ? (
 					<View className='loading'>
 						<Text>内容加载中...</Text>
 					</View>
