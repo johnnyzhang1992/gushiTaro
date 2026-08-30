@@ -234,7 +234,6 @@ const MeIndex = () => {
 			Taro.removeStorageSync('user');
 			Taro.removeStorageSync('wx_token');
 		} else {
-			loadUserProfile();
 			setInfo((pre) => ({
 				...pre,
 				...user,
