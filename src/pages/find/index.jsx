@@ -26,7 +26,10 @@ const PostPage = () => {
 			{/* <RandomSearch /> */}
 			<DictionaryContainer params={{}} />
 			{/* 词牌 */}
-			<SectionCard title='词牌'>
+			<SectionCard
+				title='词牌'
+				onTitleClick={() => Taro.navigateTo({ url: '/pages/find/cipai' })}
+			>
 				<View className='cardContent'>
 					<WordCard text='如梦令' />
 					<WordCard text='浣溪沙' />

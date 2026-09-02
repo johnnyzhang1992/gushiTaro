@@ -43,26 +43,27 @@
 
 	.heroStats {
 		display: flex;
-		justify-content: flex-end;
+		justify-content: space-between;
+		align-items: center;
+
+		.poemCount {
+			font-size: 24rpx;
+			color: #337ab7;
+		}
 
 		.statsRight {
 			display: flex;
 			align-items: center;
 			gap: 16rpx;
-
-			.poemCount {
-				font-size: 24rpx;
-				color: #337ab7;
-			}
 		}
 
 		.collectBtn {
 			background: #fff;
 			border: 1rpx solid #337ab7;
 			color: #337ab7;
-			font-size: 22rpx;
-			padding: 6rpx 16rpx;
-			border-radius: 20rpx;
+			font-size: 26rpx;
+			padding: 10rpx 24rpx;
+			border-radius: 24rpx;
 			line-height: 1.5;
 			margin: 0;
 			width: auto !important;
@@ -75,6 +76,35 @@
 			&.collected {
 				background: #337ab7;
 				color: #fff;
+			}
+		}
+
+		.planBtn {
+			background: #fff;
+			border: 1rpx solid #52c41a;
+			color: #52c41a;
+			font-size: 26rpx;
+			padding: 10rpx 24rpx;
+			border-radius: 24rpx;
+			line-height: 1.5;
+			margin: 0;
+			width: auto !important;
+			min-width: 0 !important;
+
+			&::after {
+				border: none;
+			}
+
+			&.hasPlan {
+				background: #f6ffed;
+				border-color: #b7eb8f;
+				color: #52c41a;
+			}
+
+			&[disabled] {
+				background: #f5f5f5;
+				border-color: #d9d9d9;
+				color: #999;
 			}
 		}
 	}

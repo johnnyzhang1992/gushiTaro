@@ -281,12 +281,14 @@ const HomePage = () => {
 						<Text className='dailyPoem-arrow'>›</Text>
 					</View>
 					<View className='dailyPoem-body'>
-						<Text className='dailyPoem-title' numberOfLines={1}>
-							{dailyPoem.title}
-						</Text>
-						<Text className='dailyPoem-preview' numberOfLines={2}>
-							{poemPreview}
-						</Text>
+						<View className='dailyPoem-text'>
+							<Text className='dailyPoem-title' numberOfLines={1}>
+								{dailyPoem.title}
+							</Text>
+							<Text className='dailyPoem-preview' numberOfLines={2}>
+								{poemPreview}
+							</Text>
+						</View>
 						<View className='dailyPoem-meta'>
 							<Text className='dailyPoem-author'>
 								{dailyPoem.dynasty} · {dailyPoem.author}
@@ -358,18 +360,25 @@ const HomePage = () => {
 				)}
 			</View>
 
-			{/* ===== 4.5 飞花令入口 ===== */}
-			<View
-				className='card feihuaCard'
+			{/* ===== 4.5 飞花令 & 词牌名入口 ===== */}
+			<View className='gameEntryRow'>
+				<View
+					className='gameEntryCard'
 				onClick={() => Taro.navigateTo({ url: '/pages/find/feihua' })}
-			>
-				<View className='feihuaBody'>
-					<Text className='feihuaTag'>飞花令</Text>
-					<View className='feihuaText'>
-						<Text className='feihuaTitle'>春城无处不飞花</Text>
-						<Text className='feihuaDesc'>选择一个字，寻遍含它的千古名句</Text>
+				>
+					<View className='gameEntryInfo'>
+						<Text className='gameEntryTitle'>飞花令</Text>
+						<Text className='gameEntryDesc'>寻遍千古名句</Text>
 					</View>
-					<Text className='feihuaArrow'>›</Text>
+				</View>
+				<View
+					className='gameEntryCard'
+				onClick={() => Taro.navigateTo({ url: '/pages/find/cipai' })}
+				>
+					<View className='gameEntryInfo'>
+						<Text className='gameEntryTitle'>词牌名</Text>
+						<Text className='gameEntryDesc'>八百七十多词牌</Text>
+					</View>
 				</View>
 			</View>
 

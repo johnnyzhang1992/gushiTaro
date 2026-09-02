@@ -1,6 +1,6 @@
 import { View, Text, Navigator, Button } from '@tarojs/components';
-import Taro, { useRouter, useLoad, usePullDownRefresh } from '@tarojs/taro';
-import { useState } from 'react';
+import Taro, { useRouter, useLoad, usePullDownRefresh, useShareAppMessage, useShareTimeline } from '@tarojs/taro';
+import { useState, useEffect } from 'react';
 
 import CollectionPoemCard from '../../components/CollectionPoemCard';
 import Request from '../../apis/request';
@@ -15,6 +15,9 @@ const CollectionDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [isFavorited, setIsFavorited] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
+  const [hasPlan, setHasPlan] = useState(false);
+  const [planId, setPlanId] = useState(null);
+  const [creatingPlan, setCreatingPlan] = useState(false);
 
   // GET /api/collections/:id（返回诗单信息 + poems 数组）
   const loadDetail = () => {
@@ -55,6 +58,74 @@ const CollectionDetailPage = () => {
       .catch(() => {});
   };
 
+  // 检查是否已创建同名学习计划
+  const checkStudyPlan = () => {
+    const token = Taro.getStorageSync('wx_token');
+    if (!token || !detail) return;
+    
+    Request('/api/study-plans', {}, 'GET')
+      .then((res) => {
+        if (res && res.status && res.data) {
+          const existPlan = res.data.find(p => p.name === detail.collection_name);
+          setHasPlan(!!existPlan);
+          setPlanId(existPlan?._id || null);
+        }
+      })
+      .catch(() => {});
+  };
+
+  // 加入学习计划
+  const handleAddToStudyPlan = () => {
+    if (!isLogin) {
+      Taro.showModal({
+        title: '提示',
+        content: '请先登录后再操作',
+        confirmText: '去登录',
+        success: (res) => {
+          if (res.confirm) {
+            Taro.switchTab({ url: '/pages/me/index' });
+          }
+        },
+      });
+      return;
+    }
+
+    if (hasPlan) {
+      Taro.showToast({ title: '已创建同名学习计划', icon: 'none' });
+      return;
+    }
+
+    Taro.showModal({
+      title: '加入学习计划',
+      content: `将创建名为「${detail.collection_name}」的学习计划，并导入诗单内的所有诗词`,
+      success: (res) => {
+        if (res.confirm) {
+          setCreatingPlan(true);
+          Request('/api/study-plans', {
+            name: detail.collection_name,
+            description: detail.collection_description || '',
+            source_type: 'collection',
+            source_collection_id: id,
+            source_collection_name: detail.collection_name,
+          }, 'POST')
+            .then((res) => {
+              if (res && res.status) {
+                setHasPlan(true);
+                setPlanId(res.data?._id || null);
+                Taro.showToast({ title: '创建成功', icon: 'success' });
+              } else {
+                Taro.showToast({ title: res?.msg || '创建失败', icon: 'none' });
+              }
+            })
+            .catch(() => {
+              Taro.showToast({ title: '创建失败', icon: 'none' });
+            })
+            .finally(() => setCreatingPlan(false));
+        }
+      },
+    });
+  };
+
   // 切换收藏
   const handleToggleFavorite = () => {
     if (!isLogin) {
@@ -91,6 +162,28 @@ const CollectionDetailPage = () => {
     checkLoginAndFavorite();
   });
 
+  // 分享
+  useShareAppMessage(() => {
+    return {
+      title: detail?.collection_name || '诗单详情',
+      path: `/pages/library/collection-detail?id=${id}`,
+    };
+  });
+
+  useShareTimeline(() => {
+    return {
+      title: detail?.collection_name || '诗单详情',
+      path: `/pages/library/collection-detail?id=${id}`,
+    };
+  });
+
+  // detail 加载后检查学习计划
+  useEffect(() => {
+    if (detail) {
+      checkStudyPlan();
+    }
+  }, [detail]);
+
   usePullDownRefresh(() => {
     loadDetail();
     checkLoginAndFavorite();
@@ -113,13 +206,20 @@ const CollectionDetailPage = () => {
                 <Text className='heroDesc'>{detail.collection_description}</Text>
               ) : null}
               <View className='heroStats'>
+                <Text className='poemCount'>{detail.totalPoems || detail.poem_count || 0} 首</Text>
                 <View className='statsRight'>
-                  <Text className='poemCount'>{detail.totalPoems || detail.poem_count || 0} 首</Text>
                   <Button
                     className={`collectBtn ${isFavorited ? 'collected' : ''}`}
                     onClick={handleToggleFavorite}
                   >
                     {isFavorited ? '★ 已收藏' : '☆ 收藏'}
+                  </Button>
+                  <Button
+                    className={`planBtn ${hasPlan ? 'hasPlan' : ''}`}
+                    onClick={hasPlan ? () => Taro.navigateTo({ url: `/pages/study/detail?id=${planId}` }) : handleAddToStudyPlan}
+                    disabled={creatingPlan}
+                  >
+                    {hasPlan ? '→ 去学习' : '+ 学习计划'}
                   </Button>
                 </View>
               </View>

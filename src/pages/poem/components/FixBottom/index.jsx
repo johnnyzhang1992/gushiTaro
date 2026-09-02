@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import LikeButton from '../../../../components/LikeButton';
 import CollectButton from '../../../../components/CollectButton';
-import ScheduleButton from '../../../../components/ScheduleButton';
+import ScheduleModal from '../../../../components/ScheduleModal';
 import AddToCollectionPopup from '../../../../components/AddToCollectionPopup';
 import RootFixed from '../../../../components/RootFixed';
 
@@ -11,6 +11,7 @@ import './style.scss';
 
 const FixBottom = (props) => {
 	const { poem = {} } = props;
+	const [showScheduleModal, setShowScheduleModal] = useState(false);
 	const [showCollectionPopup, setShowCollectionPopup] = useState(false);
 
 	const poemId = poem.id || poem._id;
@@ -19,12 +20,15 @@ const FixBottom = (props) => {
 		<RootFixed>
 			<View className='fixBottom'>
 				<View className='bottomTabs flex'>
-					<View className='tabItem'>
-						<ScheduleButton id={poemId} showText />
-					</View>
-					<View className='tabItem collection-btn' onClick={() => setShowCollectionPopup(true)}>
-						<Text className='icon'>📖</Text>
-						<Text className='text'>诗单</Text>
+					<View className='left flex'>
+						<View className='tabItem' onClick={() => setShowScheduleModal(true)}>
+							<Text className='addIcon'>+</Text>
+							<Text className='text'>学习计划</Text>
+						</View>
+						<View className='tabItem' onClick={() => setShowCollectionPopup(true)}>
+							<Text className='addIcon'>+</Text>
+							<Text className='text'>诗单</Text>
+						</View>
 					</View>
 					<View className='right flex'>
 						<View className='tabItem like'>
@@ -49,12 +53,19 @@ const FixBottom = (props) => {
 				</View>
 			</View>
 
+			{/* 学习计划弹窗 */}
+			<ScheduleModal
+				targetId={poemId}
+				initType='edit'
+				show={showScheduleModal}
+				onClose={() => setShowScheduleModal(false)}
+			/>
+
 			{/* 加入诗单弹窗 */}
 			<AddToCollectionPopup
 				visible={showCollectionPopup}
 				poemId={String(poemId)}
 				onClose={() => setShowCollectionPopup(false)}
-				
 			/>
 		</RootFixed>
 	);

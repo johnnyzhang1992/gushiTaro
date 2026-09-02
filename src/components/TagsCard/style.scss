@@ -1,8 +1,18 @@
 .tagCard {
 	display: flex;
 	flex-wrap: wrap;
+
 	.tagItem {
-		margin-right: 20px;
-		margin-bottom: 12px;
+		margin-right: 16rpx;
+		margin-bottom: 16rpx;
+
+		.nut-tag {
+			font-size: 22rpx;
+			padding: 4rpx 16rpx;
+
+			.nut-tag-text {
+				font-size: 22rpx;
+			}
+		}
 	}
 }

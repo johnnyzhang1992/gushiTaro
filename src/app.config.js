@@ -24,6 +24,7 @@ export default {
 		'pages/find/today',
 		'pages/find/feihua',
 		'pages/find/feihua-detail',
+		'pages/find/cipai',
 		'pages/library/index',
 		'pages/library/detail',
 		'pages/library/catalog',
@@ -76,12 +77,4 @@ export default {
 	},
 	lazyCodeLoading: 'requiredComponents',
 	style: 'v2',
-	rendererOptions: {
-		skyline: {
-			defaultDisplayBlock: true,
-			disableABTest: true,
-			sdkVersionBegin: '3.0.1',
-			sdkVersionEnd: '15.255.255',
-		},
-	},
 };

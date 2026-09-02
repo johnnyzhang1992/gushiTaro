@@ -7,37 +7,55 @@
 	padding-bottom: env(safe-area-inset-bottom);
 	background-color: #fff;
 	box-shadow: 0 -2px 6px hsla(0, 0%, 7%, 0.1);
+
 	.bottomTabs {
-		padding: 20px 30px;
+		padding: 16px 24px;
 		align-items: center;
+		justify-content: space-between;
 	}
+
+	.left {
+		display: flex;
+		gap: 24rpx;
+	}
+
 	.tabItem {
-		font-size: 34rpx;
-		padding: 8px 12px;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 8rpx;
+		padding: 10rpx 20rpx;
+		background: rgba(51, 122, 183, 0.08);
+		border-radius: 16rpx;
 
-		&.collection-btn {
-			display: flex;
-			align-items: center;
-			gap: 6rpx;
+		.addIcon {
+			font-size: 28rpx;
+			color: #337ab7;
+			font-weight: bold;
+			line-height: 1;
+		}
 
-			.icon {
-				font-size: 32rpx;
-			}
+		.text {
+			font-size: 24rpx;
+			color: #337ab7;
+		}
 
-			.text {
-				font-size: 26rpx;
-				color: #333;
-			}
+		&.like {
+			margin-left: 20rpx;
+			background: transparent;
 		}
 	}
+
 	.flex {
 		display: flex;
 	}
+
 	.right {
-		flex: 1;
-		justify-content: flex-end;
+		display: flex;
+		align-items: center;
 	}
 }
+
 .atTabs {
 	.at-tabs__item {
 		width: auto;
@@ -45,11 +63,13 @@
 		font-size: 32px;
 	}
 }
+
 .tabContent {
 	height: 65vh;
 	padding: 20px 0 30px 0;
 	overflow-y: auto;
 	box-sizing: border-box;
+
 	.longTextCard {
 		padding-bottom: env(safe-area-inset-bottom);
 	}

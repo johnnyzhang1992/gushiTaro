@@ -3,15 +3,15 @@ export default {
 	enableShareAppMessage: true,
 	enableShareTimeline: true,
 	navigationBarTextStyle: 'white',
+	navigationStyle: 'custom',
 	renderer: 'skyline',
-  navigationStyle: 'custom',
-  componentFramework: 'glass-easel',
-  component: true,
-  styleIsolation: 'apply-shared',
-  rendererOptions: {
-    skyline: {
-      defaultDisplayBlock: true,
-      styleIsolation: 'apply-shared',
-    },
-  },
-  };
+	componentFramework: 'glass-easel',
+	component: true,
+	glassEaselWebview: true,
+	rendererOptions: {
+		skyline: {
+			defaultDisplayBlock: true,
+			defaultContentBox: true,
+		},
+	},
+};
