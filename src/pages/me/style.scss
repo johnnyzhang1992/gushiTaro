@@ -311,7 +311,7 @@
 	/* 统计卡片 */
 	.statsCard {
 		display: flex;
-		padding: 16rpx 0 8rpx;
+		padding: 8rpx 0 4rpx;
 
 		.card_item {
 			flex: 1;
@@ -328,15 +328,15 @@
 				top: 50%;
 				transform: translateY(-50%);
 				width: 1rpx;
-				height: 40rpx;
+				height: 24rpx;
 				background: #f0f2f5;
 			}
 
 			.top {
-				font-size: 40rpx;
+				font-size: 28rpx;
 				font-weight: 700;
 				color: #333;
-				margin-bottom: 8rpx;
+				margin-bottom: 4rpx;
 			}
 
 			.info {

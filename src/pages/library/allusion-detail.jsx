@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Taro, { useRouter, useLoad, usePullDownRefresh } from '@tarojs/taro';
 import { View, Text } from '@tarojs/components';
+import { BaseUrl } from '../../const/config';
 
 import './allusion-detail.scss';
 
@@ -15,7 +16,7 @@ const AllusionDetail = () => {
     Taro.showLoading({ title: '加载中' });
 
     Taro.request({
-      url: `${Taro.getStorageSync('BaseUrl') || 'https://api.xuegushi.com'}/miniapp/api/allusions/${id}`,
+      url: `${BaseUrl}/miniapp/api/allusions/${id}`,
     })
       .then((res) => {
         if (res.data && res.data.status) {

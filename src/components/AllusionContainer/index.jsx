@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Taro from '@tarojs/taro';
 import { View, Text, ScrollView } from '@tarojs/components';
+import { BaseUrl } from '../../const/config';
 import Skeleton from '../Skeleton';
 
 import './style.scss';
@@ -41,7 +42,7 @@ const AllusionContainer = (props) => {
     const reqData = { page, size: 20 }
     if (searchRef.current) reqData['keyword'] = searchRef.current
     Taro.request({
-      url: `${Taro.getStorageSync('BaseUrl') || 'https://api.xuegushi.com'}/miniapp/api/allusions`,
+      url: `${BaseUrl}/miniapp/api/allusions`,
       data: reqData,
     })
       .then((res) => {
