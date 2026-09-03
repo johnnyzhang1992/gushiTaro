@@ -6,6 +6,9 @@
 	box-sizing: border-box;
 	transition: all 0.2s;
 	min-height: 160rpx;
+	/* grid 子项默认 min-width:auto，内容会撑破格子；置 0 让 ellipsis 生效 */
+	min-width: 0;
+	width: 100%;
 
 	&:active {
 		transform: translateY(-2rpx);
@@ -19,6 +22,8 @@
 		color: #333;
 		font-family: serif;
 		margin-bottom: 8rpx;
+		max-width: 100%;
+		width: 100%;
 		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: ellipsis;

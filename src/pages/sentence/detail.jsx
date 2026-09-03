@@ -20,7 +20,7 @@ import { initConfig } from '../../const/posterConfig';
 import shareSvg from '../../images/svg/share.svg';
 import returnSvg from '../../images/svg/return.svg';
 import homeSvg from '../../images/svg/home.svg';
-import copyPng from '../../images/svg/copy.svg';
+import copyPng from '../../images/svg/copy_black.svg';
 
 import './style.scss';
 

@@ -177,20 +177,20 @@ const TodayPage = () => {
 						{/* 农历卡片 */}
 						<View className='lunarCard'>
 							<View className='lunarTop'>
-								<Text className='lunarBig'>
+								<Text className='lunarBig' userSelect>
 									{lunarText || `${lunarNum(data.lunarDate?.month || 1)}月${lunarDayText(data.lunarDate?.day || 1)}`}
 								</Text>
 								{data.festivals?.length > 0 ? (
-									<Text className='festivalBadge'>{data.festivals[0]}</Text>
+									<Text className='festivalBadge' userSelect>{data.festivals[0]}</Text>
 								) : null}
 							</View>
 							<View className='ganzhiRow'>
-								{data.lunarDate?.ganzhiYear ? <Text>{data.lunarDate.ganzhiYear}年</Text> : null}
-								{data.lunarDate?.shengxiao ? <Text>{data.lunarDate.shengxiao}年</Text> : null}
-								{data.lunarDate?.ganzhiMonth ? <Text>{data.lunarDate.ganzhiMonth}月</Text> : null}
-								{data.lunarDate?.ganzhiDay ? <Text>{data.lunarDate.ganzhiDay}日</Text> : null}
+								{data.lunarDate?.ganzhiYear ? <Text userSelect>{data.lunarDate.ganzhiYear}年</Text> : null}
+								{data.lunarDate?.shengxiao ? <Text userSelect>{data.lunarDate.shengxiao}年</Text> : null}
+								{data.lunarDate?.ganzhiMonth ? <Text userSelect>{data.lunarDate.ganzhiMonth}月</Text> : null}
+								{data.lunarDate?.ganzhiDay ? <Text userSelect>{data.lunarDate.ganzhiDay}日</Text> : null}
 							</View>
-							<Text className='solarLine'>
+							<Text className='solarLine' userSelect>
 								公历 {monthDay} · {now.getFullYear()}年
 							</Text>
 						</View>
@@ -223,13 +223,13 @@ const TodayPage = () => {
 								data.poems.map((p, idx) => (
 									<View key={`${p.id}_${idx}`} className='poemCard' onClick={() => openDetail(p)}>
 										<View className='poemCardTop'>
-											<Text className='poemCardTitle'>
+											<Text className='poemCardTitle' userSelect>
 												{p.title || `作品 #${p.id}`}
 											</Text>
-											{p.year ? <Text className='yearBadge'>{p.year}年</Text> : null}
+											{p.year ? <Text className='yearBadge' userSelect>{p.year}年</Text> : null}
 										</View>
 										<View className='poemCardMeta'>
-											<Text>
+											<Text userSelect>
 												{p.author ? `${p.author} · ${p.dynasty || ''}` : '作者不详'}
 											</Text>
 											{p.type ? <Text className='typeBadge'>{p.type}</Text> : null}
@@ -273,8 +273,8 @@ const TodayPage = () => {
 							{(data.events || []).length > 0 ? (
 								data.events.map((ev, i) => (
 									<View key={i} className='eventItem'>
-										<Text className='eventYear'>[{ev.year}年{monthDay}]</Text>
-										<Text className='eventTitle'>{ev.title}</Text>
+										<Text className='eventYear' userSelect>[{ev.year}年{monthDay}]</Text>
+										<Text className='eventTitle' userSelect>{ev.title}</Text>
 									</View>
 								))
 							) : (
@@ -299,17 +299,17 @@ const TodayPage = () => {
 						) : (
 							<>
 								<View className='detailHeader'>
-									<Text className='detailTitle'>{poemDetail.title}</Text>
+									<Text className='detailTitle' userSelect>{poemDetail.title}</Text>
 									<Text className='detailClose' onClick={closeDetail}>×</Text>
 								</View>
-								<Text className='detailMeta'>
+								<Text className='detailMeta' userSelect>
 									{poemDetail.author} · {poemDetail.dynasty}
 									{poemDetail.year ? ` · 公元${poemDetail.year}年` : ''}
 									{poemDetail.type ? ` · ${poemDetail.type}` : ''}
 								</Text>
 								<View className='detailDivider' />
 								<ScrollView scrollY className='detailBody'>
-									<Text className='detailClauses'>
+									<Text className='detailClauses' userSelect>
 										{(poemDetail.clauses || []).join('')}
 									</Text>
 								</ScrollView>
