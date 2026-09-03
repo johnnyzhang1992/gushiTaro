@@ -36,6 +36,8 @@ const SentencePage = () => {
 	const cacheObj = useRef({ count: 0 });
 	const [themeOptions, setThemeOptions] = useState(['全部']);
 	const [categoryMap, setCategoryMap] = useState({});
+	// 筛选区展开/收起，默认收起
+	const [filterCollapsed, setFilterCollapsed] = useState(true);
 
 	// 使用自定义hook 获取诗词分页数据
 	const { data, error, loading, loaded } = useFetchList(
@@ -196,21 +198,28 @@ const SentencePage = () => {
 			</View>
 			<ScrollView className='sentenceScrollView' scrollY scrollWithAnimation>
 			<View className='page sentenceIndex'>
-			{/* 筛选区域：主题/类型（互斥） */}
-			<FilterCard
-				name='theme'
-				title='主题'
-				filters={themeOptions}
-				initValue={fetchParams.theme}
-				updateParams={(obj) => handleFilterSelect('theme', obj.theme)}
-			/>
-			<FilterCard
-				name='type'
-				title='类型'
-				filters={typeOptions}
-				initValue={fetchParams.type}
-				updateParams={(obj) => handleFilterSelect('type', obj.type)}
-			/>
+			{/* 筛选区域：主题/类型（互斥），支持展开收起，默认收起 */}
+			<View className={`filterArea ${filterCollapsed ? 'collapsed' : ''}`}>
+				<FilterCard
+					name='theme'
+					title='主题'
+					filters={themeOptions}
+					initValue={fetchParams.theme}
+					updateParams={(obj) => handleFilterSelect('theme', obj.theme)}
+				/>
+				<FilterCard
+					name='type'
+					title='类型'
+					filters={typeOptions}
+					initValue={fetchParams.type}
+					updateParams={(obj) => handleFilterSelect('type', obj.type)}
+				/>
+				{/* 收起/展开按钮 */}
+				<View className='toggleBtn' onClick={() => setFilterCollapsed(!filterCollapsed)}>
+					<Text className='toggleText'>{filterCollapsed ? '展开' : '收起'}</Text>
+					<Text className='toggleArrow'>{filterCollapsed ? '▼' : '▲'}</Text>
+				</View>
+			</View>
 			{/* 列表显示区域 */}
 			<View className='pageContainer safeBottom'>
 				{data.list.length > 0 ? (

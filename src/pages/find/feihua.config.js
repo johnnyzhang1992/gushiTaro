@@ -4,5 +4,4 @@ export default {
 	navigationBarBackgroundColor: '#337ab7',
 	enableShareAppMessage: true,
 	enableShareTimeline: true,
-	navigationStyle: 'custom',
 };

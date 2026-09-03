@@ -54,6 +54,24 @@
 		}
 	}
 
+	/* 左右切换箭头：圆形背景 */
+	.navArrow {
+		width: 64rpx;
+		height: 64rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: #e8f0fa;
+		border-radius: 50%;
+		font-size: 40rpx;
+		color: #337ab7;
+		flex-shrink: 0;
+
+		&:active {
+			background: #d0e0f5;
+		}
+	}
+
 	.picker {
 		display: flex;
 		align-items: center;
@@ -151,6 +169,37 @@
 		.subtitle {
 			font-size: 22rpx;
 			color: #999;
+		}
+	}
+}
+
+/* 内容 Tabs：文学作品里的这一天 / 历史上的今天 */
+.contentTabs {
+	display: flex;
+	background: #fff;
+	border-radius: 24rpx;
+	padding: 8rpx;
+	margin-bottom: 24rpx;
+	box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+
+	.contentTab {
+		flex: 1;
+		text-align: center;
+		padding: 16rpx 0;
+		border-radius: 18rpx;
+
+		.tabText {
+			font-size: 28rpx;
+			color: #666;
+		}
+
+		&.active {
+			background: #337ab7;
+
+			.tabText {
+				color: #fff;
+				font-weight: 600;
+			}
 		}
 	}
 }

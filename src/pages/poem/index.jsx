@@ -48,7 +48,7 @@ const Poem = () => {
 	});
 	const cacheOptions = useRef({});
 	const [dynastyOptions, setDynastyOptions] = useState(DynastyArr);
-	const [filterCollapsed, setFilterCollapsed] = useState(false);
+	const [filterCollapsed, setFilterCollapsed] = useState(true);
 
 	// 从后端拉取朝代列表并缓存
 	useEffect(() => {

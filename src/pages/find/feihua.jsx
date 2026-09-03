@@ -2,7 +2,6 @@ import { View, Text, Input, ScrollView } from '@tarojs/components';
 import Taro, { useLoad } from '@tarojs/taro';
 import { useState } from 'react';
 
-import PageHeader from '../../components/PageHeader';
 import { FeiHuaConfig, HotFeiHua } from '../../const/config';
 
 import './feihua.scss';
@@ -25,8 +24,6 @@ const FeihuaPage = () => {
 
 	return (
 		<View className='page feihuaPage'>
-			<PageHeader showSearch={false} showBack title='飞花令' />
-
 			<View className='fhContainer'>
 				{/* 说明 */}
 				<View className='introCard'>

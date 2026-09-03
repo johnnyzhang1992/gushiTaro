@@ -8,7 +8,7 @@ import { fetchHistoryToday, fetchHistoryPoemDetail } from './today.service';
 
 import './today.scss';
 
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 10;
 
 function pad(n) {
 	return String(n).padStart(2, '0');
@@ -39,6 +39,8 @@ const TodayPage = () => {
 	// 详情弹窗
 	const [poemDetail, setPoemDetail] = useState(null);
 	const [detailLoading, setDetailLoading] = useState(false);
+	// 内容 Tab：poems=文学作品里的这一天 / events=历史上的今天
+	const [activeTab, setActiveTab] = useState('poems');
 
 	const monthDay = date.replace('-', '月') + '日';
 	const lunarText = data?.lunarDate
@@ -140,7 +142,7 @@ const TodayPage = () => {
 			<View className='todayContainer'>
 				{/* 日期导航 */}
 				<View className='dateNav'>
-					<View className='navBtn' onClick={() => changeDay(-1)}>
+					<View className='navArrow' onClick={() => changeDay(-1)}>
 						‹
 					</View>
 					<Picker
@@ -157,7 +159,7 @@ const TodayPage = () => {
 					<View className='navBtn todayBtn' onClick={() => { const nd = `${pad(now.getMonth() + 1)}-${pad(now.getDate())}`; setDate(nd); loadData(nd, 1); }}>
 						今天
 					</View>
-					<View className='navBtn' onClick={() => changeDay(1)}>
+					<View className='navArrow' onClick={() => changeDay(1)}>
 						›
 					</View>
 				</View>
@@ -193,7 +195,23 @@ const TodayPage = () => {
 							</Text>
 						</View>
 
-						{/* 文学作品里的这一天 */}
+						{/* 内容 Tabs：文学作品里的这一天 / 历史上的今天 */}
+						<View className='contentTabs'>
+							<View
+								className={`contentTab ${activeTab === 'poems' ? 'active' : ''}`}
+								onClick={() => setActiveTab('poems')}
+							>
+								<Text className='tabText'>文学作品里的这一天</Text>
+							</View>
+							<View
+								className={`contentTab ${activeTab === 'events' ? 'active' : ''}`}
+								onClick={() => setActiveTab('events')}
+							>
+								<Text className='tabText'>历史上的今天</Text>
+							</View>
+						</View>
+
+						{activeTab === 'poems' ? (
 						<View className='section'>
 							<View className='sectionTitle'>
 								<Text className='title'>文学作品里的这一天</Text>
@@ -244,8 +262,9 @@ const TodayPage = () => {
 								</View>
 							) : null}
 						</View>
+						) : null}
 
-						{/* 历史事件 */}
+						{activeTab === 'events' ? (
 						<View className='section'>
 							<View className='sectionTitle'>
 								<Text className='title'>历史上的今天</Text>
@@ -264,6 +283,7 @@ const TodayPage = () => {
 								</View>
 							)}
 						</View>
+						) : null}
 					</>
 				) : null}
 			</View>

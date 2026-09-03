@@ -289,12 +289,44 @@
 .sentenceIndex {
 	min-height: 100vh;
 	background-color: #f8f8f8;
+	/* 筛选区：默认收起，展开时显示 FilterCard */
+	.filterArea {
+		background: #fff;
+		border-bottom: 1rpx solid #f0f2f5;
+
+		&.collapsed {
+			.filterCard {
+				display: none;
+			}
+		}
+
+		.filterCard {
+			padding: 0 24rpx;
+			box-sizing: border-box;
+		}
+
+		/* 收起/展开按钮 */
+		.toggleBtn {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 8rpx;
+			padding: 16rpx 0 8rpx;
+			border-top: 1rpx solid #f0f2f5;
+
+			.toggleText {
+				font-size: 22rpx;
+				color: #888;
+			}
+
+			.toggleArrow {
+				font-size: 18rpx;
+				color: #888;
+			}
+		}
+	}
 	.keywordFilter {
 		background-color: #fff;
-	}
-	.filterCard {
-		padding: 0 24rpx;
-		box-sizing: border-box;
 	}
 	.pageContainer {
 		background-color: #f8f8f8;

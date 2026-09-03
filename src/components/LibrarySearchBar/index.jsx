@@ -28,7 +28,7 @@ const LibrarySearchBar = ({ tab, onSearch }) => {
 	const [sentenceCategoryMap, setSentenceCategoryMap] = useState({});
 	const [sTheme, setSTheme] = useState('全部');
 	const [sType, setSType] = useState('全部');
-	const [collapsed, setCollapsed] = useState(false);
+	const [collapsed, setCollapsed] = useState(true);
 
 	// 拉取朝代（仅作品 tab 需要，作者 tab 左侧已有朝代筛选）
 	useEffect(() => {
@@ -225,8 +225,8 @@ const LibrarySearchBar = ({ tab, onSearch }) => {
 					</View>
 				</View>
 			) : null}
-			{/* 收起/展开按钮（仅作品 TAB）*/}
-			{tab === 0 ? (
+			{/* 收起/展开按钮（作品/摘录 TAB 有筛选项时显示）*/}
+			{tab === 0 || tab === 1 ? (
 				<View className='toggleBtn' onClick={() => setCollapsed(!collapsed)}>
 					<Text className='toggleText'>{collapsed ? '展开' : '收起'}</Text>
 					<Text className='toggleArrow'>{collapsed ? '▼' : '▲'}</Text>
