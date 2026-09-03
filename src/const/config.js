@@ -1,24 +1,35 @@
 // 开发环境走本地服务，生产环境走线上
-// 小程序环境下根据 envVersion 自动判断：develop/trial/release
+// 域名完全由运行环境决定，不经过任何构建参数硬编码
+//  - H5（WEB）：按浏览器 hostname 判断（localhost/127.0.0.1 → 本地）
+//  - 小程序：按 wx.getAccountInfoSync 的 envVersion 判断（develop → 本地）
 import Taro from '@tarojs/taro';
 
 const DEV_BASE_URL = 'http://192.168.31.138:3000';
 const PROD_BASE_URL = 'https://api.xuegushi.com';
 
-const getBaseUrl = () => {
-	let envVersion = 'release';
-	try {
-		const accountInfo = Taro.getAccountInfoSync();
-		envVersion = accountInfo?.miniProgram?.envVersion || 'release';
-	} catch (e) {
-		// 非小程序环境（如 H5）使用 NODE_ENV 兜底
+const isDevEnv = () => {
+	// H5 环境：微信没有 envVersion 概念，用浏览器运行时 host 判断
+	if (Taro.getEnv() === Taro.ENV_TYPE.WEB) {
+		if (typeof location !== 'undefined' && location.hostname) {
+			const host = location.hostname;
+			return host === 'localhost' || host === '127.0.0.1';
+		}
+		return false;
 	}
 
-	if (envVersion === 'develop') {
-		return DEV_BASE_URL;
+	// 小程序环境：运行时由微信返回 envVersion（develop=开发版 / trial=体验版 / release=正式版）
+	try {
+		const accountInfo = Taro.getAccountInfoSync();
+		const envVersion = accountInfo?.miniProgram?.envVersion || 'release';
+		console.log('[BaseUrl] envVersion =', envVersion);
+		return envVersion === 'develop';
+	} catch (e) {
+		console.log('[BaseUrl] getAccountInfoSync 不可用，默认走线上:', e);
+		return false;
 	}
-	return PROD_BASE_URL;
 };
+
+const getBaseUrl = () => (isDevEnv() ? DEV_BASE_URL : PROD_BASE_URL);
 
 export const BaseUrl = getBaseUrl();
 export const WxAppVersion = '6.1.5'

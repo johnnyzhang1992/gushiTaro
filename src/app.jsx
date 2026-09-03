@@ -2,8 +2,17 @@ import Taro, { useLaunch, usePageNotFound } from '@tarojs/taro';
 
 import './app.scss';
 
-// 单独导入 NutUI CSS，确保 pxtransform 能识别文件路径
-import '@nutui/nutui-react-taro/dist/style.css';
+// 按需引入 NutUI 组件样式（避免全量 style.css 308KB 打进主包）
+// 所有组件样式使用 var(--nutui-*, 默认值) 形式，自带 fallback，无全局变量依赖
+import '@nutui/nutui-react-taro/dist/es/packages/button/style/style.css';
+import '@nutui/nutui-react-taro/dist/es/packages/checkbox/style/style.css';
+import '@nutui/nutui-react-taro/dist/es/packages/input/style/style.css';
+import '@nutui/nutui-react-taro/dist/es/packages/searchbar/style/style.css';
+import '@nutui/nutui-react-taro/dist/es/packages/swipe/style/style.css';
+import '@nutui/nutui-react-taro/dist/es/packages/switch/style/style.css';
+import '@nutui/nutui-react-taro/dist/es/packages/tabpane/style/style.css';
+import '@nutui/nutui-react-taro/dist/es/packages/tabs/style/style.css';
+import '@nutui/nutui-react-taro/dist/es/packages/tag/style/style.css';
 
 import Request from './apis/request';
 import { getDeviceInfo } from './utils/tool';

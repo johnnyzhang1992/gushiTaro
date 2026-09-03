@@ -11,3 +11,4 @@ src/const/constants.js
 git_stats.sh
 *.key
 docs/
+logs/

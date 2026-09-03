@@ -3,7 +3,10 @@ module.exports = {
 		NODE_ENV: '"production"',
 	},
 	defineConstants: {},
-	mini: {},
+	mini: {
+		// 生产构建不生成 sourcemap，减小包体积（开发模式 dev:weapp 不受影响）
+		enableSourceMap: false,
+	},
 	cache: {
 		enable: true, // Webpack 持久化缓存配置，建议开启。默认配置请参考：https://docs.taro.zone/docs/config-detail#cache
 	},

@@ -11,6 +11,7 @@ import {
   searchPoems,
 } from '../../services/study';
 import SwipeAction from './swipe-action';
+import { fetchPoemDetail as fetchDetailApi } from '../poem/service';
 import './detail.scss';
 
 export default function StudyDetailPage() {
@@ -170,24 +171,15 @@ export default function StudyDetailPage() {
     }
   };
 
-  // 获取诗词详情
+  // 获取诗词详情（走统一 Request 封装 / BaseUrl 配置）
   const fetchPoemDetail = async (poemId) => {
     setPoemLoading(true);
     setPoemDetail(null);
     try {
-      const user = Taro.getStorageSync('user') || {};
-      const token = user.token;
-      const baseUrl = 'https://api.xuegushi.com';
-      const res = await Taro.request({
-        url: `${baseUrl}/miniapp/api/poems/${poemId}`,
-        method: 'GET',
-        header: {
-          'Authorization': token ? `Bearer ${token}` : '',
-        },
-      });
-      console.log('诗词详情:', res.data);
-      if (res.data && res.data.status && res.data.data) {
-        setPoemDetail(res.data.data);
+      const res = await fetchDetailApi('GET', { id: poemId });
+      console.log('诗词详情:', res);
+      if (res && res.status && res.data) {
+        setPoemDetail(res.data);
       } else {
         setPoemDetail(null);
       }

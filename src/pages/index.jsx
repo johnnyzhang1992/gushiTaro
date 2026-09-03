@@ -14,19 +14,17 @@ import {
 	doCheckin,
 } from '../services/global';
 import { fetchStudyPlans } from '../services/study';
+import { fetchRandomSearch } from './search/service';
 
 import PoetCard from '../components/PoetCard';
 import PoemSmallCard from '../components/PoemSmallCard';
 import SentenceCard from '../components/SentenceCard';
 import PageHeader from '../components/PageHeader';
 
-// 随机推荐（诗人/诗词/摘录混合）
+// 随机推荐（诗人/诗词/摘录混合），走统一 Request 封装（BaseUrl 自动按环境切换）
 const fetchRandomRecommend = () => {
-	return Taro.request({
-		url: `https://api.xuegushi.com/miniapp/api/search/random`,
-		method: 'GET',
-	}).then((res) => {
-		if (res.data && res.data.status) return res.data.data;
+	return fetchRandomSearch('GET', {}).then((res) => {
+		if (res && res.status) return res.data;
 		return null;
 	});
 };
@@ -293,7 +291,7 @@ const HomePage = () => {
 							<Text className='dailyPoem-author'>
 								{dailyPoem.dynasty} · {dailyPoem.author}
 							</Text>
-							<Text className='dailyPoem-quote'>❝</Text>
+							<Text className='dailyPoem-quote'>❞</Text>
 						</View>
 					</View>
 				</Navigator>
