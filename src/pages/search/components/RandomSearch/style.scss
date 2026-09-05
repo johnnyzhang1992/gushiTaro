@@ -1,26 +1,5 @@
 .randomContainer {
   margin: 0 20rpx;
-  border-radius: 16rpx;
-
-  .SectionCard {
-    border-radius: 16rpx;
-    background-color: #fff;
-    margin-bottom: 20rpx;
-    overflow: hidden;
-    box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.06);
-
-    & > .title {
-      font-size: 30rpx;
-      font-weight: 600;
-      padding: 24rpx 28rpx 18rpx;
-      color: #333;
-      border-bottom: 1rpx solid #f5f7fa;
-    }
-
-    & > .content {
-      padding: 16rpx 0;
-    }
-  }
 
   .randomTitle {
     color: #333;
@@ -93,60 +72,77 @@
     }
   }
 
-  .extraNav {
-    font-size: 24rpx;
-    color: #337ab7;
-    padding: 6rpx 16rpx;
-    background: rgba(51, 122, 183, 0.08);
-    border-radius: 20rpx;
-  }
+  /* 推荐卡片：单卡片容纳 作者/摘录/作品 三组 */
+  .randomCard {
+    background: #fff;
+    border-radius: 16rpx;
+    overflow: hidden;
+    box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.06);
+    padding: 8rpx 0 12rpx;
 
-  .hotPoemsSwiper {
-    // 覆盖 swiper dots 样式
-    :global {
-      .swiper-pagination {
-        bottom: 8rpx !important;
+    .randomSection {
+      & + .randomSection {
+        border-top: 1rpx solid #f5f7fa;
       }
-      .swiper-dot {
-        width: 10rpx !important;
-        height: 10rpx !important;
-        border-radius: 5rpx !important;
-        background: #e0e0e0 !important;
-        opacity: 1;
-        margin: 0 4rpx !important;
-        transition: all 0.3s ease;
-        &.active {
-          width: 28rpx !important;
-          background: linear-gradient(90deg, #337ab7, #5a9fd4) !important;
-          opacity: 1;
+
+      .sectionHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20rpx 24rpx 6rpx;
+
+        .sectionTitle {
+          font-size: 28rpx;
+          font-weight: 600;
+          color: #333;
+          position: relative;
+          padding-left: 18rpx;
+
+          &::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6rpx;
+            height: 26rpx;
+            border-radius: 3rpx;
+            background: linear-gradient(180deg, #337ab7, #5a9fd4);
+          }
+        }
+
+        .sectionMore {
+          font-size: 22rpx;
+          color: #337ab7;
+          padding: 4rpx 16rpx;
+          background: rgba(51, 122, 183, 0.08);
+          border-radius: 20rpx;
+        }
+      }
+
+      .sectionBody {
+        padding: 4rpx 12rpx 8rpx;
+
+        .poemSmallCard,
+        .poetCard,
+        .sentenceCard {
+          padding-top: 12rpx;
+          padding-bottom: 12rpx;
+        }
+
+        /* 长诗只展示 3 行，保持推荐区紧凑（内容是逐句多个节点，限高在容器上） */
+        .poemSmallCard .content {
+          max-height: 132px; /* line-height 44px × 3 */
+          overflow: hidden;
         }
       }
     }
 
-    &.poets {
-      height: 200rpx;
-
-      .poetCard {
-        padding: 0 28rpx;
-      }
-    }
-
-    &.sentences {
-      height: 160rpx;
-
-      .sentenceCard {
-        padding: 0 28rpx;
-      }
-    }
-
-    &.poems {
-      height: 280rpx;
-
-      .poemSmallCard {
-        margin-top: 0;
-        padding: 0 28rpx;
-        border-bottom: none;
-      }
+    .randomEmpty {
+      padding: 60rpx 0;
+      text-align: center;
+      font-size: 24rpx;
+      color: #999;
     }
   }
 }
