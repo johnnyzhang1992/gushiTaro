@@ -9,8 +9,18 @@ import { fetchRandomSearch } from '../../service';
 
 import './style.scss';
 
-// 每组最多展示条数
-const PER_SECTION = 2;
+// 每组展示条数
+const PER_SECTION = 3;
+
+// 洗牌抽样：接口返回头部是固定热度条目，随机抽取避免每组永远显示同样内容
+const shuffle = (arr) => {
+	const a = [...arr];
+	for (let i = a.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[a[i], a[j]] = [a[j], a[i]];
+	}
+	return a;
+};
 
 const RandomSearch = () => {
 	const [search, updateSearch] = useState({
@@ -24,7 +34,12 @@ const RandomSearch = () => {
 			// API 返回格式: { status: true, data: { poems, poets, sentences } }
 			if (res && res.status && res.data) {
 				const { poems = [], poets = [], sentences = [] } = res.data;
-				updateSearch({ poems, poets, sentences });
+				// 每类随机抽 3 条（在数据更新时抽样，渲染期不再变化）
+				updateSearch({
+					poems: shuffle(poems).slice(0, PER_SECTION),
+					poets: shuffle(poets).slice(0, PER_SECTION),
+					sentences: shuffle(sentences).slice(0, PER_SECTION),
+				});
 			}
 		});
 	};
@@ -99,7 +114,7 @@ const RandomSearch = () => {
 							</Navigator>
 						</View>
 						<View className='sectionBody'>
-							{section.list.slice(0, PER_SECTION).map(section.renderItem)}
+							{section.list.map(section.renderItem)}
 						</View>
 					</View>
 				))}
