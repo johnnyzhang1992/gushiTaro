@@ -115,25 +115,37 @@ const Poem = () => {
 		});
 	}, [data]);
 
+	// 路由参数可能是 encodeURIComponent 后的值（如词牌页跳转），安全解码；原始中文不受影响
+	const safeDecode = (val) => {
+		if (!val) return val;
+		try {
+			return decodeURIComponent(val);
+		} catch (e) {
+			return val;
+		}
+	};
+
 	useLoad((options) => {
 		const { type, name, from, code, keyWord, dynasty, author } = options;
+		const keyWordDecoded = safeDecode(keyWord);
+		const authorDecoded = safeDecode(author);
 		cacheOptions.current = { ...options };
 		console.log(type, name, from, options);
-		setTitle(name || keyWord || author || '诗词文言');
+		setTitle(name || keyWordDecoded || authorDecoded || '诗词文言');
 		setOptions({
 			...options,
 			title: name,
 			name: code,
 			inited: true,
 		});
-		setInputText(keyWord || author || '');
+		setInputText(keyWordDecoded || authorDecoded || '');
 		let params = {
 			from: from || 'home',
 			inited: true,
 		};
 		// 支持直接传 author 参数（从作者详情页跳转）
 		if (author) {
-			params['keyWord'] = author;
+			params['keyWord'] = authorDecoded;
 			params['_type'] = 'author';
 		}
 		if (type) {
@@ -145,7 +157,7 @@ const Poem = () => {
 			}
 		}
 		if (keyWord) {
-			params['keyWord'] = keyWord;
+			params['keyWord'] = keyWordDecoded;
 		}
 		if (code) {
 			params['name'] = code;

@@ -51,8 +51,9 @@ const CiPaiPage = () => {
 
 	const handleClick = (name) => {
 		setSearchText('');
+		// 按标题搜索该词牌（词作标题形如「浣溪沙·xxx」；tag 范围后端无数据）
 		Taro.navigateTo({
-			url: `/pages/poem/index?type=tag&keyWord=${encodeURIComponent(name)}`,
+			url: `/pages/poem/index?type=title&keyWord=${encodeURIComponent(name)}`,
 		});
 	};
 

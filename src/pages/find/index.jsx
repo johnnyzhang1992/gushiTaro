@@ -18,10 +18,10 @@ const PostPage = () => {
 	usePullDownRefresh(() => {
 		Taro.stopPullDownRefresh();
 	});
-	// 词牌示例卡片 → 标签搜索该词牌
+	// 词牌示例卡片 → 按标题搜索该词牌（词作标题形如「浣溪沙·xxx」）
 	const goToCipaiSearch = (name) => {
 		Taro.navigateTo({
-			url: `/pages/poem/index?type=tag&keyWord=${encodeURIComponent(name)}`,
+			url: `/pages/poem/index?type=title&keyWord=${encodeURIComponent(name)}`,
 		});
 	};
 	const goFeihua = () => {

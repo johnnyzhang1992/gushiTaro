@@ -122,4 +122,23 @@
 	text-align: center;
 	font-size: 26rpx;
 	color: #aaa;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+/* 错误兜底态的返回按钮 */
+.emptyBackBtn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 32rpx;
+	padding: 14rpx 56rpx;
+	border-radius: 32rpx;
+	background: #337ab7;
+
+	.emptyBackText {
+		font-size: 26rpx;
+		color: #fff;
+	}
 }

@@ -13,7 +13,7 @@ const request = (url, params, method = 'GET') => {
 	if (DEBUG) console.log('--api--request:', url, method);
 	return new Promise((resolve, reject) => {
 		Taro.request({
-			url: (hostUrl || BaseUrl) + '/miniapp' + url,
+			url: BaseUrl + '/miniapp' + url,
 			enableCache: true,
 			credentials: true,
 			data: data,

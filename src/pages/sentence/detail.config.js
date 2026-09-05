@@ -7,7 +7,6 @@ export default {
 	renderer: 'skyline',
 	componentFramework: 'glass-easel',
 	component: true,
-	glassEaselWebview: true,
 	rendererOptions: {
 		skyline: {
 			defaultDisplayBlock: true,

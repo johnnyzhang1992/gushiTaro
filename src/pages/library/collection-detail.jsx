@@ -254,6 +254,14 @@ const CollectionDetailPage = () => {
               </View>
             )}
           </>
+        ) : !loading ? (
+          // 加载完成但无数据（诗单不存在/已删除/加载失败），避免白屏
+          <View className='emptyTip'>
+            <Text>诗单不存在或已删除</Text>
+            <View className='emptyBackBtn' onClick={() => Taro.navigateBack()}>
+              <Text className='emptyBackText'>返回</Text>
+            </View>
+          </View>
         ) : null}
       </View>
     </View>
