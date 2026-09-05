@@ -5,9 +5,21 @@ import searchSvg from '../../images/svg/search.svg';
 
 import './style.scss';
 
+// 胶囊按钮位置是设备固定值，加载一次全局缓存，避免每次渲染都调用原生 API 造成卡顿/闪烁
+let cachedMenuRect = null;
+const getMenuRect = () => {
+	if (cachedMenuRect) return cachedMenuRect;
+	try {
+		cachedMenuRect = Taro.getMenuButtonBoundingClientRect() || {};
+	} catch (e) {
+		cachedMenuRect = {};
+	}
+	return cachedMenuRect;
+};
+
 const PageHeader = (props) => {
 	const { title, showSearch = true, showBack = false } = props;
-	const MenuRect = Taro.getMenuButtonBoundingClientRect();
+	const MenuRect = getMenuRect();
 	const deviceInfo = Taro.getDeviceInfo();
 	const PageDeep = Taro.getCurrentPages().length;
 	// PC端样式比较特殊，且不支持图片导出

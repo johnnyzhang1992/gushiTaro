@@ -299,6 +299,8 @@
 	padding: 16rpx 0;
 	border-bottom: 1rpx dashed #eee;
 	line-height: 1.6;
+	display: flex;
+	align-items: flex-start;
 
 	&:last-child {
 		border-bottom: none;
@@ -308,11 +310,16 @@
 		font-size: 22rpx;
 		color: #999;
 		margin-right: 8rpx;
+		flex-shrink: 0; /* 年份不压缩，始终靠左 */
+		padding-top: 4rpx; /* 与标题顶部视觉对齐 */
 	}
 
 	.eventTitle {
 		font-size: 26rpx;
 		color: #333;
+		flex: 1;
+		min-width: 0; /* 允许收缩，超出部分自然换行 */
+		word-break: break-all;
 	}
 }
 
@@ -324,7 +331,7 @@
 	right: 0;
 	bottom: 0;
 	background: rgba(0, 0, 0, 0.55);
-	z-index: 999;
+	z-index: 900;
 	display: flex;
 	align-items: center;
 	justify-content: center;

@@ -1,6 +1,6 @@
 import { View, Text, Input } from '@tarojs/components';
 import Taro, { useDidShow } from '@tarojs/taro';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import {
   fetchStudyPlans,
   createStudyPlan,
@@ -98,8 +98,14 @@ export default function StudyPage() {
     }
   }, [recommendedData]);
 
+  // 最近一次拉取计划的时间，30s 内切回 tab 不重复请求（避免白屏闪烁）
+  const lastPlansRef = useRef(0);
   useDidShow(() => {
-    loadPlans();
+    const now = Date.now();
+    if (now - lastPlansRef.current > 30000) {
+      lastPlansRef.current = now;
+      loadPlans();
+    }
   });
 
   // Tab 切换

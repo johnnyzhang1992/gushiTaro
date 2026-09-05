@@ -20,6 +20,115 @@
 .plan-meta {
   font-size: 24rpx;
   opacity: 0.8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.plan-rule {
+  opacity: 1;
+  font-size: 22rpx;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1rpx solid rgba(255, 255, 255, 0.5);
+  padding: 6rpx 18rpx;
+  border-radius: 24rpx;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+
+  .plan-rule-icon {
+    width: 26rpx;
+    height: 26rpx;
+    display: block;
+  }
+}
+
+/* 学习说明弹窗 */
+.rule-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40rpx;
+}
+
+.rule-modal-content {
+  background: #fff;
+  border-radius: 24rpx;
+  width: 100%;
+  max-height: 80vh;
+  padding: 32rpx;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.rule-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24rpx;
+
+  .rule-modal-title {
+    font-size: 34rpx;
+    font-weight: 700;
+    color: #333;
+  }
+
+  .rule-modal-close {
+    font-size: 44rpx;
+    color: #999;
+    padding: 0 10rpx;
+    line-height: 1;
+  }
+}
+
+.rule-modal-body {
+  .rule-section {
+    margin-bottom: 26rpx;
+
+    .rule-section-title {
+      display: block;
+      font-size: 28rpx;
+      font-weight: 600;
+      color: #337ab7;
+      margin-bottom: 10rpx;
+    }
+
+    .rule-text {
+      display: block;
+      font-size: 25rpx;
+      color: #555;
+      line-height: 1.7;
+      margin-bottom: 6rpx;
+    }
+
+    .rule-stage {
+      background: #f5f7fa;
+      border-radius: 12rpx;
+      padding: 16rpx 20rpx;
+
+      .rule-stage-item {
+        display: block;
+        font-size: 24rpx;
+        color: #555;
+        line-height: 1.8;
+      }
+    }
+
+    .rule-feedback {
+      .rule-text {
+        margin-bottom: 4rpx;
+      }
+    }
+  }
 }
 
 /* 统计卡片 */
@@ -208,7 +317,7 @@
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 999;
+  z-index: 900;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -402,7 +511,7 @@
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.8);
-  z-index: 1000;
+  z-index: 900;
   display: flex;
   flex-direction: column;
   padding: 40rpx;
@@ -493,7 +602,7 @@
 }
 
 .poem-char {
-  font-size: 40rpx;
+  font-size: 36rpx;
   color: #333;
   width: 48rpx;
   height: 48rpx;
