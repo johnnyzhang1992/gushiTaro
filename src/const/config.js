@@ -31,6 +31,8 @@ const isDevEnv = () => {
 
 const getBaseUrl = () => (isDevEnv() ? DEV_BASE_URL : PROD_BASE_URL);
 
+export { isDevEnv };
+
 export const BaseUrl = getBaseUrl();
 export const WxAppVersion = '6.1.5'
 /**
@@ -1026,6 +1028,17 @@ export const CiPaiArr = [
 	'声声慢',
 	'兰陵王',
 	'减字木兰花',
+	'相见欢',
+	'雨霖铃',
+	'破阵子',
+	'望江南',
+	'梅花引',
+	'祝英台近',
+	'八声甘州',
+	'永遇乐',
+	'扬州慢',
+	'桂枝香',
+	'昼夜乐',
 	'八归',
 	'丁儿',
 	'三台',

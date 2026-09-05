@@ -1,7 +1,8 @@
-import { View, Text, Input } from '@tarojs/components';
+import { View, Text, Input, Image } from '@tarojs/components';
 import Taro, { useRouter, useDidShow } from '@tarojs/taro';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { Button } from '@nutui/nutui-react-taro';
+import helpCircle from '../../images/svg/help_circle.svg';
 import {
   fetchStudyPlanDetail,
   fetchStudyPlanItems,
@@ -35,11 +36,14 @@ export default function StudyDetailPage() {
 
   // 学习相关
   const [showStudyModal, setShowStudyModal] = useState(false);
+  const [showRuleModal, setShowRuleModal] = useState(false);
   const [studyMode, setStudyMode] = useState('learn'); // learn / review
   const [studyItems, setStudyItems] = useState([]);
   const [currentStudyIndex, setCurrentStudyIndex] = useState(0);
   const [poemDetail, setPoemDetail] = useState(null);
   const [poemLoading, setPoemLoading] = useState(false);
+  // random 挖空模式的随机位置缓存（key: 行号），避免重渲染时挖空位置漂移
+  const randomIndexRef = useRef({});
   
   // 挖字模式: show | hide | first | last | random
   const [hiddenMode, setHiddenMode] = useState('hide');
@@ -175,6 +179,7 @@ export default function StudyDetailPage() {
   const fetchPoemDetail = async (poemId) => {
     setPoemLoading(true);
     setPoemDetail(null);
+    randomIndexRef.current = {};
     try {
       const res = await fetchDetailApi('GET', { id: poemId });
       console.log('诗词详情:', res);
@@ -264,11 +269,19 @@ export default function StudyDetailPage() {
     // 计算每行的汉字列表（用于 first/last/random 模式）
     const getChineseChars = (line) => line.split('').filter(c => isChinese(c));
 
+    // 随机选一个位置（按行缓存，重渲染不漂移）
+    const getRandomIndex = (lineIndex, count) => {
+      const map = randomIndexRef.current;
+      if (!(lineIndex in map)) {
+        map[lineIndex] = Math.floor(Math.random() * count);
+      }
+      return map[lineIndex];
+    };
+
     return lines.map((line, lineIndex) => {
       const chineseChars = getChineseChars(line);
       const count = chineseChars.length;
-      // 随机选一个位置（每行只随机一次）
-      const randomIndex = count > 0 ? Math.floor(Math.random() * count) : 0;
+      const randomIndex = count > 0 ? getRandomIndex(lineIndex, count) : 0;
 
       return (
         <View key={lineIndex} className="poem-line">
@@ -429,8 +442,12 @@ export default function StudyDetailPage() {
       <View className="plan-header-card">
         <View className="plan-name">{plan?.name || '加载中...'}</View>
         <View className="plan-meta">
-          {plan?.source_type === 'collection' ? '来自诗单' : '自建计划'} ·{' '}
-          {items.length} 首诗词
+          <Text>{plan?.source_type === 'collection' ? '来自诗单' : '自建计划'} ·{' '}
+          {items.length} 首诗词</Text>
+          <View className="plan-rule" onClick={() => setShowRuleModal(true)}>
+            <Image src={helpCircle} className="plan-rule-icon" mode="aspectFit" />
+            <Text>学习说明</Text>
+          </View>
         </View>
       </View>
 
@@ -611,6 +628,47 @@ export default function StudyDetailPage() {
                     )}
                   </>
                 )}
+              </View>
+            </View>
+          </View>
+        </View>
+      )}
+
+      {/* 学习说明弹窗 */}
+      {showRuleModal && (
+        <View className="rule-modal" onClick={() => setShowRuleModal(false)}>
+          <View className="rule-modal-content" onClick={(e) => e.stopPropagation()}>
+            <View className="rule-modal-header">
+              <Text className="rule-modal-title">学习计划规则</Text>
+              <Text className="rule-modal-close" onClick={() => setShowRuleModal(false)}>×</Text>
+            </View>
+            <View className="rule-modal-body">
+              <View className="rule-section">
+                <Text className="rule-section-title">📖 学习方式</Text>
+                <Text className="rule-text">每首诗词需经过「初记 → 多次复习」完成学习。每次学习可挖空诗句检测记忆，根据记忆情况选择「记得 / 模糊 / 忘记」推进复习进度。</Text>
+              </View>
+              <View className="rule-section">
+                <Text className="rule-section-title">🗓️ 复习节奏（艾宾浩斯记忆法）</Text>
+                <View className="rule-stage">
+                  <Text className="rule-stage-item">初记后 30 分钟复习</Text>
+                  <Text className="rule-stage-item">1 天后复习</Text>
+                  <Text className="rule-stage-item">3 天后复习</Text>
+                  <Text className="rule-stage-item">7 天后复习</Text>
+                  <Text className="rule-stage-item">14 天后复习</Text>
+                  <Text className="rule-stage-item">全部完成即「已掌握」</Text>
+                </View>
+              </View>
+              <View className="rule-section">
+                <Text className="rule-section-title">🎯 复习反馈</Text>
+                <View className="rule-feedback">
+                  <Text className="rule-text">· 记得：进入下一复习阶段，间隔拉长</Text>
+                  <Text className="rule-text">· 模糊：保持当前阶段，明天再复习</Text>
+                  <Text className="rule-text">· 忘记：退回上一阶段，30 分钟后重新复习</Text>
+                </View>
+              </View>
+              <View className="rule-section">
+                <Text className="rule-section-title">✅ 已掌握</Text>
+                <Text className="rule-text">完成全部 6 个复习阶段即标记为「已掌握」，到期后仍可随时回来复习巩固。</Text>
               </View>
             </View>
           </View>

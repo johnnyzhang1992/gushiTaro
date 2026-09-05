@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 
 import FloatLayout from '../FloatLayout';
 import Request from '../../apis/request';
+import { userIsLogin } from '../../utils/auth';
 
 import './style.scss';
 
@@ -27,6 +28,12 @@ const AddToCollectionPopup = ({ visible, poemId, onClose, onSuccess }) => {
 	};
 
 	useEffect(() => {
+		if (!visible || !poemId) return;
+		// 未登录不打开浮层（userIsLogin 内部会引导登录）
+		if (!userIsLogin()) {
+			onClose && onClose();
+			return;
+		}
 		loadCollections();
 	}, [visible, poemId]);
 

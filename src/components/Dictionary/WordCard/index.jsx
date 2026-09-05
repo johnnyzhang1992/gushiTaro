@@ -11,10 +11,15 @@ const removeDigitsAndParentheses = (str = '') => {
 };
 
 const WordCard = (props) => {
-	const { type, pinyin = '', text = '', _id, cellType = 'black' } = props;
+	const { type, pinyin = '', text = '', _id, cellType = 'black', onClick } = props;
 	const textArr = removeDigitsAndParentheses(text).split('');
 	const pinyinArr = removeDigitsAndParentheses(pinyin).split(' ');
 	const navigateToDetail = () => {
+		// 外部传入 onClick 时优先使用（如发现页的词牌/飞花令入口）
+		if (typeof onClick === 'function') {
+			onClick();
+			return;
+		}
 		Taro.navigateTo({
 			url: `/pages/dictionary/detail?type=${type}&id=${_id}`,
 		});

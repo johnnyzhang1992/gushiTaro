@@ -1,21 +1,16 @@
 import Taro from '@tarojs/taro';
 
-import { BaseUrl, WxAppVersion } from '../const/config';
+import { BaseUrl, WxAppVersion, isDevEnv } from '../const/config';
+
+// 生产环境静默日志
+const DEBUG = isDevEnv();
 
 const request = (url, params, method = 'GET') => {
 	const user = Taro.getStorageSync('user') || {};
-	const token = user.token;
-	const { hostUrl, ...restParams } = params || {};
-	let data = {
-		...restParams,
-	};
-	if (hostUrl) {
-		data = {
-			...data,
-			...restParams,
-		};
-	}
-	console.log('--api--request:', url, method, hostUrl);
+	// 常规登录存 user.token，扫码登录只存 wx_token，两者取其一
+	const token = user.token || Taro.getStorageSync('wx_token');
+	const data = { ...(params || {}) };
+	if (DEBUG) console.log('--api--request:', url, method);
 	return new Promise((resolve, reject) => {
 		Taro.request({
 			url: (hostUrl || BaseUrl) + '/miniapp' + url,
@@ -28,11 +23,11 @@ const request = (url, params, method = 'GET') => {
 				'Authorization': token ? `Bearer ${token}` : '',
 			},
 			success: (res) => {
-				console.log('--api--response:', url, res.statusCode, res.data);
+				if (DEBUG) console.log('--api--response:', url, res.statusCode, res.data);
 				if (res && res.statusCode === 200) {
 					resolve(res.data);
 				} else if (res && res.statusCode === 401) {
-					console.log('当前token过期', res.data);
+					if (DEBUG) console.log('当前token过期', res.data);
 					Taro.removeStorageSync('user');
 					Taro.removeStorageSync('wx_token');
 					const pages = Taro.getCurrentPages() || [];
@@ -54,7 +49,7 @@ const request = (url, params, method = 'GET') => {
 					});
 					reject(res.data);
 				} else {
-					console.log('--请求报错：', res.data);
+					if (DEBUG) console.log('--请求报错：', res.data);
 					let errorText = (res.data && res.data.errmsg) || '服务器报错，请稍后再试！';
 					if (res.statusCode == 503 || res.statusCode == 429) {
 						errorText = '当前IP访问频繁，稍后再试！'
@@ -68,7 +63,7 @@ const request = (url, params, method = 'GET') => {
 				}
 			},
 			fail: (res) => {
-				console.log('请求失败:', res);
+				if (DEBUG) console.log('请求失败:', res);
 				reject(res);
 			},
 		});

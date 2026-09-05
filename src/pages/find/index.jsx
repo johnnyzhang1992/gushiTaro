@@ -18,6 +18,15 @@ const PostPage = () => {
 	usePullDownRefresh(() => {
 		Taro.stopPullDownRefresh();
 	});
+	// 词牌示例卡片 → 标签搜索该词牌
+	const goToCipaiSearch = (name) => {
+		Taro.navigateTo({
+			url: `/pages/poem/index?type=tag&keyWord=${encodeURIComponent(name)}`,
+		});
+	};
+	const goFeihua = () => {
+		Taro.navigateTo({ url: '/pages/find/feihua' });
+	};
 	return (
 		<View className='page findPage'>
 			<PageHeader title='发现' />
@@ -28,18 +37,18 @@ const PostPage = () => {
 			{/* 词牌 */}
 			<SectionCard
 				title='词牌'
-				onTitleClick={() => Taro.navigateTo({ url: '/pages/find/cipai' })}
+				titleClick={() => Taro.navigateTo({ url: '/pages/find/cipai' })}
 			>
 				<View className='cardContent'>
-					<WordCard text='如梦令' />
-					<WordCard text='浣溪沙' />
+					<WordCard text='如梦令' onClick={() => goToCipaiSearch('如梦令')} />
+					<WordCard text='浣溪沙' onClick={() => goToCipaiSearch('浣溪沙')} />
 				</View>
 			</SectionCard>
 			{/* 飞花 */}
-			<SectionCard title='飞花令'>
+			<SectionCard title='飞花令' titleClick={goFeihua}>
 				<View className='cardContent'>
-					<WordCard text='日' />
-					<WordCard text='月' />
+					<WordCard text='日' onClick={goFeihua} />
+					<WordCard text='月' onClick={goFeihua} />
 				</View>
 			</SectionCard>
 			{/* 诗单 */}

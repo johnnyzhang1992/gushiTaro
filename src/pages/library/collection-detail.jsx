@@ -4,6 +4,11 @@ import { useState, useEffect } from 'react';
 
 import CollectionPoemCard from '../../components/CollectionPoemCard';
 import Request from '../../apis/request';
+import { isLoggedIn } from '../../utils/auth';
+import {
+  createStudyPlanFromCollection,
+  addPoemsToStudyPlan,
+} from '../../services/study';
 
 import './collection-detail.scss';
 
@@ -21,9 +26,9 @@ const CollectionDetailPage = () => {
 
   // GET /api/collections/:id（返回诗单信息 + poems 数组）
   const loadDetail = () => {
-    if (!id) return;
+    if (!id) return Promise.resolve();
     setLoading(true);
-    Request(`/api/collections/${id}`, {}, 'GET')
+    return Request(`/api/collections/${id}`, {}, 'GET')
       .then((res) => {
         if (res && res.status && res.data) {
           setDetail(res.data);
@@ -40,14 +45,17 @@ const CollectionDetailPage = () => {
 
   // 检查登录状态和收藏状态
   const checkLoginAndFavorite = () => {
-    const token = Taro.getStorageSync('wx_token');
-    setIsLogin(!!token);
-    if (token && id) {
+    const login = isLoggedIn();
+    setIsLogin(login);
+    if (login && id) {
       checkFavorite();
+      return Promise.resolve();
     }
+    return Promise.resolve();
   };
 
   // 检查是否已收藏
+  // TODO: /api/favorites/check 未在 services 层登记，需与后端确认端点是否存在
   const checkFavorite = () => {
     Request('/api/favorites/check', { target_id: id, target_type: 'collection' }, 'GET')
       .then((res) => {
@@ -60,21 +68,20 @@ const CollectionDetailPage = () => {
 
   // 检查是否已创建同名学习计划
   const checkStudyPlan = () => {
-    const token = Taro.getStorageSync('wx_token');
-    if (!token || !detail) return;
-    
+    if (!isLoggedIn() || !detail) return;
     Request('/api/study-plans', {}, 'GET')
       .then((res) => {
         if (res && res.status && res.data) {
-          const existPlan = res.data.find(p => p.name === detail.collection_name);
+          const plans = Array.isArray(res.data) ? res.data : res.data.list || [];
+          const existPlan = plans.find((p) => p.name === detail.collection_name);
           setHasPlan(!!existPlan);
-          setPlanId(existPlan?._id || null);
+          setPlanId(existPlan ? existPlan.id || existPlan._id : null);
         }
       })
       .catch(() => {});
   };
 
-  // 加入学习计划
+  // 加入学习计划：创建计划并导入诗单内全部诗词
   const handleAddToStudyPlan = () => {
     if (!isLogin) {
       Taro.showModal({
@@ -101,20 +108,27 @@ const CollectionDetailPage = () => {
       success: (res) => {
         if (res.confirm) {
           setCreatingPlan(true);
-          Request('/api/study-plans', {
+          const poemIds = (detail.poems || [])
+            .map((e) => e.poem && (e.poem._id || e.poem.id))
+            .filter(Boolean);
+          createStudyPlanFromCollection('POST', {
             name: detail.collection_name,
             description: detail.collection_description || '',
             source_type: 'collection',
             source_collection_id: id,
             source_collection_name: detail.collection_name,
-          }, 'POST')
-            .then((res) => {
+          })
+            .then(async (res) => {
               if (res && res.status) {
+                const newPlanId = res.data?._id || res.data?.id || null;
+                if (newPlanId && poemIds.length > 0) {
+                  await addPoemsToStudyPlan('POST', { id: newPlanId, poem_ids: poemIds });
+                }
                 setHasPlan(true);
-                setPlanId(res.data?._id || null);
+                setPlanId(newPlanId);
                 Taro.showToast({ title: '创建成功', icon: 'success' });
               } else {
-                Taro.showToast({ title: res?.msg || '创建失败', icon: 'none' });
+                Taro.showToast({ title: res?.msg || res?.errmsg || '创建失败', icon: 'none' });
               }
             })
             .catch(() => {
@@ -185,9 +199,9 @@ const CollectionDetailPage = () => {
   }, [detail]);
 
   usePullDownRefresh(() => {
-    loadDetail();
-    checkLoginAndFavorite();
-    Taro.stopPullDownRefresh();
+    Promise.all([loadDetail(), checkLoginAndFavorite()]).finally(() => {
+      Taro.stopPullDownRefresh();
+    });
   });
 
   return (

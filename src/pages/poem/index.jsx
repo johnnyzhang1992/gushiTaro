@@ -33,6 +33,8 @@ const Poem = () => {
 		inited: false,
 		keyWord: '', // 关键词
 	});
+	// 输入框本地状态，确认搜索时才写入 fetchParams，避免每击键触发一次请求
+	const [inputText, setInputText] = useState('');
 	const [fetchParams, updateParams] = useState({
 		name: '',
 		type: undefined,
@@ -93,6 +95,17 @@ const Poem = () => {
 			last_page: -1,
 		});
 	};
+
+	// 提交搜索：确认/按钮时才写入 fetchParams.keyWord，避免每击键触发一次请求
+	const submitSearch = () => {
+		updateParams((pre) => ({ ...pre, keyWord: inputText.trim(), inited: true }));
+		updatePagination({
+			page: 1,
+			size: 15,
+			total: 0,
+			last_page: -1,
+		});
+	};
 	useEffect(() => {
 		updatePagination((pre) => {
 			return {
@@ -113,6 +126,7 @@ const Poem = () => {
 			name: code,
 			inited: true,
 		});
+		setInputText(keyWord || author || '');
 		let params = {
 			from: from || 'home',
 			inited: true,
@@ -152,16 +166,18 @@ const Poem = () => {
 		});
 		Taro.stopPullDownRefresh();
 	});
-	useReachBottom(() => {
-		console.log('--rearchBottom');
+	// 触底加载更多（ScrollView 内部滚动 + 页面级兜底共用）
+	const loadMore = () => {
 		const { page, last_page } = pagination;
+		if (loading) return;
 		if (page < last_page) {
 			updatePagination({
 				...pagination,
 				page: parseInt(page) + 1,
 			});
 		}
-	});
+	};
+	useReachBottom(loadMore);
 	const computeParams = () => {
 		const { dynasty, type } = fetchParams;
 		let queryStr = '';
@@ -210,25 +226,23 @@ const Poem = () => {
 						className='searchInput'
 						placeholder='搜索诗词标题/作者/内容'
 						placeholderClass='searchPlaceholder'
-						value={fetchParams.keyWord || ''}
-						onInput={(e) => {
-							const val = e.detail.value;
-							updateParams((pre) => ({ ...pre, keyWord: val, inited: true }));
-						}}
-						onConfirm={() => {
-							updatePagination({ page: 1 });
-						}}
+						value={inputText}
+						onInput={(e) => setInputText(e.detail.value)}
+						onConfirm={submitSearch}
 					/>
-					{fetchParams.keyWord ? (
-						<View className='searchClear' onClick={() => updateParam({ keyWord: '' })}>
+					{inputText ? (
+						<View
+							className='searchClear'
+							onClick={() => {
+								setInputText('');
+								updateParam({ keyWord: '' });
+							}}
+						>
 							<Text className='searchClearIcon'>×</Text>
 						</View>
 					) : null}
 				</View>
-				<View className='searchBtn' onClick={() => {
-						updateParams((pre) => ({ ...pre, inited: true }));
-						updatePagination({ page: 1 });
-					}}>
+				<View className='searchBtn' onClick={submitSearch}>
 					<Text className='searchBtnText'>搜索</Text>
 				</View>
 			</View>
@@ -289,7 +303,7 @@ const Poem = () => {
 				className='poemScrollView'
 				scrollY
 				scrollWithAnimation
-				onScrollToLower={useReachBottom}
+				onScrollToLower={loadMore}
 			>
 			<View className='page poemIndex'>
 				{/* 页面顶部 -- 来自首页底部筛选 */}

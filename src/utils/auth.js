@@ -1,6 +1,15 @@
 import Taro from '@tarojs/taro';
 
 /**
+ * 判断是否已登录（静默，不弹窗）
+ * 登录态以 token 为准：常规登录写入 user.token，扫码登录只写 wx_token
+ */
+export const isLoggedIn = () => {
+	const user = Taro.getStorageSync('user') || {};
+	return !!(user.token || Taro.getStorageSync('wx_token'));
+};
+
+/**
  * 判断用户是否登录
  * @param {string} path 当前页面路由
  */

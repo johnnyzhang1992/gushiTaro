@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import Taro from '@tarojs/taro';
+
+import { isLoggedIn } from '../utils/auth';
 
 // 自定义 hook 内状态变化和props参数变化都会引起再次执行
 /**
@@ -33,7 +34,7 @@ const useFetchList = (fetchFn, params, pgConfig) => {
 		const cachePg = dataRef.current;
 		const { requestType = 'poem', inited, from, ...requestParams } = params;
 		const { page, last_page: lastPage } = pgConfig;
-		if (requestType === 'collect' && !Taro.getStorageSync('wx_token')) {
+		if (requestType === 'collect' && !isLoggedIn()) {
 			setError('登录后，才能获取数据哦！');
 			return false;
 		}
@@ -62,6 +63,7 @@ const useFetchList = (fetchFn, params, pgConfig) => {
 		// 更新网络请求状态
 		loadRef.current = true;
 		updateLoading(true);
+		setError(null);
 		dataRef.current.count = cachePg.count + 1;
 		cacheParams.current = params;
 		console.log('---分页数据不同，发起请求：', page, cachePg.page);

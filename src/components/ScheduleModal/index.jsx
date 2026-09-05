@@ -5,6 +5,7 @@ import Taro from '@tarojs/taro';
 import Request from '../../apis/request';
 
 import FloatLoayout from '../../components/FloatLayout';
+import { userIsLogin } from '../../utils/auth';
 import {
 	fetchSchedules,
 	createSchedule,
@@ -247,6 +248,11 @@ const ScheduleModal = ({
 			...initschedule,
 		});
 		if (show) {
+			// 未登录不打开浮层（userIsLogin 内部会引导登录）
+			if (!userIsLogin()) {
+				handleClose();
+				return;
+			}
 			getschedules(targetId);
 		}
 	}, [show]);
