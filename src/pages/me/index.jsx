@@ -48,9 +48,9 @@ const MeIndex = () => {
 	const loadUserProfile = () => {
 		const user = Taro.getStorageSync('user');
 		const userId = user?.uid || user?.user_id;
-		if (!userId) return false;
+		if (!userId) return Promise.resolve();
 
-		fetchUserProfile('GET', {})
+		return fetchUserProfile('GET', {})
 			.then((res) => {
 				const apiData = res.data?.data || res.data;
 				if ((res.status || res.statusCode === 200) && apiData) {
@@ -62,13 +62,16 @@ const MeIndex = () => {
 					// 更新签到统计
 					if (pointsStats) {
 						const checkedSet = new Set(pointsStats.monthlyCheckins || []);
-						const todayStr = new Date().toISOString().slice(0, 10);
+						// 本地日期（toISOString 是 UTC，早 8 点会算成昨天）
+						const fmtLocal = (d) =>
+							`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+						const todayStr = fmtLocal(new Date());
 						const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
 						const days = [];
 						for (let i = 6; i >= 0; i--) {
 							const date = new Date();
 							date.setDate(date.getDate() - i);
-							const ds = date.toISOString().slice(0, 10);
+							const ds = fmtLocal(date);
 							const dayIndex = date.getDay();
 							const isToday = ds === todayStr;
 							days.push({
@@ -86,7 +89,7 @@ const MeIndex = () => {
 						});
 					}
 				}
-				// token 过期
+				// token 过期（request.js 已 reject，此处仅兜底）
 				if (res.statusCode == 401) {
 					setInfo(initUser);
 				}
@@ -94,7 +97,6 @@ const MeIndex = () => {
 			.catch((err) => {
 				console.log(err);
 			});
-		return true;
 	};
 
 	const getUserProfile = () => {
@@ -241,6 +243,8 @@ const MeIndex = () => {
 		}
 	});
 
+	// 最近一次拉取用户资料的时间，30s 内切回 tab 不重复请求（避免白屏闪烁）
+	const lastProfileRef = useRef(0);
 	useDidShow(() => {
 		console.log('--page--show');
 		const user = Taro.getStorageSync('user') || {};
@@ -254,14 +258,19 @@ const MeIndex = () => {
 				...pre,
 				...user,
 			}));
-			loadUserProfile();
+			const now = Date.now();
+			if (now - lastProfileRef.current > 30000) {
+				lastProfileRef.current = now;
+				loadUserProfile();
+			}
 		}
 	});
 
 	usePullDownRefresh(() => {
 		console.log('page-pullRefresh');
-		loadUserProfile();
-		Taro.stopPullDownRefresh();
+		Promise.resolve(loadUserProfile()).finally(() => {
+			Taro.stopPullDownRefresh();
+		});
 	});
 
 	return (

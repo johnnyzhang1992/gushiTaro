@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Taro from '@tarojs/taro';
 import { View, Text, ScrollView } from '@tarojs/components';
-import { BaseUrl } from '../../const/config';
+import Request from '../../apis/request';
 import Skeleton from '../Skeleton';
 
 import './style.scss';
@@ -41,13 +41,10 @@ const AllusionContainer = (props) => {
 
     const reqData = { page, size: 20 }
     if (searchRef.current) reqData['keyword'] = searchRef.current
-    Taro.request({
-      url: `${BaseUrl}/miniapp/api/allusions`,
-      data: reqData,
-    })
+    Request('/api/allusions', reqData, 'GET')
       .then((res) => {
-        if (res.data && res.data.status) {
-          const apiData = res.data.data;
+        if (res && res.status && res.data) {
+          const apiData = res.data;
           const { list = [], current_page, last_page, total } = apiData;
           pagination.current = {
             ...pagination.current,
@@ -56,10 +53,11 @@ const AllusionContainer = (props) => {
             total,
           };
           setList(page === 1 ? list : [...allusionList, ...list]);
+        } else {
+          setError('加载失败');
         }
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
         setError('加载失败');
       })
       .finally(() => {
@@ -122,9 +120,14 @@ const AllusionContainer = (props) => {
         {loading && allusionList.length === 0 ? (
           <Skeleton rows={6} />
         ) : null}
-        {!loading && allusionList.length === 0 ? (
+        {!loading && allusionList.length === 0 && !error ? (
           <View className='empty'>
             <Text>暂无典故数据</Text>
+          </View>
+        ) : null}
+        {error ? (
+          <View className='empty'>
+            <Text>{error}</Text>
           </View>
         ) : null}
       </ScrollView>

@@ -64,12 +64,10 @@ const LibrarySearchBar = ({ tab, onSearch }) => {
 		}
 	}, [sTheme, sType]);
 
-	const handleSearch = () => {
-		const key = keyword.trim();
-		// 组装当前 tab 的查询参数，回调父组件在当前页查询（不跳转）
+	// 组装当前 tab 的查询参数（keyWord 由调用方传入，便于清空搜索时保留筛选项）
+	const buildParams = (key) => {
 		const params = {};
 		if (key) params['keyWord'] = key;
-		console.log('handleSearch:', tab, { sTheme, sType, dynasty, poemType, field });
 		switch (tab) {
 			case 0: // 作品
 				if (dynasty !== '全部') params['dynasty'] = dynasty;
@@ -86,19 +84,27 @@ const LibrarySearchBar = ({ tab, onSearch }) => {
 			case 4: // 典故
 				break;
 			default:
-				return;
+				return null;
 		}
+		return params;
+	};
+
+	const handleSearch = () => {
+		const key = keyword.trim();
+		console.log('handleSearch:', tab, { sTheme, sType, dynasty, poemType, field });
+		const params = buildParams(key);
 		console.log('onSearch params:', params);
-		if (onSearch && typeof onSearch === 'function') {
+		if (params && onSearch && typeof onSearch === 'function') {
 			onSearch(params);
 		}
 	};
 
-	// 清空搜索：清空输入并触发容器恢复默认列表
+	// 清空搜索：只清关键词，保留当前筛选项
 	const handleClear = () => {
 		setKeyword('');
-		if (onSearch && typeof onSearch === 'function') {
-			onSearch({ keyWord: '' });
+		const params = buildParams('');
+		if (params && onSearch && typeof onSearch === 'function') {
+			onSearch(params);
 		}
 	};
 

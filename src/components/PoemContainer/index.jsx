@@ -40,6 +40,7 @@ const PoemContainer = (props) => {
 	const paramsRef = useRef(props.params || {});
 	const [poemList, setList] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const [loaded, setLoaded] = useState(false);
 	const [error, setError] = useState('');
 	const [scrollHeight, updateHeight] = useState('auto');
 	const [activeDynasty, setDynasty] = useState('全部');
@@ -96,7 +97,6 @@ const PoemContainer = (props) => {
 		setError('');
 		const params = computeParams(paramsRef.current);
 		console.log(props.params, pagination.current);
-		Taro.showLoading({ title: '加载中' });
 		fetchPoemData('GET', { ...params, page, size: pagination.current.size })
 			.then((res) => {
 				const apiData = res.data?.data || res.data;
@@ -109,18 +109,19 @@ const PoemContainer = (props) => {
 						total,
 					};
 					console.log(list.length, 'list');
-					setList(page === 1 ? list : [...poemList, ...list]);
+					// 函数式更新，避免闭包里的旧列表丢数据
+					setList((pre) => (page === 1 ? list : [...pre, ...list]));
+					setLoaded(true);
 				} else {
-					setError('列表加载失败');
+					setError('列表加载失败，请稍后重试');
 				}
 				refreshFlag.current = false;
 			})
 			.catch((err) => {
-				setError(err);
+				setError((err && (err.errmsg || err.errMsg)) || '加载失败，请稍后重试');
 				refreshFlag.current = false;
 			})
 			.finally(() => {
-				Taro.hideLoading();
 				setLoading(false);
 			});
 	};
@@ -179,9 +180,9 @@ const PoemContainer = (props) => {
 				onScrollToLower={reachBottom}
 			>
 				{loading && poemList.length === 0 ? (
-				<Skeleton rows={6} />
-			) : null}
-			{poemList.map((item, idx) => {
+					<Skeleton rows={6} />
+				) : null}
+				{poemList.map((item, idx) => {
 					return (
 						<PoemSmallCard
 							{...item}
@@ -192,6 +193,16 @@ const PoemContainer = (props) => {
 						/>
 					);
 				})}
+				{loading && poemList.length > 0 ? (
+					<View className='loadingMore'>
+						<Text>加载中...</Text>
+					</View>
+				) : null}
+				{!loading && loaded && poemList.length === 0 && !error ? (
+					<View className='empty'>
+						<Text>暂无数据</Text>
+					</View>
+				) : null}
 			</ScrollView>
 			{/* 朝代筛选 */}
 			{showDynasty && (

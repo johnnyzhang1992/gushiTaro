@@ -42,3 +42,14 @@
 		}
 	}
 }
+
+/* 空态 / 加载更多 */
+.empty,
+.loadingMore {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 60rpx 0;
+	font-size: 26rpx;
+	color: #999;
+}

@@ -21,6 +21,7 @@ const SentenceContainer = (props) => {
 	const paramsRef = useRef(props.params || {});
 	const [sentenceList, setList] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const [loaded, setLoaded] = useState(false);
 	const [error, setError] = useState('');
 	const [scrollHeight, updateHeight] = useState('auto');
 
@@ -69,7 +70,7 @@ const SentenceContainer = (props) => {
 		setLoading(page === 1);
 		setError('');
 		const params = computeParams(paramsRef.current);
-		fetchSentenceData('GET', { ...params, page, size: pagination.current.size })
+			fetchSentenceData('GET', { ...params, page, size: pagination.current.size })
 			.then((res) => {
 				const apiData = res.data?.data || res.data;
 				if ((res.status || res.statusCode == 200) && apiData) {
@@ -81,14 +82,16 @@ const SentenceContainer = (props) => {
 						total,
 					};
 					console.log(list.length, 'list');
-					setList(page === 1 ? list : [...sentenceList, ...list]);
+					// 函数式更新，避免闭包里的旧列表丢数据
+					setList((pre) => (page === 1 ? list : [...pre, ...list]));
+					setLoaded(true);
 				} else {
-					setError('列表加载失败');
+					setError('列表加载失败，请稍后重试');
 				}
 				refreshFlag.current = false;
 			})
 			.catch((err) => {
-				setError(err);
+				setError((err && (err.errmsg || err.errMsg)) || '加载失败，请稍后重试');
 				refreshFlag.current = false;
 			})
 			.finally(() => {
@@ -150,6 +153,16 @@ const SentenceContainer = (props) => {
 			{sentenceList.map((sentence) => (
 					<SentenceCard {...sentence} showCount key={sentence.id} />
 				))}
+				{loading && sentenceList.length > 0 ? (
+					<View className='loadingMore'>
+						<Text>加载中...</Text>
+					</View>
+				) : null}
+				{!loading && loaded && sentenceList.length === 0 && !error ? (
+					<View className='empty'>
+						<Text>暂无数据</Text>
+					</View>
+				) : null}
 			</ScrollView>
 			{error ? (
 				<View className='pageError'>
