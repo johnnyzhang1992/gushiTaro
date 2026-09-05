@@ -1,7 +1,7 @@
 import { View, Text } from '@tarojs/components';
 import { useEffect, useRef, useState } from 'react';
 import Taro, {
-	useLoad,
+	useRouter,
 	usePullDownRefresh,
 	useReachBottom,
 } from '@tarojs/taro';
@@ -87,15 +87,19 @@ const CollectItem = (props) => {
 };
 
 const CollectPage = () => {
+	const router = useRouter();
 	const user = Taro.getStorageSync('user');
 	const { setTitle } = useNavigationBar({ title: '我的收藏' });
 
-	const [currentTab, setCurrentTab] = useState('poem');
+	// 初始 tab 直接取路由参数：useLoad 晚于首帧 effect 执行会导致先请求默认 tab 再被加载锁拦截
+	const [currentTab, setCurrentTab] = useState(router.params.type || 'poem');
 	const [collectList, setList] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
 	const pagination = useRef({ page: 1, last_page: 2 });
 	const isLoadingMore = useRef(false);
+	// 请求序号：快速切换 tab 时丢弃过期响应，防止旧 tab 数据覆盖新 tab
+	const seqRef = useRef(0);
 
 	// 切换 TAB
 	const handleTabChange = (tab) => {
@@ -108,12 +112,14 @@ const CollectPage = () => {
 
 	// 加载数据
 	const loadData = async (type, page) => {
-		if (isLoadingMore.current) return;
-		isLoadingMore.current = true;
+		const seq = ++seqRef.current;
+		if (page > 1 && isLoadingMore.current) return;
+		if (page === 1) isLoadingMore.current = false;
 		setLoading(page === 1);
 
 		try {
 			const res = await fetchUserCollect('GET', { page, uid: user.uid, type });
+			if (seq !== seqRef.current) return; // 已有更新的请求，丢弃过期响应
 			if (res && (res.status || res.statusCode === 200)) {
 				const apiData = res.data?.data || res.data;
 				const { list = [], current_page, last_page } = apiData;
@@ -123,10 +129,12 @@ const CollectPage = () => {
 			}
 		} catch (err) {
 			console.error('fetchUserCollect', err);
-			setError(err);
+			if (seq === seqRef.current) setError(err);
 		} finally {
-			setLoading(false);
-			isLoadingMore.current = false;
+			if (seq === seqRef.current) {
+				setLoading(false);
+				isLoadingMore.current = false;
+			}
 		}
 	};
 
@@ -143,11 +151,6 @@ const CollectPage = () => {
 			}
 		});
 	};
-
-	useLoad((options) => {
-		const { type = 'poem' } = options;
-		setCurrentTab(type);
-	});
 
 	useEffect(() => {
 		loadData(currentTab, 1);
