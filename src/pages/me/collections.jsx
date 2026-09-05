@@ -13,6 +13,9 @@ const CollectionsPage = () => {
   const [currentTab, setCurrentTab] = useState('created');
   const [createdList, setCreatedList] = useState([]);
   const [favoritedList, setFavoritedList] = useState([]);
+  // tab 角标用接口 total（列表接口有 size 截断，list.length 不等于真实总数）
+  const [createdTotal, setCreatedTotal] = useState(0);
+  const [favoritedTotal, setFavoritedTotal] = useState(0);
   const [isLoading, setLoading] = useState(true);
 
   // 创建诗单弹窗
@@ -29,6 +32,7 @@ const CollectionsPage = () => {
         if (res && res.status && res.data) {
           const list = res.data.list || res.data.collections || [];
           setCreatedList(list);
+          if (res.data.total !== undefined) setCreatedTotal(res.data.total);
         }
       })
       .catch(() => {});
@@ -41,6 +45,7 @@ const CollectionsPage = () => {
       .then((res) => {
         if (res && res.status && res.data) {
           setFavoritedList(res.data.list || []);
+          if (res.data.total !== undefined) setFavoritedTotal(res.data.total);
         }
       })
       .catch(() => {});
@@ -121,8 +126,8 @@ const CollectionsPage = () => {
   });
 
   const tabs = [
-    { key: 'created', label: '我创建的', count: createdList.length },
-    { key: 'favorited', label: '我收藏的', count: favoritedList.length },
+    { key: 'created', label: '我创建的', count: createdTotal || createdList.length },
+    { key: 'favorited', label: '我收藏的', count: favoritedTotal || favoritedList.length },
   ];
 
   const currentList = currentTab === 'created' ? createdList : favoritedList;
