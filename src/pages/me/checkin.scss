@@ -39,6 +39,10 @@
         color: #337ab7;
         padding: 0 30px;
         font-weight: 700;
+
+        &.disabled {
+          color: #ccc;
+        }
       }
       .title {
         font-size: 32px;
@@ -60,17 +64,21 @@
     }
 
     .grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
+      /* 小程序 webview 上 grid item + aspect-ratio 高度计算异常（实测被撑到 108pt 导致布局爆掉），
+         改用 flex wrap + calc 七等分 + 固定高度 */
+      display: flex;
+      flex-wrap: wrap;
       gap: 4px;
       .day {
-        aspect-ratio: 1;
+        width: calc((100% - 24px) / 7); /* 7 列，扣除 6 个 gap */
+        height: 88px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         border-radius: 50%;
         font-size: 28px;
+        box-sizing: border-box;
         .num { line-height: 1; }
         &.checked {
           background: #337ab7;

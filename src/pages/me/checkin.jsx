@@ -1,7 +1,7 @@
 import { View, Text } from '@tarojs/components'
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import Taro, { useLoad, useDidShow, usePullDownRefresh, useReachBottom } from '@tarojs/taro'
-import { fetchPointsStats, doCheckin, fetchPointRecords } from '../../services/global'
+import { fetchPointsStats, doCheckin, fetchPointRecords, fetchMonthlyCheckins } from '../../services/global'
 
 import './checkin.scss'
 
@@ -28,6 +28,8 @@ const CheckinPage = () => {
   const [bonus, setBonus] = useState(null)
   const [recordsLoading, setRecordsLoading] = useState(false)
   const recordsPagination = useRef({ page: 1, last_page: 1, total: 0 })
+  // 当前浏览月份的签到日期（翻月时按月拉取，stats.monthlyCheckins 只有当月）
+  const [monthCheckins, setMonthCheckins] = useState([])
 
   const loadStats = useCallback(async () => {
     try {
@@ -62,6 +64,28 @@ const CheckinPage = () => {
       .finally(() => setRecordsLoading(false))
   }, [recordsLoading])
 
+  // 拉取指定月份的签到日期（日历勾选用）
+  const loadMonthCheckins = useCallback(async (y, m) => {
+    try {
+      const res = await fetchMonthlyCheckins('GET', { year: y, month: m })
+      if (res && res.status && res.data) {
+        setMonthCheckins(res.data.monthlyCheckins || [])
+      }
+    } catch (e) {
+      console.log('fetchMonthlyCheckins error', e)
+    }
+  }, [])
+
+  // 签到成功后同时刷新当月勾选
+  const refreshCurrentMonth = useCallback(() => {
+    loadMonthCheckins(year, month)
+  }, [loadMonthCheckins, year, month])
+
+  // 年/月变化时拉取对应月份的签到数据（含首次进入）
+  useEffect(() => {
+    loadMonthCheckins(year, month)
+  }, [year, month, loadMonthCheckins])
+
   useLoad(() => {
     loadStats()
     loadRecords(true)
@@ -93,12 +117,13 @@ const CheckinPage = () => {
     setChecking(true)
     try {
       const res = await doCheckin('POST', {})
-      const d = res?.data || res.data
+      const d = res?.data
       if (d && d.totalEarned !== undefined) {
         setBonus(d)
         Taro.showToast({ title: `签到成功 +${d.totalEarned}分`, icon: 'success' })
         loadStats()
         loadRecords(true)
+        refreshCurrentMonth()
         setTimeout(() => setBonus(null), 2000)
       } else {
         Taro.showToast({ title: res?.msg || '签到失败', icon: 'none' })
@@ -116,8 +141,16 @@ const CheckinPage = () => {
   for (let i = 0; i < firstDay; i++) cells.push(null)
   for (let d = 1; d <= daysInMonth; d++) {
     const ds = `${year}-${String(month).padStart(2, '0')}-${String(d).padStart(2, '0')}`
-    cells.push({ day: d, dateStr: ds, checked: stats.monthlyCheckins?.includes(ds), isToday: ds === todayStr })
+    cells.push({ day: d, dateStr: ds, checked: monthCheckins.includes(ds), isToday: ds === todayStr })
   }
+
+  // 下一个月是否超出当前月（不允许翻到未来）
+  const isNextMonthDisabled = (() => {
+    const now = new Date()
+    const ny = month === 12 ? year + 1 : year
+    const nm = month === 12 ? 1 : month + 1
+    return ny > now.getFullYear() || (ny === now.getFullYear() && nm > now.getMonth() + 1)
+  })()
 
   // 积分记录展示文案
   const formatRecordDesc = (r) => {
@@ -157,12 +190,14 @@ const CheckinPage = () => {
             else setMonth(m => m - 1)
           }}>‹</Text>
           <Text className='title'>{year}年{month}月</Text>
-          <Text className='arrow' onClick={() => {
-            const now = new Date()
-            if (year >= now.getFullYear() && month >= now.getMonth() + 1) return
-            if (month === 12) { setYear(y => y + 1); setMonth(1) }
-            else setMonth(m => m + 1)
-          }}>›</Text>
+          <Text
+            className={`arrow ${isNextMonthDisabled ? 'disabled' : ''}`}
+            onClick={() => {
+              if (isNextMonthDisabled) return
+              if (month === 12) { setYear(y => y + 1); setMonth(1) }
+              else setMonth(m => m + 1)
+            }}
+          >›</Text>
         </View>
         <View className='weekdays'>
           {WEEK_DAYS.map(w => <Text key={w} className='wd'>{w}</Text>)}
