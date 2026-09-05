@@ -12,3 +12,4 @@ git_stats.sh
 *.key
 docs/
 logs/
+.mimosa/

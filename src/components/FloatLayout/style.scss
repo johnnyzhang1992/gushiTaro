@@ -5,7 +5,7 @@
 	top: 0;
 	left: 0;
 	visibility: hidden;
-	z-index: 810;
+	z-index: 900;
 	transition: visibility 300ms cubic-bezier(0.36, 0.66, 0.04, 1);
 	&.active {
 		.float-layout__overlay {

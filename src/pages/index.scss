@@ -227,11 +227,6 @@
 			color: #fff;
 			font-size: 28rpx;
 			font-weight: 500;
-
-			&.done {
-				background: #e8f0fa;
-				color: #337ab7;
-			}
 		}
 	}
 
@@ -319,14 +314,13 @@
 			padding: 24rpx;
 			background: #fff;
 			border: 1rpx solid #f0f0f0;
-			border-radius: 12rpx;
+			border-radius: 24rpx;
+			box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.05);
 
 			.gameEntryInfo {
 				display: flex;
 				flex-direction: column;
 				align-items: center;
-				display: flex;
-				flex-direction: column;
 
 				.gameEntryTitle {
 					font-size: 28rpx;
@@ -339,55 +333,6 @@
 					font-size: 22rpx;
 					color: #999;
 				}
-			}
-		}
-	}
-
-	/* ===== 飞花令旧样式（保留兼容） ===== */
-	.feihuaCard {
-		background: #fff;
-		border: 1rpx solid #f0f0f0;
-
-		.feihuaBody {
-			display: flex;
-			flex-direction: row;
-			align-items: center;
-			padding: 30rpx;
-			position: relative;
-
-			.feihuaTag {
-				font-size: 30rpx;
-				color: #fff;
-				background: linear-gradient(135deg, #337ab7 0%, #5a9fd4 100%);
-				padding: 10rpx 24rpx;
-				border-radius: 24rpx;
-				margin-right: 24rpx;
-				font-weight: 600;
-				box-shadow: 0 4rpx 12rpx rgba(51, 122, 183, 0.25);
-			}
-
-			.feihuaText {
-				display: flex;
-				flex-direction: column;
-				flex: 1;
-
-				.feihuaTitle {
-					font-size: 28rpx;
-					font-weight: 600;
-					color: #2c3e50;
-					margin-bottom: 8rpx;
-				}
-
-				.feihuaDesc {
-					font-size: 22rpx;
-					color: #6b7a8d;
-				}
-			}
-
-			.feihuaArrow {
-				font-size: 40rpx;
-				color: #337ab7;
-				margin-left: 20rpx;
 			}
 		}
 	}

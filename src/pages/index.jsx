@@ -6,14 +6,13 @@ import Taro, {
 	useShareAppMessage,
 	useShareTimeline,
 } from '@tarojs/taro';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import {
 	fetchHomeInit,
 	fetchUserDashboard,
 	doCheckin,
 } from '../services/global';
-import { fetchStudyPlans } from '../services/study';
 import { fetchRandomSearch } from './search/service';
 
 import PoetCard from '../components/PoetCard';
@@ -31,6 +30,28 @@ const fetchRandomRecommend = () => {
 
 import './index.scss';
 
+// 实时时钟（公历）：独立小组件，避免每秒重渲染整个首页
+const LiveClock = () => {
+	const [clock, setClock] = useState(new Date());
+	useEffect(() => {
+		const timer = setInterval(() => setClock(new Date()), 1000);
+		return () => clearInterval(timer);
+	}, []);
+	return (
+		<View className='solar-right'>
+			<Text className='solar-tag'>公历</Text>
+			<Text className='solar-date'>
+				{clock.getMonth() + 1}月{clock.getDate()}日
+			</Text>
+			<Text className='solar-clock'>
+				{String(clock.getHours()).padStart(2, '0')}:
+				{String(clock.getMinutes()).padStart(2, '0')}:
+				{String(clock.getSeconds()).padStart(2, '0')}
+			</Text>
+		</View>
+	);
+};
+
 const initCalendar = {
 	lunarDate: { yearChinese: '', monthChinese: '', dayChinese: '' },
 	festivals: [],
@@ -39,19 +60,12 @@ const initCalendar = {
 
 const HomePage = () => {
 	const [calendar, setCalendar] = useState(initCalendar);
-	const [clock, setClock] = useState(new Date());
 	const [dailyPoem, setDailyPoem] = useState(null);
 	const [checkinStats, setCheckinStats] = useState(null);
 	const [plans, setPlans] = useState([]);
 	const [isLogin, setIsLogin] = useState(false);
 	const [recommend, setRecommend] = useState({ poems: [], poets: [], sentences: [] });
 	const [recommendList, setRecommendList] = useState([]);
-
-	// 实时时钟（公历）
-	useEffect(() => {
-		const timer = setInterval(() => setClock(new Date()), 1000);
-		return () => clearInterval(timer);
-	}, []);
 
 	// 拉取首页初始化数据（农历 + 每日诗词）
 	const loadHomeInit = () => {
@@ -103,26 +117,20 @@ const HomePage = () => {
 			})
 			.catch(() => {});
 	};
-	const loadPlans = () => {
-		const user = Taro.getStorageSync('user') || {};
-		if (!user.token) {
-			setPlans([]);
-			return Promise.resolve();
-		}
-		return fetchStudyPlans('GET', {})
-			.then((res) => {
-				if (res && res.status && res.data) setPlans(res.data || []);
-			})
-			.catch(() => {});
-	};
 
 	useLoad(() => {
 		loadHomeInit();
 		loadRecommend();
 	});
 
+	// 最近一次拉取仪表盘的时间，30s 内切回 tab 不重复请求（避免白屏闪烁）
+	const lastDashboardRef = useRef(0);
 	useDidShow(() => {
-		loadDashboard();
+		const now = Date.now();
+		if (now - lastDashboardRef.current > 30000) {
+			lastDashboardRef.current = now;
+			loadDashboard();
+		}
 	});
 
 	// 下拉刷新：重新拉取所有数据
@@ -167,13 +175,11 @@ const HomePage = () => {
 			});
 	};
 
-	// 今日是否已签到
+	// 今日是否已签到（纯计算，比较服务端返回的签到日期与本地日期）
 	const hasCheckedIn = () => {
 		if (!checkinStats) return false;
-		const todayStr = Taro.getStorageSync('todayStr');
 		const now = new Date();
 		const ts = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
-		Taro.setStorageSync('todayStr', ts);
 		return (checkinStats.monthlyCheckins || []).includes(ts);
 	};
 
@@ -191,6 +197,11 @@ const HomePage = () => {
 		planStats.total > 0
 			? Math.round((planStats.mastered / planStats.total) * 100)
 			: 0;
+
+	// 跳转学习 tab（整卡可点击）
+	const goStudyTab = () => {
+		Taro.switchTab({ url: '/pages/study/index' });
+	};
 
 	// 每日诗词内容
 	const poemContent = dailyPoem?.content?.content || [];
@@ -211,34 +222,24 @@ const HomePage = () => {
 				className='card calendarCard'
 				onClick={() => Taro.navigateTo({ url: '/pages/find/today' })}
 			>
-				<View className='card-body'>
-					<View className='lunar-left'>
-						<Text className='lunar-tag'>
-							农历 · {calendar.lunarDate.ganzhiYear}年
-						</Text>
-						<Text className='lunar-date'>
-							{calendar.lunarDate.monthChinese}月
-							{calendar.lunarDate.dayChinese}
-						</Text>
-						<Text className='lunar-sub'>
-							{calendar.lunarDate.shengxiao}年 · 星期{calendar.weekday}
-							{calendar.lunarDate.ganzhiMonth
-								? ` · ${calendar.lunarDate.ganzhiMonth}月${calendar.lunarDate.ganzhiDay}日`
-								: ''}
-						</Text>
+					<View className='card-body'>
+						<View className='lunar-left'>
+							<Text className='lunar-tag'>
+								农历 · {calendar.lunarDate.ganzhiYear}年
+							</Text>
+							<Text className='lunar-date'>
+								{calendar.lunarDate.monthChinese}月
+								{calendar.lunarDate.dayChinese}
+							</Text>
+							<Text className='lunar-sub'>
+								{calendar.lunarDate.shengxiao}年 · 星期{calendar.weekday}
+								{calendar.lunarDate.ganzhiMonth
+									? ` · ${calendar.lunarDate.ganzhiMonth}月${calendar.lunarDate.ganzhiDay}日`
+									: ''}
+							</Text>
+						</View>
+						<LiveClock />
 					</View>
-					<View className='solar-right'>
-						<Text className='solar-tag'>公历</Text>
-						<Text className='solar-date'>
-							{clock.getMonth() + 1}月{clock.getDate()}日
-						</Text>
-						<Text className='solar-clock'>
-							{String(clock.getHours()).padStart(2, '0')}:
-							{String(clock.getMinutes()).padStart(2, '0')}:
-							{String(clock.getSeconds()).padStart(2, '0')}
-						</Text>
-					</View>
-				</View>
 				{(calendar.festivals?.length > 0 ||
 					calendar.solarTerm?.previous ||
 					calendar.timePeriod) && (
@@ -321,14 +322,14 @@ const HomePage = () => {
 			) : null}
 
 			{/* ===== 4. 学习计划进度 ===== */}
-			<View className='card planCard'>
+			<View className='card planCard' onClick={goStudyTab}>
 				<View className='plan-header'>
 					<Text className='plan-title'>学习计划</Text>
-					<Navigator className='plan-more' url='/pages/study/index' hoverClass='none'>
+					<View className='plan-more'>
 						<Text>
 							{isLogin ? `${plans.length} 个计划` : '去查看'} ›
 						</Text>
-					</Navigator>
+					</View>
 				</View>
 				{isLogin && plans.length > 0 ? (
 					<View className='plan-stats'>
@@ -375,7 +376,7 @@ const HomePage = () => {
 				>
 					<View className='gameEntryInfo'>
 						<Text className='gameEntryTitle'>词牌名</Text>
-						<Text className='gameEntryDesc'>八百七十多词牌</Text>
+						<Text className='gameEntryDesc'>三百常用词牌</Text>
 					</View>
 				</View>
 			</View>

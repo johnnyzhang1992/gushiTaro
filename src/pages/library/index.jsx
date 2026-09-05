@@ -1,6 +1,5 @@
 import { View, Text } from '@tarojs/components';
 import { useState } from 'react';
-import { useLoad } from '@tarojs/taro';
 
 import PageHeader from '../../components/PageHeader';
 import PoemContainer from '../../components/PoemContainer';
@@ -23,7 +22,6 @@ const TABS = [
 
 const Page = () => {
 	const [currentTab, setTab] = useState(0);
-	const [searchParams, setSearchParams] = useState({});
 	// 每个 TAB 独立的搜索参数，切换 TAB 时不会丢失
 	const [tabParams, setTabParams] = useState({0: {}, 1: {}, 2: {}, 3: {}, 4: {}});
 	// 记录每个 TAB 是否已加载过数据
@@ -38,13 +36,8 @@ const Page = () => {
 	};
 
 	const handleSearch = (params) => {
-		setSearchParams(params);
 		setTabParams(prev => ({ ...prev, [currentTab]: params }));
 	};
-
-	useLoad((options) => {
-		console.log(options);
-	});
 
 	// 内容类 tab 包装：搜索筛选栏 + 列表容器
 	const renderContentTab = (tabIndex, ContainerEl, extraProps) => (
