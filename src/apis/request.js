@@ -1,28 +1,35 @@
 import Taro from '@tarojs/taro';
 
 import { BaseUrl, WxAppVersion, isDevEnv } from '../const/config';
+import { ensureLoginReady } from '../utils/login';
 
 // 生产环境静默日志
 const DEBUG = isDevEnv();
 
 const request = (url, params, method = 'GET') => {
-	const user = Taro.getStorageSync('user') || {};
-	// 常规登录存 user.token，扫码登录只存 wx_token，两者取其一
-	const token = user.token || Taro.getStorageSync('wx_token');
 	const data = { ...(params || {}) };
 	if (DEBUG) console.log('--api--request:', url, method);
-	return new Promise((resolve, reject) => {
-		Taro.request({
-			url: BaseUrl + '/miniapp' + url,
-			enableCache: true,
-			credentials: true,
-			data: data,
-			method: method,
-			header: {
-				'content-type': 'application/json',
-				'Authorization': token ? `Bearer ${token}` : '',
-			},
-			success: (res) => {
+
+	// 发请求时实时读 token（登录完成后 storage 里即为新 token）
+	const readToken = () => {
+		const user = Taro.getStorageSync('user') || {};
+		// 常规登录存 user.token，扫码登录只存 wx_token，两者取其一
+		return user.token || Taro.getStorageSync('wx_token');
+	};
+
+	const send = (token) => {
+		return new Promise((resolve, reject) => {
+			Taro.request({
+				url: BaseUrl + '/miniapp' + url,
+				enableCache: true,
+				credentials: true,
+				data: data,
+				method: method,
+				header: {
+					'content-type': 'application/json',
+					'Authorization': token ? `Bearer ${token}` : '',
+				},
+				success: (res) => {
 				if (DEBUG) console.log('--api--response:', url, res.statusCode, res.data);
 				if (res && res.statusCode === 200) {
 					resolve(res.data);
@@ -66,8 +73,13 @@ const request = (url, params, method = 'GET') => {
 				if (DEBUG) console.log('请求失败:', res);
 				reject(res);
 			},
-		});
+			});
 	});
+	};
+
+	// 全局顺序保证：所有接口都等静默登录（/api/user/userInfo 换取 token）完成后再发。
+	// ensureLoginReady 是单例 Promise：登录中则等待；已完成时 await 仅为微任务开销，无感知。
+	return ensureLoginReady().then(() => send(readToken()));
 };
 
 export default request;

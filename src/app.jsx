@@ -14,56 +14,19 @@ import '@nutui/nutui-react-taro/dist/es/packages/tabpane/style/style.css';
 import '@nutui/nutui-react-taro/dist/es/packages/tabs/style/style.css';
 import '@nutui/nutui-react-taro/dist/es/packages/tag/style/style.css';
 
-import Request from './apis/request';
-import { getDeviceInfo } from './utils/tool';
+import { ensureLoginReady } from './utils/login';
 
+// 启动时触发一次静默登录（全局单例，request.js 也会复用）
 const App = (props) => {
-	// 用户登录
-	const userLogin = () => {
-		Taro.login({
-			success: (res) => {
-				console.log('[app-login] code:', res.code ? '获取成功' : '失败');
-				const deviceInfo = getDeviceInfo();
-				
-				// 第一步：尝试获取用户信息
-				Request('/api/user/userInfo', {
-					code: res.code,
-					...deviceInfo,
-				}, 'GET')
-					.then((result) => {
-						const apiData = result.data?.data || result.data;
-						console.log('[app-login] userInfo 返回:', apiData?.uid || '无用户');
-						
-						if (apiData && apiData.uid) {
-							// 用户存在，直接登录
-							console.log('[app-login] ✅ 用户已存在，登录成功');
-							const token = apiData.token || apiData.wx_token;
-							const userData = { ...apiData, token };
-							Taro.setStorageSync('user', userData);
-							Taro.setStorageSync('wx_token', token);
-							return;
-						}
-						
-						// 用户不存在，不自动注册，由用户在个人中心手动点击登录/注册
-						console.log('[app-login] 用户不存在，等待用户手动登录');
-					})
-					.catch((err) => {
-						console.log('[app-login] 获取用户信息失败:', err);
-					});
-			},
-			fail: (err) => {
-				console.log('[app-login] Taro.login 失败:', err);
-			},
-		});
-	};
-
 	useLaunch((options) => {
 		console.log('onLaunch', options);
 		Taro.setStorageSync('enterPath', options.path);
 		Taro.getSystemInfo().then((sysRes) => {
 			Taro.setStorageSync('sys_info', sysRes);
 		});
-		userLogin();
+		// 启动时触发静默登录（code → token 写入 storage，全局单例）
+		// 页面接口在无 token 时会自动等待本流程完成（见 apis/request.js）
+		ensureLoginReady();
 	});
 
 	// useDidShow(() => {});
