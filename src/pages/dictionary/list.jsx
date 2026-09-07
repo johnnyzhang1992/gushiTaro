@@ -5,7 +5,7 @@ import { useState } from 'react';
 import WordCard from '../../components/Dictionary/WordCard';
 import { fetchDictionarySearch } from './service';
 
-import './style.scss';
+import './list.scss';
 
 const typeMap = {
 	word: '字',

@@ -11,7 +11,7 @@ const removeDigitsAndParentheses = (str = '') => {
 };
 
 const WordCard = (props) => {
-	const { type, pinyin = '', text = '', _id, cellType = 'black', onClick } = props;
+	const { type, pinyin = '', text = '', _id, cellType = 'black', onClick, hideCard } = props;
 	const textArr = removeDigitsAndParentheses(text).split('');
 	const pinyinArr = removeDigitsAndParentheses(pinyin).split(' ');
 	const navigateToDetail = () => {
@@ -24,6 +24,23 @@ const WordCard = (props) => {
 			url: `/pages/dictionary/detail?type=${type}&id=${_id}`,
 		});
 	};
+
+	if (hideCard) {
+		return (
+			<View className='wordContainer wordContainerBare'>
+				{textArr.map((item, index) => (
+					<View className='wordItemCell' key={index}>
+						{pinyinArr[index] ? (
+							<Text className='pinyin' userSelect selectable>
+								{pinyinArr[index]}
+							</Text>
+						) : null}
+						<WordCell type={cellType} fontSize={30} cellSize={60} text={item} />
+					</View>
+				))}
+			</View>
+		);
+	}
 
 	return (
 		<View className={`wordCard ${type}`}>

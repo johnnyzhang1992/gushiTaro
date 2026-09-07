@@ -15,6 +15,14 @@ export const fetchDictionarySearch = (method, data) => {
 };
 
 /**
+ * 字典随机内容（字典页默认展示，避免空屏）
+ * 返回 { ciList, wordList, chengyuList } 同搜索结构
+ */
+export const fetchDictionaryRandom = (method = 'GET', size = 5) => {
+	return Request(`/api/xinhua/random`, { size }, method);
+};
+
+/**
  * 字典 - 详情
  * @param {*} method
  * @param {*} data

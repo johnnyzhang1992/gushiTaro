@@ -39,3 +39,30 @@
 		}
 	}
 }
+
+/* hideCard 模式：无 .wordCard 外壳，样式独立生效（字典页网格用） */
+.wordContainerBare {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	.wordItemCell {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin-right: 8rpx;
+
+		&:last-child {
+			margin-right: 0;
+		}
+
+		.pinyin {
+			margin-bottom: 6rpx;
+			font-size: 22rpx;
+			color: #888;
+			line-height: 1.2;
+			text-align: center;
+			width: 100%;
+		}
+	}
+}

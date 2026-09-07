@@ -56,7 +56,7 @@ const RandomSearch = () => {
 			moreUrl: '/pages/poet/index',
 			list: search.poets,
 			renderItem: (item) => (
-				<PoetCard {...item} key={item.id} showCount={false} hideBorder />
+				<PoetCard {...item} key={item.id || item._id} showCount={false} hideBorder />
 			),
 		},
 		{
@@ -67,7 +67,7 @@ const RandomSearch = () => {
 			renderItem: (item) => (
 				<SentenceCard
 					{...item}
-					key={item.id}
+					key={item.id || item._id}
 					showCount={false}
 					showBorder={false}
 				/>
@@ -81,7 +81,7 @@ const RandomSearch = () => {
 			renderItem: (item) => (
 				<PoemSmallCard
 					{...item}
-					key={item.id}
+					key={item.id || item._id}
 					hideAudio
 					showCount={false}
 					showBorder={false}

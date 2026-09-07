@@ -30,4 +30,69 @@
 		background: rgba(51, 122, 183, 0.08);
 		border-radius: 20rpx;
 	}
+
+	/* 字：米字格网格（一行 5 个，占满宽度） */
+	.charGrid {
+		width: 100%; /* 父级 .content 是 flex，子项默认按内容收缩，需显式占满 */
+		display: flex;
+		flex-wrap: wrap;
+
+		.charCell {
+			width: 20%;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			margin-bottom: 20rpx;
+		}
+	}
+
+	/* 词语/成语：紧凑词条行 */
+	.entryRow {
+		display: flex;
+		align-items: baseline;
+		padding: 18rpx 8rpx;
+		border-bottom: 1rpx dashed #f0f2f5;
+
+		&:last-child {
+			border-bottom: none;
+		}
+
+		&:active {
+			background: #fafbfc;
+		}
+
+		.entryLeft {
+			flex-shrink: 0;
+			display: flex;
+			flex-direction: column;
+			min-width: 200rpx;
+			margin-right: 24rpx;
+
+			.entryWord {
+				font-size: 30rpx;
+				font-weight: 600;
+				color: #333;
+				font-family: serif;
+			}
+
+			.entryPinyin {
+				font-size: 22rpx;
+				color: #999;
+				margin-top: 4rpx;
+			}
+		}
+
+		.entryExplain {
+			flex: 1;
+			min-width: 0;
+			font-size: 24rpx;
+			color: #666;
+			line-height: 1.6;
+			display: -webkit-box;
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
+		}
+	}
 }
