@@ -47,13 +47,15 @@ const DictionaryDetail = () => {
 				// return `${_index > 0 ? `(${_index})` : ''}${_item}`;
 			});
 		});
-		const moreObj = more.split(`\n${word}\n`).map((item, index) => {
-			const firstWord = index > 0 ? word : '';
-			return (firstWord + item).split(`\n${word}`).map((_item, _index) => {
-				const word1 = _index > 0 ? word : '';
-				return (word1 + _item).replace(/\n/g, '');
-			});
-		});
+		const moreObj = more
+			? more.split(`\n${word}\n`).map((item, index) => {
+					const firstWord = index > 0 ? word : '';
+					return (firstWord + item).split(`\n${word}`).map((_item, _index) => {
+						const word1 = _index > 0 ? word : '';
+						return (word1 + _item).replace(/\n/g, '');
+					});
+			  })
+			: [];
 		return {
 			...res,
 			explanationObj,

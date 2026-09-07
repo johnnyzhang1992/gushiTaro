@@ -1,4 +1,4 @@
-$red-color: rgb(226, 40, 0, 0.6);
+$red-color: rgba(226, 40, 0, 0.6);
 .wordCell {
 	position: relative;
 	width: 82px;
@@ -8,6 +8,7 @@ $red-color: rgb(226, 40, 0, 0.6);
 	box-sizing: border-box;
 	border: 1px solid #000;
 	margin-right: 10px;
+	flex-shrink: 0; /* flex 容器中被压缩会导致边框渲染异常 */
 	overflow: hidden;
 	&:last-child {
 		margin-right: 0;

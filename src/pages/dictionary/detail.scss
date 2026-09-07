@@ -12,7 +12,13 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		/* 用 gap 控制间距，避免相邻格子边框贴边在部分机型上被覆盖 */
+		gap: 16rpx;
 		box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+
+		.wordCell {
+			margin-right: 0;
+		}
 	}
 
 	.wordCell {
