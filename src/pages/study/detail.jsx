@@ -406,12 +406,14 @@ export default function StudyDetailPage() {
     return true;
   });
 
-  // 获取阶段文本
-  const getStageText = (stage) => {
-    if (stage === 0) return '未学习';
-    if (stage >= 6) return '已掌握';
-    return '学习中';
-  };
+	// 获取阶段文本（区分待复习态，学习中显示具体阶段）
+	const getStageText = (item) => {
+		if (item.stage === 0) return '未学习';
+		if (item.stage >= 6) return '已掌握';
+		const now = new Date();
+		if (item.nextReviewAt && new Date(item.nextReviewAt) <= now) return '待复习';
+		return `阶段 ${item.stage}/6`;
+	};
 
   // 获取阶段样式类名
   const getStageClass = (item) => {
@@ -532,7 +534,7 @@ export default function StudyDetailPage() {
                   </View>
                 </View>
                 <View className={`poem-stage ${getStageClass(item)}`}>
-                  {getStageText(item.stage)}
+                  {getStageText(item)}
                 </View>
               </View>
             </SwipeAction>

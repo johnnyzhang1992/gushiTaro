@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import Taro, { useRouter, useLoad, usePullDownRefresh } from '@tarojs/taro';
 import { View, Text } from '@tarojs/components';
-import { BaseUrl } from '../../const/config';
+
+import Request from '../../apis/request';
+import LikeButton from '../../components/LikeButton';
+import CollectButton from '../../components/CollectButton';
 
 import './allusion-detail.scss';
 
@@ -15,13 +18,11 @@ const AllusionDetail = () => {
     setLoading(true);
     Taro.showLoading({ title: '加载中' });
 
-    Taro.request({
-      url: `${BaseUrl}/miniapp/api/allusions/${id}`,
-    })
+    Request(`/api/allusions/${id}`, {}, 'GET')
       .then((res) => {
-        if (res.data && res.data.status) {
-          setDetail(res.data.data);
-          Taro.setNavigationBarTitle({ title: res.data.data.name || '典故详情' });
+        if (res && res.status && res.data) {
+          setDetail(res.data);
+          Taro.setNavigationBarTitle({ title: res.data.name || '典故详情' });
         }
       })
       .catch((err) => {
@@ -47,9 +48,27 @@ const AllusionDetail = () => {
 
   return (
     <View className='page allusionDetail'>
-      {/* 典故名称 */}
+      {/* 典故名称 + 点赞收藏 */}
       <View className='allusionHeader'>
-        <Text className='allusionName'>{detail.name}</Text>
+        <View className='headerTop'>
+          <Text className='allusionName'>{detail.name}</Text>
+          <View className='actionBtns'>
+            <LikeButton
+              type='allusion'
+              id={detail._id}
+              count={detail.like_count}
+              status={detail.isLiked}
+              showText={false}
+            />
+            <CollectButton
+              type='allusion'
+              id={detail._id}
+              count={detail.collect_count}
+              status={detail.isFavorited}
+              showText={false}
+            />
+          </View>
+        </View>
         {detail.aliases && detail.aliases.length > 0 ? (
           <View className='allusionAliases'>
             <Text className='label'>别称：</Text>

@@ -387,6 +387,16 @@ const MeIndex = () => {
 							</View>
 							<View className='info'>作者</View>
 						</Navigator>
+						<Navigator
+							className='card_item'
+							hoverClass='none'
+							url='/pages/me/collect?type=allusion'
+						>
+							<View className='top'>
+								<Text className='num'>{userInfo.allusion_count || 0}</Text>
+							</View>
+							<View className='info'>典故</View>
+						</Navigator>
 					</View>
 				</SectionCard>
 				{/* 我的诗单 */}

@@ -1,4 +1,4 @@
-import { View, Text } from '@tarojs/components';
+import { View, Text, Navigator } from '@tarojs/components';
 import { useEffect, useRef, useState } from 'react';
 import Taro, {
 	useRouter,
@@ -35,7 +35,16 @@ const tabs = [
 	{ key: 'poem', label: '作品' },
 	{ key: 'sentence', label: '摘录' },
 	{ key: 'author', label: '作者' },
+	{ key: 'allusion', label: '典故' },
 ];
+
+// 收藏表存储的 target_type 与 tab key 的映射（摘录在表里存为 excerpt）
+const TAB_TARGET_TYPE = {
+	poem: 'poem',
+	sentence: 'excerpt',
+	author: 'author',
+	allusion: 'allusion',
+};
 
 const CollectItem = (props) => {
 	const type = props.type || props.target_type || 'poem';
@@ -51,6 +60,35 @@ const CollectItem = (props) => {
 			},
 		});
 	};
+
+	// 典故卡片：名称 + 释义摘要
+	if (type === 'allusion') {
+		return (
+			<View className='collectItem'>
+				<Navigator
+					hoverClass='none'
+					url={`/pages/library/allusion-detail?id=${props.target_id}`}
+					className='allusionFavCard'
+				>
+					<View className='allusionFavName'>{props.name}</View>
+					{props.summary ? (
+						<Text className='allusionFavSummary'>{props.summary}</Text>
+					) : null}
+				</Navigator>
+				<View className='bottom'>
+					<View className='time'>
+						<Text className='text'>收藏时间</Text>
+						<Text className='date'>{formatTime(props.created_at || props.createdAt)}</Text>
+					</View>
+					<View className='btns'>
+						<View className='btn deleteBtn' onClick={handleDelete}>
+							删除
+						</View>
+					</View>
+				</View>
+			</View>
+		);
+	}
 
 	let TabItem = null;
 	switch (type) {
@@ -138,16 +176,16 @@ const CollectPage = () => {
 		}
 	};
 
-	// 删除收藏
+	// 删除收藏（toggle 语义：存在即取消）
 	const handleCollectDelete = (params) => {
 		updateUserCollect('POST', {
-			uid: user.uid,
-			type: currentTab,
-			target_id: params.like_id,
-			status: 1,
+			target_id: params.target_id,
+			target_type: TAB_TARGET_TYPE[currentTab],
 		}).then((res) => {
 			if (res && (res.status || res.statusCode === 200)) {
-				setList((prev) => prev.filter((item) => item.id !== params.id));
+				setList((prev) =>
+					prev.filter((item) => item.target_id !== params.target_id)
+				);
 			}
 		});
 	};

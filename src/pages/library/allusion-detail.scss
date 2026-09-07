@@ -11,11 +11,27 @@
   margin-bottom: 24rpx;
   box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
 
+  .headerTop {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16rpx;
+  }
+
   .allusionName {
     font-size: 40rpx;
     font-weight: 700;
     color: #333;
     margin-bottom: 16rpx;
+    flex: 1;
+  }
+
+  .actionBtns {
+    display: flex;
+    align-items: center;
+    gap: 24rpx;
+    flex-shrink: 0;
+    margin-top: 4rpx;
   }
 
   .allusionAliases {
