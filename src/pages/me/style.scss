@@ -465,6 +465,7 @@
 /* 典故收藏卡片 */
 .collectItem .allusionFavCard {
 	display: block;
+	padding-top: 20rpx; /* 与其他 tab 卡片的顶部内边距对齐 */
 	margin-bottom: 20rpx;
 
 	.allusionFavName {
