@@ -1,0 +1,489 @@
+.stats-page {
+	min-height: 100vh;
+	background: #f5f7fa;
+	padding: 20rpx 24rpx 60rpx;
+	box-sizing: border-box;
+}
+
+.card {
+	background: #fff;
+	border-radius: 24rpx;
+	padding: 28rpx 30rpx;
+	margin-bottom: 24rpx;
+	box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+
+.block-loading {
+	padding: 80rpx 0;
+	text-align: center;
+	font-size: 26rpx;
+	color: #999;
+}
+
+.empty-tip {
+	padding: 48rpx 0;
+	text-align: center;
+	font-size: 26rpx;
+	color: #aaa;
+}
+
+/* ===== 概况 ===== */
+.overview-card {
+	background: linear-gradient(135deg, #337ab7 0%, #2a6496 55%, #1e4d7a 100%);
+	color: #fff;
+
+	.ov-grid {
+		display: flex;
+		text-align: center;
+
+		.ov-item {
+			flex: 1;
+			position: relative;
+
+			&:not(:last-child)::after {
+				content: '';
+				position: absolute;
+				right: 0;
+				top: 50%;
+				transform: translateY(-50%);
+				width: 1rpx;
+				height: 52rpx;
+				background: rgba(255, 255, 255, 0.2);
+			}
+
+			.ov-num {
+				display: block;
+				font-size: 44rpx;
+				font-weight: 700;
+				line-height: 1.2;
+
+				&.due-num {
+					color: #ffd24a;
+				}
+			}
+
+			.ov-label {
+				display: block;
+				font-size: 22rpx;
+				opacity: 0.75;
+				margin-top: 8rpx;
+			}
+		}
+	}
+
+	.completion {
+		margin-top: 32rpx;
+
+		.completion-head {
+			display: flex;
+			align-items: baseline;
+			justify-content: space-between;
+			margin-bottom: 14rpx;
+
+			.completion-title {
+				font-size: 24rpx;
+				opacity: 0.85;
+			}
+
+			.completion-rate {
+				font-size: 40rpx;
+				font-weight: 700;
+				color: #ffd24a;
+			}
+		}
+
+		.progress-track {
+			height: 14rpx;
+			border-radius: 8rpx;
+			background: rgba(255, 255, 255, 0.25);
+			overflow: hidden;
+
+			.progress-fill {
+				height: 100%;
+				border-radius: 8rpx;
+				background: linear-gradient(90deg, #52b788, #ffd24a);
+				transition: width 0.3s;
+			}
+		}
+
+		.completion-sub {
+			display: block;
+			margin-top: 12rpx;
+			font-size: 22rpx;
+			opacity: 0.7;
+		}
+	}
+
+	.stage-block {
+		margin-top: 28rpx;
+		padding-top: 24rpx;
+		border-top: 1rpx solid rgba(255, 255, 255, 0.18);
+
+		.stage-row {
+			display: flex;
+			align-items: center;
+			margin-bottom: 14rpx;
+
+			.stage-dot {
+				width: 16rpx;
+				height: 16rpx;
+				border-radius: 50%;
+				flex-shrink: 0;
+				margin-right: 12rpx;
+			}
+
+			.stage-name {
+				width: 108rpx;
+				font-size: 24rpx;
+				color: rgba(255, 255, 255, 0.92);
+				flex-shrink: 0;
+			}
+
+			.stage-bar {
+				flex: 1;
+				height: 14rpx;
+				border-radius: 8rpx;
+				background: rgba(255, 255, 255, 0.22);
+				overflow: hidden;
+				margin: 0 16rpx;
+
+				.stage-fill {
+					height: 100%;
+					border-radius: 8rpx;
+					transition: width 0.3s;
+				}
+			}
+
+			.stage-meta {
+				width: 128rpx;
+				text-align: right;
+				font-size: 22rpx;
+				color: rgba(255, 255, 255, 0.85);
+				flex-shrink: 0;
+			}
+		}
+	}
+
+	.empty-tip {
+		color: rgba(255, 255, 255, 0.8);
+		padding: 32rpx 0 8rpx;
+	}
+}
+
+/* ===== 日历 ===== */
+.cal-card {
+	.cal-nav {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-bottom: 18rpx;
+		position: relative;
+
+		.cal-arrow {
+			font-size: 40rpx;
+			color: #337ab7;
+			padding: 0 24rpx;
+		}
+
+		.cal-title {
+			font-size: 30rpx;
+			font-weight: 600;
+			color: #333;
+			min-width: 180rpx;
+			text-align: center;
+		}
+
+		.cal-today-btn {
+			position: absolute;
+			right: 0;
+			font-size: 24rpx;
+			color: #337ab7;
+			background: #e8f0fa;
+			border-radius: 22rpx;
+			padding: 6rpx 20rpx;
+		}
+	}
+
+	.cal-weekdays {
+		display: flex;
+
+		.cal-wd {
+			flex: 1;
+			text-align: center;
+			font-size: 24rpx;
+			color: #999;
+			padding: 8rpx 0;
+		}
+	}
+
+	.cal-grid {
+		display: flex;
+		flex-wrap: wrap;
+
+		.cal-day {
+			width: 14.2857%;
+			height: 96rpx;
+			box-sizing: border-box;
+			position: relative;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			border-radius: 12rpx;
+
+			.cal-day-num {
+				font-size: 26rpx;
+				color: #333;
+				line-height: 1.2;
+			}
+
+			&.today {
+				background: #e8f0fa;
+
+				.cal-day-num {
+					color: #337ab7;
+					font-weight: 700;
+				}
+			}
+
+			&.has-data:active {
+				background: #f0f4f9;
+			}
+
+			&.empty {
+				visibility: hidden;
+			}
+
+			.due-badge {
+				position: absolute;
+				top: 6rpx;
+				right: 6rpx;
+				min-width: 26rpx;
+				height: 26rpx;
+				line-height: 26rpx;
+				padding: 0 6rpx;
+				border-radius: 14rpx;
+				background: #e64340;
+				color: #fff;
+				font-size: 18rpx;
+				text-align: center;
+				box-sizing: border-box;
+			}
+
+			.study-mark {
+				display: flex;
+				align-items: center;
+				height: 22rpx;
+				margin-top: 4rpx;
+
+				.study-dot {
+					width: 12rpx;
+					height: 12rpx;
+					border-radius: 50%;
+					background: #337ab7;
+				}
+
+				.study-count {
+					margin-left: 4rpx;
+					font-size: 18rpx;
+					color: #337ab7;
+				}
+			}
+		}
+	}
+
+	.cal-legend {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 20rpx;
+		margin-top: 20rpx;
+		padding-top: 20rpx;
+		border-top: 1rpx solid #f0f2f5;
+
+		.legend-item {
+			display: flex;
+			align-items: center;
+
+			.legend-swatch {
+				width: 20rpx;
+				height: 20rpx;
+				border-radius: 6rpx;
+				margin-right: 8rpx;
+
+				&.blue {
+					background: #337ab7;
+					border-radius: 50%;
+				}
+
+				&.red {
+					background: #e64340;
+					border-radius: 50%;
+				}
+
+				&.ring {
+					background: #e8f0fa;
+					border: 2rpx solid #337ab7;
+					box-sizing: border-box;
+					border-radius: 6rpx;
+				}
+			}
+
+			.legend-text {
+				font-size: 22rpx;
+				color: #666;
+			}
+		}
+	}
+
+	.cal-note {
+		display: block;
+		margin-top: 14rpx;
+		font-size: 20rpx;
+		color: #aaa;
+		line-height: 1.6;
+	}
+}
+
+/* ===== 最近学习记录 ===== */
+.recent-card {
+	.recent-head {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		margin-bottom: 12rpx;
+
+		.recent-title {
+			font-size: 30rpx;
+			font-weight: 600;
+			color: #333;
+		}
+
+		.recent-count {
+			font-size: 22rpx;
+			color: #999;
+		}
+	}
+}
+
+/* ===== 日志行（弹层与列表共用） ===== */
+.log-row {
+	display: flex;
+	align-items: center;
+	padding: 20rpx 0;
+	border-bottom: 1rpx solid #f4f5f7;
+
+	&:last-child {
+		border-bottom: none;
+	}
+
+	&:active {
+		background: #fafbfc;
+	}
+
+	.log-main {
+		flex: 1;
+		min-width: 0;
+
+		.log-title {
+			display: block;
+			font-size: 28rpx;
+			font-weight: 600;
+			color: #333;
+			font-family: serif;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+		}
+
+		.log-meta {
+			display: block;
+			margin-top: 6rpx;
+			font-size: 22rpx;
+			color: #999;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+		}
+
+		.log-action {
+			display: inline-block;
+			margin-top: 10rpx;
+			font-size: 20rpx;
+			color: #337ab7;
+			background: #e8f0fa;
+			border-radius: 6rpx;
+			padding: 4rpx 12rpx;
+		}
+	}
+
+	.log-time {
+		flex-shrink: 0;
+		text-align: right;
+		margin-left: 16rpx;
+
+		.log-time-main {
+			display: block;
+			font-size: 22rpx;
+			color: #666;
+		}
+
+		.log-time-sub {
+			display: block;
+			margin-top: 4rpx;
+			font-size: 20rpx;
+			color: #bbb;
+		}
+	}
+}
+
+/* ===== 当天明细弹层 ===== */
+.pop-mask {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.55);
+	z-index: 900;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 40rpx;
+}
+
+.pop-content {
+	background: #fff;
+	border-radius: 24rpx;
+	width: 100%;
+	max-height: 76vh;
+	display: flex;
+	flex-direction: column;
+	padding: 32rpx 32rpx 12rpx;
+	box-sizing: border-box;
+
+	.pop-head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 8rpx;
+
+		.pop-title {
+			font-size: 32rpx;
+			font-weight: 600;
+			color: #333;
+		}
+
+		.pop-close {
+			font-size: 44rpx;
+			color: #999;
+			line-height: 1;
+			padding: 0 8rpx;
+		}
+	}
+
+	.pop-list {
+		overflow-y: auto;
+		margin-top: 8rpx;
+		max-height: 60vh;
+	}
+}

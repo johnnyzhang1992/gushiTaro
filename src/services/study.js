@@ -80,3 +80,18 @@ export const fetchCollections = (method = 'GET', data) => {
 export const createStudyPlanFromCollection = (method = 'POST', data) => {
   return Request('/api/study-plans', data, method);
 };
+
+// 学习统计：概览（总数/完成率/阶段分布）
+export const fetchStudyStats = (method = 'GET', data) => {
+  return Request('/api/study-plans/stats', data, method);
+};
+
+// 学习统计：日历（按天学习数 / 待复习数），month=YYYY-MM, offset=本地时区分钟
+export const fetchStudyCalendar = (method = 'GET', data) => {
+  return Request('/api/study-plans/calendar', data, method);
+};
+
+// 学习统计：最近学习记录（可 date=YYYY-MM-DD 按日过滤）
+export const fetchRecentStudyLogs = (method = 'GET', data) => {
+  return Request('/api/study-plans/recent', data, method);
+};
