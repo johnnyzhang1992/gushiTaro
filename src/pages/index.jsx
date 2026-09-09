@@ -6,7 +6,7 @@ import Taro, {
 	useShareAppMessage,
 	useShareTimeline,
 } from '@tarojs/taro';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 
 import {
 	fetchHomeInit,
@@ -30,23 +30,14 @@ const fetchRandomRecommend = () => {
 
 import './index.scss';
 
-// 实时时钟（公历）：独立小组件，避免每秒重渲染整个首页
-const LiveClock = () => {
-	const [clock, setClock] = useState(new Date());
-	useEffect(() => {
-		const timer = setInterval(() => setClock(new Date()), 1000);
-		return () => clearInterval(timer);
-	}, []);
+// 公历日期（右侧）：纯静态展示，无时分秒
+const SolarDate = () => {
+	const now = new Date();
 	return (
 		<View className='solar-right'>
 			<Text className='solar-tag'>公历</Text>
 			<Text className='solar-date'>
-				{clock.getMonth() + 1}月{clock.getDate()}日
-			</Text>
-			<Text className='solar-clock'>
-				{String(clock.getHours()).padStart(2, '0')}:
-				{String(clock.getMinutes()).padStart(2, '0')}:
-				{String(clock.getSeconds()).padStart(2, '0')}
+				{now.getMonth() + 1}月{now.getDate()}日
 			</Text>
 		</View>
 	);
@@ -203,11 +194,14 @@ const HomePage = () => {
 		Taro.switchTab({ url: '/pages/study/index' });
 	};
 
-	// 每日诗词内容
-	const poemContent = dailyPoem?.content?.content || [];
-	const poemPreview = Array.isArray(poemContent)
-		? poemContent.slice(0, 2).join(' ')
-		: dailyPoem?.text_content?.slice(0, 30) || '';
+	// 每日诗词内容：content[] 按行渲染，无则回退 text_content
+	const rawLines = dailyPoem?.content?.content;
+	const poemLines =
+		Array.isArray(rawLines) && rawLines.length > 0
+			? rawLines
+			: String(dailyPoem?.text_content || '')
+					.split('\n')
+					.filter(Boolean);
 
 	const checkedIn = hasCheckedIn();
 
@@ -238,7 +232,7 @@ const HomePage = () => {
 									: ''}
 							</Text>
 						</View>
-						<LiveClock />
+						<SolarDate />
 					</View>
 				{(calendar.festivals?.length > 0 ||
 					calendar.solarTerm?.previous ||
@@ -284,9 +278,13 @@ const HomePage = () => {
 							<Text className='dailyPoem-title' numberOfLines={1}>
 								{dailyPoem.title}
 							</Text>
-							<Text className='dailyPoem-preview' numberOfLines={2}>
-								{poemPreview}
-							</Text>
+							<View className='dailyPoem-preview'>
+								{poemLines.slice(0, 4).map((line, i) => (
+									<Text key={i} className='dailyPoem-line' decode numberOfLines={1}>
+										{line}
+									</Text>
+								))}
+							</View>
 						</View>
 						<View className='dailyPoem-meta'>
 							<Text className='dailyPoem-author'>
