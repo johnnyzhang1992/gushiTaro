@@ -50,6 +50,47 @@
 			color: #999;
 		}
 	}
+	/* 新建/编辑表单：标题 + 描述 */
+	.form-field {
+		padding: 24px 30px 0;
+
+		.field-label {
+			display: block;
+			font-size: 28px;
+			font-weight: 600;
+			color: #333;
+			margin-bottom: 12px;
+		}
+	}
+
+	/* NutUI Input 定制：明显边框 */
+	.name {
+		--nutui-input-padding: 16px 20px;
+		width: 100%;
+		background: #f7f9fb;
+		border: 2px solid #d9e2ec;
+		border-radius: 14px;
+		box-sizing: border-box;
+		font-size: 28px;
+		color: #333;
+
+		&::placeholder {
+			color: #b0b8c4;
+		}
+	}
+
+	.descInput {
+		width: 100%;
+		min-height: 96px;
+		background: #f7f9fb;
+		border: 2px solid #d9e2ec;
+		border-radius: 14px;
+		padding: 16px 20px;
+		box-sizing: border-box;
+		font-size: 26px;
+		color: #333;
+		line-height: 1.6;
+	}
 	.extra {
 		margin-top: 30px;
 		font-size: 28px;

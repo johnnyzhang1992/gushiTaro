@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from '@tarojs/components';
+import { View, Text, ScrollView, Textarea } from '@tarojs/components';
 import { Input } from '@nutui/nutui-react-taro';
 import { useState, useEffect } from 'react';
 import Taro from '@tarojs/taro';
@@ -126,6 +126,7 @@ const ScheduleModal = ({
 	const [scheduleIds, setIds] = useState([]);
 	const [scheduleForm, setForm] = useState({
 		name: '',
+		description: '',
 		...initschedule,
 		id: initschedule.id || initschedule._id,
 	});
@@ -172,6 +173,7 @@ const ScheduleModal = ({
 		}
 		const res = await createSchedule('POST', {
 			name: name,
+			description: (scheduleForm.description || '').trim(),
 		}).catch((err) => {
 			console.log('createschedule', err);
 			Taro.showToast({
@@ -201,8 +203,9 @@ const ScheduleModal = ({
 			});
 			return false;
 		}
-		const res = await updateSchedule('POST', {
+		const res = await updateSchedule('PUT', {
 			name: name,
+			description: (scheduleForm.description || '').trim(),
 			id,
 		}).catch((err) => {
 			console.log('updateschedule', err);
@@ -227,6 +230,13 @@ const ScheduleModal = ({
 		});
 	};
 
+	const handleDescChange = (value = '') => {
+		setForm({
+			...scheduleForm,
+			description: value.slice(0, 60),
+		});
+	};
+
 	const handleClose = () => {
 		if (onClose && typeof onClose === 'function') {
 			onClose();
@@ -245,6 +255,7 @@ const ScheduleModal = ({
 		setType(initType);
 		setForm({
 			name: '',
+			description: '',
 			...initschedule,
 		});
 		if (show) {
@@ -318,13 +329,28 @@ const ScheduleModal = ({
 				}}
 			>
 				{/* 标题 */}
-				<Input
-					className='name'
-					maxLength={10}
-					placeholder='填写标题(10字以内)'
-					value={scheduleForm.name}
-					onChange={(val) => handleNameChange(val)}
-				/>
+				<View className='form-field'>
+					<Text className='field-label'>标题</Text>
+					<Input
+						className='name'
+						maxLength={10}
+						placeholder='给计划起个名字（10字以内）'
+						value={scheduleForm.name}
+						onChange={(val) => handleNameChange(val)}
+					/>
+				</View>
+				{/* 描述（可选） */}
+				<View className='form-field'>
+					<Text className='field-label'>描述（可选）</Text>
+					<Textarea
+						className='descInput'
+						maxlength={60}
+						autoHeight
+						placeholder='补充说明：背诵目标、范围或提示…'
+						value={scheduleForm.description || ''}
+						onInput={(e) => handleDescChange(e.detail.value)}
+					/>
+				</View>
 				{/* 其他创建方式 */}
 				{/* <View className='extra'>
 					<Text>除了自定义学习计划</Text>
