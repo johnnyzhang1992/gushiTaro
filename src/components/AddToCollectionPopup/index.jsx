@@ -127,75 +127,71 @@ const AddToCollectionPopup = ({ visible, poemId, onClose, onSuccess }) => {
 			</View>
 
 			<View className='add-to-collection'>
-				{loading ? (
+				{showCreate ? (
+					<View className='create-form'>
+						<View className='field'>
+							<Text className='field-label'>标题</Text>
+							<Input
+								className='input'
+								placeholder='请输入诗单名称'
+								value={newName}
+								maxlength={20}
+								onInput={(e) => setNewName(e.detail.value)}
+							/>
+						</View>
+						<View className='field'>
+							<Text className='field-label'>描述（可选）</Text>
+							<Textarea
+								className='desc'
+								maxlength={60}
+								autoHeight
+								placeholder='一句话介绍这个诗单…'
+								value={newDesc}
+								onInput={(e) => setNewDesc(e.detail.value)}
+							/>
+						</View>
+					</View>
+				) : loading ? (
 					<View className='loading'>
 						<Text>加载中...</Text>
 					</View>
 				) : (
-					<>
-						{showCreate ? (
-							<View className='create-form'>
-								<View className='field'>
-									<Text className='field-label'>标题</Text>
-									<Input
-										className='input'
-										placeholder='请输入诗单名称'
-										value={newName}
-										maxlength={20}
-										onInput={(e) => setNewName(e.detail.value)}
-									/>
-								</View>
-								<View className='field'>
-									<Text className='field-label'>描述（可选）</Text>
-									<Textarea
-										className='desc'
-										maxlength={60}
-										autoHeight
-										placeholder='一句话介绍这个诗单…'
-										value={newDesc}
-										onInput={(e) => setNewDesc(e.detail.value)}
-									/>
-								</View>
+					<ScrollView className='collection-list' scrollY>
+						{collections.length === 0 ? (
+							<View className='empty'>
+								<Text>暂无诗单，点击上方创建</Text>
 							</View>
-						) : null}
-
-						<ScrollView className='collection-list' scrollY>
-							{collections.length === 0 ? (
-								<View className='empty'>
-									<Text>暂无诗单，点击上方创建</Text>
-								</View>
-							) : (
-								collections.map((item) => (
-									<View
-										key={item._id}
-										className={`collection-item ${item.has_poem ? 'selected' : ''}`}
-									>
-										<View className='info'>
-											<Text className='name'>{item.collection_name}</Text>
-										</View>
-										<View className='bottom-row'>
-											<Text className='count'>{item.poem_count || 0} 首</Text>
-											{item.has_poem ? (
-												<View
-													className='remove-btn'
-													onClick={() => handleRemoveFromCollection(item._id, item.collection_name)}
-												>
-													<Text className='remove-text'>移除</Text>
-												</View>
-											) : (
-												<View
-													className='add-btn'
-													onClick={() => handleAddToCollection(item._id, false, item.collection_name)}
-												>
-													<Text className='add-text'>添加</Text>
-												</View>
-											)}
-										</View>
+						) : (
+							collections.map((item) => (
+								<View
+									key={item._id}
+									className={`collection-item ${item.has_poem ? 'selected' : ''}`}
+								>
+									<View className='info'>
+										<Text className='name'>{item.collection_name}</Text>
 									</View>
-								))
-							)}
-						</ScrollView>
-					</>
+									<View className='bottom-row'>
+										<Text className='count'>{item.poem_count || 0} 首</Text>
+										{item.has_poem ? (
+											<View
+												className='remove-btn'
+												onClick={() => handleRemoveFromCollection(item._id, item.collection_name)}
+											>
+												<Text className='remove-text'>移除</Text>
+											</View>
+										) : (
+											<View
+												className='add-btn'
+												onClick={() => handleAddToCollection(item._id, false, item.collection_name)}
+											>
+												<Text className='add-text'>添加</Text>
+											</View>
+										)}
+									</View>
+								</View>
+							))
+						)}
+					</ScrollView>
 				)}
 			</View>
 		</FloatLayout>
