@@ -244,8 +244,6 @@ const MeIndex = () => {
 		}
 	});
 
-	// 最近一次拉取用户资料的时间，30s 内切回 tab 不重复请求（避免白屏闪烁）
-	const lastProfileRef = useRef(0);
 	useDidShow(() => {
 		console.log('--page--show');
 		const user = Taro.getStorageSync('user') || {};
@@ -255,15 +253,20 @@ const MeIndex = () => {
 			Taro.removeStorageSync('wx_token');
 		} else {
 			console.log('useDidShow user:', JSON.stringify(user).substring(0, 100));
+			// 只合并身份/展示字段，count 一律以 /home/profile 实时结果为准：
+			// 本地 user 快照可能带登录时的旧收藏数（如 allusion_count=0），整体覆盖会导致
+			// “从收藏页返回个人中心数字变 0”，下拉刷新才恢复
+			const {
+				poem_count: _p, poet_count: _a, sentence_count: _s,
+				allusion_count: _al, collection_count: _c, collection_fav_count: _cf,
+				...identity
+			} = user;
 			setInfo((pre) => ({
 				...pre,
-				...user,
+				...identity,
 			}));
-			const now = Date.now();
-			if (now - lastProfileRef.current > 30000) {
-				lastProfileRef.current = now;
-				loadUserProfile();
-			}
+			// 每次进页都拉取（服务端有 300s 缓存 + 收藏后失效，开销可控），保证数字即时正确
+			loadUserProfile();
 		}
 	});
 
