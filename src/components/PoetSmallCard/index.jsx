@@ -20,7 +20,7 @@ const PoetSmallCard = ({ id, avatar, author_name }) => {
 						<CdnImage
 							lazyLoad
 							fadeIn
-							mode='aspectFill'
+							mode='aspectFit'
 							showMenuByLongpress
 							src={avatar}
 							className='img'
