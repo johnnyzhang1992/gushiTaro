@@ -4,6 +4,7 @@ export default {
 		'pages/book',
 		'pages/study/index',
 		'pages/study/detail',
+		'pages/study/stats',
 		'pages/me/index',
 		'pages/me/collect',
 		'pages/me/collections',

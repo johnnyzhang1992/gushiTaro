@@ -180,6 +180,13 @@ export default function StudyPage() {
     });
   };
 
+  // 进入学习统计页
+  const goStats = () => {
+    Taro.navigateTo({
+      url: '/pages/study/stats',
+    });
+  };
+
   // 计算进度百分比
   const getProgress = (plan) => {
     if (!plan.poem_count || plan.poem_count === 0) return 0;
@@ -250,8 +257,11 @@ export default function StudyPage() {
   const renderMinePlans = () => (
     <View className="mine-content">
       {/* 统计概览 */}
-      <View className="stats-card">
-        <View className="stats-title">学习概览</View>
+      <View className="stats-card" onClick={goStats}>
+        <View className="stats-title-row">
+          <View className="stats-title">学习概览</View>
+          <View className="stats-link">统计报告 ›</View>
+        </View>
         <View className="stats-grid">
           <View className="stats-item">
             <View className="stats-number">

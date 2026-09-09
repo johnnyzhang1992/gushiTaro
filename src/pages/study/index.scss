@@ -92,6 +92,26 @@
   z-index: 1;
 }
 
+.stats-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+}
+
+.stats-link {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.18);
+  padding: 6rpx 20rpx;
+  border-radius: 24rpx;
+}
+
+.stats-card:active {
+  opacity: 0.9;
+}
+
 .stats-grid {
   display: flex;
   justify-content: space-around;
