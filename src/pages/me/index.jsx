@@ -331,12 +331,12 @@ const MeIndex = () => {
 					<View className='checkin-section'>
 						<View className='checkin-streak'>
 							<View className='streak-item primary'>
-								<Text className='streak-num'>{checkinStats.checkinStreak}</Text>
 								<Text className='streak-label'>连续签到</Text>
+								<Text className='streak-num'>{checkinStats.checkinStreak}</Text>
 							</View>
 							<View className='streak-item'>
-								<Text className='streak-num'>{checkinStats.checkinDays}</Text>
 								<Text className='streak-label'>累计签到</Text>
+								<Text className='streak-num'>{checkinStats.checkinDays}</Text>
 							</View>
 						</View>
 						<View className='checkin-week'>
