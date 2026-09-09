@@ -21,9 +21,9 @@ const removePoemFromSchedule = (method = 'DELETE', data) => {
 };
 
 const titleObj = {
-	create: '新建学习计划',
-	edit: '加入学习计划',
-	edit_schedule: '编辑学习计划',
+	create: '新建背诵计划',
+	edit: '加入背诵计划',
+	edit_schedule: '编辑背诵计划',
 };
 
 const ScheduleItem = (props) => {
@@ -260,7 +260,7 @@ const ScheduleModal = ({
 	return (
 		<FloatLoayout isOpen={showModal} showTitle={false} close={handleClose}>
 			<View className='scheduleTitle'>
-				<View className='title'>{titleObj[modalType] || '选择学习计划'}</View>
+				<View className='title'>{titleObj[modalType] || '选择背诵计划'}</View>
 				{modalType == 'edit' ? (
 					<View
 						className='create text-btn'

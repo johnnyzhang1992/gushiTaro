@@ -161,7 +161,7 @@ const SchedulePoemCard = (props) => {
 	const handlePreAddAgain = () => {
 		Taro.showModal({
 			title: '提示',
-			content: `再次学习《${poem_info.title}》？`,
+			content: `再次背诵《${poem_info.title}》？`,
 			success: function (res) {
 				if (res.confirm) {
 					handleAddAgain();

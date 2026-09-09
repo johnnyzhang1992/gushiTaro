@@ -14,7 +14,7 @@ const WEEK_DAYS = ['日', '一', '二', '三', '四', '五', '六'];
 
 // 阶段 0~6 展示定义（颜色与学习详情页语义一致：0 未学习 / 1-5 学习中 / 6 已掌握）
 const STAGE_DEFS = [
-	{ stage: 0, name: '未学习', color: '#c3cad4' },
+	{ stage: 0, name: '未背诵', color: '#c3cad4' },
 	{ stage: 1, name: '阶段 1', color: '#a9d3f5' },
 	{ stage: 2, name: '阶段 2', color: '#7fb9ea' },
 	{ stage: 3, name: '阶段 3', color: '#549fdf' },
@@ -52,7 +52,7 @@ const fmtDateTime = (iso) => {
 
 // 学习动作文本：初次学习 / 复习结果 + 阶段变化
 const actionText = (log) => {
-	const base = log.action === 'learn' ? '初次学习' : RESULT_MAP[log.result] || '复习';
+	const base = log.action === 'learn' ? '初次背诵' : RESULT_MAP[log.result] || '复习';
 	if (log.to_stage >= 6) return `${base} · 已掌握`;
 	if (log.action === 'learn') return `${base} · 进入阶段 ${log.to_stage}`;
 	if (log.from_stage === log.to_stage) return `${base} · 保持阶段 ${log.to_stage}`;
@@ -221,7 +221,7 @@ const StatsPage = () => {
 						<View className='ov-grid'>
 							<View className='ov-item'>
 								<Text className='ov-num'>{stats?.total_plans || 0}</Text>
-								<Text className='ov-label'>学习计划</Text>
+								<Text className='ov-label'>背诵计划</Text>
 							</View>
 							<View className='ov-item'>
 								<Text className='ov-num'>{stats?.total_poem || 0}</Text>
@@ -251,7 +251,7 @@ const StatsPage = () => {
 						</View>
 
 						{stats?.total_plans === 0 ? (
-							<View className='empty-tip'>还没有学习计划，去「学习」页创建一个吧</View>
+							<View className='empty-tip'>还没有背诵计划，去「背诵」页创建一个吧</View>
 						) : (
 							<View className='stage-block'>
 								{STAGE_DEFS.map((s) => {
@@ -328,7 +328,7 @@ const StatsPage = () => {
 				<View className='cal-legend'>
 					<View className='legend-item'>
 						<View className='legend-swatch blue' />
-						<Text className='legend-text'>有学习记录（点日期看当天明细）</Text>
+						<Text className='legend-text'>有背诵记录（点日期看当天明细）</Text>
 					</View>
 					<View className='legend-item'>
 						<View className='legend-swatch red' />
@@ -340,14 +340,14 @@ const StatsPage = () => {
 					</View>
 				</View>
 				<Text className='cal-note'>
-					学习日志上线前的日期按「加入计划 / 最近复习」回填，学习天数可能少于实际；之后的记录完整准确。
+					背诵日志上线前的日期按「加入计划 / 最近复习」回填，背诵天数可能少于实际；之后的记录完整准确。
 				</Text>
 			</View>
 
 			{/* ===== 最近学习记录 ===== */}
 			<View className='card recent-card'>
 				<View className='recent-head'>
-					<Text className='recent-title'>最近学习记录</Text>
+					<Text className='recent-title'>最近背诵记录</Text>
 					{recent && recent.length > 0 ? (
 						<Text className='recent-count'>最近 {recent.length} 条</Text>
 					) : null}
@@ -355,7 +355,7 @@ const StatsPage = () => {
 				{!recent ? (
 					<View className='block-loading'>{loadError || '加载中...'}</View>
 				) : recent.length === 0 ? (
-					<View className='empty-tip'>还没有学习记录，去学一首诗词吧 📖</View>
+					<View className='empty-tip'>还没有背诵记录，去背一首诗词吧 📖</View>
 				) : (
 					recent.map((log, i) => (
 						<LogRow key={log._id || i} log={log} onTap={() => goPoem(log)} />
@@ -368,13 +368,13 @@ const StatsPage = () => {
 				<View className='pop-mask' onClick={closeDay}>
 					<View className='pop-content' onClick={(e) => e.stopPropagation()}>
 						<View className='pop-head'>
-							<Text className='pop-title'>{dayPop.date} 学习明细</Text>
+							<Text className='pop-title'>{dayPop.date} 背诵明细</Text>
 							<Text className='pop-close' onClick={closeDay}>×</Text>
 						</View>
 						{dayPop.loading ? (
 							<View className='block-loading'>加载中...</View>
 						) : dayPop.list.length === 0 ? (
-							<View className='empty-tip'>这一天没有学习记录</View>
+							<View className='empty-tip'>这一天没有背诵记录</View>
 						) : (
 							<View className='pop-list'>
 								{dayPop.list.map((log, i) => (

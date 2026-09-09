@@ -160,7 +160,7 @@ export default function StudyPage() {
   const handleDelete = async (plan) => {
     const res = await Taro.showModal({
       title: '确认删除',
-      content: `确定要删除学习计划"${plan.name}"吗？`,
+      content: `确定要删除背诵计划"${plan.name}"吗？`,
     });
     if (res.confirm) {
       try {
@@ -200,7 +200,7 @@ export default function StudyPage() {
     if (!user || !user.token) {
       Taro.showModal({
         title: '提示',
-        content: '请先登录后再创建学习计划',
+        content: '请先登录后再创建背诵计划',
         confirmText: '去登录',
         success: function (_res) {
           if (_res.confirm) {
@@ -259,7 +259,7 @@ export default function StudyPage() {
       {/* 统计概览 */}
       <View className="stats-card" onClick={goStats}>
         <View className="stats-title-row">
-          <View className="stats-title">学习概览</View>
+          <View className="stats-title">背诵概览</View>
           <View className="stats-link">统计报告 ›</View>
         </View>
         <View className="stats-grid">
@@ -277,7 +277,7 @@ export default function StudyPage() {
           </View>
           <View className="stats-item">
             <View className="stats-number">{plans.length}</View>
-            <View className="stats-label">学习计划</View>
+            <View className="stats-label">背诵计划</View>
           </View>
         </View>
       </View>
@@ -287,7 +287,7 @@ export default function StudyPage() {
         {plans.length === 0 && !loading ? (
           <View className="empty-state">
             <Text className="empty-icon">📚</Text>
-            <Text className="empty-text">还没有学习计划</Text>
+            <Text className="empty-text">还没有背诵计划</Text>
             <View className="empty-btn" onClick={() => handleTabChange('recommended')}>
               去看看推荐
             </View>
@@ -309,7 +309,7 @@ export default function StudyPage() {
                   <View
                     className={`plan-status ${plan.status === 'completed' ? 'completed' : ''}`}
                   >
-                    {plan.status === 'completed' ? '已完成' : '学习中'}
+                    {plan.status === 'completed' ? '已完成' : '背诵中'}
                   </View>
                 </View>
 
@@ -383,7 +383,7 @@ export default function StudyPage() {
                         className={`collection-btn ${isLearned ? 'learned' : ''} ${creatingPlanId === collection._id ? 'disabled' : ''}`}
                         onClick={() => !isLearned && handleStartFromCollection(collection)}
                       >
-                        {creatingPlanId === collection._id ? '创建中...' : isLearned ? '已学习' : '开始学习'}
+                        {creatingPlanId === collection._id ? '创建中...' : isLearned ? '已背诵' : '开始背诵'}
                       </View>
                     </View>
                   );
@@ -419,7 +419,7 @@ export default function StudyPage() {
                         className={`collection-btn ${isLearned ? 'learned' : ''} ${creatingPlanId === collection._id ? 'disabled' : ''}`}
                         onClick={() => !isLearned && handleStartFromCollection(collection)}
                       >
-                        {creatingPlanId === collection._id ? '创建中...' : isLearned ? '已学习' : '开始学习'}
+                        {creatingPlanId === collection._id ? '创建中...' : isLearned ? '已背诵' : '开始背诵'}
                       </View>
                     </View>
                   );
@@ -467,7 +467,7 @@ export default function StudyPage() {
         <View className="modal-mask" onClick={() => setShowCreateModal(false)}>
           <View className="modal-content" onClick={(e) => e.stopPropagation()}>
             <View className="modal-header">
-              <Text className="modal-title">新建学习计划</Text>
+              <Text className="modal-title">新建背诵计划</Text>
               <Text
                 className="modal-close"
                 onClick={() => setShowCreateModal(false)}

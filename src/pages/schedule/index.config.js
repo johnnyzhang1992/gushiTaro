@@ -4,5 +4,5 @@ export default {
 	enableShareAppMessage: true,
 	enableShareTimeline: true,
 	enablePullDownRefresh: true,
-	navigationBarTitleText: '学习计划',
+	navigationBarTitleText: '背诵计划',
 };

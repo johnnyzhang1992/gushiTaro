@@ -324,7 +324,7 @@ const HomePage = () => {
 			{/* ===== 4. 学习计划进度 ===== */}
 			<View className='card planCard' onClick={goStudyTab}>
 				<View className='plan-header'>
-					<Text className='plan-title'>学习计划</Text>
+					<Text className='plan-title'>背诵计划</Text>
 					<View className='plan-more'>
 						<Text>
 							{isLogin ? `${plans.length} 个计划` : '去查看'} ›
@@ -353,7 +353,7 @@ const HomePage = () => {
 				) : (
 					<View className='plan-empty'>
 						<Text className='plan-empty-text'>
-							{isLogin ? '还没有学习计划，去创建吧' : '登录后查看学习进度'}
+							{isLogin ? '还没有背诵计划，去创建吧' : '登录后查看背诵进度'}
 						</Text>
 					</View>
 				)}

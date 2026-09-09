@@ -1,4 +1,4 @@
 export default {
-  navigationBarTitleText: '学习计划',
+  navigationBarTitleText: '背诵计划',
   enablePullDownRefresh: true,
 }

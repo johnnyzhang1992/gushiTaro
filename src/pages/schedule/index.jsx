@@ -101,7 +101,7 @@ const SchedulePage = () => {
 						<Text className='num'>{stats.total_poem || 0}</Text>
 						<Text className='text'>篇</Text>
 					</View>
-					<View className='info'>学习诗词</View>
+					<View className='info'>背诵诗词</View>
 				</View>
 				<View className='card_item'>
 					<View className='top'>

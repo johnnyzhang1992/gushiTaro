@@ -341,7 +341,7 @@ export default function StudyDetailPage() {
 
     if (toStudy.length === 0) {
       Taro.showToast({
-        title: mode === 'learn' ? '没有待学习的诗词' : '没有待复习的诗词',
+        title: mode === 'learn' ? '没有待背诵的诗词' : '没有待复习的诗词',
         icon: 'none',
       });
       return;
@@ -384,7 +384,7 @@ export default function StudyDetailPage() {
         } else {
           // 完成
           setShowStudyModal(false);
-          Taro.showToast({ title: '学习完成！', icon: 'success' });
+          Taro.showToast({ title: '背诵完成！', icon: 'success' });
           loadItems();
           loadPlan();
         }
@@ -408,7 +408,7 @@ export default function StudyDetailPage() {
 
 	// 获取阶段文本（区分待复习态，学习中显示具体阶段）
 	const getStageText = (item) => {
-		if (item.stage === 0) return '未学习';
+		if (item.stage === 0) return '未背诵';
 		if (item.stage >= 6) return '已掌握';
 		const now = new Date();
 		if (item.nextReviewAt && new Date(item.nextReviewAt) <= now) return '待复习';
@@ -448,7 +448,7 @@ export default function StudyDetailPage() {
           {items.length} 首诗词</Text>
           <View className="plan-rule" onClick={() => setShowRuleModal(true)}>
             <Image src={helpCircle} className="plan-rule-icon" mode="aspectFit" />
-            <Text>学习说明</Text>
+            <Text>背诵说明</Text>
           </View>
         </View>
       </View>
@@ -466,7 +466,7 @@ export default function StudyDetailPage() {
           </View>
           <View className="stats-item">
             <View className="stats-number">{stats.learning}</View>
-            <View className="stats-label">学习中</View>
+            <View className="stats-label">背诵中</View>
           </View>
           <View className="stats-item">
             <View className="stats-number">{stats.due}</View>
@@ -487,13 +487,13 @@ export default function StudyDetailPage() {
           className={`stage-btn ${activeStage === 'pending' ? 'active' : ''}`}
           onClick={() => setActiveStage('pending')}
         >
-          未学习 ({items.filter((i) => i.stage === 0).length})
+          未背诵 ({items.filter((i) => i.stage === 0).length})
         </View>
         <View
           className={`stage-btn ${activeStage === 'learning' ? 'active' : ''}`}
           onClick={() => setActiveStage('learning')}
         >
-          学习中 ({stats.learning})
+          背诵中 ({stats.learning})
         </View>
         <View
           className={`stage-btn ${activeStage === 'mastered' ? 'active' : ''}`}
@@ -551,7 +551,7 @@ export default function StudyDetailPage() {
           className={`action-btn primary ${stats.learning === 0 && stats.due === 0 ? 'disabled' : ''}`}
           onClick={() => startStudy('learn')}
         >
-          开始学习
+          开始背诵
         </View>
         {stats.due > 0 && (
           <View className="action-btn warning" onClick={() => startStudy('review')}>
@@ -641,13 +641,13 @@ export default function StudyDetailPage() {
         <View className="rule-modal" onClick={() => setShowRuleModal(false)}>
           <View className="rule-modal-content" onClick={(e) => e.stopPropagation()}>
             <View className="rule-modal-header">
-              <Text className="rule-modal-title">学习计划规则</Text>
+              <Text className="rule-modal-title">背诵计划规则</Text>
               <Text className="rule-modal-close" onClick={() => setShowRuleModal(false)}>×</Text>
             </View>
             <View className="rule-modal-body">
               <View className="rule-section">
-                <Text className="rule-section-title">📖 学习方式</Text>
-                <Text className="rule-text">每首诗词需经过「初记 → 多次复习」完成学习。每次学习可挖空诗句检测记忆，根据记忆情况选择「记得 / 模糊 / 忘记」推进复习进度。</Text>
+                <Text className="rule-section-title">📖 背诵方式</Text>
+                <Text className="rule-text">每首诗词需经过「初记 → 多次复习」完成背诵。每次背诵可挖空诗句检测记忆，根据记忆情况选择「记得 / 模糊 / 忘记」推进复习进度。</Text>
               </View>
               <View className="rule-section">
                 <Text className="rule-section-title">🗓️ 复习节奏（艾宾浩斯记忆法）</Text>

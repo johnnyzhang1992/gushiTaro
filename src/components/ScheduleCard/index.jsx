@@ -119,14 +119,14 @@ const ScheduleCard = (props) => {
 								<Text className='num'>{total_study}</Text>
 								<Text className='text'>篇</Text>
 							</View>
-							<View className='desc'>已学习</View>
+							<View className='desc'>已背诵</View>
 						</View>
 						<View className='info_item'>
 							<View className='info_top'>
 								<Text className='num'>{poem_count - total_study}</Text>
 								<Text className='text'>篇</Text>
 							</View>
-							<View className='desc'>待学习</View>
+							<View className='desc'>待背诵</View>
 						</View>
 						<View className='info_item'>
 							<View className='info_top'>

@@ -64,7 +64,7 @@ export default {
 			},
 			{
 				pagePath: 'pages/study/index',
-				text: '学习',
+				text: '背诵',
 				iconPath: 'images/icon/study.png',
 				selectedIconPath: 'images/icon/study_active.png',
 			},

@@ -23,7 +23,7 @@ const FixBottom = (props) => {
 					<View className='left flex'>
 						<View className='tabItem' onClick={() => setShowScheduleModal(true)}>
 							<Text className='addIcon'>+</Text>
-							<Text className='text'>学习计划</Text>
+							<Text className='text'>背诵计划</Text>
 						</View>
 						<View className='tabItem' onClick={() => setShowCollectionPopup(true)}>
 							<Text className='addIcon'>+</Text>

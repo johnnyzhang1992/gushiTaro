@@ -211,7 +211,7 @@ const ScheduleDetail = () => {
 			{/* 诗词列表 */}
 			{/* 待学习，已学习 */}
 			<Tabs value={status} onChange={handleStatusChange}>
-				<TabPane title='待学习'>
+				<TabPane title='待背诵'>
 					<View className='poemList'>
 						{scheduleDetail.list.length > 0 ? (
 							scheduleDetail.list.map((item) => (
@@ -224,7 +224,7 @@ const ScheduleDetail = () => {
 							))
 						) : (
 							<View className='empty'>
-								<View>已完成学习计划🎉</View>
+								<View>已完成背诵计划🎉</View>
 							</View>
 						)}
 					</View>
@@ -242,7 +242,7 @@ const ScheduleDetail = () => {
 							))
 						) : (
 							<View className='empty'>
-								<View>已完成学习计划🎉</View>
+								<View>已完成背诵计划🎉</View>
 							</View>
 						)}
 					</View>

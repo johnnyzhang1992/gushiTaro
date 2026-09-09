@@ -98,13 +98,13 @@ const CollectionDetailPage = () => {
     }
 
     if (hasPlan) {
-      Taro.showToast({ title: '已创建同名学习计划', icon: 'none' });
+      Taro.showToast({ title: '已创建同名背诵计划', icon: 'none' });
       return;
     }
 
     Taro.showModal({
-      title: '加入学习计划',
-      content: `将创建名为「${detail.collection_name}」的学习计划，并导入诗单内的所有诗词`,
+      title: '加入背诵计划',
+      content: `将创建名为「${detail.collection_name}」的背诵计划，并导入诗单内的所有诗词`,
       success: (res) => {
         if (res.confirm) {
           setCreatingPlan(true);
@@ -233,7 +233,7 @@ const CollectionDetailPage = () => {
                     onClick={hasPlan ? () => Taro.navigateTo({ url: `/pages/study/detail?id=${planId}` }) : handleAddToStudyPlan}
                     disabled={creatingPlan}
                   >
-                    {hasPlan ? '→ 去学习' : '+ 学习计划'}
+                    {hasPlan ? '→ 去背诵' : '+ 背诵计划'}
                   </Button>
                 </View>
               </View>
