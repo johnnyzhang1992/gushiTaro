@@ -244,6 +244,16 @@ const ScheduleModal = ({
 		setShowModal(false);
 	};
 
+	// 取消新建/编辑：新建态回到计划列表，其余关闭弹层
+	const handleCancelForm = () => {
+		if (modalType === 'create') {
+			setForm({ name: '', description: '' });
+			setType('edit');
+			return;
+		}
+		handleClose();
+	};
+
 	const updateIds = (ids) => {
 		setIds([...scheduleIds, ...ids]);
 		getschedules(targetId);
@@ -282,8 +292,13 @@ const ScheduleModal = ({
 						+新建
 					</View>
 				) : (
-					<View className='confirm btn' onClick={handleSaveschedule}>
-						完成
+					<View className='form-actions'>
+						<View className='btn cancel' onClick={handleCancelForm}>
+							取消
+						</View>
+						<View className='btn confirm' onClick={handleSaveschedule}>
+							完成
+						</View>
 					</View>
 				)}
 			</View>

@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from '@tarojs/components';
+import { View, Text, ScrollView, Input, Textarea } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import { useState, useEffect } from 'react';
 
@@ -13,6 +13,13 @@ const AddToCollectionPopup = ({ visible, poemId, onClose, onSuccess }) => {
 	const [loading, setLoading] = useState(false);
 	const [showCreate, setShowCreate] = useState(false);
 	const [newName, setNewName] = useState('');
+	const [newDesc, setNewDesc] = useState('');
+
+	const exitCreate = () => {
+		setShowCreate(false);
+		setNewName('');
+		setNewDesc('');
+	};
 
 	const loadCollections = () => {
 		if (!visible || !poemId) return;
@@ -83,12 +90,11 @@ const AddToCollectionPopup = ({ visible, poemId, onClose, onSuccess }) => {
 			Taro.showToast({ title: '请输入诗单名称', icon: 'none' });
 			return;
 		}
-		Request('/api/collections/create', { collection_name: newName.trim() }, 'POST')
+		Request('/api/collections/create', { collection_name: newName.trim(), description: newDesc.trim() }, 'POST')
 			.then((res) => {
 				if (res && res.status && res.data) {
 					Taro.showToast({ title: '创建成功', icon: 'success' });
-					setNewName('');
-					setShowCreate(false);
+					exitCreate();
 					if (res.data._id) {
 						handleAddToCollection(res.data._id, false, newName.trim());
 					}
@@ -103,12 +109,21 @@ const AddToCollectionPopup = ({ visible, poemId, onClose, onSuccess }) => {
 	return (
 		<FloatLayout isOpen={visible} close={onClose} title=''>
 			<View className='popup-header'>
-				<Text className='popup-title'>加入诗单</Text>
-				{!showCreate ? (
+				<Text className='popup-title'>{showCreate ? '新建诗单' : '加入诗单'}</Text>
+				{showCreate ? (
+					<View className='header-actions'>
+						<View className='hbtn cancel' onClick={exitCreate}>
+							<Text>取消</Text>
+						</View>
+						<View className='hbtn primary' onClick={handleCreate}>
+							<Text>创建</Text>
+						</View>
+					</View>
+				) : (
 					<View className='create-btn' onClick={() => setShowCreate(true)}>
 						<Text className='text'>+ 新建</Text>
 					</View>
-				) : null}
+				)}
 			</View>
 
 			<View className='add-to-collection'>
@@ -120,21 +135,26 @@ const AddToCollectionPopup = ({ visible, poemId, onClose, onSuccess }) => {
 					<>
 						{showCreate ? (
 							<View className='create-form'>
-								<View className='input-row'>
-									<input
+								<View className='field'>
+									<Text className='field-label'>标题</Text>
+									<Input
 										className='input'
 										placeholder='请输入诗单名称'
 										value={newName}
+										maxlength={20}
 										onInput={(e) => setNewName(e.detail.value)}
 									/>
-									<View className='btns'>
-										<View className='btn cancel' onClick={() => { setShowCreate(false); setNewName(''); }}>
-											取消
-										</View>
-										<View className='btn confirm' onClick={handleCreate}>
-											创建
-										</View>
-									</View>
+								</View>
+								<View className='field'>
+									<Text className='field-label'>描述（可选）</Text>
+									<Textarea
+										className='desc'
+										maxlength={60}
+										autoHeight
+										placeholder='一句话介绍这个诗单…'
+										value={newDesc}
+										onInput={(e) => setNewDesc(e.detail.value)}
+									/>
 								</View>
 							</View>
 						) : null}

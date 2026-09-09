@@ -25,6 +25,17 @@
 			color: #fff;
 		}
 	}
+	.form-actions {
+		display: flex;
+		align-items: center;
+		gap: 16px;
+
+		.btn.cancel {
+			background-color: #fff;
+			color: #666;
+			border-color: #cfd6dd;
+		}
+	}
 }
 .modalScheduleContent {
 	padding-bottom: 60px;

@@ -21,6 +21,30 @@
 			color: #337ab7;
 		}
 	}
+
+	.header-actions {
+		display: flex;
+		align-items: center;
+		gap: 16rpx;
+
+		.hbtn {
+			padding: 10rpx 26rpx;
+			font-size: 26rpx;
+			border-radius: 26rpx;
+			border: 2rpx solid transparent;
+
+			&.cancel {
+				color: #666;
+				border-color: #cfd6dd;
+				background: #fff;
+			}
+
+			&.primary {
+				color: #fff;
+				background: #337ab7;
+			}
+		}
+	}
 }
 
 .add-to-collection {
@@ -34,42 +58,42 @@
 	}
 
 	.create-form {
-		padding: 0 24rpx;
-		margin-bottom: 20rpx;
+		padding: 24rpx 24rpx 8rpx;
+		margin-bottom: 8rpx;
 
-		.input-row {
-			display: flex;
-			align-items: center;
-			gap: 16rpx;
+		.field {
+			margin-bottom: 20rpx;
 
-			.input {
-				flex: 1;
-				height: 72rpx;
-				background: #f5f7fa;
-				border-radius: 8rpx;
-				padding: 0 20rpx;
-				font-size: 28rpx;
+			.field-label {
+				display: block;
+				font-size: 26rpx;
+				font-weight: 600;
+				color: #333;
+				margin-bottom: 12rpx;
 			}
 
-			.btns {
-				display: flex;
-				gap: 12rpx;
+			.input {
+				width: 100%;
+				height: 76rpx;
+				background: #f7f9fb;
+				border: 2rpx solid #d9e2ec;
+				border-radius: 14rpx;
+				padding: 0 20rpx;
+				font-size: 28rpx;
+				box-sizing: border-box;
+			}
 
-				.btn {
-					padding: 16rpx 24rpx;
-					font-size: 26rpx;
-					border-radius: 8rpx;
-
-					&.cancel {
-						background: #f5f7fa;
-						color: #666;
-					}
-
-					&.confirm {
-						background: #337ab7;
-						color: #fff;
-					}
-				}
+			.desc {
+				width: 100%;
+				min-height: 100rpx;
+				background: #f7f9fb;
+				border: 2rpx solid #d9e2ec;
+				border-radius: 14rpx;
+				padding: 14rpx 20rpx;
+				font-size: 26rpx;
+				color: #333;
+				line-height: 1.6;
+				box-sizing: border-box;
 			}
 		}
 	}
