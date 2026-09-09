@@ -45,12 +45,13 @@ const MeIndex = () => {
 	const isCreate = useRef(false);
 
 	// 拉取用户完整资料（一次请求获取用户信息 + 学习统计 + 签到统计）
-	const loadUserProfile = () => {
+	const loadUserProfile = (forceRefresh = false) => {
 		const user = Taro.getStorageSync('user');
 		const userId = user?.uid || user?.user_id;
 		if (!userId) return Promise.resolve();
 
-		return fetchUserProfile('GET', {})
+		// 下拉刷新强制后端重算收藏数（避免命中 300s profile 缓存导致典故收藏数 0/4 抖动）
+		return fetchUserProfile('GET', forceRefresh ? { refresh: 1 } : {})
 			.then((res) => {
 				const apiData = res.data?.data || res.data;
 				if ((res.status || res.statusCode === 200) && apiData) {
@@ -268,7 +269,7 @@ const MeIndex = () => {
 
 	usePullDownRefresh(() => {
 		console.log('page-pullRefresh');
-		Promise.resolve(loadUserProfile()).finally(() => {
+		Promise.resolve(loadUserProfile(true)).finally(() => {
 			Taro.stopPullDownRefresh();
 		});
 	});
