@@ -5,5 +5,4 @@ export default {
 	enableShareAppMessage: true,
 	enableShareTimeline: true,
 	enablePullDownRefresh: true,
-	navigationStyle: 'custom',
 };

@@ -4,7 +4,7 @@
 //  - 小程序：按 wx.getAccountInfoSync 的 envVersion 判断（develop → 本地）
 import Taro from '@tarojs/taro';
 
-const DEV_BASE_URL = 'http://192.168.31.138:3000';
+const DEV_BASE_URL = 'http://192.168.31.139:3000';
 const PROD_BASE_URL = 'https://api.xuegushi.com';
 
 const isDevEnv = () => {

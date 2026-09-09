@@ -2,8 +2,6 @@ import { View, Text, Picker, ScrollView } from '@tarojs/components';
 import Taro, { useLoad, usePullDownRefresh } from '@tarojs/taro';
 import { useState, useCallback } from 'react';
 
-import PageHeader from '../../components/PageHeader';
-
 import { fetchHistoryToday, fetchHistoryPoemDetail } from './today.service';
 
 import './today.scss';
@@ -132,13 +130,6 @@ const TodayPage = () => {
 
 	return (
 		<View className='page todayPage'>
-			<PageHeader showSearch={false} showBack>
-				<View className='todayHeader'>
-					<Text className='title'>历史上的今天</Text>
-					<Text className='sub'>{monthDay}</Text>
-				</View>
-			</PageHeader>
-
 			<View className='todayContainer'>
 				{/* 日期导航 */}
 				<View className='dateNav'>

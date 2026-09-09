@@ -1,29 +1,6 @@
 .todayPage {
 	min-height: 100vh;
 	background: #f5f7fa;
-
-	.todayHeader {
-		position: absolute;
-		left: 0;
-		right: 0;
-		bottom: 16px;
-		display: flex;
-		align-items: baseline;
-		justify-content: center;
-		gap: 12rpx;
-		pointer-events: none; /* 不阻挡返回按钮点击 */
-
-		.title {
-			font-size: 34px;
-			color: #fff;
-			font-weight: 600;
-		}
-
-		.sub {
-			font-size: 24px;
-			color: rgba(255, 255, 255, 0.85);
-		}
-	}
 }
 
 .todayContainer {
