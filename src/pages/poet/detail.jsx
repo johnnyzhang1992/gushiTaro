@@ -4,6 +4,8 @@ import { useState } from 'react';
 
 import CdnImage from '../../components/CdnImage';
 import LongTextCard from '../../components/LongTextCard';
+import LikeButton from '../../components/LikeButton';
+import CollectButton from '../../components/CollectButton';
 import { fetchPoetDetail } from './service';
 
 import './detail.scss';
@@ -51,21 +53,41 @@ const AuthorDetail = () => {
 							<Text className='titleTag'>「{author.title}」</Text>
 						) : null}
 					</View>
-					<View className='stats'>
-						<View
-							className='statItem clickable'
-							onClick={() => Taro.navigateTo({ url: '/pages/poem/index?author=' + (author.author_name || '') })}
-						>
-							<Text className='statNum'>{author.poem_count ?? '-'}</Text>
-							<Text className='statLabel'>作品</Text>
+					<View className='statsRow'>
+						{/* 统计数据：水平居左 */}
+						<View className='stats'>
+							<View
+								className='statItem clickable'
+								onClick={() => Taro.navigateTo({ url: '/pages/poem/index?author=' + (author.author_name || '') })}
+							>
+								<Text className='statNum'>{author.poem_count ?? '-'}</Text>
+								<Text className='statLabel'>作品</Text>
+							</View>
+							<View className='dividerV' />
+							<View
+								className='statItem clickable'
+								onClick={() => Taro.navigateTo({ url: '/pages/sentence/index?author_source_id=' + (author.source_id || '') })}
+							>
+								<Text className='statNum'>{author.sentence_count ?? '-'}</Text>
+								<Text className='statLabel'>摘录</Text>
+							</View>
 						</View>
-						<View className='dividerV' />
-						<View
-							className='statItem clickable'
-							onClick={() => Taro.navigateTo({ url: '/pages/sentence/index?author_source_id=' + (author.source_id || '') })}
-						>
-							<Text className='statNum'>{author.sentence_count ?? '-'}</Text>
-							<Text className='statLabel'>摘录</Text>
+						{/* 点赞/收藏：水平居右（与诗词详情页同款组件） */}
+						<View className='actions'>
+							<LikeButton
+								type='author'
+								id={author.id}
+								count={author.like_count}
+								status={author.is_liked}
+								showText={false}
+							/>
+							<CollectButton
+								type='author'
+								id={author.id}
+								count={author.collect_count}
+								status={author.is_favorited}
+								showText={false}
+							/>
 						</View>
 					</View>
 				</View>
