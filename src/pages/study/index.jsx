@@ -25,13 +25,23 @@ export default function StudyPage() {
   const [recommendedLoading, setRecommendedLoading] = useState(false);
   const [creatingPlanId, setCreatingPlanId] = useState(null);
   const [learnedCollectionIds, setLearnedCollectionIds] = useState(new Set());
+  const [isLogin, setIsLogin] = useState(false);
 
-  // 获取学习计划列表
+  // 获取背诵计划列表
   const loadPlans = useCallback(async () => {
+    // 未登录不发请求（避免游客触发 401 弹窗），直接空态 + 去登录引导
+    const user = Taro.getStorageSync('user') || {};
+    const logged = !!(user.token || Taro.getStorageSync('wx_token'));
+    setIsLogin(logged);
+    if (!logged) {
+      setPlans([]);
+      setLoading(false);
+      return;
+    }
     setLoading(true);
     try {
       const res = await fetchStudyPlans('GET');
-      console.log('学习计划列表:', res);
+      console.log('背诵计划列表:', res);
       if (res && res.status && res.data) {
         setPlans(res.data || []);
       }
@@ -180,8 +190,20 @@ export default function StudyPage() {
     });
   };
 
-  // 进入学习统计页
+  // 进入背诵统计页（未登录先引导登录）
   const goStats = () => {
+    const user = Taro.getStorageSync('user') || {};
+    if (!(user.token || Taro.getStorageSync('wx_token'))) {
+      Taro.showModal({
+        title: '提示',
+        content: '登录后查看统计报告',
+        confirmText: '去登录',
+        success: (res) => {
+          if (res.confirm) Taro.switchTab({ url: '/pages/me/index' });
+        },
+      });
+      return;
+    }
     Taro.navigateTo({
       url: '/pages/study/stats',
     });
@@ -287,10 +309,33 @@ export default function StudyPage() {
         {plans.length === 0 && !loading ? (
           <View className="empty-state">
             <Text className="empty-icon">📚</Text>
-            <Text className="empty-text">还没有背诵计划</Text>
-            <View className="empty-btn" onClick={() => handleTabChange('recommended')}>
-              去看看推荐
-            </View>
+            {isLogin ? (
+              <>
+                <Text className="empty-text">还没有背诵计划</Text>
+                <View className="empty-btn" onClick={() => handleTabChange('recommended')}>
+                  去看看推荐
+                </View>
+              </>
+            ) : (
+              <>
+                <Text className="empty-text">登录后查看背诵计划</Text>
+                <View
+                  className="empty-btn"
+                  onClick={() =>
+                    Taro.showModal({
+                      title: '提示',
+                      content: '登录后创建并同步你的背诵计划',
+                      confirmText: '去登录',
+                      success: (res) => {
+                        if (res.confirm) Taro.switchTab({ url: '/pages/me/index' });
+                      },
+                    })
+                  }
+                >
+                  去登录
+                </View>
+              </>
+            )}
           </View>
         ) : (
           plans.map((plan) => (
@@ -457,7 +502,23 @@ export default function StudyPage() {
 
       {/* 浮动创建按钮 - 仅我的计划页面显示 */}
       {activeTab === 'mine' && (
-        <View className="fab-btn" onClick={() => setShowCreateModal(true)}>
+        <View
+          className="fab-btn"
+          onClick={() => {
+            if (!isLogin) {
+              Taro.showModal({
+                title: '提示',
+                content: '登录后创建背诵计划',
+                confirmText: '去登录',
+                success: (res) => {
+                  if (res.confirm) Taro.switchTab({ url: '/pages/me/index' });
+                },
+              });
+              return;
+            }
+            setShowCreateModal(true);
+          }}
+        >
           <Text className="fab-icon">+</Text>
         </View>
       )}
