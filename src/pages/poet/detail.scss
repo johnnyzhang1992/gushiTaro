@@ -117,7 +117,6 @@
 		.collectButton {
 			background-color: #fff;
 			color: #337ab7;
-			padding: 6rpx 16rpx;
 			border-radius: 999rpx;
 			border: 2rpx solid #fff;
 
@@ -126,6 +125,22 @@
 				color: #fff;
 				border-color: #fff;
 			}
+
+			/* 两个组件图标尺寸统一 */
+			.icon {
+				width: 40rpx;
+				height: 40rpx;
+			}
+		}
+
+		/* LikeButton 的 padding 在根节点 */
+		.likeButton {
+			padding: 6rpx 16rpx;
+		}
+
+		/* CollectButton 的 padding 在内部容器，根节点不要再加，避免双份 padding 显得更大 */
+		.collectButton {
+			padding: 0;
 
 			.buttonContainer.collect {
 				padding: 6rpx 16rpx;
