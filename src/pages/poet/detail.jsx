@@ -40,55 +40,58 @@ const AuthorDetail = () => {
 
 			{/* 作者头部信息 */}
 			<View className='authorInfo'>
-				{author.avatar ? (
-					<CdnImage className='avatar' src={author.avatar} mode='widthFix' lazyLoad fadeIn />
-				) : null}
-				<View className='info'>
-					<Text className='name'>{author.author_name}</Text>
-					<View className='meta'>
-						{author.dynasty ? (
-							<Text className='dynasty'>{author.dynasty}</Text>
-						) : null}
-						{author.title ? (
-							<Text className='titleTag'>「{author.title}」</Text>
-						) : null}
+				{/* 第一行：头像 + 姓名/朝代 */}
+				<View className='headerRow'>
+					{author.avatar ? (
+						<CdnImage className='avatar' src={author.avatar} mode='widthFix' lazyLoad fadeIn />
+					) : null}
+					<View className='info'>
+						<Text className='name'>{author.author_name}</Text>
+						<View className='meta'>
+							{author.dynasty ? (
+								<Text className='dynasty'>{author.dynasty}</Text>
+							) : null}
+							{author.title ? (
+								<Text className='titleTag'>「{author.title}」</Text>
+							) : null}
+						</View>
 					</View>
-					<View className='statsRow'>
-						{/* 统计数据：水平居左 */}
-						<View className='stats'>
-							<View
-								className='statItem clickable'
-								onClick={() => Taro.navigateTo({ url: '/pages/poem/index?author=' + (author.author_name || '') })}
-							>
-								<Text className='statNum'>{author.poem_count ?? '-'}</Text>
-								<Text className='statLabel'>作品</Text>
-							</View>
-							<View className='dividerV' />
-							<View
-								className='statItem clickable'
-								onClick={() => Taro.navigateTo({ url: '/pages/sentence/index?author_source_id=' + (author.source_id || '') })}
-							>
-								<Text className='statNum'>{author.sentence_count ?? '-'}</Text>
-								<Text className='statLabel'>摘录</Text>
-							</View>
+				</View>
+
+				{/* 第二行：统计数据 + 点赞/收藏，整体水平居右 */}
+				<View className='statsRow'>
+					<View className='stats'>
+						<View
+							className='statItem clickable'
+							onClick={() => Taro.navigateTo({ url: '/pages/poem/index?author=' + (author.author_name || '') })}
+						>
+							<Text className='statNum'>{author.poem_count ?? '-'}</Text>
+							<Text className='statLabel'>作品</Text>
 						</View>
-						{/* 点赞/收藏：水平居右（与诗词详情页同款组件） */}
-						<View className='actions'>
-							<LikeButton
-								type='author'
-								id={author.id}
-								count={author.like_count}
-								status={author.is_liked}
-								showText={false}
-							/>
-							<CollectButton
-								type='author'
-								id={author.id}
-								count={author.collect_count}
-								status={author.is_favorited}
-								showText={false}
-							/>
+						<View className='dividerV' />
+						<View
+							className='statItem clickable'
+							onClick={() => Taro.navigateTo({ url: '/pages/sentence/index?author_source_id=' + (author.source_id || '') })}
+						>
+							<Text className='statNum'>{author.sentence_count ?? '-'}</Text>
+							<Text className='statLabel'>摘录</Text>
 						</View>
+					</View>
+					<View className='actions'>
+						<LikeButton
+							type='author'
+							id={author.id}
+							count={author.like_count}
+							status={author.is_liked}
+							showText={false}
+						/>
+						<CollectButton
+							type='author'
+							id={author.id}
+							count={author.collect_count}
+							status={author.is_favorited}
+							showText={false}
+						/>
 					</View>
 				</View>
 			</View>

@@ -6,10 +6,17 @@
 
 .authorInfo {
 	display: flex;
+	flex-direction: column;
 	padding: 20rpx 24rpx 24rpx;
 	background: linear-gradient(135deg, #337ab7 0%, #286090 100%);
 	margin: 0 0 20rpx;
 	box-sizing: border-box;
+
+	/* 第一行：头像 + 姓名/朝代 */
+	.headerRow {
+		display: flex;
+		align-items: center;
+	}
 
 	.avatar {
 		width: 104rpx;
@@ -53,16 +60,16 @@
 		.statsRow {
 			display: flex;
 			align-items: center;
-			justify-content: space-between;
+			justify-content: flex-end;
 			gap: 16rpx;
+			margin-top: 18rpx;
 		}
 
-		/* 统计数据：水平居左 */
+		/* 统计数据 */
 		.stats {
 			display: flex;
 			align-items: center;
 			gap: 0;
-			justify-content: flex-start;
 
 			.dividerV {
 				width: 1rpx;
