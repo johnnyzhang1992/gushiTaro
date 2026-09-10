@@ -35,7 +35,7 @@ const LikeButton = (props) => {
 		updateUserLike('POST', {
 			status: likeStatus ? 1 : 0,
 			target_type: type,
-			target_id: id,
+			target_id: String(id),
 		}).then((res) => {
 			const apiData = res.data?.data || res.data;
 			if (res && res && res.status) {
