@@ -99,7 +99,7 @@
 			}
 		}
 
-		/* 点赞/收藏：水平居右，在蓝色卡上做白底胶囊适配 */
+		/* 点赞/收藏：水平居右。图标本体：未点亮=蓝填充，点亮=白填充，故未点亮用白底、点亮用深蓝底+白描边 */
 		.actions {
 			display: flex;
 			align-items: center;
@@ -108,14 +108,16 @@
 
 			.likeButton,
 			.collectButton {
-				background-color: rgba(255, 255, 255, 0.18);
-				color: #fff;
+				background-color: #fff;
+				color: #337ab7;
 				padding: 6rpx 16rpx;
 				border-radius: 999rpx;
+				border: 2rpx solid #fff;
 
 				&.active {
-					background-color: #fff;
-					color: #337ab7;
+					background-color: #1e4d7a;
+					color: #fff;
+					border-color: #fff;
 				}
 
 				.buttonContainer.collect {
