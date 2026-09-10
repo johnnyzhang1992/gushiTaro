@@ -1,5 +1,6 @@
 import { View, Image, Text } from '@tarojs/components';
 import React, { useState, useEffect } from 'react';
+import Taro from '@tarojs/taro';
 
 import likeSvg from '../../images/svg/like.svg';
 import likeActiveSvg from '../../images/svg/like_active.svg';
@@ -46,6 +47,11 @@ const LikeButton = (props) => {
 				if (typeof updateStatus === 'function') {
 					updateStatus(newStatus, newCount);
 				}
+				Taro.showToast({
+					title: newStatus ? '点赞成功' : '已取消点赞',
+					icon: 'none',
+					duration: 1500,
+				});
 			}
 		})
 	};
