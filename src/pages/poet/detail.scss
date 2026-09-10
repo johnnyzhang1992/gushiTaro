@@ -44,7 +44,6 @@
 			display: flex;
 			align-items: center;
 			gap: 12rpx;
-			margin-bottom: 16rpx;
 
 			.dynasty {
 				font-size: 24rpx;
@@ -56,85 +55,84 @@
 				color: rgba(255, 255, 255, 0.65);
 			}
 		}
+	}
 
-		.statsRow {
-			display: flex;
-			align-items: center;
-			justify-content: flex-end;
-			gap: 16rpx;
-			margin-top: 18rpx;
+	/* 第二行：统计数据 + 点赞/收藏，整体水平居右 */
+	.statsRow {
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+		gap: 24rpx;
+		margin-top: 16rpx;
+	}
+
+	.stats {
+		display: flex;
+		align-items: center;
+		gap: 0;
+
+		.dividerV {
+			width: 1rpx;
+			height: 40rpx;
+			background: rgba(255, 255, 255, 0.3);
+			margin: 0 16rpx;
 		}
 
-		/* 统计数据 */
-		.stats {
+		.statItem {
 			display: flex;
+			flex-direction: row;
 			align-items: center;
-			gap: 0;
+			gap: 8rpx;
+			padding: 8rpx 12rpx;
+			border-radius: 12rpx;
 
-			.dividerV {
-				width: 1rpx;
-				height: 40rpx;
-				background: rgba(255, 255, 255, 0.3);
-				margin: 0 16rpx;
+			&.clickable {
+				&:active {
+					background: rgba(255, 255, 255, 0.15);
+				}
 			}
 
-			.statItem {
-				display: flex;
-				flex-direction: row;
-				align-items: center;
-				gap: 8rpx;
-				padding: 8rpx 12rpx;
-				border-radius: 12rpx;
+			.statNum {
+				font-size: 32rpx;
+				font-weight: 600;
+				color: #fff;
+			}
 
-				&.clickable {
-					&:active {
-						background: rgba(255, 255, 255, 0.15);
-					}
-				}
-
-				.statNum {
-					font-size: 32rpx;
-					font-weight: 600;
-					color: #fff;
-				}
-
-				.statLabel {
-					font-size: 20rpx;
-					color: rgba(255, 255, 255, 0.7);
-					margin-top: 4rpx;
-				}
+			.statLabel {
+				font-size: 20rpx;
+				color: rgba(255, 255, 255, 0.7);
+				margin-top: 4rpx;
 			}
 		}
+	}
 
-		/* 点赞/收藏：水平居右。图标本体：未点亮=蓝填充，点亮=白填充，故未点亮用白底、点亮用深蓝底+白描边 */
-		.actions {
-			display: flex;
-			align-items: center;
-			gap: 12rpx;
-			flex-shrink: 0;
+	/* 点赞/收藏：图标本体未点亮=蓝填充、点亮=白填充，故未点亮白底、点亮深蓝底+白描边 */
+	.actions {
+		display: flex;
+		align-items: center;
+		gap: 12rpx;
+		flex-shrink: 0;
 
-			.likeButton,
-			.collectButton {
-				background-color: #fff;
-				color: #337ab7;
+		.likeButton,
+		.collectButton {
+			background-color: #fff;
+			color: #337ab7;
+			padding: 6rpx 16rpx;
+			border-radius: 999rpx;
+			border: 2rpx solid #fff;
+
+			&.active {
+				background-color: #1e4d7a;
+				color: #fff;
+				border-color: #fff;
+			}
+
+			.buttonContainer.collect {
 				padding: 6rpx 16rpx;
-				border-radius: 999rpx;
-				border: 2rpx solid #fff;
-
-				&.active {
-					background-color: #1e4d7a;
-					color: #fff;
-					border-color: #fff;
-				}
-
-				.buttonContainer.collect {
-					padding: 6rpx 16rpx;
-				}
 			}
 		}
 	}
 }
-
 .section {
 	margin: 0 24rpx 20rpx;
 	background: #fff;
