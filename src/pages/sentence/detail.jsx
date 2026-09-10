@@ -312,7 +312,7 @@ const SentenceDetail = () => {
 							type='sentence'
 							id={detail.sentence.id}
 							count={detail.sentence.like_count}
-							status={detail.sentence.like_status}
+							status={detail.sentence.is_liked || detail.sentence.like_status}
 							showText
 						/>
 					</View>
@@ -321,7 +321,7 @@ const SentenceDetail = () => {
 							type='sentence'
 							id={detail.sentence.id}
 							count={detail.sentence.collect_count}
-							status={detail.sentence.collect_status}
+							status={detail.sentence.is_favorited || detail.sentence.collect_status}
 							showText
 						/>
 					</View>
