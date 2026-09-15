@@ -13,3 +13,6 @@ git_stats.sh
 docs/
 logs/
 .mimosa/
+
+# IDE
+.zcode/
