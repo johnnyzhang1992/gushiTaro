@@ -1,5 +1,11 @@
 import { useState } from 'react';
-import Taro, { useRouter, useLoad, usePullDownRefresh } from '@tarojs/taro';
+import Taro, {
+	useRouter,
+	useLoad,
+	usePullDownRefresh,
+	useShareAppMessage,
+	useShareTimeline,
+} from '@tarojs/taro';
 import { View, Text } from '@tarojs/components';
 
 import Request from '../../apis/request';
@@ -43,6 +49,16 @@ const AllusionDetail = () => {
     fetchDetail(router.params.id);
     Taro.stopPullDownRefresh();
   });
+
+  useShareAppMessage(() => ({
+    title: detail?.name || '典故详情',
+    path: '/pages/library/allusion-detail?id=' + router.params.id,
+  }));
+
+  useShareTimeline(() => ({
+    title: detail?.name || '典故详情',
+    path: '/pages/library/allusion-detail?id=' + router.params.id,
+  }));
 
   if (!detail) return null;
 

@@ -1,5 +1,11 @@
 import { View, Text, Navigator } from '@tarojs/components';
-import Taro, { useRouter, useLoad, usePullDownRefresh } from '@tarojs/taro';
+import Taro, {
+	useRouter,
+	useLoad,
+	usePullDownRefresh,
+	useShareAppMessage,
+	useShareTimeline,
+} from '@tarojs/taro';
 import { useState } from 'react';
 import { useNavigationBar } from 'taro-hooks';
 
@@ -47,6 +53,16 @@ const CollectionGroupPage = () => {
     loadData();
     Taro.stopPullDownRefresh();
   });
+
+  useShareAppMessage(() => ({
+    title: groupName || '诗单分组',
+    path: `/pages/library/collection-group?id=${groupId}&name=${encodeURIComponent(groupName)}`,
+  }));
+
+  useShareTimeline(() => ({
+    title: groupName || '诗单分组',
+    path: `/pages/library/collection-group?id=${groupId}&name=${encodeURIComponent(groupName)}`,
+  }));
 
   // 数字转中文
 const numToChinese = (n) => {

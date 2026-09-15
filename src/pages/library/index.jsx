@@ -1,5 +1,6 @@
 import { View, Text } from '@tarojs/components';
 import { useState } from 'react';
+import { useShareAppMessage, useShareTimeline } from '@tarojs/taro';
 
 import PageHeader from '../../components/PageHeader';
 import PoemContainer from '../../components/PoemContainer';
@@ -26,6 +27,16 @@ const Page = () => {
 	const [tabParams, setTabParams] = useState({0: {}, 1: {}, 2: {}, 3: {}, 4: {}});
 	// 记录每个 TAB 是否已加载过数据
 	const [tabLoaded, setTabLoaded] = useState({0: true, 1: false, 2: false, 3: false, 4: false});
+
+	useShareAppMessage(() => ({
+		title: '典藏 · 古诗文小助手',
+		path: '/pages/library/index',
+	}));
+
+	useShareTimeline(() => ({
+		title: '典藏 · 古诗文小助手',
+		path: '/pages/library/index',
+	}));
 
 	const handleChangeTab = (index) => {
 		setTab(index);

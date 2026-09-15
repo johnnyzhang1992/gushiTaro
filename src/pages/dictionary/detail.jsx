@@ -1,5 +1,5 @@
 import { View, Text, ScrollView } from '@tarojs/components';
-import Taro, { useLoad } from '@tarojs/taro';
+import Taro, { useLoad, useShareAppMessage, useShareTimeline } from '@tarojs/taro';
 import { useEffect, useState, useRef } from 'react';
 
 import SectionCard from '../../components/SectionCard';
@@ -92,6 +92,16 @@ const DictionaryDetail = () => {
 		optionsRef.current = options;
 		fetchDetail(options);
 	});
+
+	useShareAppMessage(() => ({
+		title: detail?.word || detail?.ci || '字典详情',
+		path: `/pages/dictionary/detail?id=${optionsRef.current.id || ''}&type=${optionsRef.current.type || ''}`,
+	}));
+
+	useShareTimeline(() => ({
+		title: detail?.word || detail?.ci || '字典详情',
+		path: `/pages/dictionary/detail?id=${optionsRef.current.id || ''}&type=${optionsRef.current.type || ''}`,
+	}));
 
 	return (
 		<View className='page dictionaryDetailPage'>

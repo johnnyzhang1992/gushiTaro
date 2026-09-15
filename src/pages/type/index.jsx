@@ -1,5 +1,10 @@
 import { View } from '@tarojs/components';
-import Taro, { useLoad } from '@tarojs/taro';
+import Taro, {
+	useRouter,
+	useLoad,
+	useShareAppMessage,
+	useShareTimeline,
+} from '@tarojs/taro';
 import { useState } from 'react';
 
 import { CategoriesList } from '../../const/config';
@@ -10,6 +15,7 @@ import './style.scss';
 
 const TypePage = () => {
 	const [typeList, setType] = useState(null);
+	const router = useRouter();
 	useLoad((options) => {
 		console.log(options);
 		const findOne = CategoriesList.find((cat) => {
@@ -23,6 +29,16 @@ const TypePage = () => {
 			setType(findOne);
 		}
 	});
+
+	useShareAppMessage(() => ({
+		title: typeList?.title || '诗词分类',
+		path: `/pages/type/index?title=${encodeURIComponent(router.params.title || '')}`,
+	}));
+
+	useShareTimeline(() => ({
+		title: typeList?.title || '诗词分类',
+		path: `/pages/type/index?title=${encodeURIComponent(router.params.title || '')}`,
+	}));
 
 	return (
 		<View className='page typePage'>

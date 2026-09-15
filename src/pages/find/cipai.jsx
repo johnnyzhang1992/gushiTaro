@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { View, Text, Input, ScrollView } from '@tarojs/components';
-import Taro from '@tarojs/taro';
+import Taro, { useShareAppMessage, useShareTimeline } from '@tarojs/taro';
 
 import { CiPaiArr } from '../../const/config';
 
@@ -39,6 +39,16 @@ function groupByFirstChar(names) {
 const CiPaiPage = () => {
 	const [searchText, setSearchText] = useState('');
 	const [activeIndex, setActiveIndex] = useState('');
+
+	useShareAppMessage(() => ({
+		title: '词牌',
+		path: '/pages/find/cipai',
+	}));
+
+	useShareTimeline(() => ({
+		title: '词牌',
+		path: '/pages/find/cipai',
+	}));
 
 	const groups = useMemo(() => groupByFirstChar(CiPaiArr), []);
 	const groupKeys = Object.keys(groups);

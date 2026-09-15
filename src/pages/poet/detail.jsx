@@ -1,5 +1,11 @@
 import { View, Text } from '@tarojs/components';
-import Taro, { useRouter, useLoad, usePullDownRefresh } from '@tarojs/taro';
+import Taro, {
+	useRouter,
+	useLoad,
+	usePullDownRefresh,
+	useShareAppMessage,
+	useShareTimeline,
+} from '@tarojs/taro';
 import { useState } from 'react';
 
 import CdnImage from '../../components/CdnImage';
@@ -32,6 +38,19 @@ const AuthorDetail = () => {
 	usePullDownRefresh(() => {
 		Taro.stopPullDownRefresh();
 	});
+
+	// 分享：与诗词详情页同模式，带 id 回跳
+	useShareAppMessage(() => ({
+		title: author?.author_name
+			? `${author.dynasty || ''}·${author.author_name}`
+			: '诗人详情',
+		path: '/pages/poet/detail?id=' + id,
+	}));
+
+	useShareTimeline(() => ({
+		title: author?.author_name || '诗人详情',
+		path: '/pages/poet/detail?id=' + id,
+	}));
 
 	if (!author) return null;
 

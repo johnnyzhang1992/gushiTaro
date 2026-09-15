@@ -1,7 +1,12 @@
 import { View } from '@tarojs/components';
 // import { useNavigationBar } from 'taro-hooks';
 // import { useState } from 'react';
-import Taro, { useLoad, usePullDownRefresh } from '@tarojs/taro';
+import Taro, {
+	useLoad,
+	usePullDownRefresh,
+	useShareAppMessage,
+	useShareTimeline,
+} from '@tarojs/taro';
 
 import PageHeader from '../../components/PageHeader';
 import SectionCard from '../../components/SectionCard';
@@ -18,6 +23,16 @@ const PostPage = () => {
 	usePullDownRefresh(() => {
 		Taro.stopPullDownRefresh();
 	});
+
+	useShareAppMessage(() => ({
+		title: '发现 · 诗词之美',
+		path: '/pages/find/index',
+	}));
+
+	useShareTimeline(() => ({
+		title: '发现 · 诗词之美',
+		path: '/pages/find/index',
+	}));
 	// 词牌示例卡片 → 按标题搜索该词牌（词作标题形如「浣溪沙·xxx」）
 	const goToCipaiSearch = (name) => {
 		Taro.navigateTo({

@@ -1,5 +1,5 @@
 import { View, Text, Input, ScrollView } from '@tarojs/components';
-import Taro, { useLoad } from '@tarojs/taro';
+import Taro, { useShareAppMessage, useShareTimeline } from '@tarojs/taro';
 import { useState } from 'react';
 
 import { FeiHuaConfig, HotFeiHua } from '../../const/config';
@@ -9,6 +9,16 @@ import './feihua.scss';
 const FeihuaPage = () => {
 	const [keyword, setKeyword] = useState('');
 	const [showDrop, setShowDrop] = useState(false);
+
+	useShareAppMessage(() => ({
+		title: '飞花令',
+		path: '/pages/find/feihua',
+	}));
+
+	useShareTimeline(() => ({
+		title: '飞花令',
+		path: '/pages/find/feihua',
+	}));
 
 	// 所有主题字（扁平化，去重）
 	const allChars = [...new Set(FeiHuaConfig.flatMap((c) => c.items))];

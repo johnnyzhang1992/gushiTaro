@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, Input } from '@tarojs/components';
-import Taro, { useLoad } from '@tarojs/taro';
+import Taro, { useLoad, useShareAppMessage, useShareTimeline } from '@tarojs/taro';
 import { useState } from 'react';
 
 import WordCard from '../../components/Dictionary/WordCard';
@@ -28,6 +28,16 @@ const DictionaryList = () => {
 		Taro.setNavigationBarTitle({ title: typeMap[t] || '字典' });
 		loadData(t, k, 1);
 	});
+
+	useShareAppMessage(() => ({
+		title: typeMap[type] || '字典',
+		path: `/pages/dictionary/list?type=${type || ''}&keyWord=${encodeURIComponent(keyWord || '')}`,
+	}));
+
+	useShareTimeline(() => ({
+		title: typeMap[type] || '字典',
+		path: `/pages/dictionary/list?type=${type || ''}&keyWord=${encodeURIComponent(keyWord || '')}`,
+	}));
 
 	const loadData = (t, k, p) => {
 		setLoading(true);

@@ -70,6 +70,16 @@ const FeihuaDetailPage = () => {
 		loadData(1, sort);
 	});
 
+	useShareAppMessage(() => ({
+		title: `「${char}」飞花令`,
+		path: `/pages/find/feihua-detail?char=${encodeURIComponent(char)}`,
+	}));
+
+	useShareTimeline(() => ({
+		title: `「${char}」飞花令`,
+		path: `/pages/find/feihua-detail?char=${encodeURIComponent(char)}`,
+	}));
+
 	// 切换排序
 	const changeSort = (s) => {
 		if (s === sort) return;

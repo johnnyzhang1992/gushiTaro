@@ -1,5 +1,10 @@
 import { View, Text, Picker, ScrollView } from '@tarojs/components';
-import Taro, { useLoad, usePullDownRefresh } from '@tarojs/taro';
+import Taro, {
+	useLoad,
+	usePullDownRefresh,
+	useShareAppMessage,
+	useShareTimeline,
+} from '@tarojs/taro';
 import { useState, useCallback } from 'react';
 
 import { fetchHistoryToday, fetchHistoryPoemDetail } from './today.service';
@@ -71,6 +76,16 @@ const TodayPage = () => {
 		loadData(date, 1);
 		Taro.stopPullDownRefresh();
 	});
+
+	useShareAppMessage(() => ({
+		title: '每日一诗 · 历史上的今天',
+		path: '/pages/find/today',
+	}));
+
+	useShareTimeline(() => ({
+		title: '每日一诗 · 历史上的今天',
+		path: '/pages/find/today',
+	}));
 
 	// 前后一天切换
 	const changeDay = (offset) => {
