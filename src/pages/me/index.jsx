@@ -100,43 +100,35 @@ const MeIndex = () => {
 			});
 	};
 
-	const getUserProfile = () => {
+	// 注册/登录：直接取微信 code 换 token
+	// （Taro.getUserProfile 已废弃：2022-10 起只返回匿名昵称/默认头像，且多一次失败点，不再调用）
+	const handleWxLogin = () => {
 		if (isCreate.current) {
 			Taro.showToast({
-				title: '正在注册中...',
+				title: '正在登录中...',
 				icon: 'none',
 				duration: 2000,
 			});
 			return false;
 		}
 		isCreate.current = true;
-		Taro.getUserProfile({
-			lang: 'zh_CN',
-			desc: '用于完善会员资料',
-			// 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
-			success: (result) => {
-				// 注册或者登陆
-				Taro.login({
-					success: (res) => {
-						// 发送 res.code 到后台换取 openId, sessionKey, unionId
-						const sysInfo = Taro.getStorageSync('sys_info');
-						let data = {
-							code: res.code,
-							iv: result.iv,
-							encryptedData: result.encryptedData,
-							systemInfo: JSON.stringify(sysInfo || {}),
-						};
-						handleCreateUser(data);
-					},
-					fail: (err) => {
-						console.log('--Tarologin--error', err);
-						isCreate.current = false;
-					},
+		Taro.login({
+			success: (res) => {
+				// 发送 res.code 到后台换取 openId, sessionKey, unionId
+				const sysInfo = Taro.getStorageSync('sys_info');
+				handleCreateUser({
+					code: res.code,
+					systemInfo: JSON.stringify(sysInfo || {}),
 				});
 			},
-			fail: (res) => {
-				console.log(res);
+			fail: (err) => {
+				console.log('--Tarologin--error', err);
 				isCreate.current = false;
+				Taro.showToast({
+					title: '微信登录失败，请重试或使用真实账号',
+					icon: 'none',
+					duration: 2500,
+				});
 			},
 		});
 	};
@@ -315,7 +307,7 @@ const MeIndex = () => {
 								className='loginBtn'
 								size='mini'
 								type='default'
-								onClick={getUserProfile}
+								onClick={handleWxLogin}
 							>
 								立即登录
 							</Button>
