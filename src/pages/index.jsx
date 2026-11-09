@@ -14,6 +14,7 @@ import {
 	doCheckin,
 } from '../services/global';
 import { fetchRandomSearch } from './search/service';
+import { isLoggedIn } from '../utils/auth';
 
 import PoetCard from '../components/PoetCard';
 import PoemSmallCard from '../components/PoemSmallCard';
@@ -41,6 +42,16 @@ const SolarDate = () => {
 			</Text>
 		</View>
 	);
+};
+
+// 洗牌：Fisher-Yates，避免 sort(random) 带偏
+const shuffle = (arr) => {
+	const a = [...arr];
+	for (let i = a.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[a[i], a[j]] = [a[j], a[i]];
+	}
+	return a;
 };
 
 const initCalendar = {
@@ -73,8 +84,7 @@ const HomePage = () => {
 
 	// 拉取用户仪表盘（签到统计 + 学习计划列表）
 	const loadDashboard = () => {
-		const user = Taro.getStorageSync('user') || {};
-		if (!user.token) {
+		if (!isLoggedIn()) {
 			setIsLogin(false);
 			setCheckinStats(null);
 			setPlans([]);
@@ -103,8 +113,8 @@ const HomePage = () => {
 					...(data.poets || []).map((item) => ({ ...item, _type: 'poet' })),
 					...(data.poems || []).map((item) => ({ ...item, _type: 'poem' })),
 					...(data.sentences || []).map((item) => ({ ...item, _type: 'sentence' })),
-				].sort(() => Math.random() - 0.5);
-				setRecommendList(list);
+				];
+				setRecommendList(shuffle(list));
 			})
 			.catch(() => {});
 	};

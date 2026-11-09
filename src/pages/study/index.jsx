@@ -10,6 +10,7 @@ import {
   createStudyPlanFromCollection,
 } from '../../services/study';
 import SwipeAction from './swipe-action';
+import { isLoggedIn } from '../../utils/auth';
 import './index.scss';
 
 export default function StudyPage() {
@@ -53,8 +54,10 @@ export default function StudyPage() {
   }, []);
 
   // 加载推荐计划
-  const loadRecommended = useCallback(async () => {
-    if (recommendedData) return; // 已加载过则跳过
+  const loadRecommended = useCallback(async (force = false) => {
+    // 未登录不发请求（该数据只用于“已背诵”角标，未登录默认空）
+    if (!isLoggedIn()) return;
+    if (recommendedData && !force) return; // 已加载过则跳过，下拉刷新传 force 强制刷新
     setRecommendedLoading(true);
     try {
       // 获取系统分组
@@ -133,8 +136,7 @@ export default function StudyPage() {
         Taro.stopPullDownRefresh();
       });
     } else {
-      setRecommendedData(null);
-      loadRecommended().then(() => {
+      loadRecommended(true).then(() => {
         Taro.stopPullDownRefresh();
       });
     }
@@ -218,8 +220,7 @@ export default function StudyPage() {
   // 从推荐合集创建计划
   const handleStartFromCollection = async (collection) => {
     // 检查登录状态
-    const user = Taro.getStorageSync('user');
-    if (!user || !user.token) {
+    if (!isLoggedIn()) {
       Taro.showModal({
         title: '提示',
         content: '请先登录后再创建背诵计划',

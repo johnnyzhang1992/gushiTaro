@@ -15,13 +15,19 @@ const QrcodeLogin = () => {
 	const [loginSuccess, setLoginSuccess] = useState(false);
 
 	useLoad((options) => {
-		console.log(options, 'load:options');
-		const sceneArr = decodeURIComponent(
-			options.scene || 'qrctoken%3D13d7ed6d8ab1bce3'
-		).split('=');
-		console.log(sceneArr, 'sceneArr');
+		// scene 缺失视为无效二维码
+		if (!options.scene) {
+			Taro.showToast({
+				title: '无效的登录二维码',
+				icon: 'none',
+			});
+			Taro.switchTab({
+				url: '/pages/index',
+			});
+			return;
+		}
+		const sceneArr = decodeURIComponent(options.scene).split('=');
 		setQrcodeToken(sceneArr[1]);
-		console.log('qrcodeToken', sceneArr[1]);
 		const wxToken = Taro.getStorageSync('wx_token');
 		if (wxToken) {
 			console.log('二维码状态更新上报：');
@@ -37,10 +43,6 @@ const QrcodeLogin = () => {
 
 	const handlePreLogin = () => {
 		const wxToken = Taro.getStorageSync('wx_token');
-		console.log({
-			qrcode_token: qrcodeToken,
-			wx_token: wxToken,
-		});
 		// 未登录弹窗提示
 		if (!wxToken) {
 			Taro.showModal({
@@ -66,11 +68,11 @@ const QrcodeLogin = () => {
 					}
 				},
 			});
+			return;
 		}
 		// 已登录
 		Taro.login({
 			success: (res) => {
-				console.log(res.code);
 				// 请求接口
 				handleLogin(res.code);
 			},
@@ -100,7 +102,6 @@ const QrcodeLogin = () => {
 				icon: 'none',
 			});
 		});
-		console.log(res, 'handleQRCodeLogin');
 		if (res && (res.status || res.statusCode == 200)) {
 			const { code, wx_token, token } = res.data || {}
 			const authToken = token || wx_token;

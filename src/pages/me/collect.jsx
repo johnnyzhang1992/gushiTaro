@@ -139,13 +139,12 @@ const CollectPage = () => {
 	// 请求序号：快速切换 tab 时丢弃过期响应，防止旧 tab 数据覆盖新 tab
 	const seqRef = useRef(0);
 
-	// 切换 TAB
+	// 切换 TAB（数据加载由 useEffect([currentTab]) 统一触发，避免双请求）
 	const handleTabChange = (tab) => {
 		if (tab === currentTab) return;
 		setCurrentTab(tab);
 		setList([]);
 		pagination.current = { page: 1, last_page: 2 };
-		loadData(tab, 1);
 	};
 
 	// 加载数据

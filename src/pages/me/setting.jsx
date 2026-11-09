@@ -111,8 +111,18 @@ const SettingPage = () => {
 					platform: 'wxapp'
 				}).then((_res) => {
 					if (_res && (_res.status || _res.statusCode === 200)) {
+						let cdn_url = '';
+						try {
+							cdn_url = JSON.parse(_res.data).cdn_url;
+						} catch (err) {
+							console.error('解析上传结果失败:', err);
+							Taro.showToast({
+								title: '头像上传失败，请重试',
+								icon: 'none',
+							});
+							return;
+						}
 						const user = Taro.getStorageSync('user');
-						const { cdn_url } = JSON.parse(_res.data);
 						Taro.setStorageSync('user', {
 							...user,
 							avatar: cdn_url,

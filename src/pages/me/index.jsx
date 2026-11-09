@@ -7,6 +7,7 @@ import SectionCard from '../../components/SectionCard';
 import CdnImage from '../../components/CdnImage';
 
 import { fetchUserProfile, createUser } from '../../services/global';
+import { isLoggedIn } from '../../utils/auth';
 
 import './style.scss';
 
@@ -46,9 +47,22 @@ const MeIndex = () => {
 
 	// 拉取用户完整资料（一次请求获取用户信息 + 学习统计 + 签到统计）
 	const loadUserProfile = (forceRefresh = false) => {
-		const user = Taro.getStorageSync('user');
-		const userId = user?.uid || user?.user_id;
-		if (!userId) return Promise.resolve();
+		// 未登录：跳过请求、重置为未登录 UI，不弹登录框
+		if (!isLoggedIn()) {
+			setInfo(initUser);
+			setScheduleStats({
+				total_poem: 0,
+				continue_days: 0,
+				total_days: 0,
+			});
+			setCheckinStats({
+				todayChecked: false,
+				checkinDays: 0,
+				checkinStreak: 0,
+				last7: [],
+			});
+			return Promise.resolve();
+		}
 
 		// 下拉刷新强制后端重算收藏数（避免命中 300s profile 缓存导致典故收藏数 0/4 抖动）
 		return fetchUserProfile('GET', forceRefresh ? { refresh: 1 } : {})
@@ -135,17 +149,13 @@ const MeIndex = () => {
 
 	const handleCreateUser = (data) => {
 		const preLoginPath = Taro.getStorageSync('preLoginPath');
-		console.log('[login] 请求参数:', JSON.stringify(data).substring(0, 100));
 		createUser('POST', data)
 			.then((res) => {
-				console.log('[login] API 返回:', JSON.stringify(res).substring(0, 200));
 				const apiData = res.data?.data || res.data;
-				console.log('[login] 解包后:', JSON.stringify(apiData).substring(0, 200));
 				if (apiData && apiData.uid) {
 					console.log('[login] ✅ 登录成功');
 					const token = apiData.token || apiData.wx_token;
 					const userData = { ...apiData, token };
-					console.log('[login] 存储数据:', JSON.stringify(userData).substring(0, 200));
 					Taro.setStorageSync('user', userData);
 					Taro.setStorageSync('wx_token', token);
 					console.log('[login] Storage 写入完成');
@@ -244,7 +254,6 @@ const MeIndex = () => {
 			Taro.removeStorageSync('user');
 			Taro.removeStorageSync('wx_token');
 		} else {
-			console.log('useDidShow user:', JSON.stringify(user).substring(0, 100));
 			// 只合并身份/展示字段，count 一律以 /home/profile 实时结果为准：
 			// 本地 user 快照可能带登录时的旧收藏数（如 allusion_count=0），整体覆盖会导致
 			// “从收藏页返回个人中心数字变 0”，下拉刷新才恢复
