@@ -66,14 +66,16 @@ const CollectionDetailPage = () => {
       .catch(() => {});
   };
 
-  // 检查是否已创建同名学习计划
+  // 检查是否已从该合集创建学习计划（按来源合集 id 判定，与学习页的判定方式一致）
   const checkStudyPlan = () => {
     if (!isLoggedIn() || !detail) return;
     Request('/api/study-plans', {}, 'GET')
       .then((res) => {
         if (res && res.status && res.data) {
           const plans = Array.isArray(res.data) ? res.data : res.data.list || [];
-          const existPlan = plans.find((p) => p.name === detail.collection_name);
+          const existPlan = plans.find(
+            (p) => p.source_type === 'collection' && p.source_collection_id === id
+          );
           setHasPlan(!!existPlan);
           setPlanId(existPlan ? existPlan.id || existPlan._id : null);
         }
@@ -98,7 +100,7 @@ const CollectionDetailPage = () => {
     }
 
     if (hasPlan) {
-      Taro.showToast({ title: '已创建同名背诵计划', icon: 'none' });
+      Taro.showToast({ title: '已创建该诗单的背诵计划', icon: 'none' });
       return;
     }
 
@@ -121,12 +123,20 @@ const CollectionDetailPage = () => {
             .then(async (res) => {
               if (res && res.status) {
                 const newPlanId = res.data?._id || res.data?.id || null;
-                if (newPlanId && poemIds.length > 0) {
-                  await addPoemsToStudyPlan('POST', { id: newPlanId, poem_ids: poemIds });
-                }
+                // 计划创建成功即更新本地状态，避免添加诗词失败后重试导致重复建计划
                 setHasPlan(true);
                 setPlanId(newPlanId);
-                Taro.showToast({ title: '创建成功', icon: 'success' });
+                if (newPlanId && poemIds.length > 0) {
+                  try {
+                    await addPoemsToStudyPlan('POST', { id: newPlanId, poem_ids: poemIds });
+                    Taro.showToast({ title: '创建成功', icon: 'success' });
+                  } catch (err) {
+                    console.error('导入诗词失败:', err);
+                    Taro.showToast({ title: '计划已创建，诗词导入失败，可稍后重试', icon: 'none' });
+                  }
+                } else {
+                  Taro.showToast({ title: '创建成功', icon: 'success' });
+                }
               } else {
                 Taro.showToast({ title: res?.msg || res?.errmsg || '创建失败', icon: 'none' });
               }

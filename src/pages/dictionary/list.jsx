@@ -49,6 +49,9 @@ const DictionaryList = () => {
 				setTotal(data.total || 0);
 				setPage(p);
 			})
+			.catch((err) => {
+				console.error('fetchDictionarySearch error:', err);
+			})
 			.finally(() => setLoading(false));
 	};
 

@@ -85,7 +85,7 @@ const SentenceDetail = () => {
 	const [historyList, setHList] = useState([]);
 
 	const fetchDetail = (id) => {
-		const sId = id || catchRef.id;
+		const sId = id || catchRef.current.id;
 		fetchSentenceDetail('GET', {
 			id: sId,
 		}).then((res) => {
@@ -194,9 +194,20 @@ const SentenceDetail = () => {
 		const { id, scene } = options || {};
 		let sentenceId = id;
 		if (scene) {
-			sentenceId = decodeURIComponent(options.scene).split('=')[1];
+			// scene（分享进入）无值时兜底回 id，仍无值按无效处理
+			sentenceId = decodeURIComponent(options.scene).split('=')[1] || id;
 		}
 		catchRef.current = { ...options, id: sentenceId };
+		if (!sentenceId) {
+			Taro.showToast({
+				title: '内容不存在或已下架',
+				icon: 'none',
+			});
+			Taro.switchTab({
+				url: '/pages/index',
+			});
+			return;
+		}
 		fetchDetail(sentenceId);
 		setHList([...Taro.getCurrentPages()]);
 	});

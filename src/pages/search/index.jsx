@@ -35,6 +35,21 @@ const initResult = {
 };
 
 const limitMax = 5;
+
+// 热词项：定义在模块顶层，点击事件由父组件通过 onSelect 传入，避免每次渲染重建组件
+const HotKeyItem = ({ word, onSelect }) => {
+	const handleClick = () => {
+		onSelect(word);
+	};
+	return (
+		<View className='hotKeys' onClick={handleClick}>
+			<Text className='keyText' userSelect>
+				{word}
+			</Text>
+		</View>
+	);
+};
+
 const SearchPage = () => {
 	// const [scrollHeight, updateHeight] = useState('auto');
 	const [type, setType] = useState('诗词');
@@ -88,6 +103,7 @@ const SearchPage = () => {
 				icon: 'none',
 				duration: 2000,
 			});
+			return false;
 		}
 		// 处理过的搜索词
 		const KeyWord = searchKey.trim().substring(0, 9);
@@ -176,6 +192,7 @@ const SearchPage = () => {
 		const tipStatus = Taro.getStorageSync('showSearchTips');
 		if (!tipStatus) {
 			Taro.setStorageSync('showSearchTips', 'show');
+			tipsVisible(true);
 		} else {
 			tipsVisible(tipStatus !== 'close');
 		}
@@ -206,18 +223,9 @@ const SearchPage = () => {
 		};
 	});
 
-	const HotKeyItem = ({ word }) => {
-		const handleClick = () => {
-			setKeyword(word);
-			handleSearch(word);
-		};
-		return (
-			<View className='hotKeys' onClick={handleClick}>
-				<Text className='keyText' userSelect>
-					{word}
-				</Text>
-			</View>
-		);
+	const handleHotKeyClick = (word) => {
+		setKeyword(word);
+		handleSearch(word);
 	};
 
 	const noSearchResult =
@@ -310,7 +318,7 @@ const SearchPage = () => {
 								}}
 							>
 								{hotKeywords.map((word, index) => (
-									<HotKeyItem key={index} word={word} index={index + 1} />
+									<HotKeyItem key={index} word={word} index={index + 1} onSelect={handleHotKeyClick} />
 								))}
 							</SectionCard>
 						) : null}
@@ -326,27 +334,27 @@ const SearchPage = () => {
 									</Text>
 								}
 							>
-								<View class='searchKeyList'>
-									<View class='item'>
+								<View className='searchKeyList'>
+									<View className='item'>
 										<Text userSelect decode>
 											1.关键词尽量简洁，不要整句搜索，也不要包含特殊字符（例如：，。《》以及空格等）
 										</Text>
 									</View>
-									<view class='item'>
+									<View className='item'>
 										<Text userSelect decode>
 											2.如果长的搜索词查询不到结果，可以尝试缩短搜索词，再次尝试。
 										</Text>
-									</view>
-									<view class='item'>
+									</View>
+									<View className='item'>
 										<Text userSelect decode>
 											3.搜索热词，指的是7日内，搜索量最多的词语
 										</Text>
-									</view>
-									<view class='item'>
+									</View>
+									<View className='item'>
 										<Text userSelect decode>
 											4.搜索记录，数据保存在用户本地
 										</Text>
-									</view>
+									</View>
 								</View>
 							</SectionCard>
 						) : null}

@@ -21,6 +21,8 @@ import './style.scss';
 
 const SentencePage = () => {
 	const { setTitle } = useNavigationBar({ title: '古诗文小助手' });
+	// 输入框本地状态，确认搜索时才写入 fetchParams，避免每击键触发一次请求
+	const [inputText, setInputText] = useState('');
 	const [fetchParams, updateParams] = useState({
 		theme: '全部',
 		type: '全部',
@@ -77,6 +79,12 @@ const SentencePage = () => {
 	// 类型列表跟随主题：未选主题时仅「全部」
 	const typeOptions = ['全部', ...(fetchParams.theme !== '全部' ? categoryMap[fetchParams.theme] || [] : [])];
 
+	// 提交搜索：确认/按钮时才写入 fetchParams.keyWord，避免每击键触发一次请求
+	const submitSearch = () => {
+		updateParams((pre) => ({ ...pre, keyWord: inputText.trim(), inited: true }));
+		updatePagination({ page: 1 });
+	};
+
 	console.log(data, error, loading);
 	useLoad((options) => {
 		const {
@@ -89,6 +97,7 @@ const SentencePage = () => {
 		} = options;
 		console.log('options', options);
 		cacheObj.current = { ...options, count: 0 };
+		setInputText(keyWord && keyWord !== 'undefined' ? keyWord : '');
 		updateParams((pre) => {
 			return {
 				...pre,
@@ -174,25 +183,20 @@ const SentencePage = () => {
 						className='searchInput'
 						placeholder='搜索名句内容/作者'
 						placeholderClass='searchPlaceholder'
-						value={fetchParams.keyWord || ''}
-						onInput={(e) => {
-							const val = e.detail.value;
-							updateParams((pre) => ({ ...pre, keyWord: val, inited: true }));
-						}}
-						onConfirm={() => {
-							updatePagination({ page: 1 });
-						}}
+						value={inputText}
+						onInput={(e) => setInputText(e.detail.value)}
+						onConfirm={submitSearch}
 					/>
-					{fetchParams.keyWord ? (
-						<View className='searchClear' onClick={() => updateParams((pre) => ({ ...pre, keyWord: '' }))}>
+					{inputText ? (
+						<View className='searchClear' onClick={() => {
+							setInputText('');
+							updateParams((pre) => ({ ...pre, keyWord: '' }));
+						}}>
 							<Text className='searchClearIcon'>×</Text>
 						</View>
 					) : null}
 				</View>
-				<View className='searchBtn' onClick={() => {
-						updateParams((pre) => ({ ...pre, inited: true }));
-						updatePagination({ page: 1 });
-					}}>
+				<View className='searchBtn' onClick={submitSearch}>
 					<Text className='searchBtnText'>搜索</Text>
 				</View>
 			</View>

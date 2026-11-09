@@ -31,6 +31,8 @@ const PoetPage = () => {
 			if (list && list.length > 0) setDynastyOptions(list);
 		});
 	}, []);
+	// 输入框本地状态，确认搜索时才写入 fetchParams，避免每击键触发一次请求
+	const [inputText, setInputText] = useState('');
 	const [fetchParams, updateParams] = useState({
 		dynasty: '全部',
 		from: 'home',
@@ -68,6 +70,12 @@ const PoetPage = () => {
 		});
 	};
 
+	// 提交搜索：确认/按钮时才写入 fetchParams.keyWord，避免每击键触发一次请求
+	const submitSearch = () => {
+		updateParams((pre) => ({ ...pre, keyWord: inputText.trim(), inited: true }));
+		updatePagination({ page: 1 });
+	};
+
 	useEffect(() => {
 		updatePagination((pre) => {
 			return {
@@ -80,6 +88,7 @@ const PoetPage = () => {
 	useLoad((options) => {
 		console.log(options);
 		const { keyWord } = options;
+		setInputText(keyWord && keyWord !== 'undefined' ? keyWord : '');
 		if (keyWord && keyWord !== 'undefined') {
 			updateParams((pre) => ({
 				...pre,
@@ -134,25 +143,20 @@ const PoetPage = () => {
 						className='searchInput'
 						placeholder='搜索诗人名字'
 						placeholderClass='searchPlaceholder'
-						value={fetchParams.keyWord || ''}
-						onInput={(e) => {
-							const val = e.detail.value;
-							updateParams((pre) => ({ ...pre, keyWord: val, inited: true }));
-						}}
-						onConfirm={() => {
-							updatePagination({ page: 1 });
-						}}
+						value={inputText}
+						onInput={(e) => setInputText(e.detail.value)}
+						onConfirm={submitSearch}
 					/>
-					{fetchParams.keyWord ? (
-						<View className='searchClear' onClick={() => updateParam({ keyWord: '' })}>
+					{inputText ? (
+						<View className='searchClear' onClick={() => {
+							setInputText('');
+							updateParam({ keyWord: '' });
+						}}>
 							<Text className='searchClearIcon'>×</Text>
 						</View>
 					) : null}
 				</View>
-				<View className='searchBtn' onClick={() => {
-						updateParams((pre) => ({ ...pre, inited: true }));
-						updatePagination({ page: 1 });
-					}}>
+				<View className='searchBtn' onClick={submitSearch}>
 					<Text className='searchBtnText'>搜索</Text>
 				</View>
 			</View>

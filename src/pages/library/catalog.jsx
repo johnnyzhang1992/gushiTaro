@@ -49,7 +49,9 @@ const CatalogPage = () => {
 	});
 
 	usePullDownRefresh(() => {
-		fetchDetail(pageOptions.catalog_id);
+		fetchDetail(pageOptions.catalog_id).finally(() => {
+			Taro.stopPullDownRefresh();
+		});
 	});
 
 	const computeParams = () => {

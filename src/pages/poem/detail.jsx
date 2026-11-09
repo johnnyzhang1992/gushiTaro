@@ -51,7 +51,7 @@ const PoemDetail = () => {
 	});
 	// const [pinyin, updatePinyin] = useState({ title: '', xu: '', content: [] });
 	const cacheRef = useRef({
-		poemId: 48769,
+		poemId: undefined,
 	});
 
 	// 处理返回的数据， 特别是json 的解析
@@ -129,6 +129,7 @@ const PoemDetail = () => {
 			Taro.switchTab({
 				url: '/pages/index',
 			});
+			return;
 		}
 		fetchDetail(poemId);
 		setOptions((pre) => ({
@@ -148,7 +149,7 @@ const PoemDetail = () => {
 		const { poem } = detail;
 		return {
 			title: poem.title || '诗文详情',
-			path: '/pages/poem/detail?id=' + poem.id,
+			path: poem.id ? '/pages/poem/detail?id=' + poem.id : '/pages/poem/detail',
 		};
 	});
 
@@ -156,7 +157,7 @@ const PoemDetail = () => {
 		const { poem } = detail;
 		return {
 			title: poem.title || '诗文详情',
-			path: '/pages/poem/detail?id=' + poem.id,
+			path: poem.id ? '/pages/poem/detail?id=' + poem.id : '/pages/poem/detail',
 		};
 	});
 
