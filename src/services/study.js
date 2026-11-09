@@ -52,9 +52,14 @@ export const fetchDueToday = (method = 'GET', data) => {
   return Request('/api/study-plans/due-today', data, method);
 };
 
+// 获取计划统计（fetchStudyStats 共用同一私有实现）
+const fetchStats = (method = 'GET', data) => {
+  return Request('/api/study-plans/stats', data, method);
+};
+
 // 获取计划统计
 export const fetchStudyPlanStats = (method = 'GET', data) => {
-  return Request('/api/study-plans/stats', data, method);
+  return fetchStats(method, data);
 };
 
 // ======== 搜索诗词 ========
@@ -66,24 +71,17 @@ export const searchPoems = (method = 'GET', data) => {
 
 // ======== 推荐计划（诗单/诗单） ========
 
-// 获取诗单分组列表
-export const fetchCollectionGroups = (method = 'GET', data) => {
-  return Request('/api/collection-groups', data, method);
-};
-
-// 获取分组下的诗单列表
-export const fetchCollections = (method = 'GET', data) => {
-  return Request('/api/collections', data, method);
-};
+// 诗单分组/诗单列表与 services/global.js 完全相同，复用导出（导出名不变，调用方零感知）
+export { fetchCollectionGroups, fetchCollections } from './global';
 
 // 从诗单创建学习计划
 export const createStudyPlanFromCollection = (method = 'POST', data) => {
   return Request('/api/study-plans', data, method);
 };
 
-// 学习统计：概览（总数/完成率/阶段分布）
+// 学习统计：概览（总数/完成率/阶段分布），与 fetchStudyPlanStats 同接口
 export const fetchStudyStats = (method = 'GET', data) => {
-  return Request('/api/study-plans/stats', data, method);
+  return fetchStats(method, data);
 };
 
 // 学习统计：日历（按天学习数 / 待复习数），month=YYYY-MM, offset=本地时区分钟
