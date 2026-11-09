@@ -18,21 +18,22 @@ const AllusionContainer = (props) => {
     last_page: 2,
   });
   const refreshFlag = useRef(false);
+  const reqIdRef = useRef(0);
 
   const reachBottom = () => {
     console.log('--rearchBottom');
     const { page, last_page } = pagination.current;
     if (page < last_page) {
-      pagination.current.page = page + 1;
+      Taro.nextTick(() => {
+        fetchList(page + 1);
+      });
     }
-    Taro.nextTick(() => {
-      fetchList();
-    });
   };
 
-  const fetchList = () => {
+  const fetchList = (nextPage) => {
     if (refreshFlag.current) return;
-    const { page, last_page: lastPage } = pagination.current;
+    const { last_page: lastPage } = pagination.current;
+    const page = nextPage || pagination.current.page;
     if (page > lastPage) return;
 
     refreshFlag.current = true;
@@ -41,8 +42,10 @@ const AllusionContainer = (props) => {
 
     const reqData = { page, size: 20 }
     if (searchRef.current) reqData['keyword'] = searchRef.current
+    const seq = ++reqIdRef.current;
     Request('/api/allusions', reqData, 'GET')
       .then((res) => {
+        if (seq !== reqIdRef.current) return;
         if (res && res.status && res.data) {
           const apiData = res.data;
           const { list = [], current_page, last_page, total } = apiData;
@@ -52,17 +55,21 @@ const AllusionContainer = (props) => {
             last_page,
             total,
           };
-          setList(page === 1 ? list : [...allusionList, ...list]);
+          // 函数式更新，避免闭包里的旧列表丢数据
+          setList((pre) => (page === 1 ? list : [...pre, ...list]));
         } else {
           setError('加载失败');
         }
       })
       .catch(() => {
+        if (seq !== reqIdRef.current) return;
         setError('加载失败');
       })
       .finally(() => {
-        refreshFlag.current = false;
-        setLoading(false);
+        if (seq === reqIdRef.current) {
+          refreshFlag.current = false;
+          setLoading(false);
+        }
       });
   };
 

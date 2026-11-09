@@ -37,12 +37,12 @@ const PoemContainer = (props) => {
 		last_page: 2,
 	});
 	const refreshFlag = useRef(false);
+	const reqIdRef = useRef(0);
 	const paramsRef = useRef(props.params || {});
 	const [poemList, setList] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [loaded, setLoaded] = useState(false);
 	const [error, setError] = useState('');
-	const [scrollHeight, updateHeight] = useState('auto');
 	const [activeDynasty, setDynasty] = useState('全部');
 	const [dynastyList, setDynastyList] = useState(DynastyArr);
 
@@ -50,11 +50,10 @@ const PoemContainer = (props) => {
 		console.log('--rearchBottom');
 		const { page, last_page } = pagination.current;
 		if (page < last_page) {
-			pagination.current.page = page + 1;
+			Taro.nextTick(() => {
+				fetchList(page + 1);
+			});
 		}
-		Taro.nextTick(() => {
-			fetchList();
-		});
 	};
 
 	const computeParams = (options) => {
@@ -84,11 +83,12 @@ const PoemContainer = (props) => {
 		return params;
 	};
 
-	const fetchList = () => {
+	const fetchList = (nextPage) => {
 		if (refreshFlag.current) {
 			return false;
 		}
-		const { page, last_page: lastPage } = pagination.current;
+		const { last_page: lastPage } = pagination.current;
+		const page = nextPage || pagination.current.page;
 		if (page >= lastPage) {
 			return false;
 		}
@@ -97,8 +97,10 @@ const PoemContainer = (props) => {
 		setError('');
 		const params = computeParams(paramsRef.current);
 		console.log(props.params, pagination.current);
+		const seq = ++reqIdRef.current;
 		fetchPoemData('GET', { ...params, page, size: pagination.current.size })
 			.then((res) => {
+				if (seq !== reqIdRef.current) return;
 				const apiData = res.data?.data || res.data;
 				if ((res.status || res.statusCode == 200) && apiData) {
 					const { list = [], current_page, last_page, total } = apiData;
@@ -118,11 +120,14 @@ const PoemContainer = (props) => {
 				refreshFlag.current = false;
 			})
 			.catch((err) => {
+				if (seq !== reqIdRef.current) return;
 				setError((err && (err.errmsg || err.errMsg)) || '加载失败，请稍后重试');
 				refreshFlag.current = false;
 			})
 			.finally(() => {
-				setLoading(false);
+				if (seq === reqIdRef.current) {
+					setLoading(false);
+				}
 			});
 	};
 
@@ -133,6 +138,14 @@ const PoemContainer = (props) => {
 			dynasty: next,
 		};
 		setDynasty(next);
+		// 切换筛选：重置分页、清空列表后重新请求
+		setList([]);
+		pagination.current = {
+			...pagination.current,
+			page: 1,
+			last_page: 2,
+		};
+		refreshFlag.current = false;
 		fetchList();
 	};
 
@@ -151,15 +164,8 @@ const PoemContainer = (props) => {
 		console.log(props.params, 'params');
 	}, [props.params, props.keyWord]);
 
-	// 获取容器高度，用于 ScrollView 滚动
+	// 从后端拉取朝代列表并缓存
 	useEffect(() => {
-		Taro.createSelectorQuery()
-			.select('#poemScrollContainer')
-			.fields({ size: true }, (rect) => {
-				if (rect) updateHeight(rect.height || 500);
-			})
-			.exec();
-		// 从后端拉取朝代列表并缓存
 		getDynastyOptions().then((list) => {
 			if (list && list.length > 0) setDynastyList(list);
 		});

@@ -6,7 +6,7 @@ import Taro, {
 	useShareAppMessage,
 	useShareTimeline,
 } from '@tarojs/taro';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 import { fetchFeihuaSentences } from './feihua.service';
 
@@ -44,9 +44,12 @@ const FeihuaDetailPage = () => {
 	const [sort, setSort] = useState('pvCount');
 	const [loading, setLoading] = useState(false);
 	const [loaded, setLoaded] = useState(false);
+	// 请求序号：强制刷新（如切排序）后丢弃仍在飞的旧请求响应
+	const seqRef = useRef(0);
 
-	const loadData = (p, s) => {
-		if (loading) return;
+	const loadData = (p, s, force = false) => {
+		if (loading && !force) return;
+		const seq = ++seqRef.current;
 		setLoading(true);
 		fetchFeihuaSentences('GET', {
 			char,
@@ -55,6 +58,7 @@ const FeihuaDetailPage = () => {
 			sort: s,
 		})
 			.then((res) => {
+				if (seq !== seqRef.current) return; // 已有更新的请求，丢弃过期响应
 				if (res && res.status && res.data) {
 					const newList = res.data.list || [];
 					// page > 1 时追加数据，否则覆盖
@@ -66,8 +70,10 @@ const FeihuaDetailPage = () => {
 			})
 			.catch(() => {})
 			.finally(() => {
-				setLoading(false);
-				setLoaded(true);
+				if (seq === seqRef.current) {
+					setLoading(false);
+					setLoaded(true);
+				}
 			});
 	};
 
@@ -86,11 +92,11 @@ const FeihuaDetailPage = () => {
 		path: `/pages/find/feihua-detail?char=${encodeURIComponent(char)}`,
 	}));
 
-	// 切换排序
+	// 切换排序：force 绕过 loading 早退，带新排序参数回到第 1 页
 	const changeSort = (s) => {
 		if (s === sort) return;
 		setSort(s);
-		loadData(1, s);
+		loadData(1, s, true);
 	};
 
 	// 触底加载更多

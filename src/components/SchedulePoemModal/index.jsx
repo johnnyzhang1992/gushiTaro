@@ -108,19 +108,20 @@ const SchedulePoemModal = ({
 	const [keyWord, setKeyword] = useState(undefined);
 	const paginationRef = useRef({ ...initPagination });
 	const isFetching = useRef(false);
+	const querySeqRef = useRef(0);
 
-	const queryList = async (_page) => {
-		const { page, size } = paginationRef.current;
-		const Page = _page || page;
+	// _keyword 可显式传入，避免闭包读到旧的 keyWord 状态
+	const queryList = async (_page, _keyword) => {
+		const { size } = paginationRef.current;
+		const Page = _page || paginationRef.current.page;
+		const Keyword = _keyword !== undefined ? _keyword : keyWord;
 		if (Page > paginationRef.current.last_page) {
 			return false;
 		}
-		if (isFetching.current) {
-			return false;
-		}
+		const seq = ++querySeqRef.current;
 		isFetching.current = true;
 		const res = await fetchPoemData('GET', {
-			keyWord,
+			keyWord: Keyword,
 			page: Page,
 			size,
 			noCache: 1,
@@ -131,21 +132,22 @@ const SchedulePoemModal = ({
 				console.log(err);
 			})
 			.finally(() => {
-				isFetching.current = false;
+				if (seq === querySeqRef.current) {
+					isFetching.current = false;
+				}
 			});
-		if (res && res.status) {
+		if (res && res.status && seq === querySeqRef.current) {
 			const { list = [], current_page, last_page, total } = res.data || {};
 			list.forEach((poem) => {
 				poem.content = String(poem.content).split(/[。？！]/)[0] + '。';
 			});
-			const List = Page > 1 ? [...poemList, ...list] : list;
 			paginationRef.current = {
 				...paginationRef.current,
 				page: current_page,
 				last_page,
 				total,
 			};
-			setPoemList(List);
+			setPoemList((pre) => (Page > 1 ? [...pre, ...list] : list));
 		}
 	};
 
@@ -161,18 +163,26 @@ const SchedulePoemModal = ({
 		setShowModal(false);
 	};
 
+	// 触发搜索：重置分页到第 1 页、清空列表后重新请求；允许空关键词恢复全量
+	const runSearch = (Keyword) => {
+		paginationRef.current = {
+			...initPagination,
+		};
+		setPoemList([]);
+		queryList(1, Keyword);
+	};
+
 	const handleSearch = () => {
-		if (keyWord && !isFetching.current) {
-			queryList();
-		}
+		runSearch((keyWord || '').trim());
 	};
 
 	const handleChange = (val) => {
-		console.log('搜索词变化：', val);
-		if (keyWord === val.trim()) {
+		const Keyword = (val || '').trim();
+		if (keyWord === Keyword) {
 			return false;
 		}
-		setKeyword(val.trim());
+		setKeyword(Keyword);
+		runSearch(Keyword);
 	};
 
 	const handleClear = () => {
@@ -199,6 +209,15 @@ const SchedulePoemModal = ({
 
 	useEffect(() => {
 		setShowModal(show);
+		// 弹层重开时重置搜索词、列表和分页并拉取首屏
+		if (show) {
+			setKeyword(undefined);
+			setPoemList([]);
+			paginationRef.current = {
+				...initPagination,
+			};
+			queryList(1, '');
+		}
 	}, [show]);
 
 	return (

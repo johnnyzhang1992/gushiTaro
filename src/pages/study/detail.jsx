@@ -33,6 +33,8 @@ export default function StudyDetailPage() {
   const [searchPage, setSearchPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
+  // 搜索请求序号：快速改关键词/翻页时丢弃过期响应
+  const searchSeqRef = useRef(0);
 
   // 学习相关
   const [showStudyModal, setShowStudyModal] = useState(false);
@@ -44,6 +46,8 @@ export default function StudyDetailPage() {
   const [poemLoading, setPoemLoading] = useState(false);
   // random 挖空模式的随机位置缓存（key: 行号），避免重渲染时挖空位置漂移
   const randomIndexRef = useRef({});
+  // 复习提交防重：请求期间忽略重复点击
+  const submittingReviewRef = useRef(false);
   
   // 挖字模式: show | hide | first | last | random
   const [hiddenMode, setHiddenMode] = useState('hide');
@@ -93,6 +97,7 @@ export default function StudyDetailPage() {
   // 搜索诗词
   const handleSearch = async (isLoadMore = false) => {
     if (!searchKeyword.trim()) return;
+    const seq = ++searchSeqRef.current;
     if (isLoadMore) {
       setLoadingMore(true);
     } else {
@@ -104,6 +109,7 @@ export default function StudyDetailPage() {
       const page = isLoadMore ? searchPage + 1 : 1;
       const res = await searchPoems('GET', { keyWord: searchKeyword, page, size: 20 });
       console.log('搜索结果:', res);
+      if (seq !== searchSeqRef.current) return; // 已有更新的搜索，丢弃过期响应
       if (res && res.status && res.data) {
         const list = res.data.list || [];
         setSearchResults(prev => isLoadMore ? [...prev, ...list] : list);
@@ -115,8 +121,10 @@ export default function StudyDetailPage() {
     } catch (err) {
       console.error('搜索失败:', err);
     } finally {
-      setSearching(false);
-      setLoadingMore(false);
+      if (seq === searchSeqRef.current) {
+        setSearching(false);
+        setLoadingMore(false);
+      }
     }
   };
 
@@ -363,6 +371,8 @@ export default function StudyDetailPage() {
   // 提交复习结果
   const handleSubmitReview = async (result) => {
     const currentItem = studyItems[currentStudyIndex];
+    if (!currentItem || submittingReviewRef.current) return;
+    submittingReviewRef.current = true;
     try {
       // 使用学习条目的 _id，而不是诗词的 poem_id
       const res = await submitReview('POST', {
@@ -394,6 +404,8 @@ export default function StudyDetailPage() {
     } catch (err) {
       console.error('提交复习失败:', err);
       Taro.showToast({ title: '提交失败', icon: 'none' });
+    } finally {
+      submittingReviewRef.current = false;
     }
   };
 

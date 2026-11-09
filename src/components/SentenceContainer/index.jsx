@@ -18,22 +18,21 @@ const SentenceContainer = (props) => {
 		last_page: 2,
 	});
 	const refreshFlag = useRef(false);
+	const reqIdRef = useRef(0);
 	const paramsRef = useRef(props.params || {});
 	const [sentenceList, setList] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [loaded, setLoaded] = useState(false);
 	const [error, setError] = useState('');
-	const [scrollHeight, updateHeight] = useState('auto');
 
 	const reachBottom = () => {
 		console.log('--rearchBottom');
 		const { page, last_page } = pagination.current;
 		if (page < last_page) {
-			pagination.current.page = page + 1;
+			Taro.nextTick(() => {
+				fetchList(page + 1);
+			});
 		}
-		Taro.nextTick(() => {
-			fetchList();
-		});
 	};
 
 	const computeParams = (options) => {
@@ -58,11 +57,12 @@ const SentenceContainer = (props) => {
 		return params;
 	};
 
-	const fetchList = () => {
+	const fetchList = (nextPage) => {
 		if (refreshFlag.current) {
 			return false;
 		}
-		const { page, last_page: lastPage } = pagination.current;
+		const { last_page: lastPage } = pagination.current;
+		const page = nextPage || pagination.current.page;
 		if (page >= lastPage) {
 			return false;
 		}
@@ -70,8 +70,10 @@ const SentenceContainer = (props) => {
 		setLoading(page === 1);
 		setError('');
 		const params = computeParams(paramsRef.current);
+		const seq = ++reqIdRef.current;
 			fetchSentenceData('GET', { ...params, page, size: pagination.current.size })
 			.then((res) => {
+				if (seq !== reqIdRef.current) return;
 				const apiData = res.data?.data || res.data;
 				if ((res.status || res.statusCode == 200) && apiData) {
 					const { list = [], current_page, last_page, total } = apiData;
@@ -91,11 +93,14 @@ const SentenceContainer = (props) => {
 				refreshFlag.current = false;
 			})
 			.catch((err) => {
+				if (seq !== reqIdRef.current) return;
 				setError((err && (err.errmsg || err.errMsg)) || '加载失败，请稍后重试');
 				refreshFlag.current = false;
 			})
 			.finally(() => {
-				setLoading(false);
+				if (seq === reqIdRef.current) {
+					setLoading(false);
+				}
 			});
 	};
 
@@ -117,23 +122,6 @@ const SentenceContainer = (props) => {
 		fetchList();
 		console.log('SentenceContainer params:', paramsRef.current);
 	}, [props.params, props.keyWord, props.theme, props.type, props.source_type]);
-
-	useEffect(() => {
-		Taro.createSelectorQuery()
-			.select('#sentenceScrollContainer')
-			.fields(
-				{
-					dataset: true,
-					size: true,
-					scrollOffset: true,
-					properties: ['scrollX', 'scrollY'],
-				},
-				function (res) {
-					updateHeight(res.height || 500);
-				}
-			)
-			.exec();
-	}, []);
 
 	return (
 		<View className='sentenceContainer' id='sentenceScrollContainer'>

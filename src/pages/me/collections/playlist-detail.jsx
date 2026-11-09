@@ -38,6 +38,8 @@ const PlaylistDetail = () => {
 	const [searchPage, setSearchPage] = useState(1);
 	const [hasMore, setHasMore] = useState(true);
 	const [loadingMore, setLoadingMore] = useState(false);
+	// 搜索请求序号：快速改关键词/翻页时丢弃过期响应
+	const searchSeqRef = useRef(0);
 
 	useLoad((options) => {
 		idRef.current = options.id;
@@ -104,6 +106,7 @@ const PlaylistDetail = () => {
 	// 搜索诗词
 	const handleSearch = async (isLoadMore = false) => {
 		if (!searchKeyword.trim()) return;
+		const seq = ++searchSeqRef.current;
 		if (isLoadMore) {
 			setLoadingMore(true);
 		} else {
@@ -114,6 +117,7 @@ const PlaylistDetail = () => {
 		try {
 			const page = isLoadMore ? searchPage + 1 : 1;
 			const res = await Request('/api/poems', { keyWord: searchKeyword, page, size: 20 }, 'GET');
+			if (seq !== searchSeqRef.current) return; // 已有更新的搜索，丢弃过期响应
 			if (res && res.status && res.data) {
 				const list = res.data.list || [];
 				setSearchResults(prev => isLoadMore ? [...prev, ...list] : list);
@@ -125,8 +129,10 @@ const PlaylistDetail = () => {
 		} catch (err) {
 			console.error('搜索失败:', err);
 		} finally {
-			setSearching(false);
-			setLoadingMore(false);
+			if (seq === searchSeqRef.current) {
+				setSearching(false);
+				setLoadingMore(false);
+			}
 		}
 	};
 

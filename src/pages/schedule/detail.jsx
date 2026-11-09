@@ -62,10 +62,10 @@ const ScheduleDetail = () => {
 			Taro.setNavigationBarTitle({
 				title: detail.name,
 			});
-			setDetail({
+			setDetail((pre) => ({
 				...res.data,
-				list: page > 1 ? [...scheduleDetail.list] : list,
-			});
+				list: page > 1 ? [...pre.list, ...list] : list,
+			}));
 			paginationRef.current = {
 				...paginationRef.current,
 				page,
@@ -147,10 +147,13 @@ const ScheduleDetail = () => {
 			});
 			setDetail({
 				...scheduleDetail,
-				lisy: temList,
+				list: temList,
 				detail: {
 					...detail,
-					precent: Math.floor((studyTotal - 1 / poem_count) * 100),
+					precent:
+						poem_count > 0
+							? Math.floor(((studyTotal - 1) / poem_count) * 100)
+							: 0,
 				},
 			});
 			paginationRef.current = {
@@ -172,12 +175,11 @@ const ScheduleDetail = () => {
 	};
 
 	usePullDownRefresh(() => {
-		fetchDetail();
 		paginationRef.current = {
+			...paginationRef.current,
 			page: 1,
-			size: 15,
-			total: 0,
 		};
+		fetchDetail();
 		Taro.stopPullDownRefresh();
 	});
 

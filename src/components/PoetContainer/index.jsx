@@ -36,6 +36,7 @@ const PoetContainer = (props) => {
 	const dynastyRef = useRef('全部');
 	const searchRef = useRef(props.keyWord || '');
 	const refreshFlag = useRef(false);
+	const reqIdRef = useRef(0);
 	const [poetList, setList] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState('');
@@ -44,12 +45,11 @@ const PoetContainer = (props) => {
 	const reachBottom = () => {
 		console.log('--rearchBottom');
 		const { page, last_page } = pagination.current;
-		if (page <= last_page) {
-			pagination.current.page = page + 1;
+		if (page < last_page) {
+			Taro.nextTick(() => {
+				fetchList(page + 1);
+			});
 		}
-		Taro.nextTick(() => {
-			fetchList();
-		});
 	};
 
 	const handleClick = (dynasty) => {
@@ -60,15 +60,17 @@ const PoetContainer = (props) => {
 			page: 1,
 			last_page: 2,
 		};
+		refreshFlag.current = false;
 		fetchList();
 	};
 
-	const fetchList = () => {
+	const fetchList = (nextPage) => {
 		if (refreshFlag.current) {
 			return false;
 		}
 		const dynasty = dynastyRef.current;
-		const { page, last_page: lastPage } = pagination.current;
+		const { last_page: lastPage } = pagination.current;
+		const page = nextPage || pagination.current.page;
 		const params = {
 			page,
 			size: pagination.current.size,
@@ -84,8 +86,10 @@ const PoetContainer = (props) => {
 		refreshFlag.current = true;
 		setLoading(page === 1);
 		setError('');
+		const seq = ++reqIdRef.current;
 		fetchPoetData('GET', params)
 			.then((res) => {
+				if (seq !== reqIdRef.current) return;
 				const apiData = res.data?.data || res.data;
 				if ((res.status || res.statusCode == 200) && apiData) {
 					const { list = [], current_page, last_page, total } = apiData;
@@ -95,18 +99,22 @@ const PoetContainer = (props) => {
 						last_page,
 						total,
 					};
-					setList(page === 1 ? list : [...poetList, ...list]);
+					// 函数式更新，避免闭包里的旧列表丢数据
+					setList((pre) => (page === 1 ? list : [...pre, ...list]));
 				} else {
 					setError('列表加载失败');
 				}
 				refreshFlag.current = false;
 			})
 			.catch((err) => {
-				setError(err);
+				if (seq !== reqIdRef.current) return;
+				setError(err?.errmsg || err?.errMsg || '加载失败');
 				refreshFlag.current = false;
 			})
 			.finally(() => {
-				setLoading(false);
+				if (seq === reqIdRef.current) {
+					setLoading(false);
+				}
 			});
 	};
 
