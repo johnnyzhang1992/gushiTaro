@@ -1,6 +1,6 @@
 import Taro from '@tarojs/taro';
 
-import { BaseUrl, WxAppVersion, isDevEnv } from '../const/config';
+import { BaseUrl, isDevEnv } from '../const/config';
 import { ensureLoginReady } from '../utils/login';
 
 // 生产环境静默日志
@@ -52,10 +52,11 @@ const request = (url, params, method = 'GET') => {
 							confirmText: '去登录',
 							success: function (_res) {
 								if (_res.confirm) {
-									Taro.setStorageSync(
-										'preLoginPath',
-										pages[pages.length - 1]['$taroPath']
-									);
+									// 页面栈可能为空（如启动瞬间），为空时不记录来源路径
+									const currentPage = pages[pages.length - 1];
+									if (currentPage && currentPage.$taroPath) {
+										Taro.setStorageSync('preLoginPath', currentPage.$taroPath);
+									}
 									Taro.switchTab({
 										url: '/pages/me/index',
 									});

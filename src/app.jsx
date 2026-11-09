@@ -14,19 +14,59 @@ import '@nutui/nutui-react-taro/dist/es/packages/tabpane/style/style.css';
 import '@nutui/nutui-react-taro/dist/es/packages/tabs/style/style.css';
 import '@nutui/nutui-react-taro/dist/es/packages/tag/style/style.css';
 
+import logger from './utils/logger';
 import { ensureLoginReady } from './utils/login';
 
 // 启动时触发一次静默登录（全局单例，request.js 也会复用）
 const App = (props) => {
 	useLaunch((options) => {
-		console.log('onLaunch', options);
+		logger.debug('onLaunch', options);
 		Taro.setStorageSync('enterPath', options.path);
-		Taro.getSystemInfo().then((sysRes) => {
-			Taro.setStorageSync('sys_info', sysRes);
-		});
+		// getSystemInfo 已废弃，改用同步版本；读取方使用的 model/brand/system/platform/version 字段在 sync 返回中同样存在
+		try {
+			Taro.setStorageSync('sys_info', Taro.getSystemInfoSync());
+		} catch (e) {
+			logger.error('getSystemInfoSync 失败:', e);
+		}
 		// 启动时触发静默登录（code → token 写入 storage，全局单例）
 		// 页面接口在无 token 时会自动等待本流程完成（见 apis/request.js）
 		ensureLoginReady();
+
+		// 版本更新------（放在 useLaunch 内：仅在启动时注册一次，避免每次渲染重复注册）
+		const updateManager = Taro.getUpdateManager();
+		// 强制更新
+		updateManager.onCheckForUpdate(function (res) {
+			// 请求完新版本信息的回调
+			// console.log(res.hasUpdate)
+			if (!res.hasUpdate) {
+				console.log('-----无更新---');
+			}
+		});
+		// 更新完成
+		updateManager.onUpdateReady(function () {
+			Taro.showModal({
+				title: '更新提示',
+				content: '新版本已经准备好，是否重启应用？',
+				success: function (res) {
+					if (res.confirm) {
+						// 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
+						updateManager.applyUpdate();
+					}
+				},
+				fail: function () {
+					console.log('---取消了更新');
+				},
+			});
+		});
+		// 更新失败
+		updateManager.onUpdateFailed(function () {
+			// 新的版本下载失败
+			Taro.showToast({
+				title: '更新失败',
+				icon: 'none',
+				duration: 2000,
+			});
+		});
 	});
 
 	// useDidShow(() => {});
@@ -36,41 +76,6 @@ const App = (props) => {
 		}); // 如果是 tabbar 页面，请使用 Taro.switchTab
 	});
 
-	// 版本更新------
-	const updateManager = Taro.getUpdateManager();
-	// 强制更新
-	updateManager.onCheckForUpdate(function (res) {
-		// 请求完新版本信息的回调
-		// console.log(res.hasUpdate)
-		if (!res.hasUpdate) {
-			console.log('-----无更新---');
-		}
-	});
-	// 更新完成
-	updateManager.onUpdateReady(function () {
-		Taro.showModal({
-			title: '更新提示',
-			content: '新版本已经准备好，是否重启应用？',
-			success: function (res) {
-				if (res.confirm) {
-					// 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
-					updateManager.applyUpdate();
-				}
-			},
-			fail: function () {
-				console.log('---取消了更新');
-			},
-		});
-	});
-	// 更新失败
-	updateManager.onUpdateFailed(function () {
-		// 新的版本下载失败
-		Taro.showToast({
-			title: '更新失败',
-			icon: 'none',
-			duration: 2000,
-		});
-	});
 	return props.children;
 };
 

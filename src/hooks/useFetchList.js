@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 
 import { isLoggedIn } from '../utils/auth';
+import logger from '../utils/logger';
 
 // 自定义 hook 内状态变化和props参数变化都会引起再次执行
 /**
@@ -38,21 +39,21 @@ const useFetchList = (fetchFn, params, pgConfig) => {
 			setError('登录后，才能获取数据哦！');
 			return false;
 		}
-		console.log('触发「useFetchList」, 触发次数：', cachePg.count);
-		console.log('--listParams:', {
+		logger.debug('触发「useFetchList」, 触发次数：', cachePg.count);
+		logger.debug('--listParams:', {
 			...params,
 			page,
 		});
 		// 加载中或参数未初始化，不请求
 		if (loadRef.current || !params.inited) {
-			loadRef.current && console.log('---在请求ing');
-			!params.inited && console.log('---参数未完成初始化！');
+			loadRef.current && logger.debug('---在请求ing');
+			!params.inited && logger.debug('---参数未完成初始化！');
 			return false;
 		}
 		// 当前和缓存分页数据相同，不请求
-		console.log('page', page, cachePg.page);
-		console.log('lastPage', lastPage, cachePg.last_page);
-		console.log('列表参数变化:old,new', cacheParams.current, params);
+		logger.debug('page', page, cachePg.page);
+		logger.debug('lastPage', lastPage, cachePg.last_page);
+		logger.debug('列表参数变化:old,new', cacheParams.current, params);
 		// 判断参数是否有变化
 		if (
 			JSON.stringify({ ...cacheParams.current, page: cachePg.page }) ===
@@ -66,14 +67,14 @@ const useFetchList = (fetchFn, params, pgConfig) => {
 		setError(null);
 		dataRef.current.count = cachePg.count + 1;
 		cacheParams.current = params;
-		console.log('---分页数据不同，发起请求：', page, cachePg.page);
+		logger.debug('---分页数据不同，发起请求：', page, cachePg.page);
 
 		fetchFn('GET', {
 			...requestParams,
 			page,
 		})
 			.then((res) => {
-				console.log('列表接口返回:', res);
+				logger.debug('列表接口返回:', res);
 				updateLoaded(true);
 				// request.js 返回格式: { status: true, data: {...} }
 				const apiData = res?.data || res;
@@ -86,7 +87,7 @@ const useFetchList = (fetchFn, params, pgConfig) => {
 						total,
 					};
 					loadRef.current = false;
-					console.log('----请求成功--更新数据');
+					logger.debug('----请求成功--更新数据');
 					setData((preData) => {
 						const List = page > 1 ? [...preData.list, ...list] : list;
 						return {
@@ -101,15 +102,15 @@ const useFetchList = (fetchFn, params, pgConfig) => {
 					});
 					updateLoading(false);
 				} else {
-					console.log('----请求失败');
+					logger.debug('----请求失败');
 					loadRef.current = false;
 					updateLoading(false);
 					setError('列表加载报错');
 				}
 			})
 			.catch((err) => {
-				console.log('----请求失败--进入 catch 回调函数');
-				console.log(err);
+				logger.debug('----请求失败--进入 catch 回调函数');
+				logger.debug(err);
 				setError(err);
 				updateLoaded(true);
 				loadRef.current = false;

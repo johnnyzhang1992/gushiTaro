@@ -16,7 +16,6 @@ export const isLoggedIn = () => {
 export const userIsLogin = () => {
 	const user = Taro.getStorageSync('user') || {};
 	const pages = Taro.getCurrentPages() || [];
-	console.log(pages);
 	if (!user.uid) {
 		Taro.showModal({
 			title: '提示',
@@ -24,16 +23,14 @@ export const userIsLogin = () => {
 			confirmText: '去登录',
 			success: function (res) {
 				if (res.confirm) {
-					console.log('用户点击确定');
-					Taro.setStorageSync(
-						'preLoginPath',
-						pages[pages.length - 1]['$taroPath']
-					);
+					// 页面栈可能为空，为空时不记录来源路径
+					const currentPage = pages[pages.length - 1];
+					if (currentPage && currentPage.$taroPath) {
+						Taro.setStorageSync('preLoginPath', currentPage.$taroPath);
+					}
 					Taro.switchTab({
 						url: '/pages/me/index',
 					});
-				} else if (res.cancel) {
-					console.log('用户点击取消');
 				}
 			},
 		});
