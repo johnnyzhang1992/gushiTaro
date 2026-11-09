@@ -1,5 +1,11 @@
 import { View, Text } from '@tarojs/components';
-import Taro, { useRouter, useLoad, useReachBottom } from '@tarojs/taro';
+import Taro, {
+	useRouter,
+	useLoad,
+	useReachBottom,
+	useShareAppMessage,
+	useShareTimeline,
+} from '@tarojs/taro';
 import { useState } from 'react';
 
 import { fetchFeihuaSentences } from './feihua.service';
