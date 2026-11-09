@@ -8,7 +8,7 @@ import './style.scss';
 const TagItem = ({ tag }) => {
 	const handleClick = () => {
 		Taro.navigateTo({
-			url: '/pages/poem/index?type=tag&from=tag&keyWord=' + tag,
+			url: '/pages/poem/index?type=tag&from=tag&keyWord=' + encodeURIComponent(tag),
 		});
 	};
 

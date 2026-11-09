@@ -25,7 +25,7 @@ const CollectionSmallCard = (props) => {
 		<View className='collection-small-card'>
 			<Navigator
 				className='collection-title'
-				url={`/pages/me/collect?name=${collection.collection_name}&collection_id=${collection.id}`}
+				url={`/pages/me/collect?name=${encodeURIComponent(collection.collection_name)}&collection_id=${encodeURIComponent(collection.id)}`}
 				hoverClass='none'
 			>
 				{collection.collection_name}

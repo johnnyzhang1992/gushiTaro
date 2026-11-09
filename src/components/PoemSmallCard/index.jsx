@@ -8,8 +8,8 @@ import './style.scss';
 const removeSpecialText = (text) => {
 	if (!text || typeof text !== 'string') return '';
 	return text
-		.replace(/<storng/g, '')
-		.replace(/<\/strong/g, '')
+		.replace(/<\/?storng/g, '')
+		.replace(/<\/?strong/g, '')
 		.replace(/&quot;/g, '')
 		.trim();
 };

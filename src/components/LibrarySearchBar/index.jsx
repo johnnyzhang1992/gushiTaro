@@ -93,7 +93,6 @@ const LibrarySearchBar = ({ tab, onSearch }) => {
 		const key = keyword.trim();
 		console.log('handleSearch:', tab, { sTheme, sType, dynasty, poemType, field });
 		const params = buildParams(key);
-		console.log('onSearch params:', params);
 		if (params && onSearch && typeof onSearch === 'function') {
 			onSearch(params);
 		}

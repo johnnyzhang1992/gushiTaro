@@ -103,7 +103,7 @@ const PoemPosterCard = (props) => {
 				size: pSize,
 			});
 			if (maxPoemHeight < text.length * pSize * ratio) {
-				maxPoemHeight = text.length * pSize * ratio.toFixed(2);
+				maxPoemHeight = Math.round(text.length * pSize * ratio);
 			}
 		}
 	}

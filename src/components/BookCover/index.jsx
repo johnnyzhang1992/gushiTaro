@@ -8,7 +8,7 @@ const BookCover = ({ code, name, profile, type = '' }) => {
 	const handleNavigate = () => {
 		const path = type === 'book' ? '/pages/book?' : '/pages/poem/index?';
 		Taro.navigateTo({
-			url: `${path}code=${code}&name=${name}&profile=${profile}&from=home`,
+			url: `${path}code=${encodeURIComponent(code)}&name=${encodeURIComponent(name)}&profile=${encodeURIComponent(profile)}&from=home`,
 		});
 	};
 	return (

@@ -54,6 +54,8 @@ const PinyinButton = (props) => {
 				xu: '',
 				content: [],
 			});
+			// 同步开关状态
+			setOpen(false);
 			updatePinyinForParent({
 				title: '',
 				xu: '',
@@ -66,6 +68,8 @@ const PinyinButton = (props) => {
 			updatePinyin({
 				...pinyinHistory.current,
 			});
+			// 同步开关状态
+			setOpen(true);
 			updatePinyinForParent({
 				...pinyinHistory.current,
 			});
@@ -101,6 +105,8 @@ const PinyinButton = (props) => {
 				updatePinyin({
 					...pinyinObj,
 				});
+				// 同步开关状态
+				setOpen(true);
 				pinyinHistory.current = {
 					...pinyinObj,
 				};

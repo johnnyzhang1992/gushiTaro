@@ -9,11 +9,22 @@ import './style.scss';
 // 默认渲染四行，多余支持半屏展示；支持全文展示
 const LongTextCard = ({ showAll = false, text, title }) => {
 	const [isOpen, openVisible] = useState(false);
-	const [reference, setReference] = useState({
-		title: '',
-		content: [],
-	});
 	const limitLength = 99;
+	// reference 由 props 派生，避免在 useMemo 计算体内 setState
+	const reference = useMemo(() => {
+		if (text && typeof text !== 'string' && text.reference) {
+			const { title, content } = text.reference;
+			return {
+				title: title || '',
+				content: Array.isArray(content)
+					? content
+					: typeof content === 'string'
+						? [content]
+						: [],
+			};
+		}
+		return { title: '', content: [] };
+	}, [text]);
 	// 要判断text 的字段类型，纯文本还是对象
 	// 对象结构{ content: [], reference: { title: '', content:[] } }
 	const cacheText = useMemo(() => {
@@ -28,13 +39,6 @@ const LongTextCard = ({ showAll = false, text, title }) => {
 				? topContent
 				: (Array.isArray(refContent) ? refContent : (typeof refContent === 'string' ? [refContent] : []));
 
-			if (propRef) {
-				setReference((pre) => ({
-					...pre,
-					...propRef,
-					content: Array.isArray(propRef.content) ? propRef.content : (typeof propRef.content === 'string' ? [propRef.content] : []),
-				}));
-			}
 			contentArr.forEach((item = '') => {
 				cText +=
 					(item || '').replace(/<strong>/g, '【').replace(/<\/strong>/g, '】') +

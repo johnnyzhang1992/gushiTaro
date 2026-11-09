@@ -32,7 +32,7 @@ const FloatLayout = (props) => {
 					visibility: isOpen ? 'visible' : 'hidden',
 				}}
 			>
-				<View className='float-layout__overlay' onClick={handleClose}></View>
+				<View className='float-layout__overlay' onClick={handleClose} catchMove></View>
 				<View
 					className='float-layout-container safeBottom'
 					style={{

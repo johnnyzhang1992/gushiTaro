@@ -1,5 +1,5 @@
 import { View, Image, Text } from '@tarojs/components';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Taro from '@tarojs/taro';
 
 import likeSvg from '../../images/svg/like.svg';
@@ -25,6 +25,7 @@ const LikeButton = (props) => {
 	// count 喜爱或者收藏数量
 	const [likeStatus, setStatus] = useState(status);
 	const [likeCount, setCount] = useState(count || 0);
+	const submittingRef = useRef(false);
 
 	const handleStatusChange = () => {
 		console.log('type,id:', type, id);
@@ -32,6 +33,10 @@ const LikeButton = (props) => {
 		if (!isLogin) {
 			return false;
 		}
+		if (submittingRef.current) {
+			return false;
+		}
+		submittingRef.current = true;
 		updateUserLike('POST', {
 			status: likeStatus ? 1 : 0,
 			target_type: type,
@@ -54,6 +59,16 @@ const LikeButton = (props) => {
 				});
 			}
 		})
+		.catch((err) => {
+			Taro.showToast({
+				title: (err && (err.errmsg || err.errMsg)) || '操作失败',
+				icon: 'none',
+				duration: 1500,
+			});
+		})
+		.finally(() => {
+			submittingRef.current = false;
+		});
 	};
 
 	useEffect(() => {

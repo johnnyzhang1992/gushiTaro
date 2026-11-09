@@ -10,21 +10,6 @@ import {
 
 import './style.scss';
 
-const swiperOptions = [
-	{
-		text: '复习',
-		style: {
-			backgroundColor: '#337ab7',
-		},
-	},
-	{
-		text: '删除',
-		style: {
-			backgroundColor: '#FF4949',
-		},
-	},
-];
-
 const handleError = (err, errTxt) => {
 	console.log(err);
 	const errmsg = err.errmsg || errTxt;

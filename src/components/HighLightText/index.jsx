@@ -8,7 +8,9 @@ const getHilightStrArray = (str, key) => {
 	if (!str) {
 		return [];
 	}
-	return str.replace(new RegExp(`${key}`, 'g'), `%%${key}%%`).split('%%');
+	// 转义用户输入中的正则特殊字符，避免 new RegExp 崩溃
+	const safeKey = key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+	return str.replace(new RegExp(safeKey, 'g'), `%%${key}%%`).split('%%');
 };
 
 const HighLightText = ({ lightWord, text, className = '', style = {} }) => {

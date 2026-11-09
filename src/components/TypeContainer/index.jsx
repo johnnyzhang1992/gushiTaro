@@ -1,5 +1,3 @@
-import { useState, useEffect } from 'react';
-import Taro from '@tarojs/taro';
 import { View, ScrollView, Text, Navigator } from '@tarojs/components';
 
 import TypeCatalogSection from '../TypeCatalogSection';
@@ -11,10 +9,6 @@ import './style.scss';
 import { CategoriesList } from '../../const/config';
 
 const TypeContainer = () => {
-
-	useEffect(() => {
-	}, []);
-
 	return (
 		<View className='typeContainer' id='typeScrollContainer'>
 			{/* 诗词列表 */}

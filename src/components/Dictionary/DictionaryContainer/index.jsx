@@ -80,7 +80,7 @@ const DictionaryContainer = (props) => {
 	// 跳转详情
 	const goDetail = (item) => {
 		Taro.navigateTo({
-			url: `/pages/dictionary/detail?type=${item._type}&id=${item._id}`,
+			url: `/pages/dictionary/detail?type=${encodeURIComponent(item._type)}&id=${encodeURIComponent(item._id)}`,
 		});
 	};
 
@@ -100,7 +100,7 @@ const DictionaryContainer = (props) => {
 			{/* 字：米字格网格 */}
 			<SectionCard
 				title='字'
-				extra={searchResult.wordList.length > 0 ? <Text className='more' onClick={() => Taro.navigateTo({ url: '/pages/dictionary/list?type=word&keyWord=' + (params.keyWord || '') })}>更多</Text> : null}
+				extra={searchResult.wordList.length > 0 ? <Text className='more' onClick={() => Taro.navigateTo({ url: '/pages/dictionary/list?type=word&keyWord=' + encodeURIComponent(params.keyWord || '') })}>更多</Text> : null}
 				style={{
 					display: searchResult.wordList.length > 0 ? 'block' : 'none',
 				}}
@@ -123,7 +123,7 @@ const DictionaryContainer = (props) => {
 			{/* 词语：紧凑列表 */}
 			<SectionCard
 				title='词语'
-				extra={searchResult.ciList.length > 0 ? <Text className='more' onClick={() => Taro.navigateTo({ url: '/pages/dictionary/list?type=ci&keyWord=' + (params.keyWord || '') })}>更多</Text> : null}
+				extra={searchResult.ciList.length > 0 ? <Text className='more' onClick={() => Taro.navigateTo({ url: '/pages/dictionary/list?type=ci&keyWord=' + encodeURIComponent(params.keyWord || '') })}>更多</Text> : null}
 				style={{
 					display: searchResult.ciList.length > 0 ? 'block' : 'none',
 				}}
@@ -133,7 +133,7 @@ const DictionaryContainer = (props) => {
 			{/* 成语：紧凑列表 */}
 			<SectionCard
 				title='成语'
-				extra={searchResult.chengyuList.length > 0 ? <Text className='more' onClick={() => Taro.navigateTo({ url: '/pages/dictionary/list?type=chengyu&keyWord=' + (params.keyWord || '') })}>更多</Text> : null}
+				extra={searchResult.chengyuList.length > 0 ? <Text className='more' onClick={() => Taro.navigateTo({ url: '/pages/dictionary/list?type=chengyu&keyWord=' + encodeURIComponent(params.keyWord || '') })}>更多</Text> : null}
 				style={{
 					display: searchResult.chengyuList.length > 0 ? 'block' : 'none',
 				}}

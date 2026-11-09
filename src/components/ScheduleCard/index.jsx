@@ -6,21 +6,6 @@ import { deleteSchedule } from '../../services/global';
 
 import './style.scss';
 
-const swiperOptions = [
-	{
-		text: '编辑',
-		style: {
-			backgroundColor: '#337ab7',
-		},
-	},
-	{
-		text: '删除',
-		style: {
-			backgroundColor: '#FF4949',
-		},
-	},
-];
-
 const ScheduleCard = (props) => {
 	const {
 		id: rawId,

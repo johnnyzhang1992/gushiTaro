@@ -36,6 +36,7 @@ const PageHeader = (props) => {
 			Taro.switchTab({
 				url: '/pages/index',
 			});
+			return;
 		}
 		Taro.navigateBack({
 			delta: 1,

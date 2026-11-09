@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, Textarea } from '@tarojs/components';
 import { Input } from '@nutui/nutui-react-taro';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Taro from '@tarojs/taro';
 import Request from '../../apis/request';
 
@@ -38,7 +38,8 @@ const ScheduleItem = (props) => {
 	} = props;
 	
 	const isAdded = has_poem || activeIds.includes(schedule_id);
-	
+	const addingRef = useRef(false);
+
 	const handleRemovePoem = () => {
 		Taro.showModal({
 			title: '确认移除',
@@ -69,6 +70,10 @@ const ScheduleItem = (props) => {
 			Taro.showToast({ title: '已加入该计划', icon: 'none' });
 			return;
 		}
+		if (addingRef.current) {
+			return;
+		}
+		addingRef.current = true;
 		addPoemToSchedule('POST', {
 			poem_ids: [poem_id],
 			schedule_id,
@@ -93,6 +98,9 @@ const ScheduleItem = (props) => {
 					icon: 'error',
 					duration: 2000,
 				});
+			})
+			.finally(() => {
+				addingRef.current = false;
 			});
 	};
 	return (
@@ -136,7 +144,11 @@ const ScheduleModal = ({
 	const getschedules = async (target_id) => {
 		const res = await fetchSchedules('GET', {
 			poem_id: targetId || '',
-		});
+		})
+			.catch((err) => {
+				console.log('getschedules', err);
+				return null;
+			});
 		if (res && res.status) {
 			const apiData = res.data?.data || res.data;
 			// API 返回数组或 { existIds, list }
@@ -152,15 +164,19 @@ const ScheduleModal = ({
 	};
 
 	const handleSaveschedule = async () => {
-		console.log('handleSaveschedule', scheduleForm);
 		if (modalType == 'edit_schedule') {
 			handleUpdateschedule();
 			return false;
 		}
 		const { name } = scheduleForm;
-		if (!name) {
-			setType('edit')
-			return false
+		if (!name || !String(name).trim()) {
+			// 空标题：提示并保留在表单态，不丢表单
+			Taro.showToast({
+				title: '请输入标题',
+				icon: 'none',
+				duration: 2000,
+			});
+			return false;
 		}
 		if (String(name).trim().length < 2) {
 			const message = '标题不能少于2个字';
@@ -193,7 +209,6 @@ const ScheduleModal = ({
 
 	const handleUpdateschedule = async () => {
 		const { name, id } = scheduleForm;
-		console.log('handleUpdateschedule', scheduleForm);
 		if (!name || String(name).trim().length < 2) {
 			const message  = !name ? '请输入标题' : '标题不能少于2个字';
 			Taro.showToast({

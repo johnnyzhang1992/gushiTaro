@@ -33,10 +33,10 @@ import './style.scss';
 // };
 
 const PinyinText = ({ text, pinyin }) => {
-	const textArr = text
+	const textArr = (text || '')
 		.replace(/&quot;/g, '"')
 		.split('');
-	const pinyinArr = pinyin
+	const pinyinArr = (pinyin || '')
 		.trim()
 		.replace(/  /g, ' ')
 		.split(' ');
@@ -46,7 +46,8 @@ const PinyinText = ({ text, pinyin }) => {
 				return (
 					<View className='pinyin-text' key={index}>
 						<Text userSelect decode className='text pinyin'>
-							{pinyinArr[index]}
+							{/* 拼音与汉字数量不一致时跳过多余部分，避免越界 */}
+							{pinyinArr[index] || ''}
 						</Text>
 						<Text userSelect decode className='text hanzi'>
 							{item}
