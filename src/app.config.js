@@ -43,7 +43,7 @@ export default {
 		navigationBarBackgroundColor: '#337ab7',
 		navigationBarTitleText: '古诗文小助手',
 		navigationBarTextStyle: 'white',
-		enablePullDownRefresh: true,
+		enablePullDownRefresh: false,
 		onReachBottomDistance: 40,
 	},
 	tabBar: {
