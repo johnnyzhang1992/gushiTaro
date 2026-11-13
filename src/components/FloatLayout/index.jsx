@@ -2,7 +2,7 @@ import { View, Image, ScrollView } from '@tarojs/components';
 
 import './style.scss';
 
-import closeSvg from '../../images/svg/close.svg';
+import closeSvg from '../../images/svg/close_dark.svg';
 import RootFixed from '../RootFixed';
 
 const FloatLayout = (props) => {

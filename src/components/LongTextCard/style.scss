@@ -1,8 +1,13 @@
 .fullText {
 	padding-bottom: env(safe-area-inset-bottom);
 	padding-top: 20px;
+	/* 与卡片正文保持一致：衬线、28rpx、柔和深灰 */
 	.text {
 		text-align: justify;
+		font-size: 28px;
+		line-height: 46px;
+		font-family: var(--font-poem);
+		color: #4e5969;
 	}
 }
 .longTextCard {
