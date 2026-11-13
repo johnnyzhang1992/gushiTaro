@@ -20,7 +20,10 @@ export default function StudyPage() {
   const [loading, setLoading] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [newPlanName, setNewPlanName] = useState('');
+  const [nameError, setNameError] = useState('');
+  const [nameFocused, setNameFocused] = useState(false);
   const [creating, setCreating] = useState(false);
+  const creatingRef = useRef(false);
 
   // 推荐计划相关
   const [recommendedData, setRecommendedData] = useState(null);
@@ -143,20 +146,30 @@ export default function StudyPage() {
     }
   });
 
+  const closeCreateModal = () => {
+    setShowCreateModal(false);
+    setNewPlanName('');
+    setNameError('');
+    setNameFocused(false);
+  };
+
   // 创建计划
   const handleCreate = async () => {
-    if (!newPlanName.trim()) {
-      Taro.showToast({ title: '请输入计划名称', icon: 'none' });
+    if (creatingRef.current) return;
+    const name = newPlanName.trim();
+    if (!name) {
+      setNameError('给计划起个名字吧');
       return;
     }
+    creatingRef.current = true;
+    setNameError('');
     setCreating(true);
     try {
-      const res = await createStudyPlan('POST', { name: newPlanName.trim() });
+      const res = await createStudyPlan('POST', { name });
       console.log('创建计划结果:', res);
       if (isApiSuccess(res)) {
         Taro.showToast({ title: '创建成功', icon: 'success' });
-        setShowCreateModal(false);
-        setNewPlanName('');
+        closeCreateModal();
         loadPlans();
       } else {
         Taro.showToast({ title: res?.msg || '创建失败', icon: 'none' });
@@ -165,6 +178,7 @@ export default function StudyPage() {
       console.error('创建计划失败:', err);
       Taro.showToast({ title: '创建失败，请检查登录状态', icon: 'none' });
     } finally {
+      creatingRef.current = false;
       setCreating(false);
     }
   };
@@ -527,48 +541,78 @@ export default function StudyPage() {
 
       {/* 创建计划弹窗 */}
       {showCreateModal && (
-        <View className="modal-mask" onClick={() => setShowCreateModal(false)}>
-          <View className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <View className="modal-header">
-              <Text className="modal-title">新建背诵计划</Text>
-              <Text
-                className="modal-close"
-                onClick={() => setShowCreateModal(false)}
-              >
-                ×
-              </Text>
-            </View>
-            <View className="modal-body">
-              <View className="input-group">
-                <View className="input-label">计划名称</View>
-                <View className="input-field-wrap">
-                  <Input
-                    className="input-field"
-                    placeholder="请输入计划名称"
-                    value={newPlanName}
-                    onInput={(e) => setNewPlanName(e.detail.value)}
-                    maxlength={20}
-                  />
-                  {newPlanName ? (
-                    <View className="input-clear" onClick={() => setNewPlanName('')}>
-                      <Text className="input-clear-icon">×</Text>
-                    </View>
-                  ) : null}
-                </View>
+        <View className='modal-mask' catchMove onClick={closeCreateModal}>
+          <View className='modal-content' onClick={(e) => e.stopPropagation()}>
+            <View className='modal-header'>
+              <View className='modal-badge'>
+                <Text className='modal-badge-text'>诵</Text>
+              </View>
+              <View className='modal-heading'>
+                <Text className='modal-title'>新建背诵计划</Text>
+                <Text className='modal-subtitle'>起一个容易记住的名字，方便在列表中查找</Text>
+              </View>
+              <View className='modal-close' onClick={closeCreateModal}>
+                <Text className='modal-close-icon'>×</Text>
               </View>
             </View>
-            <View className="modal-footer">
+            <View className='modal-body'>
+              <View className='input-meta'>
+                <Text className='input-label'>计划名称</Text>
+                <Text
+                  className={`input-count ${newPlanName.length >= 20 ? 'full' : ''}`}
+                >
+                  {newPlanName.length}/20
+                </Text>
+              </View>
               <View
-                className="modal-btn cancel"
-                onClick={() => setShowCreateModal(false)}
+                className={`input-field-wrap ${nameFocused ? 'focused' : ''} ${
+                  nameError ? 'has-error' : ''
+                }`}
               >
+                <Input
+                  className='input-field'
+                  placeholder='例如：唐诗入门、每天一首'
+                  placeholderClass='input-placeholder'
+                  value={newPlanName}
+                  confirmType='done'
+                  cursorSpacing={24}
+                  maxlength={20}
+                  onInput={(e) => {
+                    setNewPlanName(e.detail.value);
+                    if (nameError) setNameError('');
+                  }}
+                  onFocus={() => setNameFocused(true)}
+                  onBlur={() => setNameFocused(false)}
+                  onConfirm={handleCreate}
+                />
+                {newPlanName ? (
+                  <View className='input-clear' onClick={() => setNewPlanName('')}>
+                    <Text className='input-clear-icon'>×</Text>
+                  </View>
+                ) : null}
+              </View>
+              {nameError ? (
+                <Text className='input-error'>{nameError}</Text>
+              ) : (
+                <Text className='input-tip'>仅自己可见，最多 20 个字</Text>
+              )}
+            </View>
+            <View className='modal-footer'>
+              <View className='modal-btn cancel' onClick={closeCreateModal}>
                 取消
               </View>
               <View
-                className={`modal-btn confirm ${creating ? 'disabled' : ''}`}
+                className={`modal-btn confirm ${creating ? 'loading' : ''}`}
                 onClick={handleCreate}
               >
-                {creating ? '创建中...' : '创建'}
+                {creating ? (
+                  <>
+                    <View className='btn-spinner' />
+                    <Text>创建中</Text>
+                  </>
+                ) : (
+                  '创建计划'
+                )}
               </View>
             </View>
           </View>
