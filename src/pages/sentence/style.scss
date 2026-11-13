@@ -191,14 +191,19 @@
 				margin-right: 0;
 			}
 		}
+		/* 分享/复制：与点赞收藏统一，无底色，只靠图标与文字颜色 */
 		.share-btn {
 			min-height: 76rpx;
 			justify-content: center;
-			background-color: rgba(43, 108, 246, 0.1);
-			padding: 0 20rpx;
-			border-radius: 12rpx;
+			background: transparent;
+			padding: 0 12rpx;
 			font-size: 24rpx;
 			box-sizing: border-box;
+			transition: opacity 0.2s;
+
+			&:active {
+				opacity: 0.6;
+			}
 		}
 		.likeButton,
 		.collectButton {
