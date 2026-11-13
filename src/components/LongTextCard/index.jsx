@@ -9,8 +9,8 @@ import './style.scss';
 // 默认渲染五行，多余支持半屏展示；支持全文展示
 const LongTextCard = ({ showAll = false, text, title }) => {
 	const [isOpen, openVisible] = useState(false);
-	// 正文区宽约 680rpx、字号 30rpx → 每行约 22 字，五行约 110 字，留几个字给省略号
-	const limitLength = 104;
+	// 正文区宽约 680rpx、字号 28rpx → 每行约 24 字，五行约 120 字，留几个字给省略号
+	const limitLength = 114;
 	// reference 由 props 派生，避免在 useMemo 计算体内 setState
 	const reference = useMemo(() => {
 		if (text && typeof text !== 'string' && text.reference) {
