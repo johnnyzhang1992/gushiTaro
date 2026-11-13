@@ -74,7 +74,7 @@ const CollectButton = (props) => {
 		<View className={`collectButton ${collectStatus ? 'active' : ''}`}>
 			<View className='buttonContainer collect' onClick={handleToggle}>
 				<Image
-					src={collectStatus ? collectSvg : collectActiveSvg}
+					src={collectStatus ? collectActiveSvg : collectSvg}
 					className='icon'
 				/>
 				{showText ? (

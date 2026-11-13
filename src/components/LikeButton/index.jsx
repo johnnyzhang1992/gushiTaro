@@ -86,7 +86,7 @@ const LikeButton = (props) => {
 			onClick={handleStatusChange}
 		>
 			<Image
-				src={likeStatus ? likeSvg : likeActiveSvg}
+				src={likeStatus ? likeActiveSvg : likeSvg}
 				className='icon'
 			/>
 			{showText ? (

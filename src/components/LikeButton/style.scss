@@ -1,24 +1,33 @@
 .likeButton {
-	color: #2b6cf6;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background-color: rgba(43, 108, 246, 0.1);
-	padding: 8px 20px;
-	border-radius: 8px;
+	padding: 8px 12px;
+	color: #8a93a6;
 	font-size: 24px;
+	background: transparent;
+	transition: color 0.2s, opacity 0.2s;
+
+	/* 选中态只改图标与文字颜色，不加底色 */
 	&.active {
-		color: #fff;
-		background-color: #2b6cf6;
+		color: #2b6cf6;
 	}
+
+	&:active {
+		opacity: 0.6;
+	}
+
 	.icon {
 		width: 40px;
 		height: 40px;
 	}
+
 	.likeText {
 		padding: 0 4px;
 	}
+
 	.count {
-		padding-left: 4px;
+		padding-left: 6px;
+		color: inherit;
 	}
 }
