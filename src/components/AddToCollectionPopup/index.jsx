@@ -25,7 +25,8 @@ const AddToCollectionPopup = ({ visible, poemId, onClose, onSuccess }) => {
 	const loadCollections = () => {
 		if (!visible || !poemId) return;
 		setLoading(true);
-		Request('/api/collections', { mine: true, target_id: poemId, size: 50 }, 'GET')
+		const user = Taro.getStorageSync('user') || {};
+		Request('/api/collections', { mine: true, uid: user.uid, target_id: poemId, size: 50 }, 'GET')
 			.then((res) => {
 				if (isApiSuccess(res) && res.data) {
 					setCollections(res.data.list || []);
