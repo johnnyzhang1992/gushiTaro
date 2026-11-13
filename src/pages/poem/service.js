@@ -5,9 +5,9 @@ export const fetchHomeData = (method, data) => {
 	return Request(`/api/poemBook/poems`, data, method);
 };
 
-// 获取课本详情
-export const fetchBookData = (method, data) => {
-	return Request(`/api/poemBook/detail`, data, method);
+// 获取课本诗词列表（按 code/name 筛选）
+export const fetchBookPoems = (method, data) => {
+	return Request(`/api/poemBook/poems`, data, method);
 };
 
 // 获取诗词列表

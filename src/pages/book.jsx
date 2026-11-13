@@ -8,7 +8,7 @@ import Taro, {
 } from '@tarojs/taro';
 import { useNavigationBar } from 'taro-hooks';
 
-import { fetchBookData } from './poem/service';
+import { fetchBookPoems } from './poem/service';
 
 import BookCard from '../components/BookCard';
 
@@ -43,7 +43,7 @@ const Page = () => {
 		Taro.showLoading({
 			title: '加载中...',
 		});
-		fetchBookData('GET', {
+		fetchBookPoems('GET', {
 			code,
 			name,
 		})
