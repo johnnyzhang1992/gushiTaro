@@ -15,11 +15,17 @@ const AddToCollectionPopup = ({ visible, poemId, onClose, onSuccess }) => {
 	const [showCreate, setShowCreate] = useState(false);
 	const [newName, setNewName] = useState('');
 	const [newDesc, setNewDesc] = useState('');
+	const [nameError, setNameError] = useState('');
+	const [nameFocused, setNameFocused] = useState(false);
+	const [descFocused, setDescFocused] = useState(false);
 
 	const exitCreate = () => {
 		setShowCreate(false);
 		setNewName('');
 		setNewDesc('');
+		setNameError('');
+		setNameFocused(false);
+		setDescFocused(false);
 	};
 
 	const loadCollections = () => {
@@ -89,9 +95,10 @@ const AddToCollectionPopup = ({ visible, poemId, onClose, onSuccess }) => {
 
 	const handleCreate = () => {
 		if (!newName.trim()) {
-			Taro.showToast({ title: '请输入诗单名称', icon: 'none' });
+			setNameError('给诗单起个名字吧');
 			return;
 		}
+		setNameError('');
 		Request('/api/collections/create', { collection_name: newName.trim(), description: newDesc.trim() }, 'POST')
 			.then((res) => {
 				if (isApiSuccess(res) && res.data) {
@@ -110,90 +117,107 @@ const AddToCollectionPopup = ({ visible, poemId, onClose, onSuccess }) => {
 
 	return (
 		<FloatLayout isOpen={visible} close={onClose} title=''>
-			<View className='popup-header'>
-				<Text className='popup-title'>{showCreate ? '新建诗单' : '加入诗单'}</Text>
-				{showCreate ? (
-					<View className='header-actions'>
-						<View className='hbtn cancel' onClick={exitCreate}>
-							<Text>取消</Text>
+			<View className='sheet'>
+				<View className='sheet-header'>
+					<Text className='sheet-title'>{showCreate ? '新建诗单' : '加入诗单'}</Text>
+					{showCreate ? (
+						<View className='sheet-actions'>
+							<View className='sheet-btn cancel' onClick={exitCreate}>
+								取消
+							</View>
+							<View className='sheet-btn confirm' onClick={handleCreate}>
+								创建
+							</View>
 						</View>
-						<View className='hbtn primary' onClick={handleCreate}>
-							<Text>创建</Text>
+					) : (
+						<View className='sheet-actions'>
+							<View className='sheet-link' onClick={() => setShowCreate(true)}>
+								＋ 新建
+							</View>
 						</View>
-					</View>
-				) : (
-					<View className='create-btn' onClick={() => setShowCreate(true)}>
-						<Text className='text'>+ 新建</Text>
-					</View>
-				)}
-			</View>
+					)}
+				</View>
 
-			<View className='add-to-collection'>
 				{showCreate ? (
-					<View className='create-form'>
-						<View className='field'>
-							<Text className='field-label'>标题</Text>
+					<View className='sheet-body' style={{ paddingBottom: '40rpx' }}>
+						<View className='sheet-field'>
+							<View className='sheet-field-head'>
+								<Text className='sheet-label'>标题</Text>
+								<Text className='sheet-count'>{newName.length}/20</Text>
+							</View>
 							<Input
-								className='input'
+								className={`sheet-input ${nameFocused ? 'focused' : ''}`}
 								placeholder='请输入诗单名称'
+								placeholderClass='sheet-placeholder'
 								value={newName}
 								maxlength={20}
-								onInput={(e) => setNewName(e.detail.value)}
+								onFocus={() => setNameFocused(true)}
+								onBlur={() => setNameFocused(false)}
+								onInput={(e) => {
+									setNewName(e.detail.value);
+									if (nameError) setNameError('');
+								}}
 							/>
+							{nameError ? (
+								<Text className='sheet-error'>{nameError}</Text>
+							) : (
+								<Text className='sheet-hint'>最多 20 个字</Text>
+							)}
 						</View>
-						<View className='field'>
-							<Text className='field-label'>描述（可选）</Text>
+
+						<View className='sheet-field'>
+							<View className='sheet-field-head'>
+								<Text className='sheet-label'>描述（可选）</Text>
+								<Text className='sheet-count'>{newDesc.length}/60</Text>
+							</View>
 							<Textarea
-								className='desc'
+								className={`sheet-textarea ${descFocused ? 'focused' : ''}`}
 								maxlength={60}
 								autoHeight
 								placeholder='一句话介绍这个诗单…'
+								placeholderClass='sheet-placeholder'
 								value={newDesc}
+								onFocus={() => setDescFocused(true)}
+								onBlur={() => setDescFocused(false)}
 								onInput={(e) => setNewDesc(e.detail.value)}
 							/>
 						</View>
 					</View>
-				) : loading ? (
-					<View className='loading'>
-						<Text>加载中...</Text>
-					</View>
 				) : (
-					<ScrollView className='collection-list' scrollY>
-						{collections.length === 0 ? (
-							<View className='empty'>
-								<Text>暂无诗单，点击上方创建</Text>
-							</View>
+					<View className='sheet-body'>
+						{loading ? (
+							<View className='sheet-empty'>加载中…</View>
+						) : collections.length === 0 ? (
+							<View className='sheet-empty'>还没有诗单，点右上角「新建」创建一个</View>
 						) : (
-							collections.map((item) => (
-								<View
-									key={item._id}
-									className={`collection-item ${item.has_poem ? 'selected' : ''}`}
-								>
-									<View className='info'>
-										<Text className='name'>{item.collection_name}</Text>
+							<ScrollView
+								scrollY
+								showScrollbar={false}
+								style={{
+									height: `${Math.min(collections.length * 110 + 8, 520)}rpx`,
+								}}
+							>
+								{collections.map((item) => (
+									<View className='sheet-row' key={item._id}>
+										<View className='sheet-row-main'>
+											<Text className='sheet-row-title'>{item.collection_name}</Text>
+											<Text className='sheet-row-meta'>{item.poem_count || 0} 首</Text>
+										</View>
+										<View
+											className={`sheet-row-action ${item.has_poem ? 'muted' : ''}`}
+											onClick={() =>
+												item.has_poem
+													? handleRemoveFromCollection(item._id, item.collection_name)
+													: handleAddToCollection(item._id, false, item.collection_name)
+											}
+										>
+											{item.has_poem ? '移除' : '添加'}
+										</View>
 									</View>
-									<View className='bottom-row'>
-										<Text className='count'>{item.poem_count || 0} 首</Text>
-										{item.has_poem ? (
-											<View
-												className='remove-btn'
-												onClick={() => handleRemoveFromCollection(item._id, item.collection_name)}
-											>
-												<Text className='remove-text'>移除</Text>
-											</View>
-										) : (
-											<View
-												className='add-btn'
-												onClick={() => handleAddToCollection(item._id, false, item.collection_name)}
-											>
-												<Text className='add-text'>添加</Text>
-											</View>
-										)}
-									</View>
-								</View>
-							))
+								))}
+							</ScrollView>
 						)}
-					</ScrollView>
+					</View>
 				)}
 			</View>
 		</FloatLayout>

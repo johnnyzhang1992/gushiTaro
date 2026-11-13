@@ -99,19 +99,16 @@ const ScheduleItem = (props) => {
 			});
 	};
 	return (
-		<View
-			className={`schedule-item ${isAdded ? 'active' : ''}`}
-		>
-			<View className='schedule-item__content'>
-				<View className='schedule-item__title'>
-					<Text>{name}</Text>
-				</View>
-				<View className='schedule-item__poem_count'>
-					<Text>{poem_count || 0}篇</Text>
-				</View>
+		<View className='sheet-row'>
+			<View className='sheet-row-main'>
+				<Text className='sheet-row-title'>{name}</Text>
+				<Text className='sheet-row-meta'>{poem_count || 0} 篇</Text>
 			</View>
-			<View className='schedule-item__btn' onClick={isAdded ? handleRemovePoem : handleAddPoem}>
-				<Text>{isAdded ? '移除' : '加入'}</Text>
+			<View
+				className={`sheet-row-action ${isAdded ? 'muted' : ''}`}
+				onClick={isAdded ? handleRemovePoem : handleAddPoem}
+			>
+				{isAdded ? '移除' : '加入'}
 			</View>
 		</View>
 	);
@@ -135,6 +132,9 @@ const ScheduleModal = ({
 	});
 	const [modalType, setType] = useState(initType); // create edit
 	const [showModal, setShowModal] = useState(false);
+	const [nameError, setNameError] = useState('');
+	const [nameFocused, setNameFocused] = useState(false);
+	const [descFocused, setDescFocused] = useState(false);
 
 	const getschedules = async (target_id) => {
 		const res = await fetchStudyPlans('GET', {
@@ -165,23 +165,14 @@ const ScheduleModal = ({
 		}
 		const { name } = scheduleForm;
 		if (!name || !String(name).trim()) {
-			// 空标题：提示并保留在表单态，不丢表单
-			Taro.showToast({
-				title: '请输入标题',
-				icon: 'none',
-				duration: 2000,
-			});
+			setNameError('给计划起个名字吧');
 			return false;
 		}
 		if (String(name).trim().length < 2) {
-			const message = '标题不能少于2个字';
-			Taro.showToast({
-				title: message,
-				icon: 'none',
-				duration: 2000,
-			});
+			setNameError('标题不能少于 2 个字');
 			return false;
 		}
+		setNameError('');
 		const res = await createStudyPlan('POST', {
 			name: name,
 			description: (scheduleForm.description || '').trim(),
@@ -205,14 +196,10 @@ const ScheduleModal = ({
 	const handleUpdateschedule = async () => {
 		const { name, id } = scheduleForm;
 		if (!name || String(name).trim().length < 2) {
-			const message  = !name ? '请输入标题' : '标题不能少于2个字';
-			Taro.showToast({
-				title: message,
-				icon: 'error',
-				duration: 2000,
-			});
+			setNameError(!name ? '给计划起个名字吧' : '标题不能少于 2 个字');
 			return false;
 		}
+		setNameError('');
 		const res = await updateStudyPlan('PUT', {
 			name: name,
 			description: (scheduleForm.description || '').trim(),
@@ -234,6 +221,7 @@ const ScheduleModal = ({
 	};
 
 	const handleNameChange = (value = '') => {
+		if (nameError) setNameError('');
 		setForm({
 			...scheduleForm,
 			name: value.slice(0, 10),
@@ -290,98 +278,105 @@ const ScheduleModal = ({
 
 	return (
 		<FloatLoayout isOpen={showModal} showTitle={false} close={handleClose}>
-			<View className='scheduleTitle'>
-				<View className='title'>{titleObj[modalType] || '选择背诵计划'}</View>
-				{modalType == 'edit' ? (
-					<View
-						className='create text-btn'
-						onClick={() => {
-							setType('create');
-						}}
-					>
-						+新建
-					</View>
-				) : (
-					<View className='form-actions'>
-						<View className='btn cancel' onClick={handleCancelForm}>
-							取消
+			<View className='sheet'>
+				<View className='sheet-header'>
+					<Text className='sheet-title'>{titleObj[modalType] || '选择背诵计划'}</Text>
+					{modalType === 'edit' ? (
+						<View className='sheet-actions'>
+							<View className='sheet-link' onClick={() => setType('create')}>
+								＋ 新建
+							</View>
 						</View>
-						<View className='btn confirm' onClick={handleSaveschedule}>
-							完成
+					) : (
+						<View className='sheet-actions'>
+							<View className='sheet-btn cancel' onClick={handleCancelForm}>
+								取消
+							</View>
+							<View className='sheet-btn confirm' onClick={handleSaveschedule}>
+								{modalType === 'edit_schedule' ? '保存' : '创建'}
+							</View>
+						</View>
+					)}
+				</View>
+
+				{/* 计划列表 */}
+				{modalType === 'edit' ? (
+					<View className='sheet-body'>
+						{schedules.length === 0 ? (
+							<View className='sheet-empty'>还没有背诵计划，点右上角「新建」创建一个</View>
+						) : (
+							<ScrollView
+								scrollY
+								showScrollbar={false}
+								style={{
+									// 按条数自适应高度，避免弹层里留一大片空白
+									height: `${Math.min(schedules.length * 110 + 8, 520)}rpx`,
+								}}
+							>
+								{schedules.map((item) => (
+									<ScheduleItem
+										key={item._id || item.id}
+										poem_id={targetId}
+										schedule_id={item._id || item.id}
+										name={item.name}
+										poem_count={item.poem_count}
+										has_poem={item.has_poem}
+										activeIds={scheduleIds}
+										onSuccess={updateIds}
+									/>
+								))}
+							</ScrollView>
+						)}
+					</View>
+				) : null}
+
+				{/* 新建 / 编辑表单 */}
+				{['create', 'create_schedule', 'edit_schedule'].includes(modalType) ? (
+					<View className='sheet-body' style={{ paddingBottom: '40rpx' }}>
+						<View className='sheet-field'>
+							<View className='sheet-field-head'>
+								<Text className='sheet-label'>标题</Text>
+								<Text className='sheet-count'>{scheduleForm.name.length}/10</Text>
+							</View>
+							<Input
+								className={`sheet-input ${nameFocused ? 'focused' : ''}`}
+								maxLength={10}
+								value={scheduleForm.name}
+								placeholder='给计划起个名字'
+								placeholderClass='sheet-placeholder'
+								onFocus={() => setNameFocused(true)}
+								onBlur={() => setNameFocused(false)}
+								onChange={(val) => handleNameChange(val)}
+							/>
+							{nameError ? (
+								<Text className='sheet-error'>{nameError}</Text>
+							) : (
+								<Text className='sheet-hint'>最多 10 个字</Text>
+							)}
+						</View>
+
+						<View className='sheet-field'>
+							<View className='sheet-field-head'>
+								<Text className='sheet-label'>描述（可选）</Text>
+								<Text className='sheet-count'>
+									{(scheduleForm.description || '').length}/60
+								</Text>
+							</View>
+							<Textarea
+								className={`sheet-textarea ${descFocused ? 'focused' : ''}`}
+								maxlength={60}
+								autoHeight
+								placeholder='背诵目标、范围或提示…'
+								placeholderClass='sheet-placeholder'
+								value={scheduleForm.description || ''}
+								onFocus={() => setDescFocused(true)}
+								onBlur={() => setDescFocused(false)}
+								onInput={(e) => handleDescChange(e.detail.value)}
+							/>
 						</View>
 					</View>
-				)}
+				) : null}
 			</View>
-			{/* 编辑诗单 */}
-			<view
-				className='modalScheduleContent'
-				style={{
-					display: modalType == 'edit' ? 'block' : 'none',
-				}}
-			>
-				{/* 选择列表 */}
-				<ScrollView
-					className='scheduleListContainer'
-					scrollY
-					style={{
-						height: '600rpx',
-					}}
-				>
-					{/* 计划列表 */}
-					{schedules.map((item) => (
-						<ScheduleItem
-							key={item._id || item.id}
-							poem_id={targetId}
-							schedule_id={item._id || item.id}
-							name={item.name}
-							poem_count={item.poem_count}
-							has_poem={item.has_poem}
-							activeIds={scheduleIds}
-							onSuccess={updateIds}
-						/>
-					))}
-				</ScrollView>
-			</view>
-			{/* 新建学习计划 */}
-			<view
-				className='modalScheduleContent'
-				style={{
-					display: ['create', 'edit_schedule', 'create_schedule'].includes(
-						modalType
-					)
-						? 'block'
-						: 'none',
-				}}
-			>
-				{/* 标题 */}
-				<View className='form-field'>
-					<Text className='field-label'>标题</Text>
-					<Input
-						className='name'
-						maxLength={10}
-						placeholder='给计划起个名字（10字以内）'
-						value={scheduleForm.name}
-						onChange={(val) => handleNameChange(val)}
-					/>
-				</View>
-				{/* 描述（可选） */}
-				<View className='form-field'>
-					<Text className='field-label'>描述（可选）</Text>
-					<Textarea
-						className='descInput'
-						maxlength={60}
-						autoHeight
-						placeholder='补充说明：背诵目标、范围或提示…'
-						value={scheduleForm.description || ''}
-						onInput={(e) => handleDescChange(e.detail.value)}
-					/>
-				</View>
-				{/* 其他创建方式 */}
-				{/* <View className='extra'>
-					<Text>除了自定义学习计划</Text>
-					<Text>还可以从人物「诗词分类」或「诗单」直接创建</Text>
-				</View> */}
-			</view>
 		</FloatLoayout>
 	);
 };
