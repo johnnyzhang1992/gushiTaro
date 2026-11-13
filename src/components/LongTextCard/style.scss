@@ -11,22 +11,27 @@
 			display: block;
 			font-size: 30px;
 			line-height: 1.4rem;
-			padding-bottom: 20px;
+			/* 用 margin 而非 padding：padding 区不参与 overflow 裁切，会露出第 6 行的上半截 */
+			margin-bottom: 20px;
 		}
-		&.limit {
-			.longText {
-				display: -webkit-box;
-				-webkit-line-clamp: 5;
-				-webkit-box-orient: vertical;
-				.text {
-					max-height: 7rem;
-					display: block;
-					text-overflow: ellipsis;
-					overflow: hidden;
-					display: -webkit-box;
-					-webkit-line-clamp: 5;
-					-webkit-box-orient: vertical;
-				}
+		/* 固定五行高度裁切（各渲染器都支持 max-height），省略号由遮罩补 */
+		.longText {
+			position: relative;
+
+			&.isLimited {
+				max-height: 7rem; /* 5 行 × 1.4rem */
+				overflow: hidden;
+			}
+
+			.ellipsisMask {
+				position: absolute;
+				right: 0;
+				bottom: 0;
+				padding-left: 16rpx;
+				background: #fff;
+				color: #333;
+				font-size: 30rpx;
+				line-height: 1.4rem;
 			}
 		}
 	}

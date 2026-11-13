@@ -66,16 +66,17 @@ const LongTextCard = ({ showAll = false, text, title }) => {
 					showAll ? 'all' : ''
 				}`}
 			>
-				<View className='longText'>
+				<View className={`longText ${isLimit ? 'isLimited' : ''}`}>
 					<Text
 						userSelect
 						decode
 						space={isLimit ? 'ensp' : 'nbsp'}
-						maxLines={5}
 						className='text'
 					>
 						{showAll ? cacheText : cacheText.substring(0, limitLength + 20)}
 					</Text>
+					{/* 截断时补省略号：line-clamp 在各渲染器行为不一致，用遮罩保证一定有 … */}
+					{isLimit ? <View className='ellipsisMask'>…</View> : null}
 				</View>
 			</View>
 			{/* 资源引用 */}
