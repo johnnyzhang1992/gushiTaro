@@ -299,7 +299,7 @@
 		}
 		.sourceTitle {
 			display: block;
-			font-family: var(--font-poem);
+			/* 不用衬线体：Android 普遍缺失 Songti/SimSun，真机会回退成难看的默认衬线 */
 			font-size: 32rpx;
 			color: #1f2329;
 			line-height: 1.5;
@@ -323,7 +323,6 @@
 		}
 		.sourceLine {
 			display: block;
-			font-family: var(--font-poem);
 			font-size: 26rpx;
 			color: #4e5969;
 			line-height: 1.9;
