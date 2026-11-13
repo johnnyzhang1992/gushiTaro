@@ -2,7 +2,8 @@ import { View, Text, Input, Image } from '@tarojs/components';
 import Taro, { useRouter, useDidShow, usePullDownRefresh } from '@tarojs/taro';
 import { useState, useCallback, useRef } from 'react';
 import { Button } from '@nutui/nutui-react-taro';
-import helpCircle from '../../images/svg/help_circle.svg';
+// 浅灰底按钮需要深色描边图标（白色版本在浅底上不可见）
+import helpCircle from '../../images/svg/help_circle_dark.svg';
 import {
   fetchStudyPlanDetail,
   fetchStudyPlanItems,

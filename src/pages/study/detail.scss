@@ -43,9 +43,13 @@
   gap: 6rpx;
 
   .plan-rule-icon {
-    width: 26rpx;
-    height: 26rpx;
+    width: 28rpx;
+    height: 28rpx;
     display: block;
+  }
+
+  &:active {
+    background: #e8eaee;
   }
 }
 
