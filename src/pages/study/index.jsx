@@ -1,5 +1,5 @@
 import { View, Text, Input } from '@tarojs/components';
-import Taro, { useDidShow } from '@tarojs/taro';
+import Taro, { useDidShow, usePullDownRefresh } from '@tarojs/taro';
 import { useState, useCallback, useRef } from 'react';
 import {
   fetchStudyPlans,
@@ -134,7 +134,13 @@ export default function StudyPage() {
   };
 
   // 下拉刷新
-  Taro.usePullDownRefresh(() => {
+  usePullDownRefresh(() => {
+    // tab 页会被缓存，确认是当前页再处理，避免下拉事件误刷新其他 tab
+    const pages = Taro.getCurrentPages();
+    if (pages[pages.length - 1]?.route !== 'pages/study/index') {
+      Taro.stopPullDownRefresh();
+      return;
+    }
     if (activeTab === 'mine') {
       loadPlans().then(() => {
         Taro.stopPullDownRefresh();

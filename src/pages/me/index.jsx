@@ -212,6 +212,12 @@ const MeIndex = () => {
 
 	usePullDownRefresh(() => {
 		console.log('page-pullRefresh');
+		// 确认当前页是「我的」，避免 tab 页缓存时误触发其他页面的下拉刷新
+		const pages = Taro.getCurrentPages();
+		if (pages[pages.length - 1]?.route !== 'pages/me/index') {
+			Taro.stopPullDownRefresh();
+			return;
+		}
 		Promise.resolve(loadUserProfile(true)).finally(() => {
 			Taro.stopPullDownRefresh();
 		});

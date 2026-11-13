@@ -1,5 +1,5 @@
 import { View, Text, Input, Image } from '@tarojs/components';
-import Taro, { useRouter, useDidShow } from '@tarojs/taro';
+import Taro, { useRouter, useDidShow, usePullDownRefresh } from '@tarojs/taro';
 import { useState, useCallback, useRef } from 'react';
 import { Button } from '@nutui/nutui-react-taro';
 import helpCircle from '../../images/svg/help_circle.svg';
@@ -89,7 +89,12 @@ export default function StudyDetailPage() {
     loadItems();
   });
 
-  Taro.usePullDownRefresh(() => {
+  usePullDownRefresh(() => {
+    const pages = Taro.getCurrentPages();
+    if (pages[pages.length - 1]?.route !== 'pages/study/detail') {
+      Taro.stopPullDownRefresh();
+      return;
+    }
     Promise.all([loadPlan(), loadItems()]).then(() => {
       Taro.stopPullDownRefresh();
     });
