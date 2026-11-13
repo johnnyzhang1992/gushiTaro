@@ -6,13 +6,7 @@ import Skeleton from '../Skeleton';
 
 import './style.scss';
 import { isApiSuccess, getApiData } from '../../apis/response';
-import {
-  getDisplayName,
-  layoutSpine,
-  formatPoemCount,
-  SPINE_FONT_SIZE,
-  SPINE_LINE_HEIGHT,
-} from '../../utils/collectionCard';
+import CollectionInfoCard from '../CollectionInfoCard';
 
 const CollectionContainer = () => {
   const [groups, setGroups] = useState([]);
@@ -66,43 +60,16 @@ const CollectionContainer = () => {
                 查看全部 ›
               </Navigator>
             </View>
-            {/* 诗单封面横向滚动 */}
-            <ScrollView className='collectionScroll' scrollX enableFlex showScrollbar={false}>
-              {(group.collections || []).slice(0, 10).map((c) => {
-                const layout = layoutSpine(getDisplayName(c.collection_name, group.group_name));
-                return (
-                  <Navigator
-                    key={c._id}
-                    className='bookCard'
-                    hoverClass='none'
-                    url={`/pages/library/collection-detail?id=${c._id}`}
-                  >
-                    <View className='bookCover'>
-                      <View className='coverSpine' />
-                      <View className='coverTitle' style={{ fontSize: `${SPINE_FONT_SIZE}rpx` }}>
-                        <View className='titleRow'>
-                          {layout.cols.map((col, ci) => (
-                            <View className='titleCol' key={ci}>
-                              {[...col].map((ch, i) => (
-                                <Text
-                                  className='titleChar'
-                                  key={i}
-                                  style={{ lineHeight: `${SPINE_LINE_HEIGHT}rpx`, height: `${SPINE_LINE_HEIGHT}rpx` }}
-                                >
-                                  {ch}
-                                </Text>
-                              ))}
-                            </View>
-                          ))}
-                        </View>
-                      </View>
-                      <View className='coverDivider' />
-                      <Text className='coverCount'>{formatPoemCount(c.poem_count)}</Text>
-                    </View>
-                  </Navigator>
-                );
-              })}
-            </ScrollView>
+            {/* 诗单信息卡：每组展示两行（4 个），更多走「查看全部」 */}
+            <View className='collectionGrid'>
+              {(group.collections || []).slice(0, 4).map((c) => (
+                <CollectionInfoCard
+                  key={c._id}
+                  collection={c}
+                  groupName={group.group_name}
+                />
+              ))}
+            </View>
           </View>
         ))}
       </ScrollView>

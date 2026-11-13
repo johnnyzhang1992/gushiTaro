@@ -38,93 +38,15 @@
 		}
 	}
 
-	.collectionScroll {
-		white-space: nowrap;
-		width: 100%;
-
-		/* 确保横向不换行（小程序 ScrollView scrollX 需要） */
-		.bookCard {
-			display: inline-block;
-			white-space: normal; /* 卡片内部允许换行 */
-			vertical-align: bottom;
-			width: 176rpx;
-			margin-right: 16rpx;
-			box-sizing: border-box;
-		}
-	}
-}
-
-/* 诗单书脊卡：左侧书脊色条 + 竖排书名（按「·」分列）+ 底部横排数量 */
-.bookCover {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	height: 232rpx;
-	box-sizing: border-box;
-	background: #fff;
-	border: 1rpx solid #e3e7ec;
-	border-radius: 10rpx;
-	box-shadow: 0 2rpx 8rpx rgba(31, 35, 41, 0.05);
-	overflow: hidden;
-
-	.coverSpine {
-		position: absolute;
-		left: 0;
-		top: 0;
-		bottom: 0;
-		width: 8rpx;
-		background: #7f93a8;
-	}
-
-	.coverTitle {
+	/* 诗单信息卡网格：每组两行 */
+	.collectionGrid {
 		display: flex;
-		justify-content: center;
-		align-items: center;
-		height: 168rpx;
-		/* 左右等距内边距，书名在整张卡片内居中 */
-		padding: 24rpx 6rpx 8rpx;
-		box-sizing: border-box;
-		font-family: var(--font-poem);
-		font-weight: 600;
-		color: #1f2329;
+		flex-wrap: wrap;
+		justify-content: space-between;
 
-		/* 各列共用一个顶部基线，整块再垂直居中；不能逐列居中，否则短列会下移 */
-		.titleRow {
-			display: flex;
-			align-items: flex-start;
-			justify-content: center;
+		.infoCard {
+			width: 48.5%;
+			margin-bottom: 16rpx;
 		}
-
-		/* 竖排按字渲染，避免 writing-mode 在小程序里宽度计算不一致导致溢出 */
-		.titleCol {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			flex-shrink: 0;
-			margin: 0 4rpx;
-		}
-
-		.titleChar {
-			display: block;
-			text-align: center;
-		}
-	}
-
-	.coverDivider {
-		height: 1rpx;
-		margin: 0 22rpx;
-		background: #eef1f4;
-	}
-
-	/* 数量占据分隔线下方的剩余区域并垂直居中，避免贴住底边 */
-	.coverCount {
-		flex: 1;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 24rpx;
-		line-height: 34rpx;
-		color: #8a93a6;
 	}
 }

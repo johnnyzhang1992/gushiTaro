@@ -44,69 +44,15 @@
 	}
 }
 
-/* 诗单信息卡（双列） */
+/* 诗单信息卡（双列网格，卡样式见 components/CollectionInfoCard） */
 .collectionGrid {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
-}
 
-.infoCard {
-	position: relative;
-	display: flex;
-	align-items: center;
-	width: 334rpx;
-	height: 120rpx;
-	margin-bottom: 16rpx;
-	padding: 0 44rpx 0 28rpx;
-	box-sizing: border-box;
-	background: #fff;
-	border: 1rpx solid #e3e7ec;
-	border-radius: 14rpx;
-	box-shadow: 0 2rpx 8rpx rgba(31, 35, 41, 0.05);
-	overflow: hidden;
-
-	.cardSpine {
-		position: absolute;
-		left: 0;
-		top: 0;
-		bottom: 0;
-		width: 9rpx;
-		background: #7f93a8;
-	}
-
-	.cardBody {
-		flex: 1;
-		min-width: 0;
-	}
-
-	.cardTitle {
-		display: block;
-		font-size: 28rpx;
-		font-weight: 600;
-		color: #1f2329;
-		font-family: var(--font-poem);
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
-
-	.cardMeta {
-		display: block;
-		margin-top: 10rpx;
-		font-size: 22rpx;
-		color: #8a93a6;
-	}
-
-	.cardArrow {
-		position: absolute;
-		right: 26rpx;
-		top: 50%;
-		width: 14rpx;
-		height: 14rpx;
-		border-top: 3rpx solid #c2c8d2;
-		border-right: 3rpx solid #c2c8d2;
-		transform: translateY(-50%) rotate(45deg);
+	.infoCard {
+		width: 334rpx;
+		margin-bottom: 16rpx;
 	}
 }
 

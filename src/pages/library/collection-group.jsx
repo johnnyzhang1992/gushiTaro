@@ -1,4 +1,4 @@
-import { View, Text, Navigator } from '@tarojs/components';
+import { View, Text } from '@tarojs/components';
 import Taro, {
 	useRouter,
 	useLoad,
@@ -13,7 +13,7 @@ import { fetchCollectionGroups, fetchCollections } from '../../services/study';
 
 import './collection-group.scss';
 import { isApiSuccess } from '../../apis/response';
-import { getDisplayName, formatPoemCount } from '../../utils/collectionCard';
+import CollectionInfoCard from '../../components/CollectionInfoCard';
 
 const CollectionGroupPage = () => {
   const { setTitle } = useNavigationBar({ title: '古诗文小助手' });
@@ -66,8 +66,6 @@ const CollectionGroupPage = () => {
     path: `/pages/library/collection-group?id=${groupId}&name=${encodeURIComponent(groupName)}`,
   }));
 
-  const displayName = (name = '') => getDisplayName(name, groupName);
-
   const totalPoems = collections.reduce((sum, c) => sum + (c.poem_count || 0), 0);
 
   return (
@@ -97,19 +95,7 @@ const CollectionGroupPage = () => {
         ) : (
           <View className='collectionGrid'>
             {collections.map((c) => (
-              <Navigator
-                key={c._id}
-                className='infoCard'
-                hoverClass='none'
-                url={`/pages/library/collection-detail?id=${c._id}`}
-              >
-                <View className='cardSpine' />
-                <View className='cardBody'>
-                  <Text className='cardTitle'>{displayName(c.collection_name)}</Text>
-                  <Text className='cardMeta'>{formatPoemCount(c.poem_count)}</Text>
-                </View>
-                <View className='cardArrow' />
-              </Navigator>
+              <CollectionInfoCard key={c._id} collection={c} groupName={groupName} />
             ))}
           </View>
         )}
