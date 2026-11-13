@@ -12,6 +12,8 @@ import {
 	removePoemFromStudyPlan,
 } from '../../services/study';
 
+import { SHEET_ROW_HEIGHT } from '../../utils/collectionCard';
+
 import './style.scss';
 import { isApiSuccess, getApiData } from '../../apis/response';
 
@@ -310,7 +312,7 @@ const ScheduleModal = ({
 								showScrollbar={false}
 								style={{
 									// 按条数自适应高度，避免弹层里留一大片空白
-									height: `${Math.min(schedules.length * 110 + 8, 520)}rpx`,
+									height: `${Math.min(schedules.length * SHEET_ROW_HEIGHT + 4, 520)}rpx`,
 								}}
 							>
 								{schedules.map((item) => (

@@ -8,6 +8,7 @@ import { userIsLogin } from '../../utils/auth';
 
 import './style.scss';
 import { isApiSuccess } from '../../apis/response';
+import { SHEET_ROW_HEIGHT } from '../../utils/collectionCard';
 
 const AddToCollectionPopup = ({ visible, poemId, onClose, onSuccess }) => {
 	const [collections, setCollections] = useState([]);
@@ -194,7 +195,7 @@ const AddToCollectionPopup = ({ visible, poemId, onClose, onSuccess }) => {
 								scrollY
 								showScrollbar={false}
 								style={{
-									height: `${Math.min(collections.length * 110 + 8, 520)}rpx`,
+									height: `${Math.min(collections.length * SHEET_ROW_HEIGHT + 4, 520)}rpx`,
 								}}
 							>
 								{collections.map((item) => (
