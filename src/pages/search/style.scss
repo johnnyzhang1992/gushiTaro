@@ -38,8 +38,8 @@
   }
 
   .searchTop {
-    padding: 20rpx 24rpx;
-    background: #f6f7f9;
+    padding: 20rpx 24rpx 12rpx;
+    background: transparent;
     position: sticky;
     top: 0;
     z-index: 99;
@@ -47,63 +47,82 @@
     .searchBar {
       display: flex;
       align-items: center;
+      gap: 16rpx;
+    }
 
-      .searchInputWrapper {
-        flex: 1;
-        position: relative;
-        display: flex;
-        align-items: center;
-        background: #fff;
-        border-radius: 40rpx;
-        box-shadow: 0 2rpx 12rpx rgba(43, 108, 246, 0.08);
+    /* 输入框：白底胶囊 + 放大镜 + 清除按钮 */
+    .searchInputWrapper {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      height: 78rpx;
+      padding: 0 16rpx 0 24rpx;
+      box-sizing: border-box;
+      background: #fff;
+      border: 1rpx solid #eaedf2;
+      border-radius: 39rpx;
+      box-shadow: 0 2rpx 10rpx rgba(31, 35, 41, 0.04);
 
-        .searchInput {
-          flex: 1;
-          height: 64rpx;
-          padding: 0 70rpx 0 28rpx;
-          font-size: 28rpx;
-          background: transparent;
-          border-radius: 40rpx;
-        }
-
-        .searchPlaceholder {
-          color: #aaa;
-        }
-
-        .clearIcon {
-          position: absolute;
-          right: 20rpx;
-          width: 40rpx;
-          height: 40rpx;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: #e0e0e0;
-          border-radius: 50%;
-
-          .clearText {
-            font-size: 28rpx;
-            color: #fff;
-            line-height: 1;
-          }
-        }
+      .searchIcon {
+        width: 30rpx;
+        height: 30rpx;
+        margin-right: 14rpx;
+        flex-shrink: 0;
+        opacity: 0.5;
       }
 
-      .searchBtn {
-        flex-shrink: 0;
-        height: 64rpx;
-        padding: 0 32rpx;
-        border-radius: 32rpx;
-        background: #2b6cf6;
+      .searchInput {
+        flex: 1;
+        min-width: 0;
+        height: 100%;
+        font-size: 28rpx;
+        color: #1f2329;
+        background: transparent;
+      }
+
+      .searchPlaceholder {
+        color: #a2a9b6;
+      }
+
+      .clearIcon {
+        width: 36rpx;
+        height: 36rpx;
+        margin-left: 12rpx;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-left: 16rpx;
+        background: #dfe3ea;
+        border-radius: 50%;
+        flex-shrink: 0;
 
-        .searchBtnText {
+        .clearText {
+          font-size: 24rpx;
           color: #fff;
-          font-size: 26rpx;
+          line-height: 1;
         }
+      }
+    }
+
+    .searchBtn {
+      flex-shrink: 0;
+      height: 78rpx;
+      padding: 0 36rpx;
+      border-radius: 39rpx;
+      background: #2b6cf6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4rpx 12rpx rgba(43, 108, 246, 0.24);
+
+      &:active {
+        opacity: 0.85;
+      }
+
+      .searchBtnText {
+        color: #fff;
+        font-size: 28rpx;
+        font-weight: 500;
       }
     }
   }
@@ -123,25 +142,23 @@
     .content {
       display: flex;
       flex-wrap: wrap;
-      gap: 12rpx;
-      padding: 16rpx 24rpx;
+      gap: 16rpx;
+      padding: 20rpx 24rpx 24rpx;
     }
   }
 
   .hotKeys {
-    font-size: 24rpx;
-    padding: 10rpx 20rpx;
+    font-size: 26rpx;
+    padding: 12rpx 26rpx;
     display: inline-block;
-    border-radius: 28rpx;
-    background-color: #fff;
-    color: #333;
-    border: 2rpx solid #e8edf2;
+    border-radius: 30rpx;
+    background-color: #f4f6f9;
+    color: #4e5969;
     transition: all 0.2s;
 
     &:active {
       background-color: #2b6cf6;
       color: #fff;
-      border-color: #2b6cf6;
     }
   }
 
@@ -191,13 +208,27 @@
     overflow: hidden;
     box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
 
+    /* 小标题：与「为你推荐」的标题栏统一（蓝色竖条 + 加粗） */
     &>.title {
-      padding: 28rpx 0 20rpx 0;
+      position: relative;
+      padding: 26rpx 0 18rpx 18rpx;
       margin: 0 28rpx;
       font-size: 30rpx;
       font-weight: 600;
-      color: #333;
-      border-bottom: 2rpx solid #f6f7f9;
+      color: #1f2329;
+      border-bottom: 2rpx solid #f4f6f9;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-62%);
+        width: 6rpx;
+        height: 26rpx;
+        border-radius: 3rpx;
+        background: linear-gradient(180deg, #2b6cf6, #4a7dff);
+      }
     }
 
     &>.content {

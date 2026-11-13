@@ -1,4 +1,4 @@
-import { View, Text, Navigator, ScrollView, Input } from '@tarojs/components';
+import { View, Text, Navigator, ScrollView, Input, Image } from '@tarojs/components';
 import { useState, useRef } from 'react';
 import Taro, {
 	useLoad,
@@ -9,6 +9,7 @@ import Taro, {
 } from '@tarojs/taro';
 
 import PageHeader from '../../components/PageHeader';
+import searchIcon from '../../images/svg/search_dark.svg';
 import DictionaryContainer from '../../components/Dictionary/DictionaryContainer';
 import SectionCard from '../../components/SectionCard';
 import SentenceCard from '../../components/SentenceCard';
@@ -270,6 +271,7 @@ const SearchPage = () => {
 			<View className='searchTop'>
 				<View className='searchBar'>
 					<View className='searchInputWrapper'>
+						<Image className='searchIcon' src={searchIcon} mode='widthFix' />
 						<Input
 							className='searchInput'
 							placeholder={placeholder}
