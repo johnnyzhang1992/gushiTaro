@@ -60,7 +60,7 @@
 	display: flex;
 	flex-direction: column;
 	width: 100%;
-	height: 248rpx;
+	height: 232rpx;
 	box-sizing: border-box;
 	background: #fff;
 	border: 1rpx solid #e3e7ec;
@@ -110,12 +110,14 @@
 		background: #eef1f4;
 	}
 
+	/* 数量占据分隔线下方的剩余区域并垂直居中，避免贴住底边 */
 	.coverCount {
-		display: block;
-		text-align: center;
+		flex: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		font-size: 24rpx;
 		line-height: 34rpx;
 		color: #8a93a6;
-		padding: 8rpx 0 10rpx;
 	}
 }
