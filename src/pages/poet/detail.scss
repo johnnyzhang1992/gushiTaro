@@ -109,44 +109,34 @@
 		}
 	}
 
-	/* 点赞/收藏：图标本体未点亮=蓝填充、点亮=白填充，故未点亮白底、点亮深蓝底+白描边 */
+	/* 点赞/收藏：仅图标与文字变色，无底色 */
 	.actions {
 		display: flex;
 		align-items: center;
 		gap: 12rpx;
 		flex-shrink: 0;
 
+		/* 配色由组件本身决定（未选中灰、选中蓝），这里只统一尺寸 */
 		.likeButton,
 		.collectButton {
-			background-color: #f2f3f5;
-			color: #4e5969;
-			border-radius: 999rpx;
-			border: 2rpx solid transparent;
+			font-size: 26rpx;
 
-			&.active {
-				background-color: #2b6cf6;
-				color: #fff;
-				border-color: #2b6cf6;
-			}
-
-			/* 两个组件图标尺寸统一 */
 			.icon {
 				width: 40rpx;
 				height: 40rpx;
 			}
 		}
 
-		/* LikeButton 的 padding 在根节点 */
 		.likeButton {
-			padding: 6rpx 16rpx;
+			padding: 6rpx 12rpx;
 		}
 
-		/* CollectButton 的 padding 在内部容器，根节点不要再加，避免双份 padding 显得更大 */
+		/* CollectButton 的 padding 在内部容器，根节点不要再加，避免双份 padding */
 		.collectButton {
 			padding: 0;
 
 			.buttonContainer.collect {
-				padding: 6rpx 16rpx;
+				padding: 6rpx 12rpx;
 			}
 		}
 	}
