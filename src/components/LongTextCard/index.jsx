@@ -6,10 +6,11 @@ import FloatLayout from '../FloatLayout';
 import './style.scss';
 
 // 长文本卡片渲染
-// 默认渲染四行，多余支持半屏展示；支持全文展示
+// 默认渲染五行，多余支持半屏展示；支持全文展示
 const LongTextCard = ({ showAll = false, text, title }) => {
 	const [isOpen, openVisible] = useState(false);
-	const limitLength = 99;
+	// 五行大约容纳的字数，留一点余量避免文字不够撑满
+	const limitLength = 150;
 	// reference 由 props 派生，避免在 useMemo 计算体内 setState
 	const reference = useMemo(() => {
 		if (text && typeof text !== 'string' && text.reference) {
@@ -70,7 +71,7 @@ const LongTextCard = ({ showAll = false, text, title }) => {
 						userSelect
 						decode
 						space={isLimit ? 'ensp' : 'nbsp'}
-						maxLines={3}
+						maxLines={5}
 						className='text'
 					>
 						{showAll ? cacheText : cacheText.substring(0, limitLength + 20)}
