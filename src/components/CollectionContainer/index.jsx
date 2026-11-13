@@ -8,6 +8,12 @@ import './style.scss';
 import { isApiSuccess, getApiData } from '../../apis/response';
 import CollectionInfoCard from '../CollectionInfoCard';
 
+// 每组最多两行两列（4 个）；只有 3 个时退成一行两个，避免最后一行孤零零一个
+const visibleCount = (total) => {
+	const capped = Math.min(4, Number(total) || 0);
+	return capped === 3 ? 2 : capped;
+};
+
 const CollectionContainer = () => {
   const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -62,7 +68,7 @@ const CollectionContainer = () => {
             </View>
             {/* 诗单信息卡：每组展示两行（4 个），更多走「查看全部」 */}
             <View className='collectionGrid'>
-              {(group.collections || []).slice(0, 4).map((c) => (
+              {(group.collections || []).slice(0, visibleCount((group.collections || []).length)).map((c) => (
                 <CollectionInfoCard
                   key={c._id}
                   collection={c}
