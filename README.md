@@ -17,16 +17,23 @@
 
 ### 页面
 
-| 路径 | 说明 |
-|------|------|
-| `pages/index` | 首页（推荐诗词、底部筛选入口） |
-| `pages/poem/index` | 诗词列表页（搜索范围 + 类型 + 朝代三级筛选，收起/展开） |
-| `pages/poet/index` | 诗人列表页（作者 TAB 内嵌朝代筛选） |
-| `pages/sentence/index` | 名句列表页（主题 → 类型层级联动筛选） |
-| `pages/library/index` | 文库页（作品/诗人/名句/摘录/典故 5 个 TAB） |
-| `pages/me/index` | 个人中心 |
-| `pages/me/collections` | 我的诗单（我创建的/我收藏的，浮动新建按钮） |
-| `pages/study/index` | 学习计划（我的计划/推荐计划，浮动创建按钮） |
+`app.config.js` 当前注册 44 条路由，按模块划分：
+
+| 模块 | 路径 | 说明 |
+|------|------|------|
+| 首页 | `pages/index` | 每日诗词、农历/公历、学习计划概览、随机推荐 |
+| 文库 | `pages/library/index` | 作品 / 摘录 / 作者 / 诗单 / 典故 5 个 TAB |
+| 文库 | `pages/library/detail`、`catalog`、`allusion-detail`、`collection-group`、`collection-detail` | 分类、目录、典故、诗单详情 |
+| 诗词 | `pages/poem/index`、`pages/poem/detail` | 列表（搜索范围 + 类型 + 朝代筛选）、详情 |
+| 课本 | `pages/book` | 按课本分组的诗词 |
+| 诗人 | `pages/poet/index`、`pages/poet/detail` | 列表（朝代筛选）、详情 |
+| 名句 | `pages/sentence/index`、`pages/sentence/detail` | 列表（主题 → 类型联动）、详情 |
+| 搜索/字典 | `pages/search/index`、`pages/dictionary/index`、`detail`、`list` | 搜索、字典查询 |
+| 发现 | `pages/find/index`、`today`、`feihua`、`feihua-detail`、`cipai`、`story-map`、`story-detail` | 今日、飞花令、词牌、诗人足迹 |
+| 学习计划 | `pages/study/index`、`detail`、`stats` | 我的/推荐计划、复习、学习统计 |
+| 旧背诵页 | `pages/schedule/index`、`detail` | 兼容保留，入口已由 `pages/study` 替代 |
+| 个人中心 | `pages/me/index`、`collect`、`collections`、`collections/playlist-detail`、`setting`、`checkin`、`qrcode_login` | 我的、收藏、诗单、设置、签到、扫码登录 |
+| 其他 | `pages/post/index`、`pages/type/index`、`pages/poem/detail/index` | 静态内容、分类入口、旧详情重定向 |
 
 ### 核心组件
 
@@ -53,11 +60,44 @@
 
 [Taro](https://taro-docs.jd.com/) 是一个开放式跨端跨框架解决方案，支持使用 React/Vue/Nerv 等框架来开发 微信 / 京东 / 百度 / 支付宝 / 字节跳动 / QQ / 飞书 小程序 / H5 / RN 等应用。
 
+## 接口约定
+
+- 所有请求统一走 `src/apis/request.js`，resolve 的是后端响应体 `{ status, data, errmsg }`。
+- 业务层统一用 `src/apis/response.js` 判断与解包：
+
+  ```js
+  // 按当前文件层级调整相对路径，例如页面为 ../../apis/response
+  import { isApiSuccess, getApiData } from '../../apis/response';
+
+  const apiData = getApiData(res);
+  if (isApiSuccess(res) && apiData) { ... }
+  ```
+
+  不再在页面里散写 `res.status || res.statusCode === 200`、`res.data?.data || res.data`。
+- 学习计划接口统一维护在 `src/services/study.js`，遵循 REST 语义：创建/新增 `POST`、更新 `PUT`、删除 `DELETE`。小程序 `wx.request` 支持 `PUT` / `DELETE`，后端 CORS 已放行，无需用 `POST` 模拟。
+
+## 本地联调
+
+1. 启动本地 API（依赖本机 MongoDB / Redis，默认 3000 端口）：
+
+   ```bash
+   cd ../gushi_api
+   pnpm dev
+   ```
+
+2. 小程序 dev 环境默认请求 `http://localhost:3000`（见 `src/const/config.js` 的 `DEV_BASE_URL`）。真机预览时改成电脑局域网 IP，例如 `http://192.168.31.139:3000`。
+
+3. 启动小程序 watch 构建，微信开发者工具导入项目根目录（`miniprogramRoot` 为 `dist/`）：
+
+   ```bash
+   pnpm dev:weapp
+   ```
+
 ## 配置项
 
-`const/constant.js` 文件存在几个配置项，可以根据需要进行修改。主要是请求CDN资源(图片等)加了限制，链接后面需要加`auth_key`才可以正常访问。
+`src/const/constants.js` 文件存在几个配置项，可以根据需要进行修改。主要是请求 CDN 资源（图片等）加了限制，链接后面需要加 `auth_key` 才可以正常访问。
 
-复制`const/constant.js.example`代码到 `const/constant.js` 文件中。
+复制 `src/const/constants.js.example` 代码到 `src/const/constants.js` 文件中（该文件已加入 `.gitignore`，不会提交）。
 
 ```js
 // 阿里云 oss url 校验 key 
@@ -91,15 +131,15 @@ module.exports = {
 
 - `apis`
 
-  API 接口统一请求文件
+  请求封装：`request.js`（统一请求）、`response.js`（响应判断/解包）、`uploadFile.js`
 
-- `component`
+- `components`
 
-  此目录是自定义组件部分
+  此目录是自定义业务组件
 
 - `const`
 
-  此目录是常用变量，包括：朝代、分类等数据
+  此目录是常用变量（朝代、分类、筛选等），`constants.js` 需从 `constants.js.example` 复制
 
 - `images`
 
@@ -109,13 +149,17 @@ module.exports = {
 
   此目录下是一些自定义 hook
 
+- `layout`
+
+  页面布局壳组件
+
 - `pages`
 
   此目录下为小程序主要内容，各页面 View 和 js 文件
 
 - `services`
 
-  API 请求实例，该目录主要存放全局请求相关的方法。页面相关的在相应目录下会存在 `service.js` 各自维护。
+  API 请求实例：`global.js`（跨页通用）、`study.js`（学习计划，唯一实现）、`storyMap.js`（诗人足迹）。页面相关接口在相应目录下的 `service.js` 各自维护。
 
 - `utils`
 
