@@ -210,8 +210,12 @@
 
     /* 小标题：与「为你推荐」的标题栏统一（蓝色竖条 + 加粗） */
     &>.title {
-      position: relative;
-      padding: 26rpx 0 18rpx 18rpx;
+      /* 竖条作为 flex 子项参与对齐，避免绝对定位算不准垂直居中 */
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 12rpx;
+      padding: 26rpx 0 18rpx;
       margin: 0 28rpx;
       font-size: 30rpx;
       font-weight: 600;
@@ -220,14 +224,15 @@
 
       &::before {
         content: '';
-        position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translateY(-62%);
+        flex-shrink: 0;
         width: 6rpx;
         height: 26rpx;
         border-radius: 3rpx;
         background: linear-gradient(180deg, #2b6cf6, #4a7dff);
+      }
+
+      .extra {
+        margin-left: auto;
       }
     }
 

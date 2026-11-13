@@ -42,7 +42,7 @@ const PoetCard = ({
 			<View className='content'>
 				<View className='author'>
 					<Text className='name'>{author_name}</Text>
-					{dynasty ? <Text className='dynasty'>「{dynasty}」</Text> : null}
+					{dynasty ? <Text className='dynasty'>· {dynasty}</Text> : null}
 				</View>
 				<View className='profile'>
 					<Text className='text'>{profile}</Text>
