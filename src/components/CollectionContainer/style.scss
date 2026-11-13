@@ -80,7 +80,7 @@
 	.coverTitle {
 		display: flex;
 		justify-content: center;
-		align-items: flex-start;
+		align-items: center;
 		height: 168rpx;
 		/* 左右等距内边距，书名在整张卡片内居中 */
 		padding: 24rpx 6rpx 8rpx;
@@ -88,6 +88,13 @@
 		font-family: var(--font-poem);
 		font-weight: 600;
 		color: #1f2329;
+
+		/* 各列共用一个顶部基线，整块再垂直居中；不能逐列居中，否则短列会下移 */
+		.titleRow {
+			display: flex;
+			align-items: flex-start;
+			justify-content: center;
+		}
 
 		/* 竖排按字渲染，避免 writing-mode 在小程序里宽度计算不一致导致溢出 */
 		.titleCol {

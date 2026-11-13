@@ -6,7 +6,13 @@ import Skeleton from '../Skeleton';
 
 import './style.scss';
 import { isApiSuccess, getApiData } from '../../apis/response';
-import { getDisplayName, layoutSpine, formatPoemCount } from '../../utils/collectionCard';
+import {
+  getDisplayName,
+  layoutSpine,
+  formatPoemCount,
+  SPINE_FONT_SIZE,
+  SPINE_LINE_HEIGHT,
+} from '../../utils/collectionCard';
 
 const CollectionContainer = () => {
   const [groups, setGroups] = useState([]);
@@ -73,20 +79,22 @@ const CollectionContainer = () => {
                   >
                     <View className='bookCover'>
                       <View className='coverSpine' />
-                      <View className='coverTitle' style={{ fontSize: `${layout.fontSize}rpx` }}>
-                        {layout.cols.map((col, ci) => (
-                          <View className='titleCol' key={ci}>
-                            {[...col].map((ch, i) => (
-                              <Text
-                                className='titleChar'
-                                key={i}
-                                style={{ lineHeight: `${layout.lineHeight}rpx`, height: `${layout.lineHeight}rpx` }}
-                              >
-                                {ch}
-                              </Text>
-                            ))}
-                          </View>
-                        ))}
+                      <View className='coverTitle' style={{ fontSize: `${SPINE_FONT_SIZE}rpx` }}>
+                        <View className='titleRow'>
+                          {layout.cols.map((col, ci) => (
+                            <View className='titleCol' key={ci}>
+                              {[...col].map((ch, i) => (
+                                <Text
+                                  className='titleChar'
+                                  key={i}
+                                  style={{ lineHeight: `${SPINE_LINE_HEIGHT}rpx`, height: `${SPINE_LINE_HEIGHT}rpx` }}
+                                >
+                                  {ch}
+                                </Text>
+                              ))}
+                            </View>
+                          ))}
+                        </View>
                       </View>
                       <View className='coverDivider' />
                       <Text className='coverCount'>{formatPoemCount(c.poem_count)}</Text>
