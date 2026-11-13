@@ -52,7 +52,7 @@
 				margin-bottom: 8px;
 			}
 			.content {
-				color: #666;
+				color: #4e5969;
 				font-size: 24px;
 			}
 		}
@@ -63,17 +63,17 @@
 			margin-right: 20px;
 			justify-content: flex-end;
 			.btn {
-				color: #337ab7;
+				color: #2b6cf6;
 				font-size: 24px;
 				text-align: center;
-				border: 1px solid #337ab7;
+				border: 1px solid #2b6cf6;
 				padding: 10px 30px;
 				border-radius: 8px;
 				min-width: 140px;
 				box-sizing: border-box;
 				&.disable {
-					color: #999;
-					border-color: #999;
+					color: #8a93a6;
+					border-color: #8a93a6;
 				}
 			}
 		}

@@ -12,3 +12,8 @@ export const fetchHistoryToday = (method = 'GET', data) => {
 export const fetchHistoryPoemDetail = (id) => {
 	return Request(`/api/history/today/poem/${id}`, {}, 'GET');
 };
+
+/** 历史事件分页（主路由 events 为全量，此接口供触底加载） */
+export const fetchHistoryEvents = (method = 'GET', data) => {
+	return Request(`/api/history/today/events`, data, method);
+};

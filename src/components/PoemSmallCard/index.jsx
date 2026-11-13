@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { View, Text, Navigator } from '@tarojs/components';
 
 import HighLightText from '../HighLightText';
@@ -27,7 +27,10 @@ const PoemSmallCard = ({
 	lightWord,
 	hideAudio = false,
 	footerSlot = null,
+	clampLines = 0,
 }) => {
+	// 长诗词收起：超过 clampLines 行时默认折叠，可展开/收起
+	const [expanded, setExpanded] = useState(false);
 	// 优先使用 content.content 数组格式
 	const _content = useMemo(() => {
 		// 如果 content 是对象且有 content 数组，直接使用
@@ -63,7 +66,7 @@ const PoemSmallCard = ({
 					{dynasty ? <Text className='dynasty'>{dynasty}</Text> : null}
 					<Text className='author'>{author}</Text>
 				</View>
-				<View className='content'>
+				<View className={`content ${clampLines > 0 && _content.length > clampLines && !expanded ? 'clamped' : ''}`}>
 					{/* 全部内容 */}
 					{_content.map((text) => {
 						return (
@@ -71,6 +74,15 @@ const PoemSmallCard = ({
 						);
 					})}
 				</View>
+				{clampLines > 0 && _content.length > clampLines ? (
+					<View
+						className='expandToggle'
+						onClick={() => setExpanded(!expanded)}
+					>
+						<Text className='expandText'>{expanded ? '收起' : '展开全文'}</Text>
+						<Text className='expandArrow'>{expanded ? '▲' : '▼'}</Text>
+					</View>
+				) : null}
 			</Navigator>
 			<View
 				className='bottom'

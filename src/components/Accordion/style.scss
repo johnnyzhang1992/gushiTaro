@@ -54,8 +54,8 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		color: #337ab7;
-		border: 2px solid #337ab7;
+		color: #2b6cf6;
+		border: 2px solid #2b6cf6;
 		border-radius: 50%;
 		transition: transform 0.2s ease;
 		transition: transform 0.2s ease, -webkit-transform 0.2s ease;
@@ -98,7 +98,7 @@
 				right: 0;
 				font-size: 0.6em;
 				margin-left: 4px;
-				color: #337ab7;
+				color: #2b6cf6;
 			}
 		}
 		.item__source {
@@ -118,7 +118,7 @@
 			top: 50%;
 			width: 100%;
 			transform: translateY(-50%);
-			border-bottom: 1px dotted #999;
+			border-bottom: 1px dotted #8a93a6;
 		}
 	}
 }

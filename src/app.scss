@@ -1,22 +1,25 @@
 @charset "UTF-8";
 
-/* NutUI 主题配色 */
+/* 全局底色：所有页面统一 #f6f7f9，页面级不再各自声明 */
 page {
-	--nutui-color-primary: #337ab7;
-	--nutui-color-primary-stop-1: #4a90d9;
-	--nutui-color-primary-stop-2: #337ab7;
-	--nutui-color-primary-pressed: #286090;
+	background: #f6f7f9;
+	/* 诗词正文字体：衬线（iOS 宋体；Android 降级系统衬线） */
+	--font-poem: Georgia, 'Songti SC', STSong, SimSun, serif;
+	--nutui-color-primary: #2b6cf6;
+	--nutui-color-primary-stop-1: #4a7dff;
+	--nutui-color-primary-stop-2: #2b6cf6;
+	--nutui-color-primary-pressed: #1e4fd6;
 	--nutui-color-primary-disabled: #c2c4cc;
-	--nutui-color-primary-disabled-special: #a0c4e8;
-	--nutui-color-primary-specialdisabled: #a0c4e8;
-	--nutui-color-primary-light-pressed: #e8f0fa;
-	--nutui-color-primary-icon: #337ab7;
-	--nutui-color-primary-icon-disabled: #a0c4e8;
+	--nutui-color-primary-disabled-special: #a9bffc;
+	--nutui-color-primary-specialdisabled: #a9bffc;
+	--nutui-color-primary-light-pressed: #eaf1ff;
+	--nutui-color-primary-icon: #2b6cf6;
+	--nutui-color-primary-icon-disabled: #a9bffc;
 
-	--nutui-color-info: #337ab7;
-	--nutui-color-info-pressed: #286090;
-	--nutui-color-info-disabled: #a0c4e8;
-	--nutui-color-info-light: #e8f0fa;
+	--nutui-color-info: #2b6cf6;
+	--nutui-color-info-pressed: #1e4fd6;
+	--nutui-color-info-disabled: #a9bffc;
+	--nutui-color-info-light: #eaf1ff;
 
 	--nutui-color-success: #52c41a;
 	--nutui-color-success-pressed: #3da50e;
@@ -41,25 +44,25 @@ page {
 	--nutui-color-border-disabled: #c2c4cc;
 
 	--nutui-color-title: #333;
-	--nutui-color-text: #666;
-	--nutui-color-text-help: #999;
+	--nutui-color-text: #4e5969;
+	--nutui-color-text-help: #8a93a6;
 	--nutui-color-text-disabled: #c2c4cc;
 
 	/* Button */
 	--nutui-button-border-radius: 16px;
 	--nutui-button-primary-color: #fff;
-	--nutui-button-primary-border-color: #337ab7;
-	--nutui-button-primary-disabled: #a0c4e8;
+	--nutui-button-primary-border-color: #2b6cf6;
+	--nutui-button-primary-disabled: #a9bffc;
 	--nutui-button-default-height: 72px;
 	--nutui-button-default-font-size: 28px;
 
 	/* Tabs */
 	--nutui-tabs-titles-height: 88px;
 	--nutui-tabs-titles-background-color: #fff;
-	--nutui-tabs-titles-item-color: #666;
-	--nutui-tabs-titles-item-active-color: #337ab7;
+	--nutui-tabs-titles-item-color: #4e5969;
+	--nutui-tabs-titles-item-active-color: #2b6cf6;
 	--nutui-tabs-titles-item-active-font-weight: 600;
-	--nutui-tabs-tab-line-color: #337ab7;
+	--nutui-tabs-tab-line-color: #2b6cf6;
 	--nutui-tabs-tab-line-height: 6px;
 	--nutui-tabs-tab-line-border-radius: 4px;
 	--nutui-tabs-titles-font-size: 36px;
@@ -70,10 +73,10 @@ page {
 	--nutui-tag-font-size: 28px;
 	--nutui-tag-padding: 8px 24px;
 	--nutui-tag-background-color: #f5f5f5;
-	--nutui-tag-color: #666;
+	--nutui-tag-color: #4e5969;
 
 	/* Switch */
-	--nutui-switch-active-background-color: #337ab7;
+	--nutui-switch-active-background-color: #2b6cf6;
 	--nutui-switch-inactive-background-color: #ddd;
 	--nutui-switch-border-radius: 28px;
 	--nutui-switch-width: 88px;
@@ -125,7 +128,7 @@ page {
 		height: 60vh;
 		.filter-section {
 			.filter-section-title {
-				color: #666;
+				color: #4e5969;
 				font-size: 28rpx;
 				font-weight: 500;
 				padding: 24px 20px 12px;
@@ -136,8 +139,8 @@ page {
 			padding: 24px 20px;
 			border-bottom: 1px solid #f0f0f0;
 			&.active {
-				color: #337ab7;
-				.filter-row-text { color: #337ab7; }
+				color: #2b6cf6;
+				.filter-row-text { color: #2b6cf6; }
 			}
 			.filter-row-text {
 				font-size: 30rpx;
@@ -207,11 +210,11 @@ page {
 .layout { height: 100%; .layout-extra { overflow: hidden; position: relative; } }
 
 .more-btn { display: flex; align-items: center; }
-.chevron { font-size: 28rpx; color: #999; margin-left: 4px; }
+.chevron { font-size: 28rpx; color: #8a93a6; margin-left: 4px; }
 .divide { height: 12px; width: 100%; background: #f8f8f8; }
 .loading { padding: 60px 30px; text-align: center; }
-.pageError { color: #999; padding: 60px 30px; text-align: center; .title { color: #333; } }
-.navigator { color: #337ab7; font-size: 28rpx; font-weight: 400; }
+.pageError { color: #8a93a6; padding: 60px 30px; text-align: center; .title { color: #333; } }
+.navigator { color: #2b6cf6; font-size: 28rpx; font-weight: 400; }
 .keywordFilter { color: #636366; font-size: 26rpx; padding: 10px 30px; }
 .keywordFilter .key { position: relative; padding-right: 30px; }
 .keywordFilter .key::after { content: '/'; padding: 0 6px; position: absolute; right: 0; }

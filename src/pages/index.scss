@@ -1,6 +1,6 @@
 .homePage {
 	padding: 0;
-	background-color: #f5f7fa;
+	background-color: #f6f7f9;
 	min-height: 100vh;
 
 	.home-content {
@@ -27,7 +27,7 @@
 		padding: 20rpx 30rpx;
 		border-top: 1rpx solid #f0f2f5;
 		font-size: 24rpx;
-		color: #666;
+		color: #4e5969;
 		flex-wrap: wrap;
 
 		.meta-item {
@@ -35,18 +35,18 @@
 			align-items: center;
 			padding: 4rpx 16rpx;
 			border-radius: 8rpx;
-			background: #f5f7fa;
+			background: #f6f7f9;
 		}
 
 		.festival {
-			background: #e8f0fa;
-			color: #337ab7;
+			background: #eaf1ff;
+			color: #2b6cf6;
 			font-weight: 500;
 		}
 
 		.solar-term {
-			color: #337ab7;
-			background: #e8f0fa;
+			color: #2b6cf6;
+			background: #eaf1ff;
 		}
 	}
 
@@ -67,14 +67,14 @@
 
 			.lunar-tag {
 				font-size: 22rpx;
-				color: #337ab7;
+				color: #2b6cf6;
 				margin-bottom: 8rpx;
 			}
 
 			.lunar-date {
 				font-size: 52rpx;
 				font-weight: 700;
-				color: #2c3e50;
+				color: #1f2329;
 				line-height: 1.2;
 				margin-bottom: 8rpx;
 			}
@@ -92,96 +92,14 @@
 
 			.solar-tag {
 				font-size: 22rpx;
-				color: #337ab7;
+				color: #2b6cf6;
 				margin-bottom: 8rpx;
 			}
 
 			.solar-date {
 				font-size: 32rpx;
 				font-weight: 600;
-				color: #2c3e50;
-			}
-		}
-	}
-
-	/* ===== 2. 每日诗词 ===== */
-	.dailyPoemCard {
-		background: #fff;
-		border: 1rpx solid #f0f0f0;
-		overflow: hidden;
-
-		.dailyPoem-header {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			padding: 24rpx 30rpx 16rpx;
-			border-bottom: 1rpx solid #f5f5f5;
-
-			.dailyPoem-tag {
-				font-size: 24rpx;
-				font-weight: 600;
-				color: #fff;
-				background: linear-gradient(135deg, #337ab7 0%, #5a9fd4 100%);
-				padding: 6rpx 16rpx;
-				border-radius: 20rpx;
-			}
-
-			.dailyPoem-arrow {
-				font-size: 36rpx;
-				color: #337ab7;
-				line-height: 1;
-			}
-		}
-
-		.dailyPoem-body {
-			padding: 24rpx 30rpx 30rpx;
-			position: relative;
-
-			.dailyPoem-text {
-				display: flex;
-				flex-direction: column;
-			}
-
-			.dailyPoem-title {
-				font-size: 32rpx;
-				font-weight: 700;
-				color: #2c3e50;
-				margin-bottom: 14rpx;
-				line-height: 1.4;
-			}
-
-			.dailyPoem-preview {
-				font-size: 28rpx;
-				color: #6b7a8d;
-				line-height: 1.6;
-				margin-bottom: 20rpx;
-
-				.dailyPoem-line {
-					display: block;
-					overflow: hidden;
-					text-overflow: ellipsis;
-					white-space: nowrap;
-				}
-			}
-
-			.dailyPoem-meta {
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-
-				.dailyPoem-author {
-					font-size: 22rpx;
-					color: #337ab7;
-					background: rgba(51, 122, 183, 0.08);
-					padding: 6rpx 14rpx;
-					border-radius: 16rpx;
-				}
-
-				.dailyPoem-quote {
-					font-size: 64rpx;
-					color: rgba(51, 122, 183, 0.12);
-					line-height: 1;
-				}
+				color: #1f2329;
 			}
 		}
 	}
@@ -211,7 +129,7 @@
 
 			.checkin-desc {
 				font-size: 24rpx;
-				color: #999;
+				color: #8a93a6;
 			}
 		}
 
@@ -223,7 +141,7 @@
 			height: 64rpx;
 			padding: 0 28rpx;
 			border-radius: 32rpx;
-			background: #337ab7;
+			background: #2b6cf6;
 			color: #fff;
 			font-size: 28rpx;
 			font-weight: 500;
@@ -246,7 +164,7 @@
 
 			.plan-more {
 				font-size: 24rpx;
-				color: #337ab7;
+				color: #2b6cf6;
 			}
 		}
 
@@ -275,13 +193,13 @@
 					}
 
 					&.rate {
-						color: #337ab7;
+						color: #2b6cf6;
 					}
 				}
 
 				.plan-label {
 					font-size: 22rpx;
-					color: #999;
+					color: #8a93a6;
 				}
 			}
 		}
@@ -331,9 +249,42 @@
 
 				.gameEntryDesc {
 					font-size: 22rpx;
-					color: #999;
+					color: #8a93a6;
 				}
 			}
+		}
+	}
+
+	/* ===== 诗人足迹入口 ===== */
+	.storyEntryCard {
+		display: flex;
+		align-items: center;
+		padding: 26rpx 30rpx;
+
+		.storyEntryInfo {
+			flex: 1;
+			min-width: 0;
+
+			.storyEntryTitle {
+				display: block;
+				font-size: 32rpx;
+				font-weight: 700;
+				color: #1f2329;
+				font-family: var(--font-poem);
+			}
+
+			.storyEntryDesc {
+				display: block;
+				margin-top: 6rpx;
+				font-size: 24rpx;
+				color: #8a93a6;
+			}
+		}
+
+		.storyEntryArrow {
+			font-size: 40rpx;
+			color: #ccc;
+			margin-left: 16rpx;
 		}
 	}
 
@@ -353,9 +304,9 @@
 
 			.recommend-refresh {
 				font-size: 24rpx;
-				color: #337ab7;
+				color: #2b6cf6;
 				padding: 8rpx 16rpx;
-				background: #e8f0fa;
+				background: #eaf1ff;
 				border-radius: 24rpx;
 			}
 		}

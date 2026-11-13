@@ -2,7 +2,7 @@
 	text-align: left;
 	padding-top: 30px;
 	.xu {
-		color: #999;
+		color: #8a93a6;
 		font-size: 34px;
 		margin-bottom: 20px;
 		text-align: left;
@@ -10,6 +10,8 @@
 	.content {
 		font-size: 36px;
 		text-align: left;
+		/* 诗词正文统一衬线（审计 P1-7） */
+		font-family: var(--font-poem);
 		&.wyw {
 			.contentItem {
 				margin-bottom: 20px;

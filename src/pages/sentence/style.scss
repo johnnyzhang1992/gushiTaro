@@ -8,7 +8,7 @@
 
 	.emptyText {
 		font-size: 28rpx;
-		color: #999;
+		color: #8a93a6;
 	}
 }
 
@@ -29,7 +29,7 @@
 		.searchInput {
 			flex: 1;
 			height: 64rpx;
-			background: #f5f7fa;
+			background: #f6f7f9;
 			border-radius: 32rpx;
 			padding: 0 60rpx 0 28rpx;
 			font-size: 26rpx;
@@ -64,7 +64,7 @@
 		height: 64rpx;
 		padding: 0 32rpx;
 		border-radius: 32rpx;
-		background: #337ab7;
+		background: #2b6cf6;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -82,13 +82,25 @@
 
 .page.sentenceDetail {
 	box-sizing: border-box;
-	background: #f8f8f8;
+	background: #f6f7f9;
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
 	flex-direction: column;
+	position: relative;
 
-	height: 100%;
+	.postExport {
+		position: absolute;
+		left: -10000px;
+		top: 0;
+	}
+	.postScale {
+		flex-shrink: 0;
+	}
+
+	.detailScroll {
+		width: 100%;
+	}
 	.sentence-section {
 		clear: both;
 		overflow: hidden;
@@ -140,7 +152,8 @@
 		margin: 0;
 	}
 	.topNavbar {
-		background-color: #337ab7;
+		background-color: #fff;
+		border-bottom: 2rpx solid #f0f2f5;
 		width: 100%;
 	}
 	.topNavbar-container {
@@ -150,7 +163,7 @@
 		align-items: center;
 		position: relative;
 		.title {
-			color: #fff;
+			color: #1f2329;
 			font-size: 28px;
 			position: absolute;
 			left: 50%;
@@ -165,28 +178,203 @@
 		align-items: center;
 		justify-content: space-between;
 		width: 100%;
-		padding: 20px 30px 0;
+		padding: 20rpx 24rpx 0;
 		box-sizing: border-box;
 		.btnItem {
-			color: #337ab7;
-			margin-right: 16px;
+			flex: 0 0 auto;
+			display: flex;
+			align-items: center;
+			min-height: 76rpx;
+			color: #2b6cf6;
+			margin-right: 12rpx;
 			&:last-child {
 				margin-right: 0;
 			}
 		}
 		.share-btn {
-			background-color: rgba(51, 122, 183, 0.1);
-			padding: 8rpx 20rpx;
-			border-radius: 8rpx;
+			min-height: 76rpx;
+			justify-content: center;
+			background-color: rgba(43, 108, 246, 0.1);
+			padding: 0 20rpx;
+			border-radius: 12rpx;
 			font-size: 24rpx;
 			box-sizing: border-box;
+		}
+		.likeButton,
+		.collectButton {
+			min-height: 76rpx;
+			box-sizing: border-box;
+			padding: 0 20rpx;
+			border-radius: 12rpx;
+			font-size: 24rpx;
+		}
+		.collectButton .buttonContainer.collect {
+			min-height: 76rpx;
+			padding: 0;
+		}
+		.likeButton .likeText,
+		.collectButton .collectText,
+		.likeButton .count,
+		.collectButton .count,
+		.share-btn .text {
+			white-space: nowrap;
+		}
+		.likeButton .icon,
+		.collectButton .icon,
+		.share-btn .icon {
+			width: 32rpx;
+			height: 32rpx;
+		}
+		.likeButton .count,
+		.collectButton .count {
+			font-size: 22rpx;
 		}
 	}
 	.post-container {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		margin: 25px 0;
+		margin: 24rpx 0 20rpx;
+	}
+	.detailBody {
+		width: 100%;
+	}
+	.stateTip {
+		margin: 120rpx 24rpx;
+		padding: 48rpx 24rpx;
+		background: #fff;
+		border-radius: 20rpx;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		font-size: 26rpx;
+		color: #8a93a6;
+	}
+	.stateTipText {
+		font-size: 26rpx;
+		color: #8a93a6;
+	}
+	.retryBtn {
+		margin-top: 24rpx;
+		min-width: 240rpx;
+		min-height: 76rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: #2b6cf6;
+		border-radius: 38rpx;
+	}
+	.retryBtnText {
+		font-size: 26rpx;
+		color: #fff;
+	}
+	.sourceCard {
+		margin: 24rpx 24rpx 40rpx;
+		padding: 24rpx;
+		background: #fff;
+		border-radius: 20rpx;
+		box-shadow: 0 1px 2px rgba(31, 35, 41, 0.04);
+
+		.sourceHead {
+			display: flex;
+			align-items: center;
+			margin-bottom: 12rpx;
+		}
+		.sourceLabel {
+			font-size: 22rpx;
+			color: #8a93a6;
+		}
+		.sourceDynasty {
+			margin-left: 12rpx;
+			font-size: 22rpx;
+			color: #2b6cf6;
+			background: #eaf1ff;
+			border-radius: 6rpx;
+			padding: 2rpx 10rpx;
+		}
+		.sourceTitle {
+			display: block;
+			font-family: var(--font-poem);
+			font-size: 32rpx;
+			color: #1f2329;
+			line-height: 1.5;
+		}
+		.sourceAuthor {
+			display: block;
+			margin-top: 8rpx;
+			font-size: 24rpx;
+			color: #4e5969;
+		}
+		.sourceOrigin {
+			margin-top: 20rpx;
+			padding-top: 20rpx;
+			border-top: 2rpx solid #f0f2f5;
+		}
+		.sourceOriginLabel {
+			display: block;
+			font-size: 22rpx;
+			color: #8a93a6;
+			margin-bottom: 12rpx;
+		}
+		.sourceLine {
+			display: block;
+			font-family: var(--font-poem);
+			font-size: 26rpx;
+			color: #4e5969;
+			line-height: 1.9;
+
+			&.hit {
+				color: #1f2329;
+				font-weight: 600;
+			}
+
+			&.variant {
+				margin-top: 8rpx;
+				font-size: 22rpx;
+				color: #8a93a6;
+			}
+		}
+		.sourceLinks {
+			display: flex;
+			margin-top: 16rpx;
+		}
+		.sourceLinkTap {
+			display: flex;
+			align-items: center;
+			min-height: 76rpx;
+
+			& + .sourceLinkTap {
+				margin-left: 16rpx;
+			}
+		}
+		.sourceLink {
+			display: flex;
+			align-items: center;
+			height: 56rpx;
+			padding: 0 24rpx;
+			box-sizing: border-box;
+			background: #f6f9ff;
+			border: 2rpx solid rgba(43, 108, 246, 0.25);
+			border-radius: 28rpx;
+		}
+		.sourceLinkText {
+			font-size: 22rpx;
+			color: #2b6cf6;
+		}
+		.sourceLinkArrow {
+			width: 10rpx;
+			height: 10rpx;
+			border-top: 2rpx solid #2b6cf6;
+			border-right: 2rpx solid #2b6cf6;
+			transform: rotate(45deg);
+			margin-left: 8rpx;
+		}
+		.sourceNote {
+			display: block;
+			margin-top: 16rpx;
+			font-size: 22rpx;
+			color: #8a93a6;
+		}
 	}
 	.share-btn {
 		display: flex;
@@ -194,7 +382,7 @@
 		margin-right: 30px;
 		height: 100%;
 		&.share {
-			color: #337ab7;
+			color: #2b6cf6;
 		}
 		.text {
 			margin-left: 12px;
@@ -241,7 +429,7 @@
 	}
 }
 .shreContainer {
-	background-color: #337ab7;
+	background-color: #2b6cf6;
 	position: fixed;
 	right: 24px;
 	padding: 16px;
@@ -259,7 +447,7 @@
 		line-height: initial;
 		border-radius: 50%;
 		display: block;
-		border: 1px solid #337ab7 !important;
+		border: 1px solid #2b6cf6 !important;
 		&::after {
 			border: unset;
 		}
@@ -278,7 +466,7 @@
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
-	background-color: #f5f7fa;
+	background-color: #f6f7f9;
 }
 
 .sentenceScrollView {
@@ -288,7 +476,7 @@
 
 .sentenceIndex {
 	min-height: 100vh;
-	background-color: #f8f8f8;
+	background-color: #f6f7f9;
 	/* 筛选区：默认收起，展开时显示 FilterCard */
 	.filterArea {
 		background: #fff;
@@ -329,7 +517,7 @@
 		background-color: #fff;
 	}
 	.pageContainer {
-		background-color: #f8f8f8;
+		background-color: #f6f7f9;
 		.sentenceCard {
 			padding: 16px 16px;
 			position: relative;

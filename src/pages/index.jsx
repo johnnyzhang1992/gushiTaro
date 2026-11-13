@@ -1,4 +1,4 @@
-import { View, Text, Navigator } from '@tarojs/components';
+import { View, Text } from '@tarojs/components';
 import Taro, {
 	useLoad,
 	useDidShow,
@@ -11,7 +11,6 @@ import { useState, useRef } from 'react';
 import {
 	fetchHomeInit,
 	fetchUserDashboard,
-	doCheckin,
 } from '../services/global';
 import { fetchRandomSearch } from './search/service';
 import { isLoggedIn } from '../utils/auth';
@@ -62,31 +61,27 @@ const initCalendar = {
 
 const HomePage = () => {
 	const [calendar, setCalendar] = useState(initCalendar);
-	const [dailyPoem, setDailyPoem] = useState(null);
-	const [checkinStats, setCheckinStats] = useState(null);
 	const [plans, setPlans] = useState([]);
 	const [isLogin, setIsLogin] = useState(false);
 	const [recommend, setRecommend] = useState({ poems: [], poets: [], sentences: [] });
 	const [recommendList, setRecommendList] = useState([]);
 
-	// 拉取首页初始化数据（农历 + 每日诗词）
+	// 拉取首页初始化数据（农历）
 	const loadHomeInit = () => {
 		return fetchHomeInit('GET', {})
 			.then((res) => {
 				if (res && res.status && res.data) {
-					const { calendar, dailyPoem } = res.data;
+					const { calendar } = res.data;
 					if (calendar) setCalendar(calendar);
-					if (dailyPoem) setDailyPoem(dailyPoem);
 				}
 			})
 			.catch(() => {});
 	};
 
-	// 拉取用户仪表盘（签到统计 + 学习计划列表）
+	// 拉取用户仪表盘（学习计划列表）
 	const loadDashboard = () => {
 		if (!isLoggedIn()) {
 			setIsLogin(false);
-			setCheckinStats(null);
 			setPlans([]);
 			return Promise.resolve();
 		}
@@ -94,8 +89,7 @@ const HomePage = () => {
 		return fetchUserDashboard('GET', {})
 			.then((res) => {
 				if (res && res.status && res.data) {
-					const { pointsStats, studyPlans } = res.data;
-					if (pointsStats) setCheckinStats(pointsStats);
+					const { studyPlans } = res.data;
 					if (studyPlans) setPlans(studyPlans);
 				}
 			})
@@ -157,33 +151,6 @@ const HomePage = () => {
 		};
 	});
 
-	// 签到动作
-	const handleCheckin = () => {
-		if (!isLogin) {
-			Taro.switchTab({ url: '/pages/me/index' });
-			return;
-		}
-		if (hasCheckedIn()) return;
-		doCheckin('POST', {})
-			.then((res) => {
-				if (res && res.status) {
-					Taro.showToast({ title: '签到成功', icon: 'success' });
-					loadDashboard();
-				}
-			})
-			.catch(() => {
-				Taro.showToast({ title: '签到失败', icon: 'none' });
-			});
-	};
-
-	// 今日是否已签到（纯计算，比较服务端返回的签到日期与本地日期）
-	const hasCheckedIn = () => {
-		if (!checkinStats) return false;
-		const now = new Date();
-		const ts = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
-		return (checkinStats.monthlyCheckins || []).includes(ts);
-	};
-
 	// 学习计划统计
 	const planStats = plans.reduce(
 		(acc, p) => {
@@ -203,18 +170,6 @@ const HomePage = () => {
 	const goStudyTab = () => {
 		Taro.switchTab({ url: '/pages/study/index' });
 	};
-
-	// 每日诗词内容：content[] 按行渲染，无则回退 text_content
-	const rawLines = dailyPoem?.content?.content;
-	const poemLines =
-		Array.isArray(rawLines) && rawLines.length > 0
-			? rawLines
-			: String(dailyPoem?.text_content || '')
-					.split('\n')
-					.filter(Boolean);
-
-	const checkedIn = hasCheckedIn();
-
 
 	return (
 		<View className='page homePage'>
@@ -272,64 +227,7 @@ const HomePage = () => {
 				)}
 			</View>
 
-			{/* ===== 2. 每日诗词 ===== */}
-			{dailyPoem ? (
-				<Navigator
-					className='card dailyPoemCard'
-					url={`/pages/poem/detail?id=${dailyPoem.id || dailyPoem._id}`}
-					hoverClass='none'
-				>
-					<View className='dailyPoem-header'>
-						<Text className='dailyPoem-tag'>每日诗词</Text>
-						<Text className='dailyPoem-arrow'>›</Text>
-					</View>
-					<View className='dailyPoem-body'>
-						<View className='dailyPoem-text'>
-							<Text className='dailyPoem-title' numberOfLines={1}>
-								{dailyPoem.title}
-							</Text>
-							<View className='dailyPoem-preview'>
-								{poemLines.slice(0, 4).map((line, i) => (
-									<Text key={i} className='dailyPoem-line' decode numberOfLines={1}>
-										{line}
-									</Text>
-								))}
-							</View>
-						</View>
-						<View className='dailyPoem-meta'>
-							<Text className='dailyPoem-author'>
-								{dailyPoem.dynasty} · {dailyPoem.author}
-							</Text>
-							<Text className='dailyPoem-quote'>❞</Text>
-						</View>
-					</View>
-				</Navigator>
-			) : null}
-
-			{/* ===== 3. 签到卡片（今日未签到才显示）===== */}
-			{!checkedIn ? (
-				<View className='card checkinCard'>
-					<View className='checkin-body'>
-						{/* 左侧：点击跳转签到详情页 */}
-						<View
-							className='checkin-info'
-							onClick={() => Taro.navigateTo({ url: '/pages/me/checkin' })}
-						>
-							<Text className='checkin-title'>每日签到</Text>
-							<Text className='checkin-desc'>
-								连续签到 {checkinStats?.checkinStreak || 0} 天
-								{checkinStats?.totalPoints ? ` · 积分 ${checkinStats.totalPoints}` : ''}
-							</Text>
-						</View>
-						{/* 右侧：直接签到 */}
-						<View className='checkin-btn' onClick={handleCheckin}>
-							去签到
-						</View>
-					</View>
-				</View>
-			) : null}
-
-			{/* ===== 4. 学习计划进度 ===== */}
+			{/* ===== 3. 学习计划进度 ===== */}
 			<View className='card planCard' onClick={goStudyTab}>
 				<View className='plan-header'>
 					<Text className='plan-title'>背诵计划</Text>
@@ -387,6 +285,20 @@ const HomePage = () => {
 						<Text className='gameEntryDesc'>三百常用词牌</Text>
 					</View>
 				</View>
+			</View>
+
+			{/* ===== 4.6 诗人足迹入口 ===== */}
+			<View
+				className='card storyEntryCard'
+				onClick={() => Taro.navigateTo({ url: '/pages/find/story-map' })}
+			>
+				<View className='storyEntryInfo'>
+					<Text className='storyEntryTitle'>诗人足迹</Text>
+					<Text className='storyEntryDesc'>
+						沿着诗人一生的足迹，山川湖海间与诗词相遇
+					</Text>
+				</View>
+				<Text className='storyEntryArrow'>›</Text>
 			</View>
 
 			{/* ===== 5. 为你推荐 ===== */}

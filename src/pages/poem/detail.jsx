@@ -178,7 +178,7 @@ const PoemDetail = () => {
 				<SectionCard title='摘录'>
 					<Swiper
 						className='hotPoemsSwiper'
-						indicatorColor='#999'
+						indicatorColor='#8a93a6'
 						indicatorActiveColor='#333'
 						vertical={false}
 						circular

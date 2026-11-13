@@ -115,6 +115,20 @@ const AuthorDetail = () => {
 				</View>
 			</View>
 
+			{/* 诗人足迹入口（有人生故事才显示） */}
+			{author.has_story ? (
+				<View
+					className='storyEntry'
+					onClick={() => Taro.navigateTo({ url: '/pages/find/story-detail?name=' + encodeURIComponent(author.author_name || '') })}
+				>
+					<View className='storyEntryInfo'>
+						<Text className='storyEntryTitle'>诗人足迹</Text>
+						<Text className='storyEntryDesc'>沿{author.author_name}一生的足迹，山川湖海间与诗词相遇</Text>
+					</View>
+					<Text className='storyEntryArrow'>›</Text>
+				</View>
+			) : null}
+
 			{/* 生平简介 */}
 			{author.profile ? (
 				<View className='section'>

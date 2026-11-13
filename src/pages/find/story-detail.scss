@@ -1,0 +1,545 @@
+.storyDetailPage {
+	min-height: 100vh;
+	box-sizing: border-box;
+	padding: 20rpx 24rpx 40rpx;
+}
+
+.blockTip {
+	padding: 100rpx 0;
+	text-align: center;
+
+	.blockTipText {
+		display: block;
+		font-size: 26rpx;
+		color: #8a93a6;
+	}
+
+	.retryBtn {
+		margin: 28rpx auto 0;
+		width: 240rpx;
+		min-height: 76rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: #2b6cf6;
+		border-radius: 999rpx;
+
+		.retryBtnText {
+			font-size: 26rpx;
+			color: #fff;
+		}
+	}
+}
+
+.card {
+	background: #fff;
+	border-radius: 20rpx;
+	padding: 24rpx;
+	margin-bottom: 16rpx;
+	box-shadow: 0 1px 2px rgba(31, 35, 41, 0.04);
+}
+
+.cardHead {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	margin-bottom: 16rpx;
+
+	.cardTitle {
+		font-size: 28rpx;
+		font-weight: 600;
+		color: #1f2329;
+	}
+
+	.cardHint {
+		font-size: 20rpx;
+		color: #b6bdc9;
+	}
+}
+
+/* ===== 诗人头部 ===== */
+.heroCard {
+	background: linear-gradient(150deg, #eaf1ff 0%, #ffffff 62%);
+	border-radius: 24rpx;
+	padding: 28rpx;
+	margin-bottom: 16rpx;
+	box-shadow: 0 1px 2px rgba(31, 35, 41, 0.04);
+
+	.heroTop {
+		display: flex;
+		align-items: center;
+	}
+
+	.heroAvatar {
+		width: 112rpx;
+		height: 112rpx;
+		border-radius: 20rpx;
+		background: #dce7fb;
+		flex-shrink: 0;
+
+		&.placeholder {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.heroInitial {
+			font-size: 48rpx;
+			font-weight: 700;
+			color: #2b6cf6;
+			font-family: var(--font-poem);
+		}
+	}
+
+	.heroInfo {
+		flex: 1;
+		min-width: 0;
+		margin-left: 24rpx;
+	}
+
+	.heroNameRow {
+		display: flex;
+		align-items: baseline;
+
+		.heroName {
+			font-size: 44rpx;
+			font-weight: 700;
+			color: #1f2329;
+			font-family: var(--font-poem);
+		}
+
+		.heroDynasty {
+			font-size: 22rpx;
+			color: #2b6cf6;
+			background: rgba(43, 108, 246, 0.1);
+			border-radius: 6rpx;
+			padding: 2rpx 12rpx;
+			margin-left: 14rpx;
+		}
+	}
+
+	.heroYears {
+		display: block;
+		margin-top: 6rpx;
+		font-size: 24rpx;
+		color: #4e5969;
+	}
+
+	.heroSub {
+		display: block;
+		margin-top: 4rpx;
+		font-size: 22rpx;
+		color: #8a93a6;
+	}
+
+	.heroLink {
+		margin-top: 20rpx;
+		border-top: 2rpx solid rgba(43, 108, 246, 0.12);
+		min-height: 76rpx;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+
+		.heroLinkText {
+			font-size: 26rpx;
+			color: #2b6cf6;
+		}
+
+		.heroLinkArrow {
+			font-size: 30rpx;
+			color: #2b6cf6;
+		}
+	}
+}
+
+/* ===== 行迹路线 ===== */
+.routeSnake {
+	padding-top: 8rpx;
+}
+
+.routeRow {
+	display: flex;
+	align-items: center;
+}
+
+.routeCell {
+	position: relative;
+	box-sizing: border-box;
+	flex: 0 0 25%;
+	max-width: 25%;
+	min-width: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0 10rpx;
+}
+
+.routeName {
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-size: 22rpx;
+	color: #4e5969;
+	background: #f6f7f9;
+	border-radius: 8rpx;
+	padding: 8rpx 12rpx;
+}
+
+.routeArrow {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	font-size: 24rpx;
+	color: #c2c8d2;
+
+	&.right {
+		right: -12rpx;
+	}
+
+	&.left {
+		left: -12rpx;
+	}
+}
+
+.routeTurn {
+	display: flex;
+	height: 44rpx;
+
+	.routeCell {
+		padding: 0;
+	}
+}
+
+.routeDown {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+}
+
+.routeDownLine {
+	width: 2rpx;
+	height: 20rpx;
+	background: #c2c8d2;
+}
+
+.routeDownCaret {
+	width: 12rpx;
+	height: 12rpx;
+	border-right: 2rpx solid #c2c8d2;
+	border-bottom: 2rpx solid #c2c8d2;
+	transform: rotate(45deg);
+	margin-top: -6rpx;
+}
+
+/* ===== 足迹统计 ===== */
+.statsGrid {
+	display: flex;
+
+	.statCell {
+		flex: 1;
+		min-width: 0;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		.statNum {
+			font-size: 36rpx;
+			font-weight: 700;
+			color: #1f2329;
+		}
+
+		.statLabel {
+			font-size: 20rpx;
+			color: #8a93a6;
+			margin-top: 4rpx;
+		}
+	}
+}
+
+.settleBlock {
+	margin-top: 20rpx;
+	border-top: 2rpx solid #f0f2f5;
+	padding-top: 16rpx;
+
+	.settleLabel {
+		display: block;
+		font-size: 22rpx;
+		color: #8a93a6;
+		margin-bottom: 10rpx;
+	}
+
+	.settleRow {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10rpx;
+	}
+
+	.settleChip {
+		background: #eaf1ff;
+		border-radius: 8rpx;
+		padding: 6rpx 16rpx;
+
+		.settleChipText {
+			font-size: 22rpx;
+			color: #2b6cf6;
+		}
+	}
+}
+
+.statsNote {
+	display: block;
+	margin-top: 16rpx;
+	font-size: 20rpx;
+	color: #b6bdc9;
+}
+
+/* ===== 足迹类型筛选 ===== */
+.filterScroll {
+	white-space: nowrap;
+	width: 100%;
+	margin-bottom: 16rpx;
+
+	.filterChip {
+		display: inline-flex;
+		align-items: center;
+		box-sizing: border-box;
+		min-height: 76rpx;
+		padding: 0 26rpx;
+		background: #fff;
+		border-radius: 999rpx;
+		margin-right: 12rpx;
+		box-shadow: 0 1px 2px rgba(31, 35, 41, 0.04);
+
+		&.active {
+			background: #eaf1ff;
+
+			.filterText {
+				color: #2b6cf6;
+				font-weight: 600;
+			}
+		}
+
+		.filterDot {
+			width: 12rpx;
+			height: 12rpx;
+			border-radius: 50%;
+			margin-right: 10rpx;
+			flex-shrink: 0;
+		}
+
+		.filterText {
+			font-size: 24rpx;
+			color: #4e5969;
+		}
+	}
+}
+
+/* ===== 阶段时间线 ===== */
+.phaseHead {
+	display: flex;
+	margin-bottom: 20rpx;
+
+	.phaseBar {
+		width: 8rpx;
+		height: 56rpx;
+		border-radius: 4rpx;
+		flex-shrink: 0;
+	}
+
+	.phaseHeadText {
+		flex: 1;
+		min-width: 0;
+		margin-left: 16rpx;
+	}
+
+	.phaseNameRow {
+		display: flex;
+		align-items: baseline;
+
+		.phaseName {
+			font-size: 30rpx;
+			font-weight: 700;
+			color: #1f2329;
+		}
+
+		.phasePeriod {
+			font-size: 22rpx;
+			color: #8a93a6;
+			margin-left: 12rpx;
+		}
+
+		.phaseCount {
+			margin-left: auto;
+			font-size: 22rpx;
+			color: #8a93a6;
+		}
+	}
+
+	.phaseDesc {
+		display: block;
+		margin-top: 4rpx;
+		font-size: 22rpx;
+		color: #8a93a6;
+		line-height: 1.5;
+	}
+}
+
+.entryRow {
+	display: flex;
+
+	.entryAxis {
+		width: 40rpx;
+		flex-shrink: 0;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		.entryDot {
+			width: 18rpx;
+			height: 18rpx;
+			border-radius: 50%;
+			margin-top: 8rpx;
+			flex-shrink: 0;
+		}
+
+		.entryLine {
+			width: 2rpx;
+			flex: 1;
+			background: #eef1f5;
+			margin-top: 6rpx;
+		}
+	}
+
+	.entryBody {
+		flex: 1;
+		min-width: 0;
+		padding: 0 0 28rpx 16rpx;
+	}
+
+	.entryMetaRow {
+		display: flex;
+		align-items: center;
+
+		.entryYear {
+			font-size: 26rpx;
+			font-weight: 700;
+		}
+
+		.entryAge {
+			font-size: 22rpx;
+			color: #8a93a6;
+			margin-left: 12rpx;
+		}
+
+		.entryType {
+			margin-left: auto;
+			font-size: 20rpx;
+			font-weight: 600;
+		}
+	}
+
+	.entryPlace {
+		display: block;
+		margin-top: 6rpx;
+		font-size: 22rpx;
+		color: #4e5969;
+	}
+
+	.entryEvent {
+		display: block;
+		margin-top: 6rpx;
+		font-size: 28rpx;
+		font-weight: 600;
+		color: #1f2329;
+	}
+
+	.entryDetail {
+		display: block;
+		margin-top: 8rpx;
+		font-size: 24rpx;
+		color: #4e5969;
+		line-height: 1.7;
+
+		&.clamped {
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 2;
+			overflow: hidden;
+		}
+	}
+
+	.entryToggle {
+		display: inline-flex;
+		align-items: center;
+		min-height: 76rpx;
+
+		.entryToggleText {
+			font-size: 22rpx;
+			color: #2b6cf6;
+		}
+	}
+
+	.entryPoems {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 12rpx;
+		margin-top: 10rpx;
+	}
+
+	.poemRef {
+		background: #fff4e0;
+		border-radius: 8rpx;
+		padding: 8rpx 16rpx;
+
+		&.open {
+			flex-basis: 100%;
+			padding: 16rpx;
+		}
+
+		.poemRefHead {
+			display: flex;
+			align-items: center;
+			color: #b26a00;
+		}
+
+		.poemRefTitle {
+			font-size: 22rpx;
+			font-weight: 500;
+			color: #b26a00;
+		}
+
+		.poemLine {
+			display: block;
+			margin-top: 8rpx;
+			font-size: 24rpx;
+			color: #6b4e16;
+			line-height: 1.8;
+			font-family: var(--font-poem);
+		}
+	}
+}
+
+.caret {
+	width: 12rpx;
+	height: 12rpx;
+	border-right: 2rpx solid currentColor;
+	border-bottom: 2rpx solid currentColor;
+	transform: rotate(45deg);
+	margin-left: 10rpx;
+	flex-shrink: 0;
+
+	&.up {
+		transform: rotate(225deg);
+	}
+}
+
+.pageFoot {
+	display: block;
+	text-align: center;
+	padding: 12rpx 0 32rpx;
+	font-size: 20rpx;
+	color: #b6bdc9;
+}

@@ -20,14 +20,14 @@
       font-size: 20rpx;
       display: flex;
       align-items: center;
-      color: #337ab7;
+      color: #2b6cf6;
       padding: 8rpx 18rpx;
-      background: rgba(51, 122, 183, 0.08);
+      background: rgba(43, 108, 246, 0.08);
       border-radius: 24rpx;
       transition: all 0.2s;
 
       &:active {
-        background: #337ab7;
+        background: #2b6cf6;
         color: #fff;
         transform: scale(0.95);
       }
@@ -35,7 +35,7 @@
       .reload-icon {
         width: 20rpx;
         height: 20rpx;
-        border: 2rpx solid #337ab7;
+        border: 2rpx solid #2b6cf6;
         border-top-color: transparent;
         border-radius: 50%;
         position: relative;
@@ -49,7 +49,7 @@
           height: 0;
           border-left: 5rpx solid transparent;
           border-right: 5rpx solid transparent;
-          border-bottom: 7rpx solid #337ab7;
+          border-bottom: 7rpx solid #2b6cf6;
           transform: rotate(45deg);
         }
       }
@@ -66,7 +66,7 @@
       & > .text {
         padding-left: 14rpx;
         font-size: 24rpx;
-        color: #337ab7;
+        color: #2b6cf6;
         font-weight: 500;
       }
     }
@@ -82,7 +82,7 @@
 
     .randomSection {
       & + .randomSection {
-        border-top: 1rpx solid #f5f7fa;
+        border-top: 1rpx solid #f6f7f9;
       }
 
       .sectionHeader {
@@ -107,15 +107,15 @@
             width: 6rpx;
             height: 26rpx;
             border-radius: 3rpx;
-            background: linear-gradient(180deg, #337ab7, #5a9fd4);
+            background: linear-gradient(180deg, #2b6cf6, #4a7dff);
           }
         }
 
         .sectionMore {
           font-size: 22rpx;
-          color: #337ab7;
+          color: #2b6cf6;
           padding: 4rpx 16rpx;
-          background: rgba(51, 122, 183, 0.08);
+          background: rgba(43, 108, 246, 0.08);
           border-radius: 20rpx;
         }
       }
@@ -142,7 +142,7 @@
       padding: 60rpx 0;
       text-align: center;
       font-size: 24rpx;
-      color: #999;
+      color: #8a93a6;
     }
   }
 }

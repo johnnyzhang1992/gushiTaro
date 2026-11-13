@@ -22,7 +22,7 @@
 .searchInput {
 	flex: 1;
 	height: 64rpx;
-	background: #f5f7fa;
+	background: #f6f7f9;
 	border-radius: 32rpx;
 	padding: 0 60rpx 0 28rpx;
 	font-size: 26rpx;
@@ -56,7 +56,7 @@
 	height: 64rpx;
 	padding: 0 32rpx;
 	border-radius: 32rpx;
-	background: #337ab7;
+	background: #2b6cf6;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -93,8 +93,8 @@
 	justify-content: center;
 	padding: 10rpx 22rpx;
 	border-radius: 28rpx;
-	background: #f5f7fa;
-	color: #666;
+	background: #f6f7f9;
+	color: #4e5969;
 	font-size: 24rpx;
 	margin-right: 12rpx;
 
@@ -103,7 +103,7 @@
 	}
 
 	&.active {
-		background: #337ab7;
+		background: #2b6cf6;
 		color: #fff;
 	}
 }
@@ -122,18 +122,18 @@
 
 	.toggleText {
 		font-size: 20rpx;
-		color: #666;
+		color: #4e5969;
 	}
 
 	.toggleArrow {
 		font-size: 18rpx;
-		color: #666;
+		color: #4e5969;
 	}
 }
 
 .toggleArrow {
 	font-size: 16rpx;
-	color: #999;
+	color: #8a93a6;
 	transition: transform 0.3s;
 
 	&.up {

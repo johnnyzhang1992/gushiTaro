@@ -190,13 +190,14 @@ const PoemContainer = (props) => {
 				) : null}
 				{poemList.map((item, idx) => {
 					return (
-						<PoemSmallCard
-							{...item}
-							showCount
-							showBorder
-							lightWord=''
-							key={`${item._id}_${idx}`}
-						/>
+					<PoemSmallCard
+						{...item}
+						showCount
+						showBorder
+						clampLines={6}
+						lightWord=''
+						key={`${item._id}_${idx}`}
+					/>
 					);
 				})}
 				{loading && poemList.length > 0 ? (

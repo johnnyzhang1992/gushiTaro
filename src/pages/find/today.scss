@@ -1,6 +1,6 @@
 .todayPage {
 	min-height: 100vh;
-	background: #f5f7fa;
+	background: #f6f7f9;
 }
 
 .todayContainer {
@@ -22,11 +22,11 @@
 	.navBtn {
 		padding: 10rpx 24rpx;
 		font-size: 36rpx;
-		color: #337ab7;
+		color: #2b6cf6;
 
 		&.todayBtn {
 			font-size: 26rpx;
-			background: #e8f0fa;
+			background: #eaf1ff;
 			border-radius: 28rpx;
 		}
 	}
@@ -38,10 +38,10 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		background: #e8f0fa;
+		background: #eaf1ff;
 		border-radius: 50%;
 		font-size: 40rpx;
-		color: #337ab7;
+		color: #2b6cf6;
 		flex-shrink: 0;
 
 		&:active {
@@ -55,13 +55,13 @@
 		font-size: 28rpx;
 		color: #333;
 		padding: 10rpx 24rpx;
-		background: #e8f0fa;
+		background: #eaf1ff;
 		border-radius: 32rpx;
 
 		.pickerArrow {
 			margin-left: 8rpx;
 			font-size: 22rpx;
-			color: #337ab7;
+			color: #2b6cf6;
 		}
 	}
 }
@@ -73,54 +73,89 @@
 
 	.text {
 		font-size: 28rpx;
-		color: #999;
+		color: #8a93a6;
 	}
 }
 
-/* 农历卡片 */
+/* 农历卡片：与首页同款白卡形态 */
 .lunarCard {
-	background: linear-gradient(135deg, #fdf6ec, #fff4e5);
-	border: 1rpx solid #f6e8d8;
+	background: #fff;
+	border: 1rpx solid #f0f0f0;
 	border-radius: 24rpx;
-	padding: 32rpx;
 	margin-bottom: 24rpx;
+	box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+	overflow: hidden;
 
-	.lunarTop {
+	.lunarBody {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 28rpx 30rpx;
+	}
+
+	.lunar-left {
+		display: flex;
+		flex-direction: column;
+
+		.lunar-tag {
+			font-size: 22rpx;
+			color: #2b6cf6;
+			margin-bottom: 8rpx;
+		}
+
+		.lunar-date {
+			font-size: 52rpx;
+			font-weight: 700;
+			color: #1f2329;
+			line-height: 1.2;
+			margin-bottom: 8rpx;
+		}
+
+		.lunar-sub {
+			font-size: 24rpx;
+			color: #6b7a8d;
+		}
+	}
+
+	.solar-right {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+
+		.solar-tag {
+			font-size: 22rpx;
+			color: #2b6cf6;
+			margin-bottom: 8rpx;
+		}
+
+		.solar-date {
+			font-size: 32rpx;
+			font-weight: 600;
+			color: #1f2329;
+		}
+	}
+
+	.lunarFooter {
 		display: flex;
 		align-items: center;
-		gap: 16rpx;
-		margin-bottom: 16rpx;
-
-		.lunarBig {
-			font-size: 48rpx;
-			font-weight: 700;
-			color: #333;
-			font-family: serif;
-		}
-
-		.festivalBadge {
-			font-size: 22rpx;
-			color: #e64340;
-			background: #fdecec;
-			padding: 6rpx 18rpx;
-			border-radius: 20rpx;
-		}
-	}
-
-	.ganzhiRow {
-		display: flex;
 		gap: 20rpx;
-		margin-bottom: 12rpx;
+		padding: 20rpx 30rpx;
+		border-top: 1rpx solid #f0f2f5;
+		font-size: 24rpx;
+		color: #4e5969;
+		flex-wrap: wrap;
 
-		text {
-			font-size: 26rpx;
-			color: #666;
+		.meta-item {
+			padding: 4rpx 16rpx;
+			border-radius: 8rpx;
+			background: #f6f7f9;
 		}
-	}
 
-	.solarLine {
-		font-size: 22rpx;
-		color: #a38568;
+		.festival {
+			background: #eaf1ff;
+			color: #2b6cf6;
+			font-weight: 500;
+		}
 	}
 }
 
@@ -131,22 +166,36 @@
 	padding: 28rpx 30rpx;
 	margin-bottom: 24rpx;
 	box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
 
-	.sectionTitle {
-		margin-bottom: 20rpx;
+/* 首屏失败但已有内容时的顶部重试条 */
+.retryBar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	background: #fff4e5;
+	border: 1rpx solid #f6e8d8;
+	border-radius: 16rpx;
+	padding: 16rpx 24rpx;
+	margin-bottom: 24rpx;
 
-		.title {
-			font-size: 30rpx;
-			font-weight: 600;
-			color: #333;
-			display: block;
-			margin-bottom: 4rpx;
-		}
+	.retryText {
+		font-size: 24rpx;
+		color: #a38568;
+	}
+}
 
-		.subtitle {
-			font-size: 22rpx;
-			color: #999;
-		}
+.retryBtn {
+	font-size: 26rpx;
+	color: #2b6cf6;
+	background: #eaf1ff;
+	border-radius: 28rpx;
+	padding: 10rpx 32rpx;
+	flex-shrink: 0;
+
+	&.blockRetry {
+		display: inline-block;
+		margin-top: 24rpx;
 	}
 }
 
@@ -167,11 +216,11 @@
 
 		.tabText {
 			font-size: 28rpx;
-			color: #666;
+			color: #4e5969;
 		}
 
 		&.active {
-			background: #337ab7;
+			background: #2b6cf6;
 
 			.tabText {
 				color: #fff;
@@ -206,17 +255,32 @@
 			overflow: hidden;
 			white-space: nowrap;
 			text-overflow: ellipsis;
-			font-family: serif;
+			font-family: var(--font-poem);
 		}
 
 		.yearBadge {
 			flex-shrink: 0;
 			font-size: 20rpx;
-			color: #999;
-			background: #f5f7fa;
+			color: #8a93a6;
+			background: #f6f7f9;
 			padding: 4rpx 14rpx;
 			border-radius: 8rpx;
 			margin-left: 12rpx;
+		}
+	}
+
+	.poemPreview {
+		margin-bottom: 8rpx;
+
+		.poemPreviewLine {
+			display: block;
+			font-size: 24rpx;
+			color: #6b7a8d;
+			line-height: 1.6;
+			font-family: var(--font-poem);
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
 		}
 	}
 
@@ -225,12 +289,12 @@
 		align-items: center;
 		gap: 12rpx;
 		font-size: 24rpx;
-		color: #999;
+		color: #8a93a6;
 
 		.typeBadge {
 			font-size: 20rpx;
-			color: #337ab7;
-			background: #e8f0fa;
+			color: #2b6cf6;
+			background: #eaf1ff;
 			padding: 2rpx 12rpx;
 			border-radius: 6rpx;
 		}
@@ -244,37 +308,26 @@
 	color: #aaa;
 }
 
-/* 分页 */
-.pagination {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 24rpx;
-	padding-top: 16rpx;
+/* 列表尾部：加载中 / 重试 / 已加载全部 */
+.listFooter {
+	padding: 24rpx 0 8rpx;
+	text-align: center;
 
-	.pageBtn {
-		padding: 12rpx 28rpx;
-		font-size: 26rpx;
-		color: #337ab7;
-		background: #e8f0fa;
-		border-radius: 28rpx;
-
-		&.disabled {
-			color: #ccc;
-			background: #f5f5f5;
-		}
+	.listHint {
+		font-size: 24rpx;
+		color: #8a93a6;
 	}
 
-	.pageInfo {
+	.listRetry {
 		font-size: 26rpx;
-		color: #666;
+		color: #2b6cf6;
 	}
 }
 
-/* 历史事件列表 */
+/* 历史事件列表：年份左栏时间轴 */
 .eventItem {
 	padding: 16rpx 0;
-	border-bottom: 1rpx dashed #eee;
+	border-bottom: 1rpx solid #f0f2f5;
 	line-height: 1.6;
 	display: flex;
 	align-items: flex-start;
@@ -285,17 +338,21 @@
 
 	.eventYear {
 		font-size: 22rpx;
-		color: #999;
-		margin-right: 8rpx;
-		flex-shrink: 0; /* 年份不压缩，始终靠左 */
-		padding-top: 4rpx; /* 与标题顶部视觉对齐 */
+		color: #8a93a6;
+		flex-shrink: 0;
+		width: 160rpx;
+		box-sizing: border-box;
+		padding-top: 4rpx;
+		padding-right: 16rpx;
+		margin-right: 16rpx;
+		border-right: 2rpx solid #eaf1ff;
 	}
 
 	.eventTitle {
 		font-size: 26rpx;
 		color: #333;
 		flex: 1;
-		min-width: 0; /* 允许收缩，超出部分自然换行 */
+		min-width: 0;
 		word-break: break-all;
 	}
 }
@@ -336,15 +393,24 @@
 			font-size: 34rpx;
 			font-weight: 700;
 			color: #333;
-			font-family: serif;
+			font-family: var(--font-poem);
 			flex: 1;
 		}
 
-		.detailClose {
-			font-size: 44rpx;
-			color: #999;
-			padding: 0 10rpx;
-			line-height: 1;
+		.detailCloseBtn {
+			width: 76rpx;
+			height: 76rpx;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-shrink: 0;
+			margin: -16rpx -16rpx 0 0;
+
+			.detailClose {
+				font-size: 44rpx;
+				color: #8a93a6;
+				line-height: 1;
+			}
 		}
 	}
 
@@ -363,11 +429,12 @@
 	.detailBody {
 		max-height: 50vh;
 
-		.detailClauses {
+		.detailLine {
+			display: block;
 			font-size: 30rpx;
 			color: #333;
 			line-height: 2;
-			font-family: serif;
+			font-family: var(--font-poem);
 		}
 	}
 
@@ -375,7 +442,7 @@
 		padding: 60rpx 0;
 		text-align: center;
 		font-size: 28rpx;
-		color: #999;
+		color: #8a93a6;
 		display: block;
 		width: 100%;
 	}

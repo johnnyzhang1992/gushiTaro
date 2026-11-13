@@ -1,0 +1,161 @@
+.storyMapPage {
+	min-height: 100vh;
+	background: #f6f7f9;
+	box-sizing: border-box;
+	padding: 20rpx 24rpx 60rpx;
+}
+
+.blockTip {
+	padding: 80rpx 0;
+	text-align: center;
+	font-size: 26rpx;
+	color: #8a93a6;
+}
+
+/* ===== 列表 ===== */
+.pageIntro {
+	padding: 12rpx 8rpx 20rpx;
+
+	.introTitle {
+		display: block;
+		font-size: 40rpx;
+		font-weight: 700;
+		color: #1f2329;
+		font-family: var(--font-poem);
+	}
+
+	.introDesc {
+		display: block;
+		margin-top: 10rpx;
+		font-size: 24rpx;
+		color: #8a93a6;
+		line-height: 1.6;
+	}
+}
+
+.storyMapSearch {
+	margin-bottom: 16rpx;
+}
+
+.poetList {
+	background: #fff;
+	border-radius: 20rpx;
+	overflow: hidden;
+	box-shadow: 0 1px 2px rgba(31, 35, 41, 0.04);
+
+	.poetRow {
+		display: flex;
+		align-items: center;
+		padding: 20rpx 24rpx;
+		border-bottom: 1rpx solid #f4f5f7;
+
+		&:last-child {
+			border-bottom: none;
+		}
+
+		&:active {
+			background: #f7f9fb;
+		}
+
+		.poetAvatar {
+			width: 80rpx;
+			height: 80rpx;
+			border-radius: 12rpx;
+			background: #eaf1ff;
+			flex-shrink: 0;
+
+			&.placeholder {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+
+			.poetInitial {
+				font-size: 34rpx;
+				font-weight: 600;
+				color: #2b6cf6;
+			}
+		}
+
+		.poetMain {
+			flex: 1;
+			min-width: 0;
+			margin-left: 20rpx;
+
+			.poetNameRow {
+				display: flex;
+				align-items: baseline;
+
+				.poetName {
+					font-size: 30rpx;
+					font-weight: 600;
+					color: #1f2329;
+				}
+
+				.poetDynasty {
+					font-size: 22rpx;
+					color: #8a93a6;
+					margin-left: 12rpx;
+				}
+			}
+
+			.poetProfile {
+				display: block;
+				margin-top: 4rpx;
+				font-size: 22rpx;
+				color: #8a93a6;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
+		}
+
+		.poetRight {
+			flex-shrink: 0;
+			margin-left: 12rpx;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-end;
+
+			.poetCount {
+				font-size: 22rpx;
+				color: #8a93a6;
+			}
+
+			.poetHomeLink {
+				display: flex;
+				align-items: center;
+				justify-content: flex-end;
+				min-height: 76rpx;
+
+				.poetHomeLinkText {
+					font-size: 22rpx;
+					color: #2b6cf6;
+				}
+
+				.poetHomeLinkArrow {
+					font-size: 24rpx;
+					color: #2b6cf6;
+					margin-left: 4rpx;
+				}
+			}
+		}
+
+		.poetArrow {
+			flex-shrink: 0;
+			margin-left: 12rpx;
+			font-size: 32rpx;
+			color: #c2c8d2;
+		}
+	}
+}
+
+.listFooter {
+	padding: 24rpx 0 8rpx;
+	text-align: center;
+
+	.listHint {
+		font-size: 22rpx;
+		color: #b6bdc9;
+	}
+}

@@ -26,6 +26,8 @@ export default {
 		'pages/find/feihua',
 		'pages/find/feihua-detail',
 		'pages/find/cipai',
+		'pages/find/story-map',
+		'pages/find/story-detail',
 		'pages/library/index',
 		'pages/library/detail',
 		'pages/library/catalog',
@@ -40,14 +42,17 @@ export default {
 	],
 	window: {
 		backgroundTextStyle: 'light',
-		navigationBarBackgroundColor: '#337ab7',
+		navigationBarBackgroundColor: '#ffffff',
 		navigationBarTitleText: '古诗文小助手',
-		navigationBarTextStyle: 'white',
+		navigationBarTextStyle: 'black',
 		enablePullDownRefresh: false,
 		onReachBottomDistance: 40,
 	},
 	tabBar: {
-		selectedColor: '#337ab7',
+		selectedColor: '#2b6cf6',
+		color: '#8a93a6',
+		backgroundColor: '#ffffff',
+		borderStyle: 'white',
 		position: 'bottom',
 		list: [
 			{

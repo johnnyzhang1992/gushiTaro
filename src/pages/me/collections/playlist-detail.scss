@@ -1,12 +1,12 @@
 .playlist-detail-page {
-	background: #f5f7fa;
+	background: #f6f7f9;
 	min-height: 100vh;
 
 	.loading {
 		padding: 120rpx 0;
 		text-align: center;
 		font-size: 26rpx;
-		color: #999;
+		color: #8a93a6;
 	}
 
 	.header-info {
@@ -28,7 +28,7 @@
 
 		.copy-btn, .add-btn {
 			padding: 10rpx 24rpx;
-			background: #337ab7;
+			background: #2b6cf6;
 			border-radius: 24rpx;
 
 			.copy-text, .add-text {
@@ -74,7 +74,7 @@
 
 			.added-time {
 				font-size: 22rpx;
-				color: #999;
+				color: #8a93a6;
 			}
 
 			.remove-btn {
@@ -82,7 +82,7 @@
 
 				.remove-text {
 					font-size: 24rpx;
-					color: #999;
+					color: #8a93a6;
 				}
 
 				&:active {
@@ -157,7 +157,7 @@
 
 .bottom-sheet-close {
 	font-size: 44rpx;
-	color: #999;
+	color: #8a93a6;
 	padding: 10rpx;
 }
 
@@ -220,7 +220,7 @@
 	flex-shrink: 0;
 	height: 72rpx;
 	padding: 0 32rpx;
-	background: #337ab7;
+	background: #2b6cf6;
 	border-radius: 12rpx;
 	display: flex;
 	align-items: center;
@@ -262,12 +262,12 @@
 
 .search-item-author {
 	font-size: 22rpx;
-	color: #999;
+	color: #8a93a6;
 }
 
 .search-item-btn {
 	padding: 10rpx 24rpx;
-	background: #337ab7;
+	background: #2b6cf6;
 	color: #fff;
 	border-radius: 8rpx;
 	font-size: 24rpx;
@@ -275,7 +275,7 @@
 
 .search-item-btn.added {
 	background: #f0f0f0;
-	color: #999;
+	color: #8a93a6;
 }
 
 .load-more {
@@ -285,7 +285,7 @@
 
 .load-more-text {
 	font-size: 24rpx;
-	color: #999;
+	color: #8a93a6;
 }
 
 .empty-state {
@@ -295,5 +295,5 @@
 
 .empty-text {
 	font-size: 28rpx;
-	color: #999;
+	color: #8a93a6;
 }

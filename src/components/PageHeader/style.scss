@@ -3,7 +3,6 @@
 	background-color: #fff;
 	// box-sizing: border-box;
 	padding-bottom: 16px;
-	background-color: #337ab7;
 	&.hasTitle {
 		display: flex;
 		align-items: center;
@@ -20,20 +19,20 @@
 		font-size: 36px;
 		display: flex;
 		align-items: center;
-		color: #fff;
+		color: #333;
 		padding: 4px 14px;
 		box-sizing: border-box;
 	}
 	.chevron-left {
 		width: 20px;
 		height: 20px;
-		border-left: 4px solid #fff;
-		border-bottom: 4px solid #fff;
+		border-left: 4px solid #333;
+		border-bottom: 4px solid #333;
 		transform: rotate(45deg);
 	}
 }
 .header-title {
 	font-size: 32px;
-	color: #fff;
+	color: #333;
 	text-align: center;
 }

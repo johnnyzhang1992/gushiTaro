@@ -2,7 +2,7 @@
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
-	background-color: #f8f8f8;
+	background-color: #f6f7f9;
 
 	/* 自研 TAB 标题栏 */
 	.customTabs {
@@ -24,11 +24,11 @@
 
 	.customTabText {
 		font-size: 28rpx;
-		color: #666;
+		color: #4e5969;
 	}
 
 	.customTab.active .customTabText {
-		color: #337ab7;
+		color: #2b6cf6;
 		font-weight: 600;
 	}
 
@@ -38,7 +38,7 @@
 		width: 48rpx;
 		height: 6rpx;
 		border-radius: 3rpx;
-		background: #337ab7;
+		background: #2b6cf6;
 	}
 
 	/* 内容区：flex 撑满，内部 pane 自己滚动 */

@@ -1,6 +1,6 @@
 .allusionDetail {
   padding: 24rpx;
-  background: #f5f7fa;
+  background: #f6f7f9;
   min-height: 100vh;
 }
 
@@ -36,13 +36,13 @@
 
   .allusionAliases {
     font-size: 26rpx;
-    color: #666;
+    color: #4e5969;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
 
     .label {
-      color: #999;
+      color: #8a93a6;
       margin-right: 8rpx;
     }
   }
@@ -72,7 +72,7 @@
 
 .tag {
   background: #e8f4fd;
-  color: #337ab7;
+  color: #2b6cf6;
   padding: 10rpx 24rpx;
   border-radius: 8rpx;
   font-size: 26rpx;
@@ -96,7 +96,7 @@
 
   .sourceContent {
     font-size: 26rpx;
-    color: #666;
+    color: #4e5969;
     line-height: 1.8;
     display: block;
   }
@@ -126,7 +126,7 @@
 
   .poemInfo {
     font-size: 24rpx;
-    color: #999;
+    color: #8a93a6;
     display: block;
     text-align: right;
   }

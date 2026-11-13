@@ -1,15 +1,15 @@
 .likeButton {
-	color: #337ab7;
+	color: #2b6cf6;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background-color: rgba(51, 122, 183, 0.1);
+	background-color: rgba(43, 108, 246, 0.1);
 	padding: 8px 20px;
 	border-radius: 8px;
 	font-size: 24px;
 	&.active {
 		color: #fff;
-		background-color: #337ab7;
+		background-color: #2b6cf6;
 	}
 	.icon {
 		width: 40px;

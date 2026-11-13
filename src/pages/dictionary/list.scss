@@ -1,5 +1,5 @@
 .dictionaryListPage {
-	background-color: #f5f7fa;
+	background-color: #f6f7f9;
 	min-height: 100vh;
 
 	.searchBar {
@@ -17,14 +17,14 @@
 			position: relative;
 			display: flex;
 			align-items: center;
-			background: #f5f7fa;
+			background: #f6f7f9;
 			border: 1rpx solid transparent;
 			border-radius: 32rpx;
 			transition: border-color 0.2s;
 
 			/* 聚焦态描边 */
 			&:focus-within {
-				border-color: rgba(51, 122, 183, 0.35);
+				border-color: rgba(43, 108, 246, 0.35);
 				background: #fff;
 			}
 
@@ -65,14 +65,14 @@
 			height: 64rpx;
 			padding: 0 32rpx;
 			border-radius: 32rpx;
-			background: #337ab7;
+			background: #2b6cf6;
 			display: flex;
 			align-items: center;
 			justify-content: center;
 			margin-left: 16rpx;
 
 			&:active {
-				background: #2a6496;
+				background: #1a56d6;
 			}
 
 			.searchBtnText {
@@ -96,7 +96,7 @@
 		text-align: center;
 		padding: 60rpx 0;
 		font-size: 26rpx;
-		color: #999;
+		color: #8a93a6;
 	}
 
 	.empty {

@@ -8,7 +8,7 @@
 
 	.emptyText {
 		font-size: 28rpx;
-		color: #999;
+		color: #8a93a6;
 	}
 }
 
@@ -57,13 +57,13 @@
 	.typeFilterItem {
 		padding: 8rpx 24rpx;
 		font-size: 24rpx;
-		color: #666;
-		background: #f5f7fa;
+		color: #4e5969;
+		background: #f6f7f9;
 		border-radius: 24rpx;
 
 		&.active {
 			color: #fff;
-			background: #337ab7;
+			background: #2b6cf6;
 		}
 	}
 }
@@ -79,13 +79,13 @@
 	.scopeItem {
 		padding: 8rpx 24rpx;
 		font-size: 24rpx;
-		color: #666;
-		background: #f5f7fa;
+		color: #4e5969;
+		background: #f6f7f9;
 		border-radius: 24rpx;
 
 		&.active {
 			color: #fff;
-			background: #337ab7;
+			background: #2b6cf6;
 		}
 	}
 }
@@ -103,8 +103,8 @@
 		display: inline-block;
 		padding: 8rpx 24rpx;
 		font-size: 24rpx;
-		color: #666;
-		background: #f5f7fa;
+		color: #4e5969;
+		background: #f6f7f9;
 		border-radius: 24rpx;
 		margin-right: 12rpx;
 
@@ -114,7 +114,7 @@
 
 		&.active {
 			color: #fff;
-			background: #337ab7;
+			background: #2b6cf6;
 		}
 	}
 }
@@ -136,7 +136,7 @@
 		.searchInput {
 			flex: 1;
 			height: 64rpx;
-			background: #f5f7fa;
+			background: #f6f7f9;
 			border-radius: 32rpx;
 			padding: 0 60rpx 0 28rpx;
 			font-size: 26rpx;
@@ -171,7 +171,7 @@
 		height: 64rpx;
 		padding: 0 32rpx;
 		border-radius: 32rpx;
-		background: #337ab7;
+		background: #2b6cf6;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -188,7 +188,7 @@
 }
 
 .page.poemDetail {
-	background-color: #f5f5f5;
+	background-color: #f6f7f9;
 	padding: 20px;
 	padding-bottom: 280px;
 	min-height: 100vh;
@@ -238,14 +238,14 @@
 	.pinyin {
 		margin-right: 16px;
 		display: inline-block;
-		background-color: #337ab7;
+		background-color: #2b6cf6;
 		padding: 15px;
 		box-shadow: 0 6rpx 10rpx -2rpx rgba(0, 0, 0, 0.2),
 			0 12rpx 20rpx 0 rgba(0, 0, 0, 0.14), 0 2rpx 36rpx 0 rgba(0, 0, 0, 0.12);
 	}
 }
 .shreContainer {
-	background-color: #337ab7;
+	background-color: #2b6cf6;
 	position: fixed;
 	right: 24px;
 	padding: 16px;
@@ -263,7 +263,7 @@
 		line-height: initial;
 		border-radius: 50%;
 		display: block;
-		border: 1px solid #337ab7 !important;
+		border: 1px solid #2b6cf6 !important;
 		&::after {
 			border: unset;
 		}
@@ -282,7 +282,7 @@
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
-	background-color: #f5f7fa;
+	background-color: #f6f7f9;
 }
 
 .poemScrollView {
@@ -292,7 +292,7 @@
 
 .poemIndex {
 	min-height: 100vh;
-	background-color: #f8f8f8;
+	background-color: #f6f7f9;
 	box-sizing: border-box;
 	.keywordFilter {
 		background-color: #fff;
@@ -334,7 +334,7 @@
 			text-align: center;
 			&.active {
 				color: #fff;
-				background-color: #337ab7;
+				background-color: #2b6cf6;
 			}
 			&:last-child {
 				margin-right: 0;

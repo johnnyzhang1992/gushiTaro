@@ -30,7 +30,7 @@
 			margin-bottom: 12px;
 		}
 		.content {
-			color: #666;
+			color: #4e5969;
 			font-size: 28px;
 		}
 	}
@@ -40,10 +40,10 @@
 		align-items: center;
 		margin-right: 20px;
 		.btn {
-			color: #337ab7;
+			color: #2b6cf6;
 			font-size: 24px;
 			text-align: center;
-			border: 1px solid #337ab7;
+			border: 1px solid #2b6cf6;
 			padding: 10px 30px;
 			border-radius: 8px;
 			position: relative;
@@ -52,15 +52,15 @@
 				font-size: 20px;
 				padding: 2px 12px;
 				border-radius: 12px;
-				background-color: #337ab7;
+				background-color: #2b6cf6;
 				position: absolute;
 				top: -20px;
 				right: -18px;
 			}
 
 			&.disable {
-				color: #999;
-				border-color: #999;
+				color: #8a93a6;
+				border-color: #8a93a6;
 			}
 		}
 	}

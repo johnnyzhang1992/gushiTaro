@@ -13,7 +13,7 @@ import './style.scss';
 
 import xcxPng from '../../images/xcx.jpg';
 import poetPng from '../../images/svg/poet.svg';
-import ScanSvg from '../../images/svg/scan.svg';
+import ScanSvg from '../../images/svg/scan_dark.svg';
 
 const initUser = {
 	poem_count: 0,
@@ -27,12 +27,6 @@ const MeIndex = () => {
 		total_poem: 0, // 学习诗词数量
 		continue_days: 0, // 连续打卡天数
 		total_days: 0, // 总打卡天数
-	});
-	const [checkinStats, setCheckinStats] = useState({
-		todayChecked: false,
-		checkinDays: 0,
-		checkinStreak: 0,
-		last7: [],
 	});
 
 	const getMotd = (streak, total) => {
@@ -55,12 +49,6 @@ const MeIndex = () => {
 				continue_days: 0,
 				total_days: 0,
 			});
-			setCheckinStats({
-				todayChecked: false,
-				checkinDays: 0,
-				checkinStreak: 0,
-				last7: [],
-			});
 			return Promise.resolve();
 		}
 
@@ -69,40 +57,11 @@ const MeIndex = () => {
 			.then((res) => {
 				const apiData = res.data?.data || res.data;
 				if ((res.status || res.statusCode === 200) && apiData) {
-					const { userInfo, scheduleStats, pointsStats } = apiData;
+					const { userInfo, scheduleStats } = apiData;
 					// 更新用户信息
 					setInfo((pre) => ({ ...pre, ...userInfo }));
 					// 更新学习统计
 					if (scheduleStats) setScheduleStats(scheduleStats);
-					// 更新签到统计
-					if (pointsStats) {
-						const checkedSet = new Set(pointsStats.monthlyCheckins || []);
-						// 本地日期（toISOString 是 UTC，早 8 点会算成昨天）
-						const fmtLocal = (d) =>
-							`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-						const todayStr = fmtLocal(new Date());
-						const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
-						const days = [];
-						for (let i = 6; i >= 0; i--) {
-							const date = new Date();
-							date.setDate(date.getDate() - i);
-							const ds = fmtLocal(date);
-							const dayIndex = date.getDay();
-							const isToday = ds === todayStr;
-							days.push({
-								dateStr: ds,
-								checked: checkedSet.has(ds),
-								label: isToday ? '今' : weekDays[dayIndex],
-								isToday,
-							});
-						}
-						setCheckinStats({
-							todayChecked: checkedSet.has(todayStr),
-							checkinDays: pointsStats.checkinDays || 0,
-							checkinStreak: pointsStats.checkinStreak || 0,
-							last7: days,
-						});
-					}
 				}
 				// token 过期（request.js 已 reject，此处仅兜底）
 				if (res.statusCode == 401) {
@@ -323,41 +282,9 @@ const MeIndex = () => {
 						</View>
 					)}
 				</SectionCard>
-				{/* 我的签到 */}
+				{/* 我的数据（收藏 + 诗单合并，紧凑网格） */}
 				<SectionCard
-					title='我的签到'
-					extra={
-						<View className={`checkin-tag ${checkinStats.todayChecked ? 'checked' : ''}`}>
-							{checkinStats.todayChecked ? '已签到' : '未签到'}
-						</View>
-					}
-					titleClick={() => Taro.navigateTo({ url: '/pages/me/checkin' })}
-				>
-					<View className='checkin-section'>
-						<View className='checkin-streak'>
-							<View className='streak-item primary'>
-								<Text className='streak-label'>连续签到</Text>
-								<Text className='streak-num'>{checkinStats.checkinStreak}</Text>
-							</View>
-							<View className='streak-item'>
-								<Text className='streak-label'>累计签到</Text>
-								<Text className='streak-num'>{checkinStats.checkinDays}</Text>
-							</View>
-						</View>
-						<View className='checkin-week'>
-							{checkinStats.last7.map((day, i) => (
-								<View key={i} className='day-item'>
-									<Text className='day-label'>{day.label}</Text>
-									<Text className='day-date'>{parseInt(day.dateStr.slice(8, 10), 10)}</Text>
-									<View className={`day-dot ${day.checked ? 'checked' : ''} ${day.isToday ? 'today' : ''}`} />
-								</View>
-							))}
-						</View>
-					</View>
-				</SectionCard>
-				{/* 我的收藏 */}
-				<SectionCard
-					title='我的收藏'
+					title='我的数据'
 					extra={<View className='icon chevron-right' />}
 					titleClick={() => Taro.navigateTo({ url: '/pages/me/collect' })}
 				>
@@ -402,15 +329,6 @@ const MeIndex = () => {
 							</View>
 							<View className='info'>典故</View>
 						</Navigator>
-					</View>
-				</SectionCard>
-				{/* 我的诗单 */}
-				<SectionCard
-					title='我的诗单'
-					extra={<View className='icon chevron-right' />}
-					titleClick={() => Taro.navigateTo({ url: '/pages/me/collections' })}
-				>
-					<View className='statsCard'>
 						<Navigator
 							className='card_item'
 							hoverClass='none'
@@ -419,7 +337,7 @@ const MeIndex = () => {
 							<View className='top'>
 								<Text className='num'>{userInfo.collection_count || 0}</Text>
 							</View>
-							<View className='info'>创建</View>
+							<View className='info'>创建诗单</View>
 						</Navigator>
 						<Navigator
 							className='card_item'
@@ -429,22 +347,23 @@ const MeIndex = () => {
 							<View className='top'>
 								<Text className='num'>{userInfo.collection_fav_count || 0}</Text>
 							</View>
-							<View className='info'>收藏</View>
+							<View className='info'>收藏诗单</View>
 						</Navigator>
 					</View>
 				</SectionCard>
 
-				{/* 关于我们 */}
+				{/* 关于我们（横排紧凑） */}
 				<SectionCard
 					title='关于我们'
 					extra={<View className='icon chevron-right' />}
 					titleClick={navigateToAbout}
 				>
-					<View className='imgContainer'>
+					<View className='aboutRow'>
 						<Image src={xcxPng} showMenuByLongpress className='xcxImg' />
-						<View className='intro'>
-							<Text className='text' userSelect>
-								长按图片可保存到本地或分享给朋友
+						<View className='aboutInfo'>
+							<Text className='aboutTitle'>古诗文小助手</Text>
+							<Text className='aboutDesc' userSelect>
+								长按二维码保存或分享给朋友
 							</Text>
 						</View>
 					</View>

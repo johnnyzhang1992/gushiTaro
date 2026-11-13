@@ -12,7 +12,7 @@
 	display: flex;
 	justify-content: center;
 	&.active:before {
-		background-color: #337ab7;
+		background-color: #2b6cf6;
 	}
 	&:nth-child(4n) {
 		margin-right: 0;
@@ -27,7 +27,7 @@
 		width: 100px;
 		/* border-top: 4rpx solid #f3f3f3; */
 		color: #f3f3f3;
-		// background-color: #337ab7;
+		// background-color: #2b6cf6;
 		background-color: #ddd;
 	}
 	&.catalog {
@@ -70,7 +70,7 @@
 	}
 	.profile {
 		font-size: 0.7em;
-		color: #666;
+		color: #4e5969;
 		margin-left: 8px;
 	}
 }

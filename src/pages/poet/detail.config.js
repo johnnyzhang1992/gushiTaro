@@ -1,6 +1,4 @@
 export default {
 	navigationBarTitleText: '诗人详情',
-	navigationBarTextStyle: 'white',
-	navigationBarBackgroundColor: '#337ab7',
 enablePullDownRefresh: true,
 };

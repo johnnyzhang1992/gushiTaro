@@ -1,7 +1,7 @@
 import { View, Image } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 
-import searchSvg from '../../images/svg/search.svg';
+import searchSvg from '../../images/svg/search_dark.svg';
 
 import './style.scss';
 

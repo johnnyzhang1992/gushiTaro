@@ -44,7 +44,15 @@ const UploadFile = (url, params) => {
 				const errorText =
 					res.statusCode == 503 || res.statusCode == 429
 						? '当前IP访问频繁，稍后再试！'
-						: '上传失败，请稍后再试';
+						: (() => {
+								// 优先透出后端业务提示（如「头像包含不当内容」）
+								try {
+									const data = typeof res.data === 'string' ? JSON.parse(res.data) : res.data;
+									return (data && data.errmsg) || '上传失败，请稍后再试';
+								} catch (e) {
+									return '上传失败，请稍后再试';
+								}
+							})();
 				Taro.showToast({
 					title: errorText,
 					icon: 'none',

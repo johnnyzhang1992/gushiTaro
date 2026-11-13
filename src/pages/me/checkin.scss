@@ -1,6 +1,6 @@
 .checkinPage {
   min-height: 100vh;
-  background: linear-gradient(180deg, #337ab7 0%, #4a90c4 30%, #f5f5f5 30%);
+  background: linear-gradient(180deg, #2b6cf6 0%, #2b6cf6 30%, #f6f7f9 30%);
   padding: 30px;
   box-sizing: border-box;
 
@@ -36,7 +36,7 @@
       padding-bottom: 20px;
       .arrow {
         font-size: 40px;
-        color: #337ab7;
+        color: #2b6cf6;
         padding: 0 30px;
         font-weight: 700;
 
@@ -59,7 +59,7 @@
       padding-bottom: 12px;
       .wd {
         font-size: 24px;
-        color: #999;
+        color: #8a93a6;
       }
     }
 
@@ -81,12 +81,12 @@
         box-sizing: border-box;
         .num { line-height: 1; }
         &.checked {
-          background: #337ab7;
+          background: #2b6cf6;
           color: #fff;
           .dot { font-size: 20px; margin-top: 2px; }
         }
         &.today {
-          border: 2px solid #337ab7;
+          border: 2px solid #2b6cf6;
           font-weight: 700;
         }
         &.empty { visibility: hidden; }
@@ -102,14 +102,14 @@
   .checkin-btn {
     height: 96px;
     border-radius: 48px;
-    background: linear-gradient(135deg, #337ab7, #4a90c4);
+    background: #2b6cf6;
     color: #fff;
     font-size: 34px;
     font-weight: 600;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 20px rgba(51,122,183,0.35);
+    box-shadow: 0 4px 20px rgba(43, 108, 246,0.35);
     &.done {
       background: #ccc;
       box-shadow: none;
@@ -138,7 +138,7 @@
       }
       .total-text {
         font-size: 24px;
-        color: #999;
+        color: #8a93a6;
       }
     }
 
@@ -147,7 +147,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 20px 0;
-      border-bottom: 1px solid #f5f7fa;
+      border-bottom: 1px solid #f6f7f9;
       &:last-child { border-bottom: none; }
 
       .record-left {
@@ -160,12 +160,12 @@
         }
         .record-time {
           font-size: 22px;
-          color: #999;
+          color: #8a93a6;
         }
       }
       .record-pts {
         font-size: 32px;
-        color: #337ab7;
+        color: #2b6cf6;
         font-weight: 700;
       }
     }
@@ -186,7 +186,7 @@
       .loading-text,
       .end-text {
         font-size: 24px;
-        color: #999;
+        color: #8a93a6;
       }
     }
   }

@@ -8,20 +8,20 @@
 	padding-bottom: 20px;
 	border-bottom: 2px solid #eee;
 	.title {
-		color: #999;
+		color: #8a93a6;
 		font-weight: 500;
 		flex: 1;
 		text-align: left;
 	}
 	.create {
-		color: #337ab7;
+		color: #2b6cf6;
 	}
 	.btn {
 		padding: 10px 24px;
-		border: 1px solid #337ab7;
+		border: 1px solid #2b6cf6;
 		border-radius: 12px;
 		&.confirm {
-			background-color: #337ab7;
+			background-color: #2b6cf6;
 			color: #fff;
 		}
 	}
@@ -32,7 +32,7 @@
 
 		.btn.cancel {
 			background-color: #fff;
-			color: #666;
+			color: #4e5969;
 			border-color: #cfd6dd;
 		}
 	}
@@ -58,7 +58,7 @@
 		}
 		.placeholder {
 			font-size: 28px;
-			color: #999;
+			color: #8a93a6;
 		}
 	}
 	/* 新建/编辑表单：标题 + 描述 */
@@ -117,20 +117,20 @@
 		margin-bottom: 8px;
 	}
 	.schedule-item__poem_count {
-		color: #999;
+		color: #8a93a6;
 		font-size: 24px;
 	}
 	.schedule-item__btn {
-		// border: 1px solid #337ab7;
+		// border: 1px solid #2b6cf6;
 		// border-radius: 12px;
 		padding: 10px 24px;
-		color: #337ab7;
+		color: #2b6cf6;
 		font-size: 28px;
 	}
 	&.active {
 		.schedule-item__btn {
 			// border-color: #ddd;
-			color: #999;
+			color: #8a93a6;
 		}
 	}
 }

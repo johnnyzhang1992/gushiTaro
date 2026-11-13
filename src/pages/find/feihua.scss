@@ -1,6 +1,6 @@
 .feihuaPage {
 	min-height: 100vh;
-	background: #f5f7fa;
+	background: #f6f7f9;
 
 	.fhHeader {
 		position: absolute;
@@ -39,28 +39,14 @@
 
 	.introText {
 		font-size: 24rpx;
-		color: #666;
+		color: #4e5969;
 		line-height: 1.6;
 	}
 }
 
 /* 搜索 */
-.searchWrap {
+.feihuaSearch {
 	margin-bottom: 16rpx;
-
-	.searchInput {
-		height: 72rpx;
-		background: #fff;
-		border-radius: 36rpx;
-		padding: 0 28rpx;
-		font-size: 26rpx;
-		box-sizing: border-box;
-		border: 1rpx solid #e0e0e0;
-	}
-
-	.searchPlaceholder {
-		color: #aaa;
-	}
 }
 
 .dropList {
@@ -83,7 +69,7 @@
 		.dropChar {
 			font-size: 28rpx;
 			font-weight: 600;
-			color: #337ab7;
+			color: #2b6cf6;
 			margin-right: 16rpx;
 		}
 
@@ -97,7 +83,7 @@
 	.dropEmpty {
 		padding: 16rpx 24rpx;
 		font-size: 22rpx;
-		color: #999;
+		color: #8a93a6;
 	}
 }
 
@@ -157,7 +143,7 @@
 
 		.catName {
 			font-size: 24rpx;
-			color: #666;
+			color: #4e5969;
 		}
 	}
 }

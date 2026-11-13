@@ -1,0 +1,69 @@
+.searchField {
+	display: flex;
+	align-items: center;
+	box-sizing: border-box;
+	height: 76rpx;
+	background: #fff;
+	border: 2rpx solid #d9e0ea;
+	border-radius: 16rpx;
+	padding-left: 20rpx;
+
+	&:focus-within {
+		border-color: rgba(43, 108, 246, 0.55);
+	}
+}
+
+.searchFieldIcon {
+	position: relative;
+	flex-shrink: 0;
+	width: 26rpx;
+	height: 26rpx;
+	border: 3rpx solid #8a93a6;
+	border-radius: 50%;
+	margin-right: 14rpx;
+
+	&::after {
+		content: '';
+		position: absolute;
+		right: -8rpx;
+		bottom: -5rpx;
+		width: 10rpx;
+		height: 3rpx;
+		border-radius: 2rpx;
+		background: #8a93a6;
+		transform: rotate(45deg);
+	}
+}
+
+.searchFieldInput {
+	flex: 1;
+	min-width: 0;
+	height: 72rpx;
+	background: transparent;
+	font-size: 26rpx;
+	color: #1f2329;
+}
+
+.searchFieldPlaceholder {
+	color: #8a93a6;
+}
+
+.searchFieldClear {
+	flex-shrink: 0;
+	width: 76rpx;
+	height: 76rpx;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.searchFieldClearIcon {
+	width: 40rpx;
+	height: 40rpx;
+	border-radius: 50%;
+	background: #d8dde3;
+	color: #fff;
+	font-size: 26rpx;
+	line-height: 40rpx;
+	text-align: center;
+}

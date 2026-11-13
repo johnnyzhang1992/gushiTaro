@@ -29,14 +29,14 @@
 
 		.dynastyFilterItem {
 			text-align: center;
-			color: #666;
+			color: #4e5969;
 			font-size: 22rpx;
 			line-height: 2em;
 			padding: 8rpx 0;
 			white-space: nowrap;
 
 			&.active {
-				color: #337ab7;
+				color: #2b6cf6;
 				font-weight: 600;
 			}
 		}
@@ -51,5 +51,5 @@
 	justify-content: center;
 	padding: 60rpx 0;
 	font-size: 26rpx;
-	color: #999;
+	color: #8a93a6;
 }

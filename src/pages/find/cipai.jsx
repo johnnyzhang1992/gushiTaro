@@ -1,8 +1,10 @@
 import { useState, useMemo } from 'react';
-import { View, Text, Input, ScrollView } from '@tarojs/components';
+import { View, Text, Image, ScrollView } from '@tarojs/components';
 import Taro, { useShareAppMessage, useShareTimeline } from '@tarojs/taro';
 
+import SearchField from '../../components/SearchField';
 import { CiPaiArr } from '../../const/config';
+import flameSvg from '../../images/svg/flame.svg';
 
 import './cipai.scss';
 
@@ -19,6 +21,9 @@ const HOT_CIPAI = [
 	'八声甘州', '暗香', '疏影', '水龙吟', '永遇乐',
 	'扬州慢', '桂枝香', '昼夜乐', '天仙子', '生查子',
 ];
+
+/** 榜单区展示的热度前 N 个，其余进「更多词牌」 */
+const HOT_RANK_COUNT = 8;
 
 /** 按首字分组 */
 function groupByFirstChar(names) {
@@ -86,21 +91,13 @@ const CiPaiPage = () => {
 			</View>
 
 			{/* 搜索框 */}
-			<View className='searchBar'>
-				<View className='searchInputWrap'>
-					<Input
-						className='searchInput'
-						placeholder='搜索词牌名'
-						value={searchText}
-						onInput={(e) => setSearchText(e.detail.value)}
-					/>
-					{searchText ? (
-						<View className='searchClear' onClick={() => setSearchText('')}>
-							<Text className='searchClearIcon'>×</Text>
-						</View>
-					) : null}
-				</View>
-			</View>
+			<SearchField
+				className='cipaiSearch'
+				value={searchText}
+				placeholder='搜索词牌名'
+				onInput={setSearchText}
+				onClear={() => setSearchText('')}
+			/>
 
 			{/* 搜索结果 */}
 			{searchText && filtered.length > 0 ? (
@@ -123,13 +120,33 @@ const CiPaiPage = () => {
 
 			{/* 热门推荐 */}
 			<View className='hotSection'>
-				<Text className='sectionTitle'>🔥 热门推荐</Text>
-				<View className='hotGrid'>
-					{HOT_CIPAI.map((name) => (
-						<View key={name} className='hotItem' onClick={() => handleClick(name)}>
-							<Text className='hotText'>{name}</Text>
+				<View className='sectionHead'>
+					<Image className='sectionIcon' src={flameSvg} />
+					<Text className='sectionTitle'>热门推荐</Text>
+					<Text className='sectionCount'>共 {HOT_CIPAI.length} 个</Text>
+				</View>
+				<View className='hotRank'>
+					{HOT_CIPAI.slice(0, HOT_RANK_COUNT).map((name, i) => (
+						<View
+							key={name}
+							className={`rankRow ${i < 3 ? 'top' : ''}`}
+							onClick={() => handleClick(name)}
+						>
+							<Text className='rankNo'>{i + 1}</Text>
+							<Text className='rankName'>{name}</Text>
+							<View className='rankArrow' />
 						</View>
 					))}
+				</View>
+				<View className='hotMore'>
+					<Text className='moreTitle'>更多词牌</Text>
+					<View className='moreGrid'>
+						{HOT_CIPAI.slice(HOT_RANK_COUNT).map((name) => (
+							<View key={name} className='moreItem' onClick={() => handleClick(name)}>
+								<Text className='moreText'>{name}</Text>
+							</View>
+						))}
+					</View>
 				</View>
 			</View>
 

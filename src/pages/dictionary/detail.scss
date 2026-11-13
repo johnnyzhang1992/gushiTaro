@@ -1,6 +1,6 @@
 .dictionaryDetailPage {
 	min-height: 100vh;
-	background-color: #f5f7fa;
+	background-color: #f6f7f9;
 	padding: 20rpx;
 	box-sizing: border-box;
 
@@ -37,8 +37,8 @@
 		.lable {
 			padding: 8rpx 18rpx;
 			margin-right: 20rpx;
-			background: linear-gradient(135deg, #f5f7fa, #eef1f5);
-			color: #666;
+			background: linear-gradient(135deg, #f6f7f9, #eef1f5);
+			color: #4e5969;
 			border-radius: 10rpx;
 			font-size: 24rpx;
 			font-weight: 500;
@@ -56,7 +56,7 @@
 	.wordDetail {
 		.hor-item {
 			.lable {
-				background: linear-gradient(135deg, #f5f7fa, #eef1f5);
+				background: linear-gradient(135deg, #f6f7f9, #eef1f5);
 			}
 		}
 	}
@@ -131,7 +131,7 @@
 			font-size: 30rpx;
 			font-weight: 600;
 			color: #333;
-			border-bottom: 2rpx solid #f5f7fa;
+			border-bottom: 2rpx solid #f6f7f9;
 		}
 
 		.content {

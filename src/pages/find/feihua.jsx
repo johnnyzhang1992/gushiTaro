@@ -1,7 +1,8 @@
-import { View, Text, Input, ScrollView } from '@tarojs/components';
+import { View, Text, ScrollView } from '@tarojs/components';
 import Taro, { useShareAppMessage, useShareTimeline } from '@tarojs/taro';
 import { useState } from 'react';
 
+import SearchField from '../../components/SearchField';
 import { FeiHuaConfig, HotFeiHua } from '../../const/config';
 
 import './feihua.scss';
@@ -43,19 +44,21 @@ const FeihuaPage = () => {
 				</View>
 
 				{/* 搜索框 */}
-				<View className='searchWrap'>
-					<Input
-						className='searchInput'
-						placeholder='搜索主题字，如：花'
-						placeholderClass='searchPlaceholder'
-						value={keyword}
-						onInput={(e) => {
-							setKeyword(e.detail.value);
-							setShowDrop(true);
-						}}
-						onBlur={() => setTimeout(() => setShowDrop(false), 200)}
-					/>
-				</View>
+				<SearchField
+					className='feihuaSearch'
+					value={keyword}
+					placeholder='搜索主题字，如：花'
+					onInput={(v) => {
+						setKeyword(v);
+						setShowDrop(true);
+					}}
+					onFocus={() => setShowDrop(true)}
+					onBlur={() => setTimeout(() => setShowDrop(false), 200)}
+					onClear={() => {
+						setKeyword('');
+						setShowDrop(false);
+					}}
+				/>
 				{/* 搜索下拉 */}
 				{showDrop && keyword.trim() !== '' ? (
 					<View className='dropList'>

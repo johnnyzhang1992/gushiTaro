@@ -1,5 +1,5 @@
 .searchPage {
-  background-color: #f5f7fa;
+  background-color: #f6f7f9;
   box-sizing: border-box;
   height: 100vh;
   overflow: hidden;
@@ -20,7 +20,7 @@
       border-radius: 40rpx;
 
       .typeItem {
-        color: #666;
+        color: #4e5969;
         flex: 1;
         padding: 14rpx 32rpx;
         border-radius: 36rpx;
@@ -30,7 +30,7 @@
 
         &.active {
           color: #fff;
-          background-color: #337ab7;
+          background-color: #2b6cf6;
           font-weight: 500;
         }
       }
@@ -39,7 +39,7 @@
 
   .searchTop {
     padding: 20rpx 24rpx;
-    background: #f5f7fa;
+    background: #f6f7f9;
     position: sticky;
     top: 0;
     z-index: 99;
@@ -55,7 +55,7 @@
         align-items: center;
         background: #fff;
         border-radius: 40rpx;
-        box-shadow: 0 2rpx 12rpx rgba(51, 122, 183, 0.08);
+        box-shadow: 0 2rpx 12rpx rgba(43, 108, 246, 0.08);
 
         .searchInput {
           flex: 1;
@@ -94,7 +94,7 @@
         height: 64rpx;
         padding: 0 32rpx;
         border-radius: 32rpx;
-        background: #337ab7;
+        background: #2b6cf6;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -139,9 +139,9 @@
     transition: all 0.2s;
 
     &:active {
-      background-color: #337ab7;
+      background-color: #2b6cf6;
       color: #fff;
-      border-color: #337ab7;
+      border-color: #2b6cf6;
     }
   }
 
@@ -152,7 +152,7 @@
     .item {
       font-size: 24rpx;
       padding: 12rpx 0;
-      color: #666;
+      color: #4e5969;
       line-height: 1.6;
     }
   }
@@ -160,12 +160,12 @@
   .closeText {
     font-size: 24rpx;
     font-weight: 400;
-    color: #999;
+    color: #8a93a6;
   }
 
   .extraNav {
     font-size: 24rpx;
-    color: #337ab7;
+    color: #2b6cf6;
   }
 
   /* 字典搜索结果 */
@@ -176,9 +176,9 @@
 
     .more {
       font-size: 24rpx;
-      color: #337ab7;
+      color: #2b6cf6;
       padding: 8rpx 16rpx;
-      background: rgba(51, 122, 183, 0.08);
+      background: rgba(43, 108, 246, 0.08);
       border-radius: 20rpx;
     }
   }
@@ -197,7 +197,7 @@
       font-size: 30rpx;
       font-weight: 600;
       color: #333;
-      border-bottom: 2rpx solid #f5f7fa;
+      border-bottom: 2rpx solid #f6f7f9;
     }
 
     &>.content {
@@ -218,7 +218,7 @@
 
     .poemSmallCard {
       padding: 0;
-      border-bottom: 2rpx solid #f5f7fa;
+      border-bottom: 2rpx solid #f6f7f9;
 
       &:first-child {
         margin-top: 0;
@@ -239,14 +239,14 @@
 
       .text {
         font-size: 32rpx;
-        color: #999;
+        color: #8a93a6;
       }
     }
   }
 
   .seachTipSection {
     .title {
-      border-bottom: 2rpx solid #f5f7fa;
+      border-bottom: 2rpx solid #f6f7f9;
     }
   }
 }

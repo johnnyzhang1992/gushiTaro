@@ -1,7 +1,7 @@
 .collectButton {
-	color: #337ab7;
+	color: #2b6cf6;
 	border-radius: 8px;
-	background-color: rgba(51, 122, 183, 0.1);
+	background-color: rgba(43, 108, 246, 0.1);
 	.buttonContainer.collect {
 		display: flex;
 		justify-content: center;
@@ -12,7 +12,7 @@
 	}
 	&.active {
 		color: #fff;
-		background-color: #337ab7;
+		background-color: #2b6cf6;
 	}
 	.icon {
 		width: 40px;

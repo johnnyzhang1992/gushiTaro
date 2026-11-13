@@ -1,25 +1,29 @@
 .detail-page {
   min-height: 100vh;
-  background: #f5f5f5;
+  background: #f6f7f9;
   padding-bottom: 180rpx; /* 底部留出操作栏高度 */
 }
 
 /* 计划头部 */
 .plan-header-card {
-  background: linear-gradient(135deg, #337ab7 0%, #2a6496 100%);
+  background: #fff;
+  margin: 20rpx 20rpx 0;
+  border-radius: 20rpx;
   padding: 30rpx;
-  color: #fff;
+  color: #1f2329;
+  box-shadow: 0 1px 2px rgba(31, 35, 41, 0.04);
 }
 
 .plan-name {
   font-size: 36rpx;
   font-weight: bold;
+  color: #1f2329;
   margin-bottom: 10rpx;
 }
 
 .plan-meta {
   font-size: 24rpx;
-  opacity: 0.8;
+  color: #8a93a6;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -28,9 +32,9 @@
 .plan-rule {
   opacity: 1;
   font-size: 22rpx;
-  color: #fff;
-  background: rgba(255, 255, 255, 0.2);
-  border: 1rpx solid rgba(255, 255, 255, 0.5);
+  color: #4e5969;
+  background: #f2f3f5;
+  border: 1rpx solid #f2f3f5;
   padding: 6rpx 18rpx;
   border-radius: 24rpx;
   flex-shrink: 0;
@@ -84,7 +88,7 @@
 
   .rule-modal-close {
     font-size: 44rpx;
-    color: #999;
+    color: #8a93a6;
     padding: 0 10rpx;
     line-height: 1;
   }
@@ -98,7 +102,7 @@
       display: block;
       font-size: 28rpx;
       font-weight: 600;
-      color: #337ab7;
+      color: #2b6cf6;
       margin-bottom: 10rpx;
     }
 
@@ -111,7 +115,7 @@
     }
 
     .rule-stage {
-      background: #f5f7fa;
+      background: #f6f7f9;
       border-radius: 12rpx;
       padding: 16rpx 20rpx;
 
@@ -153,13 +157,13 @@
 .stats-number {
   font-size: 40rpx;
   font-weight: bold;
-  color: #337ab7;
+  color: #2b6cf6;
   line-height: 1.2;
 }
 
 .stats-label {
   font-size: 22rpx;
-  color: #999;
+  color: #8a93a6;
   margin-top: 8rpx;
 }
 
@@ -177,13 +181,13 @@
   text-align: center;
   padding: 16rpx 0;
   font-size: 24rpx;
-  color: #666;
+  color: #4e5969;
   border-radius: 8rpx;
   transition: all 0.3s;
 }
 
 .stage-btn.active {
-  background: #337ab7;
+  background: #2b6cf6;
   color: #fff;
 }
 
@@ -224,7 +228,7 @@
 
 .poem-status.pending {
   background: #f0f0f0;
-  color: #999;
+  color: #8a93a6;
 }
 
 .poem-status.due {
@@ -245,7 +249,7 @@
 
 .poem-author {
   font-size: 24rpx;
-  color: #999;
+  color: #8a93a6;
 }
 
 .poem-stage {
@@ -266,8 +270,8 @@
 }
 
 .poem-stage.pending {
-  background: #f5f5f5;
-  color: #999;
+  background: #f6f7f9;
+  color: #8a93a6;
 }
 
 .poem-stage.due {
@@ -300,7 +304,7 @@
 }
 
 .action-btn.primary {
-  background: #337ab7;
+  background: #2b6cf6;
   color: #fff;
 }
 
@@ -310,8 +314,8 @@
 }
 
 .action-btn.secondary {
-  background: #f5f5f5;
-  color: #666;
+  background: #f6f7f9;
+  color: #4e5969;
 }
 
 /* 底部弹窗 */
@@ -378,7 +382,7 @@
 
 .bottom-sheet-close {
   font-size: 44rpx;
-  color: #999;
+  color: #8a93a6;
   padding: 10rpx;
 }
 
@@ -404,7 +408,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  background: #f5f5f5;
+  background: #f6f7f9;
   border-radius: 12rpx;
   padding: 0 16rpx;
 }
@@ -423,7 +427,7 @@
   flex-shrink: 0;
   height: 72rpx;
   padding: 0 32rpx;
-  background: #337ab7;
+  background: #2b6cf6;
   border-radius: 12rpx;
   display: flex;
   align-items: center;
@@ -466,7 +470,7 @@
 
 .load-more-text {
   font-size: 24rpx;
-  color: #999;
+  color: #8a93a6;
 }
 
 .search-item {
@@ -492,12 +496,12 @@
 
 .search-item-author {
   font-size: 22rpx;
-  color: #999;
+  color: #8a93a6;
 }
 
 .search-item-btn {
   padding: 10rpx 24rpx;
-  background: #337ab7;
+  background: #2b6cf6;
   color: #fff;
   border-radius: 8rpx;
   font-size: 24rpx;
@@ -505,7 +509,7 @@
 
 .search-item-btn.added {
   background: #f0f0f0;
-  color: #999;
+  color: #8a93a6;
 }
 
 /* 学习弹窗 */
@@ -559,7 +563,7 @@
 
 .study-poem-author {
   font-size: 26rpx;
-  color: #666;
+  color: #4e5969;
   text-align: center;
   margin-bottom: 40rpx;
 }
@@ -581,7 +585,7 @@
 }
 
 .mode-btn.active {
-  background: #337ab7;
+  background: #2b6cf6;
 }
 
 .mode-btn.active .mode-text {
@@ -590,7 +594,7 @@
 
 .mode-text {
   font-size: 20rpx;
-  color: #666;
+  color: #4e5969;
 }
 
 .poem-content {
@@ -693,12 +697,12 @@
 
 .empty-text {
   font-size: 28rpx;
-  color: #999;
+  color: #8a93a6;
   margin-bottom: 30rpx;
 }
 
 .empty-btn {
-  background: #337ab7;
+  background: #2b6cf6;
   color: #fff;
   padding: 16rpx 48rpx;
   border-radius: 32rpx;

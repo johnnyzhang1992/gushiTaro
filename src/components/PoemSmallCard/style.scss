@@ -1,16 +1,15 @@
 .poemSmallCard {
-	padding: 16px 20px;
+	padding: 20px 20px;
 	position: relative;
-	border: 2px solid #f5f5f5;
 	background: #fff;
 	margin-bottom: 20px;
 	border-radius: 12px;
-	padding: 20px 20px;
+	box-shadow: 0 1px 2px rgba(31, 35, 41, 0.04);
 	.top {
 		text-align: left;
 	}
 	&.hideBorder {
-		border: none;
+		box-shadow: none;
 	}
 	.title {
 		color: #333;
@@ -24,25 +23,42 @@
 	.content {
 		font-size: 28px;
 		color: #65645f;
-		// text-overflow: ellipsis;
-		// white-space: nowrap;
-		// overflow: hidden;
+		/* 诗词正文统一衬线（审计 P1-7） */
+		font-family: var(--font-poem);
 		display: block;
 		line-height: 44px;
+		&.clamped {
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 6;
+			overflow: hidden;
+		}
 		.lightText {
-			// text-overflow: ellipsis;
-			// white-space: nowrap;
-			// overflow: hidden;
 			display: block;
 			white-space: pre-wrap;
 			word-break: break-all;
+		}
+	}
+	.expandToggle {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 14px 0 2px;
+		.expandText {
+			font-size: 24px;
+			color: #2b6cf6;
+		}
+		.expandArrow {
+			font-size: 18px;
+			color: #2b6cf6;
+			margin-left: 6px;
 		}
 	}
 	.poet {
 		margin: 12px 0;
 		.author,
 		.dynasty {
-			color: #999;
+			color: #8a93a6;
 			font-size: 26px;
 		}
 		.dynasty {
@@ -51,7 +67,7 @@
 			position: relative;
 			&::after {
 				content: ' ';
-				background-color: #999;
+				background-color: #8a93a6;
 				position: absolute;
 				right: 0;
 				top: 50%;

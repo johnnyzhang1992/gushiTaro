@@ -1,6 +1,6 @@
 .cipaiPage {
 	min-height: 100vh;
-	background: #f5f7fa;
+	background: #f6f7f9;
 	padding-bottom: 40rpx;
 }
 
@@ -13,51 +13,13 @@
 
 	.desc-text {
 		font-size: 24rpx;
-		color: #666;
+		color: #4e5969;
 		line-height: 1.8;
 	}
 }
 
-.searchBar {
-	display: flex;
-	align-items: center;
-	padding: 0 24rpx;
-	margin-bottom: 24rpx;
-
-	.searchInputWrap {
-		flex: 1;
-		position: relative;
-		display: flex;
-		align-items: center;
-
-		.searchInput {
-			flex: 1;
-			height: 72rpx;
-			background: #fff;
-			border-radius: 36rpx;
-			padding: 0 60rpx 0 28rpx;
-			font-size: 28rpx;
-			box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
-		}
-
-		.searchClear {
-			position: absolute;
-			right: 16rpx;
-			width: 40rpx;
-			height: 40rpx;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			border-radius: 50%;
-			background: #d8dde3;
-
-			.searchClearIcon {
-				font-size: 28rpx;
-				color: #fff;
-				line-height: 1;
-			}
-		}
-	}
+.cipaiSearch {
+	margin: 0 24rpx 24rpx;
 }
 
 .searchResult {
@@ -68,7 +30,7 @@
 
 	.resultTitle {
 		font-size: 26rpx;
-		color: #999;
+		color: #8a93a6;
 		margin-bottom: 16rpx;
 		display: block;
 	}
@@ -86,7 +48,7 @@
 
 		.resultText {
 			font-size: 26rpx;
-			color: #337ab7;
+			color: #2b6cf6;
 		}
 	}
 }
@@ -97,30 +59,123 @@
 	background: #fff;
 	border-radius: 16rpx;
 
-	.sectionTitle {
-		font-size: 28rpx;
-		font-weight: 600;
-		color: #333;
-		margin-bottom: 20rpx;
-		display: block;
-	}
-
-	.hotGrid {
+	.sectionHead {
 		display: flex;
-		flex-wrap: wrap;
-		gap: 16rpx;
+		align-items: center;
+		margin-bottom: 4rpx;
+
+		.sectionIcon {
+			width: 28rpx;
+			height: 28rpx;
+			margin-right: 10rpx;
+		}
+
+		.sectionTitle {
+			font-size: 28rpx;
+			font-weight: 600;
+			color: #1f2329;
+		}
+
+		.sectionCount {
+			margin-left: auto;
+			font-size: 22rpx;
+			color: #8a93a6;
+		}
 	}
 
-	.hotItem {
-		padding: 14rpx 28rpx;
-		background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fd 100%);
-		border: 1rpx solid rgba(51, 122, 183, 0.2);
-		border-radius: 8rpx;
+	.rankRow {
+		display: flex;
+		align-items: center;
+		box-sizing: border-box;
+		min-height: 76rpx;
+		padding: 8rpx 4rpx;
+		border-bottom: 2rpx solid #f0f2f5;
 
-		.hotText {
-			font-size: 26rpx;
-			color: #337ab7;
-			font-weight: 500;
+		&:last-child {
+			border-bottom: none;
+		}
+
+		&:active {
+			background: #f6f9ff;
+		}
+
+		.rankNo {
+			flex: 0 0 44rpx;
+			text-align: center;
+			font-family: var(--font-poem);
+			font-size: 30rpx;
+			font-weight: 700;
+			color: #b6bdc9;
+		}
+
+		&.top .rankNo {
+			color: #c2453a;
+		}
+
+		.rankName {
+			flex: 1;
+			min-width: 0;
+			font-family: var(--font-poem);
+			font-size: 32rpx;
+			line-height: 1.4;
+			color: #1f2329;
+			letter-spacing: 2rpx;
+		}
+
+		.rankArrow {
+			flex-shrink: 0;
+			width: 14rpx;
+			height: 14rpx;
+			border-top: 2rpx solid #c2c8d2;
+			border-right: 2rpx solid #c2c8d2;
+			transform: rotate(45deg);
+			margin-right: 6rpx;
+		}
+	}
+
+	.hotMore {
+		margin-top: 12rpx;
+		padding-top: 16rpx;
+		border-top: 2rpx dashed #e2e8f0;
+
+		.moreTitle {
+			display: block;
+			font-size: 22rpx;
+			color: #8a93a6;
+			margin-bottom: 12rpx;
+		}
+
+		.moreGrid {
+			display: grid;
+			grid-template-columns: repeat(4, 1fr);
+			gap: 14rpx;
+		}
+
+		.moreItem {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			min-height: 76rpx;
+			padding: 10rpx 4rpx;
+			box-sizing: border-box;
+			background: #f6f7f9;
+			border: 2rpx solid #e6ebf2;
+			border-radius: 12rpx;
+
+			&:active {
+				background: #eaf1ff;
+				border-color: #2b6cf6;
+			}
+		}
+
+		.moreText {
+			max-width: 100%;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			font-family: var(--font-poem);
+			font-size: 24rpx;
+			color: #4e5969;
 		}
 	}
 }
@@ -139,12 +194,12 @@
 
 	.indexItem {
 		padding: 8rpx 20rpx;
-		background: #f5f7fa;
+		background: #f6f7f9;
 		border-radius: 8rpx;
 		flex-shrink: 0;
 
 		&.active {
-			background: #337ab7;
+			background: #2b6cf6;
 
 			.indexText {
 				color: #fff;
@@ -153,7 +208,7 @@
 
 		.indexText {
 			font-size: 24rpx;
-			color: #666;
+			color: #4e5969;
 		}
 	}
 }
@@ -181,7 +236,7 @@
 
 		.groupCount {
 			font-size: 22rpx;
-			color: #999;
+			color: #8a93a6;
 			margin-left: 12rpx;
 		}
 	}
@@ -200,7 +255,7 @@
 
 		&:active {
 			background: #f0f7ff;
-			border-color: #337ab7;
+			border-color: #2b6cf6;
 		}
 
 		.groupGridText {

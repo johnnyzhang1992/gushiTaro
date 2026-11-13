@@ -8,7 +8,7 @@
 
 	.emptyText {
 		font-size: 28rpx;
-		color: #999;
+		color: #8a93a6;
 	}
 }
 
@@ -29,7 +29,7 @@
 		.searchInput {
 			flex: 1;
 			height: 64rpx;
-			background: #f5f7fa;
+			background: #f6f7f9;
 			border-radius: 32rpx;
 			padding: 0 60rpx 0 28rpx;
 			font-size: 26rpx;
@@ -64,7 +64,7 @@
 		height: 64rpx;
 		padding: 0 32rpx;
 		border-radius: 32rpx;
-		background: #337ab7;
+		background: #2b6cf6;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -83,7 +83,7 @@
 .poetDetail {
 	min-height: 100vh;
 	padding-bottom: 220px;
-	background-color: #f5f5f5;
+	background-color: #f6f7f9;
 	box-sizing: border-box;
 	.SectionCard {
 		background-color: #fff;
@@ -116,7 +116,7 @@
 			font-weight: 500;
 		}
 		.dynasty {
-			color: #666;
+			color: #4e5969;
 			font-size: 30px;
 			// margin-left: 20px;
 		}
@@ -143,13 +143,13 @@
 		justify-content: space-between;
 		margin-top: 20px;
 		.btn-item {
-			color: #337ab7;
+			color: #2b6cf6;
 			margin: 0 10px;
 			border-radius: 8px;
 			padding: 8rpx;
 			flex: 1;
 			text-align: center;
-			background-color: #f5f5f5;
+			background-color: #f6f7f9;
 		}
 	}
 }
@@ -169,7 +169,7 @@
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
-	background-color: #f5f7fa;
+	background-color: #f6f7f9;
 }
 
 .poetScrollView {
@@ -179,7 +179,7 @@
 
 .poetIndex {
 	min-height: 100vh;
-	background-color: #f8f8f8;
+	background-color: #f6f7f9;
 	.keywordFilter {
 		background-color: #fff;
 	}

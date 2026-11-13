@@ -1,16 +1,19 @@
 .authorDetailPage {
 	min-height: 100vh;
-	background: #f5f7fa;
+	background: #f6f7f9;
 	padding-bottom: calc(40rpx + env(safe-area-inset-bottom));
 }
 
 .authorInfo {
 	display: flex;
 	flex-direction: column;
-	padding: 20rpx 24rpx 24rpx;
-	background: linear-gradient(135deg, #337ab7 0%, #286090 100%);
-	margin: 0 0 20rpx;
+	padding: 24rpx;
+	background: #fff;
+	margin: 20rpx 24rpx 20rpx;
+	border-radius: 20rpx;
+	box-shadow: 0 1px 2px rgba(31, 35, 41, 0.04);
 	box-sizing: border-box;
+	color: #1f2329;
 
 	/* 第一行：头像 + 姓名/朝代 */
 	.headerRow {
@@ -21,7 +24,7 @@
 	.avatar {
 		width: 104rpx;
 		max-width: 104rpx;
-		background-color: rgba(255, 255, 255, 0.15);
+		background-color: #eaf1ff;
 		margin-right: 24rpx;
 		flex-shrink: 0;
 		overflow: hidden;
@@ -35,7 +38,7 @@
 		.name {
 			font-size: 36rpx;
 			font-weight: 600;
-			color: #fff;
+			color: #1f2329;
 			display: block;
 			margin-bottom: 6rpx;
 		}
@@ -47,12 +50,12 @@
 
 			.dynasty {
 				font-size: 24rpx;
-				color: rgba(255, 255, 255, 0.8);
+				color: #8a93a6;
 			}
 
 			.titleTag {
 				font-size: 22rpx;
-				color: rgba(255, 255, 255, 0.65);
+				color: #8a93a6;
 			}
 		}
 	}
@@ -74,7 +77,7 @@
 		.dividerV {
 			width: 1rpx;
 			height: 40rpx;
-			background: rgba(255, 255, 255, 0.3);
+			background: #f0f2f5;
 			margin: 0 16rpx;
 		}
 
@@ -88,19 +91,19 @@
 
 			&.clickable {
 				&:active {
-					background: rgba(255, 255, 255, 0.15);
+					background: #f2f3f5;
 				}
 			}
 
 			.statNum {
 				font-size: 32rpx;
 				font-weight: 600;
-				color: #fff;
+				color: #2b6cf6;
 			}
 
 			.statLabel {
 				font-size: 20rpx;
-				color: rgba(255, 255, 255, 0.7);
+				color: #8a93a6;
 				margin-top: 4rpx;
 			}
 		}
@@ -115,15 +118,15 @@
 
 		.likeButton,
 		.collectButton {
-			background-color: #fff;
-			color: #337ab7;
+			background-color: #f2f3f5;
+			color: #4e5969;
 			border-radius: 999rpx;
-			border: 2rpx solid #fff;
+			border: 2rpx solid transparent;
 
 			&.active {
-				background-color: #1e4d7a;
+				background-color: #2b6cf6;
 				color: #fff;
-				border-color: #fff;
+				border-color: #2b6cf6;
 			}
 
 			/* 两个组件图标尺寸统一 */
@@ -148,23 +151,68 @@
 		}
 	}
 }
+
+/* 诗人足迹入口 */
+.storyEntry {
+	margin: 0 24rpx 20rpx;
+	background: #fff;
+	border-radius: 20rpx;
+	padding: 24rpx;
+	display: flex;
+	align-items: center;
+	box-shadow: 0 1px 2px rgba(31, 35, 41, 0.04);
+
+	&:active {
+		background: #f7f9fb;
+	}
+
+	.storyEntryInfo {
+		flex: 1;
+		min-width: 0;
+
+		.storyEntryTitle {
+			display: block;
+			font-size: 30rpx;
+			font-weight: 700;
+			color: #1f2329;
+			font-family: var(--font-poem);
+		}
+
+		.storyEntryDesc {
+			display: block;
+			margin-top: 4rpx;
+			font-size: 22rpx;
+			color: #8a93a6;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+		}
+	}
+
+	.storyEntryArrow {
+		font-size: 36rpx;
+		color: #ccc;
+		margin-left: 12rpx;
+	}
+}
 .section {
 	margin: 0 24rpx 20rpx;
 	background: #fff;
-	border-radius: 16rpx;
+	border-radius: 20rpx;
 	padding: 24rpx;
+	box-shadow: 0 1px 2px rgba(31, 35, 41, 0.04);
 
 	.sectionTitle {
 		display: block;
 		font-size: 28rpx;
 		font-weight: 600;
-		color: #333;
+		color: #1f2329;
 		margin-bottom: 16rpx;
 	}
 
 	.sectionText {
 		font-size: 26rpx;
-		color: #666;
+		color: #4e5969;
 		line-height: 1.8;
 	}
 
@@ -181,7 +229,7 @@
 			.infoLabel {
 				width: 80rpx;
 				font-size: 24rpx;
-				color: #999;
+				color: #8a93a6;
 				flex-shrink: 0;
 			}
 

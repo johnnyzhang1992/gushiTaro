@@ -1,6 +1,6 @@
 .collectionsPage {
 	min-height: 100vh;
-	background: #f5f7fa;
+	background: #f6f7f9;
 }
 
 .tabs {
@@ -19,13 +19,13 @@
 
 		.tabText {
 			font-size: 28rpx;
-			color: #666;
+			color: #4e5969;
 		}
 
 		.badge {
 			font-size: 20rpx;
 			color: #fff;
-			background: #999;
+			background: #8a93a6;
 			padding: 2rpx 12rpx;
 			border-radius: 16rpx;
 			line-height: 1.4;
@@ -36,18 +36,18 @@
 			bottom: 0;
 			width: 60rpx;
 			height: 4rpx;
-			background: #337ab7;
+			background: #2b6cf6;
 			border-radius: 2rpx;
 		}
 
 		&.active {
 			.tabText {
-				color: #337ab7;
+				color: #2b6cf6;
 				font-weight: 600;
 			}
 
 			.badge {
-				background: #337ab7;
+				background: #2b6cf6;
 			}
 		}
 	}
@@ -76,12 +76,12 @@
 	bottom: calc(120rpx + env(safe-area-inset-bottom));
 	width: 96rpx;
 	height: 96rpx;
-	background: linear-gradient(135deg, #337ab7, #2d6da3);
+	background: #2b6cf6;
 	border-radius: 50%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	box-shadow: 0 8rpx 24rpx rgba(51, 122, 183, 0.4);
+	box-shadow: 0 8rpx 24rpx rgba(43, 108, 246, 0.4);
 	z-index: 50;
 	transition: transform 0.2s;
 
@@ -131,7 +131,7 @@
 
 			.modalClose {
 				font-size: 40rpx;
-				color: #999;
+				color: #8a93a6;
 				padding: 0 10rpx;
 			}
 		}
@@ -148,7 +148,7 @@
 
 				.inputLabel {
 					font-size: 26rpx;
-					color: #666;
+					color: #4e5969;
 					margin-bottom: 12rpx;
 					display: block;
 				}
@@ -163,7 +163,7 @@
 					box-sizing: border-box;
 
 					&:focus {
-						border-color: #337ab7;
+						border-color: #2b6cf6;
 					}
 				}
 			}
@@ -182,11 +182,11 @@
 
 				&.cancel {
 					background: #f5f5f5;
-					color: #666;
+					color: #4e5969;
 				}
 
 				&.confirm {
-					background: #337ab7;
+					background: #2b6cf6;
 					color: #fff;
 
 					&.disabled {

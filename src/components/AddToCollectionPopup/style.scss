@@ -18,7 +18,7 @@
 
 		.text {
 			font-size: 28rpx;
-			color: #337ab7;
+			color: #2b6cf6;
 		}
 	}
 
@@ -34,14 +34,14 @@
 			border: 2rpx solid transparent;
 
 			&.cancel {
-				color: #666;
+				color: #4e5969;
 				border-color: #cfd6dd;
 				background: #fff;
 			}
 
 			&.primary {
 				color: #fff;
-				background: #337ab7;
+				background: #2b6cf6;
 			}
 		}
 	}
@@ -54,7 +54,7 @@
 		padding: 60rpx 0;
 		text-align: center;
 		font-size: 26rpx;
-		color: #999;
+		color: #8a93a6;
 	}
 
 	.create-form {
@@ -107,7 +107,7 @@
 			padding: 60rpx 0;
 			text-align: center;
 			font-size: 26rpx;
-			color: #999;
+			color: #8a93a6;
 		}
 
 		.collection-item {
@@ -135,7 +135,7 @@
 
 				.count {
 					font-size: 24rpx;
-					color: #999;
+					color: #8a93a6;
 				}
 
 				.add-btn {
@@ -143,7 +143,7 @@
 
 					.add-text {
 						font-size: 24rpx;
-						color: #337ab7;
+						color: #2b6cf6;
 					}
 				}
 
