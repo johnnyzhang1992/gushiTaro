@@ -4,8 +4,8 @@
 //  - 小程序：按 wx.getAccountInfoSync 的 envVersion 判断（develop → 本地）
 import Taro from '@tarojs/taro';
 
-// 临时：dev（develop 版）也走线上 API；调试本地服务时改回 http://localhost:3000
-const DEV_BASE_URL = 'https://api.xuegushi.com';
+// 本地调试：dev（develop 版）走本地 API；真机预览请改成局域网 IP，如 http://192.168.31.139:3000
+const DEV_BASE_URL = 'http://localhost:3000';
 const PROD_BASE_URL = 'https://api.xuegushi.com';
 
 const isDevEnv = () => {

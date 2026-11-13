@@ -35,6 +35,7 @@ export default {
 		'pages/library/collection-group',
 		'pages/library/collection-detail',
 		'pages/type/index',
+		'pages/dictionary/index',
 		'pages/dictionary/detail',
 		'pages/dictionary/list',
 		'pages/schedule/index',
