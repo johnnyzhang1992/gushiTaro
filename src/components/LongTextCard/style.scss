@@ -10,29 +10,16 @@
 		.longText {
 			display: block;
 			font-size: 30px;
-			line-height: 1.4rem;
+			line-height: 54px; /* 五行 = 270px，与 max-height 对齐 */
+			font-family: var(--font-poem);
+			color: #4e5969;
 			/* 用 margin 而非 padding：padding 区不参与 overflow 裁切，会露出第 6 行的上半截 */
 			margin-bottom: 20px;
 		}
-		/* 固定五行高度裁切（各渲染器都支持 max-height），省略号由遮罩补 */
-		.longText {
-			position: relative;
-
-			&.isLimited {
-				max-height: 7rem; /* 5 行 × 1.4rem */
-				overflow: hidden;
-			}
-
-			.ellipsisMask {
-				position: absolute;
-				right: 0;
-				bottom: 0;
-				padding-left: 16rpx;
-				background: #fff;
-				color: #333;
-				font-size: 30rpx;
-				line-height: 1.4rem;
-			}
+		/* 兜底裁切：正常情况下已在字符边界截断，这里只防测量误差 */
+		.longText.isLimited {
+			max-height: 270px; /* 5 × 54px 行高 */
+			overflow: hidden;
 		}
 	}
 	.textOperate {

@@ -9,8 +9,8 @@ import './style.scss';
 // 默认渲染五行，多余支持半屏展示；支持全文展示
 const LongTextCard = ({ showAll = false, text, title }) => {
 	const [isOpen, openVisible] = useState(false);
-	// 五行大约容纳的字数，留一点余量避免文字不够撑满
-	const limitLength = 150;
+	// 正文区宽约 680rpx、字号 30rpx → 每行约 22 字，五行约 110 字，留几个字给省略号
+	const limitLength = 104;
 	// reference 由 props 派生，避免在 useMemo 计算体内 setState
 	const reference = useMemo(() => {
 		if (text && typeof text !== 'string' && text.reference) {
@@ -73,10 +73,12 @@ const LongTextCard = ({ showAll = false, text, title }) => {
 						space={isLimit ? 'ensp' : 'nbsp'}
 						className='text'
 					>
-						{showAll ? cacheText : cacheText.substring(0, limitLength + 20)}
+						{showAll
+							? cacheText
+							: isLimit
+								? `${cacheText.slice(0, limitLength)}…`
+								: cacheText}
 					</Text>
-					{/* 截断时补省略号：line-clamp 在各渲染器行为不一致，用遮罩保证一定有 … */}
-					{isLimit ? <View className='ellipsisMask'>…</View> : null}
 				</View>
 			</View>
 			{/* 资源引用 */}
