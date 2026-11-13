@@ -1,7 +1,7 @@
 // 诗单卡片排版工具：文库「诗单」横滑区与「查看全部」页共用
 
 // 卡片内书名可用高度（rpx），与 style.scss 的 .coverTitle 内容高度保持一致
-const TITLE_AREA = 132;
+const TITLE_AREA = 136;
 // 单列超过该字数就对半拆成两列
 const SPLIT_AT = 4;
 // 书名最多保留字数（超出截断）
@@ -43,10 +43,12 @@ export const layoutSpine = (name = '') => {
 		cols = [cols[0].slice(0, half), cols[0].slice(half)];
 	}
 
-	const maxLen = Math.max(...cols.map((col) => col.length), 1);
-	const lineHeight = Math.max(22, Math.min(36, Math.floor(TITLE_AREA / maxLen)));
-	const fontSize = Math.max(18, Math.min(27, Math.round(lineHeight * 0.76)));
-	return { cols, fontSize, lineHeight };
+	// 单列超过 6 字时截断，保证字号不会小到看不清
+	const trimmed = cols.map((col) => (col.length > 6 ? `${col.slice(0, 5)}…` : col));
+	const maxLen = Math.max(...trimmed.map((col) => col.length), 1);
+	const lineHeight = Math.max(22, Math.min(44, Math.floor(TITLE_AREA / maxLen)));
+	const fontSize = Math.max(20, Math.min(32, Math.round(lineHeight * 0.8)));
+	return { cols: trimmed, fontSize, lineHeight };
 };
 
 /**
