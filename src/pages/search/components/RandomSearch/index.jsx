@@ -8,6 +8,7 @@ import PoetCard from '../../../../components/PoetCard';
 import { fetchRandomSearch } from '../../service';
 
 import './style.scss';
+import { isApiSuccess } from '../../../../apis/response';
 
 // 每组展示条数
 const PER_SECTION = 3;
@@ -32,7 +33,7 @@ const RandomSearch = () => {
 		fetchRandomSearch('GET', {}).then((res) => {
 			console.log('随机推荐响应:', res);
 			// API 返回格式: { status: true, data: { poems, poets, sentences } }
-			if (res && res.status && res.data) {
+			if (isApiSuccess(res) && res.data) {
 				const { poems = [], poets = [], sentences = [] } = res.data;
 				// 每类随机抽 3 条（在数据更新时抽样，渲染期不再变化）
 				updateSearch({

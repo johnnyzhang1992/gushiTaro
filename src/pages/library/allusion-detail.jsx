@@ -13,6 +13,7 @@ import LikeButton from '../../components/LikeButton';
 import CollectButton from '../../components/CollectButton';
 
 import './allusion-detail.scss';
+import { isApiSuccess } from '../../apis/response';
 
 const AllusionDetail = () => {
   const router = useRouter();
@@ -26,7 +27,7 @@ const AllusionDetail = () => {
 
     Request(`/api/allusions/${id}`, {}, 'GET')
       .then((res) => {
-        if (res && res.status && res.data) {
+        if (isApiSuccess(res) && res.data) {
           setDetail(res.data);
           Taro.setNavigationBarTitle({ title: res.data.name || '典故详情' });
         }

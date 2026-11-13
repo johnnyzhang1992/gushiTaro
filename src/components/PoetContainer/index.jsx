@@ -9,6 +9,7 @@ import './style.scss';
 import { DynastyArr } from '../../const/config';
 import { fetchPoetData } from '../../pages/poet/service';
 import { getDynastyOptions } from '../../utils/dynasty';
+import { isApiSuccess, getApiData } from '../../apis/response';
 
 const DynastyItem = (props) => {
 	const { handleClick, dynasty, currentDynasty } = props;
@@ -90,8 +91,8 @@ const PoetContainer = (props) => {
 		fetchPoetData('GET', params)
 			.then((res) => {
 				if (seq !== reqIdRef.current) return;
-				const apiData = res.data?.data || res.data;
-				if ((res.status || res.statusCode == 200) && apiData) {
+				const apiData = getApiData(res);
+				if (isApiSuccess(res) && apiData) {
 					const { list = [], current_page, last_page, total } = apiData;
 					pagination.current = {
 						...pagination.current,

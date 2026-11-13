@@ -3,13 +3,14 @@ import { SearchBar } from '@nutui/nutui-react-taro';
 import { useState, useEffect, useRef } from 'react';
 import Taro from '@tarojs/taro';
 
-import { addPoemToSchedule } from '../../services/global';
+import { addPoemsToStudyPlan } from '../../services/study';
 import { fetchPoemData } from '../../pages/poem/service';
 
 import FloatLoayout from '../../components/FloatLayout';
 import HighLightText from '../HighLightText';
 
 import './style.scss';
+import { isApiSuccess } from '../../apis/response';
 
 const PoemItem = (props) => {
 	const {
@@ -24,13 +25,13 @@ const PoemItem = (props) => {
 		if (poem_info.isInSchedule) {
 			return false;
 		}
-		addPoemToSchedule('POST', {
+		addPoemsToStudyPlan('POST', {
 			poem_id: poem_info.id,
 			schedule_id,
 			schedule_name,
 		})
 			.then((res) => {
-				if (res && res && res.status) {
+				if (isApiSuccess(res)) {
 					Taro.showToast({
 						title: '加入成功！记得打卡哦',
 						icon: 'none',
@@ -136,7 +137,7 @@ const SchedulePoemModal = ({
 					isFetching.current = false;
 				}
 			});
-		if (res && res.status && seq === querySeqRef.current) {
+		if (isApiSuccess(res) && seq === querySeqRef.current) {
 			const { list = [], current_page, last_page, total } = res.data || {};
 			list.forEach((poem) => {
 				poem.content = String(poem.content).split(/[。？！]/)[0] + '。';

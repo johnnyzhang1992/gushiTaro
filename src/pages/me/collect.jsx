@@ -14,6 +14,7 @@ import PoetCard from '../../components/PoetCard';
 import { fetchUserCollect, updateUserCollect } from '../../services/global';
 
 import './style.scss';
+import { isApiSuccess, getApiData } from '../../apis/response';
 
 // 格式化时间
 const formatTime = (dateStr) => {
@@ -157,8 +158,8 @@ const CollectPage = () => {
 		try {
 			const res = await fetchUserCollect('GET', { page, uid: user.uid, type });
 			if (seq !== seqRef.current) return; // 已有更新的请求，丢弃过期响应
-			if (res && (res.status || res.statusCode === 200)) {
-				const apiData = res.data?.data || res.data;
+			if (isApiSuccess(res)) {
+				const apiData = getApiData(res);
 				const { list = [], current_page, last_page } = apiData;
 				setList((prev) => (page === 1 ? list : [...prev, ...list]));
 				pagination.current = { page: current_page, last_page };
@@ -181,7 +182,7 @@ const CollectPage = () => {
 			target_id: params.target_id,
 			target_type: TAB_TARGET_TYPE[currentTab],
 		}).then((res) => {
-			if (res && (res.status || res.statusCode === 200)) {
+			if (isApiSuccess(res)) {
 				setList((prev) =>
 					prev.filter((item) => item.target_id !== params.target_id)
 				);

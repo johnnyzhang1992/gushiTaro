@@ -12,6 +12,7 @@ import { useNavigationBar } from 'taro-hooks';
 import { fetchCollectionGroups, fetchCollections } from '../../services/study';
 
 import './collection-group.scss';
+import { isApiSuccess } from '../../apis/response';
 
 const CollectionGroupPage = () => {
   const { setTitle } = useNavigationBar({ title: '古诗文小助手' });
@@ -31,12 +32,12 @@ const CollectionGroupPage = () => {
       fetchCollections('GET', { group_id: groupId }),
     ])
       .then(([groupRes, colRes]) => {
-        if (groupRes && groupRes.status && groupRes.data) {
+        if (isApiSuccess(groupRes) && groupRes.data) {
           setGroup(groupRes.data);
           setCollections(groupRes.data.collections || []);
         }
         // getGroup 已附带 collections；若为空则用 getCollections 兜底
-        if (colRes && colRes.status && colRes.data) {
+        if (isApiSuccess(colRes) && colRes.data) {
           const list = colRes.data?.list || [];
           if (list.length > 0 && collections.length === 0) setCollections(list);
         }

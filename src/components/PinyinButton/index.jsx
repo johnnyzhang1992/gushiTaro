@@ -7,6 +7,7 @@ import { fetchPoemPinyin } from '../../services/global';
 import pinyinSvg from '../../images/svg/pinyin.svg';
 
 import './style.scss';
+import { getApiData } from '../../apis/response';
 
 /**
  * 拼音按钮组件
@@ -84,7 +85,7 @@ const PinyinButton = (props) => {
 			id: poemId,
 		})
 			.then((res) => {
-				const apiData = res.data?.data || res.data;
+				const apiData = getApiData(res);
 				const { title, xu = '', content = [] } = apiData || {};
 				if (!apiData || apiData.code) {
 					Taro.hideLoading();

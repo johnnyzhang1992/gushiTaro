@@ -18,6 +18,7 @@ import useFetchList from '../../hooks/useFetchList';
 import { fetchSentenceData, fetchSentenceFilters } from './service';
 
 import './style.scss';
+import { isApiSuccess } from '../../apis/response';
 
 const SentencePage = () => {
 	const { setTitle } = useNavigationBar({ title: '古诗文小助手' });
@@ -60,7 +61,7 @@ const SentencePage = () => {
 	// 摘录筛选选项（主题/类型），来自后端 /api/sentences/filters
 	useEffect(() => {
 		fetchSentenceFilters('GET', {}).then((res) => {
-			if (res && res.status && res.data) {
+			if (isApiSuccess(res) && res.data) {
 				setThemeOptions(['全部', ...(res.data.themes || [])]);
 				const map = {};
 				(res.data.categories || []).forEach((c) => { map[c.theme_name] = c.types || []; });

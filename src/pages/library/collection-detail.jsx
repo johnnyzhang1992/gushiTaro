@@ -11,6 +11,7 @@ import {
 } from '../../services/study';
 
 import './collection-detail.scss';
+import { isApiSuccess } from '../../apis/response';
 
 const CollectionDetailPage = () => {
   const router = useRouter();
@@ -30,7 +31,7 @@ const CollectionDetailPage = () => {
     setLoading(true);
     return Request(`/api/collections/${id}`, {}, 'GET')
       .then((res) => {
-        if (res && res.status && res.data) {
+        if (isApiSuccess(res) && res.data) {
           setDetail(res.data);
           Taro.setNavigationBarTitle({
             title: res.data.collection_name || '诗单详情',
@@ -59,7 +60,7 @@ const CollectionDetailPage = () => {
   const checkFavorite = () => {
     Request('/api/favorites/check', { target_id: id, target_type: 'collection' }, 'GET')
       .then((res) => {
-        if (res && res.status && res.data) {
+        if (isApiSuccess(res) && res.data) {
           setIsFavorited(res.data.isFavorited);
         }
       })
@@ -71,7 +72,7 @@ const CollectionDetailPage = () => {
     if (!isLoggedIn() || !detail) return;
     Request('/api/study-plans', {}, 'GET')
       .then((res) => {
-        if (res && res.status && res.data) {
+        if (isApiSuccess(res) && res.data) {
           const plans = Array.isArray(res.data) ? res.data : res.data.list || [];
           const existPlan = plans.find(
             (p) => p.source_type === 'collection' && p.source_collection_id === id
@@ -121,7 +122,7 @@ const CollectionDetailPage = () => {
             source_collection_name: detail.collection_name,
           })
             .then(async (res) => {
-              if (res && res.status) {
+              if (isApiSuccess(res)) {
                 const newPlanId = res.data?._id || res.data?.id || null;
                 // 计划创建成功即更新本地状态，避免添加诗词失败后重试导致重复建计划
                 setHasPlan(true);
@@ -168,7 +169,7 @@ const CollectionDetailPage = () => {
 
     Request('/api/favorites/toggle', { target_id: id, target_type: 'collection' }, 'POST')
       .then((res) => {
-        if (res && res.status && res.data) {
+        if (isApiSuccess(res) && res.data) {
           setIsFavorited(res.data.isFavorited);
           Taro.showToast({
             title: res.data.isFavorited ? '收藏成功' : '已取消收藏',

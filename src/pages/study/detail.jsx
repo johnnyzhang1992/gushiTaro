@@ -14,6 +14,7 @@ import {
 import SwipeAction from './swipe-action';
 import { fetchPoemDetail as fetchDetailApi } from '../poem/service';
 import './detail.scss';
+import { isApiSuccess } from '../../apis/response';
 
 export default function StudyDetailPage() {
   const router = useRouter();
@@ -59,7 +60,7 @@ export default function StudyDetailPage() {
     try {
       const res = await fetchStudyPlanDetail('GET', { id: planId });
       console.log('计划详情:', res);
-      if (res && res.status && res.data) {
+      if (isApiSuccess(res) && res.data) {
         setPlan(res.data);
       }
     } catch (err) {
@@ -75,7 +76,7 @@ export default function StudyDetailPage() {
     try {
       const res = await fetchStudyPlanItems('GET', { id: planId });
       console.log('诗词列表:', res);
-      if (res && res.status && res.data) {
+      if (isApiSuccess(res) && res.data) {
         setItems(res.data || []);
       }
     } catch (err) {
@@ -110,7 +111,7 @@ export default function StudyDetailPage() {
       const res = await searchPoems('GET', { keyWord: searchKeyword, page, size: 20 });
       console.log('搜索结果:', res);
       if (seq !== searchSeqRef.current) return; // 已有更新的搜索，丢弃过期响应
-      if (res && res.status && res.data) {
+      if (isApiSuccess(res) && res.data) {
         const list = res.data.list || [];
         setSearchResults(prev => isLoadMore ? [...prev, ...list] : list);
         setSearchPage(page);
@@ -144,7 +145,7 @@ export default function StudyDetailPage() {
         poem_ids: [poem._id],
       });
       console.log('添加诗词结果:', res);
-      if (res && res.status) {
+      if (isApiSuccess(res)) {
         Taro.showToast({ title: '添加成功', icon: 'success' });
         loadItems();
         loadPlan();
@@ -171,7 +172,7 @@ export default function StudyDetailPage() {
           id: planId,
           poem_id: item.poem_id,
         });
-        if (removeRes && removeRes.status) {
+        if (isApiSuccess(removeRes)) {
           Taro.showToast({ title: '移除成功', icon: 'success' });
           loadItems();
           loadPlan();
@@ -191,7 +192,7 @@ export default function StudyDetailPage() {
     try {
       const res = await fetchDetailApi('GET', { id: poemId });
       console.log('诗词详情:', res);
-      if (res && res.status && res.data) {
+      if (isApiSuccess(res) && res.data) {
         setPoemDetail(res.data);
       } else {
         setPoemDetail(null);
@@ -382,7 +383,7 @@ export default function StudyDetailPage() {
       });
       console.log('提交复习结果:', res);
 
-      if (res && res.status) {
+      if (isApiSuccess(res)) {
         // 下一个
         if (currentStudyIndex < studyItems.length - 1) {
           const nextIndex = currentStudyIndex + 1;

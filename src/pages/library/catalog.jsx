@@ -16,6 +16,7 @@ import {
 import { fetchCatalogDetail } from '../../services/global';
 
 import './catalog.scss';
+import { isApiSuccess, getApiData } from '../../apis/response';
 
 const CatalogPage = () => {
 	const [pageOptions, setOptions] = useState({
@@ -32,8 +33,8 @@ const CatalogPage = () => {
 		const res = await fetchCatalogDetail('GET', {
 			catalog_id: _id || pageOptions.catalog_id,
 		});
-		const apiData = res.data?.data || res.data;
-		if ((res.status || res.statusCode === 200) && apiData) {
+		const apiData = getApiData(res);
+		if (isApiSuccess(res) && apiData) {
 			setDetail(apiData);
 		}
 		console.log('res', res);

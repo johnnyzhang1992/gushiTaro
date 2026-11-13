@@ -11,6 +11,7 @@ import { fetchPoemData } from '../../pages/poem/service';
 
 import { DynastyArr } from '../../const/config';
 import { getDynastyOptions } from '../../utils/dynasty';
+import { isApiSuccess, getApiData } from '../../apis/response';
 
 const DynastyItem = ({ dynasty, active = false, onClick }) => {
 	const handleClick = () => {
@@ -101,8 +102,8 @@ const PoemContainer = (props) => {
 		fetchPoemData('GET', { ...params, page, size: pagination.current.size })
 			.then((res) => {
 				if (seq !== reqIdRef.current) return;
-				const apiData = res.data?.data || res.data;
-				if ((res.status || res.statusCode == 200) && apiData) {
+				const apiData = getApiData(res);
+				if (isApiSuccess(res) && apiData) {
 					const { list = [], current_page, last_page, total } = apiData;
 					pagination.current = {
 						...pagination.current,

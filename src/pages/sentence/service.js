@@ -1,5 +1,6 @@
 import Taro from '@tarojs/taro';
 import Request from "../../apis/request";
+import { isApiSuccess } from '../../apis/response';
 
 // 获取名句列表
 export const fetchSentenceData = (method, data) => {
@@ -23,7 +24,7 @@ export const fetchSentenceFilters = (method, data) => {
 
 	// 请求接口
 	return Request(`/api/sentences/filters`, data, method).then((res) => {
-		if (res && res.status && res.data) {
+		if (isApiSuccess(res) && res.data) {
 			// 写入缓存
 			try {
 				Taro.setStorageSync(CACHE_KEY, {

@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 
 import { isLoggedIn } from '../utils/auth';
 import logger from '../utils/logger';
+import { isApiSuccess, getApiData } from '../apis/response';
 
 // 自定义 hook 内状态变化和props参数变化都会引起再次执行
 /**
@@ -77,8 +78,8 @@ const useFetchList = (fetchFn, params, pgConfig) => {
 				logger.debug('列表接口返回:', res);
 				updateLoaded(true);
 				// request.js 返回格式: { status: true, data: {...} }
-				const apiData = res?.data || res;
-				if ((res.status || res.statusCode == 200) && apiData) {
+				const apiData = getApiData(res);
+				if (isApiSuccess(res) && apiData) {
 					const { list=[], current_page, last_page, total } = apiData;
 					dataRef.current = {
 						...cachePg,

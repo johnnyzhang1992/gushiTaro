@@ -2,6 +2,7 @@ import { View, Text, ScrollView } from '@tarojs/components';
 import { useState, useEffect, useRef } from 'react';
 import FloatLayout from '../../components/FloatLayout';
 import { fetchPoetData } from '../../pages/poet/service';
+import { isApiSuccess, getApiData } from '../../apis/response';
 
 const themeList = [
 	'茶', '酒', '爱情', '友情', '战争', '离别', '悼亡', '思乡',
@@ -45,8 +46,8 @@ const FilterModal = (props) => {
 		const res = await fetchPoetData('GET', { size: 8 }).catch((err) => {
 			console.log(err);
 		});
-		if (res && res && res.status) {
-			const apiData = res.data?.data || res.data;
+		if (isApiSuccess(res)) {
+			const apiData = getApiData(res);
 			const list = apiData?.list || apiData?.poets || [];
 			const temList = list.map((item) => ({
 				label: item.author_name,

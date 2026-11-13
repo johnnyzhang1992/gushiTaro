@@ -8,6 +8,7 @@ import { updateUserCollect } from '../../services/global';
 import { userIsLogin } from '../../utils/auth';
 
 import './style.scss';
+import { isApiSuccess, getApiData } from '../../apis/response';
 
 const CollectButton = (props) => {
 	const {
@@ -45,8 +46,8 @@ const CollectButton = (props) => {
 				submittingRef.current = false;
 			});
 
-		if (res && res && res.status) {
-			const apiData = res.data?.data || res.data;
+		if (isApiSuccess(res)) {
+			const apiData = getApiData(res);
 			const newStatus = apiData?.isFavorited !== undefined ? apiData.isFavorited : apiData?.status;
 			setStatus(newStatus);
 			setCount(newStatus ? collectCount + 1 : Math.max(0, collectCount - 1));

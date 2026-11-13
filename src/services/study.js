@@ -7,9 +7,9 @@ export const fetchStudyPlans = (method = 'GET', data) => {
   return Request('/api/study-plans', data, method);
 };
 
-// 获取学习计划详情
-export const fetchStudyPlanDetail = (method = 'GET', data) => {
-  return Request(`/api/study-plans/${data.id}`, data, method);
+// 获取学习计划详情（兼容旧背诵页 schedule_id 字段）
+export const fetchStudyPlanDetail = (method = 'GET', data = {}) => {
+  return Request(`/api/study-plans/${data.id || data.schedule_id}`, data, method);
 };
 
 // 创建学习计划
@@ -33,13 +33,19 @@ export const fetchStudyPlanItems = (method = 'GET', data) => {
 };
 
 // 添加诗词到计划
-export const addPoemsToStudyPlan = (method = 'POST', data) => {
-  return Request(`/api/study-plans/${data.id}/items`, { poem_ids: data.poem_ids }, method);
+// 兼容旧背诵页字段：id / schedule_id、poem_ids / poem_id
+export const addPoemsToStudyPlan = (method = 'POST', data = {}) => {
+  const planId = data.id || data.schedule_id;
+  const poemIds = data.poem_ids || (data.poem_id ? [data.poem_id] : []);
+  return Request(`/api/study-plans/${planId}/items`, { poem_ids: poemIds }, method);
 };
 
 // 从计划移除诗词
-export const removePoemFromStudyPlan = (method = 'DELETE', data) => {
-  return Request(`/api/study-plans/${data.id}/items/${data.poem_id}`, data, method);
+// 兼容旧背诵页字段：id / schedule_id、poem_id / poemId
+export const removePoemFromStudyPlan = (method = 'DELETE', data = {}) => {
+  const planId = data.id || data.schedule_id;
+  const poemId = data.poem_id || data.poemId;
+  return Request(`/api/study-plans/${planId}/items/${poemId}`, data, method);
 };
 
 // 提交复习结果（使用学习条目 _id）
@@ -92,4 +98,14 @@ export const fetchStudyCalendar = (method = 'GET', data) => {
 // 学习统计：最近学习记录（可 date=YYYY-MM-DD 按日过滤）
 export const fetchRecentStudyLogs = (method = 'GET', data) => {
   return Request('/api/study-plans/recent', data, method);
+};
+
+// ======== 旧背诵页专用（当前后端无对应路由，仅保留以免旧页面编译中断） ========
+// TODO: 随 pages/schedule 旧页面一起下线，或改为 submitReview / checkIn 新接口
+export const addPoemToScheduleAgain = (method = 'POST', data = {}) => {
+  return Request(`/api/study-plans/${data.schedule_id || data.id}/items/relearn`, data, method);
+};
+
+export const checkInPoemToSchedule = (method = 'POST', data = {}) => {
+  return Request(`/api/study-plans/${data.schedule_id || data.id}/checkin`, data, method);
 };

@@ -13,6 +13,7 @@ import { fetchBookData } from './poem/service';
 import BookCard from '../components/BookCard';
 
 import './index.scss';
+import { isApiSuccess, getApiData } from '../apis/response';
 
 const Page = () => {
 	const { setTitle } = useNavigationBar({ title: '古诗文小助手' });
@@ -47,8 +48,8 @@ const Page = () => {
 			name,
 		})
 			.then((res) => {
-				const apiData = res.data?.data || res.data;
-				if ((res.status || res.statusCode === 200) && apiData) {
+				const apiData = getApiData(res);
+				if (isApiSuccess(res) && apiData) {
 					console.log(apiData);
 					computeBook(apiData.poems || []);
 				}

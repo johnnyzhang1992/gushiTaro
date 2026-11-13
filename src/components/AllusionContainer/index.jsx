@@ -5,6 +5,7 @@ import Request from '../../apis/request';
 import Skeleton from '../Skeleton';
 
 import './style.scss';
+import { isApiSuccess } from '../../apis/response';
 
 const AllusionContainer = (props) => {
   const searchRef = useRef(props.keyWord || '');
@@ -46,7 +47,7 @@ const AllusionContainer = (props) => {
     Request('/api/allusions', reqData, 'GET')
       .then((res) => {
         if (seq !== reqIdRef.current) return;
-        if (res && res.status && res.data) {
+        if (isApiSuccess(res) && res.data) {
           const apiData = res.data;
           const { list = [], current_page, last_page, total } = apiData;
           pagination.current = {

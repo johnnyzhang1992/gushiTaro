@@ -3,12 +3,13 @@ import { Swipe } from '@nutui/nutui-react-taro';
 import Taro from '@tarojs/taro';
 
 import {
-	removePoemToSchedule,
+	removePoemFromStudyPlan,
 	checkInPoemToSchedule,
 	addPoemToScheduleAgain,
-} from '../../services/global';
+} from '../../services/study';
 
 import './style.scss';
+import { isApiSuccess } from '../../apis/response';
 
 const handleError = (err, errTxt) => {
 	console.log(err);
@@ -43,7 +44,7 @@ const SchedulePoemCard = (props) => {
 		}).catch((err) => {
 			handleError(err, '打卡失败');
 		});
-		if (res && res && res.status) {
+		if (isApiSuccess(res)) {
 			Taro.showToast({
 				title: '打卡成功',
 				icon: 'success',
@@ -80,13 +81,14 @@ const SchedulePoemCard = (props) => {
 			schedule_detail_id,
 			schedule_id,
 		});
-		const res = await removePoemToSchedule('POST', {
+		const res = await removePoemFromStudyPlan('DELETE', {
 			schedule_detail_id,
 			schedule_id,
+			poem_id,
 		}).catch((err) => {
 			handleError(err, '删除失败');
 		});
-		if (res && res && res.status) {
+		if (isApiSuccess(res)) {
 			Taro.showToast({
 				title: '删除成功',
 				icon: 'success',
@@ -127,7 +129,7 @@ const SchedulePoemCard = (props) => {
 		}).catch((err) => {
 			handleError(err, '操作失败');
 		});
-		if (res && res && res.status) {
+		if (isApiSuccess(res)) {
 			Taro.showToast({
 				title: '操作成功',
 				icon: 'success',

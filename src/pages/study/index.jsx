@@ -12,6 +12,7 @@ import {
 import SwipeAction from './swipe-action';
 import { isLoggedIn } from '../../utils/auth';
 import './index.scss';
+import { isApiSuccess } from '../../apis/response';
 
 export default function StudyPage() {
   const [activeTab, setActiveTab] = useState('mine'); // mine | recommended
@@ -43,7 +44,7 @@ export default function StudyPage() {
     try {
       const res = await fetchStudyPlans('GET');
       console.log('背诵计划列表:', res);
-      if (res && res.status && res.data) {
+      if (isApiSuccess(res) && res.data) {
         setPlans(res.data || []);
       }
     } catch (err) {
@@ -64,7 +65,7 @@ export default function StudyPage() {
       const groupsRes = await fetchCollectionGroups('GET', { is_system: true });
       console.log('系统分组:', groupsRes);
 
-      if (!groupsRes || !groupsRes.status || !groupsRes.data) {
+      if (!isApiSuccess(groupsRes) || !groupsRes.data) {
         setRecommendedLoading(false);
         return;
       }
@@ -95,7 +96,7 @@ export default function StudyPage() {
 
       // 获取用户学习计划，检查哪些 collection 已经学习
       const userPlansRes = await fetchStudyPlans('GET');
-      if (userPlansRes && userPlansRes.status && userPlansRes.data) {
+      if (isApiSuccess(userPlansRes) && userPlansRes.data) {
         const learnedIds = new Set();
         userPlansRes.data.forEach(plan => {
           if (plan.source_type === 'collection' && plan.source_collection_id) {
@@ -152,7 +153,7 @@ export default function StudyPage() {
     try {
       const res = await createStudyPlan('POST', { name: newPlanName.trim() });
       console.log('创建计划结果:', res);
-      if (res && res.status) {
+      if (isApiSuccess(res)) {
         Taro.showToast({ title: '创建成功', icon: 'success' });
         setShowCreateModal(false);
         setNewPlanName('');
@@ -238,7 +239,7 @@ export default function StudyPage() {
     try {
       // 检查是否已存在相同来源的计划
       const plansRes = await fetchStudyPlans('GET');
-      if (plansRes && plansRes.status && plansRes.data) {
+      if (isApiSuccess(plansRes) && plansRes.data) {
         const existingPlan = plansRes.data.find(
           (p) =>
             p.source_type === 'collection' &&
@@ -261,7 +262,7 @@ export default function StudyPage() {
       });
 
       console.log('从合集创建计划:', res);
-      if (res && res.status && res.data) {
+      if (isApiSuccess(res) && res.data) {
         Taro.showToast({ title: '创建成功', icon: 'success' });
         goDetail(res.data);
         loadPlans(); // 刷新我的计划列表

@@ -9,6 +9,7 @@ import SectionCard from '../SectionCard';
 import TypeCard from '../TypeCard';
 
 import './styles.scss';
+import { getApiData } from '../../apis/response';
 
 const TypeCatalogSection = (props) => {
 	const { tag = '' } = props;
@@ -37,7 +38,7 @@ const TypeCatalogSection = (props) => {
 		});
 		Taro.hideLoading();
 		if (res && !res.code) {
-			const apiData = res.data?.data || res.data;
+			const apiData = getApiData(res);
 			if (apiData && apiData.list) {
 				Taro.setStorageSync(cacheId, apiData.list);
 				setList(apiData.list);

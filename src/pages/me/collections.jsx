@@ -7,6 +7,7 @@ import Request from '../../apis/request';
 import { createCollection } from '../../services/global';
 
 import './collection.scss';
+import { isApiSuccess } from '../../apis/response';
 
 const CollectionsPage = () => {
   const router = useRouter();
@@ -29,7 +30,7 @@ const CollectionsPage = () => {
     const user = Taro.getStorageSync('user') || {};
     return Request('/api/collections', { mine: true, uid: user.uid }, 'GET')
       .then((res) => {
-        if (res && res.status && res.data) {
+        if (isApiSuccess(res) && res.data) {
           const list = res.data.list || res.data.collections || [];
           setCreatedList(list);
           if (res.data.total !== undefined) setCreatedTotal(res.data.total);
@@ -43,7 +44,7 @@ const CollectionsPage = () => {
     const user = Taro.getStorageSync('user') || {};
     return Request('/api/favorites', { target_type: 'collection', size: 50, uid: user.uid }, 'GET')
       .then((res) => {
-        if (res && res.status && res.data) {
+        if (isApiSuccess(res) && res.data) {
           setFavoritedList(res.data.list || []);
           if (res.data.total !== undefined) setFavoritedTotal(res.data.total);
         }
@@ -58,7 +59,7 @@ const CollectionsPage = () => {
       : Request('/api/favorites/toggle', { target_id: id, target_type: 'collection' }, 'POST');
     
     api.then((res) => {
-      if (res && res.status) {
+      if (isApiSuccess(res)) {
         Taro.showToast({ title: '已移除', icon: 'success' });
         loadData();
       }
@@ -79,7 +80,7 @@ const CollectionsPage = () => {
         collection_name: collectionName.trim(),
         collection_description: collectionDesc.trim(),
       });
-      if (res && res.status) {
+      if (isApiSuccess(res)) {
         Taro.showToast({ title: '创建成功', icon: 'success' });
         setShowCreateModal(false);
         setCollectionName('');

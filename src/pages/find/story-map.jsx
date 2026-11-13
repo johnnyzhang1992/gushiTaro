@@ -13,6 +13,7 @@ import SearchField from '../../components/SearchField';
 import { fetchStoryMapPoets } from '../../services/storyMap';
 
 import './story-map.scss';
+import { isApiSuccess } from '../../apis/response';
 
 const PAGE_SIZE = 30;
 
@@ -43,7 +44,7 @@ const StoryMapPage = () => {
 	const loadPoets = () => {
 		return fetchStoryMapPoets('GET', {})
 			.then((res) => {
-				if (res && res.status) setPoets(res.data?.poets || []);
+				if (isApiSuccess(res)) setPoets(res.data?.poets || []);
 				else setPoets([]);
 			})
 			.catch(() => setPoets([]));

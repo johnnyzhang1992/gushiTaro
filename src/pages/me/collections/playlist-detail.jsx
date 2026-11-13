@@ -6,6 +6,7 @@ import PoemSmallCard from '../../../components/PoemSmallCard';
 import Request from '../../../apis/request';
 
 import './playlist-detail.scss';
+import { isApiSuccess } from '../../../apis/response';
 
 // 格式化时间
 const formatTime = (dateStr) => {
@@ -59,7 +60,7 @@ const PlaylistDetail = () => {
 		setLoading(true);
 		try {
 			const res = await Request(`/api/collections/${id}`, {}, 'GET');
-			if (res && res.status && res.data) {
+			if (isApiSuccess(res) && res.data) {
 				setPoems(res.data.poems || []);
 				if (!playlistName || playlistName === '诗单详情') {
 					setPlaylistName(res.data.collection_name || '诗单详情');
@@ -85,7 +86,7 @@ const PlaylistDetail = () => {
 				if (res.confirm) {
 					Request(`/api/collections/${collectionId}/copy`, {}, 'POST')
 						.then((res) => {
-							if (res && res.status) {
+							if (isApiSuccess(res)) {
 								Taro.showToast({ title: '复制成功', icon: 'success' });
 								// 跳转到新诗单
 								if (res.data && res.data._id) {
@@ -118,7 +119,7 @@ const PlaylistDetail = () => {
 			const page = isLoadMore ? searchPage + 1 : 1;
 			const res = await Request('/api/poems', { keyWord: searchKeyword, page, size: 20 }, 'GET');
 			if (seq !== searchSeqRef.current) return; // 已有更新的搜索，丢弃过期响应
-			if (res && res.status && res.data) {
+			if (isApiSuccess(res) && res.data) {
 				const list = res.data.list || [];
 				setSearchResults(prev => isLoadMore ? [...prev, ...list] : list);
 				setSearchPage(page);
@@ -150,7 +151,7 @@ const PlaylistDetail = () => {
 			const res = await Request(`/api/collections/${collectionId}/poems`, {
 				poem_ids: [String(poem.id || poem._id)],
 			}, 'POST');
-			if (res && res.status) {
+			if (isApiSuccess(res)) {
 				Taro.showToast({ title: '添加成功', icon: 'success' });
 				fetchDetail(collectionId);
 			} else {
@@ -174,7 +175,7 @@ const PlaylistDetail = () => {
 				if (res.confirm) {
 					Request(`/api/collections/${collectionId}/poems/${poemId}`, {}, 'DELETE')
 						.then((res) => {
-							if (res && res.status) {
+							if (isApiSuccess(res)) {
 								Taro.showToast({ title: '已移除', icon: 'success' });
 								fetchDetail(collectionId);
 							}

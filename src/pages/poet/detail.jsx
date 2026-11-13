@@ -15,6 +15,7 @@ import CollectButton from '../../components/CollectButton';
 import { fetchPoetDetail } from './service';
 
 import './detail.scss';
+import { isApiSuccess } from '../../apis/response';
 
 const AuthorDetail = () => {
 	const router = useRouter();
@@ -27,7 +28,7 @@ const AuthorDetail = () => {
 		Taro.showLoading({ title: '加载中' });
 		fetchPoetDetail('GET', { id })
 			.then((res) => {
-				if (res && res.status && res.data) {
+				if (isApiSuccess(res) && res.data) {
 					setAuthor(res.data);
 					Taro.setNavigationBarTitle({ title: res.data.author_name || '诗人详情' });
 				}

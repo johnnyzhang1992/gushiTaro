@@ -23,12 +23,13 @@ import PageHeader from '../components/PageHeader';
 // 随机推荐（诗人/诗词/摘录混合），走统一 Request 封装（BaseUrl 自动按环境切换）
 const fetchRandomRecommend = () => {
 	return fetchRandomSearch('GET', {}).then((res) => {
-		if (res && res.status) return res.data;
+		if (isApiSuccess(res)) return getApiData(res);
 		return null;
 	});
 };
 
 import './index.scss';
+import { isApiSuccess, getApiData } from '../apis/response';
 
 // 公历日期（右侧）：纯静态展示，无时分秒
 const SolarDate = () => {
@@ -70,7 +71,7 @@ const HomePage = () => {
 	const loadHomeInit = () => {
 		return fetchHomeInit('GET', {})
 			.then((res) => {
-				if (res && res.status && res.data) {
+				if (isApiSuccess(res) && res.data) {
 					const { calendar } = res.data;
 					if (calendar) setCalendar(calendar);
 				}
@@ -88,7 +89,7 @@ const HomePage = () => {
 		setIsLogin(true);
 		return fetchUserDashboard('GET', {})
 			.then((res) => {
-				if (res && res.status && res.data) {
+				if (isApiSuccess(res) && res.data) {
 					const { studyPlans } = res.data;
 					if (studyPlans) setPlans(studyPlans);
 				}

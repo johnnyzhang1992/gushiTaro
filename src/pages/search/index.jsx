@@ -23,6 +23,7 @@ import { fetchSearch, fetchHotSearch } from './service';
 import { addKey } from './historyUtil';
 
 import './style.scss';
+import { isApiSuccess } from '../../apis/response';
 
 const initResult = {
 	poems: [],
@@ -126,7 +127,7 @@ const SearchPage = () => {
 			.then((res) => {
 				console.log('搜索结果:', res);
 				// API 返回格式: { status: true, data: { poems, poets, sentences, tags, ... } }
-				if (res && res.status && res.data) {
+				if (isApiSuccess(res) && res.data) {
 					addKey(KeyWord);
 					const {
 						poems,
@@ -166,7 +167,7 @@ const SearchPage = () => {
 		fetchHotSearch('GET', {}).then((res) => {
 			console.log('热词响应:', res);
 			// API 返回格式: { status: true, data: [...] }
-			if (res && res.status && res.data) {
+			if (isApiSuccess(res) && res.data) {
 				// 去重
 				updateHot([...new Set(res.data || [])]);
 			}

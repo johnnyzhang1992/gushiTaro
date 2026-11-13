@@ -7,6 +7,7 @@ import Request from '../../apis/request';
 import { userIsLogin } from '../../utils/auth';
 
 import './style.scss';
+import { isApiSuccess } from '../../apis/response';
 
 const AddToCollectionPopup = ({ visible, poemId, onClose, onSuccess }) => {
 	const [collections, setCollections] = useState([]);
@@ -26,7 +27,7 @@ const AddToCollectionPopup = ({ visible, poemId, onClose, onSuccess }) => {
 		setLoading(true);
 		Request('/api/collections', { mine: true, target_id: poemId, size: 50 }, 'GET')
 			.then((res) => {
-				if (res && res.status && res.data) {
+				if (isApiSuccess(res) && res.data) {
 					setCollections(res.data.list || []);
 				}
 			})
@@ -51,7 +52,7 @@ const AddToCollectionPopup = ({ visible, poemId, onClose, onSuccess }) => {
 		}
 		Request(`/api/collections/${collectionId}/poems`, { poem_ids: [poemId] }, 'POST')
 			.then((res) => {
-				if (res && res.status) {
+				if (isApiSuccess(res)) {
 					Taro.showToast({ title: '添加成功', icon: 'success' });
 					loadCollections();
 					onSuccess && onSuccess();
@@ -71,7 +72,7 @@ const AddToCollectionPopup = ({ visible, poemId, onClose, onSuccess }) => {
 				if (res.confirm) {
 					Request(`/api/collections/${collectionId}/poems/${poemId}`, {}, 'DELETE')
 						.then((res) => {
-							if (res && res.status) {
+							if (isApiSuccess(res)) {
 								Taro.showToast({ title: '已移除', icon: 'success' });
 								loadCollections();
 								onSuccess && onSuccess();
@@ -92,7 +93,7 @@ const AddToCollectionPopup = ({ visible, poemId, onClose, onSuccess }) => {
 		}
 		Request('/api/collections/create', { collection_name: newName.trim(), description: newDesc.trim() }, 'POST')
 			.then((res) => {
-				if (res && res.status && res.data) {
+				if (isApiSuccess(res) && res.data) {
 					Taro.showToast({ title: '创建成功', icon: 'success' });
 					exitCreate();
 					if (res.data._id) {

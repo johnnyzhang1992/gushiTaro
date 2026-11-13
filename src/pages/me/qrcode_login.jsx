@@ -9,6 +9,7 @@ import laptopCheckSvg from '../../images/svg/laptop_check.svg';
 import { updateQRCodeStatus, handleQRCodeLogin } from './service';
 
 import './login.scss';
+import { isApiSuccess } from '../../apis/response';
 
 const QrcodeLogin = () => {
 	const [qrcodeToken, setQrcodeToken] = useState('');
@@ -102,7 +103,7 @@ const QrcodeLogin = () => {
 				icon: 'none',
 			});
 		});
-		if (res && (res.status || res.statusCode == 200)) {
+		if (isApiSuccess(res)) {
 			const { code, wx_token, token } = res.data || {}
 			const authToken = token || wx_token;
 			if (authToken) {

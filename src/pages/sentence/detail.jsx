@@ -22,6 +22,7 @@ import homeSvg from '../../images/svg/home_dark.svg';
 import copyPng from '../../images/svg/copy_blue.svg';
 
 import './style.scss';
+import { isApiSuccess, getApiData } from '../../apis/response';
 
 /** 屏内画报预览缩放比：导出仍走离屏全尺寸，分享图像素不受影响 */
 const POSTER_SCALE = 0.75;
@@ -102,8 +103,8 @@ const SentenceDetail = () => {
 			id: sId,
 		})
 			.then((res) => {
-				const apiData = res.data?.data || res.data;
-				if ((res.status || res.statusCode === 200) && apiData) {
+				const apiData = getApiData(res);
+				if (isApiSuccess(res) && apiData) {
 					// 兼容新旧格式
 					const sentenceData = apiData.sentence || apiData;
 					const authorData = apiData.author || {};

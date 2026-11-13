@@ -12,6 +12,7 @@ import CdnImage from '../../components/CdnImage';
 import { fetchPoetStory } from '../../services/storyMap';
 
 import './story-detail.scss';
+import { isApiSuccess } from '../../apis/response';
 
 const LOCATION_TYPES = {
 	birthplace: { label: '出生', color: '#f43f5e' },
@@ -46,7 +47,7 @@ const StoryDetailPage = () => {
 		return fetchPoetStory('GET', { name })
 			.then((res) => {
 				if (id !== seq.current) return;
-				if (res && res.status && res.data) setStory(res.data);
+				if (isApiSuccess(res) && res.data) setStory(res.data);
 				else {
 					setStory(null);
 					setError('该诗人的足迹数据暂缺');

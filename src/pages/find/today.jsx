@@ -15,6 +15,7 @@ import {
 } from './today.service';
 
 import './today.scss';
+import { isApiSuccess } from '../../apis/response';
 
 const POEM_PAGE_SIZE = 10;
 const EVENT_PAGE_SIZE = 20;
@@ -105,7 +106,7 @@ const TodayPage = () => {
 		])
 			.then(([mainRes, evRes]) => {
 				if (my !== seq.current.all) return;
-				if (mainRes && mainRes.status && mainRes.data) {
+				if (isApiSuccess(mainRes) && mainRes.data) {
 					const md = mainRes.data;
 					setMeta({ lunarDate: md.lunarDate, festivals: md.festivals || [] });
 					setPoems(md.poems || []);
@@ -113,7 +114,7 @@ const TodayPage = () => {
 				} else {
 					setError('加载失败，请重试');
 				}
-				if (evRes && evRes.status && evRes.data) {
+				if (isApiSuccess(evRes) && evRes.data) {
 					setEvents(evRes.data.events || []);
 					setEventPg(evRes.data.pagination || null);
 				} else {
@@ -173,7 +174,7 @@ const TodayPage = () => {
 			req
 				.then((res) => {
 					if (my !== seq.current[kind]) return;
-					if (res && res.status && res.data) {
+					if (isApiSuccess(res) && res.data) {
 						const rd = res.data;
 						if (kind === 'poems') {
 							setPoems((prev) => [...prev, ...(rd.poems || [])]);
@@ -250,7 +251,7 @@ const TodayPage = () => {
 		fetchHistoryPoemDetail(item.id)
 			.then((res) => {
 				if (my !== seq.current.detail) return;
-				if (res && res.status && res.data) {
+				if (isApiSuccess(res) && res.data) {
 					setPoemDetail(res.data);
 				} else {
 					setPoemDetail({ error: '未找到该作品' });

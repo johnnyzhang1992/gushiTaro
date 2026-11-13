@@ -9,6 +9,7 @@ import {
 } from '../../services/study';
 
 import './stats.scss';
+import { isApiSuccess, getApiData } from '../../apis/response';
 
 const WEEK_DAYS = ['日', '一', '二', '三', '四', '五', '六'];
 
@@ -103,8 +104,8 @@ const StatsPage = () => {
 				fetchStudyStats('GET'),
 				fetchRecentStudyLogs('GET', { limit: 30, offset: localOffset() }),
 			]);
-			if (sRes && sRes.status) setStats(sRes.data);
-			if (rRes && rRes.status) setRecent(rRes.data || []);
+			if (isApiSuccess(sRes)) setStats(sRes.data);
+			if (isApiSuccess(rRes)) setRecent(rRes.data || []);
 		} catch (err) {
 			console.error('学习统计加载失败:', err);
 			setLoadError('加载失败，下拉重试');
@@ -122,7 +123,7 @@ const StatsPage = () => {
 				month: `${y}-${pad2(m)}`,
 				offset: localOffset(),
 			});
-			if (res && res.status && res.data) {
+			if (isApiSuccess(res) && res.data) {
 				const map = {};
 				(res.data.days || []).forEach((d) => {
 					map[d.date] = { studied: d.studied || 0, due: d.due || 0 };
@@ -173,7 +174,7 @@ const StatsPage = () => {
 				setDayPop({
 					date: dateStr,
 					loading: false,
-					list: res && res.status ? res.data || [] : [],
+					list: isApiSuccess(res) ? getApiData(res) || [] : [],
 				});
 			})
 			.catch(() => setDayPop({ date: dateStr, loading: false, list: [] }));

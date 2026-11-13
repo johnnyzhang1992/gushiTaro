@@ -6,9 +6,10 @@ import ScheduleModal from '../../components/ScheduleModal';
 import ScheduleCard from '../../components/ScheduleCard';
 import RootFixed from '../../components/RootFixed';
 
-import { fetchSchedules, fetchScheduleStats } from '../../services/global';
+import { fetchStudyPlans, fetchStudyPlanStats } from '../../services/study';
 
 import './style.scss';
+import { isApiSuccess, getApiData } from '../../apis/response';
 
 const SchedulePage = () => {
 	const [currentSchedule, setSchedule] = useState({});
@@ -26,9 +27,9 @@ const SchedulePage = () => {
 	});
 
 	const fetchList = async () => {
-		const res = await fetchSchedules('GET', {});
-		if (res && (res.status || res.statusCode === 200)) {
-			const apiData = res.data?.data || res.data;
+		const res = await fetchStudyPlans('GET', {});
+		if (isApiSuccess(res)) {
+			const apiData = getApiData(res);
 			// API 可能返回数组或 { list: [...] }
 			const list = Array.isArray(apiData) ? apiData : (apiData?.list || []);
 			console.log('[schedule] fetchList 数据:', list.length, '条');
@@ -38,9 +39,9 @@ const SchedulePage = () => {
 	};
 
 	const fetchStats = async () => {
-		const res = await fetchScheduleStats('GET', {});
-		if (res && (res.status || res.statusCode === 200)) {
-			const apiData = res.data?.data || res.data;
+		const res = await fetchStudyPlanStats('GET', {});
+		if (isApiSuccess(res)) {
+			const apiData = getApiData(res);
 			setStats(apiData);
 		}
 	};

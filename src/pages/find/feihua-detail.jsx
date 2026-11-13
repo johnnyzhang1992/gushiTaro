@@ -11,6 +11,7 @@ import { useState, useRef } from 'react';
 import { fetchFeihuaSentences } from './feihua.service';
 
 import './feihua-detail.scss';
+import { isApiSuccess } from '../../apis/response';
 
 const PAGE_SIZE = 20;
 
@@ -59,7 +60,7 @@ const FeihuaDetailPage = () => {
 		})
 			.then((res) => {
 				if (seq !== seqRef.current) return; // 已有更新的请求，丢弃过期响应
-				if (res && res.status && res.data) {
+				if (isApiSuccess(res) && res.data) {
 					const newList = res.data.list || [];
 					// page > 1 时追加数据，否则覆盖
 					setList(prev => p > 1 ? [...prev, ...newList] : newList);

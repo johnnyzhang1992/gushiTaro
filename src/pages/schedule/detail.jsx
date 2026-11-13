@@ -14,7 +14,8 @@ import SchedulePoemCard from '../../components/SchedulePoemCard';
 
 import './detail.scss';
 
-import { fetchScheduleDetail } from '../../services/global';
+import { fetchStudyPlanDetail } from '../../services/study';
+import { isApiSuccess } from '../../apis/response';
 
 const ScheduleDetail = () => {
 	const optionsRef = useRef({});
@@ -47,7 +48,7 @@ const ScheduleDetail = () => {
 		Taro.showLoading({
 			title: '加载中',
 		});
-		const res = await fetchScheduleDetail('GET', {
+		const res = await fetchStudyPlanDetail('GET', {
 			schedule_id: id,
 			page: currentPage,
 			size: currentSize,
@@ -57,7 +58,7 @@ const ScheduleDetail = () => {
 		}).finally(() => {
 			Taro.hideLoading()
 		});
-		if (res && (res.status || res.statusCode === 200)) {
+		if (isApiSuccess(res)) {
 			const { detail = {}, page, size, total, list = [] } = res.data || {};
 			Taro.setNavigationBarTitle({
 				title: detail.name,

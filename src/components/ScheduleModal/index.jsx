@@ -2,23 +2,18 @@ import { View, Text, ScrollView, Textarea } from '@tarojs/components';
 import { Input } from '@nutui/nutui-react-taro';
 import { useState, useEffect, useRef } from 'react';
 import Taro from '@tarojs/taro';
-import Request from '../../apis/request';
-
 import FloatLoayout from '../../components/FloatLayout';
 import { userIsLogin } from '../../utils/auth';
 import {
-	fetchSchedules,
-	createSchedule,
-	updateSchedule,
-	addPoemToSchedule,
-} from '../../services/global';
+	fetchStudyPlans,
+	createStudyPlan,
+	updateStudyPlan,
+	addPoemsToStudyPlan,
+	removePoemFromStudyPlan,
+} from '../../services/study';
 
 import './style.scss';
-
-// 删除学习计划中的诗词
-const removePoemFromSchedule = (method = 'DELETE', data) => {
-	return Request(`/api/study-plans/${data.schedule_id || data.id}/items/${data.poem_id || data.poemId}`, data, method);
-};
+import { isApiSuccess, getApiData } from '../../apis/response';
 
 const titleObj = {
 	create: '新建背诵计划',
@@ -47,11 +42,11 @@ const ScheduleItem = (props) => {
 			confirmColor: '#e64340',
 			success: (res) => {
 				if (res.confirm) {
-					removePoemFromSchedule('DELETE', {
+					removePoemFromStudyPlan('DELETE', {
 						schedule_id,
 						poem_id,
 					}).then((res) => {
-						if (res && res.status) {
+						if (isApiSuccess(res)) {
 							Taro.showToast({ title: '已移除', icon: 'success' });
 							if (onSuccess && typeof onSuccess === 'function') {
 								onSuccess([]);
@@ -74,13 +69,13 @@ const ScheduleItem = (props) => {
 			return;
 		}
 		addingRef.current = true;
-		addPoemToSchedule('POST', {
+		addPoemsToStudyPlan('POST', {
 			poem_ids: [poem_id],
 			schedule_id,
 			schedule_name: name,
 		})
 			.then((res) => {
-				if (res && res.status) {
+				if (isApiSuccess(res)) {
 					Taro.showToast({
 						title: '加入成功！记得打卡哦',
 						icon: 'none',
@@ -142,15 +137,15 @@ const ScheduleModal = ({
 	const [showModal, setShowModal] = useState(false);
 
 	const getschedules = async (target_id) => {
-		const res = await fetchSchedules('GET', {
+		const res = await fetchStudyPlans('GET', {
 			poem_id: targetId || '',
 		})
 			.catch((err) => {
 				console.log('getschedules', err);
 				return null;
 			});
-		if (res && res.status) {
-			const apiData = res.data?.data || res.data;
+		if (isApiSuccess(res)) {
+			const apiData = getApiData(res);
 			// API 返回数组或 { existIds, list }
 			if (Array.isArray(apiData)) {
 				setschedules(apiData);
@@ -187,7 +182,7 @@ const ScheduleModal = ({
 			});
 			return false;
 		}
-		const res = await createSchedule('POST', {
+		const res = await createStudyPlan('POST', {
 			name: name,
 			description: (scheduleForm.description || '').trim(),
 		}).catch((err) => {
@@ -198,7 +193,7 @@ const ScheduleModal = ({
 				duration: 2000,
 			});
 		});
-		if (res && res.status) {
+		if (isApiSuccess(res)) {
 			await getschedules(targetId);
 			setType('edit');
 			if (onSuccess && typeof onSuccess === 'function') {
@@ -218,7 +213,7 @@ const ScheduleModal = ({
 			});
 			return false;
 		}
-		const res = await updateSchedule('PUT', {
+		const res = await updateStudyPlan('PUT', {
 			name: name,
 			description: (scheduleForm.description || '').trim(),
 			id,
@@ -230,7 +225,7 @@ const ScheduleModal = ({
 				duration: 2000,
 			});
 		});
-		if (res && res.status) {
+		if (isApiSuccess(res)) {
 			setShowModal(false);
 			if (onSuccess && typeof onSuccess === 'function') {
 				onSuccess();

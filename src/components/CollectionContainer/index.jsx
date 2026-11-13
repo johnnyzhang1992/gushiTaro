@@ -5,6 +5,7 @@ import { fetchCollectionGroups } from '../../services/study';
 import Skeleton from '../Skeleton';
 
 import './style.scss';
+import { isApiSuccess, getApiData } from '../../apis/response';
 
 // 数字转中文
 const numToChinese = (n) => {
@@ -52,8 +53,8 @@ const CollectionContainer = () => {
     setLoading(true);
     fetchCollectionGroups('GET', { with_collections: true })
       .then((res) => {
-        if (res && res.status && res.data) {
-          setGroups(res.data?.data || []);
+        if (isApiSuccess(res) && res.data) {
+          setGroups(getApiData(res) || []);
         }
       })
       .catch(() => {})

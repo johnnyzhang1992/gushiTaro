@@ -30,6 +30,7 @@ import { isSkyline } from '../../utils/env';
 import RootFixed from '../../components/RootFixed';
 
 import './style.scss';
+import { isApiSuccess, getApiData } from '../../apis/response';
 
 const PoemDetail = () => {
 	const { setTitle } = useNavigationBar({ title: '古诗文小助手' });
@@ -99,8 +100,8 @@ const PoemDetail = () => {
 			.then((res) => {
 				console.log('诗词详情返回:', res);
 				// request.js 返回格式: { status: true, data: {...} }
-				const apiData = res?.data || res;
-				if ((res.status || res.statusCode === 200) && apiData) {
+				const apiData = getApiData(res);
+				if (isApiSuccess(res) && apiData) {
 					// 兼容新旧格式
 					const poemData = apiData.poem || apiData;
 					const detailData = apiData.detail || {};

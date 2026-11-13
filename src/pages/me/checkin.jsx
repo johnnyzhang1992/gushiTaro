@@ -4,6 +4,7 @@ import Taro, { useLoad, useDidShow, usePullDownRefresh, useReachBottom } from '@
 import { fetchPointsStats, doCheckin, fetchPointRecords, fetchMonthlyCheckins } from '../../services/global'
 
 import './checkin.scss'
+import { isApiSuccess, getApiData } from '../../apis/response';
 
 const WEEK_DAYS = ['日', '一', '二', '三', '四', '五', '六']
 
@@ -34,7 +35,7 @@ const CheckinPage = () => {
   const loadStats = useCallback(async () => {
     try {
       const res = await fetchPointsStats('GET', {})
-      const d = res?.data || res
+      const d = getApiData(res)
       if (d && d.totalPoints !== undefined) setStats(d)
     } catch (e) {
       console.log('fetchPointsStats error', e)
@@ -50,7 +51,7 @@ const CheckinPage = () => {
     setRecordsLoading(true)
     fetchPointRecords('GET', { page: nextPage, size: 10 })
       .then((res) => {
-        const d = res?.data || res
+        const d = getApiData(res)
         if (d && d.list) {
           recordsPagination.current = {
             page: d.current_page,
@@ -68,7 +69,7 @@ const CheckinPage = () => {
   const loadMonthCheckins = useCallback(async (y, m) => {
     try {
       const res = await fetchMonthlyCheckins('GET', { year: y, month: m })
-      if (res && res.status && res.data) {
+      if (isApiSuccess(res) && res.data) {
         setMonthCheckins(res.data.monthlyCheckins || [])
       }
     } catch (e) {

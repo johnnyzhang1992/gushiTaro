@@ -2,9 +2,10 @@ import { View, Text } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import { Swipe } from '@nutui/nutui-react-taro';
 
-import { deleteSchedule } from '../../services/global';
+import { deleteStudyPlan } from '../../services/study';
 
 import './style.scss';
+import { isApiSuccess } from '../../apis/response';
 
 const ScheduleCard = (props) => {
 	const {
@@ -51,9 +52,9 @@ const ScheduleCard = (props) => {
 	};
 
 	const handleDelete = () => {
-		deleteSchedule('POST', { id })
+		deleteStudyPlan('DELETE', { id })
 			.then((res) => {
-				if (res && res && res.status) {
+				if (isApiSuccess(res)) {
 					onDelete && onDelete(id);
 					Taro.showToast({
 						// 删除成功

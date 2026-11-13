@@ -6,6 +6,7 @@ import { getDynastyOptions } from '../../utils/dynasty';
 import { fetchSentenceFilters } from '../../pages/sentence/service';
 
 import './style.scss';
+import { isApiSuccess } from '../../apis/response';
 
 // 作品字段（参考 web 端），默认全部
 const FIELD_OPTIONS = [
@@ -40,7 +41,7 @@ const LibrarySearchBar = ({ tab, onSearch }) => {
 		// 拉取摘录筛选项（主题/类型）
 		if (tab === 1) {
 			fetchSentenceFilters('GET', {}).then((res) => {
-				if (res && res.status && res.data) {
+				if (isApiSuccess(res) && res.data) {
 					setSentenceThemes(res.data.themes || []);
 					const map = {};
 					(res.data.categories || []).forEach((c) => { map[c.theme_name] = c.types || []; });

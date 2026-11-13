@@ -175,58 +175,7 @@ export const updateUserInfo = (method, data) => {
 	return Request(`/api/user/updateInfo`, data, method);
 };
 
-// ======== 学习计划 ========
-
-// 获取学习计划列表
-export const fetchSchedules = (method = 'GET', data) => {
-	return Request(`/api/study-plans`, data, method);
-};
-
-// 创建学习计划
-export const createSchedule = (method = 'POST', data) => {
-	return Request(`/api/study-plans`, data, method);
-};
-
-// 更新学习计划
-export const updateSchedule = (method = 'POST', data) => {
-	return Request(`/api/study-plans/${data.id}`, data, method);
-};
-
-// 删除计划
-export const deleteSchedule = (method = 'POST', data) => {
-	return Request(`/api/study-plans/${data.id}`, data, method);
-};
-
-// 获取计划详情
-export const fetchScheduleDetail = (method = 'GET', data) => {
-	return Request(`/api/study-plans/${data.id}`, data, method);
-};
-
-// 获取计划概况
-export const fetchScheduleStats = (method = 'GET', data) => {
-	return Request(`/api/study-plans/stats`, data, method);
-};
-
-// 向计划中添加诗词
-export const addPoemToSchedule = (method = 'POST', data) => {
-	return Request(`/api/study-plans/${data.schedule_id || data.id}/items`, data, method);
-};
-
-// 变更计划中诗词状态
-export const addPoemToScheduleAgain = (method = 'POST', data) => {
-	return Request(`/api/study-plans/${data.schedule_id || data.id}/items/relearn`, data, method);
-};
-
-// 从计划中移除诗词
-export const removePoemToSchedule = (method = 'POST', data) => {
-	return Request(`/api/study-plans/${data.schedule_id || data.id}/items/${data.poem_id || data.poemId}`, data, method);
-};
-
-// 诗词打卡
-export const checkInPoemToSchedule = (method = 'POST', data) => {
-	return Request(`/api/study-plans/${data.schedule_id || data.id}/checkin`, data, method);
-};
-
+// 学习计划相关接口统一维护在 services/study.js，避免两套实现（方法/字段不一致）
 // ======== 分类 ========
 
 // 获取分类列表

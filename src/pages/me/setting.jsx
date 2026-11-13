@@ -18,6 +18,7 @@ import { userIsLogin } from '../../utils/auth';
 import poetPng from '../../images/svg/poet.svg';
 
 import './setting.scss';
+import { isApiSuccess } from '../../apis/response';
 
 const SettingPage = () => {
 	const [form, updateForm] = useState({
@@ -98,7 +99,7 @@ const SettingPage = () => {
 		const doUpdate = (avatarUrl) => {
 			const payload = avatarUrl ? { nickName: name, avatar: avatarUrl } : { nickName: name };
 			return updateUserInfo('POST', payload).then((res) => {
-				if (res && (res.status || res.statusCode === 200)) {
+				if (isApiSuccess(res)) {
 					Taro.showToast({
 						title: '更新成功',
 						icon: 'success',

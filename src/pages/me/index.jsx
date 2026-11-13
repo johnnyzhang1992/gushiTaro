@@ -14,6 +14,7 @@ import './style.scss';
 import xcxPng from '../../images/xcx.jpg';
 import poetPng from '../../images/svg/poet.svg';
 import ScanSvg from '../../images/svg/scan_dark.svg';
+import { isApiSuccess, getApiData } from '../../apis/response';
 
 const initUser = {
 	poem_count: 0,
@@ -55,8 +56,8 @@ const MeIndex = () => {
 		// 下拉刷新强制后端重算收藏数（避免命中 300s profile 缓存导致典故收藏数 0/4 抖动）
 		return fetchUserProfile('GET', forceRefresh ? { refresh: 1 } : {})
 			.then((res) => {
-				const apiData = res.data?.data || res.data;
-				if ((res.status || res.statusCode === 200) && apiData) {
+				const apiData = getApiData(res);
+				if (isApiSuccess(res) && apiData) {
 					const { userInfo, scheduleStats } = apiData;
 					// 更新用户信息
 					setInfo((pre) => ({ ...pre, ...userInfo }));
@@ -110,7 +111,7 @@ const MeIndex = () => {
 		const preLoginPath = Taro.getStorageSync('preLoginPath');
 		createUser('POST', data)
 			.then((res) => {
-				const apiData = res.data?.data || res.data;
+				const apiData = getApiData(res);
 				if (apiData && apiData.uid) {
 					console.log('[login] ✅ 登录成功');
 					const token = apiData.token || apiData.wx_token;
