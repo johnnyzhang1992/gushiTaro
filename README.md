@@ -17,7 +17,7 @@
 
 ### 页面
 
-`app.config.js` 当前注册 44 条路由，按模块划分：
+`app.config.js` 当前注册 43 条路由，按模块划分：
 
 | 模块 | 路径 | 说明 |
 |------|------|------|
@@ -32,7 +32,7 @@
 | 发现 | `pages/find/index`、`today`、`feihua`、`feihua-detail`、`cipai`、`story-map`、`story-detail` | 今日、飞花令、词牌、诗人足迹 |
 | 学习计划 | `pages/study/index`、`detail`、`stats` | 我的/推荐计划、复习、学习统计 |
 | 旧背诵页 | `pages/schedule/index`、`detail` | 兼容保留，入口已由 `pages/study` 替代 |
-| 个人中心 | `pages/me/index`、`collect`、`collections`、`collections/playlist-detail`、`setting`、`checkin`、`qrcode_login` | 我的、收藏、诗单、设置、签到、扫码登录 |
+| 个人中心 | `pages/me/index`、`collect`、`collections`、`collections/playlist-detail`、`setting`、`qrcode_login` | 我的、收藏、诗单、设置、扫码登录 |
 | 其他 | `pages/post/index`、`pages/type/index`、`pages/poem/detail/index` | 静态内容、分类入口、旧详情重定向 |
 
 ### 核心组件

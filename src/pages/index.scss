@@ -104,51 +104,7 @@
 		}
 	}
 
-	/* ===== 3. 签到卡片 ===== */
-	.checkinCard {
-		display: flex;
-
-		.checkin-body {
-			flex: 1;
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			padding: 30rpx;
-		}
-
-		.checkin-info {
-			display: flex;
-			flex-direction: column;
-
-			.checkin-title {
-				font-size: 30rpx;
-				font-weight: 600;
-				color: #333;
-				margin-bottom: 8rpx;
-			}
-
-			.checkin-desc {
-				font-size: 24rpx;
-				color: #8a93a6;
-			}
-		}
-
-		.checkin-btn {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			min-width: 140rpx;
-			height: 64rpx;
-			padding: 0 28rpx;
-			border-radius: 32rpx;
-			background: #2b6cf6;
-			color: #fff;
-			font-size: 28rpx;
-			font-weight: 500;
-		}
-	}
-
-	/* ===== 4. 学习计划 ===== */
+	/* ===== 3. 学习计划 ===== */
 	.planCard {
 		.plan-header {
 			display: flex;

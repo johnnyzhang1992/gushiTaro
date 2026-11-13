@@ -24,32 +24,13 @@ const initUser = {
 };
 const MeIndex = () => {
 	const [userInfo, setInfo] = useState(initUser);
-	const [scheduleStats, setScheduleStats] = useState({
-		total_poem: 0, // 学习诗词数量
-		continue_days: 0, // 连续打卡天数
-		total_days: 0, // 总打卡天数
-	});
-
-	const getMotd = (streak, total) => {
-		if (total === 0) return '今天开始签到吧';
-		if (streak >= 30) return '三十日磨一剑，锋芒初现';
-		if (streak >= 7) return '坚持一周，渐入佳境';
-		if (streak >= 3) return '三日不辍，已有小成';
-		if (total >= 30) return '积少成多，未来可期';
-		return '日积跬步，以至千里';
-	};
 	const isCreate = useRef(false);
 
-	// 拉取用户完整资料（一次请求获取用户信息 + 学习统计 + 签到统计）
+	// 拉取用户完整资料（一次请求获取用户信息 + 学习统计）
 	const loadUserProfile = (forceRefresh = false) => {
 		// 未登录：跳过请求、重置为未登录 UI，不弹登录框
 		if (!isLoggedIn()) {
 			setInfo(initUser);
-			setScheduleStats({
-				total_poem: 0,
-				continue_days: 0,
-				total_days: 0,
-			});
 			return Promise.resolve();
 		}
 
@@ -58,11 +39,9 @@ const MeIndex = () => {
 			.then((res) => {
 				const apiData = getApiData(res);
 				if (isApiSuccess(res) && apiData) {
-					const { userInfo, scheduleStats } = apiData;
+					const { userInfo } = apiData;
 					// 更新用户信息
 					setInfo((pre) => ({ ...pre, ...userInfo }));
-					// 更新学习统计
-					if (scheduleStats) setScheduleStats(scheduleStats);
 				}
 				// token 过期（request.js 已 reject，此处仅兜底）
 				if (res.statusCode == 401) {

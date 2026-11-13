@@ -100,12 +100,12 @@ export const fetchHomeInit = (method = 'GET', data) => {
 	return Request(`/api/home/init`, data, method);
 };
 
-// 用户仪表盘（签到统计 + 学习计划列表）
+// 用户仪表盘（学习计划列表）
 export const fetchUserDashboard = (method = 'GET', data) => {
 	return Request(`/api/home/dashboard`, data, method);
 };
 
-// 用户个人资料（用户信息 + 学习统计 + 签到统计）
+// 用户个人资料（用户信息 + 学习统计）
 export const fetchUserProfile = (method = 'GET', data) => {
 	return Request(`/api/home/profile`, data, method);
 };
@@ -122,33 +122,6 @@ export const fetchCalendarToday = (method = 'GET', data) => {
 // 获取每日诗词（当天全用户同诗）
 export const fetchDailyPoem = (method = 'GET', data) => {
 	return Request(`/api/poems/daily`, data, method);
-};
-
-// ======== 签到/积分 ========
-
-// 获取积分统计
-export const fetchPointsStats = (method = 'GET', data) => {
-	return Request(`/api/points/stats`, data, method);
-};
-
-// 获取指定月份签到日期
-export const fetchMonthlyCheckins = (method = 'GET', data) => {
-	return Request(`/api/points/checkins`, data, method);
-};
-
-// 每日签到
-export const doCheckin = (method = 'POST', data) => {
-	return Request(`/api/points/checkin`, data, method);
-};
-
-// 补签
-export const doMakeup = (method = 'POST', data) => {
-	return Request(`/api/points/makeup`, data, method);
-};
-
-// 积分获取记录（分页）
-export const fetchPointRecords = (method = 'GET', data) => {
-	return Request(`/api/points/records`, data, method);
 };
 
 // ======== 拼音 ========
