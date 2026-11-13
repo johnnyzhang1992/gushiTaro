@@ -46,67 +46,75 @@
 		.bookCard {
 			display: inline-block;
 			white-space: normal; /* 卡片内部允许换行 */
-			vertical-align: top;
-			width: 150rpx;     /* 固定宽 */
-			padding: 0 10rpx;  /* 卡片间左右间距 */
+			vertical-align: bottom;
+			width: 150rpx;
+			margin-right: 14rpx;
 			box-sizing: border-box;
 		}
 	}
 }
 
-/* 诗单封面卡：书名/数量竖排（从左到右两列），底部色条 */
+/* 诗单书脊卡：左侧书脊色条 + 竖排书名（按「·」分列）+ 底部横排数量 */
 .bookCover {
-	width: 100%;
-	height: 200rpx;
-	box-sizing: border-box;
-	background: #fff;
-	border: 1rpx solid #e5e7eb;
-	border-radius: 12rpx;
-	box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
-	box-sizing: border-box;
+	position: relative;
 	display: flex;
 	flex-direction: column;
+	width: 100%;
+	height: 220rpx;
+	box-sizing: border-box;
+	background: #fff;
+	border: 1rpx solid #e3e7ec;
+	border-radius: 10rpx;
+	box-shadow: 0 2rpx 8rpx rgba(31, 35, 41, 0.05);
 	overflow: hidden;
 
-	.coverBody {
-		flex: 1;
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
-		gap: 16rpx;
-		padding: 20rpx 16rpx 12rpx;
-		min-height: 0;
+	.coverSpine {
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		width: 8rpx;
+		background: #7f93a8;
+	}
 
-		.coverName {
-			writing-mode: vertical-lr;
-			text-orientation: mixed;
-			font-size: 26rpx;
-			font-weight: 600;
-			color: #333;
-			font-family: serif;
-			line-height: 34rpx;
-			align-self: flex-start;
-			max-height: 100%;
-			overflow: hidden;
-			white-space: nowrap;
+	.coverTitle {
+		display: flex;
+		justify-content: center;
+		align-items: flex-start;
+		height: 164rpx;
+		padding: 24rpx 0 8rpx;
+		box-sizing: border-box;
+		font-family: var(--font-poem);
+		font-weight: 600;
+		color: #1f2329;
+
+		/* 竖排按字渲染，避免 writing-mode 在小程序里宽度计算不一致导致溢出 */
+		.titleCol {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			flex-shrink: 0;
+			margin: 0 3rpx;
 		}
 
-		.coverCount {
-			writing-mode: vertical-lr;
-			text-orientation: mixed;
-			font-size: 20rpx;
-			color: #8a93a6;
-			line-height: 28rpx;
-			align-self: flex-end;
-			max-height: 100%;
-			overflow: hidden;
-			white-space: nowrap;
+		.titleChar {
+			display: block;
+			text-align: center;
 		}
 	}
 
-	.coverBar {
-		height: 8rpx;
-		background: #e5e7eb;
-		flex-shrink: 0;
+	.coverDivider {
+		height: 1rpx;
+		margin: 0 22rpx;
+		background: #eef1f4;
+	}
+
+	.coverCount {
+		display: block;
+		text-align: center;
+		font-size: 22rpx;
+		line-height: 32rpx;
+		color: #8a93a6;
+		padding: 6rpx 0 8rpx;
 	}
 }

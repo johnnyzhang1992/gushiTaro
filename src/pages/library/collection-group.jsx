@@ -13,6 +13,7 @@ import { fetchCollectionGroups, fetchCollections } from '../../services/study';
 
 import './collection-group.scss';
 import { isApiSuccess } from '../../apis/response';
+import { getDisplayName, formatPoemCount } from '../../utils/collectionCard';
 
 const CollectionGroupPage = () => {
   const { setTitle } = useNavigationBar({ title: '古诗文小助手' });
@@ -65,34 +66,7 @@ const CollectionGroupPage = () => {
     path: `/pages/library/collection-group?id=${groupId}&name=${encodeURIComponent(groupName)}`,
   }));
 
-  // 数字转中文
-const numToChinese = (n) => {
-	if (n === 0 || n == null) return '零'
-	const digits = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九']
-	n = Number(n)
-	if (n < 10) return digits[n]
-	if (n < 20) return '十' + (n % 10 === 0 ? '' : digits[n % 10])
-	if (n < 100) {
-		const t = Math.floor(n / 10)
-		const o = n % 10
-		return digits[t] + '十' + (o === 0 ? '' : digits[o])
-	}
-	return String(n)
-}
-
-// 名称处理：剥掉分组名前缀
-  const displayName = (name = '') => {
-    let n = name || '';
-    // 先剥掉分组名前缀（可能带分隔符）
-    if (groupName && n.includes(groupName)) {
-      n = n.slice(n.indexOf(groupName) + groupName.length);
-    }
-    // 循环去除开头残留的 · / ： / : 符号及空白（兼容多层）
-    n = n.replace(/^[·：:\s]+/, '');
-    // 全角冒号统一为 ·
-    n = n.replace(/：/g, '·');
-    return n;
-  };
+  const displayName = (name = '') => getDisplayName(name, groupName);
 
   const totalPoems = collections.reduce((sum, c) => sum + (c.poem_count || 0), 0);
 
@@ -125,21 +99,16 @@ const numToChinese = (n) => {
             {collections.map((c) => (
               <Navigator
                 key={c._id}
-                className='bookCard'
+                className='infoCard'
                 hoverClass='none'
                 url={`/pages/library/collection-detail?id=${c._id}`}
               >
-                <View className='bookCover'>
-                  <View className='coverBody'>
-                    <Text className='coverName'>
-                      {displayName(c.collection_name)}
-                    </Text>
-                    <Text className='coverCount'>
-                      {numToChinese(c.poem_count)}首
-                    </Text>
-                  </View>
-                  <View className='coverBar' />
+                <View className='cardSpine' />
+                <View className='cardBody'>
+                  <Text className='cardTitle'>{displayName(c.collection_name)}</Text>
+                  <Text className='cardMeta'>{formatPoemCount(c.poem_count)}</Text>
                 </View>
+                <View className='cardArrow' />
               </Navigator>
             ))}
           </View>

@@ -44,72 +44,69 @@
 	}
 }
 
-/* 诗单网格（4 列） */
+/* 诗单信息卡（双列） */
 .collectionGrid {
 	display: flex;
 	flex-wrap: wrap;
-
-	.bookCard {
-		width: 25%; /* 参考 web 端 grid-cols-4 */
-		box-sizing: border-box;
-		padding-right: 20rpx;
-		margin-bottom: 24rpx;
-	}
+	justify-content: space-between;
 }
 
-/* 诗单封面卡：复用 CollectionContainer 样式 */
-.bookCover {
-	width: 100%;
-	height: 200rpx;
+.infoCard {
+	position: relative;
+	display: flex;
+	align-items: center;
+	width: 334rpx;
+	height: 120rpx;
+	margin-bottom: 16rpx;
+	padding: 0 44rpx 0 28rpx;
 	box-sizing: border-box;
 	background: #fff;
-	border: 1rpx solid #e5e7eb;
-	border-radius: 12rpx;
-	box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
-	display: flex;
-	flex-direction: column;
+	border: 1rpx solid #e3e7ec;
+	border-radius: 14rpx;
+	box-shadow: 0 2rpx 8rpx rgba(31, 35, 41, 0.05);
 	overflow: hidden;
 
-	.coverBody {
-		flex: 1;
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
-		gap: 16rpx;
-		padding: 20rpx 16rpx 12rpx;
-		min-height: 0;
-
-		.coverName {
-			writing-mode: vertical-lr;
-			text-orientation: mixed;
-			font-size: 26rpx;
-			font-weight: 600;
-			color: #333;
-			font-family: serif;
-			line-height: 34rpx;
-			align-self: flex-start;
-			max-height: 100%;
-			overflow: hidden;
-			white-space: nowrap;
-		}
-
-		.coverCount {
-			writing-mode: vertical-lr;
-			text-orientation: mixed;
-			font-size: 20rpx;
-			color: #8a93a6;
-			line-height: 28rpx;
-			align-self: flex-end;
-			max-height: 100%;
-			overflow: hidden;
-			white-space: nowrap;
-		}
+	.cardSpine {
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		width: 9rpx;
+		background: #7f93a8;
 	}
 
-	.coverBar {
-		height: 8rpx;
-		background: #e5e7eb;
-		flex-shrink: 0;
+	.cardBody {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.cardTitle {
+		display: block;
+		font-size: 28rpx;
+		font-weight: 600;
+		color: #1f2329;
+		font-family: var(--font-poem);
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.cardMeta {
+		display: block;
+		margin-top: 10rpx;
+		font-size: 22rpx;
+		color: #8a93a6;
+	}
+
+	.cardArrow {
+		position: absolute;
+		right: 26rpx;
+		top: 50%;
+		width: 14rpx;
+		height: 14rpx;
+		border-top: 3rpx solid #c2c8d2;
+		border-right: 3rpx solid #c2c8d2;
+		transform: translateY(-50%) rotate(45deg);
 	}
 }
 
