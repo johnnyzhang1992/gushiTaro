@@ -8,7 +8,6 @@ import { userIsLogin } from '../../utils/auth';
 
 import './style.scss';
 import { isApiSuccess } from '../../apis/response';
-import { SHEET_ROW_HEIGHT } from '../../utils/collectionCard';
 
 const AddToCollectionPopup = ({ visible, poemId, onClose, onSuccess }) => {
 	const [collections, setCollections] = useState([]);
@@ -191,13 +190,7 @@ const AddToCollectionPopup = ({ visible, poemId, onClose, onSuccess }) => {
 						) : collections.length === 0 ? (
 							<View className='sheet-empty'>还没有诗单，点右上角「新建」创建一个</View>
 						) : (
-							<ScrollView
-								scrollY
-								showScrollbar={false}
-								style={{
-									height: `${Math.min(collections.length * SHEET_ROW_HEIGHT + 4, 520)}rpx`,
-								}}
-							>
+							<ScrollView className='sheet-scroll' scrollY showScrollbar={false}>
 								{collections.map((item) => (
 									<View className='sheet-row' key={item._id}>
 										<View className='sheet-row-main'>

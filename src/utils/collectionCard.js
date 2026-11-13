@@ -1,8 +1,5 @@
 // 诗单卡片共用工具：名称清洗与数量展示
 
-// 底部弹层列表单行高度（rpx）：.sheet-row 的 padding + 标题 + 副标题 + 分隔线
-export const SHEET_ROW_HEIGHT = 132;
-
 /**
  * 名称处理：剥掉分组名前缀、全角冒号转 ·
  * @param {string} name 原始诗单名

@@ -290,6 +290,11 @@ page {
 	padding: 0;
 }
 
+/* 列表滚动区：高度随内容自适应，超过上限才滚动 */
+.sheet-scroll {
+	max-height: 60vh;
+}
+
 /* 列表行 */
 .sheet-row {
 	display: flex;

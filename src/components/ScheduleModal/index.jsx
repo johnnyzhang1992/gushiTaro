@@ -12,7 +12,6 @@ import {
 	removePoemFromStudyPlan,
 } from '../../services/study';
 
-import { SHEET_ROW_HEIGHT } from '../../utils/collectionCard';
 
 import './style.scss';
 import { isApiSuccess, getApiData } from '../../apis/response';
@@ -307,14 +306,7 @@ const ScheduleModal = ({
 						{schedules.length === 0 ? (
 							<View className='sheet-empty'>还没有背诵计划，点右上角「新建」创建一个</View>
 						) : (
-							<ScrollView
-								scrollY
-								showScrollbar={false}
-								style={{
-									// 按条数自适应高度，避免弹层里留一大片空白
-									height: `${Math.min(schedules.length * SHEET_ROW_HEIGHT + 4, 520)}rpx`,
-								}}
-							>
+							<ScrollView className='sheet-scroll' scrollY showScrollbar={false}>
 								{schedules.map((item) => (
 									<ScheduleItem
 										key={item._id || item.id}
