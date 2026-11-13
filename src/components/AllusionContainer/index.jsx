@@ -119,7 +119,7 @@ const AllusionContainer = (props) => {
             ) : null}
             {item.examples && item.examples.length > 0 ? (
               <View className='allusionExample'>
-                <Text className='verse'>「{item.examples[0].verse}」</Text>
+                <Text className='verse'>{item.examples[0].verse}</Text>
                 {item.examples[0].author ? (
                   <Text className='from'>
                     {item.examples[0].author}
