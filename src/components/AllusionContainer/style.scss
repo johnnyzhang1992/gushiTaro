@@ -35,15 +35,38 @@
   margin-bottom: 8rpx;
 }
 
-.allusionAliases {
-  font-size: 22rpx;
-  color: #8a93a6;
+/* 例句：诗句 + 出处，单行省略 */
+.allusionExample {
   display: flex;
-  align-items: center;
+  align-items: baseline;
+  margin-top: 2rpx;
+  font-size: 23rpx;
+  color: #8a93a6;
+  overflow: hidden;
 
-  .label {
-    color: #8a93a6;
-    margin-right: 8rpx;
+  /* 两段都要能收缩并显示省略号，否则长出处会被硬裁 */
+  .verse {
+    /* 不撑开，保持与出处贴合；过长时才收缩 */
+    flex: 0 1 auto;
+    min-width: 0;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #6b7686;
+    font-family: var(--font-poem);
+  }
+
+  .from {
+    flex: 0 1 auto;
+    max-width: 46%;
+    min-width: 0;
+    margin-left: 10rpx;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #a2a9b6;
   }
 }
 

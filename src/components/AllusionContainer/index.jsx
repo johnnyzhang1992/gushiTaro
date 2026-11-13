@@ -117,10 +117,15 @@ const AllusionContainer = (props) => {
                 <Text>{item.relatedPeople.join('、')}</Text>
               </View>
             ) : null}
-            {item.aliases && item.aliases.length > 0 ? (
-              <View className='allusionAliases'>
-                <Text className='label'>别称：</Text>
-                <Text>{item.aliases.slice(0, 3).join('、')}</Text>
+            {item.examples && item.examples.length > 0 ? (
+              <View className='allusionExample'>
+                <Text className='verse'>「{item.examples[0].verse}」</Text>
+                {item.examples[0].author ? (
+                  <Text className='from'>
+                    {item.examples[0].author}
+                    {item.examples[0].poemTitle ? `《${item.examples[0].poemTitle}》` : ''}
+                  </Text>
+                ) : null}
               </View>
             ) : null}
           </View>
