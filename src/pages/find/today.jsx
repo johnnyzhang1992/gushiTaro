@@ -313,20 +313,23 @@ const TodayPage = () => {
 					<View className='navArrow' onClick={() => changeDay(-1)}>
 						‹
 					</View>
-					<Picker
-						mode='multiSelector'
-						range={[monthOptions, dayOptions]}
-						value={multiValue}
-						onColumnChange={handleColumnChange}
-						onChange={handleMultiChange}
-					>
-						<View className='picker'>
-							{monthDay}
-							<Text className='pickerArrow'>▾</Text>
+					{/* 中间内容整体居中：日期选择 + 今天 */}
+					<View className='navCenter'>
+						<Picker
+							mode='multiSelector'
+							range={[monthOptions, dayOptions]}
+							value={multiValue}
+							onColumnChange={handleColumnChange}
+							onChange={handleMultiChange}
+						>
+							<View className='picker'>
+								{monthDay}
+								<Text className='pickerArrow'>▾</Text>
+							</View>
+						</Picker>
+						<View className='navBtn todayBtn' onClick={goToday}>
+							今天
 						</View>
-					</Picker>
-					<View className='navBtn todayBtn' onClick={goToday}>
-						今天
 					</View>
 					<View className='navArrow' onClick={() => changeDay(1)}>
 						›
