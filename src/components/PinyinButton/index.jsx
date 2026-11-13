@@ -49,6 +49,8 @@ const PinyinButton = (props) => {
 	};
 
 	const getPinyin = () => {
+		// 详情首屏未返回时 poemId 可能为空，避免发出 id=undefined 的无效请求
+		if (!poemId) return false;
 		if (Pinyin.title) {
 			updatePinyin({
 				title: '',
