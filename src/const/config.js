@@ -1,11 +1,12 @@
-// 开发环境走本地服务，生产环境走线上
-// 域名完全由运行环境决定，不经过任何构建参数硬编码
-//  - H5（WEB）：按浏览器 hostname 判断（localhost/127.0.0.1 → 本地）
-//  - 小程序：按 wx.getAccountInfoSync 的 envVersion 判断（develop → 本地）
+// 接口域名按运行环境决定，不经过任何构建参数硬编码
+//  - H5（WEB）：按浏览器 hostname 判断（本地 host → DEV_BASE_URL）
+//  - 小程序：按 wx.getAccountInfoSync 的 envVersion 判断（develop → DEV_BASE_URL）
+// 说明：当前 DEV_BASE_URL 与 PROD_BASE_URL 相同，都指向线上域名
 import Taro from '@tarojs/taro';
 
-// 本地调试：dev（develop 版）走本地 API；真机预览请改成局域网 IP，如 http://192.168.31.139:3000
-const DEV_BASE_URL = 'http://localhost:3000';
+// 开发版（develop）默认也走线上域名，便于用体验版/开发版直接验证生产数据
+// 需要回本地联调时，把下面这行换成本地服务：'http://localhost:3000'（真机用局域网 IP）
+const DEV_BASE_URL = 'https://api.xuegushi.com';
 const PROD_BASE_URL = 'https://api.xuegushi.com';
 
 const isDevEnv = () => {

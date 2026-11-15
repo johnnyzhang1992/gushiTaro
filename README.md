@@ -85,7 +85,7 @@
    pnpm dev
    ```
 
-2. 小程序 dev 环境默认请求 `http://localhost:3000`（见 `src/const/config.js` 的 `DEV_BASE_URL`）。真机预览时改成电脑局域网 IP，例如 `http://192.168.31.139:3000`。
+2. 小程序 / H5 的开发环境当前也直连线上 `https://api.xuegushi.com`（见 `src/const/config.js` 的 `DEV_BASE_URL`）。如需本地联调，把 `DEV_BASE_URL` 改回 `http://localhost:3000`（真机预览用电脑局域网 IP，例如 `http://192.168.31.139:3000`），并在微信后台把该地址加入 request 合法域名。
 
 3. 启动小程序 watch 构建，微信开发者工具导入项目根目录（`miniprogramRoot` 为 `dist/`）：
 
