@@ -6,8 +6,10 @@ import PageHeader from '../../components/PageHeader';
 import SectionCard from '../../components/SectionCard';
 import CdnImage from '../../components/CdnImage';
 
-import { fetchUserProfile, createUser } from '../../services/global';
+import { fetchUserProfile } from '../../services/global';
+import { registerByWxCode } from '../../utils/login';
 import { isLoggedIn } from '../../utils/auth';
+import { requestLogout, requestDeleteAccount } from '../../utils/account';
 
 import './style.scss';
 
@@ -55,7 +57,9 @@ const MeIndex = () => {
 
 	// 注册/登录：直接取微信 code 换 token
 	// （Taro.getUserProfile 已废弃：2022-10 起只返回匿名昵称/默认头像，且多一次失败点，不再调用）
-	const handleWxLogin = () => {
+	// 注意：必须走 registerByWxCode（原始请求），不能走 apis/request——
+	// 后者会先 await ensureLoginReady() 再登录一次，code 被提前消耗会导致注册失败
+	const handleWxLogin = async () => {
 		if (isCreate.current) {
 			Taro.showToast({
 				title: '正在登录中...',
@@ -65,83 +69,48 @@ const MeIndex = () => {
 			return false;
 		}
 		isCreate.current = true;
-		Taro.login({
-			success: (res) => {
-				// 发送 res.code 到后台换取 openId, sessionKey, unionId
-				const sysInfo = Taro.getStorageSync('sys_info');
-				handleCreateUser({
-					code: res.code,
-					systemInfo: JSON.stringify(sysInfo || {}),
-				});
-			},
-			fail: (err) => {
-				console.log('--Tarologin--error', err);
-				isCreate.current = false;
-				Taro.showToast({
-					title: '微信登录失败，请重试或使用真实账号',
-					icon: 'none',
-					duration: 2500,
-				});
-			},
-		});
-	};
+		Taro.showLoading({ title: '正在登录…', mask: true });
 
-	const handleCreateUser = (data) => {
+		const sysInfo = Taro.getStorageSync('sys_info');
 		const preLoginPath = Taro.getStorageSync('preLoginPath');
-		createUser('POST', data)
-			.then((res) => {
-				const apiData = getApiData(res);
-				if (apiData && apiData.uid) {
-					console.log('[login] ✅ 登录成功');
-					const token = apiData.token || apiData.wx_token;
-					const userData = { ...apiData, token };
-					Taro.setStorageSync('user', userData);
-					Taro.setStorageSync('wx_token', token);
-					console.log('[login] Storage 写入完成');
-					setInfo((pre) => ({
-						...pre,
-						...userData,
-					}));
-					loadUserProfile();
-					if (preLoginPath && !preLoginPath.includes('pages/me/index')) {
-						Taro.showModal({
-							title: '提示',
-							content: '您是否要返回登录前页面',
-							confirmText: '返回',
-							cancelText: '留下',
-							success: function (_res) {
-								if (_res.confirm) {
-									console.log('用户点击确定');
-									Taro.removeStorageSync('preLoginPath');
-									Taro.navigateTo({
-										url: '/' + preLoginPath,
-									});
-								} else if (_res.cancel) {
-									console.log('用户点击取消');
-									Taro.removeStorageSync('preLoginPath');
-								}
-							},
-						});
-					}
-				} else {
-					Taro.showToast({
-						title: '注册用户失败',
-						icon: 'error',
-						duration: 2000,
-					});
-				}
-			})
-			.finally(() => {
-				isCreate.current = false;
-			})
-			.catch((error) => {
-				console.log(error);
-				Taro.showToast({
-					title: '注册用户失败',
-					icon: 'error',
-					duration: 2000,
-				});
+		const result = await registerByWxCode({
+			systemInfo: JSON.stringify(sysInfo || {}),
+		});
+
+		Taro.hideLoading();
+		isCreate.current = false;
+
+		if (!result.ok) {
+			console.log('[login] ❌ 失败:', result.message);
+			Taro.showToast({
+				title: result.message || '注册用户失败',
+				icon: 'none',
+				duration: 2500,
 			});
+			return;
+		}
+
+		const userData = result.data;
+		console.log('[login] ✅ 登录成功');
+		setInfo((pre) => ({ ...pre, ...userData }));
+		loadUserProfile();
+
+		if (preLoginPath && !preLoginPath.includes('pages/me/index')) {
+			Taro.showModal({
+				title: '提示',
+				content: '您是否要返回登录前页面',
+				confirmText: '返回',
+				cancelText: '留下',
+				success: function (_res) {
+					if (_res.confirm) {
+						Taro.removeStorageSync('preLoginPath');
+						Taro.navigateTo({ url: '/' + preLoginPath });
+					} else if (_res.cancel) {
+						Taro.removeStorageSync('preLoginPath');
+					}
+				},
+			});
+		}
 	};
 
 	// 扫码
@@ -162,6 +131,67 @@ const MeIndex = () => {
 				console.log(err);
 			},
 		});
+	};
+
+	// 退出登录
+	const handleLogout = async () => {
+		const res = await Taro.showModal({
+			title: '退出登录',
+			content: '退出后需要重新登录，才能继续查看收藏、背诵计划等数据。',
+			confirmText: '退出',
+			cancelText: '取消',
+			confirmColor: '#f43f5e',
+		});
+		if (!res.confirm) return;
+
+		Taro.showLoading({ title: '正在退出…', mask: true });
+		try {
+			await requestLogout();
+		} finally {
+			Taro.hideLoading();
+			setInfo(initUser);
+		}
+		Taro.showToast({ title: '已退出登录', icon: 'success' });
+	};
+
+	// 注销账号：第一步说明后果，第二步再次确认
+	const handleDeleteAccount = async () => {
+		const name = userInfo.nickname || userInfo.name || '当前账号';
+
+		const first = await Taro.showModal({
+			title: '注销账号',
+			content:
+				'注销后将永久删除你的背诵计划、收藏的诗句/诗词、创建的诗单与积分等数据，且无法恢复。\n\n若账号已绑定邮箱或手机号，则仅解除微信绑定，网页端账号与数据保留。',
+			confirmText: '继续注销',
+			cancelText: '取消',
+			confirmColor: '#f43f5e',
+		});
+		if (!first.confirm) return;
+
+		const second = await Taro.showModal({
+			title: '再次确认',
+			content: `确定要注销「${name}」吗？此操作不可撤销。`,
+			confirmText: '确认注销',
+			cancelText: '我再想想',
+			confirmColor: '#f43f5e',
+		});
+		if (!second.confirm) return;
+
+		Taro.showLoading({ title: '正在注销…', mask: true });
+		try {
+			const data = await requestDeleteAccount();
+			Taro.hideLoading();
+			setInfo(initUser);
+			Taro.showToast({
+				title: data.keep_account ? '已解除微信绑定' : '账号已注销',
+				icon: 'success',
+				duration: 2000,
+			});
+		} catch (err) {
+			Taro.hideLoading();
+			console.log('[deleteAccount] 失败', err);
+			Taro.showToast({ title: '注销失败，请稍后重试', icon: 'none' });
+		}
 	};
 
 	const navigateToAbout = () => {
@@ -337,6 +367,22 @@ const MeIndex = () => {
 						</Navigator>
 					</View>
 				</SectionCard>
+
+				{/* 账号：退出登录 / 注销账号（未登录不展示） */}
+				{isLoggedIn() ? (
+					<SectionCard title='账号'>
+						<View className='accountRows'>
+							<View className='accountRow' onClick={handleLogout}>
+								<Text className='accountRowText'>退出登录</Text>
+								<View className='icon chevron-right' />
+							</View>
+							<View className='accountRow' onClick={handleDeleteAccount}>
+								<Text className='accountRowText danger'>注销账号</Text>
+								<View className='icon chevron-right' />
+							</View>
+						</View>
+					</SectionCard>
+				) : null}
 
 				{/* 关于我们（横排紧凑） */}
 				<SectionCard

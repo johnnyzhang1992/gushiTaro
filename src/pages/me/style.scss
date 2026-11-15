@@ -373,3 +373,32 @@
 		overflow: hidden;
 	}
 }
+
+/* 账号操作行：退出登录 / 注销账号 */
+.accountRows {
+	.accountRow {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 26rpx 0;
+		border-bottom: 1rpx solid #f4f6f9;
+
+		&:last-child {
+			border-bottom: none;
+			padding-bottom: 4rpx;
+		}
+
+		&:active {
+			opacity: 0.6;
+		}
+	}
+
+	.accountRowText {
+		font-size: 29rpx;
+		color: #1f2329;
+
+		&.danger {
+			color: #f43f5e;
+		}
+	}
+}

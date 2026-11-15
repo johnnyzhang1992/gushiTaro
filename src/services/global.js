@@ -148,6 +148,16 @@ export const updateUserInfo = (method, data) => {
 	return Request(`/api/user/updateInfo`, data, method);
 };
 
+// 退出登录（服务端仅记录，主要靠客户端清除本地登录态）
+export const logoutUser = (method = 'POST') => {
+	return Request('/api/user/logout', {}, method);
+};
+
+// 注销账号：清除小程序侧数据并解绑/删除账号
+export const deleteUserAccount = (method = 'POST') => {
+	return Request('/api/user/delete-account', {}, method);
+};
+
 // 学习计划相关接口统一维护在 services/study.js，避免两套实现（方法/字段不一致）
 // ======== 分类 ========
 
