@@ -108,3 +108,75 @@ export const resetLoginPromise = () => {
 	lastAttemptAt = 0;
 	lastAttemptFailed = false;
 };
+
+/**
+ * 微信注册/登录（走原始 Taro.request，绕开 apis/request 的静默登录）
+ *
+ * 为什么不能用 apis/request：它内部会先 await ensureLoginReady()，
+ * 而 ensureLoginReady 会再调一次 Taro.login，等于在注册前多消耗一个 code；
+ * 若两次 Taro.login 返回同一个 code（真机/审核环境会出现），
+ * 前一次已把 code 用掉，注册就会失败并提示「注册用户失败」。
+ *
+ * @param {object} extra 额外上报字段（如 systemInfo）
+ * @returns {Promise<{ok:boolean,data?:object,message?:string}>}
+ */
+export const registerByWxCode = (extra = {}, retry = 1) =>
+	new Promise((resolve) => {
+		Taro.login({
+			success: (res) => {
+				if (!res.code) {
+					logger.reportError('[register] Taro.login 未返回 code');
+					return resolve({ ok: false, message: '微信登录失败，请重试' });
+				}
+				logger.report('[register] 发起注册', { hasCode: true, retry });
+
+				Taro.request({
+					url: BaseUrl + '/miniapp/api/user/create',
+					method: 'POST',
+					data: { code: res.code, ...extra },
+					header: { 'content-type': 'application/json' },
+					success: async (r) => {
+						const body = r.data || {};
+						const data = body.data || body;
+
+						if (r.statusCode === 200 && data && data.uid) {
+							const token = data.token || data.wx_token;
+							const userData = { ...data, token };
+							Taro.setStorageSync('user', userData);
+							Taro.setStorageSync('wx_token', token);
+							// 登录态已变，重置静默登录单例，后续请求按新 token 走
+							resetLoginPromise();
+							logger.report('[register] 成功', { uid: data.uid });
+							return resolve({ ok: true, data: userData });
+						}
+
+						const message = body.errmsg || body.msg || '注册失败，请稍后重试';
+						logger.reportError('[register] 失败', {
+							status: r.statusCode,
+							message,
+							retryLeft: retry,
+						});
+
+						// code 失效/服务端 5xx 时，用全新 code 重试一次（提审环境偶发）
+						const retryable =
+							retry > 0 &&
+							(r.statusCode >= 500 ||
+								/invalid code|code been used|40029|40163/i.test(String(message)));
+						if (retryable) {
+							return resolve(await registerByWxCode(extra, retry - 1));
+						}
+
+						resolve({ ok: false, message });
+					},
+					fail: (err) => {
+						logger.reportError('[register] 网络失败', { errMsg: err && err.errMsg });
+						resolve({ ok: false, message: '网络异常，请稍后重试' });
+					},
+				});
+			},
+			fail: (err) => {
+				logger.reportError('[register] Taro.login 失败', { errMsg: err && err.errMsg });
+				resolve({ ok: false, message: '微信登录失败，请重试' });
+			},
+		});
+	});
