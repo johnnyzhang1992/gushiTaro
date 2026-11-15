@@ -18,7 +18,7 @@ import { userIsLogin } from '../../utils/auth';
 import poetPng from '../../images/svg/poet.svg';
 
 import './setting.scss';
-import { isApiSuccess } from '../../apis/response';
+import { isApiSuccess, getApiData } from '../../apis/response';
 
 const SettingPage = () => {
 	const [form, updateForm] = useState({
@@ -106,7 +106,7 @@ const SettingPage = () => {
 						duration: 2000,
 					});
 					const localUser = Taro.getStorageSync('user');
-					Taro.setStorageSync('user', { ...localUser, ...res.data });
+					Taro.setStorageSync('user', { ...localUser, ...(getApiData(res) || {}) });
 					setTimeout(() => Taro.navigateBack(), 600);
 				} else {
 					console.log('---更新失败', res);
@@ -153,7 +153,8 @@ const SettingPage = () => {
 			Taro.hideLoading();
 			let cdn_url = '';
 			try {
-				cdn_url = JSON.parse(_res.data).cdn_url;
+				// UploadFile resolve 原始 res，body 为 {status,data:{cdn_url}} 信封，需解包
+				cdn_url = (getApiData(JSON.parse(_res.data)) || {}).cdn_url || '';
 			} catch (err) {
 				console.error('解析上传结果失败:', err);
 			}
